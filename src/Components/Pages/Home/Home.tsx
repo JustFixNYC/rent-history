@@ -1,4 +1,5 @@
 import { Trans } from "@lingui/react/macro";
+import { ScanBotDemo } from "../../ScanBotDemo/ScanBotDemo";
 
 export const Home: React.FC = () => {
   return (
@@ -7,8 +8,9 @@ export const Home: React.FC = () => {
         <Trans>Rent History Analyzer</Trans>
       </h1>
       <h2>
-        <Trans>ScanBot Demo</Trans>
+        <Trans>Upload your rent history</Trans>
       </h2>
+      <ScanBotDemo />
     </div>
   );
 };

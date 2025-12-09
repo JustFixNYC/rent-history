@@ -6,11 +6,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
-#: src/Components/Pages/Home/Home.tsx:7
+#: src/Components/Pages/Home/Home.tsx:8
 msgid "Rent History Analyzer"
 msgstr "Rent History Analyzer"
 
+#: src/Components/ScanBotDemo/ScanBotDemo.tsx:16
+msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
+msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
+
+#: src/Components/Pages/ScanBot/ScanBotLauncher.tsx:34
+msgid "Scan your rent history"
+msgstr "Scan your rent history"
+
+#: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
+msgid "ScanBot"
+msgstr "ScanBot"
+
 #: src/Components/Pages/Home/Home.tsx:10
-msgid "ScanBot Demo"
-msgstr "ScanBot Demo"
+#~ msgid "ScanBot Demo"
+#~ msgstr "ScanBot Demo"
+
+#: src/Components/Pages/Home/Home.tsx:11
+msgid "Upload your rent history"
+msgstr "Upload your rent history"
