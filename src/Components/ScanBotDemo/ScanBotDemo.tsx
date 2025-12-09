@@ -19,6 +19,14 @@ export const ScanBotDemo: React.FC = () => {
         </Trans>
       </p>
       <QRCodeSVG value={scanbotUrl} />
+      <p>
+        <Trans>
+          Or, if you are already on a mobile device with a camera,{" "}
+          <a href={scanbotUrl} target="_blank" rel="noopener noreferrer">
+            launch scanner
+          </a>
+        </Trans>
+      </p>
     </div>
   );
 };
