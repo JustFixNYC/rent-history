@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:14
+#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:13
 msgid "Dynamsoft"
 msgstr ""
 
-#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:24
+#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:23
 msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 msgstr ""
 
@@ -25,12 +25,12 @@ msgstr ""
 msgid "Rent History Analyzer"
 msgstr ""
 
-#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:17
+#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
 #: src/Components/ScanBotDemo/ScanBotDemo.tsx:16
 msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
 msgstr ""
 
-#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:43
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:47
 #: src/Components/Pages/ScanBot/ScanBotLauncher.tsx:34
 msgid "Scan your rent history"
 msgstr ""
