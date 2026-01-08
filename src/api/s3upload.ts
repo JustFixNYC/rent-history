@@ -1,4 +1,7 @@
-export const presignedUploadS3 = async (key: string, fileBlob: Blob) => {
+export const presignedUploadS3 = async (
+  key: string,
+  fileBlob: Blob
+): Promise<boolean> => {
   const queryParams = { key: key };
   const queryString = new URLSearchParams(queryParams).toString();
   const fullUrl = `${import.meta.env.VITE_PRESIGNED_S3_API}?${queryString}`;
@@ -9,7 +12,7 @@ export const presignedUploadS3 = async (key: string, fileBlob: Blob) => {
 
   const options = { method: "PUT", body: fileBlob };
   const uploadResp = await fetch(presignedURL, options);
-  const uploadData = await uploadResp.json();
+  const uploadStatus = await uploadResp.status;
 
-  return uploadData;
+  return uploadStatus === 200;
 };

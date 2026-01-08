@@ -1,10 +1,11 @@
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { QRCodeSVG } from "qrcode.react";
+import { getRandomID } from "../../utils/utils";
 
 export const DynamsoftDemo: React.FC = () => {
   const { i18n } = useLingui();
-  const sessionId = "123";
+  const sessionId = getRandomID();
   const dynamsoftUrl = `${window.location.origin}/${i18n.locale}/dynamsoft?id=${sessionId}`;
 
   return (

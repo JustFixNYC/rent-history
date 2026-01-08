@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Trans } from "@lingui/react/macro";
 import { presignedUploadS3 } from "../../../api/s3upload";
 import { useSearchParams } from "react-router-dom";
+import { getRandomID } from "../../../utils/utils";
 
 export const DynamsoftLauncher: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -23,8 +24,7 @@ export const DynamsoftLauncher: React.FC = () => {
             return;
           }
           // TODO: get order of pages
-          const randomID = parseInt((Math.random() * 10000000).toString());
-
+          const randomID = getRandomID();
           const key = `${userId}/${randomID}.jpg`;
           presignedUploadS3(key, jpgBlob);
         },
