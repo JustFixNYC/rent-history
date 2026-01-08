@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 
 export const DynamsoftLauncher: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get("user");
+  const userId = searchParams.get("id");
 
   useEffect(() => {
     const initScanner = async () => {
