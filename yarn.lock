@@ -3026,11 +3026,6 @@ sass@^1.79.1:
   optionalDependencies:
     "@parcel/watcher" "^2.4.1"
 
-scanbot-web-sdk@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/scanbot-web-sdk/-/scanbot-web-sdk-8.0.0.tgz#5342e2204f6bc85c91b53581376a0087212dbca0"
-  integrity sha512-pVAvrZGZwx9p4eP8CzQ8RnhIqwIxh6cJYtAT6oGyLyXxYiCSXQsWa5eTuA37rQitEtp/8j8KLAe2NBD2LzimLg==
-
 scheduler@^0.23.2:
   version "0.23.2"
   resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.23.2.tgz"

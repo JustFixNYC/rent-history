@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
-    "extract": "lingui extract",
-    "postinstall": "mkdir -p public/wasm && cp -r node_modules/scanbot-web-sdk/bundle/bin/document-scanner/* public/wasm"
+    "extract": "lingui extract"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "16.1.0",
@@ -27,7 +26,6 @@
     "react-hook-form": "^7.62.0",
     "react-router-dom": "^6.26.2",
     "rollbar": "^2.26.4",
-    "scanbot-web-sdk": "^8.0.0",
     "swr": "^2.2.5",
     "zod": "^4.0.14"
   },

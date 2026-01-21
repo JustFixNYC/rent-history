@@ -1,5 +1,4 @@
 import { Trans } from "@lingui/react/macro";
-import { ScanBotDemo } from "../../ScanBotDemo/ScanBotDemo";
 import { DynamsoftDemo } from "../../DynamsoftDemo/DynamsoftDemo";
 
 export const Home: React.FC = () => {
@@ -11,7 +10,6 @@ export const Home: React.FC = () => {
       <h2>
         <Trans>Upload your rent history</Trans>
       </h2>
-      <ScanBotDemo />
       <DynamsoftDemo />
     </div>
   );
