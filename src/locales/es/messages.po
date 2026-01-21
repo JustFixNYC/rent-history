@@ -21,7 +21,7 @@ msgstr ""
 msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 msgstr ""
 
-#: src/Components/Pages/Home/Home.tsx:8
+#: src/Components/Pages/Home/Home.tsx:9
 msgid "Rent History Analyzer"
 msgstr ""
 
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
 msgstr ""
 
-#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:47
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:48
 msgid "Scan your rent history"
 msgstr ""
 
@@ -41,6 +41,6 @@ msgstr ""
 #~ msgid "ScanBot Demo"
 #~ msgstr ""
 
-#: src/Components/Pages/Home/Home.tsx:11
+#: src/Components/Pages/Home/Home.tsx:12
 msgid "Upload your rent history"
 msgstr ""

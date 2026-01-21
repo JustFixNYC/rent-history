@@ -1,4 +1,5 @@
 import { Trans } from "@lingui/react/macro";
+
 import { DynamsoftDemo } from "../../DynamsoftDemo/DynamsoftDemo";
 
 export const Home: React.FC = () => {

@@ -1,8 +1,9 @@
 import { DocumentScanner } from "dynamsoft-document-scanner";
 import { useEffect } from "react";
 import { Trans } from "@lingui/react/macro";
-import { presignedUploadS3 } from "../../../api/s3upload";
 import { useSearchParams } from "react-router-dom";
+
+import { presignedUploadS3 } from "../../../api/s3upload";
 
 export const DynamsoftLauncher: React.FC = () => {
   const [searchParams] = useSearchParams();
