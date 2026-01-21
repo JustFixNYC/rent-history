@@ -13,26 +13,34 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/Components/Pages/Home/Home.tsx:8
+#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:13
+msgid "Dynamsoft"
+msgstr "Dynamsoft"
+
+#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:23
+msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
+msgstr "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
+
+#: src/Components/Pages/Home/Home.tsx:9
 msgid "Rent History Analyzer"
 msgstr "Rent History Analyzer"
 
-#: src/Components/ScanBotDemo/ScanBotDemo.tsx:16
+#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
 msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
 msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
 
-#: src/Components/Pages/ScanBot/ScanBotLauncher.tsx:34
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:48
 msgid "Scan your rent history"
 msgstr "Scan your rent history"
 
 #: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
-msgid "ScanBot"
-msgstr "ScanBot"
+#~ msgid "ScanBot"
+#~ msgstr "ScanBot"
 
 #: src/Components/Pages/Home/Home.tsx:10
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Home/Home.tsx:11
+#: src/Components/Pages/Home/Home.tsx:12
 msgid "Upload your rent history"
 msgstr "Upload your rent history"

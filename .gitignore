@@ -1,6 +1,3 @@
-# Web Assembly files copied from ScanBotSDK on build
-public/wasm
-
 # Logs
 logs
 *.log

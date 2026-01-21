@@ -1790,6 +1790,11 @@ dunder-proto@^1.0.1:
     es-errors "^1.3.0"
     gopd "^1.2.0"
 
+dynamsoft-document-scanner@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/dynamsoft-document-scanner/-/dynamsoft-document-scanner-1.4.0.tgz#d806e3ac475fb5a0f1da0b07461197b78f73b113"
+  integrity sha512-xouhs2Uq1hGmiH1COXzOgPQmcGL6lM4NHHYOYrhcd5JNEsJNwdZPHdIxGQMQW08qBHKg/RDRmHXzuLHNbn5+Tg==
+
 eastasianwidth@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz"
@@ -3020,11 +3025,6 @@ sass@^1.79.1:
     source-map-js ">=0.6.2 <2.0.0"
   optionalDependencies:
     "@parcel/watcher" "^2.4.1"
-
-scanbot-web-sdk@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/scanbot-web-sdk/-/scanbot-web-sdk-8.0.0.tgz#5342e2204f6bc85c91b53581376a0087212dbca0"
-  integrity sha512-pVAvrZGZwx9p4eP8CzQ8RnhIqwIxh6cJYtAT6oGyLyXxYiCSXQsWa5eTuA37rQitEtp/8j8KLAe2NBD2LzimLg==
 
 scheduler@^0.23.2:
   version "0.23.2"
