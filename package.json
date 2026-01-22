@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "16.1.0",
+    "@faker-js/faker": "^10.2.0",
     "@hookform/resolvers": "^5.2.1",
     "@justfixnyc/component-library": "0.56.4",
     "@justfixnyc/geosearch-requester": "^1.0.3-alpha.0",
     "@lingui/react": "^5.3.3",
     "@rollbar/react": "^0.12.0-beta",
+    "@tanstack/react-table": "^8.21.3",
     "contentful": "^11.4.4",
     "dynamsoft-document-scanner": "^1.4.0",
     "qrcode.react": "^4.2.0",
