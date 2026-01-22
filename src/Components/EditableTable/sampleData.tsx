@@ -11,13 +11,13 @@ export const LEASE_APT_STAT = ["RS", "PE"] as const;
 export type Lease = {
   regYear: string;
   aptStat: (typeof LEASE_APT_STAT)[number];
-  filingDate: Date;
+  filingDate: string;
   legalRent: number;
   prefRent: number;
   paidRent: number;
   reasonsChange: (typeof LEASE_REASONS_CHANGE)[number];
-  leaseStart: Date;
-  leaseEnd: Date;
+  leaseStart: string;
+  leaseEnd: string;
 };
 
 const range = (len: number) => {
@@ -32,13 +32,13 @@ const newLease = (): Lease => {
   return {
     regYear: faker.date.past().getFullYear().toString(),
     aptStat: faker.helpers.shuffle(LEASE_APT_STAT)[0],
-    filingDate: faker.date.past(),
+    filingDate: faker.date.past().toISOString().slice(0, 10),
     legalRent: faker.number.float({ min: 100, max: 2700, fractionDigits: 2 }),
     prefRent: faker.number.float({ min: 100, max: 2700, fractionDigits: 2 }),
     paidRent: faker.number.float({ min: 100, max: 2700, fractionDigits: 2 }),
     reasonsChange: faker.helpers.shuffle(LEASE_REASONS_CHANGE)[0],
-    leaseStart: faker.date.past(),
-    leaseEnd: faker.date.past(),
+    leaseStart: faker.date.past().toISOString().slice(0, 10),
+    leaseEnd: faker.date.past().toISOString().slice(0, 10),
   };
 };
 

@@ -60,18 +60,13 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
       setValue(initialValue);
     }, [initialValue]);
 
-    if (columnMeta?.type === "number") {
+    if (columnMeta?.type === "select") {
       return (
-        <input
-          type="number"
-          value={value as string}
-          onChange={(e) => setValue(e.target.value)}
-          onBlur={onBlur}
-        />
-      );
-    } else if (columnMeta?.type === "select") {
-      return (
-        <select onChange={onSelectChange} value={initialValue as string}>
+        <select
+          name={id}
+          onChange={onSelectChange}
+          value={initialValue as string}
+        >
           {columnMeta?.options?.map((option: Option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -79,9 +74,22 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
           ))}
         </select>
       );
+    } else if (columnMeta?.type === "date") {
+      console.log(value);
+      return (
+        <input
+          name={id}
+          type="date"
+          value={value as string}
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={onBlur}
+        />
+      );
     } else {
       return (
         <input
+          name={id}
+          type={columnMeta?.type || "text"}
           value={value as string}
           onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
@@ -108,8 +116,6 @@ function useSkipper() {
 }
 
 export const EditableTable: React.FC = () => {
-  const rerender = React.useReducer(() => ({}), {})[1];
-
   const columns = React.useMemo<ColumnDef<Lease>[]>(
     () => [
       {
@@ -128,6 +134,7 @@ export const EditableTable: React.FC = () => {
       {
         accessorKey: "filingDate",
         header: "Filing Date",
+        meta: { type: "date" },
       },
       {
         accessorKey: "legalRent",
@@ -146,7 +153,7 @@ export const EditableTable: React.FC = () => {
       },
       {
         accessorKey: "reasonsChange",
-        header: "Reasons Differ./ Change",
+        header: "Reasons Differ. / Change",
         meta: {
           type: "select",
           options: LEASE_REASONS_CHANGE.map((value) => ({
@@ -158,17 +165,18 @@ export const EditableTable: React.FC = () => {
       {
         accessorKey: "leaseStart",
         header: "Lease Began",
+        meta: { type: "date" },
       },
       {
         accessorKey: "leaseEnd",
         header: "Lease Ends",
+        meta: { type: "date" },
       },
     ],
     []
   );
 
   const [data, setData] = React.useState(() => makeData(1000));
-  const refreshData = () => setData(() => makeData(1000));
 
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
@@ -202,8 +210,7 @@ export const EditableTable: React.FC = () => {
   });
 
   return (
-    <div className="p-2">
-      <div className="h-2" />
+    <div className="user-edit-table">
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -232,6 +239,9 @@ export const EditableTable: React.FC = () => {
                 {row.getVisibleCells().map((cell) => {
                   return (
                     <td key={cell.id}>
+                      <span className="cell-header">
+                        {cell.column.columnDef.header?.toString()}
+                      </span>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -244,77 +254,6 @@ export const EditableTable: React.FC = () => {
           })}
         </tbody>
       </table>
-      <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {"<"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {">"}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {">>"}
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            min="1"
-            max={table.getPageCount()}
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>{table.getRowModel().rows.length} Rows</div>
-      <div>
-        <button onClick={() => rerender()}>Force Rerender</button>
-      </div>
-      <div>
-        <button onClick={() => refreshData()}>Refresh Data</button>
-      </div>
     </div>
   );
 };
