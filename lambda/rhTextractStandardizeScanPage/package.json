@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "amazon-textract-response-parser": "^0.4.3"
+  }
+}
