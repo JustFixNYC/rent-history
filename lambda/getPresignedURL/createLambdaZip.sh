@@ -2,4 +2,4 @@
 
 ZIP_FILE="getPresignedURL.zip"
 
-zip -r "$ZIP_FILE" . -x "$ZIP_FILE"
+(cd "src" && zip -r "../$ZIP_FILE" ./*)
