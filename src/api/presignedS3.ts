@@ -2,9 +2,9 @@ type PresignedURL = { key: string; url: string };
 
 const getPresignedUrls = async (
   method: "GET" | "PUT",
-  keys: string[]
+  keys: string[],
 ): Promise<PresignedURL[]> => {
-  const url = new URL(import.meta.env.VITE_PRESIGNED_S3_API);
+  const url = new URL(import.meta.env.VITE_GATEWAY_API + "/getPresignedURL");
   url.searchParams.append("method", method);
   keys.forEach((key) => url.searchParams.append("key", key));
 
