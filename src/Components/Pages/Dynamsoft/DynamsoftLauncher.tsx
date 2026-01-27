@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Trans } from "@lingui/react/macro";
 import { useSearchParams } from "react-router-dom";
 
-import { presignedUploadS3 } from "../../../api/s3upload";
+import { uploadScan } from "../../../api/presignedS3";
 
 export const DynamsoftLauncher: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -30,7 +30,7 @@ export const DynamsoftLauncher: React.FC = () => {
             return;
           }
           const key = `${userId}/page${pageNumber}.jpg`;
-          presignedUploadS3(key, jpgBlob);
+          await uploadScan(key, jpgBlob);
           pageNumber++;
         },
       });
