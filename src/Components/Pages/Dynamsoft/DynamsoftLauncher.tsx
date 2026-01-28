@@ -1,13 +1,21 @@
 import { DocumentScanner } from "dynamsoft-document-scanner";
-import { useEffect } from "react";
-import { Trans } from "@lingui/react/macro";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Trans } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react";
+import { msg } from "@lingui/core/macro";
 
 import { uploadScan } from "../../../api/presignedS3";
+
+type ScanStatus = "initializing" | "scanning" | "complete";
 
 export const DynamsoftLauncher: React.FC = () => {
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("id");
+
+  const { _ } = useLingui();
+
+  const [scanStatus, SetScanStatus] = useState<ScanStatus>("initializing");
 
   useEffect(() => {
     let pageNumber = 1;
@@ -19,6 +27,12 @@ export const DynamsoftLauncher: React.FC = () => {
         enableFrameVerification: true,
         resultViewConfig: {
           toolbarButtonsConfig: {
+            retake: {
+              label: _(msg`Re-scan page`),
+            },
+            done: {
+              label: _(msg`Save page`),
+            },
             share: {
               isHidden: true,
             },
@@ -35,6 +49,7 @@ export const DynamsoftLauncher: React.FC = () => {
           enableSmartCaptureMode: true,
           showSubfooter: false,
           enableFrameVerification: true,
+          showPoweredByDynamsoft: false,
         },
         onDocumentScanned: async (result) => {
           // Process each scanned document
@@ -50,6 +65,7 @@ export const DynamsoftLauncher: React.FC = () => {
           pageNumber++;
         },
       });
+      SetScanStatus("scanning");
       await scanner.launch();
     };
 
@@ -61,7 +77,13 @@ export const DynamsoftLauncher: React.FC = () => {
   return (
     <div className="dynamsoft-demo">
       <h2>
-        <Trans>Scan your rent history</Trans>
+        {scanStatus === "initializing" ? (
+          <Trans>Launching scanner...</Trans>
+        ) : scanStatus === "scanning" ? (
+          <Trans>Scanning in progress...</Trans>
+        ) : (
+          <Trans>Scanning complete</Trans>
+        )}
       </h2>
     </div>
   );
