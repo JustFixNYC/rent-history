@@ -17,21 +17,33 @@ msgstr ""
 msgid "Dynamsoft"
 msgstr "Dynamsoft"
 
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:81
+msgid "Launching scanner..."
+msgstr "Launching scanner..."
+
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:23
 msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 msgstr "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:31
+msgid "Re-scan page"
+msgstr "Re-scan page"
+
 #: src/Components/Pages/Home/Home.tsx:9
 msgid "Rent History Analyzer"
 msgstr "Rent History Analyzer"
+
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:34
+msgid "Save page"
+msgstr "Save page"
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
 msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
 msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
 
 #: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:48
-msgid "Scan your rent history"
-msgstr "Scan your rent history"
+#~ msgid "Scan your rent history"
+#~ msgstr "Scan your rent history"
 
 #: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
 #~ msgid "ScanBot"
@@ -40,6 +52,14 @@ msgstr "Scan your rent history"
 #: src/Components/Pages/Home/Home.tsx:10
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
+
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:85
+msgid "Scanning complete"
+msgstr "Scanning complete"
+
+#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:83
+msgid "Scanning in progress..."
+msgstr "Scanning in progress..."
 
 #: src/Components/Pages/Home/Home.tsx:12
 msgid "Upload your rent history"
