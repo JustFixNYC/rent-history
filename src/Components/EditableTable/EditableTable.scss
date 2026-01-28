@@ -1,0 +1,49 @@
+.user-edit-table {
+  table {
+    font-family: sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin: 25px;
+    background-color: #fff;
+  }
+
+  tr {
+    border-bottom: 1px solid #ccc;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 8px 10px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  input,
+  select {
+    text-align: right;
+  }
+  input[type="number"] {
+    width: 8em;
+  }
+
+  .cell-header {
+    display: none;
+  }
+
+  @media screen and (max-width: 900px) {
+    th {
+      display: none;
+    }
+    .cell-header {
+      display: block;
+      font-weight: bold;
+    }
+    td {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
