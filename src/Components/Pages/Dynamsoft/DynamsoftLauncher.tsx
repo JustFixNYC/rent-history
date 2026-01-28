@@ -15,15 +15,31 @@ export const DynamsoftLauncher: React.FC = () => {
       const scanner = new DocumentScanner({
         license: import.meta.env.VITE_DYNAMSOFT_LICENSE_KEY || "",
         enableContinuousScanning: true,
+        showCorrectionView: false,
+        enableFrameVerification: true,
+        resultViewConfig: {
+          toolbarButtonsConfig: {
+            share: {
+              isHidden: true,
+            },
+            correct: {
+              isHidden: true,
+            },
+            upload: {
+              isHidden: true,
+            },
+          },
+        },
         scannerViewConfig: {
           enableAutoCropMode: true,
           enableSmartCaptureMode: true,
           showSubfooter: false,
+          enableFrameVerification: true,
         },
         onDocumentScanned: async (result) => {
           // Process each scanned document
           const jpgBlob = await result.correctedImageResult?.toBlob(
-            "image/jpeg"
+            "image/jpeg",
           );
           if (!jpgBlob) {
             console.error("no image from scan");
