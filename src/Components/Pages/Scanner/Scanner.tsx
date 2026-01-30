@@ -1,6 +1,5 @@
 import { DocumentScanner } from "dynamsoft-document-scanner";
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { Trans } from "@lingui/react/macro";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
@@ -13,8 +12,8 @@ import { deleteScans } from "../../../api/deleteScans";
 type ScanStatus = "waiting" | "scanning" | "complete";
 
 export const Scanner: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const historyCode = searchParams.get("history_code");
+  // Just using datetime string for now to make it easy to identify user testing data in S3
+  const historyCode = new Date().toISOString();
 
   const { _ } = useLingui();
 
@@ -155,10 +154,7 @@ export const Scanner: React.FC = () => {
               <Trans>Scanning complete</Trans>
             </h2>
             <div className="buttons-container">
-              <Button
-                labelText={_(msg`Analyze your rent history`)}
-                onClick={() => {}}
-              />
+              <Button labelText={_(msg`Next`)} onClick={() => {}} />
               <Button
                 labelText={_(msg`Restart scanning`)}
                 onClick={restartScanner}

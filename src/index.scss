@@ -33,3 +33,9 @@ body {
     }
   }
 }
+
+// JFCL overrides
+// TODO: add link-button to JFCL
+a.jfcl-button {
+  text-decoration: none;
+}
