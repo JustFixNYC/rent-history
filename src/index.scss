@@ -16,6 +16,12 @@ body {
   height: 100%;
 }
 
+// Hide Netlify banner overlays on preview deploys
+iframe[src^='https://app.netlify.com']
+{
+  display: none !important;
+}
+
 // TODO: Move this to a page layout wrapper component
 .page {
   background-color: jfcl.$OFF_WHITE_100;
