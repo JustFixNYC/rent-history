@@ -1,4 +1,61 @@
 .user-edit-table {
+  .table-actions {
+    margin: 25px 25px 0;
+  }
+
+  .btn-add-row {
+    padding: 8px 16px;
+    background-color: #4a90d9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #3a7bc8;
+    }
+  }
+
+  .row-actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  .btn-add,
+  .btn-remove {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-add {
+    background-color: #5cb85c;
+    color: white;
+
+    &:hover {
+      background-color: #4cae4c;
+    }
+  }
+
+  .btn-remove {
+    background-color: #d9534f;
+    color: white;
+
+    &:hover {
+      background-color: #c9302c;
+    }
+  }
+
   table {
     font-family: sans-serif;
     border-collapse: collapse;
@@ -33,6 +90,49 @@
     display: none;
   }
 
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 25px 25px;
+    padding: 12px 16px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-top: none;
+    font-family: sans-serif;
+    font-size: 14px;
+  }
+
+  .pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    button {
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+
+      &:hover:not(:disabled) {
+        background-color: #e9ecef;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .pagination-info {
+    padding: 0 8px;
+    font-weight: 500;
+  }
+
   @media screen and (max-width: 900px) {
     th {
       display: none;
@@ -44,6 +144,15 @@
     td {
       display: flex;
       justify-content: space-between;
+    }
+    td:last-child {
+      justify-content: flex-end;
+      padding-top: 12px;
+      border-top: 1px dashed #ddd;
+    }
+    .pagination {
+      flex-direction: column;
+      gap: 12px;
     }
   }
 }

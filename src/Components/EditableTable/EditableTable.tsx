@@ -2,8 +2,6 @@ import {
   ColumnDef,
   useReactTable,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   flexRender,
   RowData,
 } from "@tanstack/react-table";
@@ -17,6 +15,23 @@ import {
   LEASE_APT_STAT,
 } from "./sampleData";
 
+// Helper to create sample pages with variable row counts
+const makePages = (rowCounts: number[]): Lease[][] => {
+  return rowCounts.map((count) => makeData(count));
+};
+
+const emptyLease = (): Lease => ({
+  regYear: "",
+  aptStat: LEASE_APT_STAT[0],
+  filingDate: "",
+  legalRent: 0,
+  prefRent: 0,
+  paidRent: 0,
+  reasonsChange: "",
+  leaseStart: "",
+  leaseEnd: "",
+});
+
 type Option = { value: string; label: string };
 
 declare module "@tanstack/react-table" {
@@ -29,6 +44,8 @@ declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+    addRow: (rowIndex?: number) => void;
+    removeRow: (rowIndex: number) => void;
   }
 }
 
@@ -99,22 +116,6 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
   },
 };
 
-function useSkipper() {
-  const shouldSkipRef = React.useRef(true);
-  const shouldSkip = shouldSkipRef.current;
-
-  // Wrap a function with this to skip a pagination reset temporarily
-  const skip = React.useCallback(() => {
-    shouldSkipRef.current = false;
-  }, []);
-
-  React.useEffect(() => {
-    shouldSkipRef.current = true;
-  });
-
-  return [shouldSkip, skip] as const;
-}
-
 export const EditableTable: React.FC = () => {
   const columns = React.useMemo<ColumnDef<Lease>[]>(
     () => [
@@ -172,42 +173,101 @@ export const EditableTable: React.FC = () => {
         header: "Lease Ends",
         meta: { type: "date" },
       },
+      {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row, table }) => (
+          <div className="row-actions">
+            <button
+              type="button"
+              className="btn-add"
+              onClick={() => table.options.meta?.addRow(row.index)}
+              title="Add row below"
+            >
+              +
+            </button>
+            <button
+              type="button"
+              className="btn-remove"
+              onClick={() => table.options.meta?.removeRow(row.index)}
+              title="Remove row"
+            >
+              ×
+            </button>
+          </div>
+        ),
+      },
     ],
     []
   );
 
-  const [data, setData] = React.useState(() => makeData(1000));
+  // Sample pages with variable row counts (e.g., 11 rows, 8 rows, 10 rows)
+  const [pages, setPages] = React.useState(() => makePages([11, 8, 10]));
+  const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
 
-  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+  const currentPageData = pages[currentPageIndex] || [];
+  const totalPages = pages.length;
 
   const table = useReactTable({
-    data,
+    data: currentPageData,
     columns,
     defaultColumn,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    autoResetPageIndex,
     // Provide our updateData function to our table meta
     meta: {
       updateData: (rowIndex, columnId, value) => {
-        // Skip page index reset until after next rerender
-        skipAutoResetPageIndex();
-        setData((old) =>
-          old.map((row, index) => {
-            if (index === rowIndex) {
-              return {
-                ...old[rowIndex]!,
-                [columnId]: value,
-              };
+        setPages((oldPages) =>
+          oldPages.map((page, pageIdx) => {
+            if (pageIdx === currentPageIndex) {
+              return page.map((row, idx) => {
+                if (idx === rowIndex) {
+                  return { ...row, [columnId]: value };
+                }
+                return row;
+              });
             }
-            return row;
+            return page;
+          })
+        );
+      },
+      addRow: (rowIndex?: number) => {
+        const newRow = emptyLease();
+        setPages((oldPages) =>
+          oldPages.map((page, pageIdx) => {
+            if (pageIdx === currentPageIndex) {
+              if (rowIndex === undefined) {
+                return [...page, newRow];
+              }
+              const newPage = [...page];
+              newPage.splice(rowIndex + 1, 0, newRow);
+              return newPage;
+            }
+            return page;
+          })
+        );
+      },
+      removeRow: (rowIndex: number) => {
+        setPages((oldPages) =>
+          oldPages.map((page, pageIdx) => {
+            if (pageIdx === currentPageIndex) {
+              return page.filter((_, idx) => idx !== rowIndex);
+            }
+            return page;
           })
         );
       },
     },
     debugTable: true,
   });
+
+  const canPreviousPage = currentPageIndex > 0;
+  const canNextPage = currentPageIndex < totalPages - 1;
+
+  const goToFirstPage = () => setCurrentPageIndex(0);
+  const goToPreviousPage = () => setCurrentPageIndex((i) => Math.max(0, i - 1));
+  const goToNextPage = () =>
+    setCurrentPageIndex((i) => Math.min(totalPages - 1, i + 1));
+  const goToLastPage = () => setCurrentPageIndex(totalPages - 1);
 
   return (
     <div className="user-edit-table">
@@ -254,6 +314,34 @@ export const EditableTable: React.FC = () => {
           })}
         </tbody>
       </table>
+      <div className="pagination">
+        <div className="pagination-buttons">
+          <button
+            type="button"
+            onClick={goToFirstPage}
+            disabled={!canPreviousPage}
+          >
+            {"<<"}
+          </button>
+          <button
+            type="button"
+            onClick={goToPreviousPage}
+            disabled={!canPreviousPage}
+          >
+            {"<"}
+          </button>
+          <span className="pagination-info">
+            Page {currentPageIndex + 1} of {totalPages} ({currentPageData.length}{" "}
+            rows)
+          </span>
+          <button type="button" onClick={goToNextPage} disabled={!canNextPage}>
+            {">"}
+          </button>
+          <button type="button" onClick={goToLastPage} disabled={!canNextPage}>
+            {">>"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
