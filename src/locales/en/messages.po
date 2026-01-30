@@ -13,37 +13,65 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/Components/Pages/Scanner/Scanner.tsx:159
+msgid "Analyze your rent history"
+msgstr "Analyze your rent history"
+
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:13
-msgid "Dynamsoft"
-msgstr "Dynamsoft"
+#~ msgid "Dynamsoft"
+#~ msgstr "Dynamsoft"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:119
+msgid "Flatten any folds in the pages and lay them on a flat surface"
+msgstr "Flatten any folds in the pages and lay them on a flat surface"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:133
+msgid "Hold your phone level with the pages and make sure the entire page is within frame"
+msgstr "Hold your phone level with the pages and make sure the entire page is within frame"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:139
+msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
+msgstr "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 
 #: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:81
-msgid "Launching scanner..."
-msgstr "Launching scanner..."
+#~ msgid "Launching scanner..."
+#~ msgstr "Launching scanner..."
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:23
-msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
-msgstr "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
+#~ msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
+#~ msgstr "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 
-#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:31
+#: src/Components/Pages/Scanner/Scanner.tsx:130
+msgid "Place the pages against a dark background"
+msgstr "Place the pages against a dark background"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:35
 msgid "Re-scan page"
 msgstr "Re-scan page"
 
-#: src/Components/Pages/Home/Home.tsx:9
+#: src/Components/Pages/Home/Home.tsx:40
 msgid "Rent History Analyzer"
 msgstr "Rent History Analyzer"
 
-#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:34
+#: src/Components/Pages/Scanner/Scanner.tsx:163
+msgid "Restart scanning"
+msgstr "Restart scanning"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:38
 msgid "Save page"
 msgstr "Save page"
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
-msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
-msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
+#~ msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
+#~ msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
 
-#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:48
-#~ msgid "Scan your rent history"
-#~ msgstr "Scan your rent history"
+#: src/Components/Pages/Home/Home.tsx:31
+msgid "Scan your rent history"
+msgstr "Scan your rent history"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:96
+msgid "Scan your rent history document"
+msgstr "Scan your rent history document"
 
 #: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
 #~ msgid "ScanBot"
@@ -53,14 +81,30 @@ msgstr "Scan QR code with your smartphone to use your camera to scan your rent h
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:85
+#: src/Components/Pages/Scanner/Scanner.tsx:155
 msgid "Scanning complete"
 msgstr "Scanning complete"
 
-#: src/Components/Pages/Dynamsoft/DynamsoftLauncher.tsx:83
+#: src/Components/Pages/Scanner/Scanner.tsx:149
 msgid "Scanning in progress..."
 msgstr "Scanning in progress..."
 
+#: src/Components/Pages/Scanner/Scanner.tsx:107
+msgid "Start scanning"
+msgstr "Start scanning"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:124
+msgid "Take photos in a well lit location and enable your camera flash"
+msgstr "Take photos in a well lit location and enable your camera flash"
+
 #: src/Components/Pages/Home/Home.tsx:12
-msgid "Upload your rent history"
-msgstr "Upload your rent history"
+#~ msgid "Upload your rent history"
+#~ msgstr "Upload your rent history"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:99
+msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
+msgstr "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
+
+#: src/Components/Pages/Home/Home.tsx:43
+msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
+msgstr "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."

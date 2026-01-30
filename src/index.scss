@@ -1,3 +1,4 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
 @import "@justfixnyc/component-library/dist/src/assets/index.css";
 
 html {
@@ -7,8 +8,28 @@ html {
 body {
   font-family: "Degular";
   height: 100%;
+  background-color: jfcl.$OFF_WHITE_100;
+  margin: 0;
 }
 
 #root {
   height: 100%;
+}
+
+// TODO: Move this to a page layout wrapper component
+.page {
+  background-color: jfcl.$OFF_WHITE_100;
+  &__hero {
+    padding: 1rem;
+    background-color: jfcl.$OFF_WHITE_200;
+    h1 {
+      margin: 0 0 1rem 0;
+    }
+  }
+  &__content {
+    padding: 1rem;
+    h2 {
+      margin: 0 0 1rem 0;
+    }
+  }
 }
