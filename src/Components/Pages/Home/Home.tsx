@@ -50,7 +50,7 @@ export const Home: React.FC = () => {
       <div className="page__content">
         <section>
           <h2>Scan your rent history document</h2>
-          {!isMobile ? (
+          {isMobile ? (
             <>
               <p>It looks like you are already on a mobile device.</p>
               {scannerButton}
