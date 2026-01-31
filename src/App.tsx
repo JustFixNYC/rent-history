@@ -13,8 +13,8 @@ import { I18n } from "./i18n";
 import { NetworkError } from "./api/error-reporting";
 import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
 import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
-import { Home } from "./Components/Pages/Home/Home";
-import { Scanner } from "./Components/Pages/Scanner/Scanner";
+import Home from "./Components/Pages/Home/Home";
+import Scanner from "./Components/Pages/Scanner/Scanner";
 
 const Layout = () => {
   return (

@@ -21,15 +21,15 @@ msgstr ""
 #~ msgid "Dynamsoft"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:118
+#: src/Components/Pages/Scanner/Scanner.tsx:161
 msgid "Flatten any folds in the pages and lay them on a flat surface"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:132
+#: src/Components/Pages/Scanner/Scanner.tsx:174
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:138
+#: src/Components/Pages/Scanner/Scanner.tsx:180
 msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 msgstr ""
 
@@ -37,7 +37,11 @@ msgstr ""
 #~ msgid "Launching scanner..."
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:157
+#: src/Components/EmblaCarousel/BlobImage.tsx:30
+msgid "Loading image..."
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:140
 msgid "Next"
 msgstr ""
 
@@ -45,11 +49,16 @@ msgstr ""
 #~ msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:129
+#. placeholder {0}: pageNumber.current
+#: src/Components/Pages/Scanner/Scanner.tsx:78
+msgid "Page {0} scan image"
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:171
 msgid "Place the pages against a dark background"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:34
+#: src/Components/Pages/Scanner/Scanner.tsx:40
 msgid "Re-scan page"
 msgstr ""
 
@@ -57,11 +66,11 @@ msgstr ""
 msgid "Rent History Analyzer"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:159
+#: src/Components/Pages/Scanner/Scanner.tsx:142
 msgid "Restart scanning"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:37
+#: src/Components/Pages/Scanner/Scanner.tsx:43
 msgid "Save page"
 msgstr ""
 
@@ -69,11 +78,11 @@ msgstr ""
 #~ msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/Home/Home.tsx:31
-#~ msgid "Scan your rent history"
-#~ msgstr ""
+#: src/Components/Pages/Home/Home.tsx:23
+msgid "Scan your rent history"
+msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:95
+#: src/Components/Pages/Scanner/Scanner.tsx:109
 msgid "Scan your rent history document"
 msgstr ""
 
@@ -85,27 +94,31 @@ msgstr ""
 #~ msgid "ScanBot Demo"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:154
+#: src/Components/Pages/Scanner/Scanner.tsx:136
 msgid "Scanning complete"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:148
+#: src/Components/Pages/Scanner/Scanner.tsx:130
 msgid "Scanning in progress..."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:106
+#: src/Components/Pages/Scanner/Scanner.tsx:120
 msgid "Start scanning"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:123
+#: src/Components/Pages/Scanner/Scanner.tsx:166
 msgid "Take photos in a well lit location and enable your camera flash"
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:157
+msgid "Tips for getting a high quality scan"
 msgstr ""
 
 #: src/Components/Pages/Home/Home.tsx:12
 #~ msgid "Upload your rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:98
+#: src/Components/Pages/Scanner/Scanner.tsx:112
 msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 msgstr ""
 

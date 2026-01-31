@@ -3,7 +3,7 @@ import { Trans } from "@lingui/react/macro";
 import "./Home.scss";
 import { LocaleLink } from "../../../i18n";
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <div id="home-page" className="page">
       <section className="page__hero">
@@ -20,9 +20,11 @@ export const Home: React.FC = () => {
       </section>
       <div className="page__content">
         <LocaleLink to="scanner" className="jfcl-button jfcl-variant-primary">
-          Scan your rent history
+          <Trans>Scan your rent history</Trans>
         </LocaleLink>
       </div>
     </div>
   );
 };
+
+export default Home;

@@ -1,24 +1,30 @@
 import { DocumentScanner } from "dynamsoft-document-scanner";
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Trans } from "@lingui/react/macro";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
+import { EmblaOptionsType } from "embla-carousel";
 
 import "./Scanner.scss";
 import { uploadScan } from "../../../api/presignedS3";
 import { Button } from "@justfixnyc/component-library";
 import { deleteScans } from "../../../api/deleteScans";
+import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
+import BlobImage from "../../EmblaCarousel/BlobImage";
 
 type ScanStatus = "waiting" | "scanning" | "complete";
 
-export const Scanner: React.FC = () => {
-  // Just using datetime string for now to make it easy to identify user testing data in S3
-  const historyCode = new Date().toISOString();
+const OPTIONS: EmblaOptionsType = {};
 
+// Just using datetime string for now to make it easy to identify user testing data in S3
+const HISTORY_CODE = new Date().toISOString();
+
+const Scanner: React.FC = () => {
   const { _ } = useLingui();
 
   const [scanStatus, setScanStatus] = useState<ScanStatus>("waiting");
   const [scanner, setScanner] = useState<DocumentScanner>();
+  const [scanImages, setScanImages] = useState<ReactNode[]>([]);
   const pageNumber = useRef(1);
 
   useEffect(() => {
@@ -55,7 +61,7 @@ export const Scanner: React.FC = () => {
           showPoweredByDynamsoft: false,
         },
         onDocumentScanned: async (result) => {
-          // Process each scanned document
+          // Process each scanned page
           const jpgBlob = await result.correctedImageResult?.toBlob(
             "image/jpeg"
           );
@@ -63,8 +69,15 @@ export const Scanner: React.FC = () => {
             console.error("no image from scan");
             return;
           }
-          const key = `${historyCode}/page${pageNumber.current}.jpg`;
+          const key = `${HISTORY_CODE}/page${pageNumber.current}.jpg`;
           await uploadScan(key, jpgBlob);
+          setScanImages((prev) => [
+            ...prev,
+            <BlobImage
+              blobData={jpgBlob}
+              alt={_(msg`Page ${pageNumber.current} scan image`)}
+            />,
+          ]);
           pageNumber.current++;
         },
       });
@@ -74,17 +87,18 @@ export const Scanner: React.FC = () => {
       console.error("Error initializing document scanner:", error);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [historyCode]);
+  }, [HISTORY_CODE]);
 
   const launchScanner = async () => {
     setScanStatus("scanning");
     pageNumber.current = 1;
+    setScanImages([]);
     await scanner?.launch();
     setScanStatus("complete");
   };
 
   const restartScanner = async () => {
-    await deleteScans(historyCode!);
+    await deleteScans(HISTORY_CODE);
     await launchScanner();
   };
 
@@ -110,39 +124,7 @@ export const Scanner: React.FC = () => {
         )}
       </section>
       <div className="page__content">
-        {scanStatus === "waiting" && (
-          <section>
-            <h2>Tips for getting a high quality scan</h2>
-            <ul>
-              <li>
-                <Trans>
-                  Flatten any folds in the pages and lay them on a flat surface
-                </Trans>
-              </li>
-              <li>
-                <Trans>
-                  Take photos in a well lit location and enable your camera
-                  flash
-                </Trans>
-              </li>
-              <li>
-                <Trans>Place the pages against a dark background</Trans>
-              </li>
-              <li>
-                <Trans>
-                  Hold your phone level with the pages and make sure the entire
-                  page is within frame
-                </Trans>
-              </li>
-              <li>
-                <Trans>
-                  Keep your phone steady in position and wait for the scanner to
-                  automatically take the photo
-                </Trans>
-              </li>
-            </ul>
-          </section>
-        )}
+        {scanStatus === "waiting" && scanTips}
         {scanStatus === "scanning" && (
           <h2>
             <Trans>Scanning in progress...</Trans>
@@ -153,6 +135,7 @@ export const Scanner: React.FC = () => {
             <h2>
               <Trans>Scanning complete</Trans>
             </h2>
+            <EmblaCarousel slides={scanImages} options={OPTIONS} />
             <div className="buttons-container">
               <Button labelText={_(msg`Next`)} onClick={() => {}} />
               <Button
@@ -167,3 +150,40 @@ export const Scanner: React.FC = () => {
     </div>
   );
 };
+
+const scanTips = (
+  <section>
+    <h2>
+      <Trans>Tips for getting a high quality scan</Trans>
+    </h2>
+    <ul>
+      <li>
+        <Trans>
+          Flatten any folds in the pages and lay them on a flat surface
+        </Trans>
+      </li>
+      <li>
+        <Trans>
+          Take photos in a well lit location and enable your camera flash
+        </Trans>
+      </li>
+      <li>
+        <Trans>Place the pages against a dark background</Trans>
+      </li>
+      <li>
+        <Trans>
+          Hold your phone level with the pages and make sure the entire page is
+          within frame
+        </Trans>
+      </li>
+      <li>
+        <Trans>
+          Keep your phone steady in position and wait for the scanner to
+          automatically take the photo
+        </Trans>
+      </li>
+    </ul>
+  </section>
+);
+
+export default Scanner;
