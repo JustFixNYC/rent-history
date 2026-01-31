@@ -1,0 +1,11 @@
+#home-page {
+  details {
+    margin-top: 1rem;
+    summary {
+      text-decoration: underline;
+    }
+    &:open summary {
+      margin-bottom: 1rem;
+    }
+  }
+}
