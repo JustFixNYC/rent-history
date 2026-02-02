@@ -17,7 +17,7 @@ type ScanStatus = "waiting" | "scanning" | "complete";
 const OPTIONS: EmblaOptionsType = {};
 
 // Just using datetime string for now to make it easy to identify user testing data in S3
-const HISTORY_CODE = new Date().toISOString();
+const HISTORY_CODE = new Date().toISOString().replace(/[:.]/g, "-");
 
 const Scanner: React.FC = () => {
   const { _ } = useLingui();
