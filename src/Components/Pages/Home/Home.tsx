@@ -1,17 +1,30 @@
 import { Trans } from "@lingui/react/macro";
 
-import { DynamsoftDemo } from "../../DynamsoftDemo/DynamsoftDemo";
+import "./Home.scss";
+import { LocaleLink } from "../../../i18n";
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
   return (
-    <div className="home-page">
-      <h1>
-        <Trans>Rent History Analyzer</Trans>
-      </h1>
-      <h2>
-        <Trans>Upload your rent history</Trans>
-      </h2>
-      <DynamsoftDemo />
+    <div id="home-page" className="page">
+      <section className="page__hero">
+        <h1>
+          <Trans>Rent History Analyzer</Trans>
+        </h1>
+        <p>
+          <Trans>
+            Use your mobile phone's camera to scan your rent history document
+            and analyze the contents to identify suspicious rent increases that
+            may indicate illegal overcharges.
+          </Trans>
+        </p>
+      </section>
+      <div className="page__content">
+        <LocaleLink to="scanner" className="jfcl-button jfcl-variant-primary">
+          <Trans>Scan your rent history</Trans>
+        </LocaleLink>
+      </div>
     </div>
   );
 };
+
+export default Home;

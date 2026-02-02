@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, NavLink, useLocation } from "react-router-dom";
-import { I18nProvider } from "@lingui/react";
+import {
+  Link,
+  LinkProps,
+  Navigate,
+  NavLink,
+  useLocation,
+} from "react-router-dom";
+import { I18nProvider, useLingui } from "@lingui/react";
 import { i18n } from "@lingui/core";
 
 import { SupportedLocale, defaultLocale, isSupportedLocale } from "./i18n-base";
@@ -133,3 +139,16 @@ export function LocaleSwitcher() {
     </span>
   );
 }
+
+export const LocaleLink: React.FC<
+  { to: string } & Omit<LinkProps, "to"> &
+    React.RefAttributes<HTMLAnchorElement>
+> = ({ to, children, ...props }) => {
+  const { i18n } = useLingui();
+
+  return (
+    <Link to={`/${i18n.locale}/${to}`} {...props}>
+      {children}
+    </Link>
+  );
+};
