@@ -26,3 +26,5 @@ dist-ssr
 .env
 
 lambda/*/*.zip
+lambda/rhTextractStandardizeScanPage/test-data/
+lambda/rhTextractStandardizeScanPage/test-scans/
