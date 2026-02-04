@@ -262,7 +262,7 @@ export const EditableTable: React.FC = () => {
             className="text-link text-link--delete"
             onClick={() => table.options.meta?.removeRow(row.index)}
           >
-            Delete year
+            Clear values
           </button>
         ),
       },
@@ -320,7 +320,16 @@ export const EditableTable: React.FC = () => {
         setPages((oldPages) =>
           oldPages.map((page, pageIdx) => {
             if (pageIdx === currentPageIndex) {
-              return page.filter((_, idx) => idx !== rowIndex);
+              return page.map((row, idx) => {
+                if (idx === rowIndex) {
+                  // Clear all values except regYear
+                  return {
+                    ...emptyLease(),
+                    regYear: row.regYear,
+                  };
+                }
+                return row;
+              });
             }
             return page;
           })
@@ -409,8 +418,8 @@ export const EditableTable: React.FC = () => {
             disabled={!canPreviousPage}
           />
           <span className="page-info">
-            ({currentPageData[0]?.regYear || "?"}–
-            {currentPageData[currentPageData.length - 1]?.regYear || "?"})
+            {currentPageData[0]?.regYear || "?"}–
+            {currentPageData[currentPageData.length - 1]?.regYear || "?"}
           </span>
           <Button
             variant="secondary"
