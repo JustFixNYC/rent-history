@@ -22,6 +22,8 @@ type ParsedFields = {
   hasI: string;
   aptStat: string;
   filingDate: string;
+  legalRent: string;
+  tenant: string;
 };
 
 class RsRowParser {
@@ -35,6 +37,8 @@ class RsRowParser {
       hasI: "",
       aptStat: "",
       filingDate: "",
+      legalRent: "",
+      tenant: "",
     };
   }
 
@@ -58,7 +62,7 @@ class RsRowParser {
     if (!this.row) return;
     const regex = /(RS|VA)/;
     const match = this.row.match(regex);
-    console.log(match);
+    // console.log(match);
     if (!match) return;
     this.fields.aptStat = match[1] || "";
     this.updateRow(regex);
@@ -84,26 +88,46 @@ class RsRowParser {
     this.updateRow(regex);
   }
 
-  getFields(): typeof this.fields {
-    return this.fields;
+  // TODO: this likely needs to be last since it's the least structured and the
+  // name(s) often get separated and grouped with other values in Textract's
+  // cell splitting. also need to decide if we need this at all for analysis and
+  // how to store multiple names or non-name values
+  parseTenant(): void {
+    if (!this.row) return;
+    const regex = /(TENANT:\s*(\b[^\d\W]+\b\s*)+)/;
+    const match = this.row.match(regex);
+    console.log(match);
+    if (!match) return;
+    this.fields.tenant = match[1] || "";
+    this.updateRow(regex);
+  }
+
+  parseLegalRent(): void {
+    if (!this.row) return;
+    const regex = /^(\d+.\d{2})\b/;
+    const match = this.row.match(regex);
+    console.log(match);
+    if (!match) return;
+    this.fields.legalRent = match[1] || "";
+    this.updateRow(regex);
   }
 }
-
 
 const cleanRows = table
   // remove header rows
   .filter((row) => !!row[0] && !row[0].match(/^(reg)|(year)/i))
   .map((row) => {
     console.log(row);
-    const rowJoined = row.join("");
+    const rowJoined = row.join(" ");
 
     const rowParser = new RsRowParser(rowJoined);
 
     rowParser.parseRegYear();
     rowParser.parseAptStat();
     rowParser.parseFilingDate();
+    rowParser.parseLegalRent();
 
-    return rowParser.getFields();
+    return rowParser.fields;
   });
 
 console.log(cleanRows);
