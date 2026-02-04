@@ -134,6 +134,7 @@
       text-align: left;
       padding: 0.25rem 0.5rem;
       min-width: 5rem;
+      height: 2.75rem;
       background-color: white;
     }
 
@@ -148,7 +149,8 @@
     min-width: 7.5rem;
 
     .jfcl-dropdown__control {
-      min-height: 2rem;
+      height: 2.75rem;
+      min-height: 2.75rem;
       background-color: white;
     }
   }
