@@ -374,50 +374,26 @@ export const EditableTable: React.FC = () => {
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row, rowIdx) => {
-              const colCount = row.getVisibleCells().length;
+            {table.getRowModel().rows.map((row) => {
               return (
-                <React.Fragment key={row.id}>
-                  {rowIdx === 0 && (
-                    <tr className="add-row-divider">
-                      <td colSpan={colCount}>
-                        <button
-                          type="button"
-                          className="text-link"
-                          onClick={() => table.options.meta?.addRow(-1)}
-                        >
-                          + Add year
-                        </button>
+                <tr
+                  key={row.id}
+                  className={row.original.hasErrors ? "has-errors" : ""}
+                >
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td key={cell.id}>
+                        <span className="cell-header">
+                          {cell.column.columnDef.header?.toString()}
+                        </span>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </td>
-                    </tr>
-                  )}
-                  <tr className={row.original.hasErrors ? "has-errors" : ""}>
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <td key={cell.id}>
-                          <span className="cell-header">
-                            {cell.column.columnDef.header?.toString()}
-                          </span>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                  <tr className="add-row-divider">
-                    <td colSpan={colCount}>
-                      <button
-                        type="button"
-                        className="text-link"
-                        onClick={() => table.options.meta?.addRow(row.index)}
-                      >
-                        + Add year
-                      </button>
-                    </td>
-                  </tr>
-                </React.Fragment>
+                    );
+                  })}
+                </tr>
               );
             })}
           </tbody>

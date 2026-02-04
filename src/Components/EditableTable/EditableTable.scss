@@ -97,6 +97,27 @@
     z-index: 2;
   }
 
+  // Minimum width for specific columns (120px = 7.5rem)
+  // Reg Year (1st), Legal Regulated Rent (4th), Prefer. Rent (5th), Actual Paid Rent (6th)
+  th:nth-child(4),
+  td:nth-child(4),
+  th:nth-child(5),
+  td:nth-child(5),
+  th:nth-child(6),
+  td:nth-child(6) {
+    min-width: 7.5rem;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    min-width: 5rem;
+  }
+
+  // Year column values styling
+  td:nth-child(1) {
+    @include jfcl.body_standard_desktop;
+  }
+
   tr:nth-child(even) {
     background-color: jfcl.$OFF_WHITE_100;
   }
