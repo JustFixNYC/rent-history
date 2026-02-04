@@ -1,18 +1,19 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 
 .user-edit-table {
+  position: relative;
+  width: 100vw;
+  max-width: 100%;
+
   .mobile-only {
     @media screen and (min-width: 56.25rem) {
       display: none;
     }
   }
 
-  .page-info {
-    @include jfcl.body_standard_desktop;
-    padding: 0 0.5rem 1rem;
-    @media screen and (max-width: 56.25rem) {
-      text-align: center;
-    }
+  .table-container {
+    overflow-x: auto;
+    width: 100%;
   }
 
   .add-row-divider {
@@ -52,9 +53,9 @@
   table {
     font-family: sans-serif;
     border-collapse: collapse;
-    border: 0.0625rem solid jfcl.$GREY_NEW;
     background-color: jfcl.$WHITE;
-    width: 100%;
+    width: auto;
+    min-width: 100%;
   }
 
   tr.table-header {
@@ -68,9 +69,32 @@
     vertical-align: middle;
   }
 
+  // Sticky first column (Reg Year)
+  th:first-child,
+  td:first-child {
+    position: sticky;
+    left: 0;
+    background-color: jfcl.$WHITE;
+    z-index: 1;
+  }
+
+  // Maintain background color for even rows in sticky column
+  tr:nth-child(even) td:first-child {
+    background-color: jfcl.$OFF_WHITE_100;
+  }
+
+  // Maintain background color for error rows in sticky column
+  tr.has-errors td:first-child {
+    background-color: jfcl.$YELLOW;
+  }
+
   th {
     @include jfcl.body_standard_desktop;
     font-weight: 600;
+  }
+
+  th:first-child {
+    z-index: 2;
   }
 
   tr:nth-child(even) {
@@ -137,15 +161,16 @@
   }
 
   .pagination {
+    position: sticky;
+    bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.75rem 1rem;
     background-color: jfcl.$OFF_WHITE_100;
+    z-index: 1;
     width: 100%;
     box-sizing: border-box;
-    border: 0.0625rem solid jfcl.$GREY_NEW;
-    border-top: none;
     font-family: sans-serif;
     font-size: 0.875rem;
 
@@ -180,49 +205,49 @@
   }
 
   @media screen and (max-width: 56.25rem) {
-    th {
-      display: none;
-    }
+    // th {
+    //   display: none;
+    // }
 
-    .cell-header {
-      display: block;
-      font-weight: bold;
-      width: 45%;
-      flex-shrink: 0;
-      @include jfcl.body_standard_desktop;
-    }
+    // .cell-header {
+    //   display: block;
+    //   font-weight: bold;
+    //   width: 45%;
+    //   flex-shrink: 0;
+    //   @include jfcl.body_standard_desktop;
+    // }
 
-    td {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    // td {
+    //   display: flex;
+    //   justify-content: space-between;
+    //   align-items: center;
+    // }
 
-    // Make all inputs/dropdowns take consistent width
-    td .jfcl-text-input,
-    td .jfcl-dropdown,
-    td input[type="date"] {
-      width: 55%;
-      min-width: unset;
-      flex-shrink: 0;
-    }
+    // // Make all inputs/dropdowns take consistent width
+    // td .jfcl-text-input,
+    // td .jfcl-dropdown,
+    // td input[type="date"] {
+    //   width: 55%;
+    //   min-width: unset;
+    //   flex-shrink: 0;
+    // }
 
-    td .jfcl-text-input input {
-      width: 100%;
-    }
+    // td .jfcl-text-input input {
+    //   width: 100%;
+    // }
 
-    tr:not(.add-row-divider) td:last-child {
-      justify-content: flex-end;
-      padding-top: 0.75rem;
-    }
+    // tr:not(.add-row-divider) td:last-child {
+    //   justify-content: flex-end;
+    //   padding-top: 0.75rem;
+    // }
 
-    .add-row-divider td {
-      display: block;
-    }
+    // .add-row-divider td {
+    //   display: block;
+    // }
 
-    .pagination {
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    // .pagination {
+    //   flex-direction: column;
+    //   gap: 0.75rem;
+    // }
   }
 }

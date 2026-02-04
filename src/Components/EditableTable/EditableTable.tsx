@@ -18,7 +18,18 @@ import {
 
 // Helper to create sample pages with variable row counts
 const makePages = (rowCounts: number[]): Lease[][] => {
-  return rowCounts.map((count) => makeData(count));
+  const totalRows = rowCounts.reduce((sum, count) => sum + count, 0);
+  const allData = makeData(totalRows);
+
+  const pages: Lease[][] = [];
+  let startIndex = 0;
+
+  for (const count of rowCounts) {
+    pages.push(allData.slice(startIndex, startIndex + count));
+    startIndex += count;
+  }
+
+  return pages;
 };
 
 const emptyLease = (): Lease => ({
@@ -154,6 +165,44 @@ export const EditableTable: React.FC = () => {
         accessorKey: "regYear",
         header: "Reg Year",
         meta: { type: "number" },
+        cell: function RegYearCell({
+          getValue,
+          row: { index, original },
+          column,
+          table,
+        }) {
+          const tableMeta = table.options.meta;
+          const { id } = column;
+          const initialValue = getValue();
+          const [value, setValue] = React.useState(initialValue);
+
+          React.useEffect(() => {
+            setValue(initialValue);
+          }, [initialValue]);
+
+          // Check if this is a new row (empty regYear)
+          const isNewRow = !original.regYear || original.regYear === "";
+
+          if (!isNewRow) {
+            // Non-editable for existing rows
+            return <span>{value as string}</span>;
+          }
+
+          // Editable for new rows
+          const onBlur = () => {
+            tableMeta?.updateData(index, id, value);
+          };
+
+          return (
+            <TextInput
+              labelText=""
+              id={`${id}-${index}`}
+              value={value as string}
+              onChange={(e) => setValue(e.target.value)}
+              onBlur={onBlur}
+            />
+          );
+        },
       },
       {
         accessorKey: "aptStat",
@@ -221,8 +270,8 @@ export const EditableTable: React.FC = () => {
     []
   );
 
-  // Sample pages with variable row counts (e.g., 11 rows, 8 rows, 10 rows)
-  const [pages, setPages] = React.useState(() => makePages([11, 8, 10]));
+  // Sample pages with variable row counts from 1983 to 2025 (43 years total)
+  const [pages, setPages] = React.useState(() => makePages([11, 8, 10, 14]));
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
 
   const currentPageData = pages[currentPageIndex] || [];
@@ -302,81 +351,78 @@ export const EditableTable: React.FC = () => {
 
   return (
     <div className="user-edit-table">
-      <div className="page-info">
-        Page {currentPageIndex + 1} of your rent history document{" "}
-        <br className="mobile-only" />({currentPageData[0]?.regYear || "?"}–
-        {currentPageData[currentPageData.length - 1]?.regYear || "?"})
-      </div>
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="table-header">
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </div>
-                    )}
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row, rowIdx) => {
-            const colCount = row.getVisibleCells().length;
-            return (
-              <React.Fragment key={row.id}>
-                {rowIdx === 0 && (
+      <div className="table-container">
+        <table>
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className="table-header">
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder ? null : (
+                        <div>
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </div>
+                      )}
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row, rowIdx) => {
+              const colCount = row.getVisibleCells().length;
+              return (
+                <React.Fragment key={row.id}>
+                  {rowIdx === 0 && (
+                    <tr className="add-row-divider">
+                      <td colSpan={colCount}>
+                        <button
+                          type="button"
+                          className="text-link"
+                          onClick={() => table.options.meta?.addRow(-1)}
+                        >
+                          + Add year
+                        </button>
+                      </td>
+                    </tr>
+                  )}
+                  <tr className={row.original.hasErrors ? "has-errors" : ""}>
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <td key={cell.id}>
+                          <span className="cell-header">
+                            {cell.column.columnDef.header?.toString()}
+                          </span>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
                   <tr className="add-row-divider">
                     <td colSpan={colCount}>
                       <button
                         type="button"
                         className="text-link"
-                        onClick={() => table.options.meta?.addRow(-1)}
+                        onClick={() => table.options.meta?.addRow(row.index)}
                       >
                         + Add year
                       </button>
                     </td>
                   </tr>
-                )}
-                <tr className={row.original.hasErrors ? "has-errors" : ""}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <td key={cell.id}>
-                        <span className="cell-header">
-                          {cell.column.columnDef.header?.toString()}
-                        </span>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-                <tr className="add-row-divider">
-                  <td colSpan={colCount}>
-                    <button
-                      type="button"
-                      className="text-link"
-                      onClick={() => table.options.meta?.addRow(row.index)}
-                    >
-                      + Add year
-                    </button>
-                  </td>
-                </tr>
-              </React.Fragment>
-            );
-          })}
-        </tbody>
-      </table>
+                </React.Fragment>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <div className="pagination">
         <div className="pagination-buttons">
           <Button
@@ -387,8 +433,7 @@ export const EditableTable: React.FC = () => {
             disabled={!canPreviousPage}
           />
           <span className="page-info">
-            Page {currentPageIndex + 1} of your rent history document
-            <br />({currentPageData[0]?.regYear || "?"}–
+            ({currentPageData[0]?.regYear || "?"}–
             {currentPageData[currentPageData.length - 1]?.regYear || "?"})
           </span>
           <Button

@@ -29,9 +29,10 @@ const range = (len: number) => {
   return arr;
 };
 
-const newLease = (): Lease => {
+const newLease = (year?: number): Lease => {
+  const regYear = year ? year.toString() : "";
   return {
-    regYear: faker.date.past().getFullYear().toString(),
+    regYear,
     aptStat: faker.helpers.shuffle(LEASE_APT_STAT)[0],
     filingDate: faker.date.past().toISOString().slice(0, 10),
     legalRent: faker.number.float({ min: 100, max: 2700, fractionDigits: 2 }),
@@ -45,12 +46,13 @@ const newLease = (): Lease => {
 };
 
 export function makeData(...lens: number[]) {
+  let currentYear = 1983;
   const makeDataLevel = (depth = 0): Lease[] => {
     const len = lens[depth]!;
     return range(len).map((): Lease => {
-      return {
-        ...newLease(),
-      };
+      const lease = newLease(currentYear);
+      currentYear++;
+      return lease;
     });
   };
 
