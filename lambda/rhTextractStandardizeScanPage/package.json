@@ -1,9 +1,15 @@
 {
   "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.982.0",
+    "@aws-sdk/client-textract": "^3.982.0",
     "amazon-textract-response-parser": "^0.4.3"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.160",
     "@types/node": "^25.2.0",
     "typescript": "^5.9.3"
   }
