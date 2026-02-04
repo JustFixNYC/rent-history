@@ -18,6 +18,7 @@ export type Lease = {
   reasonsChange: (typeof LEASE_REASONS_CHANGE)[number];
   leaseStart: string;
   leaseEnd: string;
+  hasErrors: boolean;
 };
 
 const range = (len: number) => {
@@ -39,6 +40,7 @@ const newLease = (): Lease => {
     reasonsChange: faker.helpers.shuffle(LEASE_REASONS_CHANGE)[0],
     leaseStart: faker.date.past().toISOString().slice(0, 10),
     leaseEnd: faker.date.past().toISOString().slice(0, 10),
+    hasErrors: faker.datatype.boolean({ probability: 0.2 }),
   };
 };
 

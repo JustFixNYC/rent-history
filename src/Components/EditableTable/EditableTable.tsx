@@ -5,7 +5,8 @@ import {
   flexRender,
   RowData,
 } from "@tanstack/react-table";
-import React, { ChangeEvent } from "react";
+import { Button, Dropdown, TextInput } from "@justfixnyc/component-library";
+import React from "react";
 
 import "./EditableTable.scss";
 import {
@@ -30,6 +31,7 @@ const emptyLease = (): Lease => ({
   reasonsChange: "",
   leaseStart: "",
   leaseEnd: "",
+  hasErrors: false,
 });
 
 type Option = { value: string; label: string };
@@ -67,32 +69,37 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
       tableMeta?.updateData(index, id, value);
     };
 
-    const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-      setValue(e.target.value);
-      tableMeta?.updateData(index, id, e.target.value);
-    };
-
     // If the initialValue is changed external, sync it up with our state
     React.useEffect(() => {
       setValue(initialValue);
     }, [initialValue]);
 
     if (columnMeta?.type === "select") {
+      const options = columnMeta?.options || [];
+      const selectedOption = options.find((opt) => opt.value === value) || null;
+
+      const handleDropdownChange = (option: Option | null) => {
+        const newValue = option?.value || "";
+        setValue(newValue);
+        tableMeta?.updateData(index, id, newValue);
+      };
+
+      const DropdownAny = Dropdown as unknown as React.ComponentType<{
+        labelText: string;
+        options: Option[];
+        value: Option | null;
+        onChange: (option: Option | null) => void;
+      }>;
+
       return (
-        <select
-          name={id}
-          onChange={onSelectChange}
-          value={initialValue as string}
-        >
-          {columnMeta?.options?.map((option: Option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <DropdownAny
+          labelText=""
+          options={options}
+          value={selectedOption}
+          onChange={handleDropdownChange}
+        />
       );
     } else if (columnMeta?.type === "date") {
-      console.log(value);
       return (
         <input
           name={id}
@@ -102,11 +109,35 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
           onBlur={onBlur}
         />
       );
+    } else if (columnMeta?.type === "number") {
+      return (
+        <TextInput
+          id={`${id}-${index}`}
+          labelText=""
+          type="number"
+          value={value as string}
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={onBlur}
+        />
+      );
+    } else if (columnMeta?.type === "money") {
+      return (
+        <TextInput
+          id={`${id}-${index}`}
+          className="money-input"
+          labelText=""
+          type="money"
+          value={value as string}
+          onChange={(e) => setValue(e.target.value)}
+          onBlur={onBlur}
+        />
+      );
     } else {
       return (
-        <input
-          name={id}
-          type={columnMeta?.type || "text"}
+        <TextInput
+          id={`${id}-${index}`}
+          labelText=""
+          type="text"
           value={value as string}
           onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
@@ -140,17 +171,17 @@ export const EditableTable: React.FC = () => {
       {
         accessorKey: "legalRent",
         header: "Legal Regulated Rent",
-        meta: { type: "number" },
+        meta: { type: "money" },
       },
       {
         accessorKey: "prefRent",
         header: "Prefer. Rent",
-        meta: { type: "number" },
+        meta: { type: "money" },
       },
       {
         accessorKey: "paidRent",
         header: "Actual Paid Rent",
-        meta: { type: "number" },
+        meta: { type: "money" },
       },
       {
         accessorKey: "reasonsChange",
@@ -175,26 +206,15 @@ export const EditableTable: React.FC = () => {
       },
       {
         id: "actions",
-        header: "Actions",
+        header: "",
         cell: ({ row, table }) => (
-          <div className="row-actions">
-            <button
-              type="button"
-              className="btn-add"
-              onClick={() => table.options.meta?.addRow(row.index)}
-              title="Add row below"
-            >
-              +
-            </button>
-            <button
-              type="button"
-              className="btn-remove"
-              onClick={() => table.options.meta?.removeRow(row.index)}
-              title="Remove row"
-            >
-              ×
-            </button>
-          </div>
+          <button
+            type="button"
+            className="text-link text-link--delete"
+            onClick={() => table.options.meta?.removeRow(row.index)}
+          >
+            Delete year
+          </button>
         ),
       },
     ],
@@ -239,6 +259,7 @@ export const EditableTable: React.FC = () => {
                 return [...page, newRow];
               }
               const newPage = [...page];
+              // rowIndex of -1 means insert at the beginning
               newPage.splice(rowIndex + 1, 0, newRow);
               return newPage;
             }
@@ -263,18 +284,33 @@ export const EditableTable: React.FC = () => {
   const canPreviousPage = currentPageIndex > 0;
   const canNextPage = currentPageIndex < totalPages - 1;
 
-  const goToFirstPage = () => setCurrentPageIndex(0);
-  const goToPreviousPage = () => setCurrentPageIndex((i) => Math.max(0, i - 1));
-  const goToNextPage = () =>
+  const scrollToTop = () => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 0);
+  };
+
+  const goToPreviousPage = () => {
+    setCurrentPageIndex((i) => Math.max(0, i - 1));
+    scrollToTop();
+  };
+
+  const goToNextPage = () => {
     setCurrentPageIndex((i) => Math.min(totalPages - 1, i + 1));
-  const goToLastPage = () => setCurrentPageIndex(totalPages - 1);
+    scrollToTop();
+  };
 
   return (
     <div className="user-edit-table">
+      <div className="page-info">
+        Page {currentPageIndex + 1} of your rent history document{" "}
+        <br className="mobile-only" />({currentPageData[0]?.regYear || "?"}–
+        {currentPageData[currentPageData.length - 1]?.regYear || "?"})
+      </div>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <tr key={headerGroup.id} className="table-header">
               {headerGroup.headers.map((header) => {
                 return (
                   <th key={header.id} colSpan={header.colSpan}>
@@ -293,53 +329,75 @@ export const EditableTable: React.FC = () => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => {
+          {table.getRowModel().rows.map((row, rowIdx) => {
+            const colCount = row.getVisibleCells().length;
             return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td key={cell.id}>
-                      <span className="cell-header">
-                        {cell.column.columnDef.header?.toString()}
-                      </span>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+              <React.Fragment key={row.id}>
+                {rowIdx === 0 && (
+                  <tr className="add-row-divider">
+                    <td colSpan={colCount}>
+                      <button
+                        type="button"
+                        className="text-link"
+                        onClick={() => table.options.meta?.addRow(-1)}
+                      >
+                        + Add year
+                      </button>
                     </td>
-                  );
-                })}
-              </tr>
+                  </tr>
+                )}
+                <tr className={row.original.hasErrors ? "has-errors" : ""}>
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td key={cell.id}>
+                        <span className="cell-header">
+                          {cell.column.columnDef.header?.toString()}
+                        </span>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+                <tr className="add-row-divider">
+                  <td colSpan={colCount}>
+                    <button
+                      type="button"
+                      className="text-link"
+                      onClick={() => table.options.meta?.addRow(row.index)}
+                    >
+                      + Add year
+                    </button>
+                  </td>
+                </tr>
+              </React.Fragment>
             );
           })}
         </tbody>
       </table>
       <div className="pagination">
         <div className="pagination-buttons">
-          <button
-            type="button"
-            onClick={goToFirstPage}
-            disabled={!canPreviousPage}
-          >
-            {"<<"}
-          </button>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
+            size="small"
+            labelText="<"
             onClick={goToPreviousPage}
             disabled={!canPreviousPage}
-          >
-            {"<"}
-          </button>
-          <span className="pagination-info">
-            Page {currentPageIndex + 1} of {totalPages} ({currentPageData.length}{" "}
-            rows)
+          />
+          <span className="page-info">
+            Page {currentPageIndex + 1} of your rent history document
+            <br />({currentPageData[0]?.regYear || "?"}–
+            {currentPageData[currentPageData.length - 1]?.regYear || "?"})
           </span>
-          <button type="button" onClick={goToNextPage} disabled={!canNextPage}>
-            {">"}
-          </button>
-          <button type="button" onClick={goToLastPage} disabled={!canNextPage}>
-            {">>"}
-          </button>
+          <Button
+            variant="secondary"
+            size="small"
+            labelText=">"
+            onClick={goToNextPage}
+            disabled={!canNextPage}
+          />
         </div>
       </div>
     </div>

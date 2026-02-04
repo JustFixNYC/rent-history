@@ -1,89 +1,135 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
 .user-edit-table {
-  .table-actions {
-    margin: 25px 25px 0;
-  }
-
-  .btn-add-row {
-    padding: 8px 16px;
-    background-color: #4a90d9;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-
-    &:hover {
-      background-color: #3a7bc8;
+  .mobile-only {
+    @media screen and (min-width: 56.25rem) {
+      display: none;
     }
   }
 
-  .row-actions {
-    display: flex;
-    gap: 4px;
-  }
-
-  .btn-add,
-  .btn-remove {
-    width: 28px;
-    height: 28px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .btn-add {
-    background-color: #5cb85c;
-    color: white;
-
-    &:hover {
-      background-color: #4cae4c;
+  .page-info {
+    @include jfcl.body_standard_desktop;
+    padding: 0 0.5rem 1rem;
+    @media screen and (max-width: 56.25rem) {
+      text-align: center;
     }
   }
 
-  .btn-remove {
-    background-color: #d9534f;
-    color: white;
+  .add-row-divider {
+    @media screen and (min-width: 56.25rem) {
+      transition: background-color 0.15s;
+      &:hover {
+        background-color: jfcl.$BLUE_50;
+      }
+    }
+
+    td {
+      padding: 0.25rem 0;
+      text-align: center;
+    }
+  }
+
+  // Text link styled buttons
+  .text-link {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    @include jfcl.body_standard_desktop;
+    font-size: 1rem;
+    color: jfcl.$BLUE;
+    cursor: pointer;
+    text-wrap-mode: nowrap;
 
     &:hover {
-      background-color: #c9302c;
+      text-decoration: underline;
+    }
+
+    &--delete {
+      color: jfcl.$RED;
     }
   }
 
   table {
     font-family: sans-serif;
     border-collapse: collapse;
-    border: 1px solid #ccc;
-    margin: 25px;
-    background-color: #fff;
+    border: 0.0625rem solid jfcl.$GREY_NEW;
+    background-color: jfcl.$WHITE;
+    width: 100%;
   }
 
-  tr {
-    border-bottom: 1px solid #ccc;
+  tr.table-header {
+    border-bottom: 0.0625rem solid jfcl.$GREY_NEW;
   }
 
   th,
   td {
     text-align: left;
-    padding: 8px 10px;
+    padding: 0.5rem 0.625rem;
+    vertical-align: middle;
+  }
+
+  th {
+    @include jfcl.body_standard_desktop;
+    font-weight: 600;
   }
 
   tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: jfcl.$OFF_WHITE_100;
   }
 
-  input,
-  select {
-    text-align: right;
+  tr.has-errors {
+    background-color: jfcl.$YELLOW;
   }
-  input[type="number"] {
-    width: 8em;
+
+  // jfcl component overrides for table cells
+  .jfcl-text-input {
+    margin: 0;
+
+    input {
+      text-align: left;
+      padding: 0.25rem 0.5rem;
+      min-width: 5rem;
+      background-color: white;
+    }
+
+    &.money-input {
+      input {
+        padding-left: 2rem;
+      }
+    }
+  }
+
+  .jfcl-dropdown {
+    min-width: 7.5rem;
+
+    .jfcl-dropdown__control {
+      min-height: 2rem;
+      background-color: white;
+    }
+  }
+
+  // Style native date input to match jfcl TextInput
+  input[type="date"] {
+    @include jfcl.body_standard_desktop;
+    color: jfcl.$OFF_BLACK;
+    box-sizing: border-box;
+    height: 2.75rem;
+    padding: 0.625rem 0.5625rem;
+    border-radius: 0.25rem;
+    border: 0.0625rem solid jfcl.$OFF_BLACK;
+    background-color: white;
+
+    &:active,
+    &:focus {
+      border: 0.125rem solid jfcl.$OFF_BLACK;
+      padding: 0.5625rem 0.5rem;
+    }
+
+    &:disabled {
+      border: 0.0625rem solid jfcl.$GREY_600;
+      color: jfcl.$GREY_NEW;
+      pointer-events: none;
+    }
   }
 
   .cell-header {
@@ -94,65 +140,89 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 25px 25px;
-    padding: 12px 16px;
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
+    padding: 0.75rem 1rem;
+    background-color: jfcl.$OFF_WHITE_100;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0.0625rem solid jfcl.$GREY_NEW;
     border-top: none;
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 0.875rem;
+
+    .page-info {
+      @include jfcl.body_standard_desktop;
+      text-align: center;
+      padding: 0.5rem;
+    }
   }
 
   .pagination-buttons {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
 
     button {
-      padding: 6px 12px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-
-      &:hover:not(:disabled) {
-        background-color: #e9ecef;
-      }
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
+      padding: 0.75rem 1.125rem;
     }
   }
 
-  .pagination-info {
-    padding: 0 8px;
-    font-weight: 500;
+  // Hide number input spinners
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
   }
 
-  @media screen and (max-width: 900px) {
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  @media screen and (max-width: 56.25rem) {
     th {
       display: none;
     }
+
     .cell-header {
       display: block;
       font-weight: bold;
+      width: 45%;
+      flex-shrink: 0;
+      @include jfcl.body_standard_desktop;
     }
+
     td {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
-    td:last-child {
+
+    // Make all inputs/dropdowns take consistent width
+    td .jfcl-text-input,
+    td .jfcl-dropdown,
+    td input[type="date"] {
+      width: 55%;
+      min-width: unset;
+      flex-shrink: 0;
+    }
+
+    td .jfcl-text-input input {
+      width: 100%;
+    }
+
+    tr:not(.add-row-divider) td:last-child {
       justify-content: flex-end;
-      padding-top: 12px;
-      border-top: 1px dashed #ddd;
+      padding-top: 0.75rem;
     }
+
+    .add-row-divider td {
+      display: block;
+    }
+
     .pagination {
       flex-direction: column;
-      gap: 12px;
+      gap: 0.75rem;
     }
   }
 }
