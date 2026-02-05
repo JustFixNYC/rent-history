@@ -85,7 +85,17 @@
 
   // Maintain background color for error rows in sticky column
   tr.has-errors td:first-child {
-    background-color: jfcl.$YELLOW;
+    background-color: #fbeccd;
+  }
+
+  // Maintain background color for exempt rows in sticky column
+  tr.is-exempt td:first-child {
+    background-color: jfcl.$GREY_50;
+  }
+
+  // Exempt row styling
+  tr.is-exempt {
+    background-color: jfcl.$GREY_50;
   }
 
   th {
@@ -123,7 +133,7 @@
   }
 
   tr.has-errors {
-    background-color: jfcl.$YELLOW;
+    background-color: #fbeccd;
   }
 
   // jfcl component overrides for table cells
@@ -161,6 +171,11 @@
     }
   }
 
+  // pseudo element for mobile date input alignment
+  input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+  }
+
   // Style native date input to match jfcl TextInput
   input[type="date"] {
     @include jfcl.body_standard_desktop;
@@ -179,9 +194,36 @@
     }
 
     &:disabled {
-      border: 0.0625rem solid jfcl.$GREY_600;
-      color: jfcl.$GREY_NEW;
-      pointer-events: none;
+      border-color: jfcl.$GREY_400;
+      background-color: jfcl.$GREY_50;
+      color: jfcl.$GREY_600;
+      cursor: not-allowed;
+    }
+  }
+
+  // Disabled input styles for exempt rows
+  .jfcl-text-input input:disabled {
+    border-color: jfcl.$GREY_400;
+    background-color: jfcl.$GREY_50;
+    color: jfcl.$GREY_600;
+    cursor: not-allowed;
+  }
+
+  // Disabled dropdown styles for exempt rows
+  .jfcl-dropdown.is-disabled {
+    .jfcl-dropdown__control {
+      border-color: jfcl.$GREY_400;
+      background-color: jfcl.$GREY_50;
+      cursor: not-allowed;
+    }
+
+    .jfcl-dropdown__single-value,
+    .jfcl-dropdown__placeholder {
+      color: jfcl.$GREY_600;
+    }
+
+    .jfcl-dropdown__indicators {
+      display: none;
     }
   }
 

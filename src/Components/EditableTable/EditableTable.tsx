@@ -10,27 +10,17 @@ import React from "react";
 
 import "./EditableTable.scss";
 import {
-  makeData,
   Lease,
+  LeaseData,
   LEASE_REASONS_CHANGE,
   LEASE_APT_STAT,
+  EXEMPT_APT_STAT,
+  exampleRentHistoryPages,
 } from "./sampleData";
 
-// Helper to create sample pages with variable row counts
-const makePages = (rowCounts: number[]): Lease[][] => {
-  const totalRows = rowCounts.reduce((sum, count) => sum + count, 0);
-  const allData = makeData(totalRows);
-
-  const pages: Lease[][] = [];
-  let startIndex = 0;
-
-  for (const count of rowCounts) {
-    pages.push(allData.slice(startIndex, startIndex + count));
-    startIndex += count;
-  }
-
-  return pages;
-};
+// Helper to check if an apt status is exempt
+const isExemptStatus = (status: string): boolean =>
+  EXEMPT_APT_STAT.includes(status as (typeof LEASE_APT_STAT)[number]);
 
 const emptyLease = (): Lease => ({
   regYear: "",
@@ -64,8 +54,9 @@ declare module "@tanstack/react-table" {
 
 // Give our default column cell renderer editing superpowers!
 const defaultColumn: Partial<ColumnDef<Lease>> = {
-  cell: function Cell({ getValue, row: { index }, column, table }) {
+  cell: function Cell({ getValue, row, column, table }) {
     const tableMeta = table.options.meta;
+    const index = row.index;
     const {
       id,
       columnDef: { meta: columnMeta },
@@ -74,6 +65,10 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
     const initialValue = getValue();
     // We need to keep and update the state of the cell normally
     const [value, setValue] = React.useState(initialValue);
+
+    // Check if this row is exempt (disable all fields except aptStat)
+    const isRowExempt = isExemptStatus(row.original.aptStat);
+    const isDisabled = isRowExempt && id !== "aptStat";
 
     // When the input is blurred, we'll call our table meta's updateData function
     const onBlur = () => {
@@ -90,6 +85,7 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
       const selectedOption = options.find((opt) => opt.value === value) || null;
 
       const handleDropdownChange = (option: Option | null) => {
+        if (isDisabled) return;
         const newValue = option?.value || "";
         setValue(newValue);
         tableMeta?.updateData(index, id, newValue);
@@ -100,14 +96,18 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
         options: Option[];
         value: Option | null;
         onChange: (option: Option | null) => void;
+        isDisabled?: boolean;
+        className?: string;
       }>;
 
       return (
         <DropdownAny
           labelText=""
-          options={options}
-          value={selectedOption}
+          options={isDisabled ? [] : options}
+          value={isDisabled ? null : selectedOption}
           onChange={handleDropdownChange}
+          isDisabled={isDisabled}
+          className={isDisabled ? "is-disabled" : ""}
         />
       );
     } else if (columnMeta?.type === "date") {
@@ -115,9 +115,10 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
         <input
           name={id}
           type="date"
-          value={value as string}
+          value={isDisabled ? "" : (value as string)}
           onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
+          disabled={isDisabled}
         />
       );
     } else if (columnMeta?.type === "number") {
@@ -126,21 +127,23 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
           id={`${id}-${index}`}
           labelText=""
           type="number"
-          value={value as string}
+          value={isDisabled ? "" : (value as string)}
           onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
+          disabled={isDisabled}
         />
       );
     } else if (columnMeta?.type === "money") {
       return (
         <TextInput
           id={`${id}-${index}`}
-          className="money-input"
+          className={`money-input${isDisabled ? " is-disabled" : ""}`}
           labelText=""
           type="money"
-          value={value as string}
+          value={isDisabled ? "" : (value as string)}
           onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
+          disabled={isDisabled}
         />
       );
     } else {
@@ -149,9 +152,10 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
           id={`${id}-${index}`}
           labelText=""
           type="text"
-          value={value as string}
+          value={isDisabled ? "" : (value as string)}
           onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
+          disabled={isDisabled}
         />
       );
     }
@@ -270,8 +274,8 @@ export const EditableTable: React.FC = () => {
     []
   );
 
-  // Sample pages with variable row counts from 1983 to 2025 (43 years total)
-  const [pages, setPages] = React.useState(() => makePages([11, 8, 10, 14]));
+  // Use example rent history pages
+  const [pages, setPages] = React.useState(() => [...exampleRentHistoryPages]);
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
 
   const currentPageData = pages[currentPageIndex] || [];
@@ -290,6 +294,52 @@ export const EditableTable: React.FC = () => {
             if (pageIdx === currentPageIndex) {
               return page.map((row, idx) => {
                 if (idx === rowIndex) {
+                  // Special handling for aptStat changes
+                  if (columnId === "aptStat") {
+                    const newStatus = value as string;
+                    const wasExempt = isExemptStatus(row.aptStat);
+                    const isNowExempt = isExemptStatus(newStatus);
+
+                    if (!wasExempt && isNowExempt) {
+                      // Changing to exempt: save current data and clear fields
+                      const savedData: LeaseData = {
+                        filingDate: row.filingDate,
+                        legalRent: row.legalRent,
+                        prefRent: row.prefRent,
+                        paidRent: row.paidRent,
+                        reasonsChange: row.reasonsChange,
+                        leaseStart: row.leaseStart,
+                        leaseEnd: row.leaseEnd,
+                      };
+                      return {
+                        ...row,
+                        aptStat: newStatus as Lease["aptStat"],
+                        savedData,
+                        filingDate: "",
+                        legalRent: 0,
+                        prefRent: 0,
+                        paidRent: 0,
+                        reasonsChange: "",
+                        leaseStart: "",
+                        leaseEnd: "",
+                      };
+                    } else if (wasExempt && !isNowExempt && row.savedData) {
+                      // Changing from exempt to non-exempt: restore saved data
+                      const { savedData, ...rest } = row;
+                      return {
+                        ...rest,
+                        aptStat: newStatus as Lease["aptStat"],
+                        filingDate: savedData.filingDate,
+                        legalRent: savedData.legalRent,
+                        prefRent: savedData.prefRent,
+                        paidRent: savedData.paidRent,
+                        reasonsChange: savedData.reasonsChange,
+                        leaseStart: savedData.leaseStart,
+                        leaseEnd: savedData.leaseEnd,
+                        savedData: undefined,
+                      };
+                    }
+                  }
                   return { ...row, [columnId]: value };
                 }
                 return row;
@@ -384,11 +434,14 @@ export const EditableTable: React.FC = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => {
+              const rowClasses = [
+                row.original.hasErrors ? "has-errors" : "",
+                isExemptStatus(row.original.aptStat) ? "is-exempt" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
               return (
-                <tr
-                  key={row.id}
-                  className={row.original.hasErrors ? "has-errors" : ""}
-                >
+                <tr key={row.id} className={rowClasses || undefined}>
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td key={cell.id}>
