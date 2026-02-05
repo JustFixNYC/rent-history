@@ -202,6 +202,12 @@
     }
   }
 
+  .analyze-button {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
   // Hide number input spinners
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -251,6 +257,8 @@
     }
     td .jfcl-date-input input {
       flex-grow: 1;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
 
     td .jfcl-dropdown .jfcl-dropdown__control {

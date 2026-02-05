@@ -374,7 +374,8 @@ export const EditableTable: React.FC = () => {
   return (
     <div className="user-edit-table">
       <div className="page-info">
-        Page {currentPageIndex + 1} of your rent history document{" "}
+        {/* TODO: fix const, this is because real RH starts on pg 2 */}
+        Page {currentPageIndex + 2} of your rent history document{" "}
         <br className="mobile-only" />({currentPageData[0]?.regYear || "?"}–
         {currentPageData[currentPageData.length - 1]?.regYear || "?"})
       </div>
@@ -437,7 +438,8 @@ export const EditableTable: React.FC = () => {
             disabled={!canPreviousPage}
           />
           <span className="page-info">
-            Page {currentPageIndex + 1} of your rent history document
+            {/* TODO: fix const, this is because real RH starts on pg 2 */}
+            Page {currentPageIndex + 2} of your rent history document
             <br />({currentPageData[0]?.regYear || "?"}–
             {currentPageData[currentPageData.length - 1]?.regYear || "?"})
           </span>
@@ -450,6 +452,17 @@ export const EditableTable: React.FC = () => {
           />
         </div>
       </div>
+      {!canNextPage && (
+        <div className="analyze-button">
+          <Button
+            variant="primary"
+            labelText="Analyze my rent history"
+            onClick={() => {
+              // TODO: replace with actual func
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
