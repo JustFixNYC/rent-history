@@ -483,6 +483,17 @@ export const EditableTable: React.FC = () => {
           />
         </div>
       </div>
+      {!canNextPage && (
+        <div className="analyze-button">
+          <Button
+            variant="primary"
+            labelText="Analyze my rent history"
+            onClick={() => {
+              // TODO: implement analysis
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
