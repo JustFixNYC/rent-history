@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+
 export const LEASE_REASONS_CHANGE = [
   "LEAS/RNL",
   "VAC/LEAS",
@@ -15,12 +16,14 @@ export const LEASE_APT_STAT = [
   "*REG NOT FOUND FOR SUBJECT PREMISES*",
   "*EXEMPT APARTMENT - REG NOT REQUIRED*",
 ] as const;
+
 // These statuses disable all other fields in the row
 export const EXEMPT_APT_STAT: readonly (typeof LEASE_APT_STAT)[number][] = [
   "*RENT CONTROL - REG NOT REQUIRED*",
   "*REG NOT FOUND FOR SUBJECT PREMISES*",
   "*EXEMPT APARTMENT - REG NOT REQUIRED*",
 ];
+
 export type LeaseData = {
   filingDate: string;
   legalRent: number;
@@ -30,6 +33,7 @@ export type LeaseData = {
   leaseStart: string;
   leaseEnd: string;
 };
+
 export type Lease = {
   regYear: string;
   aptStat: (typeof LEASE_APT_STAT)[number];
@@ -43,6 +47,7 @@ export type Lease = {
   hasErrors: boolean;
   savedData?: LeaseData; // Stores original data when exempt status is selected
 };
+
 const range = (len: number) => {
   const arr: number[] = [];
   for (let i = 0; i < len; i++) {
@@ -50,6 +55,7 @@ const range = (len: number) => {
   }
   return arr;
 };
+
 const newLease = (year?: number): Lease => {
   const regYear = year ? year.toString() : "";
   return {
@@ -65,6 +71,7 @@ const newLease = (year?: number): Lease => {
     hasErrors: faker.datatype.boolean({ probability: 0.2 }),
   };
 };
+
 export function makeData(...lens: number[]) {
   let currentYear = 1983;
   const makeDataLevel = (depth = 0): Lease[] => {
@@ -75,12 +82,14 @@ export function makeData(...lens: number[]) {
       return lease;
     });
   };
+
   return makeDataLevel();
 }
-export const exampleRentHistory: Lease[] = [
-  // Page 1: 1984-1993
+
+// Page 1: 1984-1993
+const rentHistoryPage1: Lease[] = [
   {
-    regYear: "1984-I",
+    regYear: "1984",
     aptStat: "RS",
     filingDate: "",
     legalRent: 266.87,
@@ -199,7 +208,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "",
     hasErrors: false,
   },
-  // Page 2: 1994 - 2003
+];
+
+// Page 2: 1994-2003
+const rentHistoryPage2: Lease[] = [
   {
     regYear: "1994",
     aptStat: "RS",
@@ -320,7 +332,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "2003-04-30",
     hasErrors: false,
   },
-  // Page 3: 2004-2010
+];
+
+// Page 3: 2004-2010
+const rentHistoryPage3: Lease[] = [
   {
     regYear: "2004",
     aptStat: "RS",
@@ -405,7 +420,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "2010-04-30",
     hasErrors: false,
   },
-  // Page 3: 2011-2017
+];
+
+// Page 4: 2011-2017
+const rentHistoryPage4: Lease[] = [
   {
     regYear: "2011",
     aptStat: "RS",
@@ -490,7 +508,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "2017-08-31",
     hasErrors: false,
   },
-  // Page 4: 2018-2023
+];
+
+// Page 5: 2018-2023
+const rentHistoryPage5: Lease[] = [
   {
     regYear: "2018",
     aptStat: "RS",
@@ -563,4 +584,22 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "",
     hasErrors: false,
   },
+];
+
+// Combined array of all rent history
+export const exampleRentHistory: Lease[] = [
+  ...rentHistoryPage1,
+  ...rentHistoryPage2,
+  ...rentHistoryPage3,
+  ...rentHistoryPage4,
+  ...rentHistoryPage5,
+];
+
+// Pages array for pagination
+export const exampleRentHistoryPages: Lease[][] = [
+  rentHistoryPage1,
+  rentHistoryPage2,
+  rentHistoryPage3,
+  rentHistoryPage4,
+  rentHistoryPage5,
 ];
