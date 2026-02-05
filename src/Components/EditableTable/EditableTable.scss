@@ -68,9 +68,18 @@
     vertical-align: middle;
   }
 
+  td {
+    height: 2.75rem;
+  }
+
   th {
     @include jfcl.body_standard_desktop;
     font-weight: 600;
+  }
+
+  // Year column styling
+  td:nth-child(1) {
+    @include jfcl.body_standard_desktop;
   }
 
   tr:nth-child(even) {
@@ -107,13 +116,18 @@
       background-color: white;
     }
   }
+  // pseudo element for mobile date input alignment
+  input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+  }
 
-  // Style native date input to match jfcl TextInput
+  // TODO Add styled date input to JFCL
   input[type="date"] {
     @include jfcl.body_standard_desktop;
     color: jfcl.$OFF_BLACK;
     box-sizing: border-box;
     height: 2.75rem;
+    width: inherit;
     padding: 0.625rem 0.5625rem;
     border-radius: 0.25rem;
     border: 0.0625rem solid jfcl.$OFF_BLACK;
@@ -198,17 +212,31 @@
       align-items: center;
     }
 
+    // Year column - left align the text
+    td:first-child {
+      justify-content: flex-start;
+    }
+
     // Make all inputs/dropdowns take consistent width
     td .jfcl-text-input,
     td .jfcl-dropdown,
-    td input[type="date"] {
+    td .jfcl-date-input {
+      display: flex;
       width: 55%;
       min-width: unset;
       flex-shrink: 0;
+      height: 100%;
+    }
+    td .jfcl-date-input input {
+      flex-grow: 1;
     }
 
-    td .jfcl-text-input input {
-      width: 100%;
+    td .jfcl-dropdown .jfcl-dropdown__control {
+      flex-grow: 1;
+    }
+
+    td .jfcl-text-input .jfcl-text-input__wrapper {
+      flex-grow: 1;
     }
 
     tr:not(.add-row-divider) td:last-child {

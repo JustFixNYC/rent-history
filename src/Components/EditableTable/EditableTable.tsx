@@ -18,7 +18,18 @@ import {
 
 // Helper to create sample pages with variable row counts
 const makePages = (rowCounts: number[]): Lease[][] => {
-  return rowCounts.map((count) => makeData(count));
+  const totalRows = rowCounts.reduce((sum, count) => sum + count, 0);
+  const allData = makeData(totalRows);
+
+  const pages: Lease[][] = [];
+  let startIndex = 0;
+
+  for (const count of rowCounts) {
+    pages.push(allData.slice(startIndex, startIndex + count));
+    startIndex += count;
+  }
+
+  return pages;
 };
 
 const emptyLease = (): Lease => ({
@@ -101,13 +112,15 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
       );
     } else if (columnMeta?.type === "date") {
       return (
-        <input
-          name={id}
-          type="date"
-          value={value as string}
-          onChange={(e) => setValue(e.target.value)}
-          onBlur={onBlur}
-        />
+        <div className="jfcl-date-input">
+          <input
+            name={id}
+            type="date"
+            value={value as string}
+            onChange={(e) => setValue(e.target.value)}
+            onBlur={onBlur}
+          />
+        </div>
       );
     } else if (columnMeta?.type === "number") {
       return (
@@ -154,6 +167,7 @@ export const EditableTable: React.FC = () => {
         accessorKey: "regYear",
         header: "Reg Year",
         meta: { type: "number" },
+        cell: ({ getValue }) => <span>{getValue() as string}</span>,
       },
       {
         accessorKey: "aptStat",
@@ -213,7 +227,7 @@ export const EditableTable: React.FC = () => {
             className="text-link text-link--delete"
             onClick={() => table.options.meta?.removeRow(row.index)}
           >
-            Delete year
+            Clear values
           </button>
         ),
       },
@@ -221,8 +235,8 @@ export const EditableTable: React.FC = () => {
     []
   );
 
-  // Sample pages with variable row counts (e.g., 11 rows, 8 rows, 10 rows)
-  const [pages, setPages] = React.useState(() => makePages([11, 8, 10]));
+  // Sample pages with variable row counts from 1983 to 2025 (43 years total)
+  const [pages, setPages] = React.useState(() => makePages([11, 8, 10, 14]));
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
 
   const currentPageData = pages[currentPageIndex] || [];
@@ -271,7 +285,16 @@ export const EditableTable: React.FC = () => {
         setPages((oldPages) =>
           oldPages.map((page, pageIdx) => {
             if (pageIdx === currentPageIndex) {
-              return page.filter((_, idx) => idx !== rowIndex);
+              return page.map((row, idx) => {
+                if (idx === rowIndex) {
+                  // Clear all values except regYear
+                  return {
+                    ...emptyLease(),
+                    regYear: row.regYear,
+                  };
+                }
+                return row;
+              });
             }
             return page;
           })
@@ -329,50 +352,26 @@ export const EditableTable: React.FC = () => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row, rowIdx) => {
-            const colCount = row.getVisibleCells().length;
+          {table.getRowModel().rows.map((row) => {
             return (
-              <React.Fragment key={row.id}>
-                {rowIdx === 0 && (
-                  <tr className="add-row-divider">
-                    <td colSpan={colCount}>
-                      <button
-                        type="button"
-                        className="text-link"
-                        onClick={() => table.options.meta?.addRow(-1)}
-                      >
-                        + Add year
-                      </button>
+              <tr
+                key={row.id}
+                className={row.original.hasErrors ? "has-errors" : ""}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <td key={cell.id}>
+                      <span className="cell-header">
+                        {cell.column.columnDef.header?.toString()}
+                      </span>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </td>
-                  </tr>
-                )}
-                <tr className={row.original.hasErrors ? "has-errors" : ""}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <td key={cell.id}>
-                        <span className="cell-header">
-                          {cell.column.columnDef.header?.toString()}
-                        </span>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-                <tr className="add-row-divider">
-                  <td colSpan={colCount}>
-                    <button
-                      type="button"
-                      className="text-link"
-                      onClick={() => table.options.meta?.addRow(row.index)}
-                    >
-                      + Add year
-                    </button>
-                  </td>
-                </tr>
-              </React.Fragment>
+                  );
+                })}
+              </tr>
             );
           })}
         </tbody>
