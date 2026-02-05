@@ -87,7 +87,7 @@
   }
 
   tr.has-errors {
-    background-color: jfcl.$YELLOW;
+    background-color: #fbeccd;
   }
 
   // jfcl component overrides for table cells
@@ -99,6 +99,13 @@
       padding: 0.25rem 0.5rem;
       min-width: 5rem;
       background-color: white;
+
+      &:disabled {
+        border-color: jfcl.$GREY_400;
+        background-color: jfcl.$GREY_50;
+        color: jfcl.$GREY_600;
+        cursor: not-allowed;
+      }
     }
 
     &.money-input {
@@ -114,6 +121,19 @@
     .jfcl-dropdown__control {
       min-height: 2rem;
       background-color: white;
+    }
+
+    // Disabled dropdown styles
+    &.jfcl-dropdown--is-disabled {
+      .jfcl-dropdown__control {
+        border-color: jfcl.$GREY_400;
+        background-color: jfcl.$GREY_50;
+        cursor: not-allowed;
+      }
+
+      .jfcl-dropdown__single-value {
+        color: jfcl.$GREY_600;
+      }
     }
   }
   // pseudo element for mobile date input alignment
@@ -140,8 +160,10 @@
     }
 
     &:disabled {
-      border: 0.0625rem solid jfcl.$GREY_600;
-      color: jfcl.$GREY_NEW;
+      border-color: jfcl.$GREY_400;
+      background-color: jfcl.$GREY_50;
+      color: jfcl.$GREY_600;
+      cursor: not-allowed;
       pointer-events: none;
     }
   }
