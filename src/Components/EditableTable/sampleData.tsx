@@ -89,7 +89,7 @@ export function makeData(...lens: number[]) {
 export const exampleRentHistory: Lease[] = [
   // Page 1: 1984-1993
   {
-    regYear: "1984-I",
+    regYear: "1984",
     aptStat: "RS",
     filingDate: "",
     legalRent: 266.87,
