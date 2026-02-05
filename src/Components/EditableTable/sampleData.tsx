@@ -86,8 +86,8 @@ export function makeData(...lens: number[]) {
   return makeDataLevel();
 }
 
-export const exampleRentHistory: Lease[] = [
-  // Page 1: 1984-1993
+// Page 1: 1984-1993
+const rentHistoryPage1: Lease[] = [
   {
     regYear: "1984",
     aptStat: "RS",
@@ -208,7 +208,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "",
     hasErrors: false,
   },
-  // Page 2: 1994 - 2003
+];
+
+// Page 2: 1994-2003
+const rentHistoryPage2: Lease[] = [
   {
     regYear: "1994",
     aptStat: "RS",
@@ -329,8 +332,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "2003-04-30",
     hasErrors: false,
   },
+];
 
-  // Page 3: 2004-2010
+// Page 3: 2004-2010
+const rentHistoryPage3: Lease[] = [
   {
     regYear: "2004",
     aptStat: "RS",
@@ -415,7 +420,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "2010-04-30",
     hasErrors: false,
   },
-  // Page 3: 2011-2017
+];
+
+// Page 4: 2011-2017
+const rentHistoryPage4: Lease[] = [
   {
     regYear: "2011",
     aptStat: "RS",
@@ -500,7 +508,10 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "2017-08-31",
     hasErrors: false,
   },
-  // Page 4: 2018-2023
+];
+
+// Page 5: 2018-2023
+const rentHistoryPage5: Lease[] = [
   {
     regYear: "2018",
     aptStat: "RS",
@@ -573,4 +584,22 @@ export const exampleRentHistory: Lease[] = [
     leaseEnd: "",
     hasErrors: false,
   },
+];
+
+// Combined array of all rent history
+export const exampleRentHistory: Lease[] = [
+  ...rentHistoryPage1,
+  ...rentHistoryPage2,
+  ...rentHistoryPage3,
+  ...rentHistoryPage4,
+  ...rentHistoryPage5,
+];
+
+// Pages array for pagination
+export const exampleRentHistoryPages: Lease[][] = [
+  rentHistoryPage1,
+  rentHistoryPage2,
+  rentHistoryPage3,
+  rentHistoryPage4,
+  rentHistoryPage5,
 ];

@@ -15,16 +15,12 @@ import {
   LEASE_REASONS_CHANGE,
   LEASE_APT_STAT,
   EXEMPT_APT_STAT,
-  exampleRentHistory,
+  exampleRentHistoryPages,
 } from "./sampleData";
 
 // Helper to check if an apt status is exempt
 const isExemptStatus = (status: string): boolean =>
   EXEMPT_APT_STAT.includes(status as (typeof LEASE_APT_STAT)[number]);
-
-const makePages = (): Lease[][] => {
-  return [exampleRentHistory];
-};
 
 const emptyLease = (): Lease => ({
   regYear: "",
@@ -241,8 +237,8 @@ export const EditableTable: React.FC = () => {
     []
   );
 
-  // Use example lease data
-  const [pages, setPages] = React.useState(() => makePages());
+  // Use example lease data (5 pages)
+  const [pages, setPages] = React.useState(() => exampleRentHistoryPages);
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
 
   const currentPageData = pages[currentPageIndex] || [];
