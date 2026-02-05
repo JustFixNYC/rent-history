@@ -16,28 +16,11 @@ import {
   LEASE_APT_STAT,
   EXEMPT_APT_STAT,
   exampleRentHistory,
-  makeData,
 } from "./sampleData";
 
 // Helper to check if an apt status is exempt
 const isExemptStatus = (status: string): boolean =>
   EXEMPT_APT_STAT.includes(status as (typeof LEASE_APT_STAT)[number]);
-
-// Helper to create sample pages with variable row counts
-const makePages_random = (rowCounts: number[]): Lease[][] => {
-  const totalRows = rowCounts.reduce((sum, count) => sum + count, 0);
-  const allData = makeData(totalRows);
-
-  const pages: Lease[][] = [];
-  let startIndex = 0;
-
-  for (const count of rowCounts) {
-    pages.push(allData.slice(startIndex, startIndex + count));
-    startIndex += count;
-  }
-
-  return pages;
-};
 
 const makePages = (): Lease[][] => {
   return [exampleRentHistory];
