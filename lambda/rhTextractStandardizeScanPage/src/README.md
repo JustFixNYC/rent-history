@@ -5,3 +5,5 @@ This function is triggered by `PUT`ing a `.jpg` file into our S3 bucket `justfix
 To update the packages for the Lambda function, navigate to this folder and run `bash createLambdaZip.sh` to create a zip archive of the folders contents (including the `node_modules`) to upload to Lambda.
 
 If you're only making code changes, you could also just edit directly in AWS but make sure to copy any changes here so we keep this version controlled version.
+
+On the Code tab the Runtime Setting need to be updated for the handler to be `src/dist/index.js`.

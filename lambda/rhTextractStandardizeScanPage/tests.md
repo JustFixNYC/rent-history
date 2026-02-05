@@ -36,7 +36,7 @@ rh-scan-upload
           "arn": "arn:aws:s3:::justfix-rh-scans"
         },
         "object": {
-          "key": "f35607a1-af47-4104-9681-ab0bda9cc731/page1.jpg",
+          "key": "2026-02-02T15-53-14-822Z/page1.jpg",
           "size": 1024,
           "eTag": "0123456789abcdef0123456789abcdef",
           "sequencer": "0A1B2C3D4E5F678901"

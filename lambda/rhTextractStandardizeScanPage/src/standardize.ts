@@ -8,7 +8,7 @@ function getDirectories(dirPath: string) {
 }
 
 console.log(process.cwd());
-const dataDir = path.resolve(process.cwd(), "./test-data");
+const dataDir = path.resolve(process.cwd(), "../test-data");
 const rhDirs = getDirectories(dataDir);
 
 const pageFile = path.join(dataDir, rhDirs[0]!, "page2.json");
