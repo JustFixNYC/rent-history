@@ -12,6 +12,7 @@ import {
 } from "amazon-textract-response-parser";
 import type { S3Event, Context, Handler } from "aws-lambda";
 import type { TableGeneric } from "amazon-textract-response-parser/dist/types/table";
+import * as path from "path";
 
 const config = { region: "us-east-1" };
 const textractClient = new TextractClient(config);
@@ -21,14 +22,16 @@ const getS3ObjectDetails = (event: S3Event) => {
   if (!event["Records"][0]) throw new Error("No record in event");
   const bucket = event["Records"][0]!["s3"]["bucket"]["name"];
   const key = event["Records"][0]!["s3"]["object"]["key"];
-  const [historyCode, fileName] = key.split("/");
+  const fileName = path.basename(key);
+  const dirName = path.dirname(key);
+  const historyCode = path.basename(dirName);
   if (!historyCode || !fileName)
     throw new Error("No history_code or filename in event key");
   const match = fileName.match(/(\d+)/g);
   if (!match || !match[0])
     throw new Error("File name doesn't match required format, eg. 'page1.jpg'");
   const pageNumber = match[0];
-  const details = { bucket, key, historyCode, fileName, pageNumber };
+  const details = { bucket, key, dirName, historyCode, fileName, pageNumber };
   console.log(details);
   return details;
 };
@@ -61,7 +64,6 @@ const analyzeDocumentForTables = async (
   try {
     const command = new AnalyzeDocumentCommand(params);
     const data = await textractClient.send(command);
-    console.log("textractResponse", data);
     return data;
   } catch (err) {
     console.error("Error processing document with Textract:", err);
@@ -91,7 +93,12 @@ const parseTable = (table: TableGeneric<Page>) => {
     for (const cell of row.iterCells()) {
       rowContents.push(cell.text);
     }
-    tableContents.push(rowContents);
+    const rowData = {
+      rowConfidence: row.getConfidence(),
+      rowOcrConfidence: row.getOcrConfidence(),
+      rowContents,
+    };
+    tableContents.push(rowData);
   }
 
   return {
@@ -109,7 +116,8 @@ export const handler: Handler = async (event: S3Event, context: Context) => {
     JSON.stringify(context, null, 2),
   );
 
-  const { bucket, key, historyCode, pageNumber } = getS3ObjectDetails(event);
+  const { bucket, key, dirName, historyCode, pageNumber } =
+    getS3ObjectDetails(event);
 
   const textractResponse = await analyzeDocumentForTables(bucket, key);
   // parser has different type definitions from textract
@@ -117,12 +125,13 @@ export const handler: Handler = async (event: S3Event, context: Context) => {
     textractResponse as ApiAnalyzeDocumentResponse,
   );
 
-  const jsonKey = `${historyCode}/page${pageNumber}.json`;
+  const jsonKey = `${dirName}/page${pageNumber}.json`;
   const rentHistoryTablesJson = await saveDataToS3Json(
     jsonKey,
     rentHistoryTables,
   );
 
+  console.log(historyCode);
   console.log(rentHistoryTablesJson);
 
   const response = {
