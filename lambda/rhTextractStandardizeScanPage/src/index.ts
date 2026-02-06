@@ -6,6 +6,7 @@ import {
 } from "@aws-sdk/client-textract";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import {
+  ApiBlockType,
   Page,
   TextractDocument,
   type ApiAnalyzeDocumentResponse,
@@ -58,7 +59,7 @@ const analyzeDocumentForTables = async (
         Name: key,
       },
     },
-    FeatureTypes: ["TABLES"],
+    FeatureTypes: ["TABLES", "LAYOUT"],
   };
 
   try {
@@ -78,20 +79,50 @@ const parseRentHistoryTables = (
   const doc = new TextractDocument(textractResponse);
   const page = doc.pageNumber(1);
 
+  // Extract the results form 3 different methods
+  const textLines = [];
+  for (const line of page.iterLines()) {
+    const lineData = [];
+    for (const word of line.iterWords()) {
+      lineData.push(word.text);
+    }
+    textLines.push(lineData);
+  }
+
+  const layoutLines = [];
+  for (const layoutTable of page.layout.iterItems({
+    includeBlockTypes: [ApiBlockType.LayoutTable],
+  })) {
+    for (const line of layoutTable.iterTextLines()) {
+      // const words = line.listWords().map((word) => word.text)
+      layoutLines.push(line.text);
+    }
+  }
+
   const parsedTables = [];
   for (const table of page.iterTables()) {
     parsedTables.push(parseTable(table));
   }
-  return parsedTables;
+  return { parsedTables, layoutLines, textLines };
 };
 
-// TODO: define return type
 const parseTable = (table: TableGeneric<Page>) => {
   const tableContents = [];
-  for (const row of table.iterRows()) {
+  for (const row of table.iterRows({
+    repeatMultiRowCells: true,
+    ignoreMerged: true,
+  })) {
     const rowContents = [];
     for (const cell of row.iterCells()) {
-      rowContents.push(cell.text);
+      const { columnSpan, rowSpan, text, confidence } = cell;
+      const cellData = {
+        columnSpan,
+        rowSpan,
+        text,
+        confidence,
+        ocrConfidence: cell.getOcrConfidence(),
+      };
+      rowContents.push(cellData);
     }
     const rowData = {
       rowConfidence: row.getConfidence(),
@@ -129,6 +160,11 @@ export const handler: Handler = async (event: S3Event, context: Context) => {
   const rentHistoryTablesJson = await saveDataToS3Json(
     jsonKey,
     rentHistoryTables,
+  );
+
+  await saveDataToS3Json(
+    `${dirName}/textract_page${pageNumber}.json`,
+    textractResponse,
   );
 
   console.log(historyCode);

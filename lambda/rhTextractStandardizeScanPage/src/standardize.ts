@@ -68,7 +68,6 @@ class RsRowParser {
     this.updateRow(regex);
   }
 
-  // TODO: anything important to take from "NC"
   // TODO: any other possible values?
   parseFilingDate(): void {
     if (!this.row) return;
@@ -77,7 +76,7 @@ class RsRowParser {
     // console.log(match);
     if (!match || !match[1]) return;
     if (match[1] === "NC") {
-      this.fields.filingDate = "";
+      this.fields.filingDate = match[1];
     } else {
       const [month, day, year] = match[1].split("/");
       if (!month || !day || !year) return;
@@ -96,17 +95,18 @@ class RsRowParser {
     if (!this.row) return;
     const regex = /(TENANT:\s*(\b[^\d\W]+\b\s*)+)/;
     const match = this.row.match(regex);
-    console.log(match);
+    // console.log(match);
     if (!match) return;
     this.fields.tenant = match[1] || "";
     this.updateRow(regex);
   }
 
+  // TODO: 
   parseLegalRent(): void {
     if (!this.row) return;
     const regex = /^(\d+.\d{2})\b/;
     const match = this.row.match(regex);
-    console.log(match);
+    // console.log(match);
     if (!match) return;
     this.fields.legalRent = match[1] || "";
     this.updateRow(regex);

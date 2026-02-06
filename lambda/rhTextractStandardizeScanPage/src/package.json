@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && bash createLambdaZip.sh"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.982.0",
