@@ -1,0 +1,79 @@
+Transform: AWS::Serverless-2016-10-31
+Parameters: {}
+Resources:
+  S3BucketJustfixrhscans:
+    UpdateReplacePolicy: Retain
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      AbacStatus: Disabled
+      PublicAccessBlockConfiguration:
+        RestrictPublicBuckets: false
+        IgnorePublicAcls: false
+        BlockPublicPolicy: false
+        BlockPublicAcls: false
+      BucketName: justfix-rh-scans
+      CorsConfiguration:
+        CorsRules:
+          - ExposedHeaders:
+              - Access-Control-Allow-Origin
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - HEAD
+            AllowedOrigins:
+              - '*'
+            AllowedHeaders:
+              - Content-Type
+              - Authorization
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - BucketKeyEnabled: true
+            ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      NotificationConfiguration:
+        QueueConfigurations: []
+        TopicConfigurations: []
+        LambdaConfigurations:
+          - Function:
+              Fn::GetAtt:
+                - LambdaFunctionFunctionrhTextractStandardizeScanPage
+                - Arn
+            Filter:
+              S3Key:
+                Rules:
+                  - Value: .jpg
+                    Name: Suffix
+            Event: s3:ObjectCreated:Put
+  LambdaFunctionFunctionrhTextractStandardizeScanPage:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 128
+      Description: ''
+      Timeout: 300
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: Auto
+      Handler: dist/index.handler
+      Role: >-
+        arn:aws:iam::609870412389:role/service-role/rhTextractStandardizeScanPage-role-71v1p7bi
+      FileSystemConfigs: []
+      FunctionName: rhTextractStandardizeScanPage
+      Runtime: nodejs24.x
+      PackageType: Zip
+      LoggingConfig:
+        LogFormat: Text
+        LogGroup: /aws/lambda/rhTextractStandardizeScanPage
+      RecursiveLoop: Terminate
+      Environment:
+        Variables:
+          TEXTRACT_BUCKET_NAME: justfix-rh-textract
+      EphemeralStorage:
+        Size: 512
+      Architectures:
+        - x86_64
+      Tracing: PassThrough
+      CodeUri: LambdaFunctionFunctionrhTextractStandardizeScanPage

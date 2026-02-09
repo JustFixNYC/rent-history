@@ -26,3 +26,4 @@ dist-ssr
 .env
 
 lambda/*/*.zip
+**/.aws-sam/
