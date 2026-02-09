@@ -1,7 +1,11 @@
 {
+  "name": "rh-textract-standardize-scan-page",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc && bash createLambdaZip.sh"
+    "build": "tsc",
+    "format": "prettier --write --ignore-unknown \"src/**/*\""
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.982.0",
@@ -11,6 +15,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.160",
     "@types/node": "^25.2.0",
+    "prettier": "^3.8.1",
     "typescript": "^5.9.3"
   }
 }

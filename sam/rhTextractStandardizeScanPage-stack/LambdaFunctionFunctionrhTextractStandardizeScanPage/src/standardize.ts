@@ -101,7 +101,7 @@ class RsRowParser {
     this.updateRow(regex);
   }
 
-  // TODO: 
+  // TODO:
   parseLegalRent(): void {
     if (!this.row) return;
     const regex = /^(\d+.\d{2})\b/;
