@@ -1,21 +1,53 @@
 import * as fs from "fs";
 import * as path from "path";
 
-function getDirectories(dirPath: string) {
-  return fs.readdirSync(dirPath).filter(function (file) {
-    return fs.statSync(path.join(dirPath, file)).isDirectory();
-  });
-}
 
-console.log(process.cwd());
-const dataDir = path.resolve(process.cwd(), "../test-data");
-const rhDirs = getDirectories(dataDir);
 
-const pageFile = path.join(dataDir, rhDirs[0]!, "page2.json");
-const rawData = fs.readFileSync(pageFile, "utf8");
-const jsonData = JSON.parse(rawData)[0];
+type Cell = {
+  left: number;
+  width: number;
+  text: string;
+  confidence: number;
+  ocrConfidence: number;
+};
+type Row = {
+  rowConfidence: number;
+  rowOcrConfidence: number;
+  rowContents: Cell[];
+};
+type Table = {
+  tableConfidence: number;
+  tableType: string;
+  tableContentsConfidence: number;
+  tableContents: Row[];
+};
+type Line = {
+  left: number;
+  vCenter: number;
+  text: string;
+};
+type ParsedTextractOutput = {
+  tables: Table[];
+  lines: Line[];
+};
 
-const table: string[][] = jsonData.tableContents;
+// function getDirectories(dirPath: string) {
+//   return fs.readdirSync(dirPath).filter(function (file) {
+//     return fs.statSync(path.join(dirPath, file)).isDirectory();
+//   });
+// }
+
+const RH_FILE = path.join(process.cwd(), "test-textract/2026-02-02T15-53-14-822Z/page3.json")
+
+// console.log(process.cwd());
+// const dataDir = path.resolve(process.cwd(), "../test-textract");
+// const rhDirs = getDirectories(dataDir);
+
+const rawData = fs.readFileSync(RH_FILE, "utf8");
+const jsonData: ParsedTextractOutput = JSON.parse(rawData);
+
+
+const { tables, lines } = jsonData;
 
 type ParsedFields = {
   regYear: string;
@@ -113,12 +145,15 @@ class RsRowParser {
   }
 }
 
-const cleanRows = table
+const cleanRows = tables[0]!.tableContents
   // remove header rows
-  .filter((row) => !!row[0] && !row[0].match(/^(reg)|(year)/i))
+  .filter(
+    (row) =>
+      !!row.rowContents[0] && !row.rowContents[0].text.match(/^(reg)|(year)/i),
+  )
   .map((row) => {
     console.log(row);
-    const rowJoined = row.join(" ");
+    const rowJoined = row.rowContents.map((cell) => cell.text).join(" ");
 
     const rowParser = new RsRowParser(rowJoined);
 
@@ -131,3 +166,18 @@ const cleanRows = table
   });
 
 console.log(cleanRows);
+
+
+const parsedLines: Line[][] = [];
+
+lines.forEach((segment, index, arr) => {
+  const prevSegment = arr[index - 1];
+  
+  if (!!prevSegment && segment.left > prevSegment.left) {
+    parsedLines.at(-1)?.push(segment)
+  } else {
+    parsedLines.push([segment])
+  }
+})
+
+console.log(parsedLines)

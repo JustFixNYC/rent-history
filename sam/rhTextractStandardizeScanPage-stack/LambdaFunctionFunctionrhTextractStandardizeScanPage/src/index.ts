@@ -6,7 +6,6 @@ import {
 } from "@aws-sdk/client-textract";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import {
-  ApiBlockType,
   Page,
   TextractDocument,
   type ApiAnalyzeDocumentResponse,
@@ -72,38 +71,54 @@ const analyzeDocumentForTables = async (
   }
 };
 
-// TODO: define return type
 const parseRentHistoryTables = (
   textractResponse: ApiAnalyzeDocumentResponse,
 ) => {
   const doc = new TextractDocument(textractResponse);
   const page = doc.pageNumber(1);
 
-  // Extract the results form 3 different methods
-  const textLines = [];
-  for (const line of page.iterLines()) {
-    const lineData = [];
-    for (const word of line.iterWords()) {
-      lineData.push(word.text);
-    }
-    textLines.push(lineData);
-  }
+  // Extract the results form 2 different methods
+  const lines = parseLines(page);
 
-  const layoutLines = [];
-  for (const layoutTable of page.layout.iterItems({
-    includeBlockTypes: [ApiBlockType.LayoutTable],
-  })) {
-    for (const line of layoutTable.iterTextLines()) {
-      // const words = line.listWords().map((word) => word.text)
-      layoutLines.push(line.text);
-    }
-  }
-
-  const parsedTables = [];
+  const tables = [];
   for (const table of page.iterTables()) {
-    parsedTables.push(parseTable(table));
+    tables.push(parseTable(table));
   }
-  return { parsedTables, layoutLines, textLines };
+  return { tables, lines };
+};
+
+type LineSegment = {
+  text: string;
+  left: number;
+  right: number;
+};
+type ParsedLines = LineSegment[][];
+const parseLines = (page: Page): ParsedLines => {
+  const lineSegments: LineSegment[] = [];
+  for (const line of page.iterLines()) {
+    const { text, geometry } = line;
+    const { left, right } = geometry.boundingBox;
+    const lineData = {
+      text,
+      left,
+      right,
+    };
+    lineSegments.push(lineData);
+  }
+
+  const parsedLines: ParsedLines = [];
+
+  lineSegments.forEach((segment, index, arr) => {
+    const prevSegment = arr[index - 1];
+
+    if (!!prevSegment && segment.left > prevSegment.left) {
+      parsedLines.at(-1)?.push(segment);
+    } else {
+      parsedLines.push([segment]);
+    }
+  });
+
+  return parsedLines;
 };
 
 const parseTable = (table: TableGeneric<Page>) => {
@@ -114,10 +129,11 @@ const parseTable = (table: TableGeneric<Page>) => {
   })) {
     const rowContents = [];
     for (const cell of row.iterCells()) {
-      const { columnSpan, rowSpan, text, confidence } = cell;
+      const { text, confidence } = cell;
+      const { Left: left, Width: width } = cell.dict.Geometry.BoundingBox;
       const cellData = {
-        columnSpan,
-        rowSpan,
+        left,
+        width,
         text,
         confidence,
         ocrConfidence: cell.getOcrConfidence(),
@@ -162,10 +178,10 @@ export const handler: Handler = async (event: S3Event, context: Context) => {
     rentHistoryTables,
   );
 
-  await saveDataToS3Json(
-    `${dirName}/textract_page${pageNumber}.json`,
-    textractResponse,
-  );
+  // await saveDataToS3Json(
+  //   `${dirName}/textract_page${pageNumber}.json`,
+  //   textractResponse,
+  // );
 
   console.log(historyCode);
   console.log(rentHistoryTablesJson);

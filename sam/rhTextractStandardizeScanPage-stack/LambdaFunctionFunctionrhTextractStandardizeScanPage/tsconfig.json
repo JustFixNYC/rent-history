@@ -32,9 +32,8 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    // Disabling these to allow ApiBlockType import from textract-parser
-    "verbatimModuleSyntax": false,
-    "isolatedModules": false,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
 
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
