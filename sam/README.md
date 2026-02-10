@@ -8,7 +8,7 @@ Using the AWS Toolkit we can create a profile and sign-in to AWS via the console
 
 For AWS and SAM CLI you also need to configure your AWS credentials. You can do this via the console in the browser with `aws login`.
 
-Once you're all set up you can locally develop your lambda function, and use `sam local invoke` to run the function locally within Docker with a test event. Via Lambda on the AWS console you can create new test events from templates (eg. gateway api call, s3 event, etc) and then we can save the json in `/events`. Use the following command from within one of the `-stack` subdirectories to locally invoke the function with one of those test events using a particular AWS profile.
+Once you're all set up you can locally develop your lambda function, and use `sam build` to prepare the Docker container and `sam local invoke` to run the function locally with a test event. Via Lambda on the AWS console you can create new test events from templates (eg. gateway api call, s3 event, etc) and then we can save the json in `/events`. Use the following command from within one of the `-stack` subdirectories to locally invoke the function with one of those test events using a particular AWS profile.
 
 
 ```sh
@@ -22,3 +22,9 @@ To update the code on AWS we can use `sam sync` for "quick-and-dirty" update for
 Then when ready for deployment to production we should instead use `sam deploy --guided` for the full AWS Cloudformation deployment, and to be prompted for all of the additional required parameters which are saved for future deployments.
 
 > TODO: I still need to learn more about SAM and Cloudformation and how best to handle all this stuff.
+
+To simplify the process of testing I set up a simple bash script the handles all the steps to build the typescript, build the sam container, invoke the function, and then re sync the local test data with s3.
+
+```sh
+bash test.sh
+```
