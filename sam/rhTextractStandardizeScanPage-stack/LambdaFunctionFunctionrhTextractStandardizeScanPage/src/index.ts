@@ -58,7 +58,7 @@ const analyzeDocumentForTables = async (
         Name: key,
       },
     },
-    FeatureTypes: ["TABLES", "LAYOUT"],
+    FeatureTypes: ["TABLES"],
   };
 
   try {
@@ -71,9 +71,13 @@ const analyzeDocumentForTables = async (
   }
 };
 
+type ParsedRentHistoryPage = {
+  tables: ParsedTable[];
+  lines: ParsedLines;
+};
 const parseRentHistoryTables = (
   textractResponse: ApiAnalyzeDocumentResponse,
-) => {
+): ParsedRentHistoryPage => {
   const doc = new TextractDocument(textractResponse);
   const page = doc.pageNumber(1);
 
@@ -93,24 +97,19 @@ type LineSegment = {
   right: number;
 };
 type ParsedLines = LineSegment[][];
+
 const parseLines = (page: Page): ParsedLines => {
   const lineSegments: LineSegment[] = [];
-  for (const line of page.iterLines()) {
-    const { text, geometry } = line;
+  for (const segment of page.iterLines()) {
+    const { text, geometry } = segment;
     const { left, right } = geometry.boundingBox;
-    const lineData = {
-      text,
-      left,
-      right,
-    };
-    lineSegments.push(lineData);
+    lineSegments.push({ text, left, right });
   }
 
   const parsedLines: ParsedLines = [];
-
   lineSegments.forEach((segment, index, arr) => {
+    // group line segments by line using geometry
     const prevSegment = arr[index - 1];
-
     if (!!prevSegment && segment.left > prevSegment.left) {
       parsedLines.at(-1)?.push(segment);
     } else {
@@ -121,38 +120,46 @@ const parseLines = (page: Page): ParsedLines => {
   return parsedLines;
 };
 
-const parseTable = (table: TableGeneric<Page>) => {
-  const tableContents = [];
-  for (const row of table.iterRows({
-    repeatMultiRowCells: true,
-    ignoreMerged: true,
-  })) {
-    const rowContents = [];
+type ParsedCell = {
+  text: string;
+  left: number;
+  right: number;
+};
+type ParsedRow = {
+  confidence: number | undefined;
+  ocrConfidence: number | undefined;
+  cells: ParsedCell[];
+};
+type ParsedTable = {
+  type: string | undefined;
+  confidence: number | undefined;
+  ocrConfidence: number | undefined;
+  rows: ParsedRow[];
+};
+
+const parseTable = (table: TableGeneric<Page>): ParsedTable => {
+  const rows: ParsedRow[] = [];
+  for (const row of table.iterRows()) {
+    const cells = [];
     for (const cell of row.iterCells()) {
-      const { text, confidence } = cell;
+      const { text } = cell;
       const { Left: left, Width: width } = cell.dict.Geometry.BoundingBox;
-      const cellData = {
-        left,
-        width,
-        text,
-        confidence,
-        ocrConfidence: cell.getOcrConfidence(),
-      };
-      rowContents.push(cellData);
+      const right = left + width;
+      cells.push({ text, left, right });
     }
-    const rowData = {
-      rowConfidence: row.getConfidence(),
-      rowOcrConfidence: row.getOcrConfidence(),
-      rowContents,
+    const parsedRow = {
+      confidence: row.getConfidence() || undefined,
+      ocrConfidence: row.getOcrConfidence() || undefined,
+      cells,
     };
-    tableContents.push(rowData);
+    rows.push(parsedRow);
   }
 
   return {
-    tableConfidence: table.confidence,
-    tableType: table.tableType,
-    tableContentsConfidence: table.getOcrConfidence(),
-    tableContents,
+    type: table.tableType?.toString() || undefined,
+    confidence: table.confidence || undefined,
+    ocrConfidence: table.getOcrConfidence() || undefined,
+    rows,
   };
 };
 

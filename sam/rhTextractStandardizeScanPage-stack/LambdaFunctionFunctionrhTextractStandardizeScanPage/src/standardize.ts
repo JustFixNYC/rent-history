@@ -1,8 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 
-
-
 type Cell = {
   left: number;
   width: number;
@@ -37,7 +35,10 @@ type ParsedTextractOutput = {
 //   });
 // }
 
-const RH_FILE = path.join(process.cwd(), "test-textract/2026-02-02T15-53-14-822Z/page3.json")
+const RH_FILE = path.join(
+  process.cwd(),
+  "test-textract/2026-02-02T15-53-14-822Z/page3.json",
+);
 
 // console.log(process.cwd());
 // const dataDir = path.resolve(process.cwd(), "../test-textract");
@@ -45,7 +46,6 @@ const RH_FILE = path.join(process.cwd(), "test-textract/2026-02-02T15-53-14-822Z
 
 const rawData = fs.readFileSync(RH_FILE, "utf8");
 const jsonData: ParsedTextractOutput = JSON.parse(rawData);
-
 
 const { tables, lines } = jsonData;
 
@@ -167,17 +167,16 @@ const cleanRows = tables[0]!.tableContents
 
 console.log(cleanRows);
 
-
 const parsedLines: Line[][] = [];
 
 lines.forEach((segment, index, arr) => {
   const prevSegment = arr[index - 1];
-  
-  if (!!prevSegment && segment.left > prevSegment.left) {
-    parsedLines.at(-1)?.push(segment)
-  } else {
-    parsedLines.push([segment])
-  }
-})
 
-console.log(parsedLines)
+  if (!!prevSegment && segment.left > prevSegment.left) {
+    parsedLines.at(-1)?.push(segment);
+  } else {
+    parsedLines.push([segment]);
+  }
+});
+
+console.log(parsedLines);
