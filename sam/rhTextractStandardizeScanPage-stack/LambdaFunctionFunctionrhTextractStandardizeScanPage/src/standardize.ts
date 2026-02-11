@@ -22,6 +22,7 @@ const rhPageTextractData: TextractRentHistoryPage = JSON.parse(rawData);
 
 type ColumnPosition = { left: number; right: number };
 
+// TODO: consider flagging only at row level
 type CleanCell = {
   value: string | number | string[] | undefined;
   flag: boolean;
@@ -37,6 +38,7 @@ type CleanRow = {
   leaseStart: CleanCell;
   leaseEnd: CleanCell;
   tenantName: CleanCell;
+  _isFullRowStat: boolean;
 };
 type CleanTable = CleanRow[];
 
@@ -55,6 +57,7 @@ const defaultRow: CleanRow = {
   leaseStart: defaultCell,
   leaseEnd: defaultCell,
   tenantName: defaultCell,
+  _isFullRowStat: false,
 };
 
 class RhTable {
@@ -65,6 +68,9 @@ class RhTable {
   /** Tolerance for comparing positions of page elements (eg. line segment alignment with columns) */
   tolerance = 0.01;
   cleanTable: CleanTable = [];
+  regexDate = /\d{2}\/\d{2}\/\d{4}/;
+  regexRent = /(?:\d{4}W?)|(?:EXEMPT)|(?:AMT MISS)/;
+  regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/;
 
   constructor(textractOutput: TextractRentHistoryPage) {
     this.textractOutput = textractOutput;
@@ -73,13 +79,13 @@ class RhTable {
   }
 
   getColumnPositions(): ColumnPosition[] {
-    // TODO handle multiple tables on page, first page, split header row
+    // TODO handle multiple tables on page, first page, split header row, ensure 8 cells
     const headerCells = this.textractOutput.tables[0]!.rows[0]!.cells;
     return headerCells.map(({ left, right }) => ({ left, right }));
   }
 
-  getLineJoined(line: Word[], separator: string | undefined): string {
-    return line.map((segment) => segment.text).join(separator);
+  joinWords(line: Word[], separator: string | undefined): string {
+    return line.map((word) => word.text).join(separator);
   }
 
   isWithin(segment: Word, column: ColumnPosition): boolean {
@@ -116,9 +122,17 @@ class RhTable {
    * table of results and a corresponding line (array of words) from textract.
    * forEachYearRowLine calls the callbackfn function one time for each
    * registration year's row in the clean table.
+   * @param skipFullStatRows Whether to skip rows with a "apt stat" value the
+   * cover the whole row (eg. *EXEMPT APARTMENT - REG NOT REQUIRED*). Defaults
+   * to true. This option is only available once parseAptStat has been run to
+   * identify these rows.
    */
-  forEachYearRowLine(callbackfn: (row: CleanRow, line: Word[]) => void): void {
+  forEachYearRowLine(
+    callbackfn: (row: CleanRow, line: Word[]) => void,
+    skipFullStatRows: boolean = true,
+  ): void {
     this.cleanTable.forEach((row) => {
+      if (skipFullStatRows && row._isFullRowStat) return;
       const line = this.textractOutput.lines.find((line) =>
         line[0]?.text.startsWith(row.regYear.value as string),
       );
@@ -137,7 +151,7 @@ class RhTable {
    */
   parseRents(): void {
     this.forEachYearRowLine((row, line) => {
-      const rents = line?.filter((word) => word.text.match(/\d+\.\d{2}/));
+      const rents = line?.filter((word) => word.text.match(this.regexRent));
       if (!rents) return;
 
       rents.forEach((rent) => {
@@ -163,17 +177,53 @@ class RhTable {
   parseLeaseStart(): void {
     this.forEachYearRowLine((row, line) => {
       const lastWord = line.at(-1);
-      const match = lastWord?.text.match(/\d{2}\/\d{2}\/\d{4}/);
+      const match = lastWord?.text.match(this.regexDate);
       if (!match) return;
       const date = this.toDateString(match[0]);
       row.leaseStart = { value: date, flag: false };
     });
   }
+
+  parseFilingDate(): void {
+    this.forEachYearRowLine((row, line) => {
+      const firstDate = line.find((word) => word.text.match(this.regexDate));
+      if (!!firstDate && this.isWithin(firstDate, this.columnPositions[2]!)) {
+        const match = firstDate?.text.match(this.regexDate);
+        if (!match) return;
+        const date = this.toDateString(match[0]);
+        row.filingDate = { value: date, flag: false };
+      }
+    });
+  }
+
+  parseAptStat(): void {
+    this.forEachYearRowLine((row, line) => {
+      const joinedWordsNoYear = this.joinWords(line.slice(1), " ");
+      const match = joinedWordsNoYear.match(this.regexFullRowStat);
+      if (match) {
+        row.aptStat = { value: joinedWordsNoYear, flag: false };
+        row._isFullRowStat = true;
+        return;
+      }
+      const words = line.filter((word) =>
+        this.isWithin(word, this.columnPositions[1]!),
+      );
+      if (!words) return;
+      const aptStat = this.joinWords(words, " ");
+      row.aptStat = { value: aptStat, flag: false };
+    });
+  }
+
+  parseAll(): void {
+    this.parseRegYear();
+    this.parseAptStat();
+    this.parseRents();
+    this.parseLeaseStart();
+    this.parseFilingDate();
+  }
 }
 
 const rhTable = new RhTable(rhPageTextractData);
 
-rhTable.parseRegYear();
-rhTable.parseRents();
-rhTable.parseLeaseStart();
+rhTable.parseAll();
 console.log(rhTable.cleanTable);
