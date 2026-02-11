@@ -6,7 +6,11 @@ Since we already created some of our lambda functions via the console, we have [
 
 Using the AWS Toolkit we can create a profile and sign-in to AWS via the console and automatically save the credentials for our session and refresh as needed.
 
-For AWS and SAM CLI you also need to configure your AWS credentials. You can do this via the console in the browser with `aws login`.
+For AWS and SAM CLI you also need to configure your AWS credentials. You can do this via the console in the browser and create a profile for use in future aws cli operations:
+
+```sh
+aws login --profile justfix-maxwell
+```
 
 Once you're all set up you can locally develop your lambda function, and use `sam build` to prepare the Docker container and `sam local invoke` to run the function locally with a test event. Via Lambda on the AWS console you can create new test events from templates (eg. gateway api call, s3 event, etc) and then we can save the json in `/events`. Use the following command from within one of the `-stack` subdirectories to locally invoke the function with one of those test events using a particular AWS profile.
 

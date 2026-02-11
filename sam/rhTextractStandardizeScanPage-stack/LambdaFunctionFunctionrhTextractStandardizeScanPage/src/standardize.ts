@@ -1,33 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-
-type Cell = {
-  left: number;
-  width: number;
-  text: string;
-  confidence: number;
-  ocrConfidence: number;
-};
-type Row = {
-  rowConfidence: number;
-  rowOcrConfidence: number;
-  rowContents: Cell[];
-};
-type Table = {
-  tableConfidence: number;
-  tableType: string;
-  tableContentsConfidence: number;
-  tableContents: Row[];
-};
-type Line = {
-  left: number;
-  vCenter: number;
-  text: string;
-};
-type ParsedTextractOutput = {
-  tables: Table[];
-  lines: Line[];
-};
+import type { ParsedRentHistoryPage as TextractRentHistoryPage, Word } from ".";
 
 // function getDirectories(dirPath: string) {
 //   return fs.readdirSync(dirPath).filter(function (file) {
@@ -45,138 +18,162 @@ const RH_FILE = path.join(
 // const rhDirs = getDirectories(dataDir);
 
 const rawData = fs.readFileSync(RH_FILE, "utf8");
-const jsonData: ParsedTextractOutput = JSON.parse(rawData);
+const rhPageTextractData: TextractRentHistoryPage = JSON.parse(rawData);
 
-const { tables, lines } = jsonData;
+type ColumnPosition = { left: number; right: number };
 
-type ParsedFields = {
-  regYear: string;
-  hasI: string;
-  aptStat: string;
-  filingDate: string;
-  legalRent: string;
-  tenant: string;
+type CleanCell = {
+  value: string | number | string[] | undefined;
+  flag: boolean;
+};
+type CleanRow = {
+  regYear: CleanCell;
+  aptStat: CleanCell;
+  filingDate: CleanCell;
+  legalRent: CleanCell;
+  prefRent: CleanCell;
+  paidRent: CleanCell;
+  reasons: CleanCell;
+  leaseStart: CleanCell;
+  leaseEnd: CleanCell;
+  tenantName: CleanCell;
+};
+type CleanTable = CleanRow[];
+
+const defaultCell: CleanCell = {
+  value: undefined,
+  flag: false,
+};
+const defaultRow: CleanRow = {
+  regYear: defaultCell,
+  aptStat: defaultCell,
+  filingDate: defaultCell,
+  legalRent: defaultCell,
+  prefRent: defaultCell,
+  paidRent: defaultCell,
+  reasons: defaultCell,
+  leaseStart: defaultCell,
+  leaseEnd: defaultCell,
+  tenantName: defaultCell,
 };
 
-class RsRowParser {
-  public row: string;
-  public fields: ParsedFields;
+class RhTable {
+  textractOutput: TextractRentHistoryPage;
+  columnPositions: ColumnPosition[];
+  orientation: number | undefined;
+  // TODO: consider adjusting tolerance based on page orientation (overkill?)
+  /** Tolerance for comparing positions of page elements (eg. line segment alignment with columns) */
+  tolerance = 0.01;
+  cleanTable: CleanTable = [];
 
-  constructor(row: string) {
-    this.row = row;
-    this.fields = {
-      regYear: "",
-      hasI: "",
-      aptStat: "",
-      filingDate: "",
-      legalRent: "",
-      tenant: "",
-    };
+  constructor(textractOutput: TextractRentHistoryPage) {
+    this.textractOutput = textractOutput;
+    this.columnPositions = this.getColumnPositions();
+    this.orientation = textractOutput.pageOrientationDegrees;
   }
 
-  updateRow(regex: RegExp): void {
-    this.row = this.row.replace(regex, "").trim();
+  getColumnPositions(): ColumnPosition[] {
+    // TODO handle multiple tables on page, first page, split header row
+    const headerCells = this.textractOutput.tables[0]!.rows[0]!.cells;
+    return headerCells.map(({ left, right }) => ({ left, right }));
   }
-  // TODO: any other possible formats for "I"?
+
+  getLineJoined(line: Word[], separator: string | undefined): string {
+    return line.map((segment) => segment.text).join(separator);
+  }
+
+  isWithin(segment: Word, column: ColumnPosition): boolean {
+    return (
+      segment.left >= column.left - this.tolerance &&
+      segment.right <= column.right + this.tolerance
+    );
+  }
+
+  /**
+   * Look through lines of the page and identify each row with a registration
+   * year and create the rows of the clean table with each year
+   */
   parseRegYear(): void {
-    if (!this.row) return;
-    const regex = /(\d+)[\s\-(]*(I)?/;
-    const match = this.row.match(regex);
-    // console.log(match)
-    if (!match) return;
-    this.fields.regYear = match[1] || "";
-    this.fields.hasI = (!!match[2]).toString();
-    this.updateRow(regex);
+    this.textractOutput.lines.forEach((line) => {
+      const match = line[0]?.text.match(/^\d{4}/);
+      if (match) {
+        const row = {
+          ...defaultRow,
+          regYear: { value: match[0], flag: false },
+        };
+        this.cleanTable.push(row);
+      }
+    });
   }
 
-  // TODO: any other possible values?
-  parseAptStat(): void {
-    if (!this.row) return;
-    const regex = /(RS|VA)/;
-    const match = this.row.match(regex);
-    // console.log(match);
-    if (!match) return;
-    this.fields.aptStat = match[1] || "";
-    this.updateRow(regex);
+  /**
+   * Iterate through rows in the clean table of results for each registration
+   * year and calls the callbackfn for that clean row and line of the textract
+   * results (array of words). This allows for parsing fields from the textract
+   * line and updating the clean row with the new values.
+   *
+   * @param callbackfn A function that accepts arguments for a row in the clean
+   * table of results and a corresponding line (array of words) from textract.
+   * forEachYearRowLine calls the callbackfn function one time for each
+   * registration year's row in the clean table.
+   */
+  forEachYearRowLine(callbackfn: (row: CleanRow, line: Word[]) => void): void {
+    this.cleanTable.forEach((row) => {
+      const line = this.textractOutput.lines.find((line) =>
+        line[0]?.text.startsWith(row.regYear.value as string),
+      );
+      if (!line) return;
+      callbackfn(row, line);
+    });
   }
 
-  // TODO: any other possible values?
-  parseFilingDate(): void {
-    if (!this.row) return;
-    const regex = /(NC|\d{2}\/\d{2}\/\d{4})/;
-    const match = this.row.match(regex);
-    // console.log(match);
-    if (!match || !match[1]) return;
-    if (match[1] === "NC") {
-      this.fields.filingDate = match[1];
-    } else {
-      const [month, day, year] = match[1].split("/");
-      if (!month || !day || !year) return;
-      // The Date constructor expects the month to be zero-based (January = 0, etc.)
-      const filingDate = new Date(+year, +month - 1, +day);
-      this.fields.filingDate = filingDate.toISOString().slice(0, 10);
-    }
-    this.updateRow(regex);
+  /**
+   * Updates the rows in the clean table of results with all three rent fields
+   * (must have already been initialized with rows from parseRegYear). First the
+   * rent values from the line are identified with regex and then they are
+   * assigned to the three rent columns based on the geometry data for the
+   * columns and the words (rents), since they can appear in any combination
+   * with missing values.
+   */
+  parseRents(): void {
+    this.forEachYearRowLine((row, line) => {
+      const rents = line?.filter((word) => word.text.match(/\d+\.\d{2}/));
+      if (!rents) return;
+
+      rents.forEach((rent) => {
+        if (this.isWithin(rent, this.columnPositions[3]!)) {
+          row.legalRent = { value: rent.text, flag: false };
+        } else if (this.isWithin(rent, this.columnPositions[4]!)) {
+          row.prefRent = { value: rent.text, flag: false };
+        } else if (this.isWithin(rent, this.columnPositions[5]!)) {
+          row.paidRent = { value: rent.text, flag: false };
+        }
+      });
+    });
   }
 
-  // TODO: this likely needs to be last since it's the least structured and the
-  // name(s) often get separated and grouped with other values in Textract's
-  // cell splitting. also need to decide if we need this at all for analysis and
-  // how to store multiple names or non-name values
-  parseTenant(): void {
-    if (!this.row) return;
-    const regex = /(TENANT:\s*(\b[^\d\W]+\b\s*)+)/;
-    const match = this.row.match(regex);
-    // console.log(match);
-    if (!match) return;
-    this.fields.tenant = match[1] || "";
-    this.updateRow(regex);
+  toDateString(x: string): string | undefined {
+    const [month, day, year] = x.split("/");
+    if (!month || !day || !year) return;
+    // The Date constructor expects the month to be zero-based (January = 0, etc.)
+    const date = new Date(+year, +month - 1, +day);
+    return date.toISOString().slice(0, 10);
   }
 
-  // TODO:
-  parseLegalRent(): void {
-    if (!this.row) return;
-    const regex = /^(\d+.\d{2})\b/;
-    const match = this.row.match(regex);
-    // console.log(match);
-    if (!match) return;
-    this.fields.legalRent = match[1] || "";
-    this.updateRow(regex);
+  parseLeaseStart(): void {
+    this.forEachYearRowLine((row, line) => {
+      const lastWord = line.at(-1);
+      const match = lastWord?.text.match(/\d{2}\/\d{2}\/\d{4}/);
+      if (!match) return;
+      const date = this.toDateString(match[0]);
+      row.leaseStart = { value: date, flag: false };
+    });
   }
 }
 
-const cleanRows = tables[0]!.tableContents
-  // remove header rows
-  .filter(
-    (row) =>
-      !!row.rowContents[0] && !row.rowContents[0].text.match(/^(reg)|(year)/i),
-  )
-  .map((row) => {
-    console.log(row);
-    const rowJoined = row.rowContents.map((cell) => cell.text).join(" ");
+const rhTable = new RhTable(rhPageTextractData);
 
-    const rowParser = new RsRowParser(rowJoined);
-
-    rowParser.parseRegYear();
-    rowParser.parseAptStat();
-    rowParser.parseFilingDate();
-    rowParser.parseLegalRent();
-
-    return rowParser.fields;
-  });
-
-console.log(cleanRows);
-
-const parsedLines: Line[][] = [];
-
-lines.forEach((segment, index, arr) => {
-  const prevSegment = arr[index - 1];
-
-  if (!!prevSegment && segment.left > prevSegment.left) {
-    parsedLines.at(-1)?.push(segment);
-  } else {
-    parsedLines.push([segment]);
-  }
-});
-
-console.log(parsedLines);
+rhTable.parseRegYear();
+rhTable.parseRents();
+rhTable.parseLeaseStart();
+console.log(rhTable.cleanTable);

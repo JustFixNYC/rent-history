@@ -71,15 +71,19 @@ const analyzeDocumentForTables = async (
   }
 };
 
-type ParsedRentHistoryPage = {
-  tables: ParsedTable[];
-  lines: ParsedLines;
+export type ParsedRentHistoryPage = {
+  pageOrientationDegrees: number | undefined;
+  tables: TextractTable[];
+  lines: TextractLines;
 };
 const parseRentHistoryTables = (
   textractResponse: ApiAnalyzeDocumentResponse,
 ): ParsedRentHistoryPage => {
   const doc = new TextractDocument(textractResponse);
   const page = doc.pageNumber(1);
+
+  const pageOrientationDegrees =
+    page.geometry.orientationDegrees() || undefined;
 
   // Extract the results form 2 different methods
   const lines = parseLines(page);
@@ -88,57 +92,59 @@ const parseRentHistoryTables = (
   for (const table of page.iterTables()) {
     tables.push(parseTable(table));
   }
-  return { tables, lines };
+  return { pageOrientationDegrees, tables, lines };
 };
 
-type LineSegment = {
+export type Word = {
   text: string;
   left: number;
   right: number;
 };
-type ParsedLines = LineSegment[][];
+type TextractLines = Word[][];
 
-const parseLines = (page: Page): ParsedLines => {
-  const lineSegments: LineSegment[] = [];
-  for (const segment of page.iterLines()) {
-    const { text, geometry } = segment;
-    const { left, right } = geometry.boundingBox;
-    lineSegments.push({ text, left, right });
+const parseLines = (page: Page): TextractLines => {
+  const words: Word[] = [];
+  for (const line of page.iterLines()) {
+    for (const word of line.iterWords()) {
+      const { text, geometry } = word;
+      const { left, right } = geometry.boundingBox;
+      words.push({ text, left, right });
+    }
   }
 
-  const parsedLines: ParsedLines = [];
-  lineSegments.forEach((segment, index, arr) => {
-    // group line segments by line using geometry
-    const prevSegment = arr[index - 1];
-    if (!!prevSegment && segment.left > prevSegment.left) {
-      parsedLines.at(-1)?.push(segment);
+  const lines: Word[][] = [];
+  words.forEach((word, index, arr) => {
+    // group words by line using geometry
+    const prevWord = arr[index - 1];
+    if (!!prevWord && word.left > prevWord.left) {
+      lines.at(-1)?.push(word);
     } else {
-      parsedLines.push([segment]);
+      lines.push([word]);
     }
   });
 
-  return parsedLines;
+  return lines;
 };
 
-type ParsedCell = {
+type TextractCell = {
   text: string;
   left: number;
   right: number;
 };
-type ParsedRow = {
+type TextractRow = {
   confidence: number | undefined;
   ocrConfidence: number | undefined;
-  cells: ParsedCell[];
+  cells: TextractCell[];
 };
-type ParsedTable = {
+type TextractTable = {
   type: string | undefined;
   confidence: number | undefined;
   ocrConfidence: number | undefined;
-  rows: ParsedRow[];
+  rows: TextractRow[];
 };
 
-const parseTable = (table: TableGeneric<Page>): ParsedTable => {
-  const rows: ParsedRow[] = [];
+const parseTable = (table: TableGeneric<Page>): TextractTable => {
+  const rows: TextractRow[] = [];
   for (const row of table.iterRows()) {
     const cells = [];
     for (const cell of row.iterCells()) {
@@ -147,12 +153,12 @@ const parseTable = (table: TableGeneric<Page>): ParsedTable => {
       const right = left + width;
       cells.push({ text, left, right });
     }
-    const parsedRow = {
+    const rowData = {
       confidence: row.getConfidence() || undefined,
       ocrConfidence: row.getOcrConfidence() || undefined,
       cells,
     };
-    rows.push(parsedRow);
+    rows.push(rowData);
   }
 
   return {
