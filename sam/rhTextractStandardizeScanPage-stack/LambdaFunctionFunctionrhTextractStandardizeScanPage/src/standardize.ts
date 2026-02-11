@@ -39,6 +39,7 @@ type CleanRow = {
   leaseEnd: CleanCell;
   tenantName: CleanCell;
   _isFullRowStat: boolean;
+  _lineIndexes: number[];
 };
 type CleanTable = CleanRow[];
 
@@ -58,6 +59,7 @@ const defaultRow: CleanRow = {
   leaseEnd: defaultCell,
   tenantName: defaultCell,
   _isFullRowStat: false,
+  _lineIndexes: [],
 };
 
 class RhTable {
@@ -71,6 +73,8 @@ class RhTable {
   regexDate = /\d{2}\/\d{2}\/\d{4}/;
   regexRent = /(?:\d{4}W?)|(?:EXEMPT)|(?:AMT MISS)/;
   regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/;
+  // possible first word of line after bottom of table
+  regexAfterTableWord = /(?:Advisory)|(?:APARTMENT)/;
 
   constructor(textractOutput: TextractRentHistoryPage) {
     this.textractOutput = textractOutput;
@@ -214,8 +218,34 @@ class RhTable {
     return date.toISOString().slice(0, 10);
   }
 
+  getRowLineIndexes(): void {
+    this.cleanTable.forEach((row) => {
+      const lines = this.textractOutput.lines;
+      const lineIndexes: number[] = [];
+      const firstLineIndex = lines.findIndex((line) =>
+        line[0]?.text.startsWith(row.regYear.value as string),
+      );
+      lineIndexes.push(firstLineIndex);
+      let i: number = firstLineIndex + 1;
+      while (i <= lines.length) {
+        const firstWord = lines[i]?.[0]?.text;
+        if (
+          !firstWord ||
+          firstWord.match(/\d{4}/) ||
+          firstWord.match(this.regexAfterTableWord)
+        ) {
+          break;
+        }
+        lineIndexes.push(i);
+        i++;
+      }
+      row._lineIndexes = lineIndexes;
+    });
+  }
+
   parseAll(): void {
     this.parseRegYear();
+    this.getRowLineIndexes();
     this.parseAptStat();
     this.parseRents();
     this.parseLeaseStart();
