@@ -21,6 +21,7 @@ import type {
   TextractTable,
   Word,
 } from "./types";
+// import { RhTable } from "./standardize";
 
 const config = { region: "us-east-1" };
 const textractClient = new TextractClient(config);
@@ -163,20 +164,17 @@ export const handler: Handler = async (event: S3Event, context: Context) => {
   const rentHistoryTables = parseRentHistoryTables(
     textractResponse as ApiAnalyzeDocumentResponse,
   );
+  // const standardizedTable = new RhTable(rentHistoryTables);
+
+  // const allData = {
+  //   ...rentHistoryTables,
+  //   standardizedTable: standardizedTable.cleanTable,
+  // };
 
   const jsonKey = `${dirName}/page${pageNumber}.json`;
-  const rentHistoryTablesJson = await saveDataToS3Json(
-    jsonKey,
-    rentHistoryTables,
-  );
-
-  // await saveDataToS3Json(
-  //   `${dirName}/textract_page${pageNumber}.json`,
-  //   textractResponse,
-  // );
+  await saveDataToS3Json(jsonKey, rentHistoryTables);
 
   console.log(historyCode);
-  console.log(rentHistoryTablesJson);
 
   const response = {
     statusCode: 200,

@@ -1,5 +1,3 @@
-import * as fs from "fs";
-import * as path from "path";
 import type {
   CleanRow,
   CleanTable,
@@ -10,25 +8,7 @@ import type {
   Word,
 } from "./types";
 
-// function getDirectories(dirPath: string) {
-//   return fs.readdirSync(dirPath).filter(function (file) {
-//     return fs.statSync(path.join(dirPath, file)).isDirectory();
-//   });
-// }
-
-const RH_FILE = path.join(
-  process.cwd(),
-  "test-textract/2026-02-02T15-53-14-822Z/page3.json",
-);
-
-// console.log(process.cwd());
-// const dataDir = path.resolve(process.cwd(), "../test-textract");
-// const rhDirs = getDirectories(dataDir);
-
-const rawData = fs.readFileSync(RH_FILE, "utf8");
-const rhPageTextractData: TextractRentHistoryPage = JSON.parse(rawData);
-
-const defaultRow: CleanRow = {
+const DEFAULT_ROW: CleanRow = {
   regYear: undefined,
   aptStat: undefined,
   filingDate: undefined,
@@ -44,7 +24,7 @@ const defaultRow: CleanRow = {
   _flagForReview: false,
 };
 
-class RhTable {
+export class RhTable {
   textractLines: TextractLines;
   textractTables: TextractTable[];
   columnPositions: ColumnPosition[];
@@ -86,7 +66,7 @@ class RhTable {
       const yearMatch = firstWord.match(/\d{4}/);
       if (yearMatch) {
         const newRow = {
-          ...defaultRow,
+          ...DEFAULT_ROW,
           regYear: yearMatch[0],
           _lineIndexes: [lineIndex],
         };
@@ -103,9 +83,8 @@ class RhTable {
 
   forEachRow(callbackfn: (row: CleanRow, lines: Word[][]) => void): void {
     this.cleanTable.forEach((row) => {
-      const lines = row._lineIndexes
-        .map((index) => this.textractLines[index])
-        .filter((line): line is Word[] => line !== undefined);
+      const lines = row._lineIndexes.map((index) => this.textractLines[index]);
+      // .filter((line): line is Word[] => line !== undefined);
 
       // Shouldn't be possible, since needed to have a line to create the row
       if (!lines) return;
@@ -115,7 +94,7 @@ class RhTable {
   }
 
   parseAptStat(row: CleanRow, lines: Word[][]): void {
-    const firstLine = lines.at(0)!;
+    const firstLine = lines[0]!;
     const joinedWordsNoYear = this.joinWords(firstLine.slice(1), " ");
     const match = joinedWordsNoYear.match(this.regexFullRowStat);
     if (match) {
@@ -132,7 +111,7 @@ class RhTable {
   }
 
   parseFilingDate(row: CleanRow, lines: Word[][]): void {
-    const firstLine = lines.at(0)!;
+    const firstLine = lines[0]!;
     const firstDate = firstLine.find((word) => word.text.match(this.regexDate));
     if (!!firstDate && this.isWithin(firstDate, this.columnPositions[2]!)) {
       const match = firstDate?.text.match(this.regexDate);
@@ -142,7 +121,7 @@ class RhTable {
   }
 
   parseRents(row: CleanRow, lines: Word[][]): void {
-    const firstLine = lines.at(0)!;
+    const firstLine = lines[0]!;
     const rents = firstLine?.filter((word) => word.text.match(this.regexRent));
     if (!rents) return;
 
@@ -173,7 +152,7 @@ class RhTable {
   }
 
   parseLeaseStart(row: CleanRow, lines: Word[][]): void {
-    const firstLine = lines.at(0)!;
+    const firstLine = lines[0]!;
     const lastWord = firstLine.at(-1);
     const match = lastWord?.text.match(this.regexDate);
     if (!match) return;
@@ -181,7 +160,7 @@ class RhTable {
   }
 
   parseLeaseEnd(row: CleanRow, lines: Word[][]): void {
-    const secondLine = lines.at(1);
+    const secondLine = lines[1];
     const lastWord = secondLine?.at(-1);
     const match = lastWord?.text.match(this.regexDate);
     if (!match) return;
@@ -224,7 +203,7 @@ class RhTable {
     return headerCells.map(({ left, right }) => ({ left, right }));
   }
 
-  joinWords(line: Word[], separator: string | undefined): string {
+  joinWords(line: Word[], separator: string | undefined = undefined): string {
     return line.map((word) => word.text).join(separator);
   }
 
@@ -253,7 +232,3 @@ class RhTable {
     return 1;
   }
 }
-
-const rhTable = new RhTable(rhPageTextractData);
-
-console.log(rhTable.cleanTable);
