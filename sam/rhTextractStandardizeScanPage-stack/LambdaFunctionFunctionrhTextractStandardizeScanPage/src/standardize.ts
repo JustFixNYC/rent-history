@@ -9,15 +9,15 @@ import type {
 } from "./types";
 
 const DEFAULT_ROW: CleanRow = {
-  regYear: undefined,
-  aptStat: undefined,
-  filingDate: undefined,
-  legalRent: undefined,
-  prefRent: undefined,
-  paidRent: undefined,
+  regYear: null,
+  aptStat: null,
+  filingDate: null,
+  legalRent: null,
+  prefRent: null,
+  paidRent: null,
   reasons: [],
-  leaseStart: undefined,
-  leaseEnd: undefined,
+  leaseStart: null,
+  leaseEnd: null,
   tenants: [],
   _isFullRowStat: false,
   _lineIndexes: [],
@@ -33,7 +33,7 @@ export class RhTable {
   scanQuality: number;
   // TODO: consider adjusting tolerance based on page orientation (overkill?)
   /** Tolerance for checking if word falls between column borders */
-  tolerance = 0.01;
+  tolerance = 0.02;
   regexDate = /\d{2}\/\d{2}\/\d{4}/;
   regexRent = /(?:\d+\.\d{2}W?)|(?:EXEMPT)|(?:AMT MISS)/;
   regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/;
@@ -83,8 +83,9 @@ export class RhTable {
 
   forEachRow(callbackfn: (row: CleanRow, lines: Word[][]) => void): void {
     this.cleanTable.forEach((row) => {
-      const lines = row._lineIndexes.map((index) => this.textractLines[index]);
-      // .filter((line): line is Word[] => line !== undefined);
+      const lines = row._lineIndexes
+        .map((index) => this.textractLines[index])
+        .filter((line): line is Word[] => line !== undefined);
 
       // Shouldn't be possible, since needed to have a line to create the row
       if (!lines) return;
@@ -174,7 +175,8 @@ export class RhTable {
       .map((line) => {
         const words = line.filter(
           (word) =>
-            !word.text.match(this.regexDate) && !word.text.match(/TENANT./),
+            this.isWithin(word, this.combinedColumns(1, 5)) &&
+            !word.text.match(/TENANT./),
         );
         if (!words.length) return;
         return this.joinWords(words, " ");
@@ -212,6 +214,20 @@ export class RhTable {
       word.left >= column.left - this.tolerance &&
       word.right <= column.right + this.tolerance
     );
+  }
+
+  /**
+   * Combine multiple table columns to return a single ColumnPosition for use
+   * with isWithin, for example to search for tenants names between aptStat and
+   * paidRent.
+   * @param startIndex Index of left most column to combine
+   * @param endIndex Index of right most column to combine
+   */
+  combinedColumns(startIndex: number, endIndex: number): ColumnPosition {
+    return {
+      left: this.columnPositions[startIndex].left,
+      right: this.columnPositions[endIndex].right,
+    };
   }
 
   toDateString(x: string): string | undefined {

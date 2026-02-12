@@ -1,3 +1,5 @@
+// Textract
+
 export type Word = {
   text: string;
   left: number;
@@ -31,18 +33,21 @@ export type TextractRentHistoryPage = {
   lines: TextractLines;
 };
 
+
+// Standardize
+
 export type ColumnPosition = { left: number; right: number };
 
 export type CleanRow = {
-  regYear: string | undefined;
-  aptStat: string | undefined;
-  filingDate: string | undefined;
-  legalRent: string | undefined;
-  prefRent: string | undefined;
-  paidRent: string | undefined;
+  regYear: string | null;
+  aptStat: string | null;
+  filingDate: string | null;
+  legalRent: string | null;
+  prefRent: string | null;
+  paidRent: string | null;
   reasons: string[];
-  leaseStart: string | undefined;
-  leaseEnd: string | undefined;
+  leaseStart: string | null;
+  leaseEnd: string | null;
   tenants: string[];
   _isFullRowStat: boolean;
   _lineIndexes: number[];
