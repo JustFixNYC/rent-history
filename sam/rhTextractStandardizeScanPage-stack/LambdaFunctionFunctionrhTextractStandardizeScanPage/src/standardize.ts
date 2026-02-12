@@ -38,7 +38,7 @@ export class RhTable {
   regexRent = /(?:\d+\.\d{2}W?)|(?:EXEMPT)|(?:AMT MISS)/;
   regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/;
   // possible first word of line after bottom of table
-  regexAfterTableWord = /(?:Advisory)|(?:APARTMENT)/;
+  regexAfterTableLine = /(?:Advisory)|(?:APARTMENT)|(?:appended)/;
 
   constructor(textractOutput: TextractRentHistoryPage) {
     this.textractLines = textractOutput.lines;
@@ -57,7 +57,8 @@ export class RhTable {
     );
     let lineIndex: number = preTableLineIndex + 1;
     while (lineIndex <= lines.length) {
-      const firstWord = lines[lineIndex]?.at(0)?.text;
+      const line = lines[lineIndex];
+      const firstWord = line?.at(0)?.text;
       if (!firstWord) {
         lineIndex++;
         continue;
@@ -71,7 +72,7 @@ export class RhTable {
           _lineIndexes: [lineIndex],
         };
         this.cleanTable.push(newRow);
-      } else if (firstWord.match(this.regexAfterTableWord)) {
+      } else if (this.joinWords(line, " ").match(this.regexAfterTableLine)) {
         break;
       } else {
         this.cleanTable.at(-1)?._lineIndexes.push(lineIndex);

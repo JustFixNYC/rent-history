@@ -12,8 +12,8 @@ import { RhTable } from "./standardize";
 const textractDir = path.resolve(process.cwd(), "test-textract");
 const standardizeDir = path.resolve(process.cwd(), "test-standardize");
 
-const HISTORY_CODE = "2026-02-02T15-53-14-822Z";
-const FILE_NAME = "page4.json";
+const HISTORY_CODE = "2026-02-02T15-33-14-821Z";
+const FILE_NAME = "page3.json";
 
 // const rhDirs = getDirectories(textractDir);
 
@@ -38,7 +38,11 @@ const inputFile = path.join(textractDir, HISTORY_CODE, FILE_NAME);
 const rawData = fs.readFileSync(inputFile, "utf8");
 const textractData: TextractRentHistoryPage = JSON.parse(rawData);
 const parsedTable = new RhTable(textractData);
-const parsedTableJson = JSON.stringify(parsedTable.cleanTable, null, 2);
+const standardizeData = {
+  columnPositions: parsedTable.columnPositions,
+  table: parsedTable.cleanTable,
+}
+const parsedTableJson = JSON.stringify(standardizeData, null, 2);
 const standardizeRhDir = path.join(standardizeDir, HISTORY_CODE);
 fs.mkdirSync(standardizeRhDir, { recursive: true });
 const outputFile = path.join(standardizeRhDir, FILE_NAME);
