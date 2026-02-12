@@ -14,6 +14,14 @@ import type { S3Event, Context, Handler } from "aws-lambda";
 import type { TableGeneric } from "amazon-textract-response-parser/dist/types/table";
 import * as path from "path";
 
+import type {
+  TextractRentHistoryPage,
+  TextractLines,
+  TextractRow,
+  TextractTable,
+  Word,
+} from "./types";
+
 const config = { region: "us-east-1" };
 const textractClient = new TextractClient(config);
 const s3Client = new S3Client(config);
@@ -71,14 +79,9 @@ const analyzeDocumentForTables = async (
   }
 };
 
-export type ParsedRentHistoryPage = {
-  pageOrientationDegrees: number | undefined;
-  tables: TextractTable[];
-  lines: TextractLines;
-};
 const parseRentHistoryTables = (
   textractResponse: ApiAnalyzeDocumentResponse,
-): ParsedRentHistoryPage => {
+): TextractRentHistoryPage => {
   const doc = new TextractDocument(textractResponse);
   const page = doc.pageNumber(1);
 
@@ -94,13 +97,6 @@ const parseRentHistoryTables = (
   }
   return { pageOrientationDegrees, tables, lines };
 };
-
-export type Word = {
-  text: string;
-  left: number;
-  right: number;
-};
-export type TextractLines = Word[][];
 
 const parseLines = (page: Page): TextractLines => {
   const words: Word[] = [];
@@ -124,23 +120,6 @@ const parseLines = (page: Page): TextractLines => {
   });
 
   return lines;
-};
-
-type TextractCell = {
-  text: string;
-  left: number;
-  right: number;
-};
-type TextractRow = {
-  confidence: number | undefined;
-  ocrConfidence: number | undefined;
-  cells: TextractCell[];
-};
-export type TextractTable = {
-  type: string | undefined;
-  confidence: number | undefined;
-  ocrConfidence: number | undefined;
-  rows: TextractRow[];
 };
 
 const parseTable = (table: TableGeneric<Page>): TextractTable => {

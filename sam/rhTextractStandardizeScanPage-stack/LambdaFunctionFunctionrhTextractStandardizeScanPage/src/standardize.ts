@@ -1,11 +1,14 @@
 import * as fs from "fs";
 import * as path from "path";
 import type {
+  CleanRow,
+  CleanTable,
+  ColumnPosition,
   TextractLines,
-  ParsedRentHistoryPage as TextractRentHistoryPage,
+  TextractRentHistoryPage,
   TextractTable,
   Word,
-} from ".";
+} from "./types";
 
 // function getDirectories(dirPath: string) {
 //   return fs.readdirSync(dirPath).filter(function (file) {
@@ -24,25 +27,6 @@ const RH_FILE = path.join(
 
 const rawData = fs.readFileSync(RH_FILE, "utf8");
 const rhPageTextractData: TextractRentHistoryPage = JSON.parse(rawData);
-
-type ColumnPosition = { left: number; right: number };
-
-type CleanRow = {
-  regYear: string | undefined;
-  aptStat: string | undefined;
-  filingDate: string | undefined;
-  legalRent: string | undefined;
-  prefRent: string | undefined;
-  paidRent: string | undefined;
-  reasons: string[];
-  leaseStart: string | undefined;
-  leaseEnd: string | undefined;
-  tenants: string[];
-  _isFullRowStat: boolean;
-  _lineIndexes: number[];
-  _flagForReview: boolean;
-};
-type CleanTable = CleanRow[];
 
 const defaultRow: CleanRow = {
   regYear: undefined,
