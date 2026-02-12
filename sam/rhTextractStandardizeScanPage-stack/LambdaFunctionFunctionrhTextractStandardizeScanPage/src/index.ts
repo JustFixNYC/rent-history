@@ -100,7 +100,7 @@ export type Word = {
   left: number;
   right: number;
 };
-type TextractLines = Word[][];
+export type TextractLines = Word[][];
 
 const parseLines = (page: Page): TextractLines => {
   const words: Word[] = [];
@@ -136,7 +136,7 @@ type TextractRow = {
   ocrConfidence: number | undefined;
   cells: TextractCell[];
 };
-type TextractTable = {
+export type TextractTable = {
   type: string | undefined;
   confidence: number | undefined;
   ocrConfidence: number | undefined;

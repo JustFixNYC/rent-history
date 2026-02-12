@@ -1,6 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
-import type { ParsedRentHistoryPage as TextractRentHistoryPage, Word } from ".";
+import type {
+  TextractLines,
+  ParsedRentHistoryPage as TextractRentHistoryPage,
+  TextractTable,
+  Word,
+} from ".";
 
 // function getDirectories(dirPath: string) {
 //   return fs.readdirSync(dirPath).filter(function (file) {
@@ -40,9 +45,42 @@ type CleanRow = {
   tenantName: CleanCell;
   _isFullRowStat: boolean;
   _lineIndexes: number[];
+  _flagForReview: boolean;
 };
 type CleanTable = CleanRow[];
 
+type CleanRow2 = {
+  regYear: string | undefined;
+  aptStat: string | undefined;
+  filingDate: string | undefined;
+  legalRent: string | undefined;
+  prefRent: string | undefined;
+  paidRent: string | undefined;
+  reasons: string | undefined;
+  leaseStart: string | undefined;
+  leaseEnd: string | undefined;
+  tenantName: string | undefined;
+  _isFullRowStat: boolean;
+  _lineIndexes: number[];
+  _flagForReview: boolean;
+};
+type CleanTable2 = CleanRow2[];
+
+const defaultRow2: CleanRow2 = {
+  regYear: undefined,
+  aptStat: undefined,
+  filingDate: undefined,
+  legalRent: undefined,
+  prefRent: undefined,
+  paidRent: undefined,
+  reasons: undefined,
+  leaseStart: undefined,
+  leaseEnd: undefined,
+  tenantName: undefined,
+  _isFullRowStat: false,
+  _lineIndexes: [],
+  _flagForReview: false,
+};
 const defaultCell: CleanCell = {
   value: undefined,
   flag: false,
@@ -60,16 +98,20 @@ const defaultRow: CleanRow = {
   tenantName: defaultCell,
   _isFullRowStat: false,
   _lineIndexes: [],
+  _flagForReview: false,
 };
 
 class RhTable {
   textractOutput: TextractRentHistoryPage;
+  textractLines: TextractLines;
+  textractTables: TextractTable[];
   columnPositions: ColumnPosition[];
   orientation: number | undefined;
   // TODO: consider adjusting tolerance based on page orientation (overkill?)
   /** Tolerance for comparing positions of page elements (eg. line segment alignment with columns) */
   tolerance = 0.01;
   cleanTable: CleanTable = [];
+  cleanTable2: CleanTable2 = [];
   regexDate = /\d{2}\/\d{2}\/\d{4}/;
   regexRent = /(?:\d{4}W?)|(?:EXEMPT)|(?:AMT MISS)/;
   regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/;
@@ -78,6 +120,8 @@ class RhTable {
 
   constructor(textractOutput: TextractRentHistoryPage) {
     this.textractOutput = textractOutput;
+    this.textractLines = textractOutput.lines;
+    this.textractTables = textractOutput.tables;
     this.columnPositions = this.getColumnPositions();
     this.orientation = textractOutput.pageOrientationDegrees;
   }
@@ -86,7 +130,7 @@ class RhTable {
    * Look through lines of the page and identify each row with a registration
    * year and create the rows of the clean table with each year
    */
-  parseRegYear(): void {
+  setRegYearRows(): void {
     this.textractOutput.lines.forEach((line) => {
       const match = line[0]?.text.match(/^\d{4}/);
       if (match) {
@@ -99,16 +143,101 @@ class RhTable {
     });
   }
 
+  initializeCleanRows(): void {
+    // first search for line "REGISTRATION APARTMENT INFORMATION", then look below there. Otherwise looking just for a first word with \d{4} could get subject premises address line
+    const preTableLineIndex = this.textractLines.findIndex((line) =>
+      this.joinWords(line, " ").match("REGISTRATION APARTMENT INFORMATION"),
+    );
+    let lineIndex: number = preTableLineIndex + 1;
+    while (lineIndex <= this.textractLines.length) {
+      const firstWord = this.textractLines[lineIndex]?.at(0)?.text;
+      if (!firstWord) {
+        lineIndex++;
+        continue;
+      }
+
+      const yearMatch = firstWord.match(/\d{4}/);
+      if (yearMatch) {
+        const newRow = {
+          ...defaultRow2,
+          regYear: yearMatch[0],
+          _lineIndexes: [lineIndex],
+        };
+        this.cleanTable2.push(newRow);
+        lineIndex++;
+        continue;
+      }
+
+      if (!this.cleanTable2.length) {
+        lineIndex++;
+        continue;
+      }
+
+      const afterTableMatch = firstWord.match(this.regexAfterTableWord);
+      if (afterTableMatch) {
+        console.log("after table match");
+        break;
+      }
+
+      this.cleanTable2.at(-1)?._lineIndexes.push(lineIndex);
+      lineIndex++;
+    }
+  }
+
+  // TODO: this should probably be combined with setting reg year rows
+  getRowLineIndexes(): void {
+    this.cleanTable.forEach((row) => {
+      const lines = this.textractOutput.lines;
+      const lineIndexes: number[] = [];
+      const firstLineIndex = lines.findIndex((line) =>
+        line[0]?.text.startsWith(row.regYear.value as string),
+      );
+      lineIndexes.push(firstLineIndex);
+      let i: number = firstLineIndex + 1;
+      while (i <= lines.length) {
+        const firstWord = lines[i]?.[0]?.text;
+        if (
+          !firstWord ||
+          firstWord.match(/\d{4}/) ||
+          firstWord.match(this.regexAfterTableWord)
+        ) {
+          break;
+        }
+        lineIndexes.push(i);
+        i++;
+      }
+      row._lineIndexes = lineIndexes;
+    });
+  }
+
+  forEachRow(callbackfn: (row: CleanRow, lines: Word[][]) => void): void {
+    this.cleanTable.forEach((row) => {
+      const lines = row._lineIndexes
+        .map((index) => this.textractOutput.lines[index])
+        .filter((line): line is Word[] => line !== undefined);
+
+      // Shouldn't be possible, since needed to have a line to create the row
+      if (!lines) return;
+
+      callbackfn(row, lines);
+    });
+  }
+
   parseAptStat(): void {
-    this.forEachYearRowLine((row, line) => {
-      const joinedWordsNoYear = this.joinWords(line.slice(1), " ");
+    this.cleanTable.forEach((row) => {
+      const firstLineIndex = row._lineIndexes.at(0);
+      if (!firstLineIndex) return;
+      const firstLine = this.textractOutput.lines.at(firstLineIndex);
+      if (!firstLine) return;
+
+      const joinedWordsNoYear = this.joinWords(firstLine.slice(1), " ");
       const match = joinedWordsNoYear.match(this.regexFullRowStat);
       if (match) {
         row.aptStat = { value: joinedWordsNoYear, flag: false };
         row._isFullRowStat = true;
         return;
       }
-      const words = line.filter((word) =>
+      const words = firstLine.filter((word) =>
         this.isWithin(word, this.columnPositions[1]!),
       );
       if (!words) return;
@@ -116,6 +245,23 @@ class RhTable {
       row.aptStat = { value: aptStat, flag: false };
     });
   }
+  // parseAptStat(): void {
+  //   this.forEachYearRowLine((row, line) => {
+  //     const joinedWordsNoYear = this.joinWords(line.slice(1), " ");
+  //     const match = joinedWordsNoYear.match(this.regexFullRowStat);
+  //     if (match) {
+  //       row.aptStat = { value: joinedWordsNoYear, flag: false };
+  //       row._isFullRowStat = true;
+  //       return;
+  //     }
+  //     const words = line.filter((word) =>
+  //       this.isWithin(word, this.columnPositions[1]!),
+  //     );
+  //     if (!words) return;
+  //     const aptStat = this.joinWords(words, " ");
+  //     row.aptStat = { value: aptStat, flag: false };
+  //   });
+  // }
 
   /**
    * Updates the rows in the clean table of results with all three rent fields
@@ -218,33 +364,8 @@ class RhTable {
     return date.toISOString().slice(0, 10);
   }
 
-  getRowLineIndexes(): void {
-    this.cleanTable.forEach((row) => {
-      const lines = this.textractOutput.lines;
-      const lineIndexes: number[] = [];
-      const firstLineIndex = lines.findIndex((line) =>
-        line[0]?.text.startsWith(row.regYear.value as string),
-      );
-      lineIndexes.push(firstLineIndex);
-      let i: number = firstLineIndex + 1;
-      while (i <= lines.length) {
-        const firstWord = lines[i]?.[0]?.text;
-        if (
-          !firstWord ||
-          firstWord.match(/\d{4}/) ||
-          firstWord.match(this.regexAfterTableWord)
-        ) {
-          break;
-        }
-        lineIndexes.push(i);
-        i++;
-      }
-      row._lineIndexes = lineIndexes;
-    });
-  }
-
   parseAll(): void {
-    this.parseRegYear();
+    this.setRegYearRows();
     this.getRowLineIndexes();
     this.parseAptStat();
     this.parseRents();
@@ -255,5 +376,6 @@ class RhTable {
 
 const rhTable = new RhTable(rhPageTextractData);
 
-rhTable.parseAll();
-console.log(rhTable.cleanTable);
+// rhTable.parseAll();
+rhTable.initializeCleanRows();
+console.log(rhTable.cleanTable2);
