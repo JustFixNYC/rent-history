@@ -13,7 +13,7 @@ const textractDir = path.resolve(process.cwd(), "test-textract");
 const standardizeDir = path.resolve(process.cwd(), "test-standardize");
 
 const HISTORY_CODE = "2026-02-02T15-33-14-821Z";
-const FILE_NAME = "page3.json";
+const FILE_NAME = "page2.json";
 
 // const rhDirs = getDirectories(textractDir);
 
@@ -39,9 +39,10 @@ const rawData = fs.readFileSync(inputFile, "utf8");
 const textractData: TextractRentHistoryPage = JSON.parse(rawData);
 const parsedTable = new RhTable(textractData);
 const standardizeData = {
+  orientation: parsedTable.orientation,
   columnPositions: parsedTable.columnPositions,
   table: parsedTable.cleanTable,
-}
+};
 const parsedTableJson = JSON.stringify(standardizeData, null, 2);
 const standardizeRhDir = path.join(standardizeDir, HISTORY_CODE);
 fs.mkdirSync(standardizeRhDir, { recursive: true });

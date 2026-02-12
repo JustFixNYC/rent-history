@@ -13,8 +13,11 @@ const DEFAULT_ROW: CleanRow = {
   aptStat: null,
   filingDate: null,
   legalRent: null,
+  legalRentText: null,
   prefRent: null,
+  prefRentText: null,
   paidRent: null,
+  paidRentText: null,
   reasons: [],
   leaseStart: null,
   leaseEnd: null,
@@ -35,10 +38,21 @@ export class RhTable {
   /** Tolerance for checking if word falls between column borders */
   tolerance = 0.02;
   regexDate = /\d{2}\/\d{2}\/\d{4}/;
-  regexRent = /(?:\d+\.\d{2}W?)|(?:EXEMPT)|(?:AMT MISS)/;
+  regexRent = /(?:(\d+\.\d{2})(W)?)|(\D+)/;
   regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/;
   // possible first word of line after bottom of table
   regexAfterTableLine = /(?:Advisory)|(?:APARTMENT)|(?:appended)/;
+  regexHeaders = [
+    /^Reg\s*(?:Year)?$/,
+    /^Apt\s*(?:Stat)?$/,
+    /^Filing\s*(?:Date)?$/,
+    /^Legal\s*(?:Regulated)?\s*(?:Rent)?$/,
+    /^Prefer\.\s*(?:Rent)?$/,
+    /^Actual\s*(?:Rent)?\s*(?:Paid)?$/,
+    /^Reasons\s*(?:Differ\.\/)?\s*(?:Change)?$/,
+    /^Lease\s*(?:Began\/Ends)?$/,
+  ];
+  regexAptStatFilingDate = /^Apt\s*Filing\s*Stat\s*Date$/;
 
   constructor(textractOutput: TextractRentHistoryPage) {
     this.textractLines = textractOutput.lines;
@@ -95,6 +109,7 @@ export class RhTable {
     });
   }
 
+  // TODO: exclude "(I)"" and similar from regYear
   parseAptStat(row: CleanRow, lines: Word[][]): void {
     const firstLine = lines[0]!;
     const joinedWordsNoYear = this.joinWords(firstLine.slice(1), " ");
@@ -112,6 +127,7 @@ export class RhTable {
     row.aptStat = aptStat;
   }
 
+  // TODO: capture "NC" for user edit locked column, should be only other possible value
   parseFilingDate(row: CleanRow, lines: Word[][]): void {
     const firstLine = lines[0]!;
     const firstDate = firstLine.find((word) => word.text.match(this.regexDate));
@@ -122,20 +138,23 @@ export class RhTable {
     }
   }
 
+  // TODO: iterate through positions, filter by position and regex, split number and text capture groups
   parseRents(row: CleanRow, lines: Word[][]): void {
-    const firstLine = lines[0]!;
-    const rents = firstLine?.filter((word) => word.text.match(this.regexRent));
-    if (!rents) return;
-
-    rents.forEach((rent) => {
-      if (this.isWithin(rent, this.columnPositions[3]!)) {
-        row.legalRent = rent.text;
-      } else if (this.isWithin(rent, this.columnPositions[4]!)) {
-        row.prefRent = rent.text;
-      } else if (this.isWithin(rent, this.columnPositions[5]!)) {
-        row.paidRent = rent.text;
-      }
+    const firstLine = lines[0];
+    const rentValues = this.columnPositions.slice(3, 6).map((colPos) => {
+      const rentWords = firstLine.filter((word) => this.isWithin(word, colPos));
+      const rentText = this.joinWords(rentWords, " ");
+      const match = rentText.match(this.regexRent);
+      const number = match?.[1] ? +match[1] : null;
+      const text = match?.[2] ? match[2] : null;
+      return { number, text };
     });
+    row.legalRent = rentValues[0].number;
+    row.legalRentText = rentValues[0].text;
+    row.prefRent = rentValues[1].number;
+    row.prefRentText = rentValues[1].text;
+    row.paidRent = rentValues[2].number;
+    row.paidRentText = rentValues[2].text;
   }
 
   parseReasons(row: CleanRow, lines: Word[][]): void {
@@ -201,9 +220,49 @@ export class RhTable {
   }
 
   getColumnPositions(): ColumnPosition[] {
-    // TODO handle multiple tables on page, first page, split header row, ensure 8 cells
+    // TODO handle multiple tables on page, first page
     const headerCells = this.textractTables[0]!.rows[0]!.cells;
-    return headerCells.map(({ left, right }) => ({ left, right }));
+    if (headerCells.length === 8) {
+      return headerCells.map(({ left, right }) => ({ left, right }));
+    }
+
+    const cellsToAssign = headerCells.slice();
+    const columnPositions: ColumnPosition[] = new Array(8);
+    // assign all correct header cells
+    headerCells.forEach(({ text, ...pos }, cellIndex) => {
+      this.regexHeaders.forEach((regex, positionIndex) => {
+        if (text.match(regex)) {
+          columnPositions[positionIndex] = pos;
+          cellsToAssign[cellIndex] = null;
+        }
+      });
+    });
+    const remainingCells = cellsToAssign.filter((x) => x !== null);
+
+    if (columnPositions.filter((x) => x !== null).length === 8) {
+      return columnPositions;
+    }
+
+    const regYearPos = columnPositions[0];
+    // most common for aptStat and filingDate to be combined. AptStat should be
+    // about 93% of the width of regYear, so we can split that way.
+    remainingCells.forEach(({ text, left, right }) => {
+      if (text.match(this.regexAptStatFilingDate)) {
+        if (regYearPos) {
+          const regYearWidth = regYearPos.right - regYearPos.left;
+          const aptStatPos = { left, right: left + regYearWidth };
+          const filingDatePos = { left: left + regYearWidth, right };
+          columnPositions[1] = aptStatPos;
+          columnPositions[2] = filingDatePos;
+        }
+      }
+    });
+    if (columnPositions.filter((x) => x !== null).length === 8) {
+      return columnPositions;
+    }
+
+    // TODO: Try other fixes
+    return columnPositions;
   }
 
   joinWords(line: Word[], separator: string | undefined = undefined): string {

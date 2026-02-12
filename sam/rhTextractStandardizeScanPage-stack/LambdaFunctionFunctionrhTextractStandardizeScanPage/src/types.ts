@@ -33,7 +33,6 @@ export type TextractRentHistoryPage = {
   lines: TextractLines;
 };
 
-
 // Standardize
 
 export type ColumnPosition = { left: number; right: number };
@@ -42,9 +41,12 @@ export type CleanRow = {
   regYear: string | null;
   aptStat: string | null;
   filingDate: string | null;
-  legalRent: string | null;
-  prefRent: string | null;
-  paidRent: string | null;
+  legalRent: number | null;
+  legalRentText: string | null;
+  prefRent: number | null;
+  prefRentText: string | null;
+  paidRent: number | null;
+  paidRentText: string | null;
   reasons: string[];
   leaseStart: string | null;
   leaseEnd: string | null;
