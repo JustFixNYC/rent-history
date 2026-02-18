@@ -21,13 +21,15 @@ sam local invoke --event events/rh-scan-upload.json --profile justfix-maxwell
 
 To update the code on AWS we can use `sam sync` for "quick-and-dirty" update for development. It's also possible to use `--watch` for automatic continuous updates as you make changes to the code.
 
-`sam sync --profile justfix-maxwell`
+```sh
+sam sync --profile justfix-maxwell
+```
 
 Then when ready for deployment to production we should instead use `sam deploy --guided` for the full AWS Cloudformation deployment, and to be prompted for all of the additional required parameters which are saved for future deployments.
 
 > TODO: I still need to learn more about SAM and Cloudformation and how best to handle all this stuff.
 
-To simplify the process of testing I set up a simple bash script the handles all the steps to build the typescript, build the sam container, invoke the function, and then re sync the local test data with s3.
+To simplify the process of testing I set up a simple bash script that handles all the steps to build the typescript, build the sam container, invoke the function, and then re sync the local test data with s3.
 
 ```sh
 bash test.sh
