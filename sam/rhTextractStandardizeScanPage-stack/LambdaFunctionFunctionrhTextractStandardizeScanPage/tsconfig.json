@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "lib": ["es2024"],
+    "target": "es2024",
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*.ts", "src/**/*.js"]
+}
