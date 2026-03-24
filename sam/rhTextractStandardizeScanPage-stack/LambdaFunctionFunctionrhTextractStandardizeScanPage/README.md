@@ -10,3 +10,10 @@ To get/update local test data for development of the standardization process use
 aws s3 sync s3://justfix-rh-scans/test-data/ test-scans/
 aws s3 sync s3://justfix-rh-textract/test-data/ test-textract/
 ```
+
+
+To trigger the remote textract function for testing you can copy a rent history scan folder into the test-data subdirectory:
+
+```sh
+HISTORY_CODE="2026-02-02T15-36-45-538Z" && aws s3 cp s3://justfix-rh-scans/${HISTORY_CODE}/ s3://justfix-rh-scans/test-data/${HISTORY_CODE}/ --recursive --profile justfix-maxwell
+```

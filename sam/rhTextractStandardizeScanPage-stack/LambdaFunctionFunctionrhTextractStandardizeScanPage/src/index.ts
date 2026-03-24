@@ -21,7 +21,7 @@ import type {
   TextractTable,
   Word,
 } from "./types";
-// import { RhTable } from "./standardize";
+import { RhTable } from "./standardize";
 
 const config = { region: "us-east-1" };
 const textractClient = new TextractClient(config);
@@ -86,8 +86,7 @@ const parseRentHistoryTables = (
   const doc = new TextractDocument(textractResponse);
   const page = doc.pageNumber(1);
 
-  const pageOrientationDegrees =
-    page.geometry.orientationDegrees() || undefined;
+  const pageOrientationDegrees = page.geometry.orientationDegrees() ?? null;
 
   // Extract the results form 2 different methods
   const lines = parseLines(page);
@@ -156,29 +155,36 @@ export const handler: Handler = async (event: S3Event, context: Context) => {
     JSON.stringify(context, null, 2),
   );
 
-  const { bucket, key, dirName, historyCode, pageNumber } =
-    getS3ObjectDetails(event);
+  try {
+    const { bucket, key, dirName, historyCode, pageNumber } =
+      getS3ObjectDetails(event);
 
-  const textractResponse = await analyzeDocumentForTables(bucket, key);
-  // parser has different type definitions from textract
-  const rentHistoryTables = parseRentHistoryTables(
-    textractResponse as ApiAnalyzeDocumentResponse,
-  );
-  // const standardizedTable = new RhTable(rentHistoryTables);
+    const textractResponse = await analyzeDocumentForTables(bucket, key);
+    // parser has different type definitions from textract
+    const rentHistoryTables = parseRentHistoryTables(
+      textractResponse as ApiAnalyzeDocumentResponse,
+    );
+    const standardizedTable = new RhTable(rentHistoryTables);
 
-  // const allData = {
-  //   ...rentHistoryTables,
-  //   standardizedTable: standardizedTable.cleanTable,
-  // };
+    const allData = {
+      ...rentHistoryTables,
+      standardizedTable: standardizedTable.cleanTable,
+    };
 
-  const jsonKey = `${dirName}/page${pageNumber}.json`;
-  await saveDataToS3Json(jsonKey, rentHistoryTables);
+    const jsonKey = `${dirName}/page${pageNumber}.json`;
+    await saveDataToS3Json(jsonKey, allData);
 
-  console.log(historyCode);
+    console.log(historyCode);
 
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify("Tables extracted from rent history scans"),
-  };
-  return response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify("Tables extracted from rent history scans"),
+    };
+  } catch (err) {
+    console.error("ERROR: ", err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err, null, 2),
+    };
+  }
 };

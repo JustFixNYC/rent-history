@@ -10,6 +10,7 @@ import type {
 
 const DEFAULT_ROW: CleanRow = {
   regYear: null,
+  regType: null,
   aptStat: null,
   filingDate: null,
   legalRent: null,
@@ -22,6 +23,7 @@ const DEFAULT_ROW: CleanRow = {
   leaseStart: null,
   leaseEnd: null,
   tenants: [],
+  sublines: [],
   _isFullRowStat: false,
   _lineIndexes: [],
   _flagForReview: false,
@@ -32,35 +34,44 @@ export class RhTable {
   textractTables: TextractTable[];
   columnPositions: ColumnPosition[];
   orientation: number | undefined;
+  ocrConfidence: number | undefined;
   cleanTable: CleanTable = [];
-  scanQuality: number;
-  // TODO: consider adjusting tolerance based on page orientation (overkill?)
+  // Whether we need the user to re-scan hte page because the OCR confidence is too low and/or the page rotation is too extreme
+  rescan: boolean;
+  // The maximum allowable rotation of the scan image, beyond which we will request the user re-scan
+  orientationThreshold = 0.1;
+  // The minimum allowable OCR confidence for the overall page, beyond which we will request the user re-scan
+  ocrConfidenceThreshold = 0.7;
   /** Tolerance for checking if word falls between column borders */
   tolerance = 0.02;
   regexDate = /\d{2}\/\d{2}\/\d{4}/;
-  regexRent = /(?:(\d+\.\d{2})(W)?)|(\D+)/;
-  regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/;
+  regexRent = /(?:(\d+\.\d{2})(W)?)|(\D+)/i;
+  // regType (eg. "(I)") can appear within regYear or aptStat columns
+  regexRegYearRegType = /(\d{4})[\s\-(]*([IAD])?/i;
+  regexRegTypeAptStat = /\(?([IDA])?\)?\s*(.*)/i;
+  regexFullRowStat = /(?:REG NOT REQUIRED)|(?:REG NOT FOUND)/i;
   // possible first word of line after bottom of table
-  regexAfterTableLine = /(?:Advisory)|(?:APARTMENT)|(?:appended)/;
+  regexAfterTableLine = /(?:Advisory)|(?:APARTMENT)|(?:appended)/i;
   regexHeaders = [
-    /^Reg\s*(?:Year)?$/,
-    /^Apt\s*(?:Stat)?$/,
-    /^Filing\s*(?:Date)?$/,
-    /^Legal\s*(?:Regulated)?\s*(?:Rent)?$/,
-    /^Prefer\.\s*(?:Rent)?$/,
-    /^Actual\s*(?:Rent)?\s*(?:Paid)?$/,
-    /^Reasons\s*(?:Differ\.\/)?\s*(?:Change)?$/,
-    /^Lease\s*(?:Began\/Ends)?$/,
+    /^Reg\s*(?:Year)?$/i,
+    /^Apt\s*(?:Stat)?$/i,
+    /^Filing\s*(?:Date)?$/i,
+    /^Legal\s*(?:Regulated)?\s*(?:Rent)?$/i,
+    /^Prefer\.\s*(?:Rent)?$/i,
+    /^Actual\s*(?:Rent)?\s*(?:Paid)?$/i,
+    /^Reasons\s*(?:Differ\.\/)?\s*(?:Change)?$/i,
+    /^Lease\s*(?:Began\/Ends)?$/i,
   ];
-  regexAptStatFilingDate = /^Apt\s*Filing\s*Stat\s*Date$/;
+  regexAptStatFilingDate = /^Apt\s*Filing\s*Stat\s*Date$/i;
 
   constructor(textractOutput: TextractRentHistoryPage) {
     this.textractLines = textractOutput.lines;
     this.textractTables = textractOutput.tables;
     this.orientation = textractOutput.pageOrientationDegrees;
+    this.ocrConfidence = textractOutput.tables[0].ocrConfidence;
     this.columnPositions = this.getColumnPositions();
+    this.rescan = this.getRescan();
     this.parseAll();
-    this.scanQuality = this.getScanQuality();
   }
 
   initializeCleanRows(): void {
@@ -78,13 +89,16 @@ export class RhTable {
         continue;
       }
 
-      const yearMatch = firstWord.match(/\d{4}/);
-      if (yearMatch) {
+      const match = firstWord.match(this.regexRegYearRegType);
+      if (match) {
         const newRow = {
           ...DEFAULT_ROW,
-          regYear: yearMatch[0],
+          regYear: match[1],
           _lineIndexes: [lineIndex],
         };
+        if (match[2]) {
+          newRow["regType"] = match[2];
+        }
         this.cleanTable.push(newRow);
       } else if (this.joinWords(line, " ").match(this.regexAfterTableLine)) {
         break;
@@ -109,12 +123,11 @@ export class RhTable {
     });
   }
 
-  // TODO: exclude "(I)"" and similar from regYear
   parseAptStat(row: CleanRow, lines: Word[][]): void {
     const firstLine = lines[0]!;
     const joinedWordsNoYear = this.joinWords(firstLine.slice(1), " ");
-    const match = joinedWordsNoYear.match(this.regexFullRowStat);
-    if (match) {
+    const matchFullRow = joinedWordsNoYear.match(this.regexFullRowStat);
+    if (matchFullRow) {
       row.aptStat = joinedWordsNoYear;
       row._isFullRowStat = true;
       return;
@@ -123,13 +136,20 @@ export class RhTable {
       this.isWithin(word, this.columnPositions[1]!),
     );
     if (!words) return;
-    const aptStat = this.joinWords(words, " ");
-    row.aptStat = aptStat;
+    const aptStatWords = this.joinWords(words, " ");
+    const matchAptStat = aptStatWords.match(this.regexRegTypeAptStat);
+    if (matchAptStat) {
+      row.regType = matchAptStat[1] || null;
+      row.aptStat = matchAptStat[2];
+    } else {
+      row.aptStat = aptStatWords;
+    }
   }
 
-  // TODO: capture "NC" for user edit locked column, should be only other possible value
+  // We dn't need to use filingDate, so may leave out of table later.
   parseFilingDate(row: CleanRow, lines: Word[][]): void {
     const firstLine = lines[0]!;
+    // note this doesn't capture "NC" but that just means it's missing, so its ok.
     const firstDate = firstLine.find((word) => word.text.match(this.regexDate));
     if (!!firstDate && this.isWithin(firstDate, this.columnPositions[2]!)) {
       const match = firstDate?.text.match(this.regexDate);
@@ -138,7 +158,6 @@ export class RhTable {
     }
   }
 
-  // TODO: iterate through positions, filter by position and regex, split number and text capture groups
   parseRents(row: CleanRow, lines: Word[][]): void {
     const firstLine = lines[0];
     const rentValues = this.columnPositions.slice(3, 6).map((colPos) => {
@@ -188,34 +207,45 @@ export class RhTable {
     row.leaseEnd = this.toDateString(match[0]);
   }
 
-  // TODO: do we need to differentiate tenant names from other values?
   parseTenants(row: CleanRow, lines: Word[][]): void {
-    const tenants = lines
+    if (lines.length < 2) return;
+    const hasTenants = !!this.joinWords(lines.at(1), " ").match(/TENANT/i);
+    const sublineValues = lines
       .slice(1)
       .map((line) => {
         const words = line.filter(
           (word) =>
             this.isWithin(word, this.combinedColumns(1, 5)) &&
-            !word.text.match(/TENANT./),
+            !word.text.match(/TENANT./i),
         );
         if (!words.length) return;
         return this.joinWords(words, " ");
       })
       .filter((tenant) => tenant !== undefined);
-    if (tenants) {
-      row.tenants = tenants;
+    if (hasTenants) {
+      row.tenants = sublineValues;
+    } else {
+      row.sublines = sublineValues;
     }
   }
 
   parseFields(): void {
     this.forEachRow((row, lines) => {
-      this.parseAptStat(row, lines);
-      this.parseFilingDate(row, lines);
-      this.parseRents(row, lines);
-      this.parseReasons(row, lines);
-      this.parseLeaseStart(row, lines);
-      this.parseLeaseEnd(row, lines);
-      this.parseTenants(row, lines);
+      try {
+        this.parseAptStat(row, lines);
+        this.parseFilingDate(row, lines);
+        this.parseRents(row, lines);
+        this.parseReasons(row, lines);
+        this.parseLeaseStart(row, lines);
+        this.parseLeaseEnd(row, lines);
+        this.parseTenants(row, lines);
+      } catch (err) {
+        console.error(
+          "failed to parse row",
+          JSON.stringify({ error: err, row, lines }, null, 2),
+        );
+        throw err;
+      }
     });
   }
 
@@ -261,7 +291,7 @@ export class RhTable {
       return columnPositions;
     }
 
-    // TODO: Try other fixes
+    // TODO: Look for other cases where columns get merged and apply similar fix as above
     return columnPositions;
   }
 
@@ -270,10 +300,22 @@ export class RhTable {
   }
 
   isWithin(word: Word, column: ColumnPosition): boolean {
-    return (
-      word.left >= column.left - this.tolerance &&
-      word.right <= column.right + this.tolerance
-    );
+    try {
+      return (
+        word.left >= column.left - this.tolerance &&
+        word.right <= column.right + this.tolerance
+      );
+    } catch (err) {
+      console.error(
+        "error comparing column positions",
+        JSON.stringify({
+          error: err,
+          colPositions: this.columnPositions,
+          word,
+        }),
+      );
+      throw err;
+    }
   }
 
   /**
@@ -303,8 +345,14 @@ export class RhTable {
     this.parseFields();
   }
 
-  getScanQuality(): number {
-    // TODO: evaluate scan based on combination of ocrConfidence scores, and completeness of parsed data
-    return 1;
+  getRescan(): boolean {
+    if (
+      this.ocrConfidence < this.ocrConfidenceThreshold ||
+      Math.abs(this.orientation) > this.orientationThreshold
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

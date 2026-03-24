@@ -39,6 +39,7 @@ export type ColumnPosition = { left: number; right: number };
 
 export type CleanRow = {
   regYear: string | null;
+  regType: string | null;
   aptStat: string | null;
   filingDate: string | null;
   legalRent: number | null;
@@ -51,6 +52,7 @@ export type CleanRow = {
   leaseStart: string | null;
   leaseEnd: string | null;
   tenants: string[];
+  sublines: string[];
   _isFullRowStat: boolean;
   _lineIndexes: number[];
   _flagForReview: boolean;
