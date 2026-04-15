@@ -11,6 +11,7 @@ import { Button } from "@justfixnyc/component-library";
 import { deleteScans } from "../../../api/deleteScans";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
+import { useNavigate } from "react-router-dom";
 
 type ScanStatus = "waiting" | "scanning" | "complete";
 
@@ -20,7 +21,8 @@ const OPTIONS: EmblaOptionsType = {};
 const HISTORY_CODE = new Date().toISOString().replace(/[:.]/g, "-");
 
 const Scanner: React.FC = () => {
-  const { _ } = useLingui();
+  const { i18n, _ } = useLingui();
+  const navigate = useNavigate();
 
   const [scanStatus, setScanStatus] = useState<ScanStatus>("waiting");
   const [scanner, setScanner] = useState<DocumentScanner>();
@@ -63,7 +65,7 @@ const Scanner: React.FC = () => {
         onDocumentScanned: async (result) => {
           // Process each scanned page
           const jpgBlob = await result.correctedImageResult?.toBlob(
-            "image/jpeg"
+            "image/jpeg",
           );
           if (!jpgBlob) {
             console.error("no image from scan");
@@ -137,7 +139,10 @@ const Scanner: React.FC = () => {
             </h2>
             <EmblaCarousel slides={scanImages} options={OPTIONS} />
             <div className="buttons-container">
-              <Button labelText={_(msg`Next`)} onClick={() => {}} />
+              <Button
+                labelText={_(msg`Next`)}
+                onClick={() => navigate(`/${i18n.locale}/review`)}
+              />
               <Button
                 labelText={_(msg`Restart scanning`)}
                 onClick={restartScanner}
