@@ -22,6 +22,7 @@
     "@tanstack/react-table": "^8.21.3",
     "contentful": "^11.4.4",
     "dynamsoft-document-scanner": "^1.4.0",
+    "embla-carousel-react": "^8.6.0",
     "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -29,6 +30,7 @@
     "react-router-dom": "^6.26.2",
     "rollbar": "^2.26.4",
     "swr": "^2.2.5",
+    "ua-parser-js": "^2.0.8",
     "zod": "^4.0.14"
   },
   "devDependencies": {
@@ -45,7 +47,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "prettier": "^2.2.1",
-    "sass": "^1.79.1",
+    "sass": "^1.97.3",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"

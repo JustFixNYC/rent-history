@@ -27,3 +27,6 @@ dist-ssr
 
 lambda/*/*.zip
 **/.aws-sam/
+**/test-scans/
+**/test-standardize/
+**/test-textract/
