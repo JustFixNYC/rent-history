@@ -15,6 +15,7 @@ import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
 import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
 import { Home } from "./Components/Pages/Home/Home";
 import { DynamsoftLauncher } from "./Components/Pages/Dynamsoft/DynamsoftLauncher";
+import { ReviewEditData } from "./Components/Pages/ReviewEditData/ReviewEditData";
 
 const Layout = () => {
   return (
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
       <Route path="/:locale" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="dynamsoft" element={<DynamsoftLauncher />} />
+        <Route path="review" element={<ReviewEditData />} />
         <Route path="privacy_policy" element={<PrivacyPolicy />} />
         <Route path="terms_of_use" element={<TermsOfUse />} />
       </Route>

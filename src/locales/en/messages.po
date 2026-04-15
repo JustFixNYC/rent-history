@@ -22,8 +22,13 @@ msgid "Or, if you are already on a mobile device with a camera, <0>launch scanne
 msgstr "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 
 #: src/Components/Pages/Home/Home.tsx:9
+#: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:9
 msgid "Rent History Analyzer"
 msgstr "Rent History Analyzer"
+
+#: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:12
+msgid "Review and edit your rent history"
+msgstr "Review and edit your rent history"
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
 msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
