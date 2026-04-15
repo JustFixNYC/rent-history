@@ -16,11 +16,6 @@ body {
   height: 100%;
 }
 
-// Hide Netlify banner overlays on preview deploys
-iframe[src^='https://app.netlify.com']
-{
-  display: none !important;
-}
 
 // TODO: Move this to a page layout wrapper component
 .page {
@@ -33,7 +28,7 @@ iframe[src^='https://app.netlify.com']
     }
   }
   &__content {
-    padding: 1rem;
+    //padding: 1rem;
     h2 {
       margin: 0 0 1rem 0;
     }
@@ -44,4 +39,13 @@ iframe[src^='https://app.netlify.com']
 // TODO: add link-button to JFCL
 a.jfcl-button {
   text-decoration: none;
+}
+
+// hide netlify banners on preview deploys
+div[data-netlify-site-id="46a89a0b-e7db-42d1-8404-9502ca2c5013"] {
+  display: none !important;
+}
+iframe[src^='https://app.netlify.com']
+{
+  display: none !important;
 }
