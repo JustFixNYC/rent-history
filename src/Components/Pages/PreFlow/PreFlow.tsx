@@ -1,8 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useLingui } from "@lingui/react";
 import { useNavigate } from "react-router-dom";
 import {
-  Alert,
   Button,
   Checkbox,
   Icon,
@@ -42,6 +41,7 @@ const PreFlow: React.FC = () => {
   const [verificationDigits, setVerificationDigits] = useState<string[]>(
     Array.from({ length: 6 }, () => ""),
   );
+  const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [uploadMethod, setUploadMethod] = useState<UploadMethod>("scan");
 
   const numericPhone = phone.replace(/\D/g, "");
@@ -73,9 +73,41 @@ const PreFlow: React.FC = () => {
   };
 
   const updateDigit = (index: number, value: string) => {
+    const digit = value.replace(/\D/g, "").slice(-1);
     const next = [...verificationDigits];
-    next[index] = value.replace(/\D/g, "").slice(-1);
+    next[index] = digit;
     setVerificationDigits(next);
+
+    if (digit && index < otpRefs.current.length - 1) {
+      otpRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const onDigitKeyDown = (
+    index: number,
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (
+      event.key === "Backspace" &&
+      !verificationDigits[index] &&
+      index > 0
+    ) {
+      otpRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const onOtpPaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasted = event.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6);
+    if (!pasted) return;
+
+    event.preventDefault();
+    const next = Array.from({ length: 6 }, (_, i) => pasted[i] || "");
+    setVerificationDigits(next);
+    const targetIndex = Math.min(pasted.length, 6) - 1;
+    otpRefs.current[Math.max(targetIndex, 0)]?.focus();
   };
 
   const onBack = () => {
@@ -110,14 +142,15 @@ const PreFlow: React.FC = () => {
         <section className="preflow-section preflow-section--with-footer-gap">
           <article className="preflow-card">
             <h1>Enter your phone number</h1>
-            <Alert
-              type="info"
-              variant="secondary"
-              text="We'll text you a code to verify and save your progress."
-              actionLabel="Learn more"
-              actionHref="https://www.justfix.org"
-              className="preflow-helper-alert"
-            />
+            <div className="preflow-helper">
+              <Icon icon="circleInfo" />
+              <p>
+                We&apos;ll text you a code to verify and save your progress.{" "}
+                <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
+                  Learn more
+                </a>
+              </p>
+            </div>
             <TextInput
               id="phone-input"
               labelText="Phone number (required)"
@@ -163,11 +196,16 @@ const PreFlow: React.FC = () => {
               {verificationDigits.map((digit, index) => (
                 <input
                   key={`code-${index}`}
+                  ref={(element) => {
+                    otpRefs.current[index] = element;
+                  }}
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
                   value={digit}
                   onChange={(e) => updateDigit(index, e.target.value)}
+                  onKeyDown={(e) => onDigitKeyDown(index, e)}
+                  onPaste={onOtpPaste}
                   aria-label={`Verification digit ${index + 1}`}
                 />
               ))}
