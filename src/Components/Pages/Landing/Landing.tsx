@@ -72,7 +72,11 @@ const Landing: React.FC = () => {
         <nav className="landing-footer__links" aria-label="Legal and feedback">
           <LocaleLink to="privacy_policy">Privacy policy</LocaleLink>
           <LocaleLink to="terms_of_use">Terms of use</LocaleLink>
-          <a href="https://www.justfix.org/en/contact-us" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.justfix.org/en/contact-us"
+            target="_blank"
+            rel="noreferrer"
+          >
             Feedback form
           </a>
         </nav>
@@ -80,7 +84,11 @@ const Landing: React.FC = () => {
           <p className="landing-footer__title">Rent History NYC</p>
           <p>
             By{" "}
-            <a href="https://housingjusticeforall.org" target="_blank" rel="noreferrer">
+            <a
+              href="https://housingjusticeforall.org"
+              target="_blank"
+              rel="noreferrer"
+            >
               Housing Justice for All
             </a>{" "}
             &amp;{" "}

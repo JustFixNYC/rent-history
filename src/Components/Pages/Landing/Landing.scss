@@ -66,8 +66,10 @@
   }
 
   &__cta {
-    display: block !important;
-    width: 100%;
+    box-sizing: border-box;
+    display: flex !important;
+    padding: 1rem 1.25rem !important;
+    width: 100% !important;
   }
 }
 
