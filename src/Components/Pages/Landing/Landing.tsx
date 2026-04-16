@@ -1,7 +1,13 @@
+import { Button, Icon } from "@justfixnyc/component-library";
+import { useLingui } from "@lingui/react";
+import { useNavigate } from "react-router-dom";
 import { LocaleLink } from "../../../i18n";
 import "./Landing.scss";
 
 const Landing: React.FC = () => {
+  const { i18n } = useLingui();
+  const navigate = useNavigate();
+
   return (
     <div id="landing-page">
       <header className="landing-header">
@@ -11,7 +17,7 @@ const Landing: React.FC = () => {
           aria-label="Open menu"
           type="button"
         >
-          <span className="landing-header__menu-icon" aria-hidden="true" />
+          <Icon icon="bars" />
           Menu
         </button>
       </header>
@@ -22,12 +28,11 @@ const Landing: React.FC = () => {
           Analyze your rent history to identify potential violations and
           overcharges.
         </p>
-        <LocaleLink
-          to="analyze"
-          className="jfcl-button jfcl-variant-primary landing-hero__cta"
-        >
-          Get started
-        </LocaleLink>
+        <Button
+          labelText="Get started"
+          className="landing-hero__cta"
+          onClick={() => navigate(`/${i18n.locale}/pre-flow`)}
+        />
       </section>
 
       <section className="landing-about">
@@ -50,7 +55,7 @@ const Landing: React.FC = () => {
             rel="noreferrer"
             className="landing-about__link"
           >
-            Learn more
+            Learn more <Icon icon="squareArrowUpRight" />
           </a>
         </article>
       </section>
@@ -67,7 +72,7 @@ const Landing: React.FC = () => {
         <nav className="landing-footer__links" aria-label="Legal and feedback">
           <LocaleLink to="privacy_policy">Privacy policy</LocaleLink>
           <LocaleLink to="terms_of_use">Terms of use</LocaleLink>
-          <a href="https://www.justfix.org/contact/" target="_blank" rel="noreferrer">
+          <a href="https://www.justfix.org/en/contact-us" target="_blank" rel="noreferrer">
             Feedback form
           </a>
         </nav>
