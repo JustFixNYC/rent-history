@@ -3,12 +3,18 @@ import { useLingui } from "@lingui/react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
-  Checkbox,
   Icon,
   RadioButton,
   TextInput,
 } from "@justfixnyc/component-library";
 import { LocaleLink } from "../../../i18n";
+import {
+  RhAuthApiError,
+  RhProfile,
+  requestRhOtp,
+  verifyRhOtp,
+} from "../../../api/rhAuth";
+import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import "./PreFlow.scss";
 
 type Screen = "phone" | "verification" | "hub" | "step1";
@@ -43,6 +49,15 @@ const PreFlow: React.FC = () => {
   );
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [uploadMethod, setUploadMethod] = useState<UploadMethod>("scan");
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [verificationError, setVerificationError] = useState<string | null>(null);
+  const [verificationNotice, setVerificationNotice] = useState<string | null>(null);
+  const [isSendingCode, setIsSendingCode] = useState(false);
+  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+  const [, setVerifiedProfile] = useSessionStorage<RhProfile | null>(
+    "rhVerifiedProfile",
+    null,
+  );
 
   const numericPhone = phone.replace(/\D/g, "");
   const isPhoneValid = numericPhone.length === 10;
@@ -52,15 +67,98 @@ const PreFlow: React.FC = () => {
 
   const startExistingFlow = () => navigate(`/${i18n.locale}/analyze`);
 
-  const onPhoneNext = () => {
+  const onPhoneNext = async () => {
     if (!isPhoneValid) return;
-    // TODO: replace this toggle with backend phone lookup.
-    setScreen("verification");
+    setPhoneError(null);
+    setVerificationError(null);
+    setVerificationNotice(null);
+    setIsSendingCode(true);
+    try {
+      const result = await requestRhOtp(numericPhone);
+      setPhoneExists(true);
+      setVerificationNotice(
+        result.status === "pending"
+          ? "We requested your code. Delivery may take a moment."
+          : "Code sent. Enter it below to continue.",
+      );
+      setScreen("verification");
+    } catch (error) {
+      if (error instanceof RhAuthApiError && error.status === 404) {
+        setPhoneExists(false);
+        setPhoneError(
+          "We could not find an existing report for this number.",
+        );
+      } else if (error instanceof RhAuthApiError && error.status === 400) {
+        setPhoneError("Please enter a valid phone number.");
+      } else if (error instanceof RhAuthApiError) {
+        setPhoneError(error.message);
+      } else {
+        setPhoneError("Something went wrong while sending your verification code.");
+      }
+    } finally {
+      setIsSendingCode(false);
+    }
   };
 
-  const onVerificationNext = () => {
+  const onVerificationNext = async () => {
     if (!isVerificationCodeValid) return;
-    setScreen(phoneExists ? "hub" : "step1");
+    setVerificationError(null);
+    setIsVerifyingCode(true);
+    try {
+      const profile = await verifyRhOtp(numericPhone, verificationCode);
+      setVerifiedProfile(profile);
+      setScreen(phoneExists ? "hub" : "step1");
+    } catch (error) {
+      if (error instanceof RhAuthApiError) {
+        if (error.status === 429) {
+          setVerificationError("Too many invalid attempts. Request a new code.");
+        } else if (
+          error.status === 400 &&
+          error.message.toLowerCase().includes("expired")
+        ) {
+          setVerificationError("Your code expired. Request a new code.");
+        } else if (error.status === 400) {
+          setVerificationError("That code is incorrect. Try again.");
+        } else if (error.status === 404) {
+          setVerificationError("We could not find an account for this phone number.");
+        } else {
+          setVerificationError(error.message);
+        }
+      } else {
+        setVerificationError("Something went wrong while verifying your code.");
+      }
+    } finally {
+      setIsVerifyingCode(false);
+    }
+  };
+
+  const onResendCode = async () => {
+    if (!isPhoneValid || isSendingCode) return;
+    setVerificationError(null);
+    setVerificationNotice(null);
+    setIsSendingCode(true);
+    try {
+      const result = await requestRhOtp(numericPhone);
+      setVerificationNotice(
+        result.status === "pending"
+          ? "Code request received. Delivery may take a moment."
+          : "A new code has been sent.",
+      );
+    } catch (error) {
+      if (error instanceof RhAuthApiError && error.status === 404) {
+        setScreen("phone");
+        setPhoneExists(false);
+        setPhoneError("We could not find an existing report for this number.");
+      } else if (error instanceof RhAuthApiError && error.status === 400) {
+        setVerificationError("Please confirm your phone number and try again.");
+      } else if (error instanceof RhAuthApiError) {
+        setVerificationError(error.message);
+      } else {
+        setVerificationError("Unable to resend code right now. Please try again.");
+      }
+    } finally {
+      setIsSendingCode(false);
+    }
   };
 
   const onStepContinue = () => {
@@ -156,19 +254,21 @@ const PreFlow: React.FC = () => {
               labelText="Phone number (required)"
               type="tel"
               value={maskedPhone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                setPhoneError(null);
+                setVerificationNotice(null);
+              }}
               placeholder="(123) 456-7890"
               className="preflow-phone-input"
               invalid={phone.length > 0 && !isPhoneValid}
               invalidText="Please enter a valid 10-digit phone number."
             />
-            <Checkbox
-              id="phone-exists-toggle"
-              checked={phoneExists}
-              onChange={(e) => setPhoneExists(e.target.checked)}
-              labelText="Dev toggle: phone already exists"
-              className="preflow-dev-toggle"
-            />
+            {phoneError && (
+              <p className="preflow-error" role="alert">
+                {phoneError}
+              </p>
+            )}
           </article>
           <div className="preflow-actions">
             <button type="button" className="preflow-link-btn" onClick={onBack}>
@@ -179,7 +279,7 @@ const PreFlow: React.FC = () => {
               labelText="Send verification code"
               className="preflow-primary-btn"
               onClick={onPhoneNext}
-              disabled={!isPhoneValid}
+              disabled={!isPhoneValid || isSendingCode}
             />
           </div>
         </section>
@@ -192,6 +292,11 @@ const PreFlow: React.FC = () => {
             <p className="preflow-subtitle">
               We sent a code to <strong>{maskedPhone || "(610) 316-6349"}</strong>
             </p>
+            {verificationNotice && (
+              <p className="preflow-notice" role="status">
+                {verificationNotice}
+              </p>
+            )}
             <div className="preflow-code">
               {verificationDigits.map((digit, index) => (
                 <input
@@ -211,8 +316,16 @@ const PreFlow: React.FC = () => {
               ))}
             </div>
             <p className="preflow-resend">
-              Didn&apos;t receive a code? <button type="button">Resend</button>
+              Didn&apos;t receive a code?{" "}
+              <button type="button" onClick={onResendCode} disabled={isSendingCode}>
+                Resend
+              </button>
             </p>
+            {verificationError && (
+              <p className="preflow-error" role="alert">
+                {verificationError}
+              </p>
+            )}
           </article>
           <div className="preflow-actions">
             <button type="button" className="preflow-link-btn" onClick={onBack}>
@@ -223,7 +336,7 @@ const PreFlow: React.FC = () => {
               labelText="Verify"
               className="preflow-primary-btn"
               onClick={onVerificationNext}
-              disabled={!isVerificationCodeValid}
+              disabled={!isVerificationCodeValid || isVerifyingCode}
             />
           </div>
         </section>
