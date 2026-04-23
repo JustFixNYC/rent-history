@@ -55,8 +55,8 @@ const router = createBrowserRouter(
         <Route path="analyze" element={<Home />} />
         <Route path="*" element={<Landing />} />
       </Route>
-    </>
-  )
+    </>,
+  ),
 );
 
 function App() {

@@ -1,4 +1,7 @@
 import { useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
@@ -45,16 +48,21 @@ const PreFlow: React.FC = () => {
   const navigate = useNavigate();
 
   const [screen, setScreen] = useState<Screen>("phone");
-  const [phone, setPhone] = useState("");
   const [phoneExists, setPhoneExists] = useState(false);
   const [verificationDigits, setVerificationDigits] = useState<string[]>(
     Array.from({ length: 6 }, () => ""),
   );
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const phoneFormRef = useRef<HTMLFormElement>(null);
+  const otpFormRef = useRef<HTMLFormElement>(null);
   const [uploadMethod, setUploadMethod] = useState<UploadMethod>("scan");
   const [phoneError, setPhoneError] = useState<string | null>(null);
-  const [verificationError, setVerificationError] = useState<string | null>(null);
-  const [verificationNotice, setVerificationNotice] = useState<string | null>(null);
+  const [verificationError, setVerificationError] = useState<string | null>(
+    null,
+  );
+  const [verificationNotice, setVerificationNotice] = useState<string | null>(
+    null,
+  );
   const [isSendingCode, setIsSendingCode] = useState(false);
   const [isVerifyingCode, setIsVerifyingCode] = useState(false);
   const [, setVerifiedProfile] = useSessionStorage<RhProfile | null>(
@@ -62,16 +70,39 @@ const PreFlow: React.FC = () => {
     null,
   );
 
-  const numericPhone = phone.replace(/\D/g, "");
+  const phoneForm = useForm<{ phone: string }>({
+    resolver: zodResolver(
+      z.object({
+        phone: z
+          .string()
+          .refine(
+            (val) => val.replace(/\D/g, "").length === 10,
+            _(msg`Please enter a valid phone number.`),
+          ),
+      }),
+    ),
+    defaultValues: { phone: "" },
+  });
+
+  const otpForm = useForm<{ code: string }>({
+    resolver: zodResolver(
+      z.object({
+        code: z.string().length(6, _(msg`Please enter all 6 digits.`)),
+      }),
+    ),
+    defaultValues: { code: "" },
+  });
+
+  const phoneValue = phoneForm.watch("phone");
+  const numericPhone = phoneValue.replace(/\D/g, "");
   const isPhoneValid = numericPhone.length === 10;
   const verificationCode = verificationDigits.join("");
   const isVerificationCodeValid = verificationCode.length === 6;
-  const maskedPhone = useMemo(() => formatPhone(phone), [phone]);
+  const maskedPhone = useMemo(() => formatPhone(phoneValue), [phoneValue]);
 
   const startExistingFlow = () => navigate(`/${i18n.locale}/analyze`);
 
-  const onPhoneNext = async () => {
-    if (!isPhoneValid) return;
+  const onPhoneNext = phoneForm.handleSubmit(async () => {
     setPhoneError(null);
     setVerificationError(null);
     setVerificationNotice(null);
@@ -99,14 +130,13 @@ const PreFlow: React.FC = () => {
     } finally {
       setIsSendingCode(false);
     }
-  };
+  });
 
-  const onVerificationNext = async () => {
-    if (!isVerificationCodeValid) return;
+  const onVerificationNext = otpForm.handleSubmit(async (data) => {
     setVerificationError(null);
     setIsVerifyingCode(true);
     try {
-      const profile = await verifyRhOtp(numericPhone, verificationCode);
+      const profile = await verifyRhOtp(numericPhone, data.code);
       setVerifiedProfile(profile);
       setScreen(phoneExists ? "hub" : "step1");
     } catch (error) {
@@ -130,12 +160,14 @@ const PreFlow: React.FC = () => {
           setVerificationError(error.message);
         }
       } else {
-        setVerificationError(_(msg`Something went wrong while verifying your code.`));
+        setVerificationError(
+          _(msg`Something went wrong while verifying your code.`),
+        );
       }
     } finally {
       setIsVerifyingCode(false);
     }
-  };
+  });
 
   const onResendCode = async () => {
     if (!isPhoneValid || isSendingCode) return;
@@ -180,6 +212,7 @@ const PreFlow: React.FC = () => {
     const next = [...verificationDigits];
     next[index] = digit;
     setVerificationDigits(next);
+    otpForm.setValue("code", next.join(""));
 
     if (digit && index < otpRefs.current.length - 1) {
       otpRefs.current[index + 1]?.focus();
@@ -190,12 +223,10 @@ const PreFlow: React.FC = () => {
     index: number,
     event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
-    if (
-      event.key === "Backspace" &&
-      !verificationDigits[index] &&
-      index > 0
-    ) {
+    if (event.key === "Backspace" && !verificationDigits[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
+    } else if (event.key === "Enter") {
+      otpFormRef.current?.requestSubmit();
     }
   };
 
@@ -209,6 +240,7 @@ const PreFlow: React.FC = () => {
     event.preventDefault();
     const next = Array.from({ length: 6 }, (_, i) => pasted[i] || "");
     setVerificationDigits(next);
+    otpForm.setValue("code", next.join(""));
     const targetIndex = Math.min(pasted.length, 6) - 1;
     otpRefs.current[Math.max(targetIndex, 0)]?.focus();
   };
@@ -249,114 +281,137 @@ const PreFlow: React.FC = () => {
 
       {screen === "phone" && (
         <section className="preflow-section preflow-section--with-footer-gap">
-          <article className="preflow-card">
-            <h1>
-              <Trans>Enter your phone number</Trans>
-            </h1>
-            <div className="preflow-helper">
-              <Icon icon="circleInfo" />
-              <p>
-                <Trans>
-                  We’ll text you a code to verify and save your progress.
-                </Trans>{" "}
-                <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
-                  <Trans>Learn more</Trans>
-                </a>
-              </p>
+          <form ref={phoneFormRef} onSubmit={onPhoneNext}>
+            <article className="preflow-card">
+              <h1>
+                <Trans>Enter your phone number</Trans>
+              </h1>
+              <div className="preflow-helper">
+                <Icon icon="circleInfo" />
+                <p>
+                  <Trans>
+                    We’ll text you a code to verify and save your progress.
+                  </Trans>{" "}
+                  <a
+                    href="https://www.justfix.org"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Trans>Learn more</Trans>
+                  </a>
+                </p>
+              </div>
+              <TextInput
+                id="phone-input"
+                labelText={_(msg`Phone number (required)`)}
+                type="tel"
+                value={maskedPhone}
+                onChange={(e) => {
+                  phoneForm.setValue("phone", e.target.value);
+                  setPhoneError(null);
+                  setVerificationNotice(null);
+                }}
+                placeholder={_(msg`(123) 456-7890`)}
+                className="preflow-phone-input"
+                invalid={phoneValue.length > 0 && !isPhoneValid}
+                invalidText={_(
+                  msg`Please enter a valid 10-digit phone number.`,
+                )}
+              />
+              {phoneError && (
+                <p className="preflow-error" role="alert">
+                  {phoneError}
+                </p>
+              )}
+            </article>
+            <div className="preflow-actions">
+              <button
+                type="button"
+                className="preflow-link-btn"
+                onClick={onBack}
+              >
+                <Icon icon="chevronLeft" />
+                <Trans>Back</Trans>
+              </button>
+              <Button
+                labelText={_(msg`Send verification code`)}
+                className="preflow-primary-btn"
+                onClick={() => phoneFormRef.current?.requestSubmit()}
+                disabled={!isPhoneValid || isSendingCode}
+              />
             </div>
-            <TextInput
-              id="phone-input"
-              labelText={_(msg`Phone number (required)`)}
-              type="tel"
-              value={maskedPhone}
-              onChange={(e) => {
-                setPhone(e.target.value);
-                setPhoneError(null);
-                setVerificationNotice(null);
-              }}
-              placeholder={_(msg`(123) 456-7890`)}
-              className="preflow-phone-input"
-              invalid={phone.length > 0 && !isPhoneValid}
-              invalidText={_(msg`Please enter a valid 10-digit phone number.`)}
-            />
-            {phoneError && (
-              <p className="preflow-error" role="alert">
-                {phoneError}
-              </p>
-            )}
-          </article>
-          <div className="preflow-actions">
-            <button type="button" className="preflow-link-btn" onClick={onBack}>
-              <Icon icon="chevronLeft" />
-              <Trans>Back</Trans>
-            </button>
-            <Button
-              labelText={_(msg`Send verification code`)}
-              className="preflow-primary-btn"
-              onClick={onPhoneNext}
-              disabled={!isPhoneValid || isSendingCode}
-            />
-          </div>
+          </form>
         </section>
       )}
 
       {screen === "verification" && (
         <section className="preflow-section preflow-section--with-footer-gap">
-          <article className="preflow-card">
-            <h1>
-              <Trans>Enter verification code</Trans>
-            </h1>
-            <p className="preflow-subtitle">
-              {_(msg`We sent a code to`)}{" "}
-              <strong>{maskedPhone || _(msg`(610) 316-6349`)}</strong>
-            </p>
-            {verificationNotice && (
-              <p className="preflow-notice" role="status">
-                {verificationNotice}
+          <form ref={otpFormRef} onSubmit={onVerificationNext}>
+            <input type="hidden" {...otpForm.register("code")} />
+            <article className="preflow-card">
+              <h1>
+                <Trans>Enter verification code</Trans>
+              </h1>
+              <p className="preflow-subtitle">
+                {_(msg`We sent a code to`)}{" "}
+                <strong>{maskedPhone || _(msg`(610) 316-6349`)}</strong>
               </p>
-            )}
-            <div className="preflow-code">
-              {verificationDigits.map((digit, index) => (
-                <input
-                  key={`code-${index}`}
-                  ref={(element) => {
-                    otpRefs.current[index] = element;
-                  }}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => updateDigit(index, e.target.value)}
-                  onKeyDown={(e) => onDigitKeyDown(index, e)}
-                  onPaste={onOtpPaste}
-                  aria-label={_(msg`Verification digit ${index + 1}`)}
-                />
-              ))}
-            </div>
-            <p className="preflow-resend">
-              <Trans>Didn’t receive a code?</Trans>{" "}
-              <button type="button" onClick={onResendCode} disabled={isSendingCode}>
-                <Trans>Resend</Trans>
+              {verificationNotice && (
+                <p className="preflow-notice" role="status">
+                  {verificationNotice}
+                </p>
+              )}
+              <div className="preflow-code">
+                {verificationDigits.map((digit, index) => (
+                  <input
+                    key={`code-${index}`}
+                    ref={(element) => {
+                      otpRefs.current[index] = element;
+                    }}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => updateDigit(index, e.target.value)}
+                    onKeyDown={(e) => onDigitKeyDown(index, e)}
+                    onPaste={onOtpPaste}
+                    aria-label={_(msg`Verification digit ${index + 1}`)}
+                  />
+                ))}
+              </div>
+              <p className="preflow-resend">
+                <Trans>Didn’t receive a code?</Trans>{" "}
+                <button
+                  type="button"
+                  onClick={onResendCode}
+                  disabled={isSendingCode}
+                >
+                  <Trans>Resend</Trans>
+                </button>
+              </p>
+              {verificationError && (
+                <p className="preflow-error" role="alert">
+                  {verificationError}
+                </p>
+              )}
+            </article>
+            <div className="preflow-actions">
+              <button
+                type="button"
+                className="preflow-link-btn"
+                onClick={onBack}
+              >
+                <Icon icon="chevronLeft" />
+                <Trans>Back</Trans>
               </button>
-            </p>
-            {verificationError && (
-              <p className="preflow-error" role="alert">
-                {verificationError}
-              </p>
-            )}
-          </article>
-          <div className="preflow-actions">
-            <button type="button" className="preflow-link-btn" onClick={onBack}>
-              <Icon icon="chevronLeft" />
-              <Trans>Back</Trans>
-            </button>
-            <Button
-              labelText={_(msg`Verify`)}
-              className="preflow-primary-btn"
-              onClick={onVerificationNext}
-              disabled={!isVerificationCodeValid || isVerifyingCode}
-            />
-          </div>
+              <Button
+                labelText={_(msg`Verify`)}
+                className="preflow-primary-btn"
+                onClick={() => otpFormRef.current?.requestSubmit()}
+                disabled={!isVerificationCodeValid || isVerifyingCode}
+              />
+            </div>
+          </form>
         </section>
       )}
 
@@ -476,7 +531,11 @@ const PreFlow: React.FC = () => {
           <LocaleLink to="terms_of_use">
             <Trans>Terms of use</Trans>
           </LocaleLink>
-          <a href="https://www.justfix.org/en/contact-us" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.justfix.org/en/contact-us"
+            target="_blank"
+            rel="noreferrer"
+          >
             <Trans>Feedback form</Trans>
           </a>
         </nav>
