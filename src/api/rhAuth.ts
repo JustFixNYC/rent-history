@@ -7,6 +7,11 @@ export type RhProfile = {
   rent_history_id: string;
 };
 
+export type RhPhoneUpsertResult = {
+  profile: RhProfile;
+  existed: boolean;
+};
+
 export class RhAuthApiError extends Error {
   constructor(
     readonly status: number,
@@ -55,6 +60,39 @@ const postRh = async <T>(path: string, body: object): Promise<T> => {
 
 export const requestRhOtp = (phoneNumber: string): Promise<OtpRequestResponse> =>
   postRh("/rh/request-otp", { phone_number: phoneNumber });
+
+export const upsertRhPhone = async (
+  phoneNumber: string,
+): Promise<RhPhoneUpsertResult> => {
+  const response = await fetch(new URL("/rh/phone", getAuthProviderBaseUrl()), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ phone_number: phoneNumber }),
+  });
+
+  let data: unknown = undefined;
+  try {
+    data = await response.json();
+  } catch {
+    data = undefined;
+  }
+
+  if (!response.ok) {
+    const fallbackMessage = `Request failed with status ${response.status}.`;
+    const message =
+      typeof data === "object" && data && "error" in data
+        ? String((data as { error: string }).error)
+        : fallbackMessage;
+    throw new RhAuthApiError(response.status, message, data);
+  }
+
+  return {
+    profile: data as RhProfile,
+    existed: response.status === 200,
+  };
+};
 
 export const verifyRhOtp = (
   phoneNumber: string,

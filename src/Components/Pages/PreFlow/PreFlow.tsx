@@ -14,6 +14,7 @@ import {
   RhAuthApiError,
   RhProfile,
   requestRhOtp,
+  upsertRhPhone,
   verifyRhOtp,
 } from "../../../api/rhAuth";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
@@ -76,8 +77,9 @@ const PreFlow: React.FC = () => {
     setVerificationNotice(null);
     setIsSendingCode(true);
     try {
+      const { existed } = await upsertRhPhone(numericPhone);
+      setPhoneExists(existed);
       const result = await requestRhOtp(numericPhone);
-      setPhoneExists(true);
       setVerificationNotice(
         result.status === "pending"
           ? _(msg`We requested your code. Delivery may take a moment.`)
@@ -85,12 +87,7 @@ const PreFlow: React.FC = () => {
       );
       setScreen("verification");
     } catch (error) {
-      if (error instanceof RhAuthApiError && error.status === 404) {
-        setPhoneExists(false);
-        setPhoneError(
-          _(msg`We could not find an existing report for this number.`),
-        );
-      } else if (error instanceof RhAuthApiError && error.status === 400) {
+      if (error instanceof RhAuthApiError && error.status === 400) {
         setPhoneError(_(msg`Please enter a valid phone number.`));
       } else if (error instanceof RhAuthApiError) {
         setPhoneError(error.message);
@@ -153,11 +150,7 @@ const PreFlow: React.FC = () => {
           : _(msg`A new code has been sent.`),
       );
     } catch (error) {
-      if (error instanceof RhAuthApiError && error.status === 404) {
-        setScreen("phone");
-        setPhoneExists(false);
-        setPhoneError(_(msg`We could not find an existing report for this number.`));
-      } else if (error instanceof RhAuthApiError && error.status === 400) {
+      if (error instanceof RhAuthApiError && error.status === 400) {
         setVerificationError(
           _(msg`Please confirm your phone number and try again.`),
         );
