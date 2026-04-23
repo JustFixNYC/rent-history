@@ -69,7 +69,11 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
-msgid "Didn't receive a code?"
+#~ msgid "Didn't receive a code?"
+#~ msgstr ""
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:344
+msgid "Didn’t receive a code?"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:82
@@ -95,8 +99,12 @@ msgid "Feedback form"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:31
-msgid "Find out if you've been overcharged on rent"
-msgstr "Averigua si te han cobrado de más en el alquiler"
+#~ msgid "Find out if you've been overcharged on rent"
+#~ msgstr "Averigua si te han cobrado de más en el alquiler"
+
+#: src/Components/Pages/Landing/Landing.tsx:31
+msgid "Find out if you’ve been overcharged on rent"
+msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:166
 msgid "Flatten any folds in the pages and lay them on a flat surface"
@@ -371,7 +379,11 @@ msgid "We sent a code to"
 msgstr ""
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:266
-msgid "We'll text you a code to verify and save your progress."
+#~ msgid "We'll text you a code to verify and save your progress."
+#~ msgstr ""
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:266
+msgid "We’ll text you a code to verify and save your progress."
 msgstr ""
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:125

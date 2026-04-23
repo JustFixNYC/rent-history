@@ -28,7 +28,7 @@ const Landing: React.FC = () => {
 
       <section className="landing-hero">
         <h1>
-          <Trans>Find out if you&apos;ve been overcharged on rent</Trans>
+          <Trans>Find out if you’ve been overcharged on rent</Trans>
         </h1>
         <p>
           <Trans>

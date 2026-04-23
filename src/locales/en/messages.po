@@ -69,8 +69,12 @@ msgid "Continue"
 msgstr "Continue"
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
-msgid "Didn't receive a code?"
-msgstr "Didn't receive a code?"
+#~ msgid "Didn't receive a code?"
+#~ msgstr "Didn't receive a code?"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:344
+msgid "Didn’t receive a code?"
+msgstr "Didn’t receive a code?"
 
 #: src/Components/Pages/Landing/Landing.tsx:82
 #: src/Components/Pages/PreFlow/PreFlow.tsx:466
@@ -95,8 +99,12 @@ msgid "Feedback form"
 msgstr "Feedback form"
 
 #: src/Components/Pages/Landing/Landing.tsx:31
-msgid "Find out if you've been overcharged on rent"
-msgstr "Find out if you've been overcharged on rent"
+#~ msgid "Find out if you've been overcharged on rent"
+#~ msgstr "Find out if you've been overcharged on rent"
+
+#: src/Components/Pages/Landing/Landing.tsx:31
+msgid "Find out if you’ve been overcharged on rent"
+msgstr "Find out if you’ve been overcharged on rent"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:166
 msgid "Flatten any folds in the pages and lay them on a flat surface"
@@ -371,8 +379,12 @@ msgid "We sent a code to"
 msgstr "We sent a code to"
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:266
-msgid "We'll text you a code to verify and save your progress."
-msgstr "We'll text you a code to verify and save your progress."
+#~ msgid "We'll text you a code to verify and save your progress."
+#~ msgstr "We'll text you a code to verify and save your progress."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:266
+msgid "We’ll text you a code to verify and save your progress."
+msgstr "We’ll text you a code to verify and save your progress."
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:125
 msgid "Your code expired. Request a new code."

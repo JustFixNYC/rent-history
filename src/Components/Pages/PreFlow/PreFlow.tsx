@@ -264,7 +264,7 @@ const PreFlow: React.FC = () => {
               <Icon icon="circleInfo" />
               <p>
                 <Trans>
-                  We&apos;ll text you a code to verify and save your progress.
+                  We’ll text you a code to verify and save your progress.
                 </Trans>{" "}
                 <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
                   <Trans>Learn more</Trans>
@@ -341,7 +341,7 @@ const PreFlow: React.FC = () => {
               ))}
             </div>
             <p className="preflow-resend">
-              <Trans>Didn&apos;t receive a code?</Trans>{" "}
+              <Trans>Didn’t receive a code?</Trans>{" "}
               <button type="button" onClick={onResendCode} disabled={isSendingCode}>
                 <Trans>Resend</Trans>
               </button>
