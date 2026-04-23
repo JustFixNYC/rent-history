@@ -1,5 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { useLingui } from "@lingui/react";
+import { msg } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -24,21 +26,21 @@ const initialReports = [
   {
     id: "1",
     address: "123 Main St., Apt 3L",
-    status: "Started Feb 3, 2026",
-    cta: "Resume",
+    status: msg`Started Feb 3, 2026`,
+    cta: msg`Resume`,
     primary: false,
   },
   {
     id: "2",
     address: "123 Main St., Apt 4R",
-    status: "Completed Feb 1, 2026",
-    cta: "View report",
+    status: msg`Completed Feb 1, 2026`,
+    cta: msg`View report`,
     primary: true,
   },
 ];
 
 const PreFlow: React.FC = () => {
-  const { i18n } = useLingui();
+  const { i18n, _ } = useLingui();
   const navigate = useNavigate();
 
   const [screen, setScreen] = useState<Screen>("phone");
@@ -78,22 +80,24 @@ const PreFlow: React.FC = () => {
       setPhoneExists(true);
       setVerificationNotice(
         result.status === "pending"
-          ? "We requested your code. Delivery may take a moment."
-          : "Code sent. Enter it below to continue.",
+          ? _(msg`We requested your code. Delivery may take a moment.`)
+          : _(msg`Code sent. Enter it below to continue.`),
       );
       setScreen("verification");
     } catch (error) {
       if (error instanceof RhAuthApiError && error.status === 404) {
         setPhoneExists(false);
         setPhoneError(
-          "We could not find an existing report for this number.",
+          _(msg`We could not find an existing report for this number.`),
         );
       } else if (error instanceof RhAuthApiError && error.status === 400) {
-        setPhoneError("Please enter a valid phone number.");
+        setPhoneError(_(msg`Please enter a valid phone number.`));
       } else if (error instanceof RhAuthApiError) {
         setPhoneError(error.message);
       } else {
-        setPhoneError("Something went wrong while sending your verification code.");
+        setPhoneError(
+          _(msg`Something went wrong while sending your verification code.`),
+        );
       }
     } finally {
       setIsSendingCode(false);
@@ -111,21 +115,25 @@ const PreFlow: React.FC = () => {
     } catch (error) {
       if (error instanceof RhAuthApiError) {
         if (error.status === 429) {
-          setVerificationError("Too many invalid attempts. Request a new code.");
+          setVerificationError(
+            _(msg`Too many invalid attempts. Request a new code.`),
+          );
         } else if (
           error.status === 400 &&
           error.message.toLowerCase().includes("expired")
         ) {
-          setVerificationError("Your code expired. Request a new code.");
+          setVerificationError(_(msg`Your code expired. Request a new code.`));
         } else if (error.status === 400) {
-          setVerificationError("That code is incorrect. Try again.");
+          setVerificationError(_(msg`That code is incorrect. Try again.`));
         } else if (error.status === 404) {
-          setVerificationError("We could not find an account for this phone number.");
+          setVerificationError(
+            _(msg`We could not find an account for this phone number.`),
+          );
         } else {
           setVerificationError(error.message);
         }
       } else {
-        setVerificationError("Something went wrong while verifying your code.");
+        setVerificationError(_(msg`Something went wrong while verifying your code.`));
       }
     } finally {
       setIsVerifyingCode(false);
@@ -141,20 +149,24 @@ const PreFlow: React.FC = () => {
       const result = await requestRhOtp(numericPhone);
       setVerificationNotice(
         result.status === "pending"
-          ? "Code request received. Delivery may take a moment."
-          : "A new code has been sent.",
+          ? _(msg`Code request received. Delivery may take a moment.`)
+          : _(msg`A new code has been sent.`),
       );
     } catch (error) {
       if (error instanceof RhAuthApiError && error.status === 404) {
         setScreen("phone");
         setPhoneExists(false);
-        setPhoneError("We could not find an existing report for this number.");
+        setPhoneError(_(msg`We could not find an existing report for this number.`));
       } else if (error instanceof RhAuthApiError && error.status === 400) {
-        setVerificationError("Please confirm your phone number and try again.");
+        setVerificationError(
+          _(msg`Please confirm your phone number and try again.`),
+        );
       } else if (error instanceof RhAuthApiError) {
         setVerificationError(error.message);
       } else {
-        setVerificationError("Unable to resend code right now. Please try again.");
+        setVerificationError(
+          _(msg`Unable to resend code right now. Please try again.`),
+        );
       }
     } finally {
       setIsSendingCode(false);
@@ -229,29 +241,39 @@ const PreFlow: React.FC = () => {
   return (
     <div id="pref-low-page">
       <header className="preflow-header">
-        <div className="preflow-header__brand">Rent History NYC</div>
-        <button className="preflow-header__menu" type="button" aria-label="Menu">
+        <div className="preflow-header__brand">
+          <Trans>Rent History NYC</Trans>
+        </div>
+        <button
+          className="preflow-header__menu"
+          type="button"
+          aria-label={_(msg`Menu`)}
+        >
           <Icon icon="bars" />
-          Menu
+          <Trans>Menu</Trans>
         </button>
       </header>
 
       {screen === "phone" && (
         <section className="preflow-section preflow-section--with-footer-gap">
           <article className="preflow-card">
-            <h1>Enter your phone number</h1>
+            <h1>
+              <Trans>Enter your phone number</Trans>
+            </h1>
             <div className="preflow-helper">
               <Icon icon="circleInfo" />
               <p>
-                We&apos;ll text you a code to verify and save your progress.{" "}
+                <Trans>
+                  We&apos;ll text you a code to verify and save your progress.
+                </Trans>{" "}
                 <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
-                  Learn more
+                  <Trans>Learn more</Trans>
                 </a>
               </p>
             </div>
             <TextInput
               id="phone-input"
-              labelText="Phone number (required)"
+              labelText={_(msg`Phone number (required)`)}
               type="tel"
               value={maskedPhone}
               onChange={(e) => {
@@ -259,10 +281,10 @@ const PreFlow: React.FC = () => {
                 setPhoneError(null);
                 setVerificationNotice(null);
               }}
-              placeholder="(123) 456-7890"
+              placeholder={_(msg`(123) 456-7890`)}
               className="preflow-phone-input"
               invalid={phone.length > 0 && !isPhoneValid}
-              invalidText="Please enter a valid 10-digit phone number."
+              invalidText={_(msg`Please enter a valid 10-digit phone number.`)}
             />
             {phoneError && (
               <p className="preflow-error" role="alert">
@@ -273,10 +295,10 @@ const PreFlow: React.FC = () => {
           <div className="preflow-actions">
             <button type="button" className="preflow-link-btn" onClick={onBack}>
               <Icon icon="chevronLeft" />
-              Back
+              <Trans>Back</Trans>
             </button>
             <Button
-              labelText="Send verification code"
+              labelText={_(msg`Send verification code`)}
               className="preflow-primary-btn"
               onClick={onPhoneNext}
               disabled={!isPhoneValid || isSendingCode}
@@ -288,9 +310,12 @@ const PreFlow: React.FC = () => {
       {screen === "verification" && (
         <section className="preflow-section preflow-section--with-footer-gap">
           <article className="preflow-card">
-            <h1>Enter verification code</h1>
+            <h1>
+              <Trans>Enter verification code</Trans>
+            </h1>
             <p className="preflow-subtitle">
-              We sent a code to <strong>{maskedPhone || "(610) 316-6349"}</strong>
+              {_(msg`We sent a code to`)}{" "}
+              <strong>{maskedPhone || _(msg`(610) 316-6349`)}</strong>
             </p>
             {verificationNotice && (
               <p className="preflow-notice" role="status">
@@ -311,14 +336,14 @@ const PreFlow: React.FC = () => {
                   onChange={(e) => updateDigit(index, e.target.value)}
                   onKeyDown={(e) => onDigitKeyDown(index, e)}
                   onPaste={onOtpPaste}
-                  aria-label={`Verification digit ${index + 1}`}
+                  aria-label={_(msg`Verification digit ${index + 1}`)}
                 />
               ))}
             </div>
             <p className="preflow-resend">
-              Didn&apos;t receive a code?{" "}
+              <Trans>Didn&apos;t receive a code?</Trans>{" "}
               <button type="button" onClick={onResendCode} disabled={isSendingCode}>
-                Resend
+                <Trans>Resend</Trans>
               </button>
             </p>
             {verificationError && (
@@ -330,10 +355,10 @@ const PreFlow: React.FC = () => {
           <div className="preflow-actions">
             <button type="button" className="preflow-link-btn" onClick={onBack}>
               <Icon icon="chevronLeft" />
-              Back
+              <Trans>Back</Trans>
             </button>
             <Button
-              labelText="Verify"
+              labelText={_(msg`Verify`)}
               className="preflow-primary-btn"
               onClick={onVerificationNext}
               disabled={!isVerificationCodeValid || isVerifyingCode}
@@ -345,14 +370,16 @@ const PreFlow: React.FC = () => {
       {screen === "hub" && (
         <>
           <section className="preflow-section">
-            <h1 className="preflow-title">Your rent history report(s)</h1>
+            <h1 className="preflow-title">
+              <Trans>Your rent history report(s)</Trans>
+            </h1>
             <div className="preflow-report-list">
               {initialReports.map((report) => (
                 <article key={report.id} className="preflow-report-card">
                   <h2>{report.address}</h2>
-                  <p>{report.status}</p>
+                  <p>{_(report.status)}</p>
                   <Button
-                    labelText={report.cta}
+                    labelText={_(report.cta)}
                     variant={report.primary ? "primary" : "secondary"}
                     size="small"
                     className="preflow-report-btn"
@@ -364,12 +391,12 @@ const PreFlow: React.FC = () => {
           </section>
           <section className="preflow-section preflow-section--tight">
             <Button
-              labelText="+ Start a new analysis"
+              labelText={_(msg`+ Start a new analysis`)}
               className="preflow-primary-btn preflow-primary-btn--full"
               onClick={() => setScreen("step1")}
             />
             <button type="button" className="preflow-logout" onClick={onBack}>
-              Log out
+              <Trans>Log out</Trans>
             </button>
           </section>
         </>
@@ -378,20 +405,30 @@ const PreFlow: React.FC = () => {
       {screen === "step1" && (
         <section className="preflow-section preflow-section--with-footer-gap">
           <div className="preflow-progress">
-            <p>Step 1: Upload</p>
+            <p>
+              <Trans>Step 1: Upload</Trans>
+            </p>
             <div className="preflow-progress__bar">
               <span />
             </div>
           </div>
           <article className="preflow-card">
-            <h1>How would you like to provide your rent history information?</h1>
+            <h1>
+              <Trans>
+                How would you like to provide your rent history information?
+              </Trans>
+            </h1>
             <RadioButton
               id="upload-method-scan"
               name="upload-method"
               labelElement={
                 <span className="preflow-radio-label">
-                  <span>Scan your rent history documents</span>
-                  <em>Recommended</em>
+                  <span>
+                    <Trans>Scan your rent history documents</Trans>
+                  </span>
+                  <em>
+                    <Trans>Recommended</Trans>
+                  </em>
                 </span>
               }
               className="preflow-option"
@@ -402,7 +439,7 @@ const PreFlow: React.FC = () => {
             <RadioButton
               id="upload-method-manual"
               name="upload-method"
-              labelText="Manually enter your rent history"
+              labelText={_(msg`Manually enter your rent history`)}
               className="preflow-option"
               checked={uploadMethod === "manual"}
               onClick={() => setUploadMethod("manual")}
@@ -412,10 +449,10 @@ const PreFlow: React.FC = () => {
           <div className="preflow-actions">
             <button type="button" className="preflow-link-btn" onClick={onBack}>
               <Icon icon="chevronLeft" />
-              Back
+              <Trans>Back</Trans>
             </button>
             <Button
-              labelText="Continue"
+              labelText={_(msg`Continue`)}
               className="preflow-primary-btn"
               onClick={onStepContinue}
             />
@@ -425,26 +462,39 @@ const PreFlow: React.FC = () => {
 
       <footer className="preflow-footer">
         <section className="preflow-footer__disclaimer">
-          <h3>Disclaimer</h3>
+          <h3>
+            <Trans>Disclaimer</Trans>
+          </h3>
           <p>
-            The information on this website does not constitute legal advice and
-            must not be used as a substitute for the advice of a lawyer qualified
-            to give advice on legal issues pertaining to housing.
+            <Trans>
+              The information on this website does not constitute legal advice
+              and must not be used as a substitute for the advice of a lawyer
+              qualified to give advice on legal issues pertaining to housing.
+            </Trans>
           </p>
         </section>
-        <nav className="preflow-footer__links" aria-label="Legal and feedback">
-          <LocaleLink to="privacy_policy">Privacy policy</LocaleLink>
-          <LocaleLink to="terms_of_use">Terms of use</LocaleLink>
+        <nav
+          className="preflow-footer__links"
+          aria-label={_(msg`Legal and feedback`)}
+        >
+          <LocaleLink to="privacy_policy">
+            <Trans>Privacy policy</Trans>
+          </LocaleLink>
+          <LocaleLink to="terms_of_use">
+            <Trans>Terms of use</Trans>
+          </LocaleLink>
           <a href="https://www.justfix.org/en/contact-us" target="_blank" rel="noreferrer">
-            Feedback form
+            <Trans>Feedback form</Trans>
           </a>
         </nav>
         <section className="preflow-footer__brand">
-          <p className="preflow-footer__title">Rent History NYC</p>
+          <p className="preflow-footer__title">
+            <Trans>Rent History NYC</Trans>
+          </p>
           <p>
-            By{" "}
+            <Trans>By</Trans>{" "}
             <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
-              JustFix
+              <Trans>JustFix</Trans>
             </a>
           </p>
         </section>
