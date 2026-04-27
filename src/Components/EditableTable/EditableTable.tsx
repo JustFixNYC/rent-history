@@ -7,6 +7,9 @@ import {
 } from "@tanstack/react-table";
 import { Button, Dropdown, TextInput } from "@justfixnyc/component-library";
 import React from "react";
+import { useLingui } from "@lingui/react";
+import { msg } from "@lingui/core/macro";
+import { useNavigate } from "react-router-dom";
 
 import "./EditableTable.scss";
 import {
@@ -163,6 +166,9 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
 };
 
 export const EditableTable: React.FC = () => {
+  const { i18n, _ } = useLingui();
+  const navigate = useNavigate();
+
   const columns = React.useMemo<ColumnDef<Lease>[]>(
     () => [
       {
@@ -487,10 +493,8 @@ export const EditableTable: React.FC = () => {
         <div className="analyze-button">
           <Button
             variant="primary"
-            labelText="Analyze my rent history"
-            onClick={() => {
-              // TODO: implement analysis
-            }}
+            labelText={_(msg`Analyze my rent history`)}
+            onClick={() => navigate(`/${i18n.locale}/post-scan`)}
           />
         </div>
       )}

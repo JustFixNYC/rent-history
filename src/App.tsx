@@ -16,6 +16,7 @@ import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
 import Home from "./Components/Pages/Home/Home";
 import Landing from "./Components/Pages/Landing/Landing";
 import PreFlow from "./Components/Pages/PreFlow/PreFlow";
+import PostScanFlow from "./Components/Pages/PostScanFlow/PostScanFlow";
 import Scanner from "./Components/Pages/Scanner/Scanner";
 import { ReviewEditData } from "./Components/Pages/ReviewEditData/ReviewEditData";
 
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
         <Route path="analyze" element={<Home />} />
         <Route path="scanner" element={<Scanner />} />
         <Route path="review" element={<ReviewEditData />} />
+        <Route path="post-scan" element={<PostScanFlow />} />
         <Route path="privacy_policy" element={<PrivacyPolicy />} />
         <Route path="terms_of_use" element={<TermsOfUse />} />
       </Route>
