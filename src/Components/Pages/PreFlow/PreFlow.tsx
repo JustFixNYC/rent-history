@@ -354,7 +354,7 @@ const PreFlow: React.FC = () => {
               </h1>
               <p className="preflow-subtitle">
                 {_(msg`We sent a code to`)}{" "}
-                <strong>{maskedPhone || _(msg`(610) 316-6349`)}</strong>
+                <strong>{maskedPhone}</strong>
               </p>
               {verificationNotice && (
                 <p className="preflow-notice" role="status">
@@ -407,7 +407,7 @@ const PreFlow: React.FC = () => {
               <Button
                 labelText={_(msg`Verify`)}
                 className="preflow-primary-btn"
-                onClick={() => otpFormRef.current?.requestSubmit()}
+                type="submit"
                 disabled={!isVerificationCodeValid || isVerifyingCode}
               />
             </div>
