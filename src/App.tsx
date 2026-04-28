@@ -14,6 +14,8 @@ import { NetworkError } from "./api/error-reporting";
 import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
 import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
 import Home from "./Components/Pages/Home/Home";
+import Landing from "./Components/Pages/Landing/Landing";
+import PreFlow from "./Components/Pages/PreFlow/PreFlow";
 import Scanner from "./Components/Pages/Scanner/Scanner";
 import { ReviewEditData } from "./Components/Pages/ReviewEditData/ReviewEditData";
 
@@ -38,7 +40,9 @@ const router = createBrowserRouter(
     <>
       {/* Routes with locale prefix */}
       <Route path="/:locale" element={<Layout />}>
-        <Route index element={<Home />} />
+        <Route index element={<Landing />} />
+        <Route path="pre-flow" element={<PreFlow />} />
+        <Route path="analyze" element={<Home />} />
         <Route path="scanner" element={<Scanner />} />
         <Route path="review" element={<ReviewEditData />} />
         <Route path="privacy_policy" element={<PrivacyPolicy />} />
@@ -46,11 +50,13 @@ const router = createBrowserRouter(
       </Route>
       {/* Catch-all route for paths without locale - will redirect */}
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="*" element={<Home />} />
+        <Route index element={<Landing />} />
+        <Route path="pre-flow" element={<PreFlow />} />
+        <Route path="analyze" element={<Home />} />
+        <Route path="*" element={<Landing />} />
       </Route>
-    </>
-  )
+    </>,
+  ),
 );
 
 function App() {

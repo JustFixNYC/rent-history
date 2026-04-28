@@ -13,61 +13,240 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/Components/Pages/PreFlow/PreFlow.tsx:284
+msgid "(123) 456-7890"
+msgstr "(123) 456-7890"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:318
+msgid "(610) 316-6349"
+msgstr "(610) 316-6349"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:394
+msgid "+ Start a new analysis"
+msgstr "+ Start a new analysis"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:153
+msgid "A new code has been sent."
+msgstr "A new code has been sent."
+
+#: src/Components/Pages/Landing/Landing.tsx:63
+msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
+msgstr "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
+
+#: src/Components/Pages/Landing/Landing.tsx:48
+msgid "About this site"
+msgstr "About this site"
+
+#: src/Components/Pages/Landing/Landing.tsx:34
+msgid "Analyze your rent history to identify potential violations and overcharges."
+msgstr "Analyze your rent history to identify potential violations and overcharges."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:298
+#: src/Components/Pages/PreFlow/PreFlow.tsx:358
+#: src/Components/Pages/PreFlow/PreFlow.tsx:452
+msgid "Back"
+msgstr "Back"
+
+#: src/Components/Pages/Landing/Landing.tsx:115
+#: src/Components/Pages/PreFlow/PreFlow.tsx:495
+msgid "By"
+msgstr "By"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:152
+msgid "Code request received. Delivery may take a moment."
+msgstr "Code request received. Delivery may take a moment."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:84
+msgid "Code sent. Enter it below to continue."
+msgstr "Code sent. Enter it below to continue."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:36
+msgid "Completed Feb 1, 2026"
+msgstr "Completed Feb 1, 2026"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:455
+msgid "Continue"
+msgstr "Continue"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:344
+#~ msgid "Didn't receive a code?"
+#~ msgstr "Didn't receive a code?"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:344
+msgid "Didn’t receive a code?"
+msgstr "Didn’t receive a code?"
+
+#: src/Components/Pages/Landing/Landing.tsx:82
+#: src/Components/Pages/PreFlow/PreFlow.tsx:466
+msgid "Disclaimer"
+msgstr "Disclaimer"
+
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:13
 #~ msgid "Dynamsoft"
 #~ msgstr "Dynamsoft"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:161
+#: src/Components/Pages/PreFlow/PreFlow.tsx:314
+msgid "Enter verification code"
+msgstr "Enter verification code"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:261
+msgid "Enter your phone number"
+msgstr "Enter your phone number"
+
+#: src/Components/Pages/Landing/Landing.tsx:107
+#: src/Components/Pages/PreFlow/PreFlow.tsx:487
+msgid "Feedback form"
+msgstr "Feedback form"
+
+#: src/Components/Pages/Landing/Landing.tsx:31
+#~ msgid "Find out if you've been overcharged on rent"
+#~ msgstr "Find out if you've been overcharged on rent"
+
+#: src/Components/Pages/Landing/Landing.tsx:31
+msgid "Find out if you’ve been overcharged on rent"
+msgstr "Find out if you’ve been overcharged on rent"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:166
 msgid "Flatten any folds in the pages and lay them on a flat surface"
 msgstr "Flatten any folds in the pages and lay them on a flat surface"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:174
+#: src/Components/Pages/Landing/Landing.tsx:40
+msgid "Get started"
+msgstr "Get started"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:179
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
 msgstr "Hold your phone level with the pages and make sure the entire page is within frame"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:180
+#: src/Components/Pages/Landing/Landing.tsx:121
+msgid "Housing Justice for All"
+msgstr "Housing Justice for All"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:417
+msgid "How would you like to provide your rent history information?"
+msgstr "How would you like to provide your rent history information?"
+
+#: src/Components/Pages/Landing/Landing.tsx:60
+#: src/Components/Pages/Landing/Landing.tsx:125
+#: src/Components/Pages/PreFlow/PreFlow.tsx:497
+msgid "JustFix"
+msgstr "JustFix"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:185
 msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 msgstr "Keep your phone steady in position and wait for the scanner to automatically take the photo"
+
+#: src/Components/Pages/Landing/Landing.tsx:51
+msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
+msgstr "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
+
+#: src/Components/Pages/Landing/Landing.tsx:74
+#: src/Components/Pages/PreFlow/PreFlow.tsx:270
+msgid "Learn more"
+msgstr "Learn more"
+
+#: src/Components/Pages/Landing/Landing.tsx:94
+#: src/Components/Pages/PreFlow/PreFlow.tsx:478
+msgid "Legal and feedback"
+msgstr "Legal and feedback"
 
 #: src/Components/EmblaCarousel/BlobImage.tsx:30
 msgid "Loading image..."
 msgstr "Loading image..."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:140
+#: src/Components/Pages/PreFlow/PreFlow.tsx:399
+msgid "Log out"
+msgstr "Log out"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:442
+msgid "Manually enter your rent history"
+msgstr "Manually enter your rent history"
+
+#: src/Components/Pages/Landing/Landing.tsx:25
+#: src/Components/Pages/PreFlow/PreFlow.tsx:250
+#: src/Components/Pages/PreFlow/PreFlow.tsx:253
+msgid "Menu"
+msgstr "Menu"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:143
 msgid "Next"
 msgstr "Next"
+
+#: src/Components/Pages/Landing/Landing.tsx:21
+msgid "Open menu"
+msgstr "Open menu"
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:23
 #~ msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 #~ msgstr "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 
 #. placeholder {0}: pageNumber.current
-#: src/Components/Pages/Scanner/Scanner.tsx:78
+#: src/Components/Pages/Scanner/Scanner.tsx:80
 msgid "Page {0} scan image"
 msgstr "Page {0} scan image"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:171
+#: src/Components/Pages/PreFlow/PreFlow.tsx:276
+msgid "Phone number (required)"
+msgstr "Phone number (required)"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:176
 msgid "Place the pages against a dark background"
 msgstr "Place the pages against a dark background"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:40
+#: src/Components/Pages/PreFlow/PreFlow.tsx:162
+msgid "Please confirm your phone number and try again."
+msgstr "Please confirm your phone number and try again."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:287
+msgid "Please enter a valid 10-digit phone number."
+msgstr "Please enter a valid 10-digit phone number."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:94
+msgid "Please enter a valid phone number."
+msgstr "Please enter a valid phone number."
+
+#: src/Components/Pages/Landing/Landing.tsx:97
+#: src/Components/Pages/PreFlow/PreFlow.tsx:481
+msgid "Privacy policy"
+msgstr "Privacy policy"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:42
 msgid "Re-scan page"
 msgstr "Re-scan page"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:430
+msgid "Recommended"
+msgstr "Recommended"
 
 #: src/Components/Pages/Home/Home.tsx:11
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:10
 msgid "Rent History Analyzer"
 msgstr "Rent History Analyzer"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:142
+#: src/Components/Pages/Landing/Landing.tsx:17
+#: src/Components/Pages/Landing/Landing.tsx:112
+#: src/Components/Pages/PreFlow/PreFlow.tsx:245
+#: src/Components/Pages/PreFlow/PreFlow.tsx:492
+msgid "Rent History NYC"
+msgstr "Rent History NYC"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:346
+msgid "Resend"
+msgstr "Resend"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:147
 msgid "Restart scanning"
 msgstr "Restart scanning"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:30
+msgid "Resume"
+msgstr "Resume"
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:13
 msgid "Review and edit your rent history"
 msgstr "Review and edit your rent history"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:43
+#: src/Components/Pages/Scanner/Scanner.tsx:45
 msgid "Save page"
 msgstr "Save page"
 
@@ -79,9 +258,13 @@ msgstr "Save page"
 msgid "Scan your rent history"
 msgstr "Scan your rent history"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:109
+#: src/Components/Pages/Scanner/Scanner.tsx:111
 msgid "Scan your rent history document"
 msgstr "Scan your rent history document"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:427
+msgid "Scan your rent history documents"
+msgstr "Scan your rent history documents"
 
 #: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
 #~ msgid "ScanBot"
@@ -91,34 +274,122 @@ msgstr "Scan your rent history document"
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:136
+#: src/Components/Pages/Scanner/Scanner.tsx:138
 msgid "Scanning complete"
 msgstr "Scanning complete"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:130
+#: src/Components/Pages/Scanner/Scanner.tsx:132
 msgid "Scanning in progress..."
 msgstr "Scanning in progress..."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:120
+#: src/Components/Pages/PreFlow/PreFlow.tsx:301
+msgid "Send verification code"
+msgstr "Send verification code"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:99
+msgid "Something went wrong while sending your verification code."
+msgstr "Something went wrong while sending your verification code."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:136
+msgid "Something went wrong while verifying your code."
+msgstr "Something went wrong while verifying your code."
+
+#: src/Components/Pages/Scanner/Scanner.tsx:122
 msgid "Start scanning"
 msgstr "Start scanning"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:166
+#: src/Components/Pages/PreFlow/PreFlow.tsx:29
+msgid "Started Feb 3, 2026"
+msgstr "Started Feb 3, 2026"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:409
+msgid "Step 1: Upload"
+msgstr "Step 1: Upload"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:171
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr "Take photos in a well lit location and enable your camera flash"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:157
+#: src/Components/Pages/Landing/Landing.tsx:100
+#: src/Components/Pages/PreFlow/PreFlow.tsx:484
+msgid "Terms of use"
+msgstr "Terms of use"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:127
+msgid "That code is incorrect. Try again."
+msgstr "That code is incorrect. Try again."
+
+#: src/Components/Pages/Landing/Landing.tsx:85
+#: src/Components/Pages/PreFlow/PreFlow.tsx:469
+msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
+msgstr "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
+
+#: src/Components/Pages/Scanner/Scanner.tsx:162
 msgid "Tips for getting a high quality scan"
 msgstr "Tips for getting a high quality scan"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:119
+msgid "Too many invalid attempts. Request a new code."
+msgstr "Too many invalid attempts. Request a new code."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:168
+msgid "Unable to resend code right now. Please try again."
+msgstr "Unable to resend code right now. Please try again."
 
 #: src/Components/Pages/Home/Home.tsx:12
 #~ msgid "Upload your rent history"
 #~ msgstr "Upload your rent history"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:112
+#: src/Components/Pages/Scanner/Scanner.tsx:114
 msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 msgstr "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 
 #: src/Components/Pages/Home/Home.tsx:14
 msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 msgstr "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
+
+#. placeholder {0}: index + 1
+#: src/Components/Pages/PreFlow/PreFlow.tsx:339
+msgid "Verification digit {0}"
+msgstr "Verification digit {0}"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:361
+msgid "Verify"
+msgstr "Verify"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:37
+msgid "View report"
+msgstr "View report"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:130
+msgid "We could not find an account for this phone number."
+msgstr "We could not find an account for this phone number."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:91
+#: src/Components/Pages/PreFlow/PreFlow.tsx:159
+msgid "We could not find an existing report for this number."
+msgstr "We could not find an existing report for this number."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:83
+msgid "We requested your code. Delivery may take a moment."
+msgstr "We requested your code. Delivery may take a moment."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:317
+msgid "We sent a code to"
+msgstr "We sent a code to"
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:266
+#~ msgid "We'll text you a code to verify and save your progress."
+#~ msgstr "We'll text you a code to verify and save your progress."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:266
+msgid "We’ll text you a code to verify and save your progress."
+msgstr "We’ll text you a code to verify and save your progress."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:125
+msgid "Your code expired. Request a new code."
+msgstr "Your code expired. Request a new code."
+
+#: src/Components/Pages/PreFlow/PreFlow.tsx:374
+msgid "Your rent history report(s)"
+msgstr "Your rent history report(s)"
