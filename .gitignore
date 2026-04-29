@@ -30,3 +30,4 @@ lambda/*/*.zip
 **/test-scans/
 **/test-standardize/
 **/test-textract/
+*.tsbuildinfo

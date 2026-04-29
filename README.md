@@ -2,6 +2,14 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Environment for Rent History OTP auth
+
+The post-OTP routes are protected and require a valid session token produced by the auth provider's `verify-otp-token` endpoint. Set these env vars for local development:
+
+- `VITE_AUTH_PROVIDER_BASE_URL` - auth-provider base URL (for example `http://127.0.0.1:8080`)
+- `VITE_RH_OAUTH_CLIENT_ID` - OAuth client id used for OTP token exchange
+- `VITE_RH_OAUTH_CLIENT_SECRET` - optional secret for confidential clients
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
