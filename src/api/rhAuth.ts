@@ -12,6 +12,15 @@ export type RhPhoneUpsertResult = {
   existed: boolean;
 };
 
+export type RhOtpTokenResponse = {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+  profile: RhProfile;
+};
+
 export class RhAuthApiError extends Error {
   constructor(
     readonly status: number,
@@ -28,6 +37,21 @@ const getAuthProviderBaseUrl = (): string => {
     throw new Error("VITE_AUTH_PROVIDER_BASE_URL is not configured.");
   }
   return baseUrl;
+};
+
+const getRhOauthClientId = (): string => {
+  const clientId = import.meta.env.VITE_RH_OAUTH_CLIENT_ID as string | undefined;
+  if (!clientId) {
+    throw new Error("VITE_RH_OAUTH_CLIENT_ID is not configured.");
+  }
+  return clientId;
+};
+
+const getRhOauthClientSecret = (): string | undefined => {
+  const clientSecret = import.meta.env.VITE_RH_OAUTH_CLIENT_SECRET as
+    | string
+    | undefined;
+  return clientSecret || undefined;
 };
 
 const postRh = async <T>(path: string, body: object): Promise<T> => {
@@ -97,4 +121,14 @@ export const upsertRhPhone = async (
 export const verifyRhOtp = (
   phoneNumber: string,
   code: string,
-): Promise<RhProfile> => postRh("/rh/verify-otp", { phone_number: phoneNumber, code });
+): Promise<RhOtpTokenResponse> => {
+  const clientId = getRhOauthClientId();
+  const clientSecret = getRhOauthClientSecret();
+  return postRh<RhOtpTokenResponse>("/rh/verify-otp-token", {
+    phone_number: phoneNumber,
+    code,
+    client_id: clientId,
+    grant_type: "password",
+    ...(clientSecret ? { client_secret: clientSecret } : {}),
+  });
+};

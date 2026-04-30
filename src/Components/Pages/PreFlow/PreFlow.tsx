@@ -20,6 +20,7 @@ import {
   upsertRhPhone,
   verifyRhOtp,
 } from "../../../api/rhAuth";
+import { setRhOtpSession } from "../../../auth/rhOtpSession";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import "./PreFlow.scss";
 
@@ -136,8 +137,9 @@ const PreFlow: React.FC = () => {
     setVerificationError(null);
     setIsVerifyingCode(true);
     try {
-      const profile = await verifyRhOtp(numericPhone, data.code);
-      setVerifiedProfile(profile);
+      const otpSession = await verifyRhOtp(numericPhone, data.code);
+      setRhOtpSession(otpSession);
+      setVerifiedProfile(otpSession.profile);
       setScreen(phoneExists ? "hub" : "step1");
     } catch (error) {
       if (error instanceof RhAuthApiError) {
