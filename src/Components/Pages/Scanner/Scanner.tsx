@@ -65,7 +65,7 @@ const Scanner: React.FC = () => {
         onDocumentScanned: async (result) => {
           // Process each scanned page
           const jpgBlob = await result.correctedImageResult?.toBlob(
-            "image/jpeg",
+            "image/jpeg"
           );
           if (!jpgBlob) {
             console.error("no image from scan");

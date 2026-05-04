@@ -28,7 +28,7 @@ const PostScanFlow: React.FC = () => {
             const normalized = value.replace(/[$,\s]/g, "");
             return !Number.isNaN(Number(normalized)) && Number(normalized) > 0;
           }, _(msg`Please enter a valid rent amount.`)),
-      }),
+      })
     ),
     defaultValues: { monthlyRent: "" },
   });
@@ -52,12 +52,12 @@ const PostScanFlow: React.FC = () => {
     const formIsValid = rentForm.trigger("monthlyRent");
     void formIsValid.then((isValid) => {
       if (!isValid) return;
-      navigate(`/${i18n.locale}/analyze`);
+      navigate(`/${i18n.locale}/scanner`);
     });
   };
 
   const onRentSubmit = rentForm.handleSubmit(() => {
-    navigate(`/${i18n.locale}/analyze`);
+    navigate(`/${i18n.locale}/scanner`);
   });
 
   return (

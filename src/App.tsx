@@ -6,40 +6,24 @@ import {
   createBrowserRouter,
   RouterProvider,
   createRoutesFromElements,
-  ScrollRestoration,
 } from "react-router-dom";
 import { SWRConfig } from "swr";
 import { useRollbar } from "@rollbar/react";
 import { useMemo } from "react";
 
-import { I18n } from "./i18n";
 import { NetworkError } from "./api/error-reporting";
 import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
 import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
-import Home from "./Components/Pages/Home/Home";
 import Landing from "./Components/Pages/Landing/Landing";
-import PreFlow from "./Components/Pages/PreFlow/PreFlow";
+import LoginPage from "./Components/Pages/LoginPage/LoginPage";
+import AccountPage from "./Components/Pages/AccountPage/AccountPage";
+import HistoryPage from "./Components/Pages/HistoryPage/HistoryPage";
+import { PageLayout } from "./Components/Pages/PageLayout/PageLayout";
 import PostScanFlow from "./Components/Pages/PostScanFlow/PostScanFlow";
 import Scanner from "./Components/Pages/Scanner/Scanner";
 import { ReviewEditData } from "./Components/Pages/ReviewEditData/ReviewEditData";
 import { getRhOtpSession } from "./auth/rhOtpSession";
 import { parseLocaleFromPath } from "./i18n";
-
-const Layout = () => {
-  return (
-    <I18n>
-      <div id="container">
-        <main id="main">
-          <div id="content">
-            <Outlet />
-          </div>
-        </main>
-
-        <ScrollRestoration />
-      </div>
-    </I18n>
-  );
-};
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -49,8 +33,8 @@ const RequireOtpToken = () => {
   }
 
   const locale = parseLocaleFromPath(location.pathname);
-  const preFlowPath = locale ? `/${locale}/pre-flow` : "/pre-flow";
-  return <Navigate to={preFlowPath} replace />;
+  const loginPath = locale ? `/${locale}/login` : "/login";
+  return <Navigate to={loginPath} replace />;
 };
 
 const createAppRouter = () =>
@@ -58,11 +42,12 @@ const createAppRouter = () =>
     createRoutesFromElements(
       <>
         {/* Routes with locale prefix */}
-        <Route path="/:locale" element={<Layout />}>
+        <Route path="/:locale" element={<PageLayout />}>
           <Route index element={<Landing />} />
-          <Route path="pre-flow" element={<PreFlow />} />
+          <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
-            <Route path="analyze" element={<Home />} />
+            <Route path="account" element={<AccountPage />} />
+            <Route path="history" element={<HistoryPage />} />
             <Route path="scanner" element={<Scanner />} />
             <Route path="review" element={<ReviewEditData />} />
             <Route path="post-scan" element={<PostScanFlow />} />
@@ -71,16 +56,20 @@ const createAppRouter = () =>
           <Route path="terms_of_use" element={<TermsOfUse />} />
         </Route>
         {/* Catch-all route for paths without locale - will redirect */}
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<PageLayout />}>
           <Route index element={<Landing />} />
-          <Route path="pre-flow" element={<PreFlow />} />
+          <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
-            <Route path="analyze" element={<Home />} />
+            <Route path="account" element={<AccountPage />} />
+            <Route path="history" element={<HistoryPage />} />
+            <Route path="scanner" element={<Scanner />} />
+            <Route path="review" element={<ReviewEditData />} />
+            <Route path="post-scan" element={<PostScanFlow />} />
           </Route>
           <Route path="*" element={<Landing />} />
         </Route>
-      </>,
-    ),
+      </>
+    )
   );
 
 function App() {

@@ -1,0 +1,62 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.preflow-footer {
+  background: jfcl.$OFF_WHITE_200;
+  border-top: 1px solid jfcl.$OFF_BLACK;
+  padding: 2rem 1.5rem 1.5rem;
+
+  &__disclaimer {
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    p {
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      margin: 0.5rem 0 0;
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.25rem;
+    margin-top: 1.5rem;
+
+    a {
+      color: jfcl.$OFF_BLACK;
+      font-size: 1.125rem;
+      text-decoration: underline;
+    }
+  }
+
+  &__brand {
+    border-top: 1px solid jfcl.$OFF_BLACK;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+
+    p {
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    a {
+      color: jfcl.$OFF_BLACK;
+      text-decoration: underline;
+    }
+  }
+
+  &__title {
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+}

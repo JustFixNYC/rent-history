@@ -1,49 +1,5 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 
-#pref-low-page {
-  background: jfcl.$OFF_WHITE_100;
-  color: jfcl.$OFF_BLACK;
-}
-
-.preflow-header {
-  align-items: stretch;
-  background: jfcl.$OFF_WHITE_200;
-  border-bottom: 1px solid jfcl.$OFF_BLACK;
-  display: flex;
-  justify-content: space-between;
-  min-height: 64px;
-
-  &__brand {
-    align-items: center;
-    display: flex;
-    font-size: 2rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    line-height: 1.2;
-    padding: 0 1.5rem;
-  }
-
-  &__menu {
-    align-items: center;
-    background: transparent;
-    border: 0;
-    border-left: 1px solid jfcl.$OFF_BLACK;
-    color: jfcl.$OFF_BLACK;
-    cursor: default;
-    display: flex;
-    font-family: "Degular";
-    font-size: 1.125rem;
-    font-weight: 500;
-    gap: 0.5rem;
-    letter-spacing: 0.03em;
-    padding: 0 1.5rem;
-
-    svg {
-      font-size: 0.875rem;
-    }
-  }
-}
-
 .preflow-section {
   background: jfcl.$OFF_WHITE_100;
   padding: 2rem 1.5rem;
@@ -103,7 +59,6 @@
     line-height: 1.2;
     margin: 0 0 1rem 0;
   }
-
 }
 
 .preflow-helper {
@@ -276,66 +231,5 @@
     letter-spacing: 0.08em;
     padding: 0.375rem 0.625rem;
     text-transform: uppercase;
-  }
-}
-
-.preflow-footer {
-  background: jfcl.$OFF_WHITE_200;
-  border-top: 1px solid jfcl.$OFF_BLACK;
-  padding: 2rem 1.5rem 1.5rem;
-
-  &__disclaimer {
-    h3 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      line-height: 1.2;
-      margin: 0;
-    }
-
-    p {
-      font-size: 1.125rem;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      line-height: 1.2;
-      margin: 0.5rem 0 0;
-    }
-  }
-
-  &__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 2.25rem;
-    margin-top: 1.5rem;
-
-    a {
-      color: jfcl.$OFF_BLACK;
-      font-size: 1.125rem;
-      text-decoration: underline;
-    }
-  }
-
-  &__brand {
-    border-top: 1px solid jfcl.$OFF_BLACK;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-
-    p {
-      font-size: 1.125rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    a {
-      color: jfcl.$OFF_BLACK;
-      text-decoration: underline;
-    }
-  }
-
-  &__title {
-    line-height: 1;
-    margin-bottom: 1rem;
   }
 }

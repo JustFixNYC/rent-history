@@ -1,0 +1,9 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "./Header.scss";
+@use "./Footer.scss";
+@use "../shared/preflowBlocks.scss";
+
+#pref-low-page {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+}

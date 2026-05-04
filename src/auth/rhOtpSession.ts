@@ -1,6 +1,7 @@
 import type { RhOtpTokenResponse, RhProfile } from "../api/rhAuth";
 
 const RH_OTP_SESSION_KEY = "rhOtpSession";
+const RH_HISTORY_ID_KEY = "history_id";
 
 export type RhOtpSession = {
   accessToken: string;
@@ -29,7 +30,7 @@ function isRhOtpSession(value: unknown): value is RhOtpSession {
 
 export const setRhOtpSession = (
   payload: RhOtpTokenResponse,
-  nowMs = Date.now(),
+  nowMs = Date.now()
 ): RhOtpSession => {
   const session: RhOtpSession = {
     accessToken: payload.access_token,
@@ -75,4 +76,15 @@ export const getValidRhAccessToken = (nowMs = Date.now()): string | null => {
 
 export const clearRhOtpSession = (): void => {
   window.sessionStorage.removeItem(RH_OTP_SESSION_KEY);
+};
+
+export const setRhHistoryId = (historyId: string): void => {
+  window.sessionStorage.setItem(RH_HISTORY_ID_KEY, historyId);
+};
+
+export const getRhHistoryId = (): string | null =>
+  window.sessionStorage.getItem(RH_HISTORY_ID_KEY);
+
+export const clearRhHistoryId = (): void => {
+  window.sessionStorage.removeItem(RH_HISTORY_ID_KEY);
 };

@@ -31,3 +31,4 @@ lambda/*/*.zip
 **/test-standardize/
 **/test-textract/
 *.tsbuildinfo
+auth-rh-api-schema.json

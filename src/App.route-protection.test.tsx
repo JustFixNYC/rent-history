@@ -26,25 +26,25 @@ describe("post-OTP route protection", () => {
     clearRhOtpSession();
   });
 
-  it.each(["/en/analyze", "/en/scanner", "/en/review", "/en/post-scan"])(
-    "redirects unauthenticated deep-link %s to pre-flow",
+  it.each(["/en/account", "/en/scanner", "/en/review", "/en/post-scan"])(
+    "redirects unauthenticated deep-link %s to login",
     async (path) => {
       window.history.pushState({}, "", path);
       render(<App />);
 
       await waitFor(() => {
-        expect(window.location.pathname).toBe("/en/pre-flow");
+        expect(window.location.pathname).toBe("/en/login");
       });
-    },
+    }
   );
 
   it("allows protected routes when otp session is valid", async () => {
     setRhOtpSession(tokenPayload);
-    window.history.pushState({}, "", "/en/analyze");
+    window.history.pushState({}, "", "/en/scanner");
     render(<App />);
 
     await waitFor(() => {
-      expect(window.location.pathname).toBe("/en/analyze");
+      expect(window.location.pathname).toBe("/en/scanner");
     });
   });
 });
