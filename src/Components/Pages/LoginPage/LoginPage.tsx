@@ -6,13 +6,7 @@ import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  Icon,
-  RadioButton,
-  TextInput,
-} from "@justfixnyc/component-library";
-import { LocaleLink } from "../../../i18n";
+import { Button, Icon, TextInput } from "@justfixnyc/component-library";
 import {
   RhAuthApiError,
   RhProfile,
@@ -20,55 +14,35 @@ import {
   upsertRhPhone,
   verifyRhOtp,
 } from "../../../api/rhAuth";
-import { setRhOtpSession } from "../../../auth/rhOtpSession";
+import { clearRhHistoryId, setRhOtpSession } from "../../../auth/rhOtpSession";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
-import "./PreFlow.scss";
+import { formatPhone, setRhPhoneExists } from "../shared/flowSession";
+import "./LoginPage.scss";
 
-type Screen = "phone" | "verification" | "hub" | "step1";
-type UploadMethod = "scan" | "manual";
-
-const initialReports = [
-  {
-    id: "1",
-    address: "123 Main St., Apt 3L",
-    status: msg`Started Feb 3, 2026`,
-    cta: msg`Resume`,
-    primary: false,
-  },
-  {
-    id: "2",
-    address: "123 Main St., Apt 4R",
-    status: msg`Completed Feb 1, 2026`,
-    cta: msg`View report`,
-    primary: true,
-  },
-];
-
-const PreFlow: React.FC = () => {
+const LoginPage: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
 
-  const [screen, setScreen] = useState<Screen>("phone");
-  const [phoneExists, setPhoneExists] = useState(false);
+  const [isVerificationStep, setIsVerificationStep] = useState(false);
   const [verificationDigits, setVerificationDigits] = useState<string[]>(
-    Array.from({ length: 6 }, () => ""),
+    Array.from({ length: 6 }, () => "")
   );
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
   const phoneFormRef = useRef<HTMLFormElement>(null);
   const otpFormRef = useRef<HTMLFormElement>(null);
-  const [uploadMethod, setUploadMethod] = useState<UploadMethod>("scan");
+  const [phoneExists, setPhoneExists] = useState(false);
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const [verificationError, setVerificationError] = useState<string | null>(
-    null,
+    null
   );
   const [verificationNotice, setVerificationNotice] = useState<string | null>(
-    null,
+    null
   );
   const [isSendingCode, setIsSendingCode] = useState(false);
   const [isVerifyingCode, setIsVerifyingCode] = useState(false);
   const [, setVerifiedProfile] = useSessionStorage<RhProfile | null>(
     "rhVerifiedProfile",
-    null,
+    null
   );
 
   const phoneForm = useForm<{ phone: string }>({
@@ -78,9 +52,9 @@ const PreFlow: React.FC = () => {
           .string()
           .refine(
             (val) => val.replace(/\D/g, "").length === 10,
-            _(msg`Please enter a valid phone number.`),
+            _(msg`Please enter a valid phone number.`)
           ),
-      }),
+      })
     ),
     defaultValues: { phone: "" },
   });
@@ -89,7 +63,7 @@ const PreFlow: React.FC = () => {
     resolver: zodResolver(
       z.object({
         code: z.string().length(6, _(msg`Please enter all 6 digits.`)),
-      }),
+      })
     ),
     defaultValues: { code: "" },
   });
@@ -101,8 +75,6 @@ const PreFlow: React.FC = () => {
   const isVerificationCodeValid = verificationCode.length === 6;
   const maskedPhone = useMemo(() => formatPhone(phoneValue), [phoneValue]);
 
-  const startExistingFlow = () => navigate(`/${i18n.locale}/analyze`);
-
   const onPhoneNext = phoneForm.handleSubmit(async () => {
     setPhoneError(null);
     setVerificationError(null);
@@ -111,13 +83,14 @@ const PreFlow: React.FC = () => {
     try {
       const { existed } = await upsertRhPhone(numericPhone);
       setPhoneExists(existed);
+      setRhPhoneExists(existed);
       const result = await requestRhOtp(numericPhone);
       setVerificationNotice(
         result.status === "pending"
           ? _(msg`We requested your code. Delivery may take a moment.`)
-          : _(msg`Code sent. Enter it below to continue.`),
+          : _(msg`Code sent. Enter it below to continue.`)
       );
-      setScreen("verification");
+      setIsVerificationStep(true);
     } catch (error) {
       if (error instanceof RhAuthApiError && error.status === 400) {
         setPhoneError(_(msg`Please enter a valid phone number.`));
@@ -125,7 +98,7 @@ const PreFlow: React.FC = () => {
         setPhoneError(error.message);
       } else {
         setPhoneError(
-          _(msg`Something went wrong while sending your verification code.`),
+          _(msg`Something went wrong while sending your verification code.`)
         );
       }
     } finally {
@@ -140,12 +113,13 @@ const PreFlow: React.FC = () => {
       const otpSession = await verifyRhOtp(numericPhone, data.code);
       setRhOtpSession(otpSession);
       setVerifiedProfile(otpSession.profile);
-      setScreen(phoneExists ? "hub" : "step1");
+      clearRhHistoryId();
+      navigate(`/${i18n.locale}/${phoneExists ? "account" : "history"}`);
     } catch (error) {
       if (error instanceof RhAuthApiError) {
         if (error.status === 429) {
           setVerificationError(
-            _(msg`Too many invalid attempts. Request a new code.`),
+            _(msg`Too many invalid attempts. Request a new code.`)
           );
         } else if (
           error.status === 400 &&
@@ -156,14 +130,14 @@ const PreFlow: React.FC = () => {
           setVerificationError(_(msg`That code is incorrect. Try again.`));
         } else if (error.status === 404) {
           setVerificationError(
-            _(msg`We could not find an account for this phone number.`),
+            _(msg`We could not find an account for this phone number.`)
           );
         } else {
           setVerificationError(error.message);
         }
       } else {
         setVerificationError(
-          _(msg`Something went wrong while verifying your code.`),
+          _(msg`Something went wrong while verifying your code.`)
         );
       }
     } finally {
@@ -181,32 +155,23 @@ const PreFlow: React.FC = () => {
       setVerificationNotice(
         result.status === "pending"
           ? _(msg`Code request received. Delivery may take a moment.`)
-          : _(msg`A new code has been sent.`),
+          : _(msg`A new code has been sent.`)
       );
     } catch (error) {
       if (error instanceof RhAuthApiError && error.status === 400) {
         setVerificationError(
-          _(msg`Please confirm your phone number and try again.`),
+          _(msg`Please confirm your phone number and try again.`)
         );
       } else if (error instanceof RhAuthApiError) {
         setVerificationError(error.message);
       } else {
         setVerificationError(
-          _(msg`Unable to resend code right now. Please try again.`),
+          _(msg`Unable to resend code right now. Please try again.`)
         );
       }
     } finally {
       setIsSendingCode(false);
     }
-  };
-
-  const onStepContinue = () => {
-    if (uploadMethod === "manual") {
-      // TODO: wire manual entry path once backend + manual flow are ready.
-      navigate(`/${i18n.locale}/analyze`);
-      return;
-    }
-    navigate(`/${i18n.locale}/analyze`);
   };
 
   const updateDigit = (index: number, value: string) => {
@@ -223,7 +188,7 @@ const PreFlow: React.FC = () => {
 
   const onDigitKeyDown = (
     index: number,
-    event: React.KeyboardEvent<HTMLInputElement>,
+    event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key === "Backspace" && !verificationDigits[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
@@ -248,40 +213,16 @@ const PreFlow: React.FC = () => {
   };
 
   const onBack = () => {
-    if (screen === "phone") {
+    if (!isVerificationStep) {
       navigate(`/${i18n.locale}`);
       return;
     }
-    if (screen === "verification") {
-      setScreen("phone");
-      return;
-    }
-    if (screen === "hub") {
-      setScreen("verification");
-      return;
-    }
-    if (screen === "step1") {
-      setScreen(phoneExists ? "hub" : "verification");
-    }
+    setIsVerificationStep(false);
   };
 
   return (
-    <div id="pref-low-page">
-      <header className="preflow-header">
-        <div className="preflow-header__brand">
-          <Trans>Rent History NYC</Trans>
-        </div>
-        <button
-          className="preflow-header__menu"
-          type="button"
-          aria-label={_(msg`Menu`)}
-        >
-          <Icon icon="bars" />
-          <Trans>Menu</Trans>
-        </button>
-      </header>
-
-      {screen === "phone" && (
+    <>
+      {!isVerificationStep && (
         <section className="preflow-section preflow-section--with-footer-gap">
           <form ref={phoneFormRef} onSubmit={onPhoneNext}>
             <article className="preflow-card">
@@ -317,7 +258,7 @@ const PreFlow: React.FC = () => {
                 className="preflow-phone-input"
                 invalid={phoneValue.length > 0 && !isPhoneValid}
                 invalidText={_(
-                  msg`Please enter a valid 10-digit phone number.`,
+                  msg`Please enter a valid 10-digit phone number.`
                 )}
               />
               {phoneError && (
@@ -346,7 +287,7 @@ const PreFlow: React.FC = () => {
         </section>
       )}
 
-      {screen === "verification" && (
+      {isVerificationStep && (
         <section className="preflow-section preflow-section--with-footer-gap">
           <form ref={otpFormRef} onSubmit={onVerificationNext}>
             <input type="hidden" {...otpForm.register("code")} />
@@ -355,8 +296,7 @@ const PreFlow: React.FC = () => {
                 <Trans>Enter verification code</Trans>
               </h1>
               <p className="preflow-subtitle">
-                {_(msg`We sent a code to`)}{" "}
-                <strong>{maskedPhone}</strong>
+                {_(msg`We sent a code to`)} <strong>{maskedPhone}</strong>
               </p>
               {verificationNotice && (
                 <p className="preflow-notice" role="status">
@@ -416,153 +356,8 @@ const PreFlow: React.FC = () => {
           </form>
         </section>
       )}
-
-      {screen === "hub" && (
-        <>
-          <section className="preflow-section">
-            <h1 className="preflow-title">
-              <Trans>Your rent history report(s)</Trans>
-            </h1>
-            <div className="preflow-report-list">
-              {initialReports.map((report) => (
-                <article key={report.id} className="preflow-report-card">
-                  <h2>{report.address}</h2>
-                  <p>{_(report.status)}</p>
-                  <Button
-                    labelText={_(report.cta)}
-                    variant={report.primary ? "primary" : "secondary"}
-                    size="small"
-                    className="preflow-report-btn"
-                    onClick={startExistingFlow}
-                  />
-                </article>
-              ))}
-            </div>
-          </section>
-          <section className="preflow-section preflow-section--tight">
-            <Button
-              labelText={_(msg`+ Start a new analysis`)}
-              className="preflow-primary-btn preflow-primary-btn--full"
-              onClick={() => setScreen("step1")}
-            />
-            <button type="button" className="preflow-logout" onClick={onBack}>
-              <Trans>Log out</Trans>
-            </button>
-          </section>
-        </>
-      )}
-
-      {screen === "step1" && (
-        <section className="preflow-section preflow-section--with-footer-gap">
-          <div className="preflow-progress">
-            <p>
-              <Trans>Step 1: Upload</Trans>
-            </p>
-            <div className="preflow-progress__bar">
-              <span />
-            </div>
-          </div>
-          <article className="preflow-card">
-            <h1>
-              <Trans>
-                How would you like to provide your rent history information?
-              </Trans>
-            </h1>
-            <RadioButton
-              id="upload-method-scan"
-              name="upload-method"
-              labelElement={
-                <span className="preflow-radio-label">
-                  <span>
-                    <Trans>Scan your rent history documents</Trans>
-                  </span>
-                  <em>
-                    <Trans>Recommended</Trans>
-                  </em>
-                </span>
-              }
-              className="preflow-option"
-              checked={uploadMethod === "scan"}
-              onClick={() => setUploadMethod("scan")}
-              onChange={() => setUploadMethod("scan")}
-            />
-            <RadioButton
-              id="upload-method-manual"
-              name="upload-method"
-              labelText={_(msg`Manually enter your rent history`)}
-              className="preflow-option"
-              checked={uploadMethod === "manual"}
-              onClick={() => setUploadMethod("manual")}
-              onChange={() => setUploadMethod("manual")}
-            />
-          </article>
-          <div className="preflow-actions">
-            <button type="button" className="preflow-link-btn" onClick={onBack}>
-              <Icon icon="chevronLeft" />
-              <Trans>Back</Trans>
-            </button>
-            <Button
-              labelText={_(msg`Continue`)}
-              className="preflow-primary-btn"
-              onClick={onStepContinue}
-            />
-          </div>
-        </section>
-      )}
-
-      <footer className="preflow-footer">
-        <section className="preflow-footer__disclaimer">
-          <h3>
-            <Trans>Disclaimer</Trans>
-          </h3>
-          <p>
-            <Trans>
-              The information on this website does not constitute legal advice
-              and must not be used as a substitute for the advice of a lawyer
-              qualified to give advice on legal issues pertaining to housing.
-            </Trans>
-          </p>
-        </section>
-        <nav
-          className="preflow-footer__links"
-          aria-label={_(msg`Legal and feedback`)}
-        >
-          <LocaleLink to="privacy_policy">
-            <Trans>Privacy policy</Trans>
-          </LocaleLink>
-          <LocaleLink to="terms_of_use">
-            <Trans>Terms of use</Trans>
-          </LocaleLink>
-          <a
-            href="https://www.justfix.org/en/contact-us"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Trans>Feedback form</Trans>
-          </a>
-        </nav>
-        <section className="preflow-footer__brand">
-          <p className="preflow-footer__title">
-            <Trans>Rent History NYC</Trans>
-          </p>
-          <p>
-            <Trans>By</Trans>{" "}
-            <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
-              <Trans>JustFix</Trans>
-            </a>
-          </p>
-        </section>
-      </footer>
-    </div>
+    </>
   );
 };
 
-function formatPhone(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 10);
-  if (digits.length === 0) return "";
-  if (digits.length < 4) return `(${digits}`;
-  if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-}
-
-export default PreFlow;
+export default LoginPage;

@@ -3,7 +3,6 @@ import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
-import { LocaleLink } from "../../../i18n";
 import "./Landing.scss";
 
 const Landing: React.FC = () => {
@@ -12,20 +11,6 @@ const Landing: React.FC = () => {
 
   return (
     <div id="landing-page">
-      <header className="landing-header">
-        <div className="landing-header__brand">
-          <Trans>Rent History NYC</Trans>
-        </div>
-        <button
-          className="landing-header__menu"
-          aria-label={_(msg`Open menu`)}
-          type="button"
-        >
-          <Icon icon="bars" />
-          <Trans>Menu</Trans>
-        </button>
-      </header>
-
       <section className="landing-hero">
         <h1>
           <Trans>Find out if you’ve been overcharged on rent</Trans>
@@ -39,7 +24,7 @@ const Landing: React.FC = () => {
         <Button
           labelText={_(msg`Get started`)}
           className="landing-hero__cta"
-          onClick={() => navigate(`/${i18n.locale}/pre-flow`)}
+          onClick={() => navigate(`/${i18n.locale}/login`)}
         />
       </section>
 
@@ -75,58 +60,6 @@ const Landing: React.FC = () => {
           </a>
         </article>
       </section>
-
-      <footer className="landing-footer">
-        <section className="landing-footer__disclaimer">
-          <h3>
-            <Trans>Disclaimer</Trans>
-          </h3>
-          <p>
-            <Trans>
-              The information on this website does not constitute legal advice
-              and must not be used as a substitute for the advice of a lawyer
-              qualified to give advice on legal issues pertaining to housing.
-            </Trans>
-          </p>
-        </section>
-        <nav
-          className="landing-footer__links"
-          aria-label={_(msg`Legal and feedback`)}
-        >
-          <LocaleLink to="privacy_policy">
-            <Trans>Privacy policy</Trans>
-          </LocaleLink>
-          <LocaleLink to="terms_of_use">
-            <Trans>Terms of use</Trans>
-          </LocaleLink>
-          <a
-            href="https://www.justfix.org/en/contact-us"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Trans>Feedback form</Trans>
-          </a>
-        </nav>
-        <section className="landing-footer__brand">
-          <p className="landing-footer__title">
-            <Trans>Rent History NYC</Trans>
-          </p>
-          <p>
-            <Trans>By</Trans>{" "}
-            <a
-              href="https://housingjusticeforall.org"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Trans>Housing Justice for All</Trans>
-            </a>{" "}
-            &amp;{" "}
-            <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
-              <Trans>JustFix</Trans>
-            </a>
-          </p>
-        </section>
-      </footer>
     </div>
   );
 };

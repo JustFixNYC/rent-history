@@ -1,16 +1,22 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import PreFlow from "./PreFlow";
+import LoginPage from "./LoginPage";
 import { RhAuthApiError } from "../../../api/rhAuth";
 import * as rhAuthApi from "../../../api/rhAuth";
 import * as rhOtpSession from "../../../auth/rhOtpSession";
 
 vi.mock("../../../api/rhAuth", async () => {
   const actual = await vi.importActual<typeof import("../../../api/rhAuth")>(
-    "../../../api/rhAuth",
+    "../../../api/rhAuth"
   );
   return {
     ...actual,
@@ -21,29 +27,30 @@ vi.mock("../../../api/rhAuth", async () => {
 });
 
 vi.mock("../../../auth/rhOtpSession", async () => {
-  const actual = await vi.importActual<typeof import("../../../auth/rhOtpSession")>(
-    "../../../auth/rhOtpSession",
-  );
+  const actual = await vi.importActual<
+    typeof import("../../../auth/rhOtpSession")
+  >("../../../auth/rhOtpSession");
   return {
     ...actual,
     setRhOtpSession: vi.fn(),
   };
 });
 
-const renderPreFlow = () => {
+const renderLoginPage = () => {
   i18n.load("en", {});
   i18n.activate("en");
   return render(
-    <MemoryRouter initialEntries={["/en/pre-flow"]}>
+    <MemoryRouter initialEntries={["/en/login"]}>
       <I18nProvider i18n={i18n}>
-        <PreFlow />
+        <LoginPage />
       </I18nProvider>
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 };
 
-describe("PreFlow OTP verification", () => {
+describe("LoginPage OTP verification", () => {
   beforeEach(() => {
+    cleanup();
     vi.clearAllMocks();
     window.sessionStorage.clear();
   });
@@ -72,12 +79,14 @@ describe("PreFlow OTP verification", () => {
     };
     vi.mocked(rhAuthApi.verifyRhOtp).mockResolvedValue(otpPayload);
 
-    renderPreFlow();
+    renderLoginPage();
 
     fireEvent.change(screen.getByLabelText("Phone number (required)"), {
       target: { value: "(555) 444-3333" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "Send verification code" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "Send verification code" })
+    );
 
     await screen.findByRole("heading", { name: "Enter verification code" });
 
@@ -90,7 +99,10 @@ describe("PreFlow OTP verification", () => {
     fireEvent.click(screen.getByRole("button", { name: "Verify" }));
 
     await waitFor(() => {
-      expect(rhAuthApi.verifyRhOtp).toHaveBeenCalledWith("5554443333", "123456");
+      expect(rhAuthApi.verifyRhOtp).toHaveBeenCalledWith(
+        "5554443333",
+        "123456"
+      );
       expect(rhOtpSession.setRhOtpSession).toHaveBeenCalledWith(otpPayload);
     });
   });
@@ -106,15 +118,17 @@ describe("PreFlow OTP verification", () => {
     });
     vi.mocked(rhAuthApi.requestRhOtp).mockResolvedValue({ status: "sent" });
     vi.mocked(rhAuthApi.verifyRhOtp).mockRejectedValue(
-      new RhAuthApiError(400, "Code expired"),
+      new RhAuthApiError(400, "Code expired")
     );
 
-    renderPreFlow();
+    renderLoginPage();
 
     fireEvent.change(screen.getByLabelText("Phone number (required)"), {
       target: { value: "(555) 444-3333" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "Send verification code" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "Send verification code" })
+    );
 
     await screen.findByRole("heading", { name: "Enter verification code" });
     for (let index = 1; index <= 6; index += 1) {
