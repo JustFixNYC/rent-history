@@ -29,6 +29,12 @@ export type RhHistoryRecord = {
   profile_id: number;
 };
 
+export type RhHistoryPageDeleteResponse = {
+  deleted_pages: number;
+  s3_cleanup_status: string;
+  s3_deleted_versions?: number;
+};
+
 export class RhAuthApiError extends Error {
   constructor(
     readonly status: number,
@@ -134,6 +140,38 @@ const postRhAuthorized = async <T>(
   return data as T;
 };
 
+const postRhAuthorizedWithBody = async <T>(
+  path: string,
+  accessToken: string,
+  body: object
+): Promise<T> => {
+  const response = await fetch(new URL(path, getAuthProviderBaseUrl()), {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  let data: unknown = undefined;
+  try {
+    data = await response.json();
+  } catch {
+    data = undefined;
+  }
+
+  if (!response.ok) {
+    throw new RhAuthApiError(
+      response.status,
+      parseRhJsonError(data, response),
+      data
+    );
+  }
+
+  return data as T;
+};
+
 export const requestRhOtp = (
   phoneNumber: string
 ): Promise<OtpRequestResponse> =>
@@ -192,3 +230,14 @@ export const createRhHistory = (
   accessToken: string
 ): Promise<RhHistoryRecord> =>
   postRhAuthorized<RhHistoryRecord>("/rh/history", accessToken);
+
+/** `POST /rh/history/delete-pages` — Delete all uploaded page scans for one history id. */
+export const deleteRhHistoryPages = (
+  accessToken: string,
+  historyId: string
+): Promise<RhHistoryPageDeleteResponse> =>
+  postRhAuthorizedWithBody<RhHistoryPageDeleteResponse>(
+    "/rh/history/delete-pages",
+    accessToken,
+    { history_id: historyId }
+  );
