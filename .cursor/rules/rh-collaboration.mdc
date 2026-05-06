@@ -1,0 +1,24 @@
+---
+description: Rent History Analyzer shared collaboration rules
+alwaysApply: true
+---
+
+# Rent History Analyzer Shared Rules
+
+## Non-overridable directives
+- Preserve API contract integrity across `auth-provider`, `rent-history`, and `rh-extract`.
+- For backend API changes, regenerate and commit `auth-provider/rh/openapi/openapi.json` in the same change.
+- Do not bypass required CI checks or remove contract validation safeguards.
+
+## Plan-mode clarification policy
+- In plan mode, ask 1-2 targeted clarification questions whenever requirements are ambiguous or a choice changes implementation materially.
+- Ask clarifying questions before finalizing the plan and before coding when unresolved assumptions remain.
+- Prefer defaults only for low-risk details and state those defaults explicitly.
+
+## Cross-repo coordination
+- When a change affects API fields/endpoints/auth, include impact notes for both `rent-history` and `rh-extract`.
+- Keep documentation and checklists synchronized with behavior changes.
+
+## Local override boundary
+- Developers may add local preference rules for tone/format/workflow speed.
+- Local overrides must not conflict with non-overridable directives above.
