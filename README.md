@@ -10,6 +10,12 @@ The post-OTP routes are protected and require a valid session token produced by 
 - `VITE_RH_OAUTH_CLIENT_ID` - OAuth client id used for OTP token exchange
 - `VITE_RH_OAUTH_CLIENT_SECRET` - optional secret for confidential clients
 
+## API contract tracking
+
+- Runtime contract endpoint is `GET /rh/schema` from `auth-provider`.
+- Canonical committed contract artifact is `auth-provider/rh/openapi/openapi.json`.
+- When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
