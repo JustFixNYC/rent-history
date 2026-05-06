@@ -62,7 +62,7 @@ const Scanner: React.FC = () => {
         },
         scannerViewConfig: {
           enableAutoCropMode: true,
-          enableSmartCaptureMode: true,
+          enableSmartCaptureMode: false,
           showSubfooter: false,
           enableFrameVerification: true,
           showPoweredByDynamsoft: false,
