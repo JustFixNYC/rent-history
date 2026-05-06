@@ -12,13 +12,18 @@ import { deleteScans } from "../../../api/deleteScans";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
 import { useNavigate } from "react-router-dom";
+import { getRhHistoryId, getRhOtpSession } from "../../../auth/rhOtpSession";
 
 type ScanStatus = "waiting" | "scanning" | "complete";
 
 const OPTIONS: EmblaOptionsType = {};
 
-// Just using datetime string for now to make it easy to identify user testing data in S3
-const HISTORY_CODE = new Date().toISOString().replace(/[:.]/g, "-");
+const readScanKeyPrefix = (): string | null => {
+  const session = getRhOtpSession();
+  const historyId = getRhHistoryId();
+  if (!session || !historyId) return null;
+  return `${session.profile.id}/${historyId}`;
+};
 
 const Scanner: React.FC = () => {
   const { i18n, _ } = useLingui();
@@ -63,7 +68,11 @@ const Scanner: React.FC = () => {
           showPoweredByDynamsoft: false,
         },
         onDocumentScanned: async (result) => {
-          // Process each scanned page
+          const prefix = readScanKeyPrefix();
+          if (!prefix) {
+            console.error("Missing OTP session or rent history id for scan upload.");
+            return;
+          }
           const jpgBlob = await result.correctedImageResult?.toBlob(
             "image/jpeg"
           );
@@ -71,7 +80,7 @@ const Scanner: React.FC = () => {
             console.error("no image from scan");
             return;
           }
-          const key = `${HISTORY_CODE}/page${pageNumber.current}.jpg`;
+          const key = `${prefix}/page${pageNumber.current}.jpg`;
           await uploadScan(key, jpgBlob);
           setScanImages((prev) => [
             ...prev,
@@ -89,9 +98,12 @@ const Scanner: React.FC = () => {
       console.error("Error initializing document scanner:", error);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [HISTORY_CODE]);
+  }, []);
+
+  const canStartScan = Boolean(readScanKeyPrefix());
 
   const launchScanner = async () => {
+    if (!readScanKeyPrefix()) return;
     setScanStatus("scanning");
     pageNumber.current = 1;
     setScanImages([]);
@@ -100,7 +112,9 @@ const Scanner: React.FC = () => {
   };
 
   const restartScanner = async () => {
-    await deleteScans(HISTORY_CODE);
+    const prefix = readScanKeyPrefix();
+    if (!prefix) return;
+    await deleteScans(prefix);
     await launchScanner();
   };
 
@@ -117,7 +131,16 @@ const Scanner: React.FC = () => {
             we analyze the contents to identify suspicious rent increases.
           </Trans>
         </p>
-        {scanStatus === "waiting" && (
+        {/* TODO: Decide how to handle missing session variables */}
+        {scanStatus === "waiting" && !canStartScan && (
+          <p role="alert">
+            <Trans>
+              Your session is missing a rent history record. Go back and continue
+              from the rent history step before scanning.
+            </Trans>
+          </p>
+        )}
+        {scanStatus === "waiting" && canStartScan && (
           <Button
             labelText={_(msg`Start scanning`)}
             onClick={launchScanner}
