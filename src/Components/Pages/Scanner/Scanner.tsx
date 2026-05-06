@@ -8,7 +8,7 @@ import { EmblaOptionsType } from "embla-carousel";
 import "./Scanner.scss";
 import { uploadScan } from "../../../api/presignedS3";
 import { Button } from "@justfixnyc/component-library";
-import { deleteScans } from "../../../api/deleteScans";
+import { deleteRhHistoryPages } from "../../../api/rhAuth";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
 import { useNavigate } from "react-router-dom";
@@ -112,9 +112,10 @@ const Scanner: React.FC = () => {
   };
 
   const restartScanner = async () => {
-    const prefix = readScanKeyPrefix();
-    if (!prefix) return;
-    await deleteScans(prefix);
+    const session = getRhOtpSession();
+    const historyId = getRhHistoryId();
+    if (!session || !historyId) return;
+    await deleteRhHistoryPages(session.accessToken, historyId);
     await launchScanner();
   };
 
