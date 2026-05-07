@@ -12,7 +12,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import LoginPage from "./LoginPage";
 import { RhAuthApiError } from "../../../api/rhAuth";
 import * as rhAuthApi from "../../../api/rhAuth";
-import * as rhOtpSession from "../../../auth/rhOtpSession";
+import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
 vi.mock("../../../api/rhAuth", async () => {
   const actual = await vi.importActual<typeof import("../../../api/rhAuth")>(
@@ -26,13 +26,13 @@ vi.mock("../../../api/rhAuth", async () => {
   };
 });
 
-vi.mock("../../../auth/rhOtpSession", async () => {
+vi.mock("../../../session/rhSessionStorage", async () => {
   const actual = await vi.importActual<
-    typeof import("../../../auth/rhOtpSession")
-  >("../../../auth/rhOtpSession");
+    typeof import("../../../session/rhSessionStorage")
+  >("../../../session/rhSessionStorage");
   return {
     ...actual,
-    setRhOtpSession: vi.fn(),
+    setRhAuthSession: vi.fn(),
   };
 });
 
@@ -103,7 +103,7 @@ describe("LoginPage OTP verification", () => {
         "5554443333",
         "123456"
       );
-      expect(rhOtpSession.setRhOtpSession).toHaveBeenCalledWith(otpPayload);
+      expect(rhSessionStorage.setRhAuthSession).toHaveBeenCalledWith(otpPayload);
     });
   });
 
@@ -140,6 +140,6 @@ describe("LoginPage OTP verification", () => {
     fireEvent.click(screen.getByRole("button", { name: "Verify" }));
 
     await screen.findByText("Your code expired. Request a new code.");
-    expect(rhOtpSession.setRhOtpSession).not.toHaveBeenCalled();
+    expect(rhSessionStorage.setRhAuthSession).not.toHaveBeenCalled();
   });
 });

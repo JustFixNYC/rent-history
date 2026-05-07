@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, waitFor, cleanup } from "@testing-library/react";
 import App from "./App";
-import { clearRhOtpSession, setRhOtpSession } from "./auth/rhOtpSession";
+import { clearRhAuthSession, setRhAuthSession } from "./session/rhSessionStorage";
 
 vi.mock("@rollbar/react", () => ({
   useRollbar: () => ({ error: vi.fn() }),
@@ -23,7 +23,7 @@ const tokenPayload = {
 describe("post-OTP route protection", () => {
   beforeEach(() => {
     cleanup();
-    clearRhOtpSession();
+    clearRhAuthSession();
   });
 
   it.each(["/en/account", "/en/scanner", "/en/review", "/en/post-scan"])(
@@ -39,7 +39,7 @@ describe("post-OTP route protection", () => {
   );
 
   it("allows protected routes when otp session is valid", async () => {
-    setRhOtpSession(tokenPayload);
+    setRhAuthSession(tokenPayload);
     window.history.pushState({}, "", "/en/scanner");
     render(<App />);
 

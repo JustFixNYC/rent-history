@@ -14,7 +14,11 @@ import {
   upsertRhPhone,
   verifyRhOtp,
 } from "../../../api/rhAuth";
-import { clearRhHistoryId, setRhOtpSession } from "../../../auth/rhOtpSession";
+import {
+  clearRhHistoryId,
+  clearRhSessionDocument,
+  setRhAuthSession,
+} from "../../../session/rhSessionStorage";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import { formatPhone, setRhPhoneExists } from "../shared/flowSession";
 import "./LoginPage.scss";
@@ -111,9 +115,10 @@ const LoginPage: React.FC = () => {
     setIsVerifyingCode(true);
     try {
       const otpSession = await verifyRhOtp(numericPhone, data.code);
-      setRhOtpSession(otpSession);
+      setRhAuthSession(otpSession);
       setVerifiedProfile(otpSession.profile);
       clearRhHistoryId();
+      clearRhSessionDocument();
       navigate(`/${i18n.locale}/${phoneExists ? "account" : "history"}`);
     } catch (error) {
       if (error instanceof RhAuthApiError) {
