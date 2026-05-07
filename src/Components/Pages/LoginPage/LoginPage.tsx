@@ -115,10 +115,11 @@ const LoginPage: React.FC = () => {
     setIsVerifyingCode(true);
     try {
       const otpSession = await verifyRhOtp(numericPhone, data.code);
+      // Reset any stale flow/session document before writing fresh auth state.
+      clearRhSessionDocument();
       setRhAuthSession(otpSession);
       setVerifiedProfile(otpSession.profile);
       clearRhHistoryId();
-      clearRhSessionDocument();
       navigate(`/${i18n.locale}/${phoneExists ? "account" : "history"}`);
     } catch (error) {
       if (error instanceof RhAuthApiError) {
