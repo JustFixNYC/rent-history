@@ -198,6 +198,18 @@ export const clearRhHistoryId = (): void => {
   });
 };
 
+export const clearRhFlowSession = (): void => {
+  patchRhSessionDocument((draft) => {
+    draft.flow = {
+      historyId: null,
+      scanKeys: [],
+      formDraft: null,
+      extensions: {},
+      steps: {},
+    };
+  });
+};
+
 export function appendRhSessionScanKey(key: string): void {
   const session = getRhAuthSession();
   const historyId = getRhHistoryId();
