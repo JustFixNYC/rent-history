@@ -1,4 +1,22 @@
 #scanner-page {
+  #scanner-letter-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    padding: 2rem 1rem;
+  }
+
+  .scanner-letter-overlay__frame {
+    width: min(92vw, calc(92dvh * 8.5 / 11));
+    aspect-ratio: 8.5 / 11;
+    border: 3px solid rgba(255, 255, 255, 0.92);
+    border-radius: 0.75rem;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.34);
+  }
+
   ul {
     padding-left: 1rem;
     li:not(:last-of-type) {

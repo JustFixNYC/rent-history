@@ -55,7 +55,7 @@ const createAppRouter = () =>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms_of_use" element={<TermsOfUse />} />
         </Route>
-        {/* Catch-all route for paths without locale - will redirect */}
+        {/* Catch-all route for paths without locale, will redirect */}
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Landing />} />
           <Route path="login" element={<LoginPage />} />
@@ -68,8 +68,8 @@ const createAppRouter = () =>
           </Route>
           <Route path="*" element={<Landing />} />
         </Route>
-      </>
-    )
+      </>,
+    ),
   );
 
 function App() {

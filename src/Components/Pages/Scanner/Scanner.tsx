@@ -17,6 +17,8 @@ import { getRhHistoryId, getRhOtpSession } from "../../../auth/rhOtpSession";
 type ScanStatus = "waiting" | "scanning" | "complete";
 
 const OPTIONS: EmblaOptionsType = {};
+const RETAKE_BUTTON_CLASS = "rh-scan-retake-button";
+const SAVE_BUTTON_CLASS = "rh-scan-save-button";
 
 const readScanKeyPrefix = (): string | null => {
   const session = getRhOtpSession();
@@ -32,6 +34,7 @@ const Scanner: React.FC = () => {
   const [scanStatus, setScanStatus] = useState<ScanStatus>("waiting");
   const [scanner, setScanner] = useState<DocumentScanner>();
   const [scanImages, setScanImages] = useState<ReactNode[]>([]);
+  const [showScannerGuide, setShowScannerGuide] = useState(false);
   const pageNumber = useRef(1);
 
   useEffect(() => {
@@ -45,9 +48,11 @@ const Scanner: React.FC = () => {
           toolbarButtonsConfig: {
             retake: {
               label: _(msg`Re-scan page`),
+              className: RETAKE_BUTTON_CLASS,
             },
             done: {
               label: _(msg`Save page`),
+              className: SAVE_BUTTON_CLASS,
             },
             share: {
               isHidden: true,
@@ -61,13 +66,16 @@ const Scanner: React.FC = () => {
           },
         },
         scannerViewConfig: {
+          enableBoundsDetectionMode: true,
           enableAutoCropMode: true,
           enableSmartCaptureMode: true,
+          minVerifiedFramesForAutoCapture: 2,
           showSubfooter: false,
           enableFrameVerification: true,
           showPoweredByDynamsoft: false,
         },
         onDocumentScanned: async (result) => {
+          setShowScannerGuide(false);
           const prefix = readScanKeyPrefix();
           if (!prefix) {
             console.error("Missing OTP session or rent history id for scan upload.");
@@ -100,11 +108,39 @@ const Scanner: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (scanStatus !== "scanning") return;
+
+    const readVisible = (selector: string) =>
+      Array.from(document.querySelectorAll(selector)).some(
+        (node) => (node as HTMLElement).offsetParent !== null
+      );
+
+    const syncFromViewState = () => {
+      const previewVisible =
+        readVisible(`.${RETAKE_BUTTON_CLASS}`) ||
+        readVisible(`.${SAVE_BUTTON_CLASS}`);
+
+      if (previewVisible && showScannerGuide) {
+        setShowScannerGuide(false);
+      }
+
+      if (!previewVisible && !showScannerGuide) {
+        setShowScannerGuide(true);
+      }
+    };
+    const interval = window.setInterval(syncFromViewState, 120);
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [scanStatus, showScannerGuide]);
+
   const canStartScan = Boolean(readScanKeyPrefix());
 
   const launchScanner = async () => {
     if (!readScanKeyPrefix()) return;
     setScanStatus("scanning");
+    setShowScannerGuide(true);
     pageNumber.current = 1;
     setScanImages([]);
     await scanner?.launch();
@@ -121,6 +157,11 @@ const Scanner: React.FC = () => {
 
   return (
     <div id="scanner-page" className="page">
+      {scanStatus === "scanning" && showScannerGuide && (
+        <div id="scanner-letter-overlay" aria-hidden="true">
+          <div className="scanner-letter-overlay__frame" />
+        </div>
+      )}
       <section className="page__hero">
         <h1>
           <Trans>Scan your rent history document</Trans>
