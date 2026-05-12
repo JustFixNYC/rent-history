@@ -3,7 +3,11 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
-import { clearRhHistoryId } from "../../../auth/rhOtpSession";
+import {
+  clearRhAuthSession,
+  clearRhFlowSession,
+  clearRhSessionDocument,
+} from "../../../session/rhSessionStorage";
 import "./AccountPage.scss";
 
 const initialReports = [
@@ -30,11 +34,13 @@ const AccountPage: React.FC = () => {
   const startExistingFlow = () => navigate(`/${i18n.locale}/scanner`);
 
   const onStartNew = () => {
-    clearRhHistoryId();
+    clearRhFlowSession();
     navigate(`/${i18n.locale}/history`);
   };
 
   const onLogout = () => {
+    clearRhAuthSession();
+    clearRhSessionDocument();
     navigate(`/${i18n.locale}/login`);
   };
 

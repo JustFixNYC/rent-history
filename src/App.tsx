@@ -22,12 +22,13 @@ import { PageLayout } from "./Components/Pages/PageLayout/PageLayout";
 import PostScanFlow from "./Components/Pages/PostScanFlow/PostScanFlow";
 import Scanner from "./Components/Pages/Scanner/Scanner";
 import { ReviewEditData } from "./Components/Pages/ReviewEditData/ReviewEditData";
-import { getRhOtpSession } from "./auth/rhOtpSession";
 import { parseLocaleFromPath } from "./i18n";
+import { RhSessionProvider } from "./session/RhSessionContext";
+import { getRhAuthSession } from "./session/rhSessionStorage";
 
 const RequireOtpToken = () => {
   const location = useLocation();
-  const currentSession = getRhOtpSession();
+  const currentSession = getRhAuthSession();
   if (currentSession) {
     return <Outlet />;
   }
@@ -85,7 +86,9 @@ function App() {
         },
       }}
     >
-      <RouterProvider router={router} />
+      <RhSessionProvider>
+        <RouterProvider router={router} />
+      </RhSessionProvider>
     </SWRConfig>
   );
 }

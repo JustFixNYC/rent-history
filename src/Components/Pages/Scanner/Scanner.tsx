@@ -12,14 +12,19 @@ import { deleteRhHistoryPages } from "../../../api/rhAuth";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
 import { useNavigate } from "react-router-dom";
-import { getRhHistoryId, getRhOtpSession } from "../../../auth/rhOtpSession";
+import {
+  appendRhSessionScanKey,
+  getRhAuthSession,
+  getRhHistoryId,
+  replaceRhSessionScanKeys,
+} from "../../../session/rhSessionStorage";
 
 type ScanStatus = "waiting" | "scanning" | "complete";
 
 const OPTIONS: EmblaOptionsType = {};
 
 const readScanKeyPrefix = (): string | null => {
-  const session = getRhOtpSession();
+  const session = getRhAuthSession();
   const historyId = getRhHistoryId();
   if (!session || !historyId) return null;
   return `${session.profile.id}/${historyId}`;
@@ -82,6 +87,7 @@ const Scanner: React.FC = () => {
           }
           const key = `${prefix}/page${pageNumber.current}.jpg`;
           await uploadScan(key, jpgBlob);
+          appendRhSessionScanKey(key);
           setScanImages((prev) => [
             ...prev,
             <BlobImage
@@ -107,12 +113,13 @@ const Scanner: React.FC = () => {
     setScanStatus("scanning");
     pageNumber.current = 1;
     setScanImages([]);
+    replaceRhSessionScanKeys([]);
     await scanner?.launch();
     setScanStatus("complete");
   };
 
   const restartScanner = async () => {
-    const session = getRhOtpSession();
+    const session = getRhAuthSession();
     const historyId = getRhHistoryId();
     if (!session || !historyId) return;
     await deleteRhHistoryPages(session.accessToken, historyId);

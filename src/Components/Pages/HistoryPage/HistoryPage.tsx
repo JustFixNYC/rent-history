@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { createRhHistory, RhAuthApiError } from "../../../api/rhAuth";
 import {
   getRhHistoryId,
-  getRhOtpSession,
+  getRhAuthSession,
   setRhHistoryId,
-} from "../../../auth/rhOtpSession";
+} from "../../../session/rhSessionStorage";
 import { getRhPhoneExists } from "../shared/flowSession";
 import "./HistoryPage.scss";
 
@@ -26,7 +26,7 @@ const HistoryPage: React.FC = () => {
     const existingHistoryId = getRhHistoryId();
     if (existingHistoryId) return existingHistoryId;
 
-    const otpSession = getRhOtpSession();
+    const otpSession = getRhAuthSession();
     if (!otpSession) {
       throw new Error("Missing OTP session.");
     }
