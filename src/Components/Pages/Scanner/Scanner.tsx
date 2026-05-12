@@ -8,7 +8,11 @@ import { EmblaOptionsType } from "embla-carousel";
 import "./Scanner.scss";
 import { uploadScan } from "../../../api/presignedS3";
 import { Button } from "@justfixnyc/component-library";
-import { deleteRhHistoryPages } from "../../../api/rhAuth";
+import {
+  combineRhHistoryPages,
+  deleteRhHistoryPages,
+  RhAuthApiError,
+} from "../../../api/rhAuth";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +41,8 @@ const Scanner: React.FC = () => {
   const [scanStatus, setScanStatus] = useState<ScanStatus>("waiting");
   const [scanner, setScanner] = useState<DocumentScanner>();
   const [scanImages, setScanImages] = useState<ReactNode[]>([]);
+  const [isCombining, setIsCombining] = useState(false);
+  const [combineError, setCombineError] = useState<string | null>(null);
   const pageNumber = useRef(1);
 
   useEffect(() => {
@@ -126,6 +132,26 @@ const Scanner: React.FC = () => {
     await launchScanner();
   };
 
+  const onNext = async () => {
+    const session = getRhAuthSession();
+    const historyId = getRhHistoryId();
+    if (!session || !historyId) {
+      setCombineError(_(msg`Your session is missing a rent history record.`));
+      return;
+    }
+    setCombineError(null);
+    setIsCombining(true);
+    try {
+      await combineRhHistoryPages(session.accessToken, historyId);
+      navigate(`/${i18n.locale}/review`);
+    } catch (err) {
+      const fallback = _(msg`We couldn't combine your pages. Please try again.`);
+      setCombineError(err instanceof RhAuthApiError ? err.message : fallback);
+    } finally {
+      setIsCombining(false);
+    }
+  };
+
   return (
     <div id="scanner-page" className="page">
       <section className="page__hero">
@@ -172,14 +198,17 @@ const Scanner: React.FC = () => {
             <div className="buttons-container">
               <Button
                 labelText={_(msg`Next`)}
-                onClick={() => navigate(`/${i18n.locale}/review`)}
+                onClick={onNext}
+                disabled={isCombining}
               />
               <Button
                 labelText={_(msg`Restart scanning`)}
                 onClick={restartScanner}
                 variant="secondary"
+                disabled={isCombining}
               />
             </div>
+            {combineError && <p role="alert">{combineError}</p>}
           </section>
         )}
       </div>
