@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { LocaleLink } from "../../../i18n";
 import "./PostScanFlow.scss";
 
 type PostScanStep = "confirmAddress" | "rentAmount";
@@ -75,6 +74,9 @@ const getAddressStateFromSelection = (
     cityStateZip: cityStateZip || previousState.cityStateZip,
   };
 };
+
+const isTypingInputAction = (meta: { action?: string }) =>
+  meta.action === "input-change";
 
 const PostScanFlow: React.FC = () => {
   const { i18n, _ } = useLingui();
@@ -211,24 +213,15 @@ const PostScanFlow: React.FC = () => {
             <div>
               <button
                 type="button"
-                onClick={() => applyDevScenario("confirmExtracted")}
+                onClick={() => applyDevScenario("enterAddress")}
               >
-                Confirm extracted
-              </button>
-              <button type="button" onClick={() => applyDevScenario("editAddress")}>
-                Edit address
-              </button>
-              <button type="button" onClick={() => applyDevScenario("enterAddress")}>
-                Enter address
+                Address not extracted / no geosearch results
               </button>
               <button
                 type="button"
-                onClick={() => applyDevScenario("confirmUpdated")}
+                onClick={() => applyDevScenario("confirmExtracted")}
               >
-                Confirm updated
-              </button>
-              <button type="button" onClick={() => setStep("rentAmount")}>
-                Step 5 rent
+                Address successfully extracted (with edit option)
               </button>
             </div>
           </section>
@@ -356,7 +349,8 @@ const PostScanFlow: React.FC = () => {
                   serviceUnavailableText={_(
                     msg`Geosearch is temporarily unavailable. Try again in a moment.`
                   )}
-                  onInputChange={(value) => {
+                  onInputChange={(value, meta) => {
+                    if (!isTypingInputAction(meta)) return value;
                     setDraftAddress((prev) => ({
                       ...prev,
                       streetAddress: value,
@@ -421,7 +415,8 @@ const PostScanFlow: React.FC = () => {
                   serviceUnavailableText={_(
                     msg`Geosearch is temporarily unavailable. Try again in a moment.`
                   )}
-                  onInputChange={(value) => {
+                  onInputChange={(value, meta) => {
+                    if (!isTypingInputAction(meta)) return value;
                     setDraftAddress((prev) => ({
                       ...prev,
                       streetAddress: value,
@@ -534,49 +529,6 @@ const PostScanFlow: React.FC = () => {
         )}
       </section>
 
-      <footer className="postscan-footer">
-        <section className="postscan-footer__disclaimer">
-          <h3>
-            <Trans>Disclaimer</Trans>
-          </h3>
-          <p>
-            <Trans>
-              The information on this website does not constitute legal advice
-              and must not be used as a substitute for the advice of a lawyer
-              qualified to give advice on legal issues pertaining to housing.
-            </Trans>
-          </p>
-        </section>
-        <nav
-          className="postscan-footer__links"
-          aria-label={_(msg`Legal and feedback`)}
-        >
-          <LocaleLink to="privacy_policy">
-            <Trans>Privacy policy</Trans>
-          </LocaleLink>
-          <LocaleLink to="terms_of_use">
-            <Trans>Terms of use</Trans>
-          </LocaleLink>
-          <a
-            href="https://www.justfix.org/en/contact-us"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Trans>Feedback form</Trans>
-          </a>
-        </nav>
-        <section className="postscan-footer__brand">
-          <p className="postscan-footer__title">
-            <Trans>Rent History NYC</Trans>
-          </p>
-          <p>
-            <Trans>By</Trans>{" "}
-            <a href="https://www.justfix.org" target="_blank" rel="noreferrer">
-              <Trans>JustFix</Trans>
-            </a>
-          </p>
-        </section>
-      </footer>
     </div>
   );
 };
