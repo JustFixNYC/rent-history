@@ -31,6 +31,21 @@ export type RhHistoryCombinePagesResponse = {
   status: "ok";
 };
 
+/** `POST /rh/history/lookup-units` request (OpenAPI `RhHistoryLookupUnitsRequest`). */
+export type RhHistoryLookupUnitsRequest = {
+  history_id: string;
+  bbl: string;
+  address?: string | null;
+  apartment?: string | null;
+  bin?: string | null;
+};
+
+/** `POST /rh/history/lookup-units` response (OpenAPI `RhHistoryLookupUnitsResponse`). */
+export type RhHistoryLookupUnitsResponse = {
+  bbl_units: number | null;
+  bin_units: number | null;
+};
+
 export type RhHistoryPageDeleteResponse = {
   deleted_pages: number;
   s3_cleanup_status: string;
@@ -179,9 +194,7 @@ const isRhReadinessAxis = (value: unknown): value is RhReadinessAxis => {
   return (
     typeof o.count === "number" &&
     typeof o.expected === "number" &&
-    (o.relation === "less" ||
-      o.relation === "equal" ||
-      o.relation === "more")
+    (o.relation === "less" || o.relation === "equal" || o.relation === "more")
   );
 };
 
@@ -283,6 +296,17 @@ export const createRhHistory = (
   accessToken: string
 ): Promise<RhHistoryRecord> =>
   postRhAuthorized<RhHistoryRecord>("/rh/history", accessToken);
+
+/** `POST /rh/history/lookup-units` — Update location fields and resolve unit counts from NYCDB. */
+export const lookupRhHistoryUnits = (
+  accessToken: string,
+  body: RhHistoryLookupUnitsRequest
+): Promise<RhHistoryLookupUnitsResponse> =>
+  postRhAuthorizedWithBody<RhHistoryLookupUnitsResponse>(
+    "/rh/history/lookup-units",
+    accessToken,
+    body
+  );
 
 /** `POST /rh/history/delete-pages` — Delete all uploaded page scans for one history id. */
 export const deleteRhHistoryPages = (

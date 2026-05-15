@@ -1,7 +1,10 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, waitFor, cleanup } from "@testing-library/react";
 import App from "./App";
-import { clearRhAuthSession, setRhAuthSession } from "./session/rhSessionStorage";
+import {
+  clearRhAuthSession,
+  setRhAuthSession,
+} from "./session/rhSessionStorage";
 
 vi.mock("@rollbar/react", () => ({
   useRollbar: () => ({ error: vi.fn() }),

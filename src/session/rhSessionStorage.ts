@@ -75,7 +75,7 @@ function migrateRhSessionRaw(raw: unknown): unknown {
 
 /** Parse and migrate raw JSON; does not read storage or check auth alignment. */
 export function parseRhSessionDocumentJson(
-  raw: unknown,
+  raw: unknown
 ): RhSessionDocument | null {
   const migrated = migrateRhSessionRaw(raw);
   if (migrated === null) return null;
@@ -122,7 +122,7 @@ export function writeRhSessionDocument(doc: RhSessionDocument): void {
   const validated = rhSessionDocumentSchemaV1.parse(doc);
   window.sessionStorage.setItem(
     RH_SESSION_STORAGE_KEY,
-    JSON.stringify(validated),
+    JSON.stringify(validated)
   );
   notifyRhSessionStorage();
 }
@@ -133,7 +133,7 @@ export function clearRhSessionDocument(): void {
 }
 
 export function patchRhSessionDocument(
-  updater: (draft: RhSessionDocument) => void,
+  updater: (draft: RhSessionDocument) => void
 ): RhSessionDocument {
   const current = readRhSessionDocument() ?? createDefaultRhSessionDocument();
   const draft = structuredClone(current);
@@ -145,7 +145,7 @@ export function patchRhSessionDocument(
 
 export const setRhAuthSession = (
   payload: RhOtpTokenResponse,
-  nowMs = Date.now(),
+  nowMs = Date.now()
 ): RhSessionAuth => {
   const auth: RhSessionAuth = {
     accessToken: payload.access_token,
@@ -245,7 +245,7 @@ export function setRhSessionFormDraft(formDraft: unknown | null): void {
 
 export function setRhSessionExtension(
   extensionId: string,
-  value: unknown,
+  value: unknown
 ): void {
   patchRhSessionDocument((draft) => {
     draft.flow.extensions = { ...draft.flow.extensions, [extensionId]: value };
@@ -268,7 +268,7 @@ export function setRhSessionStepState(stepId: string, value: unknown): void {
 
 export function getRhSessionStepState<T>(
   stepId: string,
-  schema: z.ZodType<T>,
+  schema: z.ZodType<T>
 ): T | null {
   const value = readRhSessionDocument()?.flow.steps[stepId];
   const parsed = schema.safeParse(value);

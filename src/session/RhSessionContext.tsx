@@ -23,7 +23,9 @@ import {
 
 export type RhSessionContextValue = {
   document: RhSessionDocument;
-  patchDocument: (updater: (draft: RhSessionDocument) => void) => RhSessionDocument;
+  patchDocument: (
+    updater: (draft: RhSessionDocument) => void
+  ) => RhSessionDocument;
   clearDocument: () => void;
   appendScanKey: (key: string) => void;
   replaceScanKeys: (keys: string[]) => void;
