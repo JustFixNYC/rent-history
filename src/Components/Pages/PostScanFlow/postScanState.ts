@@ -91,4 +91,3 @@ export const readPostScanFlowState = (): PostScanFlowState =>
 
 export const writePostScanFlowState = (state: PostScanFlowState): void =>
   setRhSessionStepState(POST_SCAN_STEP_STATE_KEY, state);
-

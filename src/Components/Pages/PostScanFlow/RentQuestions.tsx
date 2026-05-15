@@ -111,4 +111,3 @@ export const RentQuestions: React.FC = () => {
     </div>
   );
 };
-

@@ -75,7 +75,9 @@ const Scanner: React.FC = () => {
         onDocumentScanned: async (result) => {
           const prefix = readScanKeyPrefix();
           if (!prefix) {
-            console.error("Missing OTP session or rent history id for scan upload.");
+            console.error(
+              "Missing OTP session or rent history id for scan upload."
+            );
             return;
           }
           const jpgBlob = await result.correctedImageResult?.toBlob(
@@ -143,8 +145,8 @@ const Scanner: React.FC = () => {
         {scanStatus === "waiting" && !canStartScan && (
           <p role="alert">
             <Trans>
-              Your session is missing a rent history record. Go back and continue
-              from the rent history step before scanning.
+              Your session is missing a rent history record. Go back and
+              continue from the rent history step before scanning.
             </Trans>
           </p>
         )}

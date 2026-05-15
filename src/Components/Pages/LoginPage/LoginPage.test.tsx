@@ -103,7 +103,9 @@ describe("LoginPage OTP verification", () => {
         "5554443333",
         "123456"
       );
-      expect(rhSessionStorage.setRhAuthSession).toHaveBeenCalledWith(otpPayload);
+      expect(rhSessionStorage.setRhAuthSession).toHaveBeenCalledWith(
+        otpPayload
+      );
     });
   });
 

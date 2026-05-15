@@ -10,7 +10,10 @@ import {
 } from "@justfixnyc/component-library";
 import { useNavigate } from "react-router-dom";
 
-import { getRhAuthSession, getRhHistoryId } from "../../../session/rhSessionStorage";
+import {
+  getRhAuthSession,
+  getRhHistoryId,
+} from "../../../session/rhSessionStorage";
 import { updateRhHistory } from "../../../api/rhAuth";
 import {
   AddressFlowState,
@@ -30,8 +33,12 @@ const toTitleCase = (value: string) =>
 
 const buildMapImageURL = (address: AddressState): string | null => {
   if (!address.longLat) return null;
-  const styleToken = import.meta.env.VITE_MAPBOX_STYLE_TOKEN as string | undefined;
-  const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN as string | undefined;
+  const styleToken = import.meta.env.VITE_MAPBOX_STYLE_TOKEN as
+    | string
+    | undefined;
+  const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN as
+    | string
+    | undefined;
   if (!styleToken || !accessToken) return null;
   const zoom = "15.25";
   const bearing = "0";
@@ -97,7 +104,10 @@ export const ConfirmAddress: React.FC = () => {
   const setAddressFlowState = (next: AddressFlowState) =>
     setFlowState((prev) => ({ ...prev, addressFlowState: next }));
   const setDraftAddress = (updater: (prev: AddressState) => AddressState) =>
-    setFlowState((prev) => ({ ...prev, draftAddress: updater(prev.draftAddress) }));
+    setFlowState((prev) => ({
+      ...prev,
+      draftAddress: updater(prev.draftAddress),
+    }));
 
   const persistState = (nextState: typeof flowState) => {
     writePostScanFlowState(nextState);
@@ -126,7 +136,9 @@ export const ConfirmAddress: React.FC = () => {
     persistState(nextState);
   };
 
-  const submitAddressUpdate = async (address: AddressState): Promise<boolean> => {
+  const submitAddressUpdate = async (
+    address: AddressState
+  ): Promise<boolean> => {
     const auth = getRhAuthSession();
     const historyId = getRhHistoryId();
     if (!auth || !historyId) return false;
@@ -144,7 +156,9 @@ export const ConfirmAddress: React.FC = () => {
       });
       return true;
     } catch {
-      setAddressError(_(msg`Unable to update address right now. Please try again.`));
+      setAddressError(
+        _(msg`Unable to update address right now. Please try again.`)
+      );
       return false;
     } finally {
       setSavingAddress(false);
@@ -286,8 +300,12 @@ export const ConfirmAddress: React.FC = () => {
                   )}
                 </div>
                 <div className="address-container">
-                  <h3 className="address-part-1">{confirmedAddress.streetAddress}</h3>
-                  <div className="address-part-2">{confirmedAddress.cityStateZip}</div>
+                  <h3 className="address-part-1">
+                    {confirmedAddress.streetAddress}
+                  </h3>
+                  <div className="address-part-2">
+                    {confirmedAddress.cityStateZip}
+                  </div>
                   {confirmedAddress.unitNumber.trim() && (
                     <div className="address-part-2">
                       <Trans>Apt. {confirmedAddress.unitNumber.trim()}</Trans>
@@ -327,8 +345,12 @@ export const ConfirmAddress: React.FC = () => {
                   )}
                 </div>
                 <div className="address-container">
-                  <h3 className="address-part-1">{confirmedAddress.streetAddress}</h3>
-                  <div className="address-part-2">{confirmedAddress.cityStateZip}</div>
+                  <h3 className="address-part-1">
+                    {confirmedAddress.streetAddress}
+                  </h3>
+                  <div className="address-part-2">
+                    {confirmedAddress.cityStateZip}
+                  </div>
                   {confirmedAddress.unitNumber.trim() && (
                     <div className="address-part-2">
                       <Trans>Apt. {confirmedAddress.unitNumber.trim()}</Trans>
@@ -352,7 +374,8 @@ export const ConfirmAddress: React.FC = () => {
                 <p>
                   <Trans>
                     We&apos;ll use publicly available information about the
-                    building and apartment to support your rent history analysis.
+                    building and apartment to support your rent history
+                    analysis.
                   </Trans>
                 </p>
               </div>
@@ -520,4 +543,3 @@ export const ConfirmAddress: React.FC = () => {
     </div>
   );
 };
-

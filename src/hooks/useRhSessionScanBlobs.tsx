@@ -20,7 +20,9 @@ export function useRhSessionScanBlobs(): {
   const keysFingerprint = keys.join("\0");
 
   const [retryCount, setRetryCount] = useState(0);
-  const [state, setState] = useState<RhSessionScanBlobsState>({ status: "loading" });
+  const [state, setState] = useState<RhSessionScanBlobsState>({
+    status: "loading",
+  });
 
   const retry = useCallback(() => {
     setRetryCount((count) => count + 1);

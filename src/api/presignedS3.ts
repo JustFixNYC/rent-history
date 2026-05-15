@@ -72,7 +72,11 @@ const validateUploadKey = (key: string): void => {
 
 const validateUploadBody = (body: Blob): void => {
   const contentType = body.type?.toLowerCase().trim();
-  if (contentType && contentType !== "image/jpeg" && contentType !== "image/jpg") {
+  if (
+    contentType &&
+    contentType !== "image/jpeg" &&
+    contentType !== "image/jpg"
+  ) {
     throw new PresignApiError("Upload body must be a JPEG image.", 400, {
       contentType: body.type,
     });
@@ -121,7 +125,10 @@ const fetchPresignedUrls = async (
   return urls;
 };
 
-const presignedUpload = async (signedUrl: string, body: Blob): Promise<Response> => {
+const presignedUpload = async (
+  signedUrl: string,
+  body: Blob
+): Promise<Response> => {
   return fetch(signedUrl, {
     method: "PUT",
     body,
@@ -135,7 +142,10 @@ const presignedDownload = async (signedUrl: string): Promise<Response> => {
   return fetch(signedUrl, { method: "GET" });
 };
 
-export const uploadScan = async (key: string, body: Blob): Promise<Response> => {
+export const uploadScan = async (
+  key: string,
+  body: Blob
+): Promise<Response> => {
   validateUploadKey(key);
   validateUploadBody(body);
   const urls = await fetchPresignedUrls("upload", [key]);

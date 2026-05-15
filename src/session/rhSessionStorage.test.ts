@@ -116,7 +116,10 @@ describe("rhSessionStorage", () => {
       "postScan",
       z.object({ completed: z.boolean(), pages: z.number() })
     );
-    const invalid = getRhSessionStepState("postScan", z.object({ foo: z.string() }));
+    const invalid = getRhSessionStepState(
+      "postScan",
+      z.object({ foo: z.string() })
+    );
     expect(valid).toEqual({ completed: true, pages: 2 });
     expect(invalid).toBeNull();
   });
