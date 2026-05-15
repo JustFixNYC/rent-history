@@ -507,6 +507,10 @@ msgstr ""
 #~ msgid "We could not find an existing report for this number."
 #~ msgstr ""
 
+#: src/Components/Pages/Scanner/Scanner.tsx:401
+msgid "We couldn't combine your pages. Please try again."
+msgstr ""
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:94
 msgid "We requested your code. Delivery may take a moment."
 msgstr ""
