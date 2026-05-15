@@ -14,9 +14,13 @@ import {
 import {
   deleteRhHistoryPages,
   getRhHistoryPagesReadiness,
+  lookupRhHistoryUnits,
   RhAuthApiError,
 } from "../../../api/rhAuth";
-import { scanUrlToPresignKey, ScanUrlToKeyError } from "../../../api/scanUrlToPresignKey";
+import {
+  scanUrlToPresignKey,
+  ScanUrlToKeyError,
+} from "../../../api/scanUrlToPresignKey";
 import { Button } from "@justfixnyc/component-library";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
@@ -100,7 +104,9 @@ const Scanner: React.FC = () => {
         onDocumentScanned: async (result) => {
           const prefix = readScanKeyPrefix();
           if (!prefix) {
-            console.error("Missing OTP session or rent history id for scan upload.");
+            console.error(
+              "Missing OTP session or rent history id for scan upload."
+            );
             return;
           }
           const jpgBlob = await result.correctedImageResult?.toBlob(
@@ -136,7 +142,9 @@ const Scanner: React.FC = () => {
     if (!session || !historyId) {
       setReadinessPhase("error");
       setReadinessErrorMessage(
-        _(msg`Your session is missing login or rent history data. Go back and try again.`)
+        _(
+          msg`Your session is missing login or rent history data. Go back and try again.`
+        )
       );
       return;
     }
@@ -144,7 +152,9 @@ const Scanner: React.FC = () => {
     if (numPages < 1) {
       setReadinessPhase("error");
       setReadinessErrorMessage(
-        _(msg`No pages were saved from the scanner. Use Restart scanning to try again.`)
+        _(
+          msg`No pages were saved from the scanner. Use Restart scanning to try again.`
+        )
       );
       return;
     }
@@ -167,8 +177,8 @@ const Scanner: React.FC = () => {
           err instanceof RhAuthApiError
             ? err.message
             : err instanceof Error
-              ? err.message
-              : String(err);
+            ? err.message
+            : String(err);
         setReadinessPhase("error");
         setReadinessErrorMessage(message);
         return null;
@@ -207,8 +217,8 @@ const Scanner: React.FC = () => {
             err instanceof RhAuthApiError
               ? err.message
               : err instanceof Error
-                ? err.message
-                : String(err);
+              ? err.message
+              : String(err);
           setReadinessPhase("error");
           setReadinessErrorMessage(message);
           return null;
@@ -239,7 +249,9 @@ const Scanner: React.FC = () => {
         if (cancelled) return;
         setReadinessPhase("error");
         setReadinessErrorMessage(
-          _(msg`No processed pages were returned. Use Restart scanning to try again.`)
+          _(
+            msg`No processed pages were returned. Use Restart scanning to try again.`
+          )
         );
         return;
       }
@@ -282,7 +294,9 @@ const Scanner: React.FC = () => {
           if (cancelled) return;
           setReadinessPhase("error");
           setReadinessErrorMessage(
-            _(msg`A scan image failed to download. Use Restart scanning to try again.`)
+            _(
+              msg`A scan image failed to download. Use Restart scanning to try again.`
+            )
           );
           return;
         }
@@ -387,6 +401,21 @@ const Scanner: React.FC = () => {
         <h1>
           <Trans>Scan your rent history document</Trans>
         </h1>
+        <button
+          onClick={async () => {
+            const session = getRhAuthSession();
+            const historyId = getRhHistoryId();
+            if (!session || !historyId) return;
+            const resp = await lookupRhHistoryUnits(session.accessToken, {
+              history_id: historyId,
+              bbl: "2024580026",
+              bin: "2002784",
+            });
+            console.log(resp);
+          }}
+        >
+          <Trans>test nycdb-units</Trans>
+        </button>
         <p>
           <Trans>
             Use you mobile phone's camera to scan each page of your rent history
@@ -398,8 +427,8 @@ const Scanner: React.FC = () => {
         {scanStatus === "waiting" && !canStartScan && (
           <p role="alert">
             <Trans>
-              Your session is missing a rent history record. Go back and continue
-              from the rent history step before scanning.
+              Your session is missing a rent history record. Go back and
+              continue from the rent history step before scanning.
             </Trans>
           </p>
         )}
