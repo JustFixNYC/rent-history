@@ -21,12 +21,14 @@ export type RhOtpTokenResponse = {
   profile: RhProfile;
 };
 
-/** Narrow `RhHistory` from OpenAPI (create response includes at least these required fields). */
+/** Response body from `POST /rh/history` (create only — `id` only). */
 export type RhHistoryRecord = {
   id: string;
-  created_at: string;
-  updated_at: string;
-  profile_id: number;
+};
+
+/** `POST /rh/history/combine-pages` success body. */
+export type RhHistoryCombinePagesResponse = {
+  status: "ok";
 };
 
 export type RhHistoryPageDeleteResponse = {
@@ -289,6 +291,19 @@ export const deleteRhHistoryPages = (
 ): Promise<RhHistoryPageDeleteResponse> =>
   postRhAuthorizedWithBody<RhHistoryPageDeleteResponse>(
     "/rh/history/delete-pages",
+    accessToken,
+    { history_id: historyId }
+  );
+
+/**
+ * `POST /rh/history/combine-pages` — Merge pages into `data_initial` (success returns `{ status: "ok" }` only).
+ */
+export const combineRhHistoryPages = (
+  accessToken: string,
+  historyId: string
+): Promise<RhHistoryCombinePagesResponse> =>
+  postRhAuthorizedWithBody<RhHistoryCombinePagesResponse>(
+    "/rh/history/combine-pages",
     accessToken,
     { history_id: historyId }
   );

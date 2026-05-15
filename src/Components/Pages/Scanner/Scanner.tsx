@@ -12,6 +12,7 @@ import {
   uploadScan,
 } from "../../../api/presignedS3";
 import {
+  combineRhHistoryPages,
   deleteRhHistoryPages,
   getRhHistoryPagesReadiness,
   RhAuthApiError,
@@ -61,6 +62,8 @@ const Scanner: React.FC = () => {
     string | null
   >(null);
   const [slides, setSlides] = useState<ReactNode[]>([]);
+  const [isCombining, setIsCombining] = useState(false);
+  const [combineError, setCombineError] = useState<string | null>(null);
   const pageNumber = useRef(1);
   const numPagesAfterScanRef = useRef(0);
 
@@ -363,6 +366,7 @@ const Scanner: React.FC = () => {
     if (!readScanKeyPrefix()) return;
     setReadinessPhase("idle");
     setReadinessErrorMessage(null);
+    setCombineError(null);
     setSlides([]);
     setScanStatus("scanning");
     pageNumber.current = 1;
@@ -379,6 +383,26 @@ const Scanner: React.FC = () => {
     if (!session || !historyId) return;
     await deleteRhHistoryPages(session.accessToken, historyId);
     await launchScanner();
+  };
+
+  const onNext = async () => {
+    const session = getRhAuthSession();
+    const historyId = getRhHistoryId();
+    if (!session || !historyId) {
+      setCombineError(_(msg`Your session is missing a rent history record.`));
+      return;
+    }
+    setCombineError(null);
+    setIsCombining(true);
+    try {
+      await combineRhHistoryPages(session.accessToken, historyId);
+      navigate(`/${i18n.locale}/review`);
+    } catch (err) {
+      const fallback = _(msg`We couldn't combine your pages. Please try again.`);
+      setCombineError(err instanceof RhAuthApiError ? err.message : fallback);
+    } finally {
+      setIsCombining(false);
+    }
   };
 
   return (
@@ -446,14 +470,17 @@ const Scanner: React.FC = () => {
                 <div className="buttons-container">
                   <Button
                     labelText={_(msg`Next`)}
-                    onClick={() => navigate(`/${i18n.locale}/review`)}
+                    onClick={onNext}
+                    disabled={isCombining}
                   />
                   <Button
                     labelText={_(msg`Restart scanning`)}
                     onClick={restartScanner}
                     variant="secondary"
+                    disabled={isCombining}
                   />
                 </div>
+                {combineError && <p role="alert">{combineError}</p>}
               </>
             )}
           </section>
