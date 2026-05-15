@@ -192,9 +192,7 @@ const isRhReadinessAxis = (value: unknown): value is RhReadinessAxis => {
   return (
     typeof o.count === "number" &&
     typeof o.expected === "number" &&
-    (o.relation === "less" ||
-      o.relation === "equal" ||
-      o.relation === "more")
+    (o.relation === "less" || o.relation === "equal" || o.relation === "more")
   );
 };
 

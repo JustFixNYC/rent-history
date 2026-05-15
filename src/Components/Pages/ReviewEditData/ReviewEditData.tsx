@@ -31,11 +31,7 @@ const ReviewScansCarousel: React.FC = () => {
     return (
       <section aria-live="polite">
         <p role="alert">{state.message}</p>
-        <Button
-          labelText={_(msg`Retry`)}
-          onClick={retry}
-          variant="secondary"
-        />
+        <Button labelText={_(msg`Retry`)} onClick={retry} variant="secondary" />
       </section>
     );
   }

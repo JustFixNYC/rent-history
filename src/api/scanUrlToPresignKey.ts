@@ -4,8 +4,8 @@
  *
  * Production URLs are built by rh-extract as virtual-hosted style:
  * `https://{bucket}.s3.amazonaws.com/{image_key}` (see rh_history_page.py).
- * 
- * NOTE: This is temporary. Later we'll use uuid for scan file name and set that 
+ *
+ * NOTE: This is temporary. Later we'll use uuid for scan file name and set that
  * as RhPage.pk so full s3 key as `{profile_id}/{history_id}/{page_id}.jpg`
  */
 
