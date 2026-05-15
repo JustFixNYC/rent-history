@@ -35,6 +35,25 @@ export type RhHistoryPageDeleteResponse = {
   s3_deleted_versions?: number;
 };
 
+export type RhHistoryUpdateRequest = {
+  history_id: string;
+  apartment?: string | null;
+  address?: string | null;
+  bbl?: string | null;
+  bin?: string | null;
+  currently_stabilized?: "YES" | "NO" | "UNKNOWN";
+  current_rent?: number | null;
+  last_step_reached?:
+    | "DOCUMENT_SCAN"
+    | "SCAN_REVIEW"
+    | "ADDRESS_CONFIRMATION"
+    | "APARTMENT_INFO"
+    | "FINDINGS_OVERVIEW"
+    | "FINDINGS_REVIEW"
+    | "REPORT_GENERATION"
+    | null;
+};
+
 export class RhAuthApiError extends Error {
   constructor(
     readonly status: number,
@@ -240,4 +259,15 @@ export const deleteRhHistoryPages = (
     "/rh/history/delete-pages",
     accessToken,
     { history_id: historyId }
+  );
+
+/** `POST /rh/history/update` — Update fields on one history record. */
+export const updateRhHistory = (
+  accessToken: string,
+  payload: RhHistoryUpdateRequest
+): Promise<RhHistoryRecord> =>
+  postRhAuthorizedWithBody<RhHistoryRecord>(
+    "/rh/history/update",
+    accessToken,
+    payload
   );
