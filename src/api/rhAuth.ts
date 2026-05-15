@@ -53,12 +53,41 @@ export type RhHistoryUpdateRequest = {
     | "REPORT_GENERATION"
     | null;
 };
+/** Axis from `GET /rh/history/pages-readiness` (OpenAPI `RhReadinessS3Axis` / `RhReadinessDatabaseAxis`). */
+export type RhReadinessAxis = {
+  count: number;
+  expected: number;
+  relation: "less" | "equal" | "more";
+};
 
+/** `RhPageSummary` from OpenAPI — pages list when readiness returns 200. */
+export type RhPageSummary = {
+  needs_retake: boolean;
+  quality_issue_reason?: string | null;
+  error?: string | null;
+  scan_url: string;
+  start_year: number | null;
+  end_year: number | null;
+  is_coverpage: boolean | null;
+};
+
+export type RhPagesReadinessMismatchBody = {
+  s3: RhReadinessAxis;
+  database: RhReadinessAxis;
+};
+
+export type RhPagesReadinessOkBody = RhPagesReadinessMismatchBody & {
+  pages: RhPageSummary[];
+};
+
+export type RhPagesReadinessResult =
+  | { outcome: "ready"; body: RhPagesReadinessOkBody }
+  | { outcome: "mismatch"; body: RhPagesReadinessMismatchBody };
 export class RhAuthApiError extends Error {
   constructor(
     readonly status: number,
     message: string,
-    readonly info?: { error?: string; message?: string } | unknown,
+    readonly info?: { error?: string; message?: string } | unknown
   ) {
     super(message);
   }
@@ -119,7 +148,7 @@ const postRh = async <T>(path: string, body: object): Promise<T> => {
     throw new RhAuthApiError(
       response.status,
       parseRhJsonError(data, response),
-      data,
+      data
     );
   }
 
@@ -132,7 +161,7 @@ const postRh = async <T>(path: string, body: object): Promise<T> => {
  */
 const postRhAuthorized = async <T>(
   path: string,
-  accessToken: string,
+  accessToken: string
 ): Promise<T> => {
   const response = await fetch(new URL(path, getAuthProviderBaseUrl()), {
     method: "POST",
@@ -152,17 +181,35 @@ const postRhAuthorized = async <T>(
     throw new RhAuthApiError(
       response.status,
       parseRhJsonError(data, response),
-      data,
+      data
     );
   }
 
   return data as T;
 };
 
+const isRhReadinessAxis = (value: unknown): value is RhReadinessAxis => {
+  if (typeof value !== "object" || value === null) return false;
+  const o = value as Record<string, unknown>;
+  return (
+    typeof o.count === "number" &&
+    typeof o.expected === "number" &&
+    (o.relation === "less" || o.relation === "equal" || o.relation === "more")
+  );
+};
+
+const isRhPagesReadinessMismatchBody = (
+  data: unknown
+): data is RhPagesReadinessMismatchBody => {
+  if (typeof data !== "object" || data === null) return false;
+  const o = data as Record<string, unknown>;
+  return isRhReadinessAxis(o.s3) && isRhReadinessAxis(o.database);
+};
+
 const postRhAuthorizedWithBody = async <T>(
   path: string,
   accessToken: string,
-  body: object,
+  body: object
 ): Promise<T> => {
   const response = await fetch(new URL(path, getAuthProviderBaseUrl()), {
     method: "POST",
@@ -184,7 +231,7 @@ const postRhAuthorizedWithBody = async <T>(
     throw new RhAuthApiError(
       response.status,
       parseRhJsonError(data, response),
-      data,
+      data
     );
   }
 
@@ -192,12 +239,12 @@ const postRhAuthorizedWithBody = async <T>(
 };
 
 export const requestRhOtp = (
-  phoneNumber: string,
+  phoneNumber: string
 ): Promise<OtpRequestResponse> =>
   postRh("/rh/request-otp", { phone_number: phoneNumber });
 
 export const upsertRhPhone = async (
-  phoneNumber: string,
+  phoneNumber: string
 ): Promise<RhPhoneUpsertResult> => {
   const response = await fetch(new URL("/rh/phone", getAuthProviderBaseUrl()), {
     method: "POST",
@@ -231,7 +278,7 @@ export const upsertRhPhone = async (
 
 export const verifyRhOtp = (
   phoneNumber: string,
-  code: string,
+  code: string
 ): Promise<RhOtpTokenResponse> => {
   const clientId = getRhOauthClientId();
   const clientSecret = getRhOauthClientSecret();
@@ -246,27 +293,84 @@ export const verifyRhOtp = (
 
 /** `POST /rh/history` — OpenAPI: Bearer token only, response 201 + `RhHistory`. */
 export const createRhHistory = (
-  accessToken: string,
+  accessToken: string
 ): Promise<RhHistoryRecord> =>
   postRhAuthorized<RhHistoryRecord>("/rh/history", accessToken);
 
 /** `POST /rh/history/delete-pages` — Delete all uploaded page scans for one history id. */
 export const deleteRhHistoryPages = (
   accessToken: string,
-  historyId: string,
+  historyId: string
 ): Promise<RhHistoryPageDeleteResponse> =>
   postRhAuthorizedWithBody<RhHistoryPageDeleteResponse>(
     "/rh/history/delete-pages",
     accessToken,
-    { history_id: historyId },
+    { history_id: historyId }
   );
 
 export const updateRhHistory = (
   accessToken: string,
-  payload: RhHistoryUpdateRequest,
+  payload: RhHistoryUpdateRequest
 ): Promise<RhHistoryRecord> =>
   postRhAuthorizedWithBody<RhHistoryRecord>(
     "/rh/history/update",
     accessToken,
-    payload,
+    payload
   );
+
+/**
+ * `GET /rh/history/pages-readiness` — OAuth2 bearer.
+ * Returns `ready` with `pages` on HTTP 200, or `mismatch` on HTTP 400 when the body
+ * includes `s3` and `database` readiness axes (still processing or count skew).
+ * Other HTTP 400 responses (query validation) and non-OK statuses throw `RhAuthApiError`.
+ */
+export const getRhHistoryPagesReadiness = async (
+  accessToken: string,
+  historyId: string,
+  numPages: number
+): Promise<RhPagesReadinessResult> => {
+  const url = new URL("/rh/history/pages-readiness", getAuthProviderBaseUrl());
+  url.searchParams.set("history_id", historyId);
+  url.searchParams.set("num_pages", String(numPages));
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  let data: unknown = undefined;
+  try {
+    data = await response.json();
+  } catch {
+    data = undefined;
+  }
+
+  if (response.status === 200) {
+    if (
+      typeof data !== "object" ||
+      data === null ||
+      !isRhPagesReadinessMismatchBody(data) ||
+      !("pages" in data) ||
+      !Array.isArray((data as { pages: unknown }).pages)
+    ) {
+      throw new RhAuthApiError(
+        response.status,
+        "Unexpected pages-readiness response shape.",
+        data
+      );
+    }
+    return { outcome: "ready", body: data as RhPagesReadinessOkBody };
+  }
+
+  if (response.status === 400 && isRhPagesReadinessMismatchBody(data)) {
+    return { outcome: "mismatch", body: data };
+  }
+
+  throw new RhAuthApiError(
+    response.status,
+    parseRhJsonError(data, response),
+    data
+  );
+};
