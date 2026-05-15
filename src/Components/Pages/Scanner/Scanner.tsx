@@ -14,7 +14,6 @@ import {
 import {
   deleteRhHistoryPages,
   getRhHistoryPagesReadiness,
-  lookupRhHistoryUnits,
   RhAuthApiError,
 } from "../../../api/rhAuth";
 import {
@@ -401,21 +400,6 @@ const Scanner: React.FC = () => {
         <h1>
           <Trans>Scan your rent history document</Trans>
         </h1>
-        <button
-          onClick={async () => {
-            const session = getRhAuthSession();
-            const historyId = getRhHistoryId();
-            if (!session || !historyId) return;
-            const resp = await lookupRhHistoryUnits(session.accessToken, {
-              history_id: historyId,
-              bbl: "2024580026",
-              bin: "2002784",
-            });
-            console.log(resp);
-          }}
-        >
-          <Trans>test nycdb-units</Trans>
-        </button>
         <p>
           <Trans>
             Use you mobile phone's camera to scan each page of your rent history
