@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  combineRhHistoryPages,
   createRhHistory,
   getRhHistoryPagesReadiness,
+  lookupRhHistoryUnits,
   RhAuthApiError,
   verifyRhOtp,
 } from "./rhAuth";
@@ -104,9 +106,6 @@ describe("createRhHistory", () => {
       new Response(
         JSON.stringify({
           id: "11111111-1111-4111-8111-111111111111",
-          created_at: "2026-05-01T12:00:00.000Z",
-          updated_at: "2026-05-01T12:00:00.000Z",
-          profile_id: 1,
         }),
         {
           status: 201,
@@ -125,6 +124,83 @@ describe("createRhHistory", () => {
       Authorization: "Bearer access-token",
     });
     expect(requestInit?.body).toBeUndefined();
+  });
+});
+
+describe("lookupRhHistoryUnits", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("posts to rh/history/lookup-units with Bearer authorization and JSON body", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const historyId = "22222222-2222-4222-8222-222222222222";
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ bbl_units: 8, bin_units: 6 }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      })
+    );
+
+    const result = await lookupRhHistoryUnits("access-token", {
+      history_id: historyId,
+      bbl: "1000010001",
+      bin: "1234567",
+      address: "123 Main St",
+    });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
+    expect(String(requestUrl)).toBe(
+      "https://auth.example.org/rh/history/lookup-units"
+    );
+    expect(requestInit?.method).toBe("POST");
+    expect(requestInit?.headers).toEqual({
+      Authorization: "Bearer access-token",
+      "Content-Type": "application/json",
+    });
+    expect(JSON.parse(requestInit?.body as string)).toEqual({
+      history_id: historyId,
+      bbl: "1000010001",
+      bin: "1234567",
+      address: "123 Main St",
+    });
+    expect(result).toEqual({ bbl_units: 8, bin_units: 6 });
+  });
+});
+
+describe("combineRhHistoryPages", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("posts history_id with Bearer and JSON body to combine-pages", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ status: "ok" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      })
+    );
+
+    const hid = "22222222-2222-4222-8222-222222222222";
+    await combineRhHistoryPages("access-token", hid);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
+    expect(String(requestUrl)).toBe(
+      "https://auth.example.org/rh/history/combine-pages"
+    );
+    expect(requestInit?.method).toBe("POST");
+    expect(requestInit?.headers).toEqual({
+      Authorization: "Bearer access-token",
+      "Content-Type": "application/json",
+    });
+    expect(requestInit?.body).toBe(JSON.stringify({ history_id: hid }));
   });
 });
 

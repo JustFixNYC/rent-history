@@ -23,17 +23,17 @@ msgstr ""
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:318
 #~ msgid "(610) 316-6349"
-#~ msgstr ""
+#~ msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:306
+#: src/Components/Pages/Scanner/Scanner.tsx:320
 msgid "{end}"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:303
+#: src/Components/Pages/Scanner/Scanner.tsx:317
 msgid "{start}"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:300
+#: src/Components/Pages/Scanner/Scanner.tsx:314
 msgid "{start}–{end}"
 msgstr ""
 
@@ -51,9 +51,9 @@ msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:48
 msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:287
+#: src/Components/Pages/Scanner/Scanner.tsx:300
 msgid "A scan image failed to download. Use Restart scanning to try again."
 msgstr ""
 
@@ -119,13 +119,13 @@ msgstr ""
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:119
 #: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:536
 msgid "Continue"
-msgstr "Continuar"
+msgstr "Continuar<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:270
+#: src/Components/Pages/Scanner/Scanner.tsx:282
 msgid "Could not load scan images from storage."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:296
+#: src/Components/Pages/Scanner/Scanner.tsx:310
 msgid "Cover page"
 msgstr ""
 
@@ -194,9 +194,9 @@ msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:16
 msgid "Find out if you’ve been overcharged on rent"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:475
+#: src/Components/Pages/Scanner/Scanner.tsx:513
 msgid "Flatten any folds in the pages and lay them on a flat surface"
 msgstr ""
 
@@ -207,9 +207,9 @@ msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:25
 msgid "Get started"
-msgstr "Comenzar"
+msgstr "Comenzar<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:488
+#: src/Components/Pages/Scanner/Scanner.tsx:526
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
 msgstr ""
 
@@ -232,9 +232,9 @@ msgstr ""
 #: src/Components/Pages/Landing/Landing.tsx:45
 #: src/Components/Pages/PageLayout/Footer.tsx:49
 msgid "JustFix"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:494
+#: src/Components/Pages/Scanner/Scanner.tsx:532
 msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 msgstr ""
 
@@ -280,21 +280,21 @@ msgstr ""
 #: src/Components/Pages/PageLayout/Header.tsx:18
 #: src/Components/Pages/PageLayout/Header.tsx:21
 msgid "Menu"
-msgstr "Menú"
+msgstr "Menú<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:193
+#: src/Components/Pages/Scanner/Scanner.tsx:203
 msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:450
+#: src/Components/Pages/Scanner/Scanner.tsx:485
 msgid "Next"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:149
+#: src/Components/Pages/Scanner/Scanner.tsx:158
 msgid "No pages were saved from the scanner. Use Restart scanning to try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:244
+#: src/Components/Pages/Scanner/Scanner.tsx:255
 msgid "No processed pages were returned. Use Restart scanning to try again."
 msgstr ""
 
@@ -304,9 +304,9 @@ msgstr ""
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:23
 #~ msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
-#~ msgstr ""
+#~ msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:308
+#: src/Components/Pages/Scanner/Scanner.tsx:322
 msgid "Page"
 msgstr ""
 
@@ -317,9 +317,9 @@ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:255
 msgid "Phone number (required)"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:485
+#: src/Components/Pages/Scanner/Scanner.tsx:523
 msgid "Place the pages against a dark background"
 msgstr ""
 
@@ -350,13 +350,13 @@ msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:29
 msgid "Privacy policy"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:427
+#: src/Components/Pages/Scanner/Scanner.tsx:462
 msgid "Processing document scan…"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:77
+#: src/Components/Pages/Scanner/Scanner.tsx:83
 msgid "Re-scan page"
 msgstr ""
 
@@ -371,18 +371,18 @@ msgstr ""
 #: src/Components/Pages/PageLayout/Footer.tsx:44
 #: src/Components/Pages/PageLayout/Header.tsx:13
 msgid "Rent History NYC"
-msgstr "Historial de Alquiler NYC"
+msgstr "Historial de Alquiler NYC<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:310
+#: src/Components/Pages/Scanner/Scanner.tsx:324
 msgid "Rent history scan: {caption}"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:337
 msgid "Resend"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:435
-#: src/Components/Pages/Scanner/Scanner.tsx:454
+#: src/Components/Pages/Scanner/Scanner.tsx:470
+#: src/Components/Pages/Scanner/Scanner.tsx:490
 msgid "Restart scanning"
 msgstr ""
 
@@ -396,13 +396,13 @@ msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:65
 msgid "Review and edit your rent history"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 #: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:505
 msgid "Save address"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:80
+#: src/Components/Pages/Scanner/Scanner.tsx:86
 msgid "Save page"
 msgstr ""
 
@@ -412,9 +412,9 @@ msgstr ""
 
 #: src/Components/Pages/Home/Home.tsx:23
 #~ msgid "Scan your rent history"
-#~ msgstr ""
+#~ msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:390
+#: src/Components/Pages/Scanner/Scanner.tsx:425
 msgid "Scan your rent history document"
 msgstr ""
 
@@ -428,13 +428,13 @@ msgstr ""
 
 #: src/Components/Pages/Home/Home.tsx:10
 #~ msgid "ScanBot Demo"
-#~ msgstr ""
+#~ msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:445
+#: src/Components/Pages/Scanner/Scanner.tsx:480
 msgid "Scanning complete"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:420
+#: src/Components/Pages/Scanner/Scanner.tsx:455
 msgid "Scanning in progress..."
 msgstr ""
 
@@ -452,9 +452,9 @@ msgstr ""
 
 #: src/Components/Pages/PostScanFlow/RentQuestions.tsx:106
 msgid "Start analysis"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:410
+#: src/Components/Pages/Scanner/Scanner.tsx:445
 msgid "Start scanning"
 msgstr ""
 
@@ -476,9 +476,9 @@ msgstr ""
 
 #: src/Components/Pages/PostScanFlow/RentQuestions.tsx:56
 msgid "Step 5: Provide your rent"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:480
+#: src/Components/Pages/Scanner/Scanner.tsx:518
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr ""
 
@@ -492,17 +492,17 @@ msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:17
 msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:323
+#: src/Components/Pages/Scanner/Scanner.tsx:337
 msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:232
+#: src/Components/Pages/Scanner/Scanner.tsx:242
 msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:471
+#: src/Components/Pages/Scanner/Scanner.tsx:509
 msgid "Tips for getting a high quality scan"
 msgstr ""
 
@@ -529,9 +529,9 @@ msgstr ""
 
 #: src/Components/Pages/Home/Home.tsx:12
 #~ msgid "Upload your rent history"
-#~ msgstr ""
+#~ msgstr "<<<<<<< HEAD"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:393
+#: src/Components/Pages/Scanner/Scanner.tsx:428
 msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 msgstr ""
 
@@ -569,6 +569,10 @@ msgstr ""
 #~ msgid "We could not find an existing report for this number."
 #~ msgstr ""
 
+#: src/Components/Pages/Scanner/Scanner.tsx:414
+msgid "We couldn't combine your pages. Please try again."
+msgstr ""
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:94
 msgid "We requested your code. Delivery may take a moment."
 msgstr ""
@@ -599,12 +603,16 @@ msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50
 msgid "Your scanned pages"
+msgstr "<<<<<<< HEAD"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:405
+msgid "Your session is missing a rent history record."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:402
+#: src/Components/Pages/Scanner/Scanner.tsx:437
 msgid "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:141
+#: src/Components/Pages/Scanner/Scanner.tsx:148
 msgid "Your session is missing login or rent history data. Go back and try again."
 msgstr ""

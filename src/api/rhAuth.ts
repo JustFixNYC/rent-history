@@ -21,12 +21,29 @@ export type RhOtpTokenResponse = {
   profile: RhProfile;
 };
 
-/** Narrow `RhHistory` from OpenAPI (create response includes at least these required fields). */
+/** Response body from `POST /rh/history` (create only — `id` only). */
 export type RhHistoryRecord = {
   id: string;
-  created_at: string;
-  updated_at: string;
-  profile_id: number;
+};
+
+/** `POST /rh/history/combine-pages` success body. */
+export type RhHistoryCombinePagesResponse = {
+  status: "ok";
+};
+
+/** `POST /rh/history/lookup-units` request (OpenAPI `RhHistoryLookupUnitsRequest`). */
+export type RhHistoryLookupUnitsRequest = {
+  history_id: string;
+  bbl: string;
+  address?: string | null;
+  apartment?: string | null;
+  bin?: string | null;
+};
+
+/** `POST /rh/history/lookup-units` response (OpenAPI `RhHistoryLookupUnitsResponse`). */
+export type RhHistoryLookupUnitsResponse = {
+  bbl_units: number | null;
+  bin_units: number | null;
 };
 
 export type RhHistoryPageDeleteResponse = {
@@ -297,6 +314,17 @@ export const createRhHistory = (
 ): Promise<RhHistoryRecord> =>
   postRhAuthorized<RhHistoryRecord>("/rh/history", accessToken);
 
+/** `POST /rh/history/lookup-units` — Update location fields and resolve unit counts from NYCDB. */
+export const lookupRhHistoryUnits = (
+  accessToken: string,
+  body: RhHistoryLookupUnitsRequest
+): Promise<RhHistoryLookupUnitsResponse> =>
+  postRhAuthorizedWithBody<RhHistoryLookupUnitsResponse>(
+    "/rh/history/lookup-units",
+    accessToken,
+    body
+  );
+
 /** `POST /rh/history/delete-pages` — Delete all uploaded page scans for one history id. */
 export const deleteRhHistoryPages = (
   accessToken: string,
@@ -316,6 +344,19 @@ export const updateRhHistory = (
     "/rh/history/update",
     accessToken,
     payload
+  );
+
+/**
+ * `POST /rh/history/combine-pages` — Merge pages into `data_initial` (success returns `{ status: "ok" }` only).
+ */
+export const combineRhHistoryPages = (
+  accessToken: string,
+  historyId: string
+): Promise<RhHistoryCombinePagesResponse> =>
+  postRhAuthorizedWithBody<RhHistoryCombinePagesResponse>(
+    "/rh/history/combine-pages",
+    accessToken,
+    { history_id: historyId }
   );
 
 /**
