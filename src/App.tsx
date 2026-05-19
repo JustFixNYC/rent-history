@@ -19,12 +19,13 @@ import LoginPage from "./Components/Pages/LoginPage/LoginPage";
 import AccountPage from "./Components/Pages/AccountPage/AccountPage";
 import HistoryPage from "./Components/Pages/HistoryPage/HistoryPage";
 import { PageLayout } from "./Components/Pages/PageLayout/PageLayout";
-import PostScanFlow from "./Components/Pages/PostScanFlow/PostScanFlow";
+import { RentQuestions } from "./Components/Pages/RentQuestions/RentQuestions";
 import Scanner from "./Components/Pages/Scanner/Scanner";
 import { ReviewEditData } from "./Components/Pages/ReviewEditData/ReviewEditData";
 import { parseLocaleFromPath } from "./i18n";
 import { RhSessionProvider } from "./session/RhSessionContext";
 import { getRhAuthSession } from "./session/rhSessionStorage";
+import { ConfirmAddress } from "./Components/Pages/ConfirmAddress/ConfirmAddress";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -51,7 +52,8 @@ const createAppRouter = () =>
             <Route path="history" element={<HistoryPage />} />
             <Route path="scanner" element={<Scanner />} />
             <Route path="review" element={<ReviewEditData />} />
-            <Route path="post-scan" element={<PostScanFlow />} />
+            <Route path="confirm-address" element={<ConfirmAddress />} />
+            <Route path="rent-questions" element={<RentQuestions />} />
           </Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms_of_use" element={<TermsOfUse />} />
@@ -65,7 +67,8 @@ const createAppRouter = () =>
             <Route path="history" element={<HistoryPage />} />
             <Route path="scanner" element={<Scanner />} />
             <Route path="review" element={<ReviewEditData />} />
-            <Route path="post-scan" element={<PostScanFlow />} />
+            <Route path="confirm-address" element={<ConfirmAddress />} />
+            <Route path="rent-questions" element={<RentQuestions />} />
           </Route>
           <Route path="*" element={<Landing />} />
         </Route>

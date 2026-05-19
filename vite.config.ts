@@ -5,6 +5,12 @@ import { NodePackageImporter } from 'sass'; // Import from 'sass' package
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    dedupe: ["react", "react-dom"],
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"],
+  },
   css: {
     preprocessorOptions: {
       scss: {

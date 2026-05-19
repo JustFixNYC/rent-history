@@ -409,9 +409,11 @@ const Scanner: React.FC = () => {
     setIsCombining(true);
     try {
       await combineRhHistoryPages(session.accessToken, historyId);
-      navigate(`/${i18n.locale}/review`);
+      navigate(`/${i18n.locale}/confirm-address`);
     } catch (err) {
-      const fallback = _(msg`We couldn't combine your pages. Please try again.`);
+      const fallback = _(
+        msg`We couldn't combine your pages. Please try again.`
+      );
       setCombineError(err instanceof RhAuthApiError ? err.message : fallback);
     } finally {
       setIsCombining(false);

@@ -29,7 +29,7 @@ describe("post-OTP route protection", () => {
     clearRhAuthSession();
   });
 
-  it.each(["/en/account", "/en/scanner", "/en/review", "/en/post-scan"])(
+  it.each(["/en/account", "/en/scanner", "/en/review", "/en/confirm-address"])(
     "redirects unauthenticated deep-link %s to login",
     async (path) => {
       window.history.pushState({}, "", path);

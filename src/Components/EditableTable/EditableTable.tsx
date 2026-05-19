@@ -494,7 +494,7 @@ export const EditableTable: React.FC = () => {
           <Button
             variant="primary"
             labelText={_(msg`Analyze my rent history`)}
-            onClick={() => navigate(`/${i18n.locale}/post-scan`)}
+            onClick={() => navigate(`/${i18n.locale}/confirm-address`)}
           />
         </div>
       )}

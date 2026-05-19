@@ -31,8 +31,8 @@ export type RhHistoryCombinePagesResponse = {
   status: "ok";
 };
 
-/** `POST /rh/history/lookup-units` request (OpenAPI `RhHistoryLookupUnitsRequest`). */
-export type RhHistoryLookupUnitsRequest = {
+/** `POST /rh/history/confirm-address` request (OpenAPI `RhHistoryConfirmAddressRequest`). */
+export type RhHistoryConfirmAddressRequest = {
   history_id: string;
   bbl: string;
   address?: string | null;
@@ -40,10 +40,12 @@ export type RhHistoryLookupUnitsRequest = {
   bin?: string | null;
 };
 
-/** `POST /rh/history/lookup-units` response (OpenAPI `RhHistoryLookupUnitsResponse`). */
-export type RhHistoryLookupUnitsResponse = {
+/** `POST /rh/history/confirm-address` response (OpenAPI `RhHistoryConfirmAddressResponse`). */
+export type RhHistoryConfirmAddressResponse = {
   bbl_units: number | null;
   bin_units: number | null;
+  is_421a_nycdb: boolean | null;
+  is_j51_nycdb: boolean | null;
 };
 
 export type RhHistoryPageDeleteResponse = {
@@ -82,7 +84,6 @@ export type RhPagesReadinessOkBody = RhPagesReadinessMismatchBody & {
 export type RhPagesReadinessResult =
   | { outcome: "ready"; body: RhPagesReadinessOkBody }
   | { outcome: "mismatch"; body: RhPagesReadinessMismatchBody };
-
 export class RhAuthApiError extends Error {
   constructor(
     readonly status: number,
@@ -297,13 +298,13 @@ export const createRhHistory = (
 ): Promise<RhHistoryRecord> =>
   postRhAuthorized<RhHistoryRecord>("/rh/history", accessToken);
 
-/** `POST /rh/history/lookup-units` — Update location fields and resolve unit counts from NYCDB. */
-export const lookupRhHistoryUnits = (
+/** `POST /rh/history/confirm-address` — Confirm address, NYCDB building lookup, and advance flow. */
+export const confirmRhHistoryAddress = (
   accessToken: string,
-  body: RhHistoryLookupUnitsRequest
-): Promise<RhHistoryLookupUnitsResponse> =>
-  postRhAuthorizedWithBody<RhHistoryLookupUnitsResponse>(
-    "/rh/history/lookup-units",
+  body: RhHistoryConfirmAddressRequest
+): Promise<RhHistoryConfirmAddressResponse> =>
+  postRhAuthorizedWithBody<RhHistoryConfirmAddressResponse>(
+    "/rh/history/confirm-address",
     accessToken,
     body
   );

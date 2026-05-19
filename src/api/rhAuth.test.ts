@@ -3,7 +3,7 @@ import {
   combineRhHistoryPages,
   createRhHistory,
   getRhHistoryPagesReadiness,
-  lookupRhHistoryUnits,
+  confirmRhHistoryAddress,
   RhAuthApiError,
   verifyRhOtp,
 } from "./rhAuth";
@@ -127,24 +127,32 @@ describe("createRhHistory", () => {
   });
 });
 
-describe("lookupRhHistoryUnits", () => {
+describe("confirmRhHistoryAddress", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
   });
 
-  it("posts to rh/history/lookup-units with Bearer authorization and JSON body", async () => {
+  it("posts to rh/history/confirm-address with Bearer authorization and JSON body", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const historyId = "22222222-2222-4222-8222-222222222222";
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ bbl_units: 8, bin_units: 6 }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      })
+      new Response(
+        JSON.stringify({
+          bbl_units: 8,
+          bin_units: 6,
+          is_421a_nycdb: true,
+          is_j51_nycdb: false,
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
     );
 
-    const result = await lookupRhHistoryUnits("access-token", {
+    const result = await confirmRhHistoryAddress("access-token", {
       history_id: historyId,
       bbl: "1000010001",
       bin: "1234567",
@@ -154,7 +162,7 @@ describe("lookupRhHistoryUnits", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
     expect(String(requestUrl)).toBe(
-      "https://auth.example.org/rh/history/lookup-units"
+      "https://auth.example.org/rh/history/confirm-address"
     );
     expect(requestInit?.method).toBe("POST");
     expect(requestInit?.headers).toEqual({
@@ -167,7 +175,12 @@ describe("lookupRhHistoryUnits", () => {
       bin: "1234567",
       address: "123 Main St",
     });
-    expect(result).toEqual({ bbl_units: 8, bin_units: 6 });
+    expect(result).toEqual({
+      bbl_units: 8,
+      bin_units: 6,
+      is_421a_nycdb: true,
+      is_j51_nycdb: false,
+    });
   });
 });
 
