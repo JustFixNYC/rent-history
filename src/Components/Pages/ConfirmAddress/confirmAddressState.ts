@@ -30,9 +30,9 @@ export const EXTRACTED_ADDRESS: AddressState = {
   streetAddress: "228 Atlantic Avenue",
   unitNumber: "1",
   cityStateZip: "Brooklyn, New York 11201",
-  longLat: null,
-  bbl: null,
-  bin: null,
+  longLat: "-73.991642,40.68926",
+  bbl: "3002780029",
+  bin: "3002812",
 };
 
 export const UPDATED_ADDRESS: AddressState = {
