@@ -2,28 +2,42 @@ import { useState } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import {
-  Button,
-  GeoSearchDropdown,
-  GeoSearchDropdownSelection,
-  Icon,
-} from "@justfixnyc/component-library";
+import { Button, Icon } from "@justfixnyc/component-library";
+// @ts-expect-error GeoSearchDropdown is exported at runtime but missing from package types.
+import { GeoSearchDropdown } from "@justfixnyc/component-library";
+
+type GeoSearchDropdownSelection = {
+  feature: {
+    properties?: {
+      housenumber?: string;
+      street?: string;
+      borough?: string;
+      postalcode?: string;
+      name?: string;
+      addendum?: { pad?: { bbl?: string; bin?: string } };
+    };
+    geometry?: { coordinates?: number[] };
+  };
+  option: { label: string };
+};
 import { useNavigate } from "react-router-dom";
 
+import { confirmRhHistoryAddress } from "../../../api/rhAuth";
 import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
-import { updateRhHistory } from "../../../api/rhAuth";
+import {
+  readPostScanFlowState,
+  writePostScanFlowState,
+} from "../PostScanFlow/postScanState";
 import {
   AddressFlowState,
   AddressState,
   EXTRACTED_ADDRESS,
   UPDATED_ADDRESS,
-  readPostScanFlowState,
-  writePostScanFlowState,
-} from "./postScanState";
-import "./PostScanFlow.scss";
+} from "./confirmAddressState";
+import "../PostScanFlow/PostScanFlow.scss";
 
 const toTitleCase = (value: string) =>
   value.replace(
@@ -141,10 +155,15 @@ export const ConfirmAddress: React.FC = () => {
   ): Promise<boolean> => {
     const auth = getRhAuthSession();
     const historyId = getRhHistoryId();
-    if (!auth || !historyId) return false;
+    if (!auth || !historyId || !address.bbl) {
+      setAddressError(
+        _(msg`Unable to update address right now. Please try again.`)
+      );
+      return false;
+    }
     setSavingAddress(true);
     try {
-      await updateRhHistory(auth.accessToken, {
+      await confirmRhHistoryAddress(auth.accessToken, {
         history_id: historyId,
         apartment: address.unitNumber || null,
         address: [address.streetAddress, address.cityStateZip]
@@ -152,7 +171,6 @@ export const ConfirmAddress: React.FC = () => {
           .join(", "),
         bbl: address.bbl,
         bin: address.bin,
-        last_step_reached: "ADDRESS_CONFIRMATION",
       });
       return true;
     } catch {
@@ -394,7 +412,10 @@ export const ConfirmAddress: React.FC = () => {
                   serviceUnavailableText={_(
                     msg`Geosearch is temporarily unavailable. Try again in a moment.`
                   )}
-                  onInputChange={(value, meta) => {
+                  onInputChange={(
+                    value: string,
+                    meta: { action?: string }
+                  ) => {
                     if (!isTypingInputAction(meta)) return value;
                     setDraftAddress((prev) => ({
                       ...prev,
@@ -403,7 +424,7 @@ export const ConfirmAddress: React.FC = () => {
                     if (addressError) setAddressError(null);
                     return value;
                   }}
-                  onSelect={(selection) => {
+                  onSelect={(selection: GeoSearchDropdownSelection | null) => {
                     setDraftAddress((prev) =>
                       getAddressStateFromSelection(selection, prev)
                     );
@@ -460,7 +481,10 @@ export const ConfirmAddress: React.FC = () => {
                   serviceUnavailableText={_(
                     msg`Geosearch is temporarily unavailable. Try again in a moment.`
                   )}
-                  onInputChange={(value, meta) => {
+                  onInputChange={(
+                    value: string,
+                    meta: { action?: string }
+                  ) => {
                     if (!isTypingInputAction(meta)) return value;
                     setDraftAddress((prev) => ({
                       ...prev,
@@ -469,7 +493,7 @@ export const ConfirmAddress: React.FC = () => {
                     if (addressError) setAddressError(null);
                     return value;
                   }}
-                  onSelect={(selection) => {
+                  onSelect={(selection: GeoSearchDropdownSelection | null) => {
                     setDraftAddress((prev) =>
                       getAddressStateFromSelection(selection, prev)
                     );
@@ -526,7 +550,7 @@ export const ConfirmAddress: React.FC = () => {
             <button
               type="button"
               className="postscan-link-btn"
-              onClick={() => navigate(`/${i18n.locale}/review`)}
+              onClick={() => navigate(`/${i18n.locale}/scanner`)}
             >
               <Icon icon="chevronLeft" />
               <Trans>Back</Trans>

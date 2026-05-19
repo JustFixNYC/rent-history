@@ -4,21 +4,17 @@ import {
   getRhSessionStepState,
   setRhSessionStepState,
 } from "../../../session/rhSessionStorage";
+import {
+  addressFlowStateSchema,
+  addressStateSchema,
+  AddressFlowState,
+  AddressState,
+  EXTRACTED_ADDRESS,
+  UPDATED_ADDRESS,
+} from "../ConfirmAddress/confirmAddressState";
 
-export type AddressFlowState =
-  | "confirmExtracted"
-  | "editAddress"
-  | "enterAddress"
-  | "confirmUpdated";
-
-export type AddressState = {
-  streetAddress: string;
-  unitNumber: string;
-  cityStateZip: string;
-  longLat: string | null;
-  bbl: string | null;
-  bin: string | null;
-};
+export type { AddressFlowState, AddressState };
+export { EXTRACTED_ADDRESS, UPDATED_ADDRESS };
 
 export type RentQuestionsState = {
   monthlyRent: string;
@@ -31,24 +27,6 @@ export type PostScanFlowState = {
   rentQuestions: RentQuestionsState;
 };
 
-export const EXTRACTED_ADDRESS: AddressState = {
-  streetAddress: "228 Atlantic Avenue",
-  unitNumber: "1",
-  cityStateZip: "Brooklyn, New York 11201",
-  longLat: null,
-  bbl: null,
-  bin: null,
-};
-
-export const UPDATED_ADDRESS: AddressState = {
-  streetAddress: "220 Atlantic Avenue",
-  unitNumber: "1",
-  cityStateZip: "Brooklyn, New York 11201",
-  longLat: null,
-  bbl: null,
-  bin: null,
-};
-
 const DEFAULT_STATE: PostScanFlowState = {
   addressFlowState: "confirmExtracted",
   confirmedAddress: EXTRACTED_ADDRESS,
@@ -58,26 +36,12 @@ const DEFAULT_STATE: PostScanFlowState = {
   },
 };
 
-const addressStateSchema = z.object({
-  streetAddress: z.string(),
-  unitNumber: z.string(),
-  cityStateZip: z.string(),
-  longLat: z.string().nullable(),
-  bbl: z.string().nullable(),
-  bin: z.string().nullable(),
-});
-
 const rentQuestionsStateSchema = z.object({
   monthlyRent: z.string(),
 });
 
 const postScanStateSchema = z.object({
-  addressFlowState: z.enum([
-    "confirmExtracted",
-    "editAddress",
-    "enterAddress",
-    "confirmUpdated",
-  ]),
+  addressFlowState: addressFlowStateSchema,
   confirmedAddress: addressStateSchema,
   draftAddress: addressStateSchema,
   rentQuestions: rentQuestionsStateSchema,
