@@ -7,8 +7,11 @@ import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, TextInput } from "@justfixnyc/component-library";
 
-import { readPostScanFlowState, writePostScanFlowState } from "./postScanState";
-import "./PostScanFlow.scss";
+import {
+  readRentQuestionsState,
+  writeRentQuestionsState,
+} from "./rentQuestionsState";
+import "./RentQuestions.scss";
 
 type RentQuestionsForm = {
   monthlyRent: string;
@@ -17,7 +20,7 @@ type RentQuestionsForm = {
 export const RentQuestions: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
-  const currentState = readPostScanFlowState();
+  const currentState = readRentQuestionsState();
 
   const form = useForm<RentQuestionsForm>({
     resolver: zodResolver(
@@ -33,23 +36,20 @@ export const RentQuestions: React.FC = () => {
       })
     ),
     defaultValues: {
-      monthlyRent: currentState.rentQuestions.monthlyRent,
+      monthlyRent: currentState.monthlyRent,
     },
   });
 
   const saveAndContinue = form.handleSubmit(async (values) => {
-    writePostScanFlowState({
-      ...currentState,
-      rentQuestions: {
-        monthlyRent: values.monthlyRent,
-      },
+    writeRentQuestionsState({
+      monthlyRent: values.monthlyRent,
     });
 
     navigate(`/${i18n.locale}/scanner`);
   });
 
   return (
-    <div id="post-scan-flow-page">
+    <div id="rent-questions-page">
       <section className="postscan-body">
         <div className="postscan-progress">
           <p>
@@ -96,7 +96,7 @@ export const RentQuestions: React.FC = () => {
           <button
             type="button"
             className="postscan-link-btn"
-            onClick={() => navigate(`/${i18n.locale}/post-scan`)}
+            onClick={() => navigate(`/${i18n.locale}/confirm-address`)}
           >
             <Icon icon="chevronLeft" />
             <Trans>Back</Trans>

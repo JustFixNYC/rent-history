@@ -2,9 +2,7 @@ import { useState } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { Button, Icon } from "@justfixnyc/component-library";
-// @ts-expect-error GeoSearchDropdown is exported at runtime but missing from package types.
-import { GeoSearchDropdown } from "@justfixnyc/component-library";
+import { Button, GeoSearchDropdown, Icon } from "@justfixnyc/component-library";
 
 type GeoSearchDropdownSelection = {
   feature: {
@@ -28,16 +26,15 @@ import {
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
 import {
-  readPostScanFlowState,
-  writePostScanFlowState,
-} from "../PostScanFlow/postScanState";
-import {
   AddressFlowState,
   AddressState,
+  ConfirmAddressState,
   EXTRACTED_ADDRESS,
+  readConfirmAddressState,
   UPDATED_ADDRESS,
+  writeConfirmAddressState,
 } from "./confirmAddressState";
-import "../PostScanFlow/PostScanFlow.scss";
+import "./ConfirmAddress.scss";
 
 const toTitleCase = (value: string) =>
   value.replace(
@@ -109,7 +106,7 @@ export const ConfirmAddress: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
   const isDev = import.meta.env.DEV;
-  const [flowState, setFlowState] = useState(readPostScanFlowState());
+  const [flowState, setFlowState] = useState(readConfirmAddressState());
   const [addressError, setAddressError] = useState<string | null>(null);
   const [savingAddress, setSavingAddress] = useState(false);
 
@@ -123,8 +120,8 @@ export const ConfirmAddress: React.FC = () => {
       draftAddress: updater(prev.draftAddress),
     }));
 
-  const persistState = (nextState: typeof flowState) => {
-    writePostScanFlowState(nextState);
+  const persistState = (nextState: ConfirmAddressState) => {
+    writeConfirmAddressState(nextState);
     setFlowState(nextState);
   };
 
@@ -202,13 +199,13 @@ export const ConfirmAddress: React.FC = () => {
         confirmedAddress: nextConfirmed,
       };
       persistState(nextState);
-      navigate(`/${i18n.locale}/post-scan/rent`);
+      navigate(`/${i18n.locale}/rent-questions`);
       return;
     }
 
     const updated = await submitAddressUpdate(confirmedAddress);
     if (!updated) return;
-    navigate(`/${i18n.locale}/post-scan/rent`);
+    navigate(`/${i18n.locale}/rent-questions`);
   };
 
   const onSaveAddress = async () => {
@@ -234,7 +231,7 @@ export const ConfirmAddress: React.FC = () => {
   const mapImageUrl = buildMapImageURL(confirmedAddress);
 
   return (
-    <div id="post-scan-flow-page">
+    <div id="confirm-address-page">
       <section className="postscan-body">
         {isDev && (
           <section className="postscan-dev-toggles" aria-label="Dev toggles">
@@ -412,10 +409,7 @@ export const ConfirmAddress: React.FC = () => {
                   serviceUnavailableText={_(
                     msg`Geosearch is temporarily unavailable. Try again in a moment.`
                   )}
-                  onInputChange={(
-                    value: string,
-                    meta: { action?: string }
-                  ) => {
+                  onInputChange={(value: string, meta: { action?: string }) => {
                     if (!isTypingInputAction(meta)) return value;
                     setDraftAddress((prev) => ({
                       ...prev,
@@ -481,10 +475,7 @@ export const ConfirmAddress: React.FC = () => {
                   serviceUnavailableText={_(
                     msg`Geosearch is temporarily unavailable. Try again in a moment.`
                   )}
-                  onInputChange={(
-                    value: string,
-                    meta: { action?: string }
-                  ) => {
+                  onInputChange={(value: string, meta: { action?: string }) => {
                     if (!isTypingInputAction(meta)) return value;
                     setDraftAddress((prev) => ({
                       ...prev,

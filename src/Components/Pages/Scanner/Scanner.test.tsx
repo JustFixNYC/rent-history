@@ -102,7 +102,7 @@ describe("Scanner Next button", () => {
     vi.clearAllMocks();
   });
 
-  it("calls combine-pages and navigates to /post-scan on success", async () => {
+  it("calls combine-pages and navigates to /confirm-address on success", async () => {
     vi.mocked(rhAuthApi.combineRhHistoryPages).mockResolvedValue({
       status: "ok",
     });
@@ -116,7 +116,7 @@ describe("Scanner Next button", () => {
         "access-token",
         historyId
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/post-scan");
+      expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
     });
   });
 

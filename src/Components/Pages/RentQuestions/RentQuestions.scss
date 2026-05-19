@@ -1,0 +1,114 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+#rent-questions-page {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+  min-height: 100vh;
+}
+
+.postscan-body {
+  min-height: 648px;
+  padding: 2rem 1.5rem;
+}
+
+.postscan-progress {
+  margin-bottom: 1.5rem;
+
+  p {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+  }
+
+  &__bar {
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$OFF_BLACK;
+    border-radius: 999px;
+    height: 16px;
+    overflow: hidden;
+    width: 100%;
+
+    span {
+      background: jfcl.$OFF_BLACK;
+      display: block;
+      height: 100%;
+      width: 40%;
+    }
+  }
+}
+
+.postscan-card {
+  background: jfcl.$WHITE;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  p {
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    margin: 0;
+  }
+}
+
+.postscan-rent-input {
+  margin: 0;
+
+  input {
+    @include jfcl.body_standard_desktop;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_600;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: jfcl.$OFF_BLACK;
+    height: 44px;
+    padding-left: 1.5rem;
+    width: 100%;
+  }
+}
+
+.postscan-actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.postscan-link-btn {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: jfcl.$OFF_BLACK;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "Degular";
+  font-size: 1.125rem;
+  gap: 0.25rem;
+  padding: 0 0.5rem 0 0;
+  text-decoration: underline;
+}
+
+.postscan-primary-btn {
+  min-width: 227px;
+}

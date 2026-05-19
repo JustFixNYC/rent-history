@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+import {
+  getRhSessionStepState,
+  setRhSessionStepState,
+} from "../../../session/rhSessionStorage";
+
 export type AddressFlowState =
   | "confirmExtracted"
   | "editAddress"
@@ -13,6 +18,12 @@ export type AddressState = {
   longLat: string | null;
   bbl: string | null;
   bin: string | null;
+};
+
+export type ConfirmAddressState = {
+  addressFlowState: AddressFlowState;
+  confirmedAddress: AddressState;
+  draftAddress: AddressState;
 };
 
 export const EXTRACTED_ADDRESS: AddressState = {
@@ -33,7 +44,7 @@ export const UPDATED_ADDRESS: AddressState = {
   bin: null,
 };
 
-export const addressStateSchema = z.object({
+const addressStateSchema = z.object({
   streetAddress: z.string(),
   unitNumber: z.string(),
   cityStateZip: z.string(),
@@ -42,9 +53,30 @@ export const addressStateSchema = z.object({
   bin: z.string().nullable(),
 });
 
-export const addressFlowStateSchema = z.enum([
-  "confirmExtracted",
-  "editAddress",
-  "enterAddress",
-  "confirmUpdated",
-]);
+const confirmAddressStateSchema = z.object({
+  addressFlowState: z.enum([
+    "confirmExtracted",
+    "editAddress",
+    "enterAddress",
+    "confirmUpdated",
+  ]),
+  confirmedAddress: addressStateSchema,
+  draftAddress: addressStateSchema,
+});
+
+const DEFAULT_STATE: ConfirmAddressState = {
+  addressFlowState: "confirmExtracted",
+  confirmedAddress: EXTRACTED_ADDRESS,
+  draftAddress: { ...EXTRACTED_ADDRESS, unitNumber: "" },
+};
+
+export const CONFIRM_ADDRESS_STEP_STATE_KEY = "confirmAddress";
+
+export const readConfirmAddressState = (): ConfirmAddressState =>
+  getRhSessionStepState(
+    CONFIRM_ADDRESS_STEP_STATE_KEY,
+    confirmAddressStateSchema
+  ) ?? DEFAULT_STATE;
+
+export const writeConfirmAddressState = (state: ConfirmAddressState): void =>
+  setRhSessionStepState(CONFIRM_ADDRESS_STEP_STATE_KEY, state);

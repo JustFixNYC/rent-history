@@ -107,12 +107,12 @@ const Scanner: React.FC = () => {
           const prefix = readScanKeyPrefix();
           if (!prefix) {
             console.error(
-              "Missing OTP session or rent history id for scan upload.",
+              "Missing OTP session or rent history id for scan upload."
             );
             return;
           }
           const jpgBlob = await result.correctedImageResult?.toBlob(
-            "image/jpeg",
+            "image/jpeg"
           );
           if (!jpgBlob) {
             console.error("no image from scan");
@@ -145,8 +145,8 @@ const Scanner: React.FC = () => {
       setReadinessPhase("error");
       setReadinessErrorMessage(
         _(
-          msg`Your session is missing login or rent history data. Go back and try again.`,
-        ),
+          msg`Your session is missing login or rent history data. Go back and try again.`
+        )
       );
       return;
     }
@@ -155,8 +155,8 @@ const Scanner: React.FC = () => {
       setReadinessPhase("error");
       setReadinessErrorMessage(
         _(
-          msg`No pages were saved from the scanner. Use Restart scanning to try again.`,
-        ),
+          msg`No pages were saved from the scanner. Use Restart scanning to try again.`
+        )
       );
       return;
     }
@@ -172,7 +172,7 @@ const Scanner: React.FC = () => {
       let lastResult = await getRhHistoryPagesReadiness(
         session.accessToken,
         historyId,
-        numPages,
+        numPages
       ).catch((err: unknown) => {
         if (cancelled) return null;
         const message =
@@ -200,8 +200,8 @@ const Scanner: React.FC = () => {
           setReadinessPhase("error");
           setReadinessErrorMessage(
             _(
-              msg`More scan files or records were found than expected. Use Restart scanning to clear this history and scan again.`,
-            ),
+              msg`More scan files or records were found than expected. Use Restart scanning to clear this history and scan again.`
+            )
           );
           return;
         }
@@ -212,7 +212,7 @@ const Scanner: React.FC = () => {
         lastResult = await getRhHistoryPagesReadiness(
           session.accessToken,
           historyId,
-          numPages,
+          numPages
         ).catch((err: unknown) => {
           if (cancelled) return null;
           const message =
@@ -239,8 +239,8 @@ const Scanner: React.FC = () => {
         setReadinessPhase("error");
         setReadinessErrorMessage(
           _(
-            msg`Timed out waiting for scans to finish processing. Use Restart scanning or try again later.`,
-          ),
+            msg`Timed out waiting for scans to finish processing. Use Restart scanning or try again later.`
+          )
         );
         return;
       }
@@ -252,8 +252,8 @@ const Scanner: React.FC = () => {
         setReadinessPhase("error");
         setReadinessErrorMessage(
           _(
-            msg`No processed pages were returned. Use Restart scanning to try again.`,
-          ),
+            msg`No processed pages were returned. Use Restart scanning to try again.`
+          )
         );
         return;
       }
@@ -279,7 +279,7 @@ const Scanner: React.FC = () => {
           err instanceof PresignApiError ? err.message : String(err);
         setReadinessPhase("error");
         setReadinessErrorMessage(
-          _(msg`Could not load scan images from storage.`) + ` ${message}`,
+          _(msg`Could not load scan images from storage.`) + ` ${message}`
         );
         return;
       }
@@ -297,8 +297,8 @@ const Scanner: React.FC = () => {
           setReadinessPhase("error");
           setReadinessErrorMessage(
             _(
-              msg`A scan image failed to download. Use Restart scanning to try again.`,
-            ),
+              msg`A scan image failed to download. Use Restart scanning to try again.`
+            )
           );
           return;
         }
@@ -354,7 +354,7 @@ const Scanner: React.FC = () => {
             ) : null}
             <BlobImage blobData={blob} alt={alt} />
             <p className="scanner-carousel-slide__caption">{caption}</p>
-          </div>,
+          </div>
         );
       }
 
@@ -412,7 +412,7 @@ const Scanner: React.FC = () => {
       navigate(`/${i18n.locale}/confirm-address`);
     } catch (err) {
       const fallback = _(
-        msg`We couldn't combine your pages. Please try again.`,
+        msg`We couldn't combine your pages. Please try again.`
       );
       setCombineError(err instanceof RhAuthApiError ? err.message : fallback);
     } finally {

@@ -69,14 +69,14 @@ msgstr "Analyze my rent history"
 msgid "Analyze your rent history to identify potential violations and overcharges."
 msgstr "Analyze your rent history to identify potential violations and overcharges."
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:384
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:450
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:399
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:465
 msgid "Apartment address"
 msgstr "Apartment address"
 
 #. placeholder {0}: confirmedAddress.unitNumber.trim()
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:311
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:356
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:326
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:371
 msgid "Apt. {0}"
 msgstr "Apt. {0}"
 
@@ -84,11 +84,11 @@ msgstr "Apt. {0}"
 #~ msgid "Apt. 1"
 #~ msgstr "Apt. 1"
 
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:547
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:116
 #: src/Components/Pages/LoginPage/LoginPage.tsx:283
 #: src/Components/Pages/LoginPage/LoginPage.tsx:353
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:532
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:102
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:102
 msgid "Back"
 msgstr "Back"
 
@@ -100,7 +100,7 @@ msgstr "Back"
 msgid "By"
 msgstr "By"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:517
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:532
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -116,8 +116,8 @@ msgstr "Code sent. Enter it below to continue."
 msgid "Completed Feb 1, 2026"
 msgstr "Completed Feb 1, 2026"
 
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:551
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:119
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:536
 msgid "Continue"
 msgstr "Continue"
 
@@ -129,8 +129,8 @@ msgstr "Could not load scan images from storage."
 msgid "Cover page"
 msgstr "Cover page"
 
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:66
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:88
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:66
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:88
 msgid "Current monthly rent"
 msgstr "Current monthly rent"
 
@@ -150,7 +150,7 @@ msgstr "Disclaimer"
 #~ msgid "Dynamsoft"
 #~ msgstr "Dynamsoft"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:322
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:337
 msgid "Edit address"
 msgstr "Edit address"
 
@@ -158,16 +158,16 @@ msgstr "Edit address"
 #~ msgid "edit the address"
 #~ msgstr "edit the address"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:442
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:457
 msgid "Edit the address for this<0/>rent history"
 msgstr "Edit the address for this<0/>rent history"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:171
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:198
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:186
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:213
 msgid "Enter an address to get started"
 msgstr "Enter an address to get started"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:368
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:383
 msgid "Enter the address for this<0/>rent history"
 msgstr "Enter the address for this<0/>rent history"
 
@@ -175,8 +175,8 @@ msgstr "Enter the address for this<0/>rent history"
 msgid "Enter verification code"
 msgstr "Enter verification code"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:390
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:456
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:405
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:471
 msgid "Enter your address"
 msgstr "Enter your address"
 
@@ -196,12 +196,12 @@ msgstr "Feedback form"
 msgid "Find out if you’ve been overcharged on rent"
 msgstr "Find out if you’ve been overcharged on rent"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:513
+#: src/Components/Pages/Scanner/Scanner.tsx:515
 msgid "Flatten any folds in the pages and lay them on a flat surface"
 msgstr "Flatten any folds in the pages and lay them on a flat surface"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:395
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:461
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:410
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:476
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr "Geosearch is temporarily unavailable. Try again in a moment."
 
@@ -209,7 +209,7 @@ msgstr "Geosearch is temporarily unavailable. Try again in a moment."
 msgid "Get started"
 msgstr "Get started"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:526
+#: src/Components/Pages/Scanner/Scanner.tsx:528
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
 msgstr "Hold your phone level with the pages and make sure the entire page is within frame"
 
@@ -225,7 +225,7 @@ msgstr "How would you like to provide your rent history information?"
 #~ msgid "If this address does not match the address on the rent history document,"
 #~ msgstr "If this address does not match the address on the rent history document,"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:280
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:295
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr "If this address does not match the address on your rent history, please edit the address."
 
@@ -234,7 +234,7 @@ msgstr "If this address does not match the address on your rent history, please 
 msgid "JustFix"
 msgstr "JustFix"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:532
+#: src/Components/Pages/Scanner/Scanner.tsx:534
 msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 msgstr "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 
@@ -267,13 +267,13 @@ msgstr "Log out"
 msgid "Manually enter your rent history"
 msgstr "Manually enter your rent history"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:298
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:343
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:313
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:358
 msgid "Map image"
 msgstr "Map image"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:292
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:337
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:307
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:352
 msgid "Map showing location of the entered address."
 msgstr "Map showing location of the entered address."
 
@@ -286,7 +286,7 @@ msgstr "Menu"
 msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 msgstr "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:485
+#: src/Components/Pages/Scanner/Scanner.tsx:487
 msgid "Next"
 msgstr "Next"
 
@@ -319,7 +319,7 @@ msgstr "Page {0} scan image"
 msgid "Phone number (required)"
 msgstr "Phone number (required)"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:523
+#: src/Components/Pages/Scanner/Scanner.tsx:525
 msgid "Place the pages against a dark background"
 msgstr "Place the pages against a dark background"
 
@@ -336,7 +336,7 @@ msgstr "Please enter a valid 10-digit phone number."
 msgid "Please enter a valid phone number."
 msgstr "Please enter a valid phone number."
 
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:32
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:35
 msgid "Please enter a valid rent amount."
 msgstr "Please enter a valid rent amount."
 
@@ -344,7 +344,7 @@ msgstr "Please enter a valid rent amount."
 msgid "Please enter all 6 digits."
 msgstr "Please enter all 6 digits."
 
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:28
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:31
 msgid "Please enter your monthly rent."
 msgstr "Please enter your monthly rent."
 
@@ -352,7 +352,7 @@ msgstr "Please enter your monthly rent."
 msgid "Privacy policy"
 msgstr "Privacy policy"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:462
+#: src/Components/Pages/Scanner/Scanner.tsx:464
 msgid "Processing document scan…"
 msgstr "Processing document scan…"
 
@@ -381,8 +381,8 @@ msgstr "Rent history scan: {caption}"
 msgid "Resend"
 msgstr "Resend"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:470
-#: src/Components/Pages/Scanner/Scanner.tsx:490
+#: src/Components/Pages/Scanner/Scanner.tsx:472
+#: src/Components/Pages/Scanner/Scanner.tsx:492
 msgid "Restart scanning"
 msgstr "Restart scanning"
 
@@ -398,7 +398,7 @@ msgstr "Retry"
 msgid "Review and edit your rent history"
 msgstr "Review and edit your rent history"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:505
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:520
 msgid "Save address"
 msgstr "Save address"
 
@@ -414,7 +414,7 @@ msgstr "Save page"
 #~ msgid "Scan your rent history"
 #~ msgstr "Scan your rent history"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:425
+#: src/Components/Pages/Scanner/Scanner.tsx:427
 msgid "Scan your rent history document"
 msgstr "Scan your rent history document"
 
@@ -430,11 +430,11 @@ msgstr "Scan your rent history documents"
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:480
+#: src/Components/Pages/Scanner/Scanner.tsx:482
 msgid "Scanning complete"
 msgstr "Scanning complete"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:455
+#: src/Components/Pages/Scanner/Scanner.tsx:457
 msgid "Scanning in progress..."
 msgstr "Scanning in progress..."
 
@@ -450,11 +450,11 @@ msgstr "Something went wrong while sending your verification code."
 msgid "Something went wrong while verifying your code."
 msgstr "Something went wrong while verifying your code."
 
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:106
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:106
 msgid "Start analysis"
 msgstr "Start analysis"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:445
+#: src/Components/Pages/Scanner/Scanner.tsx:447
 msgid "Start scanning"
 msgstr "Start scanning"
 
@@ -466,19 +466,19 @@ msgstr "Started Feb 3, 2026"
 msgid "Step 1: Upload"
 msgstr "Step 1: Upload"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:246
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:261
 msgid "Step 4: Confirm address"
 msgstr "Step 4: Confirm address"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:244
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:259
 msgid "Step 4: Enter address"
 msgstr "Step 4: Enter address"
 
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:56
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:56
 msgid "Step 5: Provide your rent"
 msgstr "Step 5: Provide your rent"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:518
+#: src/Components/Pages/Scanner/Scanner.tsx:520
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr "Take photos in a well lit location and enable your camera flash"
 
@@ -502,7 +502,7 @@ msgstr "This page could not be processed correctly. Use Restart scanning to capt
 msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 msgstr "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:509
+#: src/Components/Pages/Scanner/Scanner.tsx:511
 msgid "Tips for getting a high quality scan"
 msgstr "Tips for getting a high quality scan"
 
@@ -518,12 +518,13 @@ msgstr "Unable to create your rent history record. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:160
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:157
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:175
 msgid "Unable to update address right now. Please try again."
 msgstr "Unable to update address right now. Please try again."
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:421
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:482
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:436
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:497
 msgid "Unit number"
 msgstr "Unit number"
 
@@ -531,7 +532,7 @@ msgstr "Unit number"
 #~ msgid "Upload your rent history"
 #~ msgstr "Upload your rent history"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:428
+#: src/Components/Pages/Scanner/Scanner.tsx:430
 msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 msgstr "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 
@@ -552,11 +553,11 @@ msgstr "Verify"
 msgid "View report"
 msgstr "View report"
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:261
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:276
 msgid "View scanned document"
 msgstr "View scanned document"
 
-#: src/Components/Pages/PostScanFlow/RentQuestions.tsx:69
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:69
 msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
 msgstr "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
 
@@ -569,7 +570,7 @@ msgstr "We could not find an account for this phone number."
 #~ msgid "We could not find an existing report for this number."
 #~ msgstr "We could not find an existing report for this number."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:414
+#: src/Components/Pages/Scanner/Scanner.tsx:415
 msgid "We couldn't combine your pages. Please try again."
 msgstr "We couldn't combine your pages. Please try again."
 
@@ -589,7 +590,7 @@ msgstr "We sent a code to"
 msgid "We’ll text you a code to verify and save your progress."
 msgstr "We’ll text you a code to verify and save your progress."
 
-#: src/Components/Pages/PostScanFlow/ConfirmAddress.tsx:375
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:390
 msgid "We'll use publicly available information about the building and apartment to support your rent history analysis."
 msgstr "We'll use publicly available information about the building and apartment to support your rent history analysis."
 
@@ -609,7 +610,7 @@ msgstr "Your scanned pages"
 msgid "Your session is missing a rent history record."
 msgstr "Your session is missing a rent history record."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:437
+#: src/Components/Pages/Scanner/Scanner.tsx:439
 msgid "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
 msgstr "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
 
