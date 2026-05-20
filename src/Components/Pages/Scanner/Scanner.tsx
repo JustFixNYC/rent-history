@@ -14,22 +14,19 @@ import {
 import {
   combineRhHistoryPages,
   deleteRhHistoryPages,
+  getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   RhAuthApiError,
 } from "../../../api/rhAuth";
-import {
-  scanUrlToPresignKey,
-  ScanUrlToKeyError,
-} from "../../../api/scanUrlToPresignKey";
 import { Button } from "@justfixnyc/component-library";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
 import { useNavigate } from "react-router-dom";
 import {
-  appendRhSessionScanKey,
+  clearRhSessionPages,
   getRhAuthSession,
   getRhHistoryId,
-  replaceRhSessionScanKeys,
+  setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
 
 type ScanStatus = "waiting" | "scanning" | "complete";
@@ -120,7 +117,6 @@ const Scanner: React.FC = () => {
           }
           const key = `${prefix}/page${pageNumber.current}.jpg`;
           await uploadScan(key, jpgBlob);
-          appendRhSessionScanKey(key);
           pageNumber.current++;
         },
       });
@@ -258,17 +254,7 @@ const Scanner: React.FC = () => {
         return;
       }
 
-      let keys: string[];
-      try {
-        keys = pages.map((p) => scanUrlToPresignKey(p.scan_url));
-      } catch (err: unknown) {
-        if (cancelled) return;
-        const message =
-          err instanceof ScanUrlToKeyError ? err.message : String(err);
-        setReadinessPhase("error");
-        setReadinessErrorMessage(message);
-        return;
-      }
+      const keys = pages.map((p) => p.s3_key);
 
       let downloads: { key: string; response: Response }[];
       try {
@@ -325,7 +311,7 @@ const Scanner: React.FC = () => {
 
         nextSlides.push(
           <div
-            key={page.scan_url}
+            key={page.s3_key}
             className={
               needsWarning
                 ? "scanner-carousel-slide scanner-carousel-slide--warning"
@@ -383,7 +369,7 @@ const Scanner: React.FC = () => {
     setSlides([]);
     setScanStatus("scanning");
     pageNumber.current = 1;
-    replaceRhSessionScanKeys([]);
+    clearRhSessionPages();
     await scanner?.launch();
     numPagesAfterScanRef.current = Math.max(0, pageNumber.current - 1);
     setReadinessPhase("processing");
@@ -409,6 +395,11 @@ const Scanner: React.FC = () => {
     setIsCombining(true);
     try {
       await combineRhHistoryPages(session.accessToken, historyId);
+      const analysisPages = await getRhHistoryAnalysisPages(
+        session.accessToken,
+        historyId
+      );
+      setRhSessionAnalysisPages(analysisPages);
       navigate(`/${i18n.locale}/confirm-address`);
     } catch (err) {
       const fallback = _(

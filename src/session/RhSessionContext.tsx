@@ -6,16 +6,16 @@ import React, {
   useSyncExternalStore,
 } from "react";
 
+import type { RhAnalysisPage } from "../api/rhAuth";
 import {
-  appendRhSessionScanKey,
   clearRhSessionDocument,
-  clearRhSessionScanKeys,
+  clearRhSessionPages,
   getRhSessionStoreServerSnapshot,
   getRhSessionStoreSnapshot,
   patchRhSessionDocument,
   removeRhSessionExtension,
-  replaceRhSessionScanKeys,
   type RhSessionDocument,
+  setRhSessionAnalysisPages,
   setRhSessionExtension,
   setRhSessionFormDraft,
   subscribeRhSessionStorage,
@@ -27,9 +27,8 @@ export type RhSessionContextValue = {
     updater: (draft: RhSessionDocument) => void
   ) => RhSessionDocument;
   clearDocument: () => void;
-  appendScanKey: (key: string) => void;
-  replaceScanKeys: (keys: string[]) => void;
-  clearScanKeys: () => void;
+  setAnalysisPages: (pages: RhAnalysisPage[]) => void;
+  clearPages: () => void;
   setFormDraft: (draft: unknown | null) => void;
   setExtension: (extensionId: string, value: unknown) => void;
   removeExtension: (extensionId: string) => void;
@@ -54,17 +53,12 @@ export const RhSessionProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const clearDocument = useCallback(() => clearRhSessionDocument(), []);
 
-  const appendScanKey = useCallback(
-    (key: string) => appendRhSessionScanKey(key),
+  const setAnalysisPages = useCallback(
+    (pages: RhAnalysisPage[]) => setRhSessionAnalysisPages(pages),
     []
   );
 
-  const replaceScanKeys = useCallback(
-    (keys: string[]) => replaceRhSessionScanKeys(keys),
-    []
-  );
-
-  const clearScanKeys = useCallback(() => clearRhSessionScanKeys(), []);
+  const clearPages = useCallback(() => clearRhSessionPages(), []);
 
   const setFormDraft = useCallback(
     (draft: unknown | null) => setRhSessionFormDraft(draft),
@@ -87,9 +81,8 @@ export const RhSessionProvider: React.FC<{ children: React.ReactNode }> = ({
       document,
       patchDocument,
       clearDocument,
-      appendScanKey,
-      replaceScanKeys,
-      clearScanKeys,
+      setAnalysisPages,
+      clearPages,
       setFormDraft,
       setExtension,
       removeExtension,
@@ -98,9 +91,8 @@ export const RhSessionProvider: React.FC<{ children: React.ReactNode }> = ({
       document,
       patchDocument,
       clearDocument,
-      appendScanKey,
-      replaceScanKeys,
-      clearScanKeys,
+      setAnalysisPages,
+      clearPages,
       setFormDraft,
       setExtension,
       removeExtension,
