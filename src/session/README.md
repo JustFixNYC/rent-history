@@ -16,7 +16,7 @@ This directory contains the client-side session storage system for rent-history.
 - `auth`: OTP auth session (`accessToken`, `refreshToken`, `tokenType`, `scope`, `expiresAtMs`, `profile`) or `null`
 - `flow`:
   - `historyId`
-  - `scanKeys`
+  - `pages` — analysis pages (`s3_key`, `start_year`, `end_year`) populated after `combine-pages` via `GET /rh/history/analysis-pages`; not used during initial scan review (that uses component state)
   - `formDraft`
   - `extensions` (feature-owned JSON)
   - `steps` (future flow stage state)
@@ -30,7 +30,7 @@ This directory contains the client-side session storage system for rent-history.
   - `getValidRhAccessToken()`
 - Flow:
   - `setRhHistoryId()`, `getRhHistoryId()`, `clearRhHistoryId()`
-  - `appendRhSessionScanKey()`, `replaceRhSessionScanKeys()`, `clearRhSessionScanKeys()`
+  - `setRhSessionAnalysisPages()`, `getRhSessionAnalysisPages()`, `clearRhSessionPages()`
   - `setRhSessionFormDraft()`
   - `setRhSessionExtension()`, `removeRhSessionExtension()`
   - `setRhSessionStepState()`, `getRhSessionStepState()`
@@ -52,7 +52,7 @@ This directory contains the client-side session storage system for rent-history.
 - Parsing is centralized in `parseRhSessionDocumentJson()` and migration routing is in `migrateRhSessionRaw()` inside `rhSessionStorage.ts`.
 - Current policy is a **clean cutover**:
   - only the current version is accepted
-  - unknown/legacy shapes are treated as invalid
+  - legacy shapes (including prior `scanKeys`) are treated as invalid
   - invalid documents are cleared and reset to the default v1 shape on next write
 - This is intentional while the app is pre-production and schema is still evolving quickly.
 

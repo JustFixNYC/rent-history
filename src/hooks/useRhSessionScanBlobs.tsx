@@ -16,7 +16,7 @@ export function useRhSessionScanBlobs(): {
   retry: () => void;
 } {
   const { document } = useRhSession();
-  const keys = document.flow.scanKeys;
+  const keys = document.flow.pages.map((p) => p.s3_key);
   const keysFingerprint = keys.join("\0");
 
   const [retryCount, setRetryCount] = useState(0);
