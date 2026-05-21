@@ -20,7 +20,7 @@ import {
   setRhAuthSession,
 } from "../../../session/rhSessionStorage";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
-import { formatPhone, setRhPhoneExists } from "../shared/flowSession";
+import { formatPhone, setRhProfileCreated } from "../shared/flowSession";
 import "./LoginPage.scss";
 
 const LoginPage: React.FC = () => {
@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
   const phoneFormRef = useRef<HTMLFormElement>(null);
   const otpFormRef = useRef<HTMLFormElement>(null);
-  const [phoneExists, setPhoneExists] = useState(false);
+  const [profileCreated, setProfileCreated] = useState(false);
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const [verificationError, setVerificationError] = useState<string | null>(
     null
@@ -85,9 +85,9 @@ const LoginPage: React.FC = () => {
     setVerificationNotice(null);
     setIsSendingCode(true);
     try {
-      const { existed } = await upsertRhPhone(numericPhone);
-      setPhoneExists(existed);
-      setRhPhoneExists(existed);
+      const { created } = await upsertRhPhone(numericPhone);
+      setProfileCreated(created);
+      setRhProfileCreated(created);
       const result = await requestRhOtp(numericPhone);
       setVerificationNotice(
         result.status === "pending"
@@ -120,7 +120,7 @@ const LoginPage: React.FC = () => {
       setRhAuthSession(otpSession);
       setVerifiedProfile(otpSession.profile);
       clearRhHistoryId();
-      navigate(`/${i18n.locale}/${phoneExists ? "account" : "history"}`);
+      navigate(`/${i18n.locale}/${profileCreated ? "history" : "account"}`);
     } catch (error) {
       if (error instanceof RhAuthApiError) {
         if (error.status === 429) {

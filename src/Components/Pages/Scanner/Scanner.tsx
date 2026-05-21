@@ -186,13 +186,22 @@ const Scanner: React.FC = () => {
         return;
       }
 
+      if (lastResult.status === "excess") {
+        setReadinessPhase("error");
+        setReadinessErrorMessage(
+          _(
+            msg`More scan files or records were found than expected. Use Restart scanning to clear this history and scan again.`
+          )
+        );
+        return;
+      }
+
       while (!cancelled && Date.now() - started < POLL_MAX_TOTAL_MS) {
-        if (lastResult.outcome === "ready") {
+        if (lastResult.status === "ready") {
           break;
         }
 
-        const { s3, database } = lastResult.body;
-        if (s3.relation === "more" || database.relation === "more") {
+        if (lastResult.status === "excess") {
           setReadinessPhase("error");
           setReadinessErrorMessage(
             _(
@@ -231,7 +240,7 @@ const Scanner: React.FC = () => {
         return;
       }
 
-      if (!lastResult || lastResult.outcome !== "ready") {
+      if (!lastResult || lastResult.status !== "ready") {
         setReadinessPhase("error");
         setReadinessErrorMessage(
           _(
@@ -241,7 +250,7 @@ const Scanner: React.FC = () => {
         return;
       }
 
-      const pages = lastResult.body.pages;
+      const pages = lastResult.pages;
 
       if (pages.length === 0) {
         if (cancelled) return;

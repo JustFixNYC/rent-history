@@ -10,7 +10,7 @@ import {
   getRhAuthSession,
   setRhHistoryId,
 } from "../../../session/rhSessionStorage";
-import { getRhPhoneExists } from "../shared/flowSession";
+import { getRhProfileCreated } from "../shared/flowSession";
 import "./HistoryPage.scss";
 
 type UploadMethod = "scan" | "manual";
@@ -58,7 +58,7 @@ const HistoryPage: React.FC = () => {
   };
 
   const onBack = () => {
-    navigate(`/${i18n.locale}/${getRhPhoneExists() ? "account" : "login"}`);
+    navigate(`/${i18n.locale}/${getRhProfileCreated() ? "login" : "account"}`);
   };
 
   return (

@@ -82,20 +82,18 @@ vi.mock("../../../api/rhAuth", async () => {
     combineRhHistoryPages: vi.fn(),
     deleteRhHistoryPages: vi.fn(),
     getRhHistoryPagesReadiness: vi.fn().mockResolvedValue({
-      outcome: "ready",
-      body: {
-        s3: { count: 1, expected: 1, relation: "equal" },
-        database: { count: 1, expected: 1, relation: "equal" },
-        pages: [
-          {
-            needs_retake: false,
-            s3_key: `1/${testHistoryId}/page1.jpg`,
-            start_year: 2020,
-            end_year: 2021,
-            is_coverpage: false,
-          },
-        ],
-      },
+      status: "ready",
+      s3: { count: 1, expected: 1, relation: "equal" },
+      database: { count: 1, expected: 1, relation: "equal" },
+      pages: [
+        {
+          needs_retake: false,
+          s3_key: `1/${testHistoryId}/page1.jpg`,
+          start_year: 2020,
+          end_year: 2021,
+          is_coverpage: false,
+        },
+      ],
     }),
     getRhHistoryAnalysisPages: vi.fn().mockResolvedValue([
       {

@@ -7,9 +7,10 @@ export type RhProfile = {
   rent_history_id: string;
 };
 
-export type RhPhoneUpsertResult = {
+/** `POST /rh/phone` response (OpenAPI `RhPhoneUpsertResponse`). */
+export type RhPhoneUpsertResponse = {
   profile: RhProfile;
-  existed: boolean;
+  created: boolean;
 };
 
 export type RhOtpTokenResponse = {
@@ -85,18 +86,24 @@ export type RhHistoryAddressResponse = {
   address: string | null;
 };
 
-export type RhPagesReadinessMismatchBody = {
-  s3: RhReadinessAxis;
-  database: RhReadinessAxis;
-};
-
-export type RhPagesReadinessOkBody = RhPagesReadinessMismatchBody & {
-  pages: RhPageSummary[];
-};
-
-export type RhPagesReadinessResult =
-  | { outcome: "ready"; body: RhPagesReadinessOkBody }
-  | { outcome: "mismatch"; body: RhPagesReadinessMismatchBody };
+/** `GET /rh/history/pages-readiness` response (OpenAPI `RhPagesReadinessResponse`). */
+export type RhPagesReadinessResponse =
+  | {
+      status: "ready";
+      pages: RhPageSummary[];
+      s3: RhReadinessAxis;
+      database: RhReadinessAxis;
+    }
+  | {
+      status: "pending";
+      s3: RhReadinessAxis;
+      database: RhReadinessAxis;
+    }
+  | {
+      status: "excess";
+      s3: RhReadinessAxis;
+      database: RhReadinessAxis;
+    };
 export class RhAuthApiError extends Error {
   constructor(
     readonly status: number,
@@ -202,22 +209,41 @@ const postRhAuthorized = async <T>(
   return data as T;
 };
 
-const isRhReadinessAxis = (value: unknown): value is RhReadinessAxis => {
-  if (typeof value !== "object" || value === null) return false;
-  const o = value as Record<string, unknown>;
-  return (
-    typeof o.count === "number" &&
-    typeof o.expected === "number" &&
-    (o.relation === "less" || o.relation === "equal" || o.relation === "more")
-  );
-};
+const getRhAuthorized = async <T>(
+  path: string,
+  accessToken: string,
+  query?: Record<string, string>
+): Promise<T> => {
+  const url = new URL(path, getAuthProviderBaseUrl());
+  if (query) {
+    for (const [key, value] of Object.entries(query)) {
+      url.searchParams.set(key, value);
+    }
+  }
 
-const isRhPagesReadinessMismatchBody = (
-  data: unknown
-): data is RhPagesReadinessMismatchBody => {
-  if (typeof data !== "object" || data === null) return false;
-  const o = data as Record<string, unknown>;
-  return isRhReadinessAxis(o.s3) && isRhReadinessAxis(o.database);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  let data: unknown = undefined;
+  try {
+    data = await response.json();
+  } catch {
+    data = undefined;
+  }
+
+  if (!response.ok) {
+    throw new RhAuthApiError(
+      response.status,
+      parseRhJsonError(data, response),
+      data
+    );
+  }
+
+  return data as T;
 };
 
 const postRhAuthorizedWithBody = async <T>(
@@ -257,38 +283,10 @@ export const requestRhOtp = (
 ): Promise<OtpRequestResponse> =>
   postRh("/rh/request-otp", { phone_number: phoneNumber });
 
-export const upsertRhPhone = async (
+export const upsertRhPhone = (
   phoneNumber: string
-): Promise<RhPhoneUpsertResult> => {
-  const response = await fetch(new URL("/rh/phone", getAuthProviderBaseUrl()), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ phone_number: phoneNumber }),
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
-    const fallbackMessage = `Request failed with status ${response.status}.`;
-    const message =
-      typeof data === "object" && data && "error" in data
-        ? String((data as { error: string }).error)
-        : fallbackMessage;
-    throw new RhAuthApiError(response.status, message, data);
-  }
-
-  return {
-    profile: data as RhProfile,
-    existed: response.status === 200,
-  };
-};
+): Promise<RhPhoneUpsertResponse> =>
+  postRh<RhPhoneUpsertResponse>("/rh/phone", { phone_number: phoneNumber });
 
 export const verifyRhOtp = (
   phoneNumber: string,
@@ -348,60 +346,22 @@ export const combineRhHistoryPages = (
 
 /**
  * `GET /rh/history/pages-readiness` — OAuth2 bearer.
- * Returns `ready` with `pages` on HTTP 200, or `mismatch` on HTTP 400 when the body
- * includes `s3` and `database` readiness axes (still processing or count skew).
- * Other HTTP 400 responses (query validation) and non-OK statuses throw `RhAuthApiError`.
+ * HTTP 200 with `status`: `ready` | `pending` | `excess`. Query validation and
+ * server errors throw `RhAuthApiError`.
  */
-export const getRhHistoryPagesReadiness = async (
+export const getRhHistoryPagesReadiness = (
   accessToken: string,
   historyId: string,
   numPages: number
-): Promise<RhPagesReadinessResult> => {
-  const url = new URL("/rh/history/pages-readiness", getAuthProviderBaseUrl());
-  url.searchParams.set("history_id", historyId);
-  url.searchParams.set("num_pages", String(numPages));
-
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (response.status === 200) {
-    if (
-      typeof data !== "object" ||
-      data === null ||
-      !isRhPagesReadinessMismatchBody(data) ||
-      !("pages" in data) ||
-      !Array.isArray((data as { pages: unknown }).pages)
-    ) {
-      throw new RhAuthApiError(
-        response.status,
-        "Unexpected pages-readiness response shape.",
-        data
-      );
+): Promise<RhPagesReadinessResponse> =>
+  getRhAuthorized<RhPagesReadinessResponse>(
+    "/rh/history/pages-readiness",
+    accessToken,
+    {
+      history_id: historyId,
+      num_pages: String(numPages),
     }
-    return { outcome: "ready", body: data as RhPagesReadinessOkBody };
-  }
-
-  if (response.status === 400 && isRhPagesReadinessMismatchBody(data)) {
-    return { outcome: "mismatch", body: data };
-  }
-
-  throw new RhAuthApiError(
-    response.status,
-    parseRhJsonError(data, response),
-    data
   );
-};
 
 /**
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.
