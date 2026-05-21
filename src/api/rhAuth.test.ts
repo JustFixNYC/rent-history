@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   combineRhHistoryPages,
   createRhHistory,
+  getRhHistoryAddress,
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
@@ -358,5 +359,44 @@ describe("getRhHistoryAnalysisPages", () => {
     expect(pages).toEqual([
       { s3_key: "1/uuid/page1.jpg", start_year: 2018, end_year: 2019 },
     ]);
+  });
+});
+
+describe("getRhHistoryAddress", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  const historyId = "22222222-2222-4222-8222-222222222222";
+
+  it("GETs history/address with Bearer and history_id", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          apartment: "4B",
+          address: "228 Atlantic Avenue, Brooklyn, NY 11201",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      )
+    );
+
+    const result = await getRhHistoryAddress("access-token", historyId);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
+    expect(String(requestUrl)).toBe(
+      `https://auth.example.org/rh/history/address?history_id=${historyId}`
+    );
+    expect(requestInit?.method).toBe("GET");
+    expect(requestInit?.headers).toEqual({
+      Authorization: "Bearer access-token",
+    });
+    expect(result).toEqual({
+      apartment: "4B",
+      address: "228 Atlantic Avenue, Brooklyn, NY 11201",
+    });
   });
 });

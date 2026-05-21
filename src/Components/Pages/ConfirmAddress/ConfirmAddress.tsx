@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
@@ -20,7 +20,11 @@ type GeoSearchDropdownSelection = {
 };
 import { useNavigate } from "react-router-dom";
 
-import { confirmRhHistoryAddress } from "../../../api/rhAuth";
+import { searchGeosearch } from "../../../api/geosearch";
+import {
+  confirmRhHistoryAddress,
+  getRhHistoryAddress,
+} from "../../../api/rhAuth";
 import {
   getRhAuthSession,
   getRhHistoryId,
@@ -29,18 +33,27 @@ import {
   AddressFlowState,
   AddressState,
   ConfirmAddressState,
-  EXTRACTED_ADDRESS,
+  emptyAddressState,
   readConfirmAddressState,
-  UPDATED_ADDRESS,
   writeConfirmAddressState,
 } from "./confirmAddressState";
+import { geosearchFeatureToAddressState } from "./geosearchAddress";
 import "./ConfirmAddress.scss";
 
-const toTitleCase = (value: string) =>
-  value.replace(
-    /\w\S*/g,
-    (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+const getAddressStateFromSelection = (
+  selection: GeoSearchDropdownSelection | null,
+  previousState: AddressState
+): AddressState => {
+  if (!selection) return previousState;
+  return geosearchFeatureToAddressState(
+    selection.feature,
+    previousState,
+    selection.option.label
   );
+};
+
+const isTypingInputAction = (meta: { action?: string }) =>
+  meta.action === "input-change";
 
 const buildMapImageURL = (address: AddressState): string | null => {
   if (!address.longLat) return null;
@@ -60,91 +73,120 @@ const buildMapImageURL = (address: AddressState): string | null => {
   return `https://api.mapbox.com/styles/v1/${styleToken}/static/${marker}/${address.longLat},${zoom},${bearing},${pitch}/${width}x${height}?access_token=${accessToken}`;
 };
 
-const getAddressStateFromSelection = (
-  selection: GeoSearchDropdownSelection | null,
-  previousState: AddressState
-): AddressState => {
-  if (!selection) return previousState;
-  const feature = selection.feature;
-  const featureProperties = feature.properties ?? {};
-  const coordinates = feature.geometry?.coordinates ?? [];
-  const longitude = coordinates[0];
-  const latitude = coordinates[1];
-  const longLat =
-    typeof longitude === "number" && typeof latitude === "number"
-      ? `${longitude},${latitude}`
-      : null;
-
-  const streetAddress = toTitleCase(
-    `${featureProperties.housenumber ?? ""} ${featureProperties.street ?? ""}`
-  ).trim();
-  const cityStateZip = [
-    featureProperties.borough ? toTitleCase(featureProperties.borough) : "",
-    "New York",
-    featureProperties.postalcode ?? "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
+const buildEnterAddressState = (unitNumber: string): ConfirmAddressState => {
+  const empty = emptyAddressState();
   return {
-    ...previousState,
-    streetAddress:
-      streetAddress ||
-      toTitleCase(featureProperties.name ?? "") ||
-      selection.option.label,
-    cityStateZip: cityStateZip || previousState.cityStateZip,
-    bbl: featureProperties.addendum?.pad?.bbl ?? null,
-    bin: featureProperties.addendum?.pad?.bin ?? null,
-    longLat,
+    addressFlowState: "enterAddress",
+    confirmedAddress: { ...empty, unitNumber },
+    draftAddress: { ...empty, unitNumber },
   };
 };
-
-const isTypingInputAction = (meta: { action?: string }) =>
-  meta.action === "input-change";
 
 export const ConfirmAddress: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
-  const isDev = import.meta.env.DEV;
-  const [flowState, setFlowState] = useState(readConfirmAddressState());
+  const persistedState = readConfirmAddressState();
+  const [flowState, setFlowState] = useState<ConfirmAddressState | null>(
+    persistedState
+  );
+  const [isBootstrapping, setIsBootstrapping] = useState(!persistedState);
   const [addressError, setAddressError] = useState<string | null>(null);
   const [savingAddress, setSavingAddress] = useState(false);
+
+  useEffect(() => {
+    if (persistedState) return;
+
+    let cancelled = false;
+
+    const bootstrap = async () => {
+      const auth = getRhAuthSession();
+      const historyId = getRhHistoryId();
+      if (!auth?.accessToken || !historyId) {
+        if (!cancelled) {
+          setFlowState(buildEnterAddressState(""));
+          setIsBootstrapping(false);
+        }
+        return;
+      }
+
+      try {
+        const { apartment, address } = await getRhHistoryAddress(
+          auth.accessToken,
+          historyId
+        );
+        const unitNumber = (apartment ?? "").trim();
+        const streetLine = (address ?? "").trim();
+
+        if (!streetLine) {
+          if (!cancelled) {
+            setFlowState(buildEnterAddressState(unitNumber));
+            setIsBootstrapping(false);
+          }
+          return;
+        }
+
+        const feature = await searchGeosearch(streetLine);
+        if (cancelled) return;
+
+        if (feature) {
+          const mapped = geosearchFeatureToAddressState(
+            feature,
+            buildEnterAddressState(unitNumber).confirmedAddress
+          );
+          if (mapped.bbl) {
+            setFlowState({
+              addressFlowState: "confirmExtracted",
+              confirmedAddress: mapped,
+              draftAddress: { ...mapped, unitNumber },
+            });
+            setIsBootstrapping(false);
+            return;
+          }
+        }
+
+        setFlowState(buildEnterAddressState(unitNumber));
+      } catch {
+        if (!cancelled) {
+          setFlowState(buildEnterAddressState(""));
+        }
+      } finally {
+        if (!cancelled) {
+          setIsBootstrapping(false);
+        }
+      }
+    };
+
+    void bootstrap();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [persistedState]);
+
+  if (isBootstrapping || !flowState) {
+    return (
+      <div id="confirm-address-page">
+        <section className="postscan-body">
+          <p>
+            <Trans>Loading address…</Trans>
+          </p>
+        </section>
+      </div>
+    );
+  }
 
   const { addressFlowState, confirmedAddress, draftAddress } = flowState;
 
   const setAddressFlowState = (next: AddressFlowState) =>
-    setFlowState((prev) => ({ ...prev, addressFlowState: next }));
+    setFlowState((prev) => (prev ? { ...prev, addressFlowState: next } : prev));
   const setDraftAddress = (updater: (prev: AddressState) => AddressState) =>
-    setFlowState((prev) => ({
-      ...prev,
-      draftAddress: updater(prev.draftAddress),
-    }));
+    setFlowState((prev) =>
+      prev ? { ...prev, draftAddress: updater(prev.draftAddress) } : prev
+    );
 
   const persistState = (nextState: ConfirmAddressState) => {
     writeConfirmAddressState(nextState);
     setFlowState(nextState);
-  };
-
-  const applyDevScenario = (scenario: AddressFlowState) => {
-    const nextState =
-      scenario === "confirmUpdated"
-        ? {
-            ...flowState,
-            addressFlowState: scenario,
-            confirmedAddress: UPDATED_ADDRESS,
-            draftAddress: UPDATED_ADDRESS,
-          }
-        : {
-            ...flowState,
-            addressFlowState: scenario,
-            confirmedAddress: EXTRACTED_ADDRESS,
-            draftAddress:
-              scenario === "enterAddress"
-                ? { ...EXTRACTED_ADDRESS, unitNumber: "" }
-                : EXTRACTED_ADDRESS,
-          };
-    setAddressError(null);
-    persistState(nextState);
   };
 
   const submitAddressUpdate = async (
@@ -233,26 +275,6 @@ export const ConfirmAddress: React.FC = () => {
   return (
     <div id="confirm-address-page">
       <section className="postscan-body">
-        {isDev && (
-          <section className="postscan-dev-toggles" aria-label="Dev toggles">
-            <p>Dev scenarios</p>
-            <div>
-              <button
-                type="button"
-                onClick={() => applyDevScenario("enterAddress")}
-              >
-                Address not extracted / no geosearch results
-              </button>
-              <button
-                type="button"
-                onClick={() => applyDevScenario("confirmExtracted")}
-              >
-                Address successfully extracted (with edit option)
-              </button>
-            </div>
-          </section>
-        )}
-
         <div className="postscan-progress">
           <p>
             {addressFlowState === "enterAddress" ? (

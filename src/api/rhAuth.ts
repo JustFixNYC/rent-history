@@ -79,6 +79,12 @@ export type RhAnalysisPage = {
   s3_key: string;
 };
 
+/** `GET /rh/history/address` response (scan-extracted location fields). */
+export type RhHistoryAddressResponse = {
+  apartment: string | null;
+  address: string | null;
+};
+
 export type RhPagesReadinessMismatchBody = {
   s3: RhReadinessAxis;
   database: RhReadinessAxis;
@@ -439,4 +445,53 @@ export const getRhHistoryAnalysisPages = async (
   }
 
   return data as RhAnalysisPage[];
+};
+
+/**
+ * `GET /rh/history/address` — OAuth2 bearer.
+ * Returns scan-extracted apartment and address from combine-pages.
+ */
+export const getRhHistoryAddress = async (
+  accessToken: string,
+  historyId: string
+): Promise<RhHistoryAddressResponse> => {
+  const url = new URL("/rh/history/address", getAuthProviderBaseUrl());
+  url.searchParams.set("history_id", historyId);
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  let data: unknown = undefined;
+  try {
+    data = await response.json();
+  } catch {
+    data = undefined;
+  }
+
+  if (!response.ok) {
+    throw new RhAuthApiError(
+      response.status,
+      parseRhJsonError(data, response),
+      data
+    );
+  }
+
+  if (
+    typeof data !== "object" ||
+    data === null ||
+    !("apartment" in data) ||
+    !("address" in data)
+  ) {
+    throw new RhAuthApiError(
+      response.status,
+      "Unexpected history address response shape.",
+      data
+    );
+  }
+
+  return data as RhHistoryAddressResponse;
 };
