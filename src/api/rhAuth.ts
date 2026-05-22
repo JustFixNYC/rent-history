@@ -1,118 +1,42 @@
-export type OtpRequestStatus = "sent" | "pending";
-export type OtpRequestResponse = { status: OtpRequestStatus; message?: string };
+export type {
+  OtpRequestStatus,
+  OtpRequestResponse,
+  RhProfile,
+  RhPhoneUpsertResponse,
+  RhOtpTokenResponse,
+  RhHistoryRecord,
+  RhHistoryCombinePagesResponse,
+  RhHistoryConfirmAddressRequest,
+  RhHistoryConfirmAddressResponse,
+  RhHistoryPageDeleteResponse,
+  RhReadinessAxis,
+  RhPageSummary,
+  RhAnalysisPage,
+  RhHistoryAddressResponse,
+  RhPagesReadinessResponse,
+} from "./account/types";
 
-export type RhProfile = {
-  id: number;
-  phone_number: string;
-  rent_history_id: string;
-};
+export { RhAuthApiError } from "./account/errors";
 
-/** `POST /rh/phone` response (OpenAPI `RhPhoneUpsertResponse`). */
-export type RhPhoneUpsertResponse = {
-  profile: RhProfile;
-  created: boolean;
-};
-
-export type RhOtpTokenResponse = {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string;
-  profile: RhProfile;
-};
-
-/** Response body from `POST /rh/history` (create only — `id` only). */
-export type RhHistoryRecord = {
-  id: string;
-};
-
-/** `POST /rh/history/combine-pages` success body. */
-export type RhHistoryCombinePagesResponse = {
-  status: "ok";
-};
-
-/** `POST /rh/history/confirm-address` request (OpenAPI `RhHistoryConfirmAddressRequest`). */
-export type RhHistoryConfirmAddressRequest = {
-  history_id: string;
-  bbl: string;
-  address?: string | null;
-  apartment?: string | null;
-  bin?: string | null;
-};
-
-/** `POST /rh/history/confirm-address` response (OpenAPI `RhHistoryConfirmAddressResponse`). */
-export type RhHistoryConfirmAddressResponse = {
-  bbl_units: number | null;
-  bin_units: number | null;
-  is_421a_nycdb: boolean | null;
-  is_j51_nycdb: boolean | null;
-};
-
-export type RhHistoryPageDeleteResponse = {
-  deleted_pages: number;
-  s3_cleanup_status: string;
-  s3_deleted_versions?: number;
-};
-
-/** Axis from `GET /rh/history/pages-readiness` (OpenAPI `RhReadinessS3Axis` / `RhReadinessDatabaseAxis`). */
-export type RhReadinessAxis = {
-  count: number;
-  expected: number;
-  relation: "less" | "equal" | "more";
-};
-
-/** `RhPageSummary` from OpenAPI — pages list when readiness returns 200. */
-export type RhPageSummary = {
-  needs_retake: boolean;
-  quality_issue_reason?: string | null;
-  error?: string | null;
-  s3_key: string;
-  start_year: number | null;
-  end_year: number | null;
-  is_coverpage: boolean | null;
-};
-
-/** `RhAnalysisPage` from OpenAPI — pages kept for analysis after combine-pages. */
-export type RhAnalysisPage = {
-  start_year: number | null;
-  end_year: number | null;
-  s3_key: string;
-};
-
-/** `GET /rh/history/address` response (scan-extracted location fields). */
-export type RhHistoryAddressResponse = {
-  apartment: string | null;
-  address: string | null;
-};
-
-/** `GET /rh/history/pages-readiness` response (OpenAPI `RhPagesReadinessResponse`). */
-export type RhPagesReadinessResponse =
-  | {
-      status: "ready";
-      pages: RhPageSummary[];
-      s3: RhReadinessAxis;
-      database: RhReadinessAxis;
-    }
-  | {
-      status: "pending";
-      s3: RhReadinessAxis;
-      database: RhReadinessAxis;
-    }
-  | {
-      status: "excess";
-      s3: RhReadinessAxis;
-      database: RhReadinessAxis;
-    };
-export class RhAuthApiError extends Error {
-  constructor(
-    readonly status: number,
-    message: string,
-    readonly info?: { error?: string; message?: string } | unknown
-  ) {
-    super(message);
-  }
-}
+import {
+  bearerHeaders,
+  createAccountClient,
+  unwrapAccountResponse,
+} from "./account/client";
+import { parseRhJsonError, RhAuthApiError } from "./account/errors";
+import type {
+  RhAnalysisPage,
+  RhHistoryAddressResponse,
+  RhHistoryCombinePagesResponse,
+  RhHistoryConfirmAddressRequest,
+  RhHistoryConfirmAddressResponse,
+  RhHistoryPageDeleteResponse,
+  RhHistoryRecord,
+  RhPagesReadinessResponse,
+  RhPhoneUpsertResponse,
+  OtpRequestResponse,
+  RhOtpTokenResponse,
+} from "./account/types";
 
 const getAuthProviderBaseUrl = (): string => {
   const baseUrl = import.meta.env.VITE_AUTH_PROVIDER_BASE_URL as
@@ -141,152 +65,25 @@ const getRhOauthClientSecret = (): string | undefined => {
   return clientSecret || undefined;
 };
 
-const parseRhJsonError = (data: unknown, response: Response): string => {
-  const fallbackMessage = `Request failed with status ${response.status}.`;
-  if (typeof data === "object" && data && "error" in data) {
-    return String((data as { error: string }).error);
-  }
-  return fallbackMessage;
-};
-
-const postRh = async <T>(path: string, body: object): Promise<T> => {
-  const response = await fetch(new URL(path, getAuthProviderBaseUrl()), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(data, response),
-      data
-    );
-  }
-
-  return data as T;
-};
-
-/**
- * POST with `Authorization: Bearer` only (no JSON body). For OAuth2-protected `/rh/*` routes.
- * Success is any `response.ok` status (e.g. 201 for `POST /rh/history`).
- */
-const postRhAuthorized = async <T>(
-  path: string,
-  accessToken: string
-): Promise<T> => {
-  const response = await fetch(new URL(path, getAuthProviderBaseUrl()), {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(data, response),
-      data
-    );
-  }
-
-  return data as T;
-};
-
-const getRhAuthorized = async <T>(
-  path: string,
-  accessToken: string,
-  query?: Record<string, string>
-): Promise<T> => {
-  const url = new URL(path, getAuthProviderBaseUrl());
-  if (query) {
-    for (const [key, value] of Object.entries(query)) {
-      url.searchParams.set(key, value);
-    }
-  }
-
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(data, response),
-      data
-    );
-  }
-
-  return data as T;
-};
-
-const postRhAuthorizedWithBody = async <T>(
-  path: string,
-  accessToken: string,
-  body: object
-): Promise<T> => {
-  const response = await fetch(new URL(path, getAuthProviderBaseUrl()), {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(data, response),
-      data
-    );
-  }
-
-  return data as T;
-};
+const getAccountClient = () => createAccountClient(getAuthProviderBaseUrl());
 
 export const requestRhOtp = (
   phoneNumber: string
 ): Promise<OtpRequestResponse> =>
-  postRh("/rh/request-otp", { phone_number: phoneNumber });
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/request-otp", {
+      body: { phone_number: phoneNumber },
+    })
+  );
 
 export const upsertRhPhone = (
   phoneNumber: string
 ): Promise<RhPhoneUpsertResponse> =>
-  postRh<RhPhoneUpsertResponse>("/rh/phone", { phone_number: phoneNumber });
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/phone", {
+      body: { phone_number: phoneNumber },
+    })
+  ) as Promise<RhPhoneUpsertResponse>;
 
 export const verifyRhOtp = (
   phoneNumber: string,
@@ -294,30 +91,39 @@ export const verifyRhOtp = (
 ): Promise<RhOtpTokenResponse> => {
   const clientId = getRhOauthClientId();
   const clientSecret = getRhOauthClientSecret();
-  return postRh<RhOtpTokenResponse>("/rh/verify-otp-token", {
-    phone_number: phoneNumber,
-    code,
-    client_id: clientId,
-    grant_type: "password",
-    ...(clientSecret ? { client_secret: clientSecret } : {}),
-  });
+  return unwrapAccountResponse(
+    getAccountClient().POST("/rh/verify-otp-token", {
+      body: {
+        phone_number: phoneNumber,
+        code,
+        client_id: clientId,
+        grant_type: "password",
+        ...(clientSecret ? { client_secret: clientSecret } : {}),
+      },
+    })
+  ) as Promise<RhOtpTokenResponse>;
 };
 
 /** `POST /rh/history` — OpenAPI: Bearer token only, response 201 + `RhHistory`. */
 export const createRhHistory = (
   accessToken: string
 ): Promise<RhHistoryRecord> =>
-  postRhAuthorized<RhHistoryRecord>("/rh/history", accessToken);
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history", {
+      headers: bearerHeaders(accessToken),
+    })
+  ).then((body) => ({ id: body.id }));
 
 /** `POST /rh/history/confirm-address` — Confirm address, NYCDB building lookup, and advance flow. */
 export const confirmRhHistoryAddress = (
   accessToken: string,
   body: RhHistoryConfirmAddressRequest
 ): Promise<RhHistoryConfirmAddressResponse> =>
-  postRhAuthorizedWithBody<RhHistoryConfirmAddressResponse>(
-    "/rh/history/confirm-address",
-    accessToken,
-    body
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/confirm-address", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
   );
 
 /** `POST /rh/history/delete-pages` — Delete all uploaded page scans for one history id. */
@@ -325,10 +131,11 @@ export const deleteRhHistoryPages = (
   accessToken: string,
   historyId: string
 ): Promise<RhHistoryPageDeleteResponse> =>
-  postRhAuthorizedWithBody<RhHistoryPageDeleteResponse>(
-    "/rh/history/delete-pages",
-    accessToken,
-    { history_id: historyId }
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/delete-pages", {
+      headers: bearerHeaders(accessToken),
+      body: { history_id: historyId },
+    })
   );
 
 /**
@@ -338,11 +145,12 @@ export const combineRhHistoryPages = (
   accessToken: string,
   historyId: string
 ): Promise<RhHistoryCombinePagesResponse> =>
-  postRhAuthorizedWithBody<RhHistoryCombinePagesResponse>(
-    "/rh/history/combine-pages",
-    accessToken,
-    { history_id: historyId }
-  );
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/combine-pages", {
+      headers: bearerHeaders(accessToken),
+      body: { history_id: historyId },
+    })
+  ) as Promise<RhHistoryCombinePagesResponse>;
 
 /**
  * `GET /rh/history/pages-readiness` — OAuth2 bearer.
@@ -354,14 +162,17 @@ export const getRhHistoryPagesReadiness = (
   historyId: string,
   numPages: number
 ): Promise<RhPagesReadinessResponse> =>
-  getRhAuthorized<RhPagesReadinessResponse>(
-    "/rh/history/pages-readiness",
-    accessToken,
-    {
-      history_id: historyId,
-      num_pages: String(numPages),
-    }
-  );
+  unwrapAccountResponse(
+    getAccountClient().GET("/rh/history/pages-readiness", {
+      headers: bearerHeaders(accessToken),
+      params: {
+        query: {
+          history_id: historyId,
+          num_pages: numPages,
+        },
+      },
+    })
+  ) as Promise<RhPagesReadinessResponse>;
 
 /**
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.
@@ -371,28 +182,19 @@ export const getRhHistoryAnalysisPages = async (
   accessToken: string,
   historyId: string
 ): Promise<RhAnalysisPage[]> => {
-  const url = new URL("/rh/history/analysis-pages", getAuthProviderBaseUrl());
-  url.searchParams.set("history_id", historyId);
+  const { data, error, response } = await getAccountClient().GET(
+    "/rh/history/analysis-pages",
+    {
+      headers: bearerHeaders(accessToken),
+      params: { query: { history_id: historyId } },
+    }
+  );
 
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
+  if (error !== undefined) {
     throw new RhAuthApiError(
       response.status,
-      parseRhJsonError(data, response),
-      data
+      parseRhJsonError(error, response),
+      error
     );
   }
 
@@ -415,28 +217,19 @@ export const getRhHistoryAddress = async (
   accessToken: string,
   historyId: string
 ): Promise<RhHistoryAddressResponse> => {
-  const url = new URL("/rh/history/address", getAuthProviderBaseUrl());
-  url.searchParams.set("history_id", historyId);
+  const { data, error, response } = await getAccountClient().GET(
+    "/rh/history/address",
+    {
+      headers: bearerHeaders(accessToken),
+      params: { query: { history_id: historyId } },
+    }
+  );
 
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
+  if (error !== undefined) {
     throw new RhAuthApiError(
       response.status,
-      parseRhJsonError(data, response),
-      data
+      parseRhJsonError(error, response),
+      error
     );
   }
 
@@ -453,5 +246,5 @@ export const getRhHistoryAddress = async (
     );
   }
 
-  return data as RhHistoryAddressResponse;
+  return data;
 };
