@@ -3,8 +3,8 @@ const accountRoot = ["account"] as const;
 
 export const accountQueryKeys = {
   all: accountRoot,
-  pagesReadiness: (historyId: string) =>
-    [...accountRoot, "pages-readiness", historyId] as const,
+  pagesReadiness: (historyId: string, numPages: number) =>
+    [...accountRoot, "pages-readiness", historyId, numPages] as const,
   analysisPages: (historyId: string) =>
     [...accountRoot, "analysis-pages", historyId] as const,
   address: (historyId: string) => [...accountRoot, "address", historyId] as const,

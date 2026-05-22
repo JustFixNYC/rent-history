@@ -20,11 +20,11 @@ type GeoSearchDropdownSelection = {
 };
 import { useNavigate } from "react-router-dom";
 
-import { searchGeosearch } from "../../../api/geosearch";
 import {
-  confirmRhHistoryAddress,
-  getRhHistoryAddress,
-} from "../../../api/rhAuth";
+  useConfirmRhHistoryAddress,
+  useRhHistoryAddress,
+} from "../../../api/account";
+import { searchGeosearch } from "../../../api/geosearch";
 import {
   getRhAuthSession,
   getRhHistoryId,
@@ -89,42 +89,53 @@ export const ConfirmAddress: React.FC = () => {
   const [flowState, setFlowState] = useState<ConfirmAddressState | null>(
     persistedState
   );
-  const [isBootstrapping, setIsBootstrapping] = useState(!persistedState);
   const [addressError, setAddressError] = useState<string | null>(null);
-  const [savingAddress, setSavingAddress] = useState(false);
+  const auth = getRhAuthSession();
+  const historyId = getRhHistoryId();
+  const historyAddressQuery = useRhHistoryAddress({
+    accessToken: auth?.accessToken,
+    historyId: historyId ?? undefined,
+    enabled: !persistedState,
+  });
+  const confirmAddressMutation = useConfirmRhHistoryAddress();
+  const savingAddress = confirmAddressMutation.isPending;
 
   useEffect(() => {
     if (persistedState) return;
 
+    if (!auth?.accessToken || !historyId) {
+      setFlowState(buildEnterAddressState(""));
+      return;
+    }
+
+    if (historyAddressQuery.isPending) {
+      return;
+    }
+
+    if (historyAddressQuery.isError) {
+      setFlowState(buildEnterAddressState(""));
+      return;
+    }
+
+    const addressData = historyAddressQuery.data;
+    if (!addressData) {
+      return;
+    }
+
     let cancelled = false;
 
-    const bootstrap = async () => {
-      const auth = getRhAuthSession();
-      const historyId = getRhHistoryId();
-      if (!auth?.accessToken || !historyId) {
+    const bootstrapFromAddress = async () => {
+      const unitNumber = (addressData.apartment ?? "").trim();
+      const streetLine = (addressData.address ?? "").trim();
+
+      if (!streetLine) {
         if (!cancelled) {
-          setFlowState(buildEnterAddressState(""));
-          setIsBootstrapping(false);
+          setFlowState(buildEnterAddressState(unitNumber));
         }
         return;
       }
 
       try {
-        const { apartment, address } = await getRhHistoryAddress(
-          auth.accessToken,
-          historyId
-        );
-        const unitNumber = (apartment ?? "").trim();
-        const streetLine = (address ?? "").trim();
-
-        if (!streetLine) {
-          if (!cancelled) {
-            setFlowState(buildEnterAddressState(unitNumber));
-            setIsBootstrapping(false);
-          }
-          return;
-        }
-
         const feature = await searchGeosearch(streetLine);
         if (cancelled) return;
 
@@ -139,7 +150,6 @@ export const ConfirmAddress: React.FC = () => {
               confirmedAddress: mapped,
               draftAddress: { ...mapped, unitNumber },
             });
-            setIsBootstrapping(false);
             return;
           }
         }
@@ -149,19 +159,27 @@ export const ConfirmAddress: React.FC = () => {
         if (!cancelled) {
           setFlowState(buildEnterAddressState(""));
         }
-      } finally {
-        if (!cancelled) {
-          setIsBootstrapping(false);
-        }
       }
     };
 
-    void bootstrap();
+    void bootstrapFromAddress();
 
     return () => {
       cancelled = true;
     };
-  }, [persistedState]);
+  }, [
+    persistedState,
+    auth?.accessToken,
+    historyId,
+    historyAddressQuery.isPending,
+    historyAddressQuery.isError,
+    historyAddressQuery.data,
+  ]);
+
+  const isBootstrapping =
+    !persistedState &&
+    (historyAddressQuery.isPending ||
+      (Boolean(auth?.accessToken && historyId) && !flowState));
 
   if (isBootstrapping || !flowState) {
     return (
@@ -200,16 +218,18 @@ export const ConfirmAddress: React.FC = () => {
       );
       return false;
     }
-    setSavingAddress(true);
     try {
-      await confirmRhHistoryAddress(auth.accessToken, {
-        history_id: historyId,
-        apartment: address.unitNumber || null,
-        address: [address.streetAddress, address.cityStateZip]
-          .filter(Boolean)
-          .join(", "),
-        bbl: address.bbl,
-        bin: address.bin,
+      await confirmAddressMutation.mutateAsync({
+        accessToken: auth.accessToken,
+        body: {
+          history_id: historyId,
+          apartment: address.unitNumber || null,
+          address: [address.streetAddress, address.cityStateZip]
+            .filter(Boolean)
+            .join(", "),
+          bbl: address.bbl,
+          bin: address.bin,
+        },
       });
       return true;
     } catch {
@@ -217,8 +237,6 @@ export const ConfirmAddress: React.FC = () => {
         _(msg`Unable to update address right now. Please try again.`)
       );
       return false;
-    } finally {
-      setSavingAddress(false);
     }
   };
 

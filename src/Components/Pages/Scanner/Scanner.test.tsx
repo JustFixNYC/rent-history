@@ -1,5 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   cleanup,
   fireEvent,
@@ -120,15 +121,26 @@ const tokenPayload = {
 
 const historyId = testHistoryId;
 
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
 const renderScanner = () => {
   i18n.load("en", {});
   i18n.activate("en");
+  const queryClient = createTestQueryClient();
   return render(
-    <MemoryRouter initialEntries={["/en/scanner"]}>
-      <I18nProvider i18n={i18n}>
-        <Scanner />
-      </I18nProvider>
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/en/scanner"]}>
+        <I18nProvider i18n={i18n}>
+          <Scanner />
+        </I18nProvider>
+      </MemoryRouter>
+    </QueryClientProvider>
   );
 };
 
