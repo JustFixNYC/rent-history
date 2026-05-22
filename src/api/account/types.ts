@@ -2,23 +2,10 @@ import type { components } from "../generated/account-openapi";
 
 type Schemas = components["schemas"];
 
-/** OTP delivery status from `OtpRequestResponse.status`. */
-export type OtpRequestStatus = Schemas["OtpRequestResponse"]["status"];
-
-export type OtpRequestResponse = Schemas["OtpRequestResponse"];
-
 export type RhProfile = Schemas["RhProfile"];
 
 /** `POST /rh/login/start` response (profile upsert + OTP delivery). */
 export type RhLoginStartResponse = Schemas["RhLoginStartResponse"];
-
-/** `POST /rh/phone` response (OpenAPI `RhPhoneUpsertResponse`). */
-export type RhPhoneUpsertResponse = Omit<
-  Schemas["RhPhoneUpsertResponse"],
-  "profile"
-> & {
-  profile: RhProfile;
-};
 
 export type RhOtpTokenResponse = Omit<Schemas["OtpTokenResponse"], "profile"> & {
   profile: RhProfile;

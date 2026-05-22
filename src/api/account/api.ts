@@ -14,8 +14,6 @@ import type {
   RhHistoryRecord,
   RhPagesReadinessResponse,
   RhLoginStartResponse,
-  RhPhoneUpsertResponse,
-  OtpRequestResponse,
   RhOtpTokenResponse,
 } from "./types";
 
@@ -56,24 +54,6 @@ export const startRhLogin = (
       body: { phone_number: phoneNumber },
     })
   ) as Promise<RhLoginStartResponse>;
-
-export const requestRhOtp = (
-  phoneNumber: string
-): Promise<OtpRequestResponse> =>
-  unwrapAccountResponse(
-    getAccountClient().POST("/rh/request-otp", {
-      body: { phone_number: phoneNumber },
-    })
-  );
-
-export const upsertRhPhone = (
-  phoneNumber: string
-): Promise<RhPhoneUpsertResponse> =>
-  unwrapAccountResponse(
-    getAccountClient().POST("/rh/phone", {
-      body: { phone_number: phoneNumber },
-    })
-  ) as Promise<RhPhoneUpsertResponse>;
 
 export const verifyRhOtp = (
   phoneNumber: string,

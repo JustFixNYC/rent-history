@@ -195,29 +195,9 @@ export interface paths {
         put?: never;
         /**
          * Start RH login (upsert profile and request OTP)
-         * @description Composite login step: upserts the RhProfile for the phone number (same semantics as `POST /rh/phone`) and issues/sends an OTP (same semantics as `POST /rh/request-otp`). Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).
+         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).
          */
         post: operations["login_start_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/rh/phone": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Create or fetch an RH profile by phone number
-         * @description **Deprecated:** prefer `POST /rh/login/start`, which upserts the profile and issues an OTP in one request. Idempotent: returns HTTP 200 with the profile and a `created` flag (`false` if the profile already existed, `true` if a new RhProfile and AuthUser were created). Phone numbers are normalized to E.164 (US).
-         */
-        post: operations["phone_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -238,26 +218,6 @@ export interface paths {
         get: operations["profile_retrieve"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/rh/request-otp": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Send a one-time passcode via SMS
-         * @description **Deprecated:** prefer `POST /rh/login/start` for the combined upsert + OTP flow. Generates and stores a one-time passcode for the given phone number and sends it via SMS. The phone number must already correspond to an existing RhProfile. Returns `status: sent` if the SMS was dispatched, `status: pending` if SMS delivery is queued or disabled.
-         */
-        post: operations["request_otp_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -345,10 +305,6 @@ export interface components {
         LastStepReachedEnum: "DOCUMENT_SCAN" | "SCAN_REVIEW" | "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
         /** @enum {unknown} */
         NullEnum: null;
-        OtpRequestResponse: {
-            message?: string;
-            status: components["schemas"]["Status13eEnum"];
-        };
         OtpTokenRequestRequest: {
             client_id: string;
             client_secret?: string;
@@ -468,8 +424,14 @@ export interface components {
         };
         RhOtpDelivery: {
             message?: string;
-            status: components["schemas"]["Status13eEnum"];
+            status: components["schemas"]["RhOtpDeliveryStatusEnum"];
         };
+        /**
+         * @description * `sent` - sent
+         *     * `pending` - pending
+         * @enum {string}
+         */
+        RhOtpDeliveryStatusEnum: "sent" | "pending";
         RhPage: {
             /** @description Address text from this page's scan extraction (same field shape as RhHistory.address; may be refined later via user Geosearch confirmation on the history). */
             address?: string | null;
@@ -571,10 +533,6 @@ export interface components {
          * @enum {string}
          */
         RhPagesReadinessResponseStatusEnum: "ready" | "pending" | "excess";
-        RhPhoneUpsertResponse: {
-            created: boolean;
-            profile: components["schemas"]["RhProfile"];
-        };
         RhProfile: {
             readonly id: number;
             /** @description E.164 US number; must match AuthUser.username. */
@@ -631,12 +589,6 @@ export interface components {
          * @enum {string}
          */
         S3CleanupStatusEnum: "deleted" | "failed";
-        /**
-         * @description * `sent` - sent
-         *     * `pending` - pending
-         * @enum {string}
-         */
-        Status13eEnum: "sent" | "pending";
     };
     responses: never;
     parameters: never;
@@ -1096,39 +1048,6 @@ export interface operations {
             };
         };
     };
-    phone_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PhoneNumberRequestRequest"];
-            };
-        };
-        responses: {
-            /** @description Profile found or created. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhPhoneUpsertResponse"];
-                };
-            };
-            /** @description Invalid phone number. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
     profile_retrieve: {
         parameters: {
             query?: never;
@@ -1154,47 +1073,6 @@ export interface operations {
                 content?: never;
             };
             /** @description No RhProfile for the resource owner. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
-    request_otp_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PhoneNumberRequestRequest"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OtpRequestResponse"];
-                };
-            };
-            /** @description Invalid phone number. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description No user found with this phone number. */
             404: {
                 headers: {
                     [name: string]: unknown;

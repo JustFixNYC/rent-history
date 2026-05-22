@@ -17,8 +17,6 @@ export {
   type AccountApiErrorBody,
 } from "./errors";
 export type {
-  OtpRequestResponse,
-  OtpRequestStatus,
   RhAnalysisPage,
   RhHistoryAddressResponse,
   RhHistoryCombinePagesResponse,
@@ -30,7 +28,6 @@ export type {
   RhOtpTokenResponse,
   RhPageSummary,
   RhPagesReadinessResponse,
-  RhPhoneUpsertResponse,
   RhProfile,
   RhReadinessAxis,
 } from "./types";
