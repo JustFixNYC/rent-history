@@ -10,7 +10,9 @@
     "test": "vitest run",
     "preview": "vite preview",
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
-    "extract": "lingui extract"
+    "extract": "lingui extract",
+    "generate:api:account": "openapi-typescript ../auth-provider/rh/openapi/openapi.json -o src/api/generated/account-openapi.d.ts",
+    "generate:api": "yarn generate:api:account"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "16.1.0",
@@ -52,6 +54,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "jsdom": "^29.1.0",
+    "openapi-typescript": "7.13.0",
     "prettier": "^2.2.1",
     "sass": "^1.97.3",
     "typescript": "^5.5.3",

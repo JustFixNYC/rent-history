@@ -14,7 +14,19 @@ The post-OTP routes are protected and require a valid session token produced by 
 
 - Runtime contract endpoint is `GET /rh/schema` from `auth-provider`.
 - Canonical committed contract artifact is `auth-provider/rh/openapi/openapi.json`.
-- When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR.
+- Generated account API types live at `src/api/generated/account-openapi.d.ts` (committed; not gitignored).
+- When backend `rh/` API contract changes, export and commit `openapi.json` in auth-provider, then regenerate and commit frontend types:
+
+```bash
+# From rent-history, with auth-provider checked out as a sibling directory:
+yarn generate:api:account
+```
+
+- `yarn generate:api` is an alias for `generate:api:account` (data-api codegen is deferred).
+- Input path default: `../auth-provider/rh/openapi/openapi.json` (see `package.json` scripts).
+- **CI:** GitHub Actions checks out `JustFixNYC/auth-provider` at `codegen` next to this repo and fails if `yarn generate:api:account` would change the committed `.d.ts`.
+- **Netlify / no sibling repo:** Builds use the committed `account-openapi.d.ts`; copy `auth-provider/rh/openapi/openapi.json` locally (or clone auth-provider beside rent-history) before running `yarn generate:api:account` when the contract changes.
+- When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR (hook migrations follow the Tier 1 codegen plan).
 
 Currently, two official plugins are available:
 

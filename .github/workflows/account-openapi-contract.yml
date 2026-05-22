@@ -1,0 +1,45 @@
+name: Account OpenAPI contract
+
+on:
+  push:
+    branches: [main, codegen]
+  pull_request:
+
+jobs:
+  account-openapi-contract:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rent-history
+    steps:
+      - name: Checkout rent-history
+        uses: actions/checkout@v4
+        with:
+          path: rent-history
+
+      - name: Checkout auth-provider (OpenAPI spec)
+        uses: actions/checkout@v4
+        with:
+          repository: JustFixNYC/auth-provider
+          ref: codegen
+          path: auth-provider
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+          cache-dependency-path: rent-history/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Regenerate account OpenAPI types
+        run: yarn generate:api:account
+
+      - name: Fail on generated types drift
+        run: |
+          git diff --exit-code src/api/generated/account-openapi.d.ts || (
+            echo "Account OpenAPI types drift detected. Run 'yarn generate:api:account' and commit src/api/generated/account-openapi.d.ts."
+            exit 1
+          )
