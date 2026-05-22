@@ -30,7 +30,6 @@ const otpPayload = {
   profile: {
     id: 42,
     phone_number: "15554443333",
-    rent_history_id: "rh-1",
   },
 };
 

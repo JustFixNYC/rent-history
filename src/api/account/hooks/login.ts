@@ -1,15 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { requestRhOtp, upsertRhPhone, verifyRhOtp } from "../api";
+import { startRhLogin, verifyRhOtp } from "../api";
 
-export const useUpsertRhPhone = () =>
+export const useStartRhLogin = () =>
   useMutation({
-    mutationFn: upsertRhPhone,
-  });
-
-export const useRequestRhOtp = () =>
-  useMutation({
-    mutationFn: requestRhOtp,
+    mutationFn: startRhLogin,
   });
 
 export const useVerifyRhOtp = () =>

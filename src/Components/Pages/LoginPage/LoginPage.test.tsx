@@ -29,8 +29,7 @@ vi.mock("../../../api/account/api", async () => {
   >("../../../api/account/api");
   return {
     ...actual,
-    requestRhOtp: vi.fn(),
-    upsertRhPhone: vi.fn(),
+    startRhLogin: vi.fn(),
     verifyRhOtp: vi.fn(),
   };
 });
@@ -68,15 +67,14 @@ describe("LoginPage OTP verification", () => {
   });
 
   it("stores otp session on successful verification", async () => {
-    vi.mocked(accountApi.upsertRhPhone).mockResolvedValue({
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
       created: true,
       profile: {
         id: 1,
         phone_number: "15554443333",
-        rent_history_id: "rh-1",
       },
+      otp: { status: "sent" },
     });
-    vi.mocked(accountApi.requestRhOtp).mockResolvedValue({ status: "sent" });
     const otpPayload = {
       access_token: "access-token",
       refresh_token: "refresh-token",
@@ -86,7 +84,6 @@ describe("LoginPage OTP verification", () => {
       profile: {
         id: 1,
         phone_number: "15554443333",
-        rent_history_id: "rh-1",
       },
     };
     vi.mocked(accountApi.verifyRhOtp).mockResolvedValue(otpPayload);
@@ -122,15 +119,14 @@ describe("LoginPage OTP verification", () => {
   });
 
   it("shows expired-code error message when backend returns expired", async () => {
-    vi.mocked(accountApi.upsertRhPhone).mockResolvedValue({
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
       created: true,
       profile: {
         id: 1,
         phone_number: "15554443333",
-        rent_history_id: "rh-1",
       },
+      otp: { status: "sent" },
     });
-    vi.mocked(accountApi.requestRhOtp).mockResolvedValue({ status: "sent" });
     vi.mocked(accountApi.verifyRhOtp).mockRejectedValue(
       new AccountApiError(
         400,

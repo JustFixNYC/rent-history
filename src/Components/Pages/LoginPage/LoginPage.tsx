@@ -13,8 +13,7 @@ import {
   phoneLoginMessage,
   phoneResendMessage,
   RhProfile,
-  useRequestRhOtp,
-  useUpsertRhPhone,
+  useStartRhLogin,
   useVerifyRhOtp,
 } from "../../../api/account";
 import {
@@ -45,11 +44,9 @@ const LoginPage: React.FC = () => {
   const [verificationNotice, setVerificationNotice] = useState<string | null>(
     null
   );
-  const upsertRhPhoneMutation = useUpsertRhPhone();
-  const requestRhOtpMutation = useRequestRhOtp();
+  const startRhLoginMutation = useStartRhLogin();
   const verifyRhOtpMutation = useVerifyRhOtp();
-  const isSendingCode =
-    upsertRhPhoneMutation.isPending || requestRhOtpMutation.isPending;
+  const isSendingCode = startRhLoginMutation.isPending;
   const isVerifyingCode = verifyRhOtpMutation.isPending;
   const [, setVerifiedProfile] = useSessionStorage<RhProfile | null>(
     "rhVerifiedProfile",
@@ -91,12 +88,11 @@ const LoginPage: React.FC = () => {
     setVerificationError(null);
     setVerificationNotice(null);
     try {
-      const { created } = await upsertRhPhoneMutation.mutateAsync(numericPhone);
+      const { created, otp } = await startRhLoginMutation.mutateAsync(numericPhone);
       setProfileCreated(created);
       setRhProfileCreated(created);
-      const result = await requestRhOtpMutation.mutateAsync(numericPhone);
       setVerificationNotice(
-        result.status === "pending"
+        otp.status === "pending"
           ? _(msg`We requested your code. Delivery may take a moment.`)
           : _(msg`Code sent. Enter it below to continue.`)
       );
@@ -141,9 +137,9 @@ const LoginPage: React.FC = () => {
     setVerificationError(null);
     setVerificationNotice(null);
     try {
-      const result = await requestRhOtpMutation.mutateAsync(numericPhone);
+      const { otp } = await startRhLoginMutation.mutateAsync(numericPhone);
       setVerificationNotice(
-        result.status === "pending"
+        otp.status === "pending"
           ? _(msg`Code request received. Delivery may take a moment.`)
           : _(msg`A new code has been sent.`)
       );

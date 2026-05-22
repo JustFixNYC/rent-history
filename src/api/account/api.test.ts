@@ -6,7 +6,7 @@ import {
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
-  upsertRhPhone,
+  startRhLogin,
   verifyRhOtp,
 } from "./api";
 const jsonResponse = (body: unknown, init: ResponseInit): Response =>
@@ -49,7 +49,6 @@ describe("verifyRhOtp", () => {
           profile: {
             id: 1,
             phone_number: "15554443333",
-            rent_history_id: "abc",
           },
         },
         { status: 200 }
@@ -91,7 +90,6 @@ describe("verifyRhOtp", () => {
           profile: {
             id: 1,
             phone_number: "15554443333",
-            rent_history_id: "abc",
           },
         },
         { status: 200 }
@@ -311,23 +309,29 @@ describe("getRhHistoryPagesReadiness", () => {
     expect(result.status).toBe("excess");
   });
 
-  it("upsertRhPhone returns profile and created flag", async () => {
+  it("startRhLogin returns profile, created flag, and otp delivery", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
-    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
       jsonResponse(
         {
           created: true,
           profile: { id: 1, phone_number: "+15551234567" },
+          otp: { status: "sent" },
         },
         { status: 200 }
       )
     );
 
-    const result = await upsertRhPhone("5551234567");
+    const result = await startRhLogin("5551234567");
 
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe("https://auth.example.org/rh/login/start");
+    expect(request.method).toBe("POST");
     expect(result.created).toBe(true);
     expect(result.profile.phone_number).toBe("+15551234567");
+    expect(result.otp.status).toBe("sent");
   });
 
   it("throws AccountApiError on 400 validation (no readiness axes)", async () => {
@@ -379,13 +383,15 @@ describe("getRhHistoryAnalysisPages", () => {
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
       jsonResponse(
-        [
-          {
-            s3_key: "1/uuid/page1.jpg",
-            start_year: 2018,
-            end_year: 2019,
-          },
-        ],
+        {
+          pages: [
+            {
+              s3_key: "1/uuid/page1.jpg",
+              start_year: 2018,
+              end_year: 2019,
+            },
+          ],
+        },
         { status: 200 }
       )
     );

@@ -7,13 +7,10 @@ export type OtpRequestStatus = Schemas["OtpRequestResponse"]["status"];
 
 export type OtpRequestResponse = Schemas["OtpRequestResponse"];
 
-/**
- * OpenAPI `RhProfile` plus `rent_history_id` returned at runtime by OTP/profile
- * endpoints but not yet in the committed spec.
- */
-export type RhProfile = Schemas["RhProfile"] & {
-  rent_history_id: string;
-};
+export type RhProfile = Schemas["RhProfile"];
+
+/** `POST /rh/login/start` response (profile upsert + OTP delivery). */
+export type RhLoginStartResponse = Schemas["RhLoginStartResponse"];
 
 /** `POST /rh/phone` response (OpenAPI `RhPhoneUpsertResponse`). */
 export type RhPhoneUpsertResponse = Omit<

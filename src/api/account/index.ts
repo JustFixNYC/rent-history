@@ -26,6 +26,7 @@ export type {
   RhHistoryConfirmAddressResponse,
   RhHistoryPageDeleteResponse,
   RhHistoryRecord,
+  RhLoginStartResponse,
   RhOtpTokenResponse,
   RhPageSummary,
   RhPagesReadinessResponse,
@@ -34,11 +35,7 @@ export type {
   RhReadinessAxis,
 } from "./types";
 export { accountQueryKeys } from "./queryKeys";
-export {
-  useUpsertRhPhone,
-  useRequestRhOtp,
-  useVerifyRhOtp,
-} from "./hooks/login";
+export { useStartRhLogin, useVerifyRhOtp } from "./hooks/login";
 export { useCreateRhHistory } from "./hooks/history";
 export {
   RhPagesReadinessExcessError,
@@ -58,7 +55,6 @@ export {
   getRhHistoryAddress,
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
-  requestRhOtp,
-  upsertRhPhone,
+  startRhLogin,
   verifyRhOtp,
 } from "./api";

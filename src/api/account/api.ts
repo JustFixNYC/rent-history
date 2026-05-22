@@ -13,6 +13,7 @@ import type {
   RhHistoryPageDeleteResponse,
   RhHistoryRecord,
   RhPagesReadinessResponse,
+  RhLoginStartResponse,
   RhPhoneUpsertResponse,
   OtpRequestResponse,
   RhOtpTokenResponse,
@@ -46,6 +47,15 @@ const getRhOauthClientSecret = (): string | undefined => {
 };
 
 const getAccountClient = () => createAccountClient(getAuthProviderBaseUrl());
+
+export const startRhLogin = (
+  phoneNumber: string
+): Promise<RhLoginStartResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/login/start", {
+      body: { phone_number: phoneNumber },
+    })
+  ) as Promise<RhLoginStartResponse>;
 
 export const requestRhOtp = (
   phoneNumber: string
@@ -158,27 +168,16 @@ export const getRhHistoryPagesReadiness = (
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.
  * Returns pages with keep=True (used in analysis), sorted by start_year ascending.
  */
-export const getRhHistoryAnalysisPages = async (
+export const getRhHistoryAnalysisPages = (
   accessToken: string,
   historyId: string
-): Promise<RhAnalysisPage[]> => {
-  const data = await unwrapAccountResponse(
+): Promise<RhAnalysisPage[]> =>
+  unwrapAccountResponse(
     getAccountClient().GET("/rh/history/analysis-pages", {
       headers: bearerHeaders(accessToken),
       params: { query: { history_id: historyId } },
     })
-  );
-
-  if (!Array.isArray(data)) {
-    throw accountApiUnexpectedShapeError(
-      200,
-      "Unexpected analysis-pages response shape.",
-      data
-    );
-  }
-
-  return data as RhAnalysisPage[];
-};
+  ).then((body) => body.pages as RhAnalysisPage[]);
 
 /**
  * `GET /rh/history/address` — OAuth2 bearer.
