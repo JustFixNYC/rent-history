@@ -24,7 +24,7 @@ yarn generate:api:account
 
 - `yarn generate:api` is an alias for `generate:api:account` (data-api codegen is deferred).
 - Input path default: `../auth-provider/rh/openapi/openapi.json` (see `package.json` scripts).
-- **CI:** GitHub Actions checks out `JustFixNYC/auth-provider` at `codegen` next to this repo and fails if `yarn generate:api:account` would change the committed `.d.ts`.
+- **CI:** GitHub Actions (`.github/workflows/account-openapi-contract.yml`) checks out private `JustFixNYC/auth-provider` at `codegen` as a sibling repo and fails if `yarn generate:api:account` would change the committed `.d.ts`. This requires an org admin to enable cross-repo Actions access on **auth-provider** (Settings → Actions → General → allow workflows from other repositories in the `JustFixNYC` organization). Fork PRs from outside the org cannot use that access and may fail this job.
 - **Netlify / no sibling repo:** Builds use the committed `account-openapi.d.ts`; copy `auth-provider/rh/openapi/openapi.json` locally (or clone auth-provider beside rent-history) before running `yarn generate:api:account` when the contract changes.
 - When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR (hook migrations follow the Tier 1 codegen plan).
 
