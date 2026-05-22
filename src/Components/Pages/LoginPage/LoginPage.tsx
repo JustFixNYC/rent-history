@@ -7,8 +7,9 @@ import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, TextInput } from "@justfixnyc/component-library";
-import { RhAuthApiError, RhProfile } from "../../../api/rhAuth";
 import {
+  RhAuthApiError,
+  RhProfile,
   useRequestRhOtp,
   useUpsertRhPhone,
   useVerifyRhOtp,

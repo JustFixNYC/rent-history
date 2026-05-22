@@ -11,8 +11,8 @@ import {
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import LoginPage from "./LoginPage";
-import { RhAuthApiError } from "../../../api/rhAuth";
-import * as rhAuthApi from "../../../api/rhAuth";
+import { RhAuthApiError } from "../../../api/account";
+import * as accountApi from "../../../api/account/api";
 import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
 const createTestQueryClient = () =>
@@ -23,10 +23,10 @@ const createTestQueryClient = () =>
     },
   });
 
-vi.mock("../../../api/rhAuth", async () => {
-  const actual = await vi.importActual<typeof import("../../../api/rhAuth")>(
-    "../../../api/rhAuth"
-  );
+vi.mock("../../../api/account/api", async () => {
+  const actual = await vi.importActual<
+    typeof import("../../../api/account/api")
+  >("../../../api/account/api");
   return {
     ...actual,
     requestRhOtp: vi.fn(),
@@ -68,7 +68,7 @@ describe("LoginPage OTP verification", () => {
   });
 
   it("stores otp session on successful verification", async () => {
-    vi.mocked(rhAuthApi.upsertRhPhone).mockResolvedValue({
+    vi.mocked(accountApi.upsertRhPhone).mockResolvedValue({
       created: true,
       profile: {
         id: 1,
@@ -76,7 +76,7 @@ describe("LoginPage OTP verification", () => {
         rent_history_id: "rh-1",
       },
     });
-    vi.mocked(rhAuthApi.requestRhOtp).mockResolvedValue({ status: "sent" });
+    vi.mocked(accountApi.requestRhOtp).mockResolvedValue({ status: "sent" });
     const otpPayload = {
       access_token: "access-token",
       refresh_token: "refresh-token",
@@ -89,7 +89,7 @@ describe("LoginPage OTP verification", () => {
         rent_history_id: "rh-1",
       },
     };
-    vi.mocked(rhAuthApi.verifyRhOtp).mockResolvedValue(otpPayload);
+    vi.mocked(accountApi.verifyRhOtp).mockResolvedValue(otpPayload);
 
     renderLoginPage();
 
@@ -111,7 +111,7 @@ describe("LoginPage OTP verification", () => {
     fireEvent.click(screen.getByRole("button", { name: "Verify" }));
 
     await waitFor(() => {
-      expect(rhAuthApi.verifyRhOtp).toHaveBeenCalledWith(
+      expect(accountApi.verifyRhOtp).toHaveBeenCalledWith(
         "5554443333",
         "123456"
       );
@@ -122,7 +122,7 @@ describe("LoginPage OTP verification", () => {
   });
 
   it("shows expired-code error message when backend returns expired", async () => {
-    vi.mocked(rhAuthApi.upsertRhPhone).mockResolvedValue({
+    vi.mocked(accountApi.upsertRhPhone).mockResolvedValue({
       created: true,
       profile: {
         id: 1,
@@ -130,8 +130,8 @@ describe("LoginPage OTP verification", () => {
         rent_history_id: "rh-1",
       },
     });
-    vi.mocked(rhAuthApi.requestRhOtp).mockResolvedValue({ status: "sent" });
-    vi.mocked(rhAuthApi.verifyRhOtp).mockRejectedValue(
+    vi.mocked(accountApi.requestRhOtp).mockResolvedValue({ status: "sent" });
+    vi.mocked(accountApi.verifyRhOtp).mockRejectedValue(
       new RhAuthApiError(400, "Code expired")
     );
 

@@ -6,7 +6,7 @@ import React, {
   useSyncExternalStore,
 } from "react";
 
-import type { RhAnalysisPage } from "../api/rhAuth";
+import type { RhAnalysisPage } from "../api/account";
 import {
   clearRhSessionDocument,
   clearRhSessionPages,

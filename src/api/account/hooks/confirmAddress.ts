@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { accountQueryKeys } from "../queryKeys";
 import type { RhHistoryConfirmAddressRequest } from "../types";
-import { confirmRhHistoryAddress, getRhHistoryAddress } from "../../rhAuth";
+import { confirmRhHistoryAddress, getRhHistoryAddress } from "../api";
 
 export type UseRhHistoryAddressParams = {
   accessToken: string | undefined;

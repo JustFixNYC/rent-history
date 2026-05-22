@@ -6,7 +6,7 @@ import {
   combineRhHistoryPages,
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
-} from "../../rhAuth";
+} from "../api";
 
 /** Thrown when pages-readiness returns HTTP 200 with `status: "excess"`. */
 export class RhPagesReadinessExcessError extends Error {

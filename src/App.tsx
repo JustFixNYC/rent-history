@@ -7,11 +7,8 @@ import {
   RouterProvider,
   createRoutesFromElements,
 } from "react-router-dom";
-import { SWRConfig } from "swr";
-import { useRollbar } from "@rollbar/react";
 import { useMemo } from "react";
 
-import { shouldReportErrorToRollbar } from "./api/error-reporting";
 import { QueryProvider } from "./providers/QueryProvider";
 import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
 import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
@@ -78,23 +75,13 @@ const createAppRouter = () =>
   );
 
 function App() {
-  const rollbar = useRollbar();
   const router = useMemo(() => createAppRouter(), []);
 
   return (
     <QueryProvider>
-      <SWRConfig
-        value={{
-          onError: (error) => {
-            if (!shouldReportErrorToRollbar(error)) return;
-            rollbar.error(error);
-          },
-        }}
-      >
-        <RhSessionProvider>
-          <RouterProvider router={router} />
-        </RhSessionProvider>
-      </SWRConfig>
+      <RhSessionProvider>
+        <RouterProvider router={router} />
+      </RhSessionProvider>
     </QueryProvider>
   );
 }

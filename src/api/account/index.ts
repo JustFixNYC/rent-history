@@ -40,3 +40,15 @@ export {
   useConfirmRhHistoryAddress,
   useRhHistoryAddress,
 } from "./hooks/confirmAddress";
+export {
+  combineRhHistoryPages,
+  confirmRhHistoryAddress,
+  createRhHistory,
+  deleteRhHistoryPages,
+  getRhHistoryAddress,
+  getRhHistoryAnalysisPages,
+  getRhHistoryPagesReadiness,
+  requestRhOtp,
+  upsertRhPhone,
+  verifyRhOtp,
+} from "./api";

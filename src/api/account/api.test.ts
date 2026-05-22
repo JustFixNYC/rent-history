@@ -6,10 +6,10 @@ import {
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
-  RhAuthApiError,
   upsertRhPhone,
   verifyRhOtp,
-} from "./rhAuth";
+} from "./api";
+import { RhAuthApiError } from "./errors";
 
 const jsonResponse = (body: unknown, init: ResponseInit): Response =>
   new Response(JSON.stringify(body), {

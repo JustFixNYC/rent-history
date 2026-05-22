@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { createRhHistory } from "../../rhAuth";
+import { createRhHistory } from "../api";
 
 export const useCreateRhHistory = () =>
   useMutation({

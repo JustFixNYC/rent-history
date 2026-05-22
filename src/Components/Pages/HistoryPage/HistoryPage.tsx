@@ -4,8 +4,7 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
-import { useCreateRhHistory } from "../../../api/account";
-import { RhAuthApiError } from "../../../api/rhAuth";
+import { RhAuthApiError, useCreateRhHistory } from "../../../api/account";
 import {
   getRhHistoryId,
   getRhAuthSession,

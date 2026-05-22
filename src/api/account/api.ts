@@ -1,29 +1,9 @@
-export type {
-  OtpRequestStatus,
-  OtpRequestResponse,
-  RhProfile,
-  RhPhoneUpsertResponse,
-  RhOtpTokenResponse,
-  RhHistoryRecord,
-  RhHistoryCombinePagesResponse,
-  RhHistoryConfirmAddressRequest,
-  RhHistoryConfirmAddressResponse,
-  RhHistoryPageDeleteResponse,
-  RhReadinessAxis,
-  RhPageSummary,
-  RhAnalysisPage,
-  RhHistoryAddressResponse,
-  RhPagesReadinessResponse,
-} from "./account/types";
-
-export { RhAuthApiError } from "./account/errors";
-
 import {
   bearerHeaders,
   createAccountClient,
   unwrapAccountResponse,
-} from "./account/client";
-import { parseRhJsonError, RhAuthApiError } from "./account/errors";
+} from "./client";
+import { parseRhJsonError, RhAuthApiError } from "./errors";
 import type {
   RhAnalysisPage,
   RhHistoryAddressResponse,
@@ -36,7 +16,7 @@ import type {
   RhPhoneUpsertResponse,
   OtpRequestResponse,
   RhOtpTokenResponse,
-} from "./account/types";
+} from "./types";
 
 const getAuthProviderBaseUrl = (): string => {
   const baseUrl = import.meta.env.VITE_AUTH_PROVIDER_BASE_URL as

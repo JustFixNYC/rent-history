@@ -34,7 +34,6 @@
     "react-hook-form": "^7.62.0",
     "react-router-dom": "^6.26.2",
     "rollbar": "^2.26.4",
-    "swr": "^2.2.5",
     "ua-parser-js": "^2.0.8",
     "zod": "^4.0.14"
   },

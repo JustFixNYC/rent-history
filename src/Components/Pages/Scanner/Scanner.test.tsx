@@ -12,8 +12,8 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import Scanner from "./Scanner";
-import { RhAuthApiError } from "../../../api/rhAuth";
-import * as rhAuthApi from "../../../api/rhAuth";
+import { RhAuthApiError } from "../../../api/account";
+import * as accountApi from "../../../api/account/api";
 import {
   getRhSessionAnalysisPages,
   setRhAuthSession,
@@ -74,10 +74,10 @@ vi.mock("../../EmblaCarousel/EmblaCarousel", () => ({
   default: () => null,
 }));
 
-vi.mock("../../../api/rhAuth", async () => {
-  const actual = await vi.importActual<typeof import("../../../api/rhAuth")>(
-    "../../../api/rhAuth"
-  );
+vi.mock("../../../api/account/api", async () => {
+  const actual = await vi.importActual<
+    typeof import("../../../api/account/api")
+  >("../../../api/account/api");
   return {
     ...actual,
     combineRhHistoryPages: vi.fn(),
@@ -165,7 +165,7 @@ describe("Scanner Next button", () => {
   });
 
   it("calls combine-pages and navigates to /confirm-address on success", async () => {
-    vi.mocked(rhAuthApi.combineRhHistoryPages).mockResolvedValue({
+    vi.mocked(accountApi.combineRhHistoryPages).mockResolvedValue({
       status: "ok",
     });
 
@@ -174,11 +174,11 @@ describe("Scanner Next button", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(rhAuthApi.combineRhHistoryPages).toHaveBeenCalledWith(
+      expect(accountApi.combineRhHistoryPages).toHaveBeenCalledWith(
         "access-token",
         historyId
       );
-      expect(rhAuthApi.getRhHistoryAnalysisPages).toHaveBeenCalledWith(
+      expect(accountApi.getRhHistoryAnalysisPages).toHaveBeenCalledWith(
         "access-token",
         historyId
       );
@@ -194,7 +194,7 @@ describe("Scanner Next button", () => {
   });
 
   it("shows backend error message and stays on scanner when combine-pages fails", async () => {
-    vi.mocked(rhAuthApi.combineRhHistoryPages).mockRejectedValue(
+    vi.mocked(accountApi.combineRhHistoryPages).mockRejectedValue(
       new RhAuthApiError(400, "reg_year sequence is not contiguous")
     );
 
