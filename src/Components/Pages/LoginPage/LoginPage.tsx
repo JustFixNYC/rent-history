@@ -7,13 +7,12 @@ import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, TextInput } from "@justfixnyc/component-library";
+import { RhAuthApiError, RhProfile } from "../../../api/rhAuth";
 import {
-  RhAuthApiError,
-  RhProfile,
-  requestRhOtp,
-  upsertRhPhone,
-  verifyRhOtp,
-} from "../../../api/rhAuth";
+  useRequestRhOtp,
+  useUpsertRhPhone,
+  useVerifyRhOtp,
+} from "../../../api/account";
 import {
   clearRhHistoryId,
   clearRhSessionDocument,
@@ -42,8 +41,12 @@ const LoginPage: React.FC = () => {
   const [verificationNotice, setVerificationNotice] = useState<string | null>(
     null
   );
-  const [isSendingCode, setIsSendingCode] = useState(false);
-  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+  const upsertRhPhoneMutation = useUpsertRhPhone();
+  const requestRhOtpMutation = useRequestRhOtp();
+  const verifyRhOtpMutation = useVerifyRhOtp();
+  const isSendingCode =
+    upsertRhPhoneMutation.isPending || requestRhOtpMutation.isPending;
+  const isVerifyingCode = verifyRhOtpMutation.isPending;
   const [, setVerifiedProfile] = useSessionStorage<RhProfile | null>(
     "rhVerifiedProfile",
     null
@@ -83,12 +86,11 @@ const LoginPage: React.FC = () => {
     setPhoneError(null);
     setVerificationError(null);
     setVerificationNotice(null);
-    setIsSendingCode(true);
     try {
-      const { created } = await upsertRhPhone(numericPhone);
+      const { created } = await upsertRhPhoneMutation.mutateAsync(numericPhone);
       setProfileCreated(created);
       setRhProfileCreated(created);
-      const result = await requestRhOtp(numericPhone);
+      const result = await requestRhOtpMutation.mutateAsync(numericPhone);
       setVerificationNotice(
         result.status === "pending"
           ? _(msg`We requested your code. Delivery may take a moment.`)
@@ -105,16 +107,16 @@ const LoginPage: React.FC = () => {
           _(msg`Something went wrong while sending your verification code.`)
         );
       }
-    } finally {
-      setIsSendingCode(false);
     }
   });
 
   const onVerificationNext = otpForm.handleSubmit(async (data) => {
     setVerificationError(null);
-    setIsVerifyingCode(true);
     try {
-      const otpSession = await verifyRhOtp(numericPhone, data.code);
+      const otpSession = await verifyRhOtpMutation.mutateAsync({
+        phoneNumber: numericPhone,
+        code: data.code,
+      });
       // Reset any stale flow/session document before writing fresh auth state.
       clearRhSessionDocument();
       setRhAuthSession(otpSession);
@@ -146,8 +148,6 @@ const LoginPage: React.FC = () => {
           _(msg`Something went wrong while verifying your code.`)
         );
       }
-    } finally {
-      setIsVerifyingCode(false);
     }
   });
 
@@ -155,9 +155,8 @@ const LoginPage: React.FC = () => {
     if (!isPhoneValid || isSendingCode) return;
     setVerificationError(null);
     setVerificationNotice(null);
-    setIsSendingCode(true);
     try {
-      const result = await requestRhOtp(numericPhone);
+      const result = await requestRhOtpMutation.mutateAsync(numericPhone);
       setVerificationNotice(
         result.status === "pending"
           ? _(msg`Code request received. Delivery may take a moment.`)
@@ -175,8 +174,6 @@ const LoginPage: React.FC = () => {
           _(msg`Unable to resend code right now. Please try again.`)
         );
       }
-    } finally {
-      setIsSendingCode(false);
     }
   };
 

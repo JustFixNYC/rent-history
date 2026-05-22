@@ -1,5 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   cleanup,
   fireEvent,
@@ -13,6 +14,14 @@ import LoginPage from "./LoginPage";
 import { RhAuthApiError } from "../../../api/rhAuth";
 import * as rhAuthApi from "../../../api/rhAuth";
 import * as rhSessionStorage from "../../../session/rhSessionStorage";
+
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
 
 vi.mock("../../../api/rhAuth", async () => {
   const actual = await vi.importActual<typeof import("../../../api/rhAuth")>(
@@ -39,12 +48,15 @@ vi.mock("../../../session/rhSessionStorage", async () => {
 const renderLoginPage = () => {
   i18n.load("en", {});
   i18n.activate("en");
+  const queryClient = createTestQueryClient();
   return render(
-    <MemoryRouter initialEntries={["/en/login"]}>
-      <I18nProvider i18n={i18n}>
-        <LoginPage />
-      </I18nProvider>
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/en/login"]}>
+        <I18nProvider i18n={i18n}>
+          <LoginPage />
+        </I18nProvider>
+      </MemoryRouter>
+    </QueryClientProvider>
   );
 };
 

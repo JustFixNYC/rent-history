@@ -4,7 +4,8 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
-import { createRhHistory, RhAuthApiError } from "../../../api/rhAuth";
+import { useCreateRhHistory } from "../../../api/account";
+import { RhAuthApiError } from "../../../api/rhAuth";
 import {
   getRhHistoryId,
   getRhAuthSession,
@@ -20,7 +21,8 @@ const HistoryPage: React.FC = () => {
   const navigate = useNavigate();
   const [uploadMethod, setUploadMethod] = useState<UploadMethod>("scan");
   const [historyError, setHistoryError] = useState<string | null>(null);
-  const [isCreatingHistory, setIsCreatingHistory] = useState(false);
+  const createRhHistoryMutation = useCreateRhHistory();
+  const isCreatingHistory = createRhHistoryMutation.isPending;
 
   const getOrCreateHistoryId = async (): Promise<string> => {
     const existingHistoryId = getRhHistoryId();
@@ -31,7 +33,9 @@ const HistoryPage: React.FC = () => {
       throw new Error("Missing OTP session.");
     }
 
-    const history = await createRhHistory(otpSession.accessToken);
+    const history = await createRhHistoryMutation.mutateAsync(
+      otpSession.accessToken
+    );
     setRhHistoryId(history.id);
     return history.id;
   };
@@ -40,7 +44,6 @@ const HistoryPage: React.FC = () => {
     if (isCreatingHistory) return;
 
     setHistoryError(null);
-    setIsCreatingHistory(true);
     try {
       await getOrCreateHistoryId();
       navigate(`/${i18n.locale}/scanner`);
@@ -52,8 +55,6 @@ const HistoryPage: React.FC = () => {
           _(msg`Unable to create your rent history record. Please try again.`)
         );
       }
-    } finally {
-      setIsCreatingHistory(false);
     }
   };
 
