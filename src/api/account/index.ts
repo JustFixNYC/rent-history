@@ -1,3 +1,28 @@
+export {
+  bearerHeaders,
+  createAccountClient,
+  unwrapAccountResponse,
+  type AccountClient,
+  type GetAccessToken,
+} from "./client";
+export { parseRhJsonError, RhAuthApiError } from "./errors";
+export type {
+  OtpRequestResponse,
+  OtpRequestStatus,
+  RhAnalysisPage,
+  RhHistoryAddressResponse,
+  RhHistoryCombinePagesResponse,
+  RhHistoryConfirmAddressRequest,
+  RhHistoryConfirmAddressResponse,
+  RhHistoryPageDeleteResponse,
+  RhHistoryRecord,
+  RhOtpTokenResponse,
+  RhPageSummary,
+  RhPagesReadinessResponse,
+  RhPhoneUpsertResponse,
+  RhProfile,
+  RhReadinessAxis,
+} from "./types";
 export { accountQueryKeys } from "./queryKeys";
 export {
   useUpsertRhPhone,

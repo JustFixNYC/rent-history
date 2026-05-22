@@ -56,7 +56,7 @@ vi.mock("dynamsoft-document-scanner", () => ({
   }),
 }));
 
-vi.mock("../../../api/presignedS3", () => ({
+vi.mock("../../../api/thirdParty/presignedS3", () => ({
   uploadScan: vi.fn().mockResolvedValue(undefined),
   downloadScans: vi.fn().mockResolvedValue([
     {

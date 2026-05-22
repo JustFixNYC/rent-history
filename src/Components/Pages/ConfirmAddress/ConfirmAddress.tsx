@@ -24,7 +24,7 @@ import {
   useConfirmRhHistoryAddress,
   useRhHistoryAddress,
 } from "../../../api/account";
-import { searchGeosearch } from "../../../api/geosearch";
+import { searchGeosearch } from "../../../api/thirdParty/geosearch";
 import {
   getRhAuthSession,
   getRhHistoryId,

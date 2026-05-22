@@ -28,6 +28,18 @@ yarn generate:api:account
 - **Netlify / no sibling repo:** Builds use the committed `account-openapi.d.ts`; copy `auth-provider/rh/openapi/openapi.json` locally (or clone auth-provider beside rent-history) before running `yarn generate:api:account` when the contract changes.
 - When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR (hook migrations follow the Tier 1 codegen plan).
 
+## `src/api/` layout
+
+| Path | Role |
+|------|------|
+| `generated/account-openapi.d.ts` | Committed OpenAPI types (`yarn generate:api:account`) |
+| `account/` | Typed openapi-fetch client, errors, types, TanStack Query hooks (`src/api/account/index.ts` barrel) |
+| `data/README.md` | Placeholder for a future read-only data API (not used in v1) |
+| `thirdParty/` | Hand-written modules for external hosts (GeoSearch, S3 presign) |
+| `rhAuth.ts` | Legacy imperative `/rh/*` helpers (stable exports until PR7 cleanup) |
+
+Architecture reference: [frontend-api-architecture.md](https://github.com/JustFixNYC/cursor-workspaces/blob/main/rent-history-analyzer/codegen/docs/frontend-api-architecture.md) in `cursor-workspaces/rent-history-analyzer/codegen/docs/`.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh

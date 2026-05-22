@@ -11,7 +11,7 @@ import {
   downloadScans,
   PresignApiError,
   uploadScan,
-} from "../../../api/presignedS3";
+} from "../../../api/thirdParty/presignedS3";
 import {
   accountQueryKeys,
   useCombineRhHistoryPages,
