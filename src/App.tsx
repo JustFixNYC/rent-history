@@ -11,7 +11,8 @@ import { SWRConfig } from "swr";
 import { useRollbar } from "@rollbar/react";
 import { useMemo } from "react";
 
-import { NetworkError } from "./api/error-reporting";
+import { shouldReportErrorToRollbar } from "./api/error-reporting";
+import { QueryProvider } from "./providers/QueryProvider";
 import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
 import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
 import Landing from "./Components/Pages/Landing/Landing";
@@ -81,18 +82,20 @@ function App() {
   const router = useMemo(() => createAppRouter(), []);
 
   return (
-    <SWRConfig
-      value={{
-        onError: (error) => {
-          if (error instanceof NetworkError && !error.shouldReport) return;
-          rollbar.error(error);
-        },
-      }}
-    >
-      <RhSessionProvider>
-        <RouterProvider router={router} />
-      </RhSessionProvider>
-    </SWRConfig>
+    <QueryProvider>
+      <SWRConfig
+        value={{
+          onError: (error) => {
+            if (!shouldReportErrorToRollbar(error)) return;
+            rollbar.error(error);
+          },
+        }}
+      >
+        <RhSessionProvider>
+          <RouterProvider router={router} />
+        </RhSessionProvider>
+      </SWRConfig>
+    </QueryProvider>
   );
 }
 

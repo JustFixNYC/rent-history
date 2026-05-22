@@ -22,6 +22,7 @@
     "@justfixnyc/geosearch-requester": "^1.0.3-alpha.0",
     "@lingui/react": "^5.3.3",
     "@rollbar/react": "^0.12.0-beta",
+    "@tanstack/react-query": "^5.90.5",
     "@tanstack/react-table": "^8.21.3",
     "contentful": "^11.4.4",
     "dynamsoft-document-scanner": "^1.4.0",

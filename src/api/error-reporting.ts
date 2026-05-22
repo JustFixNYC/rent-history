@@ -15,6 +15,11 @@ export class NetworkError extends Error {
  * A network error that happened because the HTTP status code is not in
  * the range 200-299.
  */
+/** Whether a failed request should be reported to Rollbar (mirrors SWR/Query global onError). */
+export function shouldReportErrorToRollbar(error: unknown): boolean {
+  return !(error instanceof NetworkError && !error.shouldReport);
+}
+
 export class HTTPError extends NetworkError {
   statusText: string;
   status: number;
