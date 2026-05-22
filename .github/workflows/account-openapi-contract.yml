@@ -8,8 +8,6 @@ on:
 jobs:
   account-openapi-contract:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     defaults:
       run:
         working-directory: rent-history
@@ -18,16 +16,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: rent-history
-
-      # Requires org setting on auth-provider: Actions → General → allow
-      # workflows from other JustFixNYC repos to access this repository.
-      - name: Checkout auth-provider (OpenAPI spec)
-        uses: actions/checkout@v4
-        with:
-          repository: JustFixNYC/auth-provider
-          ref: codegen
-          path: auth-provider
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v4

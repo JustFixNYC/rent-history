@@ -1,0 +1,1652 @@
+{
+  "components": {
+    "schemas": {
+      "CarryOverFields": {
+        "description": "Optional page-level carry-over from the prior page's table (subset of row fields).\n\nUnknown keys are ignored (parity with rh-extract Pydantic extra=\"ignore\").\nAll-empty payloads normalize to null.",
+        "properties": {
+          "lease_ends": {
+            "nullable": true,
+            "type": "string"
+          },
+          "reasons_differ_change": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sub_lines": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "CarryOverFieldsRequest": {
+        "description": "Optional page-level carry-over from the prior page's table (subset of row fields).\n\nUnknown keys are ignored (parity with rh-extract Pydantic extra=\"ignore\").\nAll-empty payloads normalize to null.",
+        "properties": {
+          "lease_ends": {
+            "nullable": true,
+            "type": "string"
+          },
+          "reasons_differ_change": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sub_lines": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ErrorCodeEnum": {
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `pages_sync_error` - Pages out of sync with scans",
+        "enum": [
+          "otp_expired",
+          "otp_invalid",
+          "otp_locked",
+          "profile_not_found",
+          "history_not_found",
+          "rh_profile_not_found",
+          "rh_history_not_found",
+          "history_profile_mismatch",
+          "invalid_phone_number",
+          "validation_error",
+          "invalid_client",
+          "unauthorized_client",
+          "nycdb_not_configured",
+          "nycdb_query_failed",
+          "combine_pages_failed",
+          "storage_not_configured",
+          "storage_read_failed",
+          "pages_sync_error"
+        ],
+        "type": "string"
+      },
+      "LastStepReachedEnum": {
+        "description": "* `DOCUMENT_SCAN` - Document Scan\n* `SCAN_REVIEW` - Scan Review\n* `ADDRESS_CONFIRMATION` - Address Confirmation\n* `APARTMENT_INFO` - Apartment Info\n* `FINDINGS_OVERVIEW` - Findings Overview\n* `FINDINGS_REVIEW` - Findings Review\n* `REPORT_GENERATION` - Report Generation",
+        "enum": [
+          "DOCUMENT_SCAN",
+          "SCAN_REVIEW",
+          "ADDRESS_CONFIRMATION",
+          "APARTMENT_INFO",
+          "FINDINGS_OVERVIEW",
+          "FINDINGS_REVIEW",
+          "REPORT_GENERATION"
+        ],
+        "type": "string"
+      },
+      "NullEnum": {
+        "enum": [
+          null
+        ]
+      },
+      "OtpTokenRequestRequest": {
+        "properties": {
+          "client_id": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "client_secret": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "code": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          },
+          "grant_type": {
+            "default": "password",
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "phone_number": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "code",
+          "phone_number"
+        ],
+        "type": "object"
+      },
+      "OtpTokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/RhProfile"
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "access_token",
+          "expires_in",
+          "profile",
+          "refresh_token",
+          "scope",
+          "token_type"
+        ],
+        "type": "object"
+      },
+      "PhoneNumberRequestRequest": {
+        "properties": {
+          "phone_number": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone_number"
+        ],
+        "type": "object"
+      },
+      "RelationEnum": {
+        "description": "* `less` - less\n* `equal` - equal\n* `more` - more",
+        "enum": [
+          "less",
+          "equal",
+          "more"
+        ],
+        "type": "string"
+      },
+      "RhAnalysisPage": {
+        "description": "Pages used in analysis (keep=True), for GET /rh/history/analysis-pages.",
+        "properties": {
+          "end_year": {
+            "description": "The last registration year of the rent history covered by this page.",
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
+            "nullable": true,
+            "type": "integer"
+          },
+          "s3_key": {
+            "description": "S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "start_year": {
+            "description": "The first registration year of the rent history covered by this page.",
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
+            "nullable": true,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "s3_key"
+        ],
+        "type": "object"
+      },
+      "RhAnalysisPagesResponse": {
+        "properties": {
+          "pages": {
+            "items": {
+              "$ref": "#/components/schemas/RhAnalysisPage"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "pages"
+        ],
+        "type": "object"
+      },
+      "RhApiErrorResponse": {
+        "description": "Contract v3 error envelope for RH API error responses.",
+        "properties": {
+          "details": {
+            "nullable": true
+          },
+          "error": {
+            "type": "string"
+          },
+          "error_code": {
+            "$ref": "#/components/schemas/ErrorCodeEnum"
+          }
+        },
+        "required": [
+          "error",
+          "error_code"
+        ],
+        "type": "object"
+      },
+      "RhHistoryAddressResponse": {
+        "description": "Scan-extracted location fields from RhHistory (GET /rh/history/address).",
+        "properties": {
+          "address": {
+            "nullable": true,
+            "type": "string"
+          },
+          "apartment": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "address",
+          "apartment"
+        ],
+        "type": "object"
+      },
+      "RhHistoryCombinePagesOkResponse": {
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "RhHistoryConfirmAddressRequestRequest": {
+        "properties": {
+          "address": {
+            "nullable": true,
+            "type": "string"
+          },
+          "apartment": {
+            "nullable": true,
+            "type": "string"
+          },
+          "bbl": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "bin": {
+            "nullable": true,
+            "type": "string"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "bbl",
+          "history_id"
+        ],
+        "type": "object"
+      },
+      "RhHistoryConfirmAddressResponse": {
+        "properties": {
+          "bbl_units": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "bin_units": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "is_421a_nycdb": {
+            "nullable": true,
+            "type": "boolean"
+          },
+          "is_j51_nycdb": {
+            "nullable": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "bbl_units",
+          "bin_units",
+          "is_421a_nycdb",
+          "is_j51_nycdb"
+        ],
+        "type": "object"
+      },
+      "RhHistoryCreated": {
+        "description": "Minimal response for POST /rh/history (create only).",
+        "properties": {
+          "id": {
+            "description": "ID for a rent history record.",
+            "format": "uuid",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "RhHistoryIdRequestRequest": {
+        "description": "Request body or query with a single RhHistory UUID.",
+        "properties": {
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "history_id"
+        ],
+        "type": "object"
+      },
+      "RhHistoryList": {
+        "properties": {
+          "address": {
+            "description": "The address of the property, updated after user confirmation of scan extraction and map confirmation with Geosearch API.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "string"
+          },
+          "apartment": {
+            "description": "The apartment number for the history. Taken directly from the scan document. Not updated by the user when they confirm the building address. Only used to help the user identify the history if they have multiple in their account",
+            "nullable": true,
+            "readOnly": true,
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "last_step_reached": {
+            "description": "The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.\n\n* `DOCUMENT_SCAN` - Document Scan\n* `SCAN_REVIEW` - Scan Review\n* `ADDRESS_CONFIRMATION` - Address Confirmation\n* `APARTMENT_INFO` - Apartment Info\n* `FINDINGS_OVERVIEW` - Findings Overview\n* `FINDINGS_REVIEW` - Findings Review\n* `REPORT_GENERATION` - Report Generation",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LastStepReachedEnum"
+              },
+              {
+                "$ref": "#/components/schemas/NullEnum"
+              }
+            ],
+            "readOnly": true
+          },
+          "updated_at": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "address",
+          "apartment",
+          "created_at",
+          "last_step_reached",
+          "updated_at"
+        ],
+        "type": "object"
+      },
+      "RhHistoryPageDeleteResponse": {
+        "properties": {
+          "deleted_pages": {
+            "type": "integer"
+          },
+          "s3_cleanup_status": {
+            "$ref": "#/components/schemas/S3CleanupStatusEnum"
+          },
+          "s3_deleted_versions": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "deleted_pages",
+          "s3_cleanup_status"
+        ],
+        "type": "object"
+      },
+      "RhLoginStartResponse": {
+        "properties": {
+          "created": {
+            "type": "boolean"
+          },
+          "otp": {
+            "$ref": "#/components/schemas/RhOtpDelivery"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/RhProfile"
+          }
+        },
+        "required": [
+          "created",
+          "otp",
+          "profile"
+        ],
+        "type": "object"
+      },
+      "RhOtpDelivery": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RhOtpDeliveryStatusEnum"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "RhOtpDeliveryStatusEnum": {
+        "description": "* `sent` - sent\n* `pending` - pending",
+        "enum": [
+          "sent",
+          "pending"
+        ],
+        "type": "string"
+      },
+      "RhPage": {
+        "properties": {
+          "address": {
+            "description": "Address text from this page's scan extraction (same field shape as RhHistory.address; may be refined later via user Geosearch confirmation on the history).",
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "apartment": {
+            "description": "Apartment number from this page's scan extraction (same semantics as RhHistory.apartment but captured per page before combine).",
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "carry_over_fields": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CarryOverFields"
+              }
+            ],
+            "nullable": true
+          },
+          "created_at": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RhStandardizedTableRow"
+            },
+            "readOnly": true,
+            "type": "array"
+          },
+          "end_year": {
+            "description": "The last registration year of the rent history covered by this page.",
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
+            "nullable": true,
+            "type": "integer"
+          },
+          "error": {
+            "description": "Error message from the scan image extraction pipeline for this page.",
+            "nullable": true,
+            "type": "string"
+          },
+          "extra_info": {
+            "description": "Extra information about the apartment of building from the section below the table on the last page of the rent history document.",
+            "nullable": true,
+            "type": "string"
+          },
+          "gemini_usage_calls": {
+            "description": "The number of times the Gemini API was called for the image extraction pipeline for  this page. Used to track usage and billing.",
+            "nullable": true
+          },
+          "history_id": {
+            "description": "The rent history of this page.",
+            "format": "uuid",
+            "readOnly": true,
+            "type": "string"
+          },
+          "id": {
+            "readOnly": true,
+            "type": "integer"
+          },
+          "is_coverpage": {
+            "description": "Whether the page is the cover page of RH without table data",
+            "nullable": true,
+            "type": "boolean"
+          },
+          "keep": {
+            "description": "True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until combine-pages runs.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "boolean"
+          },
+          "model_id": {
+            "description": "The ID of the model used for the image extraction pipeline for this page. Used to track usage and billing.",
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "needs_retake": {
+            "description": "Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data.",
+            "type": "boolean"
+          },
+          "quality_issue_reason": {
+            "description": "The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call.",
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "s3_key": {
+            "description": "S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "start_year": {
+            "description": "The first registration year of the rent history covered by this page.",
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
+            "nullable": true,
+            "type": "integer"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "created_at",
+          "data",
+          "history_id",
+          "id",
+          "keep",
+          "needs_retake",
+          "s3_key",
+          "updated_at"
+        ],
+        "type": "object"
+      },
+      "RhPageCreateRequestRequest": {
+        "properties": {
+          "address": {
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "apartment": {
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "carry_over_fields": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CarryOverFieldsRequest"
+              }
+            ],
+            "nullable": true
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RhStandardizedTableRowRequest"
+            },
+            "type": "array"
+          },
+          "end_year": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "error": {
+            "nullable": true,
+            "type": "string"
+          },
+          "extra_info": {
+            "nullable": true,
+            "type": "string"
+          },
+          "gemini_usage_calls": {
+            "nullable": true
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "is_coverpage": {
+            "nullable": true,
+            "type": "boolean"
+          },
+          "model_id": {
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "needs_retake": {
+            "type": "boolean"
+          },
+          "profile_id": {
+            "type": "integer"
+          },
+          "quality_issue_reason": {
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "s3_key": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "start_year": {
+            "nullable": true,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "data",
+          "history_id",
+          "needs_retake",
+          "profile_id",
+          "s3_key"
+        ],
+        "type": "object"
+      },
+      "RhPageSummary": {
+        "description": "Subset of RhPage fields returned by pages-readiness on HTTP 200.",
+        "properties": {
+          "end_year": {
+            "description": "The last registration year of the rent history covered by this page.",
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
+            "nullable": true,
+            "type": "integer"
+          },
+          "error": {
+            "description": "Error message from the scan image extraction pipeline for this page.",
+            "nullable": true,
+            "type": "string"
+          },
+          "is_coverpage": {
+            "description": "Whether the page is the cover page of RH without table data",
+            "nullable": true,
+            "type": "boolean"
+          },
+          "needs_retake": {
+            "description": "Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data.",
+            "type": "boolean"
+          },
+          "quality_issue_reason": {
+            "description": "The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call.",
+            "maxLength": 255,
+            "nullable": true,
+            "type": "string"
+          },
+          "s3_key": {
+            "description": "S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "start_year": {
+            "description": "The first registration year of the rent history covered by this page.",
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
+            "nullable": true,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "needs_retake",
+          "s3_key"
+        ],
+        "type": "object"
+      },
+      "RhPagesReadinessResponse": {
+        "properties": {
+          "database": {
+            "$ref": "#/components/schemas/RhReadinessAxis"
+          },
+          "pages": {
+            "items": {
+              "$ref": "#/components/schemas/RhPageSummary"
+            },
+            "type": "array"
+          },
+          "s3": {
+            "$ref": "#/components/schemas/RhReadinessAxis"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RhPagesReadinessResponseStatusEnum"
+          }
+        },
+        "required": [
+          "database",
+          "s3",
+          "status"
+        ],
+        "type": "object"
+      },
+      "RhPagesReadinessResponseStatusEnum": {
+        "description": "* `ready` - ready\n* `pending` - pending\n* `excess` - excess",
+        "enum": [
+          "ready",
+          "pending",
+          "excess"
+        ],
+        "type": "string"
+      },
+      "RhProfile": {
+        "properties": {
+          "id": {
+            "readOnly": true,
+            "type": "integer"
+          },
+          "phone_number": {
+            "description": "E.164 US number; must match AuthUser.username.",
+            "maxLength": 20,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "phone_number"
+        ],
+        "type": "object"
+      },
+      "RhReadinessAxis": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "expected": {
+            "type": "integer"
+          },
+          "relation": {
+            "$ref": "#/components/schemas/RelationEnum"
+          }
+        },
+        "required": [
+          "count",
+          "expected",
+          "relation"
+        ],
+        "type": "object"
+      },
+      "RhStandardizedTableRow": {
+        "description": "One element of RhPage.data[]. Declares OpenAPI field types and validates request rows.",
+        "properties": {
+          "actual_rent_paid": {
+            "format": "double",
+            "nullable": true,
+            "type": "number"
+          },
+          "actual_rent_paid_text": {
+            "nullable": true,
+            "type": "string"
+          },
+          "apt_stat": {
+            "type": "string"
+          },
+          "filing_date": {
+            "nullable": true,
+            "type": "string"
+          },
+          "lease_began": {
+            "nullable": true,
+            "type": "string"
+          },
+          "lease_ends": {
+            "nullable": true,
+            "type": "string"
+          },
+          "legal_regulated_rent": {
+            "format": "double",
+            "nullable": true,
+            "type": "number"
+          },
+          "legal_regulated_rent_text": {
+            "nullable": true,
+            "type": "string"
+          },
+          "prefer_rent": {
+            "format": "double",
+            "nullable": true,
+            "type": "number"
+          },
+          "prefer_rent_text": {
+            "nullable": true,
+            "type": "string"
+          },
+          "reasons_differ_change": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "reg_type": {
+            "nullable": true,
+            "type": "string"
+          },
+          "reg_year": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "sub_lines": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "apt_stat"
+        ],
+        "type": "object"
+      },
+      "RhStandardizedTableRowRequest": {
+        "description": "One element of RhPage.data[]. Declares OpenAPI field types and validates request rows.",
+        "properties": {
+          "actual_rent_paid": {
+            "format": "double",
+            "nullable": true,
+            "type": "number"
+          },
+          "actual_rent_paid_text": {
+            "nullable": true,
+            "type": "string"
+          },
+          "apt_stat": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "filing_date": {
+            "nullable": true,
+            "type": "string"
+          },
+          "lease_began": {
+            "nullable": true,
+            "type": "string"
+          },
+          "lease_ends": {
+            "nullable": true,
+            "type": "string"
+          },
+          "legal_regulated_rent": {
+            "format": "double",
+            "nullable": true,
+            "type": "number"
+          },
+          "legal_regulated_rent_text": {
+            "nullable": true,
+            "type": "string"
+          },
+          "prefer_rent": {
+            "format": "double",
+            "nullable": true,
+            "type": "number"
+          },
+          "prefer_rent_text": {
+            "nullable": true,
+            "type": "string"
+          },
+          "reasons_differ_change": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "reg_type": {
+            "nullable": true,
+            "type": "string"
+          },
+          "reg_year": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "sub_lines": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "apt_stat"
+        ],
+        "type": "object"
+      },
+      "S3CleanupStatusEnum": {
+        "description": "* `deleted` - deleted\n* `failed` - failed",
+        "enum": [
+          "deleted",
+          "failed"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "Static service bearer token (RH_API_TOKEN). Used only by lambda-callable endpoints.",
+        "scheme": "bearer",
+        "type": "http"
+      },
+      "oauth2": {
+        "description": "OAuth2 access token issued by POST /rh/verify-otp-token. Send as `Authorization: Bearer <access_token>`.",
+        "flows": {
+          "password": {
+            "scopes": {
+              "all": "Full access"
+            },
+            "tokenUrl": "/rh/verify-otp-token"
+          }
+        },
+        "type": "oauth2"
+      }
+    }
+  },
+  "info": {
+    "description": "Public OpenAPI 3 schema for the Rent History (`/rh`) endpoints exposed by the JustFix authentication provider. Protected endpoints expect a Bearer access token issued by `POST /rh/verify-otp-token`; the lambda-callable endpoint accepts the static `RH_API_TOKEN` bearer.",
+    "title": "JustFix Auth Provider API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.3",
+  "paths": {
+    "/rh/histories": {
+      "get": {
+        "description": "Returns the authenticated user's RhHistories ordered by `created_at` descending. The list endpoint uses a slim serializer; fetch details via the page endpoints.",
+        "operationId": "histories_list",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RhHistoryList"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "No RhProfile for the resource owner."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "List the resource owner's rent histories",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history": {
+      "post": {
+        "description": "Creates a new RhHistory tied to the authenticated user's RhProfile. Requires a valid OAuth2 access token in the `Authorization: Bearer` header.",
+        "operationId": "history_create",
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryCreated"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "No RhProfile for the resource owner."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Create a new RhHistory for the resource owner",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/address": {
+      "get": {
+        "description": "Returns `apartment` and `address` stored on the RhHistory after combine-pages (from scanned rent history pages). Used to bootstrap address confirmation in the rent-history app.",
+        "operationId": "history_address_retrieve",
+        "parameters": [
+          {
+            "description": "UUID of the RhHistory whose address fields should be returned.",
+            "in": "query",
+            "name": "history_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryAddressResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Missing or invalid history_id."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Get scan-extracted address for a RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/analysis-pages": {
+      "get": {
+        "description": "Returns RhPage records with keep=True for this history (pages used in analysis after combine-pages). Sorted by start_year ascending. Each item includes start_year, end_year, and s3_key.",
+        "operationId": "history_analysis_pages_retrieve",
+        "parameters": [
+          {
+            "description": "UUID of the RhHistory whose analysis pages should be returned.",
+            "in": "query",
+            "name": "history_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhAnalysisPagesResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Missing or invalid history_id."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "List analysis RhPages for a given RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/combine-pages": {
+      "post": {
+        "description": "Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial. Does not return the merged table.",
+        "operationId": "history_combine_pages_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistoryIdRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryCombinePagesOkResponse"
+                }
+              }
+            },
+            "description": "Combine completed and history updated."
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation failed (e.g. non-contiguous reg_year)."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Combine RhPages into RhHistory.data_initial",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/confirm-address": {
+      "post": {
+        "description": "Updates address, apartment, bbl, and bin on an existing RhHistory, queries NYCDB for building unit counts and active program flags, sets last_step_reached to ADDRESS_CONFIRMATION, and returns the resolved values.",
+        "operationId": "history_confirm_address_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistoryConfirmAddressRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryConfirmAddressResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "No RhProfile or matching RhHistory."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "NYCDB is not configured or unavailable."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Confirm address and look up NYCDB building info",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/delete-pages": {
+      "post": {
+        "description": "Deletes all RhPage records for the given RhHistory belonging to the authenticated user. Also performs best-effort cleanup of versioned S3 objects under `<profile_id>/<history_id>/` in `RH_SCAN_BUCKET`.",
+        "operationId": "history_delete_pages_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistoryIdRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryPageDeleteResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Delete RhPage scan data for a given RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/page": {
+      "post": {
+        "description": "Lambda-callable endpoint to record a scanned page. Authenticates via the static `RH_API_TOKEN` bearer rather than OAuth, since it is invoked from server-side AWS Lambda. The history must belong to the given profile.",
+        "operationId": "history_page_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhPageCreateRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhPage"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error or history/profile mismatch."
+          },
+          "401": {
+            "description": "Missing or invalid bearer token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Create an RhPage (lambda-only)",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/pages-readiness": {
+      "get": {
+        "description": "Compares S3 object count under `<profile_id>/<history_id>/` and `RhPage` row count to client `num_pages`. Each axis returns `count`, `expected`, and `relation` (`less`, `equal`, `more`). HTTP 200 `status`: `ready` (both equal, includes `pages`), `pending` (still processing), or `excess` (more than `num_pages` on either axis). HTTP 400 is query validation only. HTTP 503 when DB count exceeds S3 count (invariant violation) or storage is misconfigured.",
+        "operationId": "history_pages_readiness_retrieve",
+        "parameters": [
+          {
+            "description": "UUID of the RhHistory to check.",
+            "in": "query",
+            "name": "history_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of pages the client believes were scanned (minimum 1).",
+            "in": "query",
+            "name": "num_pages",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhPagesReadinessResponse"
+                }
+              }
+            },
+            "description": "Readiness check succeeded (ready, pending, or excess)."
+          },
+          "400": {
+            "description": "Invalid history_id or num_pages."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Storage misconfiguration, S3 failure, or DB count exceeds S3 count."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Scan upload and extraction readiness for a RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/login/start": {
+      "post": {
+        "description": "Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).",
+        "operationId": "login_start_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhoneNumberRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhLoginStartResponse"
+                }
+              }
+            },
+            "description": "Profile upserted and OTP issued."
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid phone number."
+          }
+        },
+        "summary": "Start RH login (upsert profile and request OTP)",
+        "tags": [
+          "OTP"
+        ]
+      }
+    },
+    "/rh/profile": {
+      "get": {
+        "description": "Returns the RhProfile of the authenticated user (the OAuth2 resource owner).",
+        "operationId": "profile_retrieve",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhProfile"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "No RhProfile for the resource owner."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Fetch the resource owner's profile",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/rh/verify-otp-token": {
+      "post": {
+        "description": "Validates a previously issued OTP against the supplied phone number and (if successful) issues an OAuth2 access token and refresh token tied to the provided OAuth Application (`client_id` / `client_secret`). The Application must be configured with the password grant type. The returned `refresh_token` can be exchanged at the standard OAuth2 token endpoint (`POST /o/token/` with `grant_type=refresh_token`) for a new access token.",
+        "operationId": "verify_otp_token_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpTokenRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtpTokenResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid input, expired OTP, wrong grant type, or unauthorized client."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid client credentials."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "No user found with this phone number."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Too many invalid attempts; request a new code."
+          }
+        },
+        "summary": "Exchange an OTP for OAuth tokens",
+        "tags": [
+          "OTP"
+        ]
+      }
+    }
+  }
+}

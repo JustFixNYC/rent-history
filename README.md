@@ -15,23 +15,25 @@ The post-OTP routes are protected and require a valid session token produced by 
 - Runtime contract endpoint is `GET /rh/schema` from `auth-provider`.
 - Canonical committed contract artifact is `auth-provider/rh/openapi/openapi.json`.
 - Generated account API types live at `src/api/generated/account-openapi.d.ts` (committed; not gitignored).
-- When backend `rh/` API contract changes, export and commit `openapi.json` in auth-provider, then regenerate and commit frontend types:
+- When backend `rh/` API contract changes, export and commit `openapi.json` in auth-provider, copy it into rent-history, then regenerate and commit frontend types:
 
 ```bash
-# From rent-history, with auth-provider checked out as a sibling directory:
+# After auth-provider exports rh/openapi/openapi.json:
+cp ../auth-provider/rh/openapi/openapi.json src/api/contract/account-openapi.json
 yarn generate:api:account
 ```
 
 - `yarn generate:api` is an alias for `generate:api:account` (data-api codegen is deferred).
-- Input path default: `../auth-provider/rh/openapi/openapi.json` (see `package.json` scripts).
-- **CI:** GitHub Actions (`.github/workflows/account-openapi-contract.yml`) checks out private `JustFixNYC/auth-provider` at `codegen` as a sibling repo and fails if `yarn generate:api:account` would change the committed `.d.ts`. This requires an org admin to enable cross-repo Actions access on **auth-provider** (Settings → Actions → General → allow workflows from other repositories in the `JustFixNYC` organization). Fork PRs from outside the org cannot use that access and may fail this job.
-- **Netlify / no sibling repo:** Builds use the committed `account-openapi.d.ts`; copy `auth-provider/rh/openapi/openapi.json` locally (or clone auth-provider beside rent-history) before running `yarn generate:api:account` when the contract changes.
+- Pinned spec for codegen and CI: `src/api/contract/account-openapi.json` (copy of auth-provider’s committed artifact).
+- **CI:** GitHub Actions (`.github/workflows/account-openapi-contract.yml`) regenerates from the pinned spec and fails if `yarn generate:api:account` would change the committed `.d.ts`.
+- **Netlify / builds:** Use the committed `account-openapi.d.ts` only; no auth-provider checkout required at build time.
 - When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR (hook migrations follow the Tier 1 codegen plan).
 
 ## `src/api/` layout
 
 | Path | Role |
 |------|------|
+| `contract/account-openapi.json` | Pinned OpenAPI spec (sync from auth-provider on contract changes) |
 | `generated/account-openapi.d.ts` | Committed OpenAPI types (`yarn generate:api:account`) |
 | `account/` | Typed openapi-fetch client, imperative `/rh/*` API (`api.ts`), errors, types, TanStack Query hooks (`index.ts` barrel) |
 | `data/README.md` | Placeholder for a future read-only data API (not used in v1) |
