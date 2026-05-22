@@ -3,7 +3,7 @@ import {
   createAccountClient,
   unwrapAccountResponse,
 } from "./client";
-import { parseRhJsonError, RhAuthApiError } from "./errors";
+import { accountApiUnexpectedShapeError } from "./errors";
 import type {
   RhAnalysisPage,
   RhHistoryAddressResponse,
@@ -135,7 +135,7 @@ export const combineRhHistoryPages = (
 /**
  * `GET /rh/history/pages-readiness` — OAuth2 bearer.
  * HTTP 200 with `status`: `ready` | `pending` | `excess`. Query validation and
- * server errors throw `RhAuthApiError`.
+ * server errors throw `AccountApiError`.
  */
 export const getRhHistoryPagesReadiness = (
   accessToken: string,
@@ -162,25 +162,16 @@ export const getRhHistoryAnalysisPages = async (
   accessToken: string,
   historyId: string
 ): Promise<RhAnalysisPage[]> => {
-  const { data, error, response } = await getAccountClient().GET(
-    "/rh/history/analysis-pages",
-    {
+  const data = await unwrapAccountResponse(
+    getAccountClient().GET("/rh/history/analysis-pages", {
       headers: bearerHeaders(accessToken),
       params: { query: { history_id: historyId } },
-    }
+    })
   );
 
-  if (error !== undefined) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(error, response),
-      error
-    );
-  }
-
   if (!Array.isArray(data)) {
-    throw new RhAuthApiError(
-      response.status,
+    throw accountApiUnexpectedShapeError(
+      200,
       "Unexpected analysis-pages response shape.",
       data
     );
@@ -197,21 +188,12 @@ export const getRhHistoryAddress = async (
   accessToken: string,
   historyId: string
 ): Promise<RhHistoryAddressResponse> => {
-  const { data, error, response } = await getAccountClient().GET(
-    "/rh/history/address",
-    {
+  const data = await unwrapAccountResponse(
+    getAccountClient().GET("/rh/history/address", {
       headers: bearerHeaders(accessToken),
       params: { query: { history_id: historyId } },
-    }
+    })
   );
-
-  if (error !== undefined) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(error, response),
-      error
-    );
-  }
 
   if (
     typeof data !== "object" ||
@@ -219,8 +201,8 @@ export const getRhHistoryAddress = async (
     !("apartment" in data) ||
     !("address" in data)
   ) {
-    throw new RhAuthApiError(
-      response.status,
+    throw accountApiUnexpectedShapeError(
+      200,
       "Unexpected history address response shape.",
       data
     );

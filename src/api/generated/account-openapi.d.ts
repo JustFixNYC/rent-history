@@ -75,7 +75,7 @@ export interface paths {
          * List analysis RhPages for a given RhHistory
          * @description Returns RhPage records with keep=True for this history (pages used in analysis after combine-pages). Sorted by start_year ascending. Each item includes start_year, end_year, and s3_key.
          */
-        get: operations["history_analysis_pages_list"];
+        get: operations["history_analysis_pages_retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -184,6 +184,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/login/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start RH login (upsert profile and request OTP)
+         * @description Composite login step: upserts the RhProfile for the phone number (same semantics as `POST /rh/phone`) and issues/sends an OTP (same semantics as `POST /rh/request-otp`). Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).
+         */
+        post: operations["login_start_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/phone": {
         parameters: {
             query?: never;
@@ -195,7 +215,7 @@ export interface paths {
         put?: never;
         /**
          * Create or fetch an RH profile by phone number
-         * @description Idempotent: returns HTTP 200 with the profile and a `created` flag (`false` if the profile already existed, `true` if a new RhProfile and AuthUser were created). Phone numbers are normalized to E.164 (US).
+         * @description **Deprecated:** prefer `POST /rh/login/start`, which upserts the profile and issues an OTP in one request. Idempotent: returns HTTP 200 with the profile and a `created` flag (`false` if the profile already existed, `true` if a new RhProfile and AuthUser were created). Phone numbers are normalized to E.164 (US).
          */
         post: operations["phone_create"];
         delete?: never;
@@ -235,7 +255,7 @@ export interface paths {
         put?: never;
         /**
          * Send a one-time passcode via SMS
-         * @description Generates and stores a one-time passcode for the given phone number and sends it via SMS. The phone number must already correspond to an existing RhProfile. Returns `status: sent` if the SMS was dispatched, `status: pending` if SMS delivery is queued or disabled.
+         * @description **Deprecated:** prefer `POST /rh/login/start` for the combined upsert + OTP flow. Generates and stores a one-time passcode for the given phone number and sends it via SMS. The phone number must already correspond to an existing RhProfile. Returns `status: sent` if the SMS was dispatched, `status: pending` if SMS delivery is queued or disabled.
          */
         post: operations["request_otp_create"];
         delete?: never;
@@ -290,9 +310,28 @@ export interface components {
             reasons_differ_change?: string[];
             sub_lines?: string[];
         };
-        ErrorResponse: {
-            error: string;
-        };
+        /**
+         * @description * `otp_expired` - OTP expired
+         *     * `otp_invalid` - OTP invalid
+         *     * `otp_locked` - OTP locked
+         *     * `profile_not_found` - Profile not found
+         *     * `history_not_found` - History not found
+         *     * `rh_profile_not_found` - RH profile not found
+         *     * `rh_history_not_found` - RH history not found
+         *     * `history_profile_mismatch` - History does not belong to profile
+         *     * `invalid_phone_number` - Invalid phone number
+         *     * `validation_error` - Validation error
+         *     * `invalid_client` - Invalid OAuth client
+         *     * `unauthorized_client` - Unauthorized OAuth client
+         *     * `nycdb_not_configured` - NYCDB not configured
+         *     * `nycdb_query_failed` - NYCDB query failed
+         *     * `combine_pages_failed` - Combine pages failed
+         *     * `storage_not_configured` - Storage not configured
+         *     * `storage_read_failed` - Storage read failed
+         *     * `pages_sync_error` - Pages out of sync with scans
+         * @enum {string}
+         */
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "pages_sync_error";
         /**
          * @description * `DOCUMENT_SCAN` - Document Scan
          *     * `SCAN_REVIEW` - Scan Review
@@ -308,14 +347,8 @@ export interface components {
         NullEnum: null;
         OtpRequestResponse: {
             message?: string;
-            status: components["schemas"]["OtpRequestResponseStatusEnum"];
+            status: components["schemas"]["Status13eEnum"];
         };
-        /**
-         * @description * `sent` - sent
-         *     * `pending` - pending
-         * @enum {string}
-         */
-        OtpRequestResponseStatusEnum: "sent" | "pending";
         OtpTokenRequestRequest: {
             client_id: string;
             client_secret?: string;
@@ -356,6 +389,15 @@ export interface components {
              * @description The first registration year of the rent history covered by this page.
              */
             start_year?: number | null;
+        };
+        RhAnalysisPagesResponse: {
+            pages: components["schemas"]["RhAnalysisPage"][];
+        };
+        /** @description Contract v3 error envelope for RH API error responses. */
+        RhApiErrorResponse: {
+            details?: unknown;
+            error: string;
+            error_code: components["schemas"]["ErrorCodeEnum"];
         };
         /** @description Scan-extracted location fields from RhHistory (GET /rh/history/address). */
         RhHistoryAddressResponse: {
@@ -418,6 +460,15 @@ export interface components {
             deleted_pages: number;
             s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
             s3_deleted_versions?: number;
+        };
+        RhLoginStartResponse: {
+            created: boolean;
+            otp: components["schemas"]["RhOtpDelivery"];
+            profile: components["schemas"]["RhProfile"];
+        };
+        RhOtpDelivery: {
+            message?: string;
+            status: components["schemas"]["Status13eEnum"];
         };
         RhPage: {
             /** @description Address text from this page's scan extraction (same field shape as RhHistory.address; may be refined later via user Geosearch confirmation on the history). */
@@ -580,6 +631,12 @@ export interface components {
          * @enum {string}
          */
         S3CleanupStatusEnum: "deleted" | "failed";
+        /**
+         * @description * `sent` - sent
+         *     * `pending` - pending
+         * @enum {string}
+         */
+        Status13eEnum: "sent" | "pending";
     };
     responses: never;
     parameters: never;
@@ -618,7 +675,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
             };
         };
     };
@@ -651,7 +710,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
             };
         };
     };
@@ -695,12 +756,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
     };
-    history_analysis_pages_list: {
+    history_analysis_pages_retrieve: {
         parameters: {
             query: {
                 /** @description UUID of the RhHistory whose analysis pages should be returned. */
@@ -717,7 +778,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RhAnalysisPage"][];
+                    "application/json": components["schemas"]["RhAnalysisPagesResponse"];
                 };
             };
             /** @description Missing or invalid history_id. */
@@ -725,7 +786,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
             };
             /** @description Missing or invalid access token. */
             401: {
@@ -740,7 +803,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
@@ -773,7 +836,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
             /** @description Missing or invalid access token. */
@@ -789,7 +852,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
@@ -835,7 +898,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
             /** @description NYCDB is not configured or unavailable. */
@@ -844,7 +907,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
@@ -890,7 +953,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
@@ -922,7 +985,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
             /** @description Missing or invalid bearer token. */
@@ -938,7 +1001,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
@@ -986,7 +1049,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
             /** @description Storage misconfiguration, S3 failure, or DB count exceeds S3 count. */
@@ -995,7 +1058,40 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    login_start_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PhoneNumberRequestRequest"];
+            };
+        };
+        responses: {
+            /** @description Profile upserted and OTP issued. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhLoginStartResponse"];
+                };
+            };
+            /** @description Invalid phone number. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
@@ -1027,7 +1123,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
             };
         };
     };
@@ -1060,7 +1158,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
             };
         };
     };
@@ -1090,7 +1190,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
             };
             /** @description No user found with this phone number. */
             404: {
@@ -1098,7 +1200,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };
@@ -1130,7 +1232,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
             /** @description Invalid client credentials. */
@@ -1139,7 +1241,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
             /** @description No user found with this phone number. */
@@ -1148,7 +1250,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
             /** @description Too many invalid attempts; request a new code. */
@@ -1157,7 +1259,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
                 };
             };
         };

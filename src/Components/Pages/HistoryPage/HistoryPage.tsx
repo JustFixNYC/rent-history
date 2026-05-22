@@ -4,7 +4,7 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
-import { RhAuthApiError, useCreateRhHistory } from "../../../api/account";
+import { isAccountApiError, useCreateRhHistory } from "../../../api/account";
 import {
   getRhHistoryId,
   getRhAuthSession,
@@ -47,7 +47,7 @@ const HistoryPage: React.FC = () => {
       await getOrCreateHistoryId();
       navigate(`/${i18n.locale}/scanner`);
     } catch (error) {
-      if (error instanceof RhAuthApiError) {
+      if (isAccountApiError(error)) {
         setHistoryError(error.message);
       } else {
         setHistoryError(

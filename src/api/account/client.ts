@@ -1,6 +1,6 @@
 import createClient from "openapi-fetch";
 import type { paths } from "../generated/account-openapi";
-import { parseRhJsonError, RhAuthApiError } from "./errors";
+import { accountApiErrorFromResponse } from "./errors";
 
 export type AccountClient = ReturnType<typeof createClient<paths>>;
 
@@ -43,26 +43,18 @@ type FetchResult<T> = {
   response: Response;
 };
 
-/** Throws `RhAuthApiError` when openapi-fetch returns `error` or missing `data`. */
+/** Throws `AccountApiError` when openapi-fetch returns `error` or missing `data`. */
 export const unwrapAccountResponse = async <T>(
   result: Promise<FetchResult<T>>
 ): Promise<T> => {
   const { data, error, response } = await result;
 
   if (error !== undefined) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(error, response),
-      error
-    );
+    throw accountApiErrorFromResponse(response.status, error, response);
   }
 
   if (data === undefined) {
-    throw new RhAuthApiError(
-      response.status,
-      `Request failed with status ${response.status}.`,
-      undefined
-    );
+    throw accountApiErrorFromResponse(response.status, undefined, response);
   }
 
   return data;

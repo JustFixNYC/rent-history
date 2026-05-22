@@ -9,8 +9,6 @@ import {
   upsertRhPhone,
   verifyRhOtp,
 } from "./api";
-import { RhAuthApiError } from "./errors";
-
 const jsonResponse = (body: unknown, init: ResponseInit): Response =>
   new Response(JSON.stringify(body), {
     ...init,
@@ -332,16 +330,27 @@ describe("getRhHistoryPagesReadiness", () => {
     expect(result.profile.phone_number).toBe("+15551234567");
   });
 
-  it("throws RhAuthApiError on 400 validation (no readiness axes)", async () => {
+  it("throws AccountApiError on 400 validation (no readiness axes)", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      jsonResponse({ num_pages: ["Invalid"] }, { status: 400 })
+      jsonResponse(
+        {
+          error: "Validation failed.",
+          error_code: "validation_error",
+          details: { num_pages: ["Invalid"] },
+        },
+        { status: 400 }
+      )
     );
 
     await expect(
       getRhHistoryPagesReadiness("access-token", historyId, 0)
-    ).rejects.toThrow(RhAuthApiError);
+    ).rejects.toMatchObject({
+      name: "AccountApiError",
+      status: 400,
+      errorCode: "validation_error",
+    });
   });
 
   it("throws on 401", async () => {

@@ -8,7 +8,10 @@ import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, TextInput } from "@justfixnyc/component-library";
 import {
-  RhAuthApiError,
+  isAccountApiError,
+  otpVerificationMessage,
+  phoneLoginMessage,
+  phoneResendMessage,
   RhProfile,
   useRequestRhOtp,
   useUpsertRhPhone,
@@ -99,10 +102,8 @@ const LoginPage: React.FC = () => {
       );
       setIsVerificationStep(true);
     } catch (error) {
-      if (error instanceof RhAuthApiError && error.status === 400) {
-        setPhoneError(_(msg`Please enter a valid phone number.`));
-      } else if (error instanceof RhAuthApiError) {
-        setPhoneError(error.message);
+      if (isAccountApiError(error)) {
+        setPhoneError(phoneLoginMessage(error, _));
       } else {
         setPhoneError(
           _(msg`Something went wrong while sending your verification code.`)
@@ -125,25 +126,8 @@ const LoginPage: React.FC = () => {
       clearRhHistoryId();
       navigate(`/${i18n.locale}/${profileCreated ? "history" : "account"}`);
     } catch (error) {
-      if (error instanceof RhAuthApiError) {
-        if (error.status === 429) {
-          setVerificationError(
-            _(msg`Too many invalid attempts. Request a new code.`)
-          );
-        } else if (
-          error.status === 400 &&
-          error.message.toLowerCase().includes("expired")
-        ) {
-          setVerificationError(_(msg`Your code expired. Request a new code.`));
-        } else if (error.status === 400) {
-          setVerificationError(_(msg`That code is incorrect. Try again.`));
-        } else if (error.status === 404) {
-          setVerificationError(
-            _(msg`We could not find an account for this phone number.`)
-          );
-        } else {
-          setVerificationError(error.message);
-        }
+      if (isAccountApiError(error)) {
+        setVerificationError(otpVerificationMessage(error, _));
       } else {
         setVerificationError(
           _(msg`Something went wrong while verifying your code.`)
@@ -164,12 +148,8 @@ const LoginPage: React.FC = () => {
           : _(msg`A new code has been sent.`)
       );
     } catch (error) {
-      if (error instanceof RhAuthApiError && error.status === 400) {
-        setVerificationError(
-          _(msg`Please confirm your phone number and try again.`)
-        );
-      } else if (error instanceof RhAuthApiError) {
-        setVerificationError(error.message);
+      if (isAccountApiError(error)) {
+        setVerificationError(phoneResendMessage(error, _));
       } else {
         setVerificationError(
           _(msg`Unable to resend code right now. Please try again.`)

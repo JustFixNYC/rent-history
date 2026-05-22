@@ -5,7 +5,17 @@ export {
   type AccountClient,
   type GetAccessToken,
 } from "./client";
-export { parseRhJsonError, RhAuthApiError } from "./errors";
+export {
+  AccountApiError,
+  accountApiErrorFromResponse,
+  accountApiUnexpectedShapeError,
+  isAccountApiError,
+  otpVerificationMessage,
+  parseAccountErrorBody,
+  phoneLoginMessage,
+  phoneResendMessage,
+  type AccountApiErrorBody,
+} from "./errors";
 export type {
   OtpRequestResponse,
   OtpRequestStatus,

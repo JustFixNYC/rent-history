@@ -2,8 +2,8 @@ import type { components } from "../generated/account-openapi";
 
 type Schemas = components["schemas"];
 
-/** OpenAPI `OtpRequestResponseStatusEnum`. */
-export type OtpRequestStatus = Schemas["OtpRequestResponseStatusEnum"];
+/** OTP delivery status from `OtpRequestResponse.status`. */
+export type OtpRequestStatus = Schemas["OtpRequestResponse"]["status"];
 
 export type OtpRequestResponse = Schemas["OtpRequestResponse"];
 

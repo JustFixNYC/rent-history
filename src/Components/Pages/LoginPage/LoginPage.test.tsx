@@ -11,7 +11,7 @@ import {
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import LoginPage from "./LoginPage";
-import { RhAuthApiError } from "../../../api/account";
+import { AccountApiError } from "../../../api/account";
 import * as accountApi from "../../../api/account/api";
 import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
@@ -132,7 +132,10 @@ describe("LoginPage OTP verification", () => {
     });
     vi.mocked(accountApi.requestRhOtp).mockResolvedValue({ status: "sent" });
     vi.mocked(accountApi.verifyRhOtp).mockRejectedValue(
-      new RhAuthApiError(400, "Code expired")
+      new AccountApiError(
+        400,
+        { error: "Code expired.", error_code: "otp_expired" }
+      )
     );
 
     renderLoginPage();

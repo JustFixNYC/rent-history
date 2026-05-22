@@ -15,7 +15,7 @@ import {
 import {
   accountQueryKeys,
   deleteRhHistoryPages,
-  RhAuthApiError,
+  isAccountApiError,
   useCombineRhHistoryPages,
   useRhHistoryAnalysisPages,
   useRhPagesReadiness,
@@ -199,7 +199,7 @@ const Scanner: React.FC = () => {
         return;
       }
       const message =
-        readinessError instanceof RhAuthApiError
+        isAccountApiError(readinessError)
           ? readinessError.message
           : readinessError instanceof Error
           ? readinessError.message
@@ -428,7 +428,7 @@ const Scanner: React.FC = () => {
       const fallback = _(
         msg`We couldn't combine your pages. Please try again.`
       );
-      setCombineError(err instanceof RhAuthApiError ? err.message : fallback);
+      setCombineError(isAccountApiError(err) ? err.message : fallback);
     }
   };
 

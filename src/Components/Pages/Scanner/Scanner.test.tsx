@@ -12,7 +12,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import Scanner from "./Scanner";
-import { RhAuthApiError } from "../../../api/account";
+import { AccountApiError } from "../../../api/account";
 import * as accountApi from "../../../api/account/api";
 import {
   getRhSessionAnalysisPages,
@@ -195,7 +195,10 @@ describe("Scanner Next button", () => {
 
   it("shows backend error message and stays on scanner when combine-pages fails", async () => {
     vi.mocked(accountApi.combineRhHistoryPages).mockRejectedValue(
-      new RhAuthApiError(400, "reg_year sequence is not contiguous")
+      new AccountApiError(400, {
+        error: "reg_year sequence is not contiguous",
+        error_code: "validation_error",
+      })
     );
 
     renderScanner();
