@@ -103,13 +103,15 @@ const Scanner: React.FC = () => {
           enableFrameVerification: true,
           showPoweredByDynamsoft: false,
           scanRegion: {
-            x: 10,
-            y: 14,
-            width: 80,
-            height: 72,
-            isMeasuredInPercentage: true,
-            strokeColor: "#7fd8ff",
-            strokeWidth: 2,
+            ratio: {
+              width: 2,
+              height: 3,
+            },
+            regionBottomMargin: 24,
+            style: {
+              strokeColor: "#7fd8ff",
+              strokeWidth: 2,
+            },
           },
         },
         container: "#rh-scanner-container",
