@@ -1,5 +1,6 @@
 import { DocumentScanner } from "dynamsoft-document-scanner";
 import { ReactNode, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Trans } from "@lingui/react/macro";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
@@ -41,6 +42,38 @@ const OPTIONS: EmblaOptionsType = {};
 const POLL_INITIAL_MS = 1500;
 const POLL_CAP_MS = 15000;
 const POLL_MAX_TOTAL_MS = 180000;
+
+// US Letter portrait (8.5" × 11") — viewport overlay only; not passed to Dynamsoft.
+const US_LETTER_WIDTH = 8.5;
+const US_LETTER_HEIGHT = 11;
+
+const CONTINUOUS_SCAN_DONE_LABEL_PATTERN = /^Done \((\d+)\)$/;
+
+/** MDS overwrites `.dce-mn-continuous-scan-done-text` with hardcoded "Done (n)" at runtime. */
+const patchContinuousScanDoneLabels = (
+  formatLabel: (count: number) => string
+): void => {
+  const patchElement = (el: Element): void => {
+    const current = el.textContent ?? "";
+    const match = current.match(CONTINUOUS_SCAN_DONE_LABEL_PATTERN);
+    if (match) {
+      el.textContent = formatLabel(Number(match[1]));
+    }
+  };
+
+  const walk = (root: Document | ShadowRoot | Element): void => {
+    root
+      .querySelectorAll(".dce-mn-continuous-scan-done-text")
+      .forEach(patchElement);
+    root.querySelectorAll("*").forEach((el) => {
+      if (el.shadowRoot) {
+        walk(el.shadowRoot);
+      }
+    });
+  };
+
+  walk(document);
+};
 
 const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => {
@@ -376,7 +409,8 @@ const Scanner: React.FC = () => {
   const canStartScan = Boolean(readScanKeyPrefix());
 
   const launchScanner = async () => {
-    if (!readScanKeyPrefix()) return;
+    const activeScanner = scanner;
+    if (!readScanKeyPrefix() || !activeScanner) return;
     setReadinessPhase("idle");
     setReadinessErrorMessage(null);
     setCombineError(null);
@@ -384,7 +418,17 @@ const Scanner: React.FC = () => {
     setScanStatus("scanning");
     pageNumber.current = 1;
     replaceRhSessionScanKeys([]);
-    await scanner?.launch();
+    const formatContinuousScanDoneLabel = (count: number): string =>
+      `${_(msg`Finish scanning`)} (${count})`;
+    const labelPatchInterval = window.setInterval(
+      () => patchContinuousScanDoneLabels(formatContinuousScanDoneLabel),
+      100
+    );
+    try {
+      await activeScanner.launch();
+    } finally {
+      window.clearInterval(labelPatchInterval);
+    }
     numPagesAfterScanRef.current = Math.max(0, pageNumber.current - 1);
     setReadinessPhase("processing");
     setScanStatus("complete");
@@ -452,11 +496,21 @@ const Scanner: React.FC = () => {
       </section>
       <div className="page__content">
         {scanStatus === "waiting" && scanTips}
-        {scanStatus === "scanning" && (
-          <h2>
-            <Trans>Scanning in progress...</Trans>
-          </h2>
-        )}
+        {scanStatus === "scanning" &&
+          createPortal(
+            <div className="scanner-scan-guide" aria-hidden="true">
+              <p className="scanner-scan-guide__hint" aria-live="polite">
+                <Trans>Looking for your document</Trans>
+              </p>
+              <div
+                className="scanner-scan-guide__frame"
+                style={{
+                  aspectRatio: `${US_LETTER_WIDTH} / ${US_LETTER_HEIGHT}`,
+                }}
+              />
+            </div>,
+            document.body
+          )}
         {scanStatus === "complete" && (
           <section className="scanner-complete">
             {readinessPhase === "processing" && (
