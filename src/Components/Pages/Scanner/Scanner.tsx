@@ -104,9 +104,10 @@ const Scanner: React.FC = () => {
           enableFrameVerification: true,
           showPoweredByDynamsoft: false,
           scanRegion: {
+            // US Letter portrait (8.5" × 11")
             ratio: {
-              width: 2,
-              height: 3,
+              width: 17,
+              height: 22,
             },
             regionBottomMargin: 24,
             style: {
