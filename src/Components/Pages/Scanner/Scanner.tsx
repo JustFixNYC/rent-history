@@ -102,7 +102,17 @@ const Scanner: React.FC = () => {
           showSubfooter: false,
           enableFrameVerification: true,
           showPoweredByDynamsoft: false,
+          scanRegion: {
+            x: 10,
+            y: 14,
+            width: 80,
+            height: 72,
+            isMeasuredInPercentage: true,
+            strokeColor: "#7fd8ff",
+            strokeWidth: 2,
+          },
         },
+        container: "#rh-scanner-container",
         onDocumentScanned: async (result) => {
           const prefix = readScanKeyPrefix();
           if (!prefix) {
@@ -452,11 +462,32 @@ const Scanner: React.FC = () => {
       </section>
       <div className="page__content">
         {scanStatus === "waiting" && scanTips}
-        {scanStatus === "scanning" && (
-          <h2>
-            <Trans>Scanning in progress...</Trans>
-          </h2>
-        )}
+        <section
+          className={
+            scanStatus === "scanning"
+              ? "scanner-stage scanner-stage--active"
+              : "scanner-stage"
+          }
+          aria-live="polite"
+        >
+          {scanStatus === "scanning" && (
+            <h2>
+              <Trans>Scanning in progress...</Trans>
+            </h2>
+          )}
+          <div className="scanner-stage__viewport">
+            <div
+              id="rh-scanner-container"
+              className="scanner-stage__container"
+              aria-hidden="true"
+            />
+            {scanStatus === "scanning" && (
+              <p className="scanner-stage__overlay">
+                <Trans>Looking for your document</Trans>
+              </p>
+            )}
+          </div>
+        </section>
         {scanStatus === "complete" && (
           <section className="scanner-complete">
             {readinessPhase === "processing" && (
