@@ -43,6 +43,12 @@ const POLL_INITIAL_MS = 1500;
 const POLL_CAP_MS = 15000;
 const POLL_MAX_TOTAL_MS = 180000;
 
+// US Letter portrait (8.5" × 11"). CSS guide uses true viewport aspect ratio;
+// Dynamsoft scanRegion is kept for detection but its on-screen mask can look
+// narrower when the camera preview is letterboxed.
+const US_LETTER_WIDTH = 8.5;
+const US_LETTER_HEIGHT = 11;
+
 const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -104,15 +110,14 @@ const Scanner: React.FC = () => {
           enableFrameVerification: true,
           showPoweredByDynamsoft: false,
           scanRegion: {
-            // US Letter portrait (8.5" × 11")
             ratio: {
-              width: 17,
-              height: 22,
+              width: US_LETTER_WIDTH * 2,
+              height: US_LETTER_HEIGHT * 2,
             },
             regionBottomMargin: 24,
             style: {
-              strokeColor: "#7fd8ff",
-              strokeWidth: 2,
+              strokeColor: "transparent",
+              strokeWidth: 0,
             },
           },
         },
@@ -467,9 +472,17 @@ const Scanner: React.FC = () => {
         {scanStatus === "waiting" && scanTips}
         {scanStatus === "scanning" &&
           createPortal(
-            <p className="scanner-scan-overlay" aria-live="polite">
-              <Trans>Looking for your document</Trans>
-            </p>,
+            <div className="scanner-scan-guide" aria-hidden="true">
+              <p className="scanner-scan-guide__hint" aria-live="polite">
+                <Trans>Looking for your document</Trans>
+              </p>
+              <div
+                className="scanner-scan-guide__frame"
+                style={{
+                  aspectRatio: `${US_LETTER_WIDTH} / ${US_LETTER_HEIGHT}`,
+                }}
+              />
+            </div>,
             document.body
           )}
         {scanStatus === "complete" && (
