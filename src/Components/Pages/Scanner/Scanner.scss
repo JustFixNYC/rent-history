@@ -46,39 +46,21 @@
     font-size: 0.95rem;
   }
 
-  .scanner-stage {
-    display: none;
-    margin-top: 0.5rem;
-  }
+}
 
-  .scanner-stage--active {
-    display: block;
-  }
-
-  .scanner-stage__viewport {
-    position: relative;
-    min-height: 60vh;
-  }
-
-  .scanner-stage__container {
-    width: 100%;
-    min-height: 60vh;
-  }
-
-  .scanner-stage__overlay {
-    position: absolute;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    padding: 0.4rem 0.75rem;
-    border-radius: 9999px;
-    background-color: rgba(0, 0, 0, 0.62);
-    color: #fff;
-    font-size: 0.95rem;
-    line-height: 1.3;
-    pointer-events: none;
-    z-index: 2;
-    text-align: center;
-  }
+.scanner-scan-overlay {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  pointer-events: none;
+  z-index: 2147483646;
+  text-align: center;
 }
