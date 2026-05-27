@@ -2,20 +2,21 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { z } from "zod";
 
 import {
-  appendRhSessionScanKey,
   clearRhAuthSession,
   clearRhHistoryId,
   clearRhSessionDocument,
+  clearRhSessionPages,
   getRhAuthSession,
   getRhHistoryId,
+  getRhSessionAnalysisPages,
   getRhSessionStepState,
   getValidRhAccessToken,
   parseRhSessionDocumentJson,
-  patchRhSessionDocument,
   readRhSessionDocument,
   RH_SESSION_STORAGE_KEY,
   setRhAuthSession,
   setRhHistoryId,
+  setRhSessionAnalysisPages,
   setRhSessionExtension,
   setRhSessionStepState,
 } from "./rhSessionStorage";
@@ -40,7 +41,7 @@ describe("rhSessionStorage", () => {
     window.sessionStorage.clear();
   });
 
-  it("parses a v1 document", () => {
+  it("parses a v1 document with pages", () => {
     const doc = parseRhSessionDocumentJson({
       version: 1,
       auth: {
@@ -53,13 +54,21 @@ describe("rhSessionStorage", () => {
       },
       flow: {
         historyId: "h1",
-        scanKeys: ["42/h1/page1.jpg"],
+        pages: [
+          {
+            s3_key: "42/h1/page1.jpg",
+            start_year: 2018,
+            end_year: 2019,
+          },
+        ],
         formDraft: { rows: [1] },
         extensions: { postScan: { step: 2 } },
         steps: { upload: { current: 1 } },
       },
     });
-    expect(doc?.flow.scanKeys).toEqual(["42/h1/page1.jpg"]);
+    expect(doc?.flow.pages).toEqual([
+      { s3_key: "42/h1/page1.jpg", start_year: 2018, end_year: 2019 },
+    ]);
     expect(doc?.flow.extensions.postScan).toEqual({ step: 2 });
   });
 
@@ -93,12 +102,20 @@ describe("rhSessionStorage", () => {
     expect(readRhSessionDocument()?.auth).toBeNull();
   });
 
-  it("appendRhSessionScanKey persists keys when auth and history exist", () => {
+  it("setRhSessionAnalysisPages persists analysis pages", () => {
     setRhAuthSession(otpPayload, Date.now());
     setRhHistoryId("hist-1");
-    appendRhSessionScanKey("42/hist-1/page1.jpg");
+    setRhSessionAnalysisPages([
+      {
+        s3_key: "42/hist-1/page1.jpg",
+        start_year: 2018,
+        end_year: 2019,
+      },
+    ]);
     const doc = readRhSessionDocument();
-    expect(doc?.flow.scanKeys).toEqual(["42/hist-1/page1.jpg"]);
+    expect(getRhSessionAnalysisPages()).toEqual([
+      { s3_key: "42/hist-1/page1.jpg", start_year: 2018, end_year: 2019 },
+    ]);
     expect(doc?.flow.historyId).toBe("hist-1");
   });
 
@@ -124,20 +141,22 @@ describe("rhSessionStorage", () => {
     expect(invalid).toBeNull();
   });
 
-  it("clears scan keys with patch", () => {
+  it("clears pages with clearRhSessionPages", () => {
     setRhAuthSession(otpPayload, Date.now());
     setRhHistoryId("hist-1");
-    appendRhSessionScanKey("42/hist-1/page1.jpg");
-    patchRhSessionDocument((draft) => {
-      draft.flow.scanKeys = [];
-    });
-    expect(readRhSessionDocument()?.flow.scanKeys).toEqual([]);
+    setRhSessionAnalysisPages([
+      { s3_key: "42/hist-1/page1.jpg", start_year: null, end_year: null },
+    ]);
+    clearRhSessionPages();
+    expect(readRhSessionDocument()?.flow.pages).toEqual([]);
   });
 
   it("clearRhSessionDocument removes the key", () => {
     setRhAuthSession(otpPayload, Date.now());
     setRhHistoryId("hist-1");
-    appendRhSessionScanKey("42/hist-1/page1.jpg");
+    setRhSessionAnalysisPages([
+      { s3_key: "42/hist-1/page1.jpg", start_year: null, end_year: null },
+    ]);
     clearRhSessionDocument();
     expect(window.sessionStorage.getItem(RH_SESSION_STORAGE_KEY)).toBeNull();
   });

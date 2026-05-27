@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   combineRhHistoryPages,
   createRhHistory,
+  getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
   RhAuthApiError,
@@ -236,7 +237,7 @@ describe("getRhHistoryPagesReadiness", () => {
           pages: [
             {
               needs_retake: false,
-              scan_url: "https://bucket.s3.amazonaws.com/1/uuid/page1.jpg",
+              s3_key: "1/uuid/page1.jpg",
               start_year: 2020,
               end_year: 2021,
               is_coverpage: false,
@@ -319,5 +320,43 @@ describe("getRhHistoryPagesReadiness", () => {
     await expect(
       getRhHistoryPagesReadiness("access-token", historyId, 1)
     ).rejects.toMatchObject({ status: 401 });
+  });
+});
+
+describe("getRhHistoryAnalysisPages", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  const historyId = "22222222-2222-4222-8222-222222222222";
+
+  it("GETs analysis-pages with Bearer and history_id", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify([
+          {
+            s3_key: "1/uuid/page1.jpg",
+            start_year: 2018,
+            end_year: 2019,
+          },
+        ]),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      )
+    );
+
+    const pages = await getRhHistoryAnalysisPages("access-token", historyId);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
+    expect(String(requestUrl)).toBe(
+      `https://auth.example.org/rh/history/analysis-pages?history_id=${historyId}`
+    );
+    expect(requestInit?.method).toBe("GET");
+    expect(pages).toEqual([
+      { s3_key: "1/uuid/page1.jpg", start_year: 2018, end_year: 2019 },
+    ]);
   });
 });

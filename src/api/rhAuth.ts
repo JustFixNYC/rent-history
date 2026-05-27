@@ -66,10 +66,17 @@ export type RhPageSummary = {
   needs_retake: boolean;
   quality_issue_reason?: string | null;
   error?: string | null;
-  scan_url: string;
+  s3_key: string;
   start_year: number | null;
   end_year: number | null;
   is_coverpage: boolean | null;
+};
+
+/** `RhAnalysisPage` from OpenAPI — pages kept for analysis after combine-pages. */
+export type RhAnalysisPage = {
+  start_year: number | null;
+  end_year: number | null;
+  s3_key: string;
 };
 
 export type RhPagesReadinessMismatchBody = {
@@ -388,4 +395,48 @@ export const getRhHistoryPagesReadiness = async (
     parseRhJsonError(data, response),
     data
   );
+};
+
+/**
+ * `GET /rh/history/analysis-pages` — OAuth2 bearer.
+ * Returns pages with keep=True (used in analysis), sorted by start_year ascending.
+ */
+export const getRhHistoryAnalysisPages = async (
+  accessToken: string,
+  historyId: string
+): Promise<RhAnalysisPage[]> => {
+  const url = new URL("/rh/history/analysis-pages", getAuthProviderBaseUrl());
+  url.searchParams.set("history_id", historyId);
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  let data: unknown = undefined;
+  try {
+    data = await response.json();
+  } catch {
+    data = undefined;
+  }
+
+  if (!response.ok) {
+    throw new RhAuthApiError(
+      response.status,
+      parseRhJsonError(data, response),
+      data
+    );
+  }
+
+  if (!Array.isArray(data)) {
+    throw new RhAuthApiError(
+      response.status,
+      "Unexpected analysis-pages response shape.",
+      data
+    );
+  }
+
+  return data as RhAnalysisPage[];
 };

@@ -14,11 +14,15 @@ import Scanner from "./Scanner";
 import { RhAuthApiError } from "../../../api/rhAuth";
 import * as rhAuthApi from "../../../api/rhAuth";
 import {
+  getRhSessionAnalysisPages,
   setRhAuthSession,
   setRhHistoryId,
 } from "../../../session/rhSessionStorage";
 
-const { navigateMock } = vi.hoisted(() => ({ navigateMock: vi.fn() }));
+const { navigateMock, testHistoryId } = vi.hoisted(() => ({
+  navigateMock: vi.fn(),
+  testHistoryId: "22222222-2222-4222-8222-222222222222",
+}));
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<typeof import("react-router-dom")>(
@@ -31,13 +35,38 @@ vi.mock("react-router-dom", async () => {
 });
 
 vi.mock("dynamsoft-document-scanner", () => ({
-  DocumentScanner: vi.fn().mockImplementation(() => ({
-    launch: vi.fn().mockResolvedValue(undefined),
-  })),
+  DocumentScanner: vi.fn(function DocumentScannerMock(
+    this: { launch: ReturnType<typeof vi.fn> },
+    config?: {
+      onDocumentScanned?: (result: {
+        correctedImageResult?: { toBlob: (type: string) => Promise<Blob> };
+      }) => void | Promise<void>;
+    }
+  ) {
+    this.launch = vi.fn().mockImplementation(async () => {
+      if (config?.onDocumentScanned) {
+        await config.onDocumentScanned({
+          correctedImageResult: {
+            toBlob: async () => new Blob(),
+          },
+        });
+      }
+    });
+  }),
 }));
 
 vi.mock("../../../api/presignedS3", () => ({
   uploadScan: vi.fn().mockResolvedValue(undefined),
+  downloadScans: vi.fn().mockResolvedValue([
+    {
+      key: `1/${testHistoryId}/page1.jpg`,
+      response: {
+        ok: true,
+        status: 200,
+        blob: async () => new Blob(),
+      },
+    },
+  ]),
 }));
 
 vi.mock("../../EmblaCarousel/EmblaCarousel", () => ({
@@ -52,6 +81,29 @@ vi.mock("../../../api/rhAuth", async () => {
     ...actual,
     combineRhHistoryPages: vi.fn(),
     deleteRhHistoryPages: vi.fn(),
+    getRhHistoryPagesReadiness: vi.fn().mockResolvedValue({
+      outcome: "ready",
+      body: {
+        s3: { count: 1, expected: 1, relation: "equal" },
+        database: { count: 1, expected: 1, relation: "equal" },
+        pages: [
+          {
+            needs_retake: false,
+            s3_key: `1/${testHistoryId}/page1.jpg`,
+            start_year: 2020,
+            end_year: 2021,
+            is_coverpage: false,
+          },
+        ],
+      },
+    }),
+    getRhHistoryAnalysisPages: vi.fn().mockResolvedValue([
+      {
+        s3_key: `1/${testHistoryId}/page1.jpg`,
+        start_year: 2020,
+        end_year: 2021,
+      },
+    ]),
   };
 });
 
@@ -68,7 +120,7 @@ const tokenPayload = {
   },
 };
 
-const historyId = "22222222-2222-4222-8222-222222222222";
+const historyId = testHistoryId;
 
 const renderScanner = () => {
   i18n.load("en", {});
@@ -116,6 +168,17 @@ describe("Scanner Next button", () => {
         "access-token",
         historyId
       );
+      expect(rhAuthApi.getRhHistoryAnalysisPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId
+      );
+      expect(getRhSessionAnalysisPages()).toEqual([
+        {
+          s3_key: `1/${testHistoryId}/page1.jpg`,
+          start_year: 2020,
+          end_year: 2021,
+        },
+      ]);
       expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
     });
   });

@@ -1,5 +1,9 @@
 import { z } from "zod";
-import type { RhOtpTokenResponse, RhProfile } from "../api/rhAuth";
+import type {
+  RhAnalysisPage,
+  RhOtpTokenResponse,
+  RhProfile,
+} from "../api/rhAuth";
 
 export const RH_SESSION_STORAGE_KEY = "rh_session";
 
@@ -14,9 +18,17 @@ const rhSessionAuthSchema = z.object({
   profile: z.custom<RhProfile>(),
 });
 
+const rhSessionPageSchema = z.object({
+  s3_key: z.string(),
+  start_year: z.number().nullable(),
+  end_year: z.number().nullable(),
+});
+
+export type RhSessionPage = z.infer<typeof rhSessionPageSchema>;
+
 const rhSessionFlowSchema = z.object({
   historyId: z.string().nullable(),
-  scanKeys: z.array(z.string()),
+  pages: z.array(rhSessionPageSchema),
   formDraft: z.unknown().nullable(),
   extensions: z.record(z.string(), z.unknown()),
   steps: z.record(z.string(), z.unknown()),
@@ -52,7 +64,7 @@ export function createDefaultRhSessionDocument(): RhSessionDocument {
     auth: null,
     flow: {
       historyId: null,
-      scanKeys: [],
+      pages: [],
       formDraft: null,
       extensions: {},
       steps: {},
@@ -69,8 +81,10 @@ function migrateRhSessionRaw(raw: unknown): unknown {
   if (raw === null || typeof raw !== "object") return null;
   const candidate = raw as Record<string, unknown>;
   const version = candidate.version;
-  if (version === 1) return candidate;
-  return null;
+  if (version !== 1) return null;
+  const flow = candidate.flow;
+  if (flow === null || typeof flow !== "object") return null;
+  return candidate;
 }
 
 /** Parse and migrate raw JSON; does not read storage or check auth alignment. */
@@ -202,7 +216,7 @@ export const clearRhFlowSession = (): void => {
   patchRhSessionDocument((draft) => {
     draft.flow = {
       historyId: null,
-      scanKeys: [],
+      pages: [],
       formDraft: null,
       extensions: {},
       steps: {},
@@ -210,30 +224,23 @@ export const clearRhFlowSession = (): void => {
   });
 };
 
-export function appendRhSessionScanKey(key: string): void {
-  const session = getRhAuthSession();
-  const historyId = getRhHistoryId();
-  if (!session || !historyId) return;
-
+export function setRhSessionAnalysisPages(pages: RhAnalysisPage[]): void {
   patchRhSessionDocument((draft) => {
-    draft.flow.scanKeys = [...draft.flow.scanKeys, key];
+    draft.flow.pages = pages.map((p) => ({
+      s3_key: p.s3_key,
+      start_year: p.start_year,
+      end_year: p.end_year,
+    }));
   });
 }
 
-export function replaceRhSessionScanKeys(keys: string[]): void {
-  patchRhSessionDocument((draft) => {
-    draft.flow.scanKeys = [...keys];
-    const session = getRhAuthSession();
-    const historyId = getRhHistoryId();
-    if (session && historyId) {
-      draft.flow.historyId = historyId;
-    }
-  });
+export function getRhSessionAnalysisPages(): RhSessionPage[] {
+  return readRhSessionDocument()?.flow.pages ?? [];
 }
 
-export function clearRhSessionScanKeys(): void {
+export function clearRhSessionPages(): void {
   patchRhSessionDocument((draft) => {
-    draft.flow.scanKeys = [];
+    draft.flow.pages = [];
   });
 }
 
