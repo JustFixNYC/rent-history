@@ -47,6 +47,34 @@ const POLL_MAX_TOTAL_MS = 180000;
 const US_LETTER_WIDTH = 8.5;
 const US_LETTER_HEIGHT = 11;
 
+const CONTINUOUS_SCAN_DONE_LABEL_PATTERN = /^Done \((\d+)\)$/;
+
+/** MDS overwrites `.dce-mn-continuous-scan-done-text` with hardcoded "Done (n)" at runtime. */
+const patchContinuousScanDoneLabels = (
+  formatLabel: (count: number) => string
+): void => {
+  const patchElement = (el: Element): void => {
+    const current = el.textContent ?? "";
+    const match = current.match(CONTINUOUS_SCAN_DONE_LABEL_PATTERN);
+    if (match) {
+      el.textContent = formatLabel(Number(match[1]));
+    }
+  };
+
+  const walk = (root: Document | ShadowRoot | Element): void => {
+    root
+      .querySelectorAll(".dce-mn-continuous-scan-done-text")
+      .forEach(patchElement);
+    root.querySelectorAll("*").forEach((el) => {
+      if (el.shadowRoot) {
+        walk(el.shadowRoot);
+      }
+    });
+  };
+
+  walk(document);
+};
+
 const sleep = (ms: number): Promise<void> =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -390,7 +418,17 @@ const Scanner: React.FC = () => {
     setScanStatus("scanning");
     pageNumber.current = 1;
     replaceRhSessionScanKeys([]);
-    await activeScanner.launch();
+    const formatContinuousScanDoneLabel = (count: number): string =>
+      `${_(msg`Finish scanning`)} (${count})`;
+    const labelPatchInterval = window.setInterval(
+      () => patchContinuousScanDoneLabels(formatContinuousScanDoneLabel),
+      100
+    );
+    try {
+      await activeScanner.launch();
+    } finally {
+      window.clearInterval(labelPatchInterval);
+    }
     numPagesAfterScanRef.current = Math.max(0, pageNumber.current - 1);
     setReadinessPhase("processing");
     setScanStatus("complete");
