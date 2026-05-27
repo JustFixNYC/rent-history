@@ -43,9 +43,7 @@ const POLL_INITIAL_MS = 1500;
 const POLL_CAP_MS = 15000;
 const POLL_MAX_TOTAL_MS = 180000;
 
-// US Letter portrait (8.5" × 11"). CSS guide uses true viewport aspect ratio;
-// Dynamsoft scanRegion is kept for detection but its on-screen mask can look
-// narrower when the camera preview is letterboxed.
+// US Letter portrait (8.5" × 11") — viewport overlay only; not passed to Dynamsoft.
 const US_LETTER_WIDTH = 8.5;
 const US_LETTER_HEIGHT = 11;
 
@@ -109,17 +107,6 @@ const Scanner: React.FC = () => {
           showSubfooter: false,
           enableFrameVerification: true,
           showPoweredByDynamsoft: false,
-          scanRegion: {
-            ratio: {
-              width: US_LETTER_WIDTH * 2,
-              height: US_LETTER_HEIGHT * 2,
-            },
-            regionBottomMargin: 24,
-            style: {
-              strokeColor: "transparent",
-              strokeWidth: 0,
-            },
-          },
         },
         onDocumentScanned: async (result) => {
           const prefix = readScanKeyPrefix();
@@ -394,7 +381,8 @@ const Scanner: React.FC = () => {
   const canStartScan = Boolean(readScanKeyPrefix());
 
   const launchScanner = async () => {
-    if (!readScanKeyPrefix()) return;
+    const activeScanner = scanner;
+    if (!readScanKeyPrefix() || !activeScanner) return;
     setReadinessPhase("idle");
     setReadinessErrorMessage(null);
     setCombineError(null);
@@ -402,7 +390,7 @@ const Scanner: React.FC = () => {
     setScanStatus("scanning");
     pageNumber.current = 1;
     replaceRhSessionScanKeys([]);
-    await scanner?.launch();
+    await activeScanner.launch();
     numPagesAfterScanRef.current = Math.max(0, pageNumber.current - 1);
     setReadinessPhase("processing");
     setScanStatus("complete");
