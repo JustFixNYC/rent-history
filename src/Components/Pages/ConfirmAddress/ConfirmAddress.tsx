@@ -42,13 +42,13 @@ import "./ConfirmAddress.scss";
 
 const getAddressStateFromSelection = (
   selection: GeoSearchDropdownSelection | null,
-  previousState: AddressState
+  previousState: AddressState,
 ): AddressState => {
   if (!selection) return previousState;
   return geosearchFeatureToAddressState(
     selection.feature,
     previousState,
-    selection.option.label
+    selection.option.label,
   );
 };
 
@@ -87,7 +87,7 @@ export const ConfirmAddress: React.FC = () => {
   const navigate = useNavigate();
   const persistedState = readConfirmAddressState();
   const [flowState, setFlowState] = useState<ConfirmAddressState | null>(
-    persistedState
+    persistedState,
   );
   const [isBootstrapping, setIsBootstrapping] = useState(!persistedState);
   const [addressError, setAddressError] = useState<string | null>(null);
@@ -112,7 +112,7 @@ export const ConfirmAddress: React.FC = () => {
       try {
         const { apartment, address } = await getRhHistoryAddress(
           auth.accessToken,
-          historyId
+          historyId,
         );
         const unitNumber = (apartment ?? "").trim();
         const streetLine = (address ?? "").trim();
@@ -131,7 +131,7 @@ export const ConfirmAddress: React.FC = () => {
         if (feature) {
           const mapped = geosearchFeatureToAddressState(
             feature,
-            buildEnterAddressState(unitNumber).confirmedAddress
+            buildEnterAddressState(unitNumber).confirmedAddress,
           );
           if (mapped.bbl) {
             setFlowState({
@@ -181,7 +181,7 @@ export const ConfirmAddress: React.FC = () => {
     setFlowState((prev) => (prev ? { ...prev, addressFlowState: next } : prev));
   const setDraftAddress = (updater: (prev: AddressState) => AddressState) =>
     setFlowState((prev) =>
-      prev ? { ...prev, draftAddress: updater(prev.draftAddress) } : prev
+      prev ? { ...prev, draftAddress: updater(prev.draftAddress) } : prev,
     );
 
   const persistState = (nextState: ConfirmAddressState) => {
@@ -190,13 +190,13 @@ export const ConfirmAddress: React.FC = () => {
   };
 
   const submitAddressUpdate = async (
-    address: AddressState
+    address: AddressState,
   ): Promise<boolean> => {
     const auth = getRhAuthSession();
     const historyId = getRhHistoryId();
     if (!auth || !historyId || !address.bbl) {
       setAddressError(
-        _(msg`Unable to update address right now. Please try again.`)
+        _(msg`Unable to update address right now. Please try again.`),
       );
       return false;
     }
@@ -214,7 +214,7 @@ export const ConfirmAddress: React.FC = () => {
       return true;
     } catch {
       setAddressError(
-        _(msg`Unable to update address right now. Please try again.`)
+        _(msg`Unable to update address right now. Please try again.`),
       );
       return false;
     } finally {
@@ -393,6 +393,16 @@ export const ConfirmAddress: React.FC = () => {
                       <Trans>Apt. {confirmedAddress.unitNumber.trim()}</Trans>
                     </div>
                   )}
+                  <button
+                    type="button"
+                    className="postscan-inline-link"
+                    onClick={() => {
+                      setAddressFlowState("editAddress");
+                      setAddressError(null);
+                    }}
+                  >
+                    <Trans>Edit address</Trans>
+                  </button>
                 </div>
               </div>
             </>
@@ -429,7 +439,7 @@ export const ConfirmAddress: React.FC = () => {
                   invalid={Boolean(addressError)}
                   invalidText={addressError ?? undefined}
                   serviceUnavailableText={_(
-                    msg`Geosearch is temporarily unavailable. Try again in a moment.`
+                    msg`Geosearch is temporarily unavailable. Try again in a moment.`,
                   )}
                   onInputChange={(value: string, meta: { action?: string }) => {
                     if (!isTypingInputAction(meta)) return value;
@@ -442,7 +452,7 @@ export const ConfirmAddress: React.FC = () => {
                   }}
                   onSelect={(selection: GeoSearchDropdownSelection | null) => {
                     setDraftAddress((prev) =>
-                      getAddressStateFromSelection(selection, prev)
+                      getAddressStateFromSelection(selection, prev),
                     );
                     if (addressError) setAddressError(null);
                   }}
@@ -495,7 +505,7 @@ export const ConfirmAddress: React.FC = () => {
                   invalid={Boolean(addressError)}
                   invalidText={addressError ?? undefined}
                   serviceUnavailableText={_(
-                    msg`Geosearch is temporarily unavailable. Try again in a moment.`
+                    msg`Geosearch is temporarily unavailable. Try again in a moment.`,
                   )}
                   onInputChange={(value: string, meta: { action?: string }) => {
                     if (!isTypingInputAction(meta)) return value;
@@ -508,7 +518,7 @@ export const ConfirmAddress: React.FC = () => {
                   }}
                   onSelect={(selection: GeoSearchDropdownSelection | null) => {
                     setDraftAddress((prev) =>
-                      getAddressStateFromSelection(selection, prev)
+                      getAddressStateFromSelection(selection, prev),
                     );
                     if (addressError) setAddressError(null);
                   }}
