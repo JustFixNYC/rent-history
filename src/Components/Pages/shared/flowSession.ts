@@ -1,14 +1,17 @@
-const RH_PHONE_EXISTS_KEY = "rhPhoneExists";
+const RH_PROFILE_CREATED_KEY = "rhProfileCreated";
 
-export const setRhPhoneExists = (phoneExists: boolean): void => {
-  window.sessionStorage.setItem(RH_PHONE_EXISTS_KEY, phoneExists ? "1" : "0");
+export const setRhProfileCreated = (profileCreated: boolean): void => {
+  window.sessionStorage.setItem(
+    RH_PROFILE_CREATED_KEY,
+    profileCreated ? "1" : "0"
+  );
 };
 
-export const getRhPhoneExists = (): boolean =>
-  window.sessionStorage.getItem(RH_PHONE_EXISTS_KEY) === "1";
+export const getRhProfileCreated = (): boolean =>
+  window.sessionStorage.getItem(RH_PROFILE_CREATED_KEY) === "1";
 
-export const clearRhPhoneExists = (): void => {
-  window.sessionStorage.removeItem(RH_PHONE_EXISTS_KEY);
+export const clearRhProfileCreated = (): void => {
+  window.sessionStorage.removeItem(RH_PROFILE_CREATED_KEY);
 };
 
 export function formatPhone(value: string): string {

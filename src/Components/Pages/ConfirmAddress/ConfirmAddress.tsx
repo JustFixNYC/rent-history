@@ -42,13 +42,13 @@ import "./ConfirmAddress.scss";
 
 const getAddressStateFromSelection = (
   selection: GeoSearchDropdownSelection | null,
-  previousState: AddressState,
+  previousState: AddressState
 ): AddressState => {
   if (!selection) return previousState;
   return geosearchFeatureToAddressState(
     selection.feature,
     previousState,
-    selection.option.label,
+    selection.option.label
   );
 };
 
@@ -87,7 +87,7 @@ export const ConfirmAddress: React.FC = () => {
   const navigate = useNavigate();
   const persistedState = readConfirmAddressState();
   const [flowState, setFlowState] = useState<ConfirmAddressState | null>(
-    persistedState,
+    persistedState
   );
   const [isBootstrapping, setIsBootstrapping] = useState(!persistedState);
   const [addressError, setAddressError] = useState<string | null>(null);
@@ -112,7 +112,7 @@ export const ConfirmAddress: React.FC = () => {
       try {
         const { apartment, address } = await getRhHistoryAddress(
           auth.accessToken,
-          historyId,
+          historyId
         );
         const unitNumber = (apartment ?? "").trim();
         const streetLine = (address ?? "").trim();
@@ -131,7 +131,7 @@ export const ConfirmAddress: React.FC = () => {
         if (feature) {
           const mapped = geosearchFeatureToAddressState(
             feature,
-            buildEnterAddressState(unitNumber).confirmedAddress,
+            buildEnterAddressState(unitNumber).confirmedAddress
           );
           if (mapped.bbl) {
             setFlowState({
@@ -181,7 +181,7 @@ export const ConfirmAddress: React.FC = () => {
     setFlowState((prev) => (prev ? { ...prev, addressFlowState: next } : prev));
   const setDraftAddress = (updater: (prev: AddressState) => AddressState) =>
     setFlowState((prev) =>
-      prev ? { ...prev, draftAddress: updater(prev.draftAddress) } : prev,
+      prev ? { ...prev, draftAddress: updater(prev.draftAddress) } : prev
     );
 
   const persistState = (nextState: ConfirmAddressState) => {

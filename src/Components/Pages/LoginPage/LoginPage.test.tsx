@@ -57,7 +57,7 @@ describe("LoginPage OTP verification", () => {
 
   it("stores otp session on successful verification", async () => {
     vi.mocked(rhAuthApi.upsertRhPhone).mockResolvedValue({
-      existed: false,
+      created: true,
       profile: {
         id: 1,
         phone_number: "15554443333",
@@ -111,7 +111,7 @@ describe("LoginPage OTP verification", () => {
 
   it("shows expired-code error message when backend returns expired", async () => {
     vi.mocked(rhAuthApi.upsertRhPhone).mockResolvedValue({
-      existed: false,
+      created: true,
       profile: {
         id: 1,
         phone_number: "15554443333",

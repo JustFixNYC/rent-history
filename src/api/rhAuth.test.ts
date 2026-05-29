@@ -7,6 +7,7 @@ import {
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
   RhAuthApiError,
+  upsertRhPhone,
   verifyRhOtp,
 } from "./rhAuth";
 
@@ -233,6 +234,7 @@ describe("getRhHistoryPagesReadiness", () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(
         JSON.stringify({
+          status: "ready",
           s3: { count: 1, expected: 1, relation: "equal" },
           database: { count: 1, expected: 1, relation: "equal" },
           pages: [
@@ -265,23 +267,24 @@ describe("getRhHistoryPagesReadiness", () => {
       Authorization: "Bearer access-token",
     });
 
-    expect(result.outcome).toBe("ready");
-    if (result.outcome === "ready") {
-      expect(result.body.pages).toHaveLength(1);
+    expect(result.status).toBe("ready");
+    if (result.status === "ready") {
+      expect(result.pages).toHaveLength(1);
     }
   });
 
-  it("returns mismatch outcome on 400 with s3 and database axes", async () => {
+  it("returns pending status on 200 while processing", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(
         JSON.stringify({
+          status: "pending",
           s3: { count: 1, expected: 2, relation: "less" },
-          database: { count: 2, expected: 2, relation: "equal" },
+          database: { count: 1, expected: 2, relation: "less" },
         }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      ),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      )
     );
 
     const result = await getRhHistoryPagesReadiness(
@@ -290,10 +293,52 @@ describe("getRhHistoryPagesReadiness", () => {
       2,
     );
 
-    expect(result.outcome).toBe("mismatch");
-    if (result.outcome === "mismatch") {
-      expect(result.body.s3.relation).toBe("less");
+    expect(result.status).toBe("pending");
+    if (result.status === "pending") {
+      expect(result.s3.relation).toBe("less");
     }
+  });
+
+  it("returns excess status on 200 when counts exceed num_pages", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          status: "excess",
+          s3: { count: 3, expected: 2, relation: "more" },
+          database: { count: 2, expected: 2, relation: "equal" },
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      )
+    );
+
+    const result = await getRhHistoryPagesReadiness(
+      "access-token",
+      historyId,
+      2
+    );
+
+    expect(result.status).toBe("excess");
+  });
+
+  it("upsertRhPhone returns profile and created flag", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          created: true,
+          profile: { id: 1, phone_number: "+15551234567" },
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      )
+    );
+
+    const result = await upsertRhPhone("5551234567");
+
+    expect(result.created).toBe(true);
+    expect(result.profile.phone_number).toBe("+15551234567");
   });
 
   it("throws RhAuthApiError on 400 validation (no readiness axes)", async () => {
@@ -379,8 +424,8 @@ describe("getRhHistoryAddress", () => {
           apartment: "4B",
           address: "228 Atlantic Avenue, Brooklyn, NY 11201",
         }),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      ),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      )
     );
 
     const result = await getRhHistoryAddress("access-token", historyId);
@@ -388,7 +433,7 @@ describe("getRhHistoryAddress", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
     expect(String(requestUrl)).toBe(
-      `https://auth.example.org/rh/history/address?history_id=${historyId}`,
+      `https://auth.example.org/rh/history/address?history_id=${historyId}`
     );
     expect(requestInit?.method).toBe("GET");
     expect(requestInit?.headers).toEqual({
