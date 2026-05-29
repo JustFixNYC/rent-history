@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   combineRhHistoryPages,
   createRhHistory,
+  getRhHistoryAddress,
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
@@ -37,8 +38,8 @@ describe("verifyRhOtp", () => {
         {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }
-      )
+        },
+      ),
     );
 
     await verifyRhOtp("15554443333", "123456");
@@ -46,7 +47,7 @@ describe("verifyRhOtp", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
     expect(String(requestUrl)).toBe(
-      "https://auth.example.org/rh/verify-otp-token"
+      "https://auth.example.org/rh/verify-otp-token",
     );
     expect(requestInit?.method).toBe("POST");
     expect(requestInit?.headers).toEqual({
@@ -58,7 +59,7 @@ describe("verifyRhOtp", () => {
         code: "123456",
         client_id: "client-id-123",
         grant_type: "password",
-      })
+      }),
     );
   });
 
@@ -84,8 +85,8 @@ describe("verifyRhOtp", () => {
         {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }
-      )
+        },
+      ),
     );
 
     await verifyRhOtp("15554443333", "123456");
@@ -111,8 +112,8 @@ describe("createRhHistory", () => {
         {
           status: 201,
           headers: { "Content-Type": "application/json" },
-        }
-      )
+        },
+      ),
     );
 
     await createRhHistory("access-token");
@@ -149,8 +150,8 @@ describe("confirmRhHistoryAddress", () => {
         {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }
-      )
+        },
+      ),
     );
 
     const result = await confirmRhHistoryAddress("access-token", {
@@ -163,7 +164,7 @@ describe("confirmRhHistoryAddress", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
     expect(String(requestUrl)).toBe(
-      "https://auth.example.org/rh/history/confirm-address"
+      "https://auth.example.org/rh/history/confirm-address",
     );
     expect(requestInit?.method).toBe("POST");
     expect(requestInit?.headers).toEqual({
@@ -198,7 +199,7 @@ describe("combineRhHistoryPages", () => {
       new Response(JSON.stringify({ status: "ok" }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
-      })
+      }),
     );
 
     const hid = "22222222-2222-4222-8222-222222222222";
@@ -207,7 +208,7 @@ describe("combineRhHistoryPages", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
     expect(String(requestUrl)).toBe(
-      "https://auth.example.org/rh/history/combine-pages"
+      "https://auth.example.org/rh/history/combine-pages",
     );
     expect(requestInit?.method).toBe("POST");
     expect(requestInit?.headers).toEqual({
@@ -244,20 +245,20 @@ describe("getRhHistoryPagesReadiness", () => {
             },
           ],
         }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
-      )
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
     );
 
     const result = await getRhHistoryPagesReadiness(
       "access-token",
       historyId,
-      1
+      1,
     );
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
     expect(String(requestUrl)).toBe(
-      `https://auth.example.org/rh/history/pages-readiness?history_id=${historyId}&num_pages=1`
+      `https://auth.example.org/rh/history/pages-readiness?history_id=${historyId}&num_pages=1`,
     );
     expect(requestInit?.method).toBe("GET");
     expect(requestInit?.headers).toEqual({
@@ -279,14 +280,14 @@ describe("getRhHistoryPagesReadiness", () => {
           s3: { count: 1, expected: 2, relation: "less" },
           database: { count: 2, expected: 2, relation: "equal" },
         }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      )
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      ),
     );
 
     const result = await getRhHistoryPagesReadiness(
       "access-token",
       historyId,
-      2
+      2,
     );
 
     expect(result.outcome).toBe("mismatch");
@@ -302,11 +303,11 @@ describe("getRhHistoryPagesReadiness", () => {
       new Response(JSON.stringify({ num_pages: ["Invalid"] }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
-      })
+      }),
     );
 
     await expect(
-      getRhHistoryPagesReadiness("access-token", historyId, 0)
+      getRhHistoryPagesReadiness("access-token", historyId, 0),
     ).rejects.toThrow(RhAuthApiError);
   });
 
@@ -314,11 +315,11 @@ describe("getRhHistoryPagesReadiness", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(null, { status: 401 })
+      new Response(null, { status: 401 }),
     );
 
     await expect(
-      getRhHistoryPagesReadiness("access-token", historyId, 1)
+      getRhHistoryPagesReadiness("access-token", historyId, 1),
     ).rejects.toMatchObject({ status: 401 });
   });
 });
@@ -343,8 +344,8 @@ describe("getRhHistoryAnalysisPages", () => {
             end_year: 2019,
           },
         ]),
-        { status: 200, headers: { "Content-Type": "application/json" } }
-      )
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
     );
 
     const pages = await getRhHistoryAnalysisPages("access-token", historyId);
@@ -352,11 +353,50 @@ describe("getRhHistoryAnalysisPages", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
     expect(String(requestUrl)).toBe(
-      `https://auth.example.org/rh/history/analysis-pages?history_id=${historyId}`
+      `https://auth.example.org/rh/history/analysis-pages?history_id=${historyId}`,
     );
     expect(requestInit?.method).toBe("GET");
     expect(pages).toEqual([
       { s3_key: "1/uuid/page1.jpg", start_year: 2018, end_year: 2019 },
     ]);
+  });
+});
+
+describe("getRhHistoryAddress", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  const historyId = "22222222-2222-4222-8222-222222222222";
+
+  it("GETs history/address with Bearer and history_id", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          apartment: "4B",
+          address: "228 Atlantic Avenue, Brooklyn, NY 11201",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+
+    const result = await getRhHistoryAddress("access-token", historyId);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
+    expect(String(requestUrl)).toBe(
+      `https://auth.example.org/rh/history/address?history_id=${historyId}`,
+    );
+    expect(requestInit?.method).toBe("GET");
+    expect(requestInit?.headers).toEqual({
+      Authorization: "Bearer access-token",
+    });
+    expect(result).toEqual({
+      apartment: "4B",
+      address: "228 Atlantic Avenue, Brooklyn, NY 11201",
+    });
   });
 });
