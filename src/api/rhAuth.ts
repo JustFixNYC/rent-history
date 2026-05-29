@@ -212,7 +212,7 @@ const postRhAuthorized = async <T>(
 const getRhAuthorized = async <T>(
   path: string,
   accessToken: string,
-  query?: Record<string, string>
+  query?: Record<string, string>,
 ): Promise<T> => {
   const url = new URL(path, getAuthProviderBaseUrl());
   if (query) {
@@ -249,7 +249,7 @@ const getRhAuthorized = async <T>(
 const postRhAuthorizedWithBody = async <T>(
   path: string,
   accessToken: string,
-  body: object
+  body: object,
 ): Promise<T> => {
   const response = await fetch(new URL(path, getAuthProviderBaseUrl()), {
     method: "POST",
@@ -271,7 +271,7 @@ const postRhAuthorizedWithBody = async <T>(
     throw new RhAuthApiError(
       response.status,
       parseRhJsonError(data, response),
-      data
+      data,
     );
   }
 
@@ -279,12 +279,12 @@ const postRhAuthorizedWithBody = async <T>(
 };
 
 export const requestRhOtp = (
-  phoneNumber: string
+  phoneNumber: string,
 ): Promise<OtpRequestResponse> =>
   postRh("/rh/request-otp", { phone_number: phoneNumber });
 
 export const upsertRhPhone = (
-  phoneNumber: string
+  phoneNumber: string,
 ): Promise<RhPhoneUpsertResponse> =>
   postRh<RhPhoneUpsertResponse>("/rh/phone", { phone_number: phoneNumber });
 
@@ -352,7 +352,7 @@ export const combineRhHistoryPages = (
 export const getRhHistoryPagesReadiness = (
   accessToken: string,
   historyId: string,
-  numPages: number
+  numPages: number,
 ): Promise<RhPagesReadinessResponse> =>
   getRhAuthorized<RhPagesReadinessResponse>(
     "/rh/history/pages-readiness",
@@ -360,7 +360,7 @@ export const getRhHistoryPagesReadiness = (
     {
       history_id: historyId,
       num_pages: String(numPages),
-    }
+    },
   );
 
 /**
@@ -369,53 +369,9 @@ export const getRhHistoryPagesReadiness = (
  */
 export const getRhHistoryAnalysisPages = async (
   accessToken: string,
-  historyId: string
+  historyId: string,
 ): Promise<RhAnalysisPage[]> => {
   const url = new URL("/rh/history/analysis-pages", getAuthProviderBaseUrl());
-  url.searchParams.set("history_id", historyId);
-
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  let data: unknown = undefined;
-  try {
-    data = await response.json();
-  } catch {
-    data = undefined;
-  }
-
-  if (!response.ok) {
-    throw new RhAuthApiError(
-      response.status,
-      parseRhJsonError(data, response),
-      data
-    );
-  }
-
-  if (!Array.isArray(data)) {
-    throw new RhAuthApiError(
-      response.status,
-      "Unexpected analysis-pages response shape.",
-      data
-    );
-  }
-
-  return data as RhAnalysisPage[];
-};
-
-/**
- * `GET /rh/history/address` — OAuth2 bearer.
- * Returns scan-extracted apartment and address from combine-pages.
- */
-export const getRhHistoryAddress = async (
-  accessToken: string,
-  historyId: string
-): Promise<RhHistoryAddressResponse> => {
-  const url = new URL("/rh/history/address", getAuthProviderBaseUrl());
   url.searchParams.set("history_id", historyId);
 
   const response = await fetch(url, {
@@ -440,20 +396,15 @@ export const getRhHistoryAddress = async (
     );
   }
 
-  if (
-    typeof data !== "object" ||
-    data === null ||
-    !("apartment" in data) ||
-    !("address" in data)
-  ) {
+  if (!Array.isArray(data)) {
     throw new RhAuthApiError(
       response.status,
-      "Unexpected history address response shape.",
-      data
+      "Unexpected analysis-pages response shape.",
+      data,
     );
   }
 
-  return data as RhHistoryAddressResponse;
+  return data as RhAnalysisPage[];
 };
 
 /**
