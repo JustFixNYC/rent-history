@@ -184,6 +184,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/report-pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Download the stored rent history report PDF
+         * @description Returns the report PDF bytes for the authenticated user's RhHistory. 404 when no report has been generated or the S3 object is missing.
+         */
+        get: operations["history_report_pdf_retrieve"];
+        put?: never;
+        /**
+         * Generate and store a rent history report PDF
+         * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.
+         */
+        post: operations["history_report_pdf_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/login/start": {
         parameters: {
             query?: never;
@@ -288,10 +312,13 @@ export interface components {
          *     * `combine_pages_failed` - Combine pages failed
          *     * `storage_not_configured` - Storage not configured
          *     * `storage_read_failed` - Storage read failed
+         *     * `storage_write_failed` - Storage write failed
          *     * `pages_sync_error` - Pages out of sync with scans
+         *     * `pdf_generation_failed` - PDF generation failed
+         *     * `report_pdf_not_found` - Report PDF not found
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "pages_sync_error";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found";
         /**
          * @description * `DOCUMENT_SCAN` - Document Scan
          *     * `SCAN_REVIEW` - Scan Review
@@ -303,6 +330,12 @@ export interface components {
          * @enum {string}
          */
         LastStepReachedEnum: "DOCUMENT_SCAN" | "SCAN_REVIEW" | "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
+        /**
+         * @description * `en` - English
+         *     * `es` - Spanish
+         * @enum {string}
+         */
+        LocaleEnum: "en" | "es";
         /** @enum {unknown} */
         NullEnum: null;
         OtpTokenRequestRequest: {
@@ -331,6 +364,12 @@ export interface components {
          * @enum {string}
          */
         RelationEnum: "less" | "equal" | "more";
+        /**
+         * @description * `en` - English
+         *     * `es` - Spanish
+         * @enum {string}
+         */
+        ReportPdfLocaleEnum: "en" | "es";
         /** @description Pages used in analysis (keep=True), for GET /rh/history/analysis-pages. */
         RhAnalysisPage: {
             /**
@@ -416,6 +455,25 @@ export interface components {
             deleted_pages: number;
             s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
             s3_deleted_versions?: number;
+        };
+        /** @description POST /rh/history/report-pdf body. */
+        RhHistoryReportPdfCreateRequestRequest: {
+            /** @description Optional print CSS passed to the PDF renderer. */
+            css?: string | null;
+            /** Format: uuid */
+            history_id: string;
+            /** @description HTML document to render as the report PDF (max 1 MiB). */
+            html: string;
+            locale: components["schemas"]["LocaleEnum"];
+        };
+        /** @description POST /rh/history/report-pdf success payload. */
+        RhHistoryReportPdfCreateResponse: {
+            has_report_pdf: boolean;
+            /** Format: uuid */
+            history_id: string;
+            /** Format: date-time */
+            report_pdf_generated_at: string;
+            report_pdf_locale: components["schemas"]["ReportPdfLocaleEnum"];
         };
         RhLoginStartResponse: {
             created: boolean;
@@ -1005,6 +1063,125 @@ export interface operations {
                 };
             };
             /** @description Storage misconfiguration, S3 failure, or DB count exceeds S3 count. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_report_pdf_retrieve: {
+        parameters: {
+            query: {
+                /** @description UUID of the RhHistory whose report PDF should be downloaded. */
+                history_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description PDF file (application/pdf). */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+            /** @description Missing or invalid history_id. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile, RhHistory, or report PDF not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage not configured or read failed. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_report_pdf_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryReportPdfCreateRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryReportPdfCreateResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description PDF rendering failed. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage not configured or write failed. */
             503: {
                 headers: {
                     [name: string]: unknown;

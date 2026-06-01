@@ -46,7 +46,7 @@
         "type": "object"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `pages_sync_error` - Pages out of sync with scans",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found",
         "enum": [
           "otp_expired",
           "otp_invalid",
@@ -65,7 +65,10 @@
           "combine_pages_failed",
           "storage_not_configured",
           "storage_read_failed",
-          "pages_sync_error"
+          "storage_write_failed",
+          "pages_sync_error",
+          "pdf_generation_failed",
+          "report_pdf_not_found"
         ],
         "type": "string"
       },
@@ -79,6 +82,14 @@
           "FINDINGS_OVERVIEW",
           "FINDINGS_REVIEW",
           "REPORT_GENERATION"
+        ],
+        "type": "string"
+      },
+      "LocaleEnum": {
+        "description": "* `en` - English\n* `es` - Spanish",
+        "enum": [
+          "en",
+          "es"
         ],
         "type": "string"
       },
@@ -172,6 +183,14 @@
           "less",
           "equal",
           "more"
+        ],
+        "type": "string"
+      },
+      "ReportPdfLocaleEnum": {
+        "description": "* `en` - English\n* `es` - Spanish",
+        "enum": [
+          "en",
+          "es"
         ],
         "type": "string"
       },
@@ -413,6 +432,62 @@
         "required": [
           "deleted_pages",
           "s3_cleanup_status"
+        ],
+        "type": "object"
+      },
+      "RhHistoryReportPdfCreateRequestRequest": {
+        "description": "POST /rh/history/report-pdf body.",
+        "properties": {
+          "css": {
+            "description": "Optional print CSS passed to the PDF renderer.",
+            "maxLength": 262144,
+            "nullable": true,
+            "type": "string"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "html": {
+            "description": "HTML document to render as the report PDF (max 1 MiB).",
+            "maxLength": 1048576,
+            "minLength": 1,
+            "type": "string"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/LocaleEnum"
+          }
+        },
+        "required": [
+          "history_id",
+          "html",
+          "locale"
+        ],
+        "type": "object"
+      },
+      "RhHistoryReportPdfCreateResponse": {
+        "description": "POST /rh/history/report-pdf success payload.",
+        "properties": {
+          "has_report_pdf": {
+            "type": "boolean"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "report_pdf_generated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "report_pdf_locale": {
+            "$ref": "#/components/schemas/ReportPdfLocaleEnum"
+          }
+        },
+        "required": [
+          "has_report_pdf",
+          "history_id",
+          "report_pdf_generated_at",
+          "report_pdf_locale"
         ],
         "type": "object"
       },
@@ -1487,6 +1562,147 @@
           }
         ],
         "summary": "Scan upload and extraction readiness for a RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/report-pdf": {
+      "get": {
+        "description": "Returns the report PDF bytes for the authenticated user's RhHistory. 404 when no report has been generated or the S3 object is missing.",
+        "operationId": "history_report_pdf_retrieve",
+        "parameters": [
+          {
+            "description": "UUID of the RhHistory whose report PDF should be downloaded.",
+            "in": "query",
+            "name": "history_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "PDF file (application/pdf)."
+          },
+          "400": {
+            "description": "Missing or invalid history_id."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile, RhHistory, or report PDF not found."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Storage not configured or read failed."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Download the stored rent history report PDF",
+        "tags": [
+          "Rent History"
+        ]
+      },
+      "post": {
+        "description": "Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.",
+        "operationId": "history_report_pdf_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistoryReportPdfCreateRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryReportPdfCreateResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "PDF rendering failed."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Storage not configured or write failed."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Generate and store a rent history report PDF",
         "tags": [
           "Rent History"
         ]
