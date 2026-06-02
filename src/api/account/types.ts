@@ -49,6 +49,17 @@ export type RhAnalysisPage = Omit<
 /** `GET /rh/history/address` response. */
 export type RhHistoryAddressResponse = Schemas["RhHistoryAddressResponse"];
 
+/** `POST /rh/history/report-pdf` request body. */
+export type RhHistoryReportPdfCreateRequest =
+  Schemas["RhHistoryReportPdfCreateRequestRequest"];
+
+/** `POST /rh/history/report-pdf` success body. */
+export type RhHistoryReportPdfCreateResponse =
+  Schemas["RhHistoryReportPdfCreateResponse"];
+
+/** Locale sent when generating a report PDF (`en` | `es`). */
+export type ReportPdfLocale = Schemas["ReportPdfLocaleEnum"];
+
 /** `GET /rh/history/pages-readiness` response (discriminated by `status`). */
 export type RhPagesReadinessResponse =
   | {

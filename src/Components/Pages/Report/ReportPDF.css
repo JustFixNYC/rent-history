@@ -1,0 +1,25 @@
+/* WeasyPrint-oriented placeholder styles (sent to POST /rh/history/report-pdf as css). */
+@page {
+  margin: 1in;
+}
+
+body {
+  font-family: Liberation Sans, Arial, Helvetica, sans-serif;
+  font-size: 12pt;
+  line-height: 1.4;
+  color: #111;
+}
+
+.report-pdf {
+  max-width: 6.5in;
+}
+
+.report-pdf__title {
+  font-size: 18pt;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+
+.report-pdf__body {
+  margin: 0;
+}
