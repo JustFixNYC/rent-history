@@ -1,28 +1,42 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Map, {
   Layer,
   NavigationControl,
-  Popup,
   Source,
 } from "react-map-gl/mapbox";
+import type { MapRef } from "react-map-gl/mapbox";
 import type { LngLatBoundsLike, MapMouseEvent } from "react-map-gl/mapbox";
 import type { CircleLayerSpecification, SymbolLayerSpecification } from "mapbox-gl";
 import type { FeatureCollection, Point } from "geojson";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
+import { Button, GeoSearchDropdown } from "@justfixnyc/component-library";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import {
-  fetchRentStabilizedMapPoints,
+  buildPointsByBbl,
+  loadRentStabilizedMapPoints,
+  normalizeBbl,
   RentStabilizedMapPoint,
-} from "../../../api/wow";
+} from "../../../data/rentStabilizedMap";
 import "./RentStabilizedMapPage.scss";
+
+type GeoSearchDropdownSelection = {
+  feature: {
+    properties?: {
+      addendum?: { pad?: { bbl?: string } };
+    };
+  };
+  option: { label: string };
+};
 
 const NYC_BOUNDS: LngLatBoundsLike = [
   [-74.259087, 40.477398],
   [-73.700172, 40.917576],
 ];
+
+const SEARCH_ZOOM = 16;
 
 const DEFAULT_MAP_STYLE = "mapbox://styles/mapbox/light-v11";
 
@@ -87,6 +101,20 @@ const unclusteredPointLayer: CircleLayerSpecification = {
   },
 };
 
+const selectedPointLayer: CircleLayerSpecification = {
+  id: "selected-point",
+  type: "circle",
+  source: "rent-stab-points",
+  filter: ["==", ["get", "bbl"], ""],
+  paint: {
+    "circle-color": "#AF59A0",
+    "circle-radius": 10,
+    "circle-stroke-width": 2,
+    "circle-stroke-color": "#0D3B34",
+    "circle-opacity": 1,
+  },
+};
+
 const toGeoJson = (
   points: RentStabilizedMapPoint[]
 ): FeatureCollection<Point> => ({
@@ -98,7 +126,7 @@ const toGeoJson = (
       coordinates: [point.lng, point.lat],
     },
     properties: {
-      bbl: point.bbl,
+      bbl: normalizeBbl(point.bbl),
       address: point.address,
       borough: point.borough,
       zip: point.zip,
@@ -108,11 +136,29 @@ const toGeoJson = (
   })),
 });
 
+const pointFromFeature = (feature: GeoJSON.Feature): RentStabilizedMapPoint | null => {
+  const props = feature.properties;
+  if (!props || feature.geometry.type !== "Point") return null;
+  const [lng, lat] = feature.geometry.coordinates;
+  return {
+    bbl: String(props.bbl),
+    address: String(props.address),
+    borough: String(props.borough),
+    zip: String(props.zip),
+    lat,
+    lng,
+    units_res: Number(props.units_res),
+    rs_units: Number(props.rs_units),
+  };
+};
+
 const RentStabilizedMapPage: React.FC = () => {
   const { _ } = useLingui();
+  const mapRef = useRef<MapRef>(null);
   const [points, setPoints] = useState<RentStabilizedMapPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchNotice, setSearchNotice] = useState<string | null>(null);
   const [selectedPoint, setSelectedPoint] =
     useState<RentStabilizedMapPoint | null>(null);
   const [cursor, setCursor] = useState("");
@@ -121,18 +167,22 @@ const RentStabilizedMapPage: React.FC = () => {
     | string
     | undefined;
 
+  const pointsByBbl = useMemo(() => buildPointsByBbl(points), [points]);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const result = await fetchRentStabilizedMapPoints();
+        const result = await loadRentStabilizedMapPoints();
         if (!cancelled) {
           setPoints(result);
           setError(null);
         }
       } catch (e) {
         if (!cancelled) {
-          setError(e instanceof Error ? e.message : _("Failed to load map data"));
+          setError(
+            e instanceof Error ? e.message : _("Failed to load map data")
+          );
         }
       } finally {
         if (!cancelled) {
@@ -147,6 +197,18 @@ const RentStabilizedMapPage: React.FC = () => {
 
   const geojson = useMemo(() => toGeoJson(points), [points]);
 
+  const selectedBbl = selectedPoint ? normalizeBbl(selectedPoint.bbl) : "";
+
+  const focusPoint = useCallback((point: RentStabilizedMapPoint) => {
+    setSelectedPoint(point);
+    setSearchNotice(null);
+    mapRef.current?.flyTo({
+      center: [point.lng, point.lat],
+      zoom: SEARCH_ZOOM,
+      duration: 1200,
+    });
+  }, []);
+
   const onMapClick = useCallback((event: MapMouseEvent) => {
     const feature = event.features?.[0];
     if (!feature) return;
@@ -160,35 +222,56 @@ const RentStabilizedMapPage: React.FC = () => {
         source.getClusterExpansionZoom(
           clusterId,
           (err: Error | null | undefined, zoom: number | null | undefined) => {
-          if (err || zoom == null) return;
-          const coordinates = (feature.geometry as Point).coordinates as [
-            number,
-            number,
-          ];
-          map.easeTo({
-            center: coordinates,
-            zoom,
-          });
-        }
+            if (err || zoom == null) return;
+            const coordinates = (feature.geometry as Point).coordinates as [
+              number,
+              number,
+            ];
+            map.easeTo({
+              center: coordinates,
+              zoom,
+            });
+          }
         );
       }
       return;
     }
 
-    const props = feature.properties;
-    if (!props) return;
+    const clicked = pointFromFeature(feature as GeoJSON.Feature);
+    if (clicked) {
+      focusPoint(clicked);
+    }
+  }, [focusPoint]);
 
-    setSelectedPoint({
-      bbl: String(props.bbl),
-      address: String(props.address),
-      borough: String(props.borough),
-      zip: String(props.zip),
-      lat: (feature.geometry as Point).coordinates[1],
-      lng: (feature.geometry as Point).coordinates[0],
-      units_res: Number(props.units_res),
-      rs_units: Number(props.rs_units),
-    });
-  }, []);
+  const onGeosearchSelect = useCallback(
+    (selection: GeoSearchDropdownSelection | null) => {
+      if (!selection) return;
+
+      const rawBbl = selection.feature.properties?.addendum?.pad?.bbl;
+      if (!rawBbl) {
+        setSearchNotice(
+          _(
+            msg`We could not find a building ID for that address. Try another search.`
+          )
+        );
+        return;
+      }
+
+      const point = pointsByBbl.get(normalizeBbl(rawBbl));
+      if (!point) {
+        setSearchNotice(
+          _(
+            msg`This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data).`
+          )
+        );
+        setSelectedPoint(null);
+        return;
+      }
+
+      focusPoint(point);
+    },
+    [_, pointsByBbl, focusPoint]
+  );
 
   if (!mapboxAccessToken) {
     return (
@@ -214,12 +297,29 @@ const RentStabilizedMapPage: React.FC = () => {
             rent status.
           </Trans>
         </p>
+        <div className="rent-stab-map-page__search">
+          <GeoSearchDropdown
+            id="rent-stab-map-geosearch"
+            className="rent-stab-map-page__geosearch"
+            labelText={_(msg`Search for a building`)}
+            placeholder={_(msg`Enter an NYC address`)}
+            serviceUnavailableText={_(
+              msg`Geosearch is temporarily unavailable. Try again in a moment.`
+            )}
+            onSelect={onGeosearchSelect}
+          />
+        </div>
         {loading && (
           <p className="rent-stab-map-page__status">
             <Trans>Loading map data…</Trans>
           </p>
         )}
         {error && <p className="rent-stab-map-page__error">{error}</p>}
+        {searchNotice && (
+          <p className="rent-stab-map-page__notice" role="status">
+            {searchNotice}
+          </p>
+        )}
         {!loading && !error && (
           <p className="rent-stab-map-page__status">
             {_(msg`${points.length.toLocaleString()} buildings`)}
@@ -227,64 +327,97 @@ const RentStabilizedMapPage: React.FC = () => {
         )}
       </header>
 
-      <div className="rent-stab-map-page__map-container">
-        <Map
-          mapboxAccessToken={mapboxAccessToken}
-          initialViewState={{
-            bounds: NYC_BOUNDS,
-            fitBoundsOptions: { padding: 40, maxZoom: 11 },
-          }}
-          mapStyle={getMapStyle()}
-          interactiveLayerIds={[
-            clusterLayer.id,
-            unclusteredPointLayer.id,
-          ]}
-          cursor={cursor}
-          onClick={onMapClick}
-          onMouseEnter={() => setCursor("pointer")}
-          onMouseLeave={() => setCursor("")}
-          cooperativeGestures
-        >
-          <NavigationControl showCompass={false} visualizePitch={false} />
-          {!loading && !error && (
-            <Source
-              id="rent-stab-points"
-              type="geojson"
-              data={geojson}
-              cluster
-              clusterMaxZoom={14}
-              clusterRadius={50}
-            >
-              <Layer {...clusterLayer} />
-              <Layer {...clusterCountLayer} />
-              <Layer {...unclusteredPointLayer} />
-            </Source>
-          )}
+      <div className="rent-stab-map-page__body">
+        <div className="rent-stab-map-page__map-container">
+          <Map
+            ref={mapRef}
+            mapboxAccessToken={mapboxAccessToken}
+            initialViewState={{
+              bounds: NYC_BOUNDS,
+              fitBoundsOptions: { padding: 40, maxZoom: 11 },
+            }}
+            mapStyle={getMapStyle()}
+            interactiveLayerIds={[
+              clusterLayer.id,
+              unclusteredPointLayer.id,
+              selectedPointLayer.id,
+            ]}
+            cursor={cursor}
+            onClick={onMapClick}
+            onMouseEnter={() => setCursor("pointer")}
+            onMouseLeave={() => setCursor("")}
+            cooperativeGestures
+          >
+            <NavigationControl showCompass={false} visualizePitch={false} />
+            {!loading && !error && (
+              <Source
+                id="rent-stab-points"
+                type="geojson"
+                data={geojson}
+                cluster
+                clusterMaxZoom={14}
+                clusterRadius={50}
+              >
+                <Layer {...clusterLayer} />
+                <Layer {...clusterCountLayer} />
+                <Layer {...unclusteredPointLayer} />
+                <Layer
+                  {...selectedPointLayer}
+                  filter={["==", ["get", "bbl"], selectedBbl]}
+                />
+              </Source>
+            )}
+          </Map>
+
           {selectedPoint && (
-            <Popup
-              longitude={selectedPoint.lng}
-              latitude={selectedPoint.lat}
-              anchor="bottom"
-              onClose={() => setSelectedPoint(null)}
-              closeOnClick={false}
-            >
-              <div className="rent-stab-map-page__popup">
-                <p className="rent-stab-map-page__popup-address">
-                  {selectedPoint.address}
-                </p>
-                <p>
-                  {selectedPoint.borough}, {selectedPoint.zip}
-                </p>
-                <p>
-                  <Trans>
-                    {selectedPoint.rs_units} rent-stabilized unit(s) of{" "}
-                    {selectedPoint.units_res} residential
-                  </Trans>
-                </p>
+            <aside className="rent-stab-map-page__sidebar" aria-live="polite">
+              <div className="rent-stab-map-page__sidebar-header">
+                <h2>
+                  <Trans>Building details</Trans>
+                </h2>
+                <Button
+                  labelText={_(msg`Close`)}
+                  variant="tertiary"
+                  onClick={() => setSelectedPoint(null)}
+                />
               </div>
-            </Popup>
+              <dl className="rent-stab-map-page__sidebar-details">
+                <div>
+                  <dt>
+                    <Trans>Address</Trans>
+                  </dt>
+                  <dd>{selectedPoint.address}</dd>
+                </div>
+                <div>
+                  <dt>
+                    <Trans>Location</Trans>
+                  </dt>
+                  <dd>
+                    {selectedPoint.borough}, {selectedPoint.zip}
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    <Trans>BBL</Trans>
+                  </dt>
+                  <dd>{selectedPoint.bbl}</dd>
+                </div>
+                <div>
+                  <dt>
+                    <Trans>Rent-stabilized units</Trans>
+                  </dt>
+                  <dd>{selectedPoint.rs_units}</dd>
+                </div>
+                <div>
+                  <dt>
+                    <Trans>Residential units</Trans>
+                  </dt>
+                  <dd>{selectedPoint.units_res}</dd>
+                </div>
+              </dl>
+            </aside>
           )}
-        </Map>
+        </div>
       </div>
     </div>
   );

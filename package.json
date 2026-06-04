@@ -10,7 +10,8 @@
     "test": "vitest run",
     "preview": "vite preview",
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
-    "extract": "lingui extract"
+    "extract": "lingui extract",
+    "export-rent-stab-map": "node scripts/export-rent-stabilized-map-json.mjs"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "16.1.0",
