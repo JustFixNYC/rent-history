@@ -41,6 +41,12 @@ const SEARCH_ZOOM = 16;
 const DEFAULT_MAP_STYLE = "mapbox://styles/mapbox/light-v11";
 
 const getMapStyle = (): string => {
+  const rsMapStyle = import.meta.env.VITE_MAPBOX_RS_MAP_STYLE as
+    | string
+    | undefined;
+  if (rsMapStyle) {
+    return `mapbox://styles/${rsMapStyle}`;
+  }
   const styleToken = import.meta.env.VITE_MAPBOX_STYLE_TOKEN as
     | string
     | undefined;
