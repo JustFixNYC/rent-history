@@ -90,6 +90,38 @@ psql "$DATABASE_URL" -f scripts/rent-stabilized-map-counts.sql
 https://api.mapbox.com/styles/v1/justfix/cmq1asfej00gt01s68pra3xxq.html?access_token=TOKEN&fresh=true#14/40.758/-73.985
 ```
 
+#### Mapbox Studio “Share style” links (what each one is for)
+
+After **Publish**, open **Share style** in the style editor. Mapbox shows several URLs — most teammates only need two for rent-history dev.
+
+| Share dialog item | Example / format | Use for rent-history? |
+|-------------------|------------------|------------------------|
+| **Style URL** | `mapbox://styles/justfix/cmq1asfej00gt01s68pra3xxq` | **Yes** — this is what the app loads. Put the part after `styles/` in `.env` as `VITE_MAPBOX_RS_MAP_STYLE=justfix/cmq1asfej00gt01s68pra3xxq` |
+| **Access token** | `pk.…` (public token shown in share dialog) | **Yes** — same value as `VITE_MAPBOX_ACCESS_TOKEN`. Often identical to the WoW client token; can differ if Mapbox shows a project-specific default token |
+| **Preview / Production URL** | `https://api.mapbox.com/styles/v1/justfix/cmq1asfej00gt01s68pra3xxq.html?access_token=pk.…&…` | **QA only** — open in browser to verify dots. **Change the hash to NYC** (`#14/40.758/-73.985`); the default `#2/38/-34` is the Atlantic Ocean |
+| **`fresh=true` query param** | append to preview URL | **After publishing** — bypasses CDN cache while production URL catches up (can lag a few minutes) |
+| **Website embed (`<iframe>`)** | Mapbox-generated iframe snippet | **No** — we use Mapbox GL in React, not an iframe embed |
+| **Download → Stylesheet (JSON)** | style JSON export | **Optional** — useful to inspect layer config (`slot`, `circle-emissive-strength`) or backup the style |
+| **Download → icons / fonts** | SVG / TTF assets | **No** — only if the style uses custom sprites/fonts |
+| **Tileset id** (from Tilesets page, not Share style) | `mapbox://tileset-id…` or `justfix.xxxxx` | **Studio only** — needed when adding the layer to a style; the app loads the **style URL**, not the tileset id directly |
+
+**Copy-paste for teammates (Jun 2025 spike):**
+
+```bash
+# .env
+VITE_MAPBOX_ACCESS_TOKEN=pk.…   # from Share style → Access token
+VITE_MAPBOX_RS_MAP_STYLE=justfix/cmq1asfej00gt01s68pra3xxq
+```
+
+```
+# Browser QA (Times Square, zoom 14)
+https://api.mapbox.com/styles/v1/justfix/cmq1asfej00gt01s68pra3xxq.html?access_token=pk.…&fresh=true#14/40.758/-73.985
+```
+
+**Do not commit** Mapbox account passwords or secret (`sk.`) tokens. Public `pk.` tokens are expected in frontend env vars.
+
+**“Preview only” vs published:** If Share style says *Preview only*, your latest Studio edits are not live yet — click **Publish** first, then re-open Share style.
+
 ### 3. App env vars (`rent-history/.env`)
 
 ```bash
