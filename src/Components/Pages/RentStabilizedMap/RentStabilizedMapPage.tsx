@@ -43,8 +43,17 @@ const DEFAULT_MAP_STYLE = "mapbox://styles/mapbox/light-v11";
 const getRsMapStyleToken = (): string | undefined =>
   import.meta.env.VITE_MAPBOX_RS_MAP_STYLE as string | undefined;
 
-/** When set, points render from the Mapbox Studio style tileset (not client GeoJSON). */
-const isTilesetMapMode = (): boolean => Boolean(getRsMapStyleToken());
+const getRsTilesetId = (): string | undefined =>
+  import.meta.env.VITE_MAPBOX_RS_TILESET as string | undefined;
+
+const getRsTilesetSourceLayer = (): string | undefined =>
+  import.meta.env.VITE_MAPBOX_RS_TILESET_SOURCE_LAYER as string | undefined;
+
+/** When set, points render from a Mapbox tileset (not client GeoJSON clustering). */
+const isTilesetMapMode = (): boolean =>
+  Boolean(getRsMapStyleToken() || getRsTilesetId());
+
+const RS_TILESET_LAYER_ID = "rs-tileset-points";
 
 const getMapStyle = (): string => {
   const rsMapStyle = getRsMapStyleToken();
@@ -125,6 +134,24 @@ const selectedPointLayer: CircleLayerSpecification = {
   },
 };
 
+const rsTilesetPointLayer = (
+  sourceLayer: string
+): CircleLayerSpecification => ({
+  id: RS_TILESET_LAYER_ID,
+  type: "circle",
+  source: "rs-tileset",
+  "source-layer": sourceLayer,
+  slot: "top",
+  paint: {
+    "circle-color": "#43B19F",
+    "circle-radius": 4,
+    "circle-stroke-width": 1,
+    "circle-stroke-color": "#0D3B34",
+    "circle-opacity": 0.9,
+    "circle-emissive-strength": 1,
+  },
+});
+
 const toGeoJson = (
   points: RentStabilizedMapPoint[]
 ): FeatureCollection<Point> => ({
@@ -195,6 +222,15 @@ const RentStabilizedMapPage: React.FC = () => {
   const { _ } = useLingui();
   const mapRef = useRef<MapRef>(null);
   const tilesetMode = isTilesetMapMode();
+  const rsTilesetId = getRsTilesetId();
+  const rsTilesetSourceLayer = getRsTilesetSourceLayer();
+  const rsTilesetLayer = useMemo(
+    () =>
+      rsTilesetSourceLayer
+        ? rsTilesetPointLayer(rsTilesetSourceLayer)
+        : null,
+    [rsTilesetSourceLayer]
+  );
   const [points, setPoints] = useState<RentStabilizedMapPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -391,9 +427,13 @@ const RentStabilizedMapPage: React.FC = () => {
         {!loading && !error && (
           <p className="rent-stab-map-page__status">
             {tilesetMode
-              ? _(
-                  msg`${points.length.toLocaleString()} buildings with detail data (map points from Mapbox tileset)`
-                )
+              ? rsTilesetId
+                ? _(
+                    msg`${points.length.toLocaleString()} buildings with detail data (map points from Mapbox tileset)`
+                  )
+                : _(
+                    msg`Set VITE_MAPBOX_RS_TILESET to load RS points from Mapbox (Studio style alone does not include unpublished layers).`
+                  )
               : _(msg`${points.length.toLocaleString()} buildings`)}
           </p>
         )}
@@ -411,7 +451,9 @@ const RentStabilizedMapPage: React.FC = () => {
             mapStyle={getMapStyle()}
             interactiveLayerIds={
               tilesetMode
-                ? undefined
+                ? rsTilesetLayer
+                  ? [RS_TILESET_LAYER_ID]
+                  : undefined
                 : [
                     clusterLayer.id,
                     unclusteredPointLayer.id,
@@ -426,6 +468,15 @@ const RentStabilizedMapPage: React.FC = () => {
             cooperativeGestures
           >
             <NavigationControl showCompass={false} visualizePitch={false} />
+            {tilesetMode && rsTilesetId && rsTilesetLayer && (
+              <Source
+                id="rs-tileset"
+                type="vector"
+                url={`mapbox://${rsTilesetId}`}
+              >
+                <Layer {...rsTilesetLayer} />
+              </Source>
+            )}
             {!tilesetMode && !loading && !error && (
               <Source
                 id="rent-stab-points"
