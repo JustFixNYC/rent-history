@@ -37,7 +37,7 @@ yarn generate:api:account
 | `generated/account-openapi.d.ts` | Committed OpenAPI types (`yarn generate:api:account`) |
 | `account/` | Typed openapi-fetch client, imperative `/rh/*` API (`api.ts`), errors, types, TanStack Query hooks (`index.ts` barrel) |
 | `data/README.md` | Placeholder for a future read-only data API (not used in v1) |
-| `thirdParty/` | Hand-written modules for external hosts (GeoSearch, S3 presign) |
+| `thirdParty/` | Hand-written modules for external hosts (GeoSearch) |
 
 Architecture reference: [frontend-api-architecture.md](https://github.com/JustFixNYC/cursor-workspaces/blob/main/rent-history-analyzer/codegen/docs/frontend-api-architecture.md) in `cursor-workspaces/rent-history-analyzer/codegen/docs/`.
 

@@ -33,7 +33,16 @@ export type {
   ReportPdfLocale,
   RhProfile,
   RhReadinessAxis,
+  RhScanPresignRequest,
+  RhScanPresignResponse,
+  RhScanPresignUrlEntry,
 } from "./types";
+export {
+  downloadScans,
+  PresignApiError,
+  uploadScan,
+  type PresignedUrlEntry,
+} from "./scanPresign";
 export { accountQueryKeys } from "./queryKeys";
 export { useStartRhLogin, useVerifyRhOtp } from "./hooks/login";
 export { useCreateRhHistory } from "./hooks/history";
@@ -57,6 +66,7 @@ export {
   getRhHistoryAddress,
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
+  postRhHistoryScanPresign,
   startRhLogin,
   verifyRhOtp,
 } from "./api";
