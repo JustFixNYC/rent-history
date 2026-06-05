@@ -10,7 +10,7 @@ import type { CircleLayerSpecification, SymbolLayerSpecification } from "mapbox-
 import type { FeatureCollection, Point } from "geojson";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { Trans } from "@lingui/react/macro";
+import { Plural, Trans } from "@lingui/react/macro";
 import { Button, GeoSearchDropdown } from "@justfixnyc/component-library";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -381,7 +381,7 @@ const RentStabilizedMapPage: React.FC = () => {
     return (
       <div className="rent-stab-map-page">
         <p className="rent-stab-map-page__error">
-          <Trans>Map is not configured. Set VITE_MAPBOX_ACCESS_TOKEN.</Trans>
+          <Trans>Map is temporarily unavailable.</Trans>
         </p>
       </div>
     );
@@ -424,17 +424,29 @@ const RentStabilizedMapPage: React.FC = () => {
             {searchNotice}
           </p>
         )}
-        {!loading && !error && (
+        {!loading && !error && tilesetMode && !rsTilesetId && (
+          <p className="rent-stab-map-page__error">
+            <Trans>Building locations could not be loaded.</Trans>
+          </p>
+        )}
+        {!loading && !error && (tilesetMode ? rsTilesetId : true) && (
           <p className="rent-stab-map-page__status">
-            {tilesetMode
-              ? rsTilesetId
-                ? _(
-                    msg`${points.length.toLocaleString()} buildings with detail data (map points from Mapbox tileset)`
-                  )
-                : _(
-                    msg`Set VITE_MAPBOX_RS_TILESET to load RS points from Mapbox (Studio style alone does not include unpublished layers).`
-                  )
-              : _(msg`${points.length.toLocaleString()} buildings`)}
+            {tilesetMode ? (
+              <>
+                <Trans>Map points from DHCR registration data.</Trans>{" "}
+                <Plural
+                  value={points.length}
+                  one="# building with address and unit details"
+                  other="# buildings with address and unit details"
+                />
+              </>
+            ) : (
+              <Plural
+                value={points.length}
+                one="# building"
+                other="# buildings"
+              />
+            )}
           </p>
         )}
       </header>
@@ -516,7 +528,7 @@ const RentStabilizedMapPage: React.FC = () => {
                   </dt>
                   <dd>
                     {selectedPoint.address || (
-                      <Trans>Not in local detail index</Trans>
+                      <Trans>Address details are not available for this building.</Trans>
                     )}
                   </dd>
                 </div>
