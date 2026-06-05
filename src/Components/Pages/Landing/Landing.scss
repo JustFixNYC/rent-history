@@ -32,6 +32,16 @@
     padding: 1rem 1.25rem !important;
     width: 100% !important;
   }
+
+  &__map-link {
+    margin: 1.25rem 0 0;
+    font-size: 1.125rem;
+
+    a {
+      color: jfcl.$OFF_BLACK;
+      text-decoration: underline;
+    }
+  }
 }
 
 .landing-about {

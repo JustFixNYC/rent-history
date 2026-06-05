@@ -2,7 +2,7 @@ import { Button, Icon } from "@justfixnyc/component-library";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Landing.scss";
 
 const Landing: React.FC = () => {
@@ -26,6 +26,11 @@ const Landing: React.FC = () => {
           className="landing-hero__cta"
           onClick={() => navigate(`/${i18n.locale}/login`)}
         />
+        <p className="landing-hero__map-link">
+          <Link to={`/${i18n.locale}/rent-stabilized-map`}>
+            <Trans>View map of rent-stabilized buildings</Trans>
+          </Link>
+        </p>
       </section>
 
       <section className="landing-about">
