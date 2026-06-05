@@ -40,7 +40,26 @@ const SEARCH_ZOOM = 16;
 
 const DEFAULT_MAP_STYLE = "mapbox://styles/mapbox/light-v11";
 
+const getRsMapStyleToken = (): string | undefined =>
+  import.meta.env.VITE_MAPBOX_RS_MAP_STYLE as string | undefined;
+
+const getRsTilesetId = (): string | undefined =>
+  import.meta.env.VITE_MAPBOX_RS_TILESET as string | undefined;
+
+const getRsTilesetSourceLayer = (): string | undefined =>
+  import.meta.env.VITE_MAPBOX_RS_TILESET_SOURCE_LAYER as string | undefined;
+
+/** When set, points render from a Mapbox tileset (not client GeoJSON clustering). */
+const isTilesetMapMode = (): boolean =>
+  Boolean(getRsMapStyleToken() || getRsTilesetId());
+
+const RS_TILESET_LAYER_ID = "rs-tileset-points";
+
 const getMapStyle = (): string => {
+  const rsMapStyle = getRsMapStyleToken();
+  if (rsMapStyle) {
+    return `mapbox://styles/${rsMapStyle}`;
+  }
   const styleToken = import.meta.env.VITE_MAPBOX_STYLE_TOKEN as
     | string
     | undefined;
@@ -115,6 +134,24 @@ const selectedPointLayer: CircleLayerSpecification = {
   },
 };
 
+const rsTilesetPointLayer = (
+  sourceLayer: string
+): CircleLayerSpecification => ({
+  id: RS_TILESET_LAYER_ID,
+  type: "circle",
+  source: "rs-tileset",
+  "source-layer": sourceLayer,
+  slot: "top",
+  paint: {
+    "circle-color": "#43B19F",
+    "circle-radius": 4,
+    "circle-stroke-width": 1,
+    "circle-stroke-color": "#0D3B34",
+    "circle-opacity": 0.9,
+    "circle-emissive-strength": 1,
+  },
+});
+
 const toGeoJson = (
   points: RentStabilizedMapPoint[]
 ): FeatureCollection<Point> => ({
@@ -152,9 +189,48 @@ const pointFromFeature = (feature: GeoJSON.Feature): RentStabilizedMapPoint | nu
   };
 };
 
+const bblFromRenderedFeature = (
+  feature: GeoJSON.Feature
+): string | null => {
+  const bbl = feature.properties?.bbl;
+  if (bbl == null || feature.geometry.type !== "Point") return null;
+  return normalizeBbl(String(bbl));
+};
+
+const pointFromTileFeature = (
+  feature: GeoJSON.Feature,
+  details: RentStabilizedMapPoint | undefined
+): RentStabilizedMapPoint | null => {
+  const bbl = bblFromRenderedFeature(feature);
+  if (!bbl) return null;
+  if (details) return details;
+
+  const [lng, lat] = (feature.geometry as Point).coordinates;
+  return {
+    bbl,
+    address: "",
+    borough: "",
+    zip: "",
+    lat,
+    lng,
+    units_res: 0,
+    rs_units: 0,
+  };
+};
+
 const RentStabilizedMapPage: React.FC = () => {
   const { _ } = useLingui();
   const mapRef = useRef<MapRef>(null);
+  const tilesetMode = isTilesetMapMode();
+  const rsTilesetId = getRsTilesetId();
+  const rsTilesetSourceLayer = getRsTilesetSourceLayer();
+  const rsTilesetLayer = useMemo(
+    () =>
+      rsTilesetSourceLayer
+        ? rsTilesetPointLayer(rsTilesetSourceLayer)
+        : null,
+    [rsTilesetSourceLayer]
+  );
   const [points, setPoints] = useState<RentStabilizedMapPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -210,11 +286,28 @@ const RentStabilizedMapPage: React.FC = () => {
   }, []);
 
   const onMapClick = useCallback((event: MapMouseEvent) => {
+    const map = event.target;
+
+    if (tilesetMode) {
+      const features = map.queryRenderedFeatures(event.point);
+      const tileFeature = features.find((f) => bblFromRenderedFeature(f));
+      if (!tileFeature) return;
+
+      const bbl = bblFromRenderedFeature(tileFeature)!;
+      const clicked = pointFromTileFeature(
+        tileFeature,
+        pointsByBbl.get(bbl)
+      );
+      if (clicked) {
+        focusPoint(clicked);
+      }
+      return;
+    }
+
     const feature = event.features?.[0];
     if (!feature) return;
 
     const clusterId = feature.properties?.cluster_id;
-    const map = event.target;
 
     if (clusterId != null) {
       const source = map.getSource("rent-stab-points");
@@ -241,7 +334,18 @@ const RentStabilizedMapPage: React.FC = () => {
     if (clicked) {
       focusPoint(clicked);
     }
-  }, [focusPoint]);
+  }, [focusPoint, pointsByBbl, tilesetMode]);
+
+  const onMapMouseMove = useCallback(
+    (event: MapMouseEvent) => {
+      if (!tilesetMode) return;
+      const hit = event.target
+        .queryRenderedFeatures(event.point)
+        .some((f) => bblFromRenderedFeature(f));
+      setCursor(hit ? "pointer" : "");
+    },
+    [tilesetMode]
+  );
 
   const onGeosearchSelect = useCallback(
     (selection: GeoSearchDropdownSelection | null) => {
@@ -322,7 +426,15 @@ const RentStabilizedMapPage: React.FC = () => {
         )}
         {!loading && !error && (
           <p className="rent-stab-map-page__status">
-            {_(msg`${points.length.toLocaleString()} buildings`)}
+            {tilesetMode
+              ? rsTilesetId
+                ? _(
+                    msg`${points.length.toLocaleString()} buildings with detail data (map points from Mapbox tileset)`
+                  )
+                : _(
+                    msg`Set VITE_MAPBOX_RS_TILESET to load RS points from Mapbox (Studio style alone does not include unpublished layers).`
+                  )
+              : _(msg`${points.length.toLocaleString()} buildings`)}
           </p>
         )}
       </header>
@@ -337,19 +449,35 @@ const RentStabilizedMapPage: React.FC = () => {
               fitBoundsOptions: { padding: 40, maxZoom: 11 },
             }}
             mapStyle={getMapStyle()}
-            interactiveLayerIds={[
-              clusterLayer.id,
-              unclusteredPointLayer.id,
-              selectedPointLayer.id,
-            ]}
-            cursor={cursor}
+            interactiveLayerIds={
+              tilesetMode
+                ? rsTilesetLayer
+                  ? [RS_TILESET_LAYER_ID]
+                  : undefined
+                : [
+                    clusterLayer.id,
+                    unclusteredPointLayer.id,
+                    selectedPointLayer.id,
+                  ]
+            }
+            cursor={tilesetMode ? cursor : undefined}
             onClick={onMapClick}
-            onMouseEnter={() => setCursor("pointer")}
-            onMouseLeave={() => setCursor("")}
+            onMouseMove={tilesetMode ? onMapMouseMove : undefined}
+            onMouseEnter={tilesetMode ? undefined : () => setCursor("pointer")}
+            onMouseLeave={tilesetMode ? undefined : () => setCursor("")}
             cooperativeGestures
           >
             <NavigationControl showCompass={false} visualizePitch={false} />
-            {!loading && !error && (
+            {tilesetMode && rsTilesetId && rsTilesetLayer && (
+              <Source
+                id="rs-tileset"
+                type="vector"
+                url={`mapbox://${rsTilesetId}`}
+              >
+                <Layer {...rsTilesetLayer} />
+              </Source>
+            )}
+            {!tilesetMode && !loading && !error && (
               <Source
                 id="rent-stab-points"
                 type="geojson"
@@ -386,34 +514,46 @@ const RentStabilizedMapPage: React.FC = () => {
                   <dt>
                     <Trans>Address</Trans>
                   </dt>
-                  <dd>{selectedPoint.address}</dd>
-                </div>
-                <div>
-                  <dt>
-                    <Trans>Location</Trans>
-                  </dt>
                   <dd>
-                    {selectedPoint.borough}, {selectedPoint.zip}
+                    {selectedPoint.address || (
+                      <Trans>Not in local detail index</Trans>
+                    )}
                   </dd>
                 </div>
+                {(selectedPoint.borough || selectedPoint.zip) && (
+                  <div>
+                    <dt>
+                      <Trans>Location</Trans>
+                    </dt>
+                    <dd>
+                      {[selectedPoint.borough, selectedPoint.zip]
+                        .filter(Boolean)
+                        .join(", ")}
+                    </dd>
+                  </div>
+                )}
                 <div>
                   <dt>
                     <Trans>BBL</Trans>
                   </dt>
                   <dd>{selectedPoint.bbl}</dd>
                 </div>
-                <div>
-                  <dt>
-                    <Trans>Rent-stabilized units</Trans>
-                  </dt>
-                  <dd>{selectedPoint.rs_units}</dd>
-                </div>
-                <div>
-                  <dt>
-                    <Trans>Residential units</Trans>
-                  </dt>
-                  <dd>{selectedPoint.units_res}</dd>
-                </div>
+                {selectedPoint.rs_units > 0 && (
+                  <div>
+                    <dt>
+                      <Trans>Rent-stabilized units</Trans>
+                    </dt>
+                    <dd>{selectedPoint.rs_units}</dd>
+                  </div>
+                )}
+                {selectedPoint.units_res > 0 && (
+                  <div>
+                    <dt>
+                      <Trans>Residential units</Trans>
+                    </dt>
+                    <dd>{selectedPoint.units_res}</dd>
+                  </div>
+                )}
               </dl>
             </aside>
           )}
