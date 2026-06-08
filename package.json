@@ -10,6 +10,7 @@
     "test": "vitest run",
     "preview": "vite preview",
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
+    "format:check": "prettier --check --ignore-unknown \"src/**/*\"",
     "extract": "lingui extract",
     "generate:api:account": "openapi-typescript src/api/contract/account-openapi.json -o src/api/generated/account-openapi.d.ts",
     "generate:api": "yarn generate:api:account"
