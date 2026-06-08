@@ -89,15 +89,23 @@
       },
       "LocaleEnum": {
         "description": "* `en` - English\n* `es` - Spanish",
-        "enum": ["en", "es"],
+        "enum": [
+          "en",
+          "es"
+        ],
         "type": "string"
       },
       "NullEnum": {
-        "enum": [null]
+        "enum": [
+          null
+        ]
       },
       "OperationEnum": {
         "description": "* `upload` - upload\n* `download` - download",
-        "enum": ["upload", "download"],
+        "enum": [
+          "upload",
+          "download"
+        ],
         "type": "string"
       },
       "OtpTokenRequestRequest": {
@@ -128,7 +136,11 @@
             "type": "string"
           }
         },
-        "required": ["client_id", "code", "phone_number"],
+        "required": [
+          "client_id",
+          "code",
+          "phone_number"
+        ],
         "type": "object"
       },
       "OtpTokenResponse": {
@@ -170,22 +182,35 @@
             "type": "string"
           }
         },
-        "required": ["phone_number"],
+        "required": [
+          "phone_number"
+        ],
         "type": "object"
       },
       "RelationEnum": {
         "description": "* `less` - less\n* `equal` - equal\n* `more` - more",
-        "enum": ["less", "equal", "more"],
+        "enum": [
+          "less",
+          "equal",
+          "more"
+        ],
         "type": "string"
       },
       "ReportEmailStepStatusEnum": {
         "description": "* `succeeded` - Succeeded\n* `failed` - Failed\n* `not_attempted` - Not attempted",
-        "enum": ["succeeded", "failed", "not_attempted"],
+        "enum": [
+          "succeeded",
+          "failed",
+          "not_attempted"
+        ],
         "type": "string"
       },
       "ReportPdfLocaleEnum": {
         "description": "* `en` - English\n* `es` - Spanish",
-        "enum": ["en", "es"],
+        "enum": [
+          "en",
+          "es"
+        ],
         "type": "string"
       },
       "RhAnalysisPage": {
@@ -213,7 +238,9 @@
             "type": "integer"
           }
         },
-        "required": ["s3_key"],
+        "required": [
+          "s3_key"
+        ],
         "type": "object"
       },
       "RhAnalysisPagesResponse": {
@@ -225,7 +252,9 @@
             "type": "array"
           }
         },
-        "required": ["pages"],
+        "required": [
+          "pages"
+        ],
         "type": "object"
       },
       "RhApiErrorResponse": {
@@ -241,7 +270,10 @@
             "$ref": "#/components/schemas/ErrorCodeEnum"
           }
         },
-        "required": ["error", "error_code"],
+        "required": [
+          "error",
+          "error_code"
+        ],
         "type": "object"
       },
       "RhHistoryAddressResponse": {
@@ -256,7 +288,10 @@
             "type": "string"
           }
         },
-        "required": ["address", "apartment"],
+        "required": [
+          "address",
+          "apartment"
+        ],
         "type": "object"
       },
       "RhHistoryCombinePagesOkResponse": {
@@ -265,7 +300,9 @@
             "type": "string"
           }
         },
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "type": "object"
       },
       "RhHistoryConfirmAddressRequestRequest": {
@@ -291,7 +328,10 @@
             "type": "string"
           }
         },
-        "required": ["bbl", "history_id"],
+        "required": [
+          "bbl",
+          "history_id"
+        ],
         "type": "object"
       },
       "RhHistoryConfirmAddressResponse": {
@@ -313,7 +353,12 @@
             "type": "boolean"
           }
         },
-        "required": ["bbl_units", "bin_units", "is_421a_nycdb", "is_j51_nycdb"],
+        "required": [
+          "bbl_units",
+          "bin_units",
+          "is_421a_nycdb",
+          "is_j51_nycdb"
+        ],
         "type": "object"
       },
       "RhHistoryCreated": {
@@ -326,7 +371,9 @@
             "type": "string"
           }
         },
-        "required": ["id"],
+        "required": [
+          "id"
+        ],
         "type": "object"
       },
       "RhHistoryIdRequestRequest": {
@@ -337,7 +384,9 @@
             "type": "string"
           }
         },
-        "required": ["history_id"],
+        "required": [
+          "history_id"
+        ],
         "type": "object"
       },
       "RhHistoryList": {
@@ -399,7 +448,10 @@
             "type": "integer"
           }
         },
-        "required": ["deleted_pages", "s3_cleanup_status"],
+        "required": [
+          "deleted_pages",
+          "s3_cleanup_status"
+        ],
         "type": "object"
       },
       "RhHistoryReportEmailCreateRequestRequest": {
@@ -436,7 +488,12 @@
             "type": "array"
           }
         },
-        "required": ["email", "history_id", "html", "locale"],
+        "required": [
+          "email",
+          "history_id",
+          "html",
+          "locale"
+        ],
         "type": "object"
       },
       "RhHistoryReportEmailEmailStep": {
@@ -445,7 +502,9 @@
             "$ref": "#/components/schemas/ReportEmailStepStatusEnum"
           }
         },
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "type": "object"
       },
       "RhHistoryReportEmailPdfStep": {
@@ -464,7 +523,9 @@
             "$ref": "#/components/schemas/ReportEmailStepStatusEnum"
           }
         },
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "type": "object"
       },
       "RhHistoryReportEmailResponse": {
@@ -481,7 +542,11 @@
             "$ref": "#/components/schemas/RhHistoryReportEmailPdfStep"
           }
         },
-        "required": ["email", "history_id", "pdf"],
+        "required": [
+          "email",
+          "history_id",
+          "pdf"
+        ],
         "type": "object"
       },
       "RhHistoryReportPdfCreateRequestRequest": {
@@ -507,7 +572,11 @@
             "$ref": "#/components/schemas/LocaleEnum"
           }
         },
-        "required": ["history_id", "html", "locale"],
+        "required": [
+          "history_id",
+          "html",
+          "locale"
+        ],
         "type": "object"
       },
       "RhHistoryReportPdfCreateResponse": {
@@ -548,7 +617,11 @@
             "$ref": "#/components/schemas/RhProfile"
           }
         },
-        "required": ["created", "otp", "profile"],
+        "required": [
+          "created",
+          "otp",
+          "profile"
+        ],
         "type": "object"
       },
       "RhOtpDelivery": {
@@ -560,12 +633,17 @@
             "$ref": "#/components/schemas/RhOtpDeliveryStatusEnum"
           }
         },
-        "required": ["status"],
+        "required": [
+          "status"
+        ],
         "type": "object"
       },
       "RhOtpDeliveryStatusEnum": {
         "description": "* `sent` - sent\n* `pending` - pending",
-        "enum": ["sent", "pending"],
+        "enum": [
+          "sent",
+          "pending"
+        ],
         "type": "string"
       },
       "RhPage": {
@@ -821,7 +899,10 @@
             "type": "integer"
           }
         },
-        "required": ["needs_retake", "s3_key"],
+        "required": [
+          "needs_retake",
+          "s3_key"
+        ],
         "type": "object"
       },
       "RhPagesReadinessResponse": {
@@ -842,12 +923,20 @@
             "$ref": "#/components/schemas/RhPagesReadinessResponseStatusEnum"
           }
         },
-        "required": ["database", "s3", "status"],
+        "required": [
+          "database",
+          "s3",
+          "status"
+        ],
         "type": "object"
       },
       "RhPagesReadinessResponseStatusEnum": {
         "description": "* `ready` - ready\n* `pending` - pending\n* `excess` - excess",
-        "enum": ["ready", "pending", "excess"],
+        "enum": [
+          "ready",
+          "pending",
+          "excess"
+        ],
         "type": "string"
       },
       "RhProfile": {
@@ -862,7 +951,10 @@
             "type": "string"
           }
         },
-        "required": ["id", "phone_number"],
+        "required": [
+          "id",
+          "phone_number"
+        ],
         "type": "object"
       },
       "RhReadinessAxis": {
@@ -877,7 +969,11 @@
             "$ref": "#/components/schemas/RelationEnum"
           }
         },
-        "required": ["count", "expected", "relation"],
+        "required": [
+          "count",
+          "expected",
+          "relation"
+        ],
         "type": "object"
       },
       "RhScanPresignRequestRequest": {
@@ -897,7 +993,10 @@
             "$ref": "#/components/schemas/OperationEnum"
           }
         },
-        "required": ["keys", "operation"],
+        "required": [
+          "keys",
+          "operation"
+        ],
         "type": "object"
       },
       "RhScanPresignResponse": {
@@ -909,7 +1008,9 @@
             "type": "array"
           }
         },
-        "required": ["urls"],
+        "required": [
+          "urls"
+        ],
         "type": "object"
       },
       "RhScanPresignUrlEntry": {
@@ -926,7 +1027,11 @@
             "type": "string"
           }
         },
-        "required": ["expires_in", "key", "url"],
+        "required": [
+          "expires_in",
+          "key",
+          "url"
+        ],
         "type": "object"
       },
       "RhStandardizedTableRow": {
@@ -995,7 +1100,9 @@
             "type": "array"
           }
         },
-        "required": ["apt_stat"],
+        "required": [
+          "apt_stat"
+        ],
         "type": "object"
       },
       "RhStandardizedTableRowRequest": {
@@ -1065,12 +1172,17 @@
             "type": "array"
           }
         },
-        "required": ["apt_stat"],
+        "required": [
+          "apt_stat"
+        ],
         "type": "object"
       },
       "S3CleanupStatusEnum": {
         "description": "* `deleted` - deleted\n* `failed` - failed",
-        "enum": ["deleted", "failed"],
+        "enum": [
+          "deleted",
+          "failed"
+        ],
         "type": "string"
       }
     },
@@ -1135,11 +1247,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "List the resource owner's rent histories",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history": {
@@ -1173,11 +1289,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Create a new RhHistory for the resource owner",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/address": {
@@ -1226,11 +1346,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Get scan-extracted address for a RhHistory",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/analysis-pages": {
@@ -1286,11 +1410,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "List analysis RhPages for a given RhHistory",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/combine-pages": {
@@ -1344,11 +1472,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Combine RhPages into RhHistory.data_initial",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/confirm-address": {
@@ -1405,11 +1537,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Confirm address and look up NYCDB building info",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/delete-pages": {
@@ -1456,11 +1592,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Delete RhPage scan data for a given RhHistory",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/page": {
@@ -1518,7 +1658,9 @@
           }
         ],
         "summary": "Create an RhPage (lambda-only)",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/pages-readiness": {
@@ -1586,11 +1728,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Scan upload and extraction readiness for a RhHistory",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/report-email": {
@@ -1657,11 +1803,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Generate report PDF and email it to the user",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/report-pdf": {
@@ -1721,11 +1871,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Download the stored rent history report PDF",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       },
       "post": {
         "description": "Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.",
@@ -1790,11 +1944,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Generate and store a rent history report PDF",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/history/scan-presign": {
@@ -1868,11 +2026,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Batch presigned S3 URLs for scan upload or download",
-        "tags": ["Rent History"]
+        "tags": [
+          "Rent History"
+        ]
       }
     },
     "/rh/login/start": {
@@ -1912,7 +2074,9 @@
           }
         },
         "summary": "Start RH login (upsert profile and request OTP)",
-        "tags": ["OTP"]
+        "tags": [
+          "OTP"
+        ]
       }
     },
     "/rh/profile": {
@@ -1946,11 +2110,15 @@
         },
         "security": [
           {
-            "oauth2": ["all"]
+            "oauth2": [
+              "all"
+            ]
           }
         ],
         "summary": "Fetch the resource owner's profile",
-        "tags": ["Profile"]
+        "tags": [
+          "Profile"
+        ]
       }
     },
     "/rh/verify-otp-token": {
@@ -2020,7 +2188,9 @@
           }
         },
         "summary": "Exchange an OTP for OAuth tokens",
-        "tags": ["OTP"]
+        "tags": [
+          "OTP"
+        ]
       }
     }
   }

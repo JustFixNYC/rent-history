@@ -4,1585 +4,1548 @@
  */
 
 export interface paths {
-  "/rh/histories": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/histories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List the resource owner's rent histories
+         * @description Returns the authenticated user's RhHistories ordered by `created_at` descending. The list endpoint uses a slim serializer; fetch details via the page endpoints.
+         */
+        get: operations["histories_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * List the resource owner's rent histories
-     * @description Returns the authenticated user's RhHistories ordered by `created_at` descending. The list endpoint uses a slim serializer; fetch details via the page endpoints.
-     */
-    get: operations["histories_list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a new RhHistory for the resource owner
+         * @description Creates a new RhHistory tied to the authenticated user's RhProfile. Requires a valid OAuth2 access token in the `Authorization: Bearer` header.
+         */
+        post: operations["history_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Create a new RhHistory for the resource owner
-     * @description Creates a new RhHistory tied to the authenticated user's RhProfile. Requires a valid OAuth2 access token in the `Authorization: Bearer` header.
-     */
-    post: operations["history_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/address": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/address": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get scan-extracted address for a RhHistory
+         * @description Returns `apartment` and `address` stored on the RhHistory after combine-pages (from scanned rent history pages). Used to bootstrap address confirmation in the rent-history app.
+         */
+        get: operations["history_address_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get scan-extracted address for a RhHistory
-     * @description Returns `apartment` and `address` stored on the RhHistory after combine-pages (from scanned rent history pages). Used to bootstrap address confirmation in the rent-history app.
-     */
-    get: operations["history_address_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/analysis-pages": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/analysis-pages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List analysis RhPages for a given RhHistory
+         * @description Returns RhPage records with keep=True for this history (pages used in analysis after combine-pages). Sorted by start_year ascending. Each item includes start_year, end_year, and s3_key.
+         */
+        get: operations["history_analysis_pages_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * List analysis RhPages for a given RhHistory
-     * @description Returns RhPage records with keep=True for this history (pages used in analysis after combine-pages). Sorted by start_year ascending. Each item includes start_year, end_year, and s3_key.
-     */
-    get: operations["history_analysis_pages_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/combine-pages": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/combine-pages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Combine RhPages into RhHistory.data_initial
+         * @description Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial. Does not return the merged table.
+         */
+        post: operations["history_combine_pages_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Combine RhPages into RhHistory.data_initial
-     * @description Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial. Does not return the merged table.
-     */
-    post: operations["history_combine_pages_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/confirm-address": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/confirm-address": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Confirm address and look up NYCDB building info
+         * @description Updates address, apartment, bbl, and bin on an existing RhHistory, queries NYCDB for building unit counts and active program flags, sets last_step_reached to ADDRESS_CONFIRMATION, and returns the resolved values.
+         */
+        post: operations["history_confirm_address_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Confirm address and look up NYCDB building info
-     * @description Updates address, apartment, bbl, and bin on an existing RhHistory, queries NYCDB for building unit counts and active program flags, sets last_step_reached to ADDRESS_CONFIRMATION, and returns the resolved values.
-     */
-    post: operations["history_confirm_address_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/delete-pages": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/delete-pages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Delete RhPage scan data for a given RhHistory
+         * @description Deletes all RhPage records for the given RhHistory belonging to the authenticated user. Also performs best-effort cleanup of versioned S3 objects under `<profile_id>/<history_id>/` in `RH_SCAN_BUCKET`.
+         */
+        post: operations["history_delete_pages_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Delete RhPage scan data for a given RhHistory
-     * @description Deletes all RhPage records for the given RhHistory belonging to the authenticated user. Also performs best-effort cleanup of versioned S3 objects under `<profile_id>/<history_id>/` in `RH_SCAN_BUCKET`.
-     */
-    post: operations["history_delete_pages_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/page": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/page": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create an RhPage (lambda-only)
+         * @description Lambda-callable endpoint to record a scanned page. Authenticates via the static `RH_API_TOKEN` bearer rather than OAuth, since it is invoked from server-side AWS Lambda. The history must belong to the given profile.
+         */
+        post: operations["history_page_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Create an RhPage (lambda-only)
-     * @description Lambda-callable endpoint to record a scanned page. Authenticates via the static `RH_API_TOKEN` bearer rather than OAuth, since it is invoked from server-side AWS Lambda. The history must belong to the given profile.
-     */
-    post: operations["history_page_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/pages-readiness": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/pages-readiness": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Scan upload and extraction readiness for a RhHistory
+         * @description Compares S3 object count under `<profile_id>/<history_id>/` and `RhPage` row count to client `num_pages`. Each axis returns `count`, `expected`, and `relation` (`less`, `equal`, `more`). HTTP 200 `status`: `ready` (both equal, includes `pages`), `pending` (still processing), or `excess` (more than `num_pages` on either axis). HTTP 400 is query validation only. HTTP 503 when DB count exceeds S3 count (invariant violation) or storage is misconfigured.
+         */
+        get: operations["history_pages_readiness_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Scan upload and extraction readiness for a RhHistory
-     * @description Compares S3 object count under `<profile_id>/<history_id>/` and `RhPage` row count to client `num_pages`. Each axis returns `count`, `expected`, and `relation` (`less`, `equal`, `more`). HTTP 200 `status`: `ready` (both equal, includes `pages`), `pending` (still processing), or `excess` (more than `num_pages` on either axis). HTTP 400 is query validation only. HTTP 503 when DB count exceeds S3 count (invariant violation) or storage is misconfigured.
-     */
-    get: operations["history_pages_readiness_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/report-email": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/report-email": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Generate report PDF and email it to the user
+         * @description Renders HTML to PDF, stores it in S3 (same as POST /rh/history/report-pdf), persists recipient emails on RhHistory, and sends the PDF via email.
+         */
+        post: operations["history_report_email_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Generate report PDF and email it to the user
-     * @description Renders HTML to PDF, stores it in S3 (same as POST /rh/history/report-pdf), persists recipient emails on RhHistory, and sends the PDF via email.
-     */
-    post: operations["history_report_email_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/report-pdf": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/report-pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Download the stored rent history report PDF
+         * @description Returns the report PDF bytes for the authenticated user's RhHistory. 404 when no report has been generated or the S3 object is missing.
+         */
+        get: operations["history_report_pdf_retrieve"];
+        put?: never;
+        /**
+         * Generate and store a rent history report PDF
+         * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.
+         */
+        post: operations["history_report_pdf_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Download the stored rent history report PDF
-     * @description Returns the report PDF bytes for the authenticated user's RhHistory. 404 when no report has been generated or the S3 object is missing.
-     */
-    get: operations["history_report_pdf_retrieve"];
-    put?: never;
-    /**
-     * Generate and store a rent history report PDF
-     * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.
-     */
-    post: operations["history_report_pdf_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/history/scan-presign": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/history/scan-presign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Batch presigned S3 URLs for scan upload or download
+         * @description Returns presigned PUT (upload) or GET (download) URLs for scan image keys under `<profile_id>/<history_id>/filename`. Each key must belong to the authenticated user's profile and an owned RhHistory. Upload keys must use a `.jpg` or `.jpeg` filename. At most 20 keys per request.
+         */
+        post: operations["history_scan_presign_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Batch presigned S3 URLs for scan upload or download
-     * @description Returns presigned PUT (upload) or GET (download) URLs for scan image keys under `<profile_id>/<history_id>/filename`. Each key must belong to the authenticated user's profile and an owned RhHistory. Upload keys must use a `.jpg` or `.jpeg` filename. At most 20 keys per request.
-     */
-    post: operations["history_scan_presign_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/login/start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/login/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start RH login (upsert profile and request OTP)
+         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).
+         */
+        post: operations["login_start_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Start RH login (upsert profile and request OTP)
-     * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).
-     */
-    post: operations["login_start_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/profile": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fetch the resource owner's profile
+         * @description Returns the RhProfile of the authenticated user (the OAuth2 resource owner).
+         */
+        get: operations["profile_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Fetch the resource owner's profile
-     * @description Returns the RhProfile of the authenticated user (the OAuth2 resource owner).
-     */
-    get: operations["profile_retrieve"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/rh/verify-otp-token": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/rh/verify-otp-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Exchange an OTP for OAuth tokens
+         * @description Validates a previously issued OTP against the supplied phone number and (if successful) issues an OAuth2 access token and refresh token tied to the provided OAuth Application (`client_id` / `client_secret`). The Application must be configured with the password grant type. The returned `refresh_token` can be exchanged at the standard OAuth2 token endpoint (`POST /o/token/` with `grant_type=refresh_token`) for a new access token.
+         */
+        post: operations["verify_otp_token_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Exchange an OTP for OAuth tokens
-     * @description Validates a previously issued OTP against the supplied phone number and (if successful) issues an OAuth2 access token and refresh token tied to the provided OAuth Application (`client_id` / `client_secret`). The Application must be configured with the password grant type. The returned `refresh_token` can be exchanged at the standard OAuth2 token endpoint (`POST /o/token/` with `grant_type=refresh_token`) for a new access token.
-     */
-    post: operations["verify_otp_token_create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    /**
-     * @description Optional page-level carry-over from the prior page's table (subset of row fields).
-     *
-     *     Unknown keys are ignored (parity with rh-extract Pydantic extra="ignore").
-     *     All-empty payloads normalize to null.
-     */
-    CarryOverFields: {
-      lease_ends?: string | null;
-      reasons_differ_change?: string[];
-      sub_lines?: string[];
+    schemas: {
+        /**
+         * @description Optional page-level carry-over from the prior page's table (subset of row fields).
+         *
+         *     Unknown keys are ignored (parity with rh-extract Pydantic extra="ignore").
+         *     All-empty payloads normalize to null.
+         */
+        CarryOverFields: {
+            lease_ends?: string | null;
+            reasons_differ_change?: string[];
+            sub_lines?: string[];
+        };
+        /**
+         * @description Optional page-level carry-over from the prior page's table (subset of row fields).
+         *
+         *     Unknown keys are ignored (parity with rh-extract Pydantic extra="ignore").
+         *     All-empty payloads normalize to null.
+         */
+        CarryOverFieldsRequest: {
+            lease_ends?: string | null;
+            reasons_differ_change?: string[];
+            sub_lines?: string[];
+        };
+        /**
+         * @description * `otp_expired` - OTP expired
+         *     * `otp_invalid` - OTP invalid
+         *     * `otp_locked` - OTP locked
+         *     * `profile_not_found` - Profile not found
+         *     * `history_not_found` - History not found
+         *     * `rh_profile_not_found` - RH profile not found
+         *     * `rh_history_not_found` - RH history not found
+         *     * `history_profile_mismatch` - History does not belong to profile
+         *     * `invalid_phone_number` - Invalid phone number
+         *     * `validation_error` - Validation error
+         *     * `invalid_client` - Invalid OAuth client
+         *     * `unauthorized_client` - Unauthorized OAuth client
+         *     * `nycdb_not_configured` - NYCDB not configured
+         *     * `nycdb_query_failed` - NYCDB query failed
+         *     * `combine_pages_failed` - Combine pages failed
+         *     * `storage_not_configured` - Storage not configured
+         *     * `storage_read_failed` - Storage read failed
+         *     * `storage_write_failed` - Storage write failed
+         *     * `pages_sync_error` - Pages out of sync with scans
+         *     * `pdf_generation_failed` - PDF generation failed
+         *     * `report_pdf_not_found` - Report PDF not found
+         *     * `email_send_failed` - Email send failed
+         *     * `s3_key_access_denied` - S3 key access denied
+         * @enum {string}
+         */
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied";
+        /**
+         * @description * `DOCUMENT_SCAN` - Document Scan
+         *     * `SCAN_REVIEW` - Scan Review
+         *     * `ADDRESS_CONFIRMATION` - Address Confirmation
+         *     * `APARTMENT_INFO` - Apartment Info
+         *     * `FINDINGS_OVERVIEW` - Findings Overview
+         *     * `FINDINGS_REVIEW` - Findings Review
+         *     * `REPORT_GENERATION` - Report Generation
+         * @enum {string}
+         */
+        LastStepReachedEnum: "DOCUMENT_SCAN" | "SCAN_REVIEW" | "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
+        /**
+         * @description * `en` - English
+         *     * `es` - Spanish
+         * @enum {string}
+         */
+        LocaleEnum: "en" | "es";
+        /** @enum {unknown} */
+        NullEnum: null;
+        /**
+         * @description * `upload` - upload
+         *     * `download` - download
+         * @enum {string}
+         */
+        OperationEnum: "upload" | "download";
+        OtpTokenRequestRequest: {
+            client_id: string;
+            client_secret?: string;
+            code: string;
+            /** @default password */
+            grant_type: string;
+            phone_number: string;
+        };
+        OtpTokenResponse: {
+            access_token: string;
+            expires_in: number;
+            profile: components["schemas"]["RhProfile"];
+            refresh_token: string;
+            scope: string;
+            token_type: string;
+        };
+        PhoneNumberRequestRequest: {
+            phone_number: string;
+        };
+        /**
+         * @description * `less` - less
+         *     * `equal` - equal
+         *     * `more` - more
+         * @enum {string}
+         */
+        RelationEnum: "less" | "equal" | "more";
+        /**
+         * @description * `succeeded` - Succeeded
+         *     * `failed` - Failed
+         *     * `not_attempted` - Not attempted
+         * @enum {string}
+         */
+        ReportEmailStepStatusEnum: "succeeded" | "failed" | "not_attempted";
+        /**
+         * @description * `en` - English
+         *     * `es` - Spanish
+         * @enum {string}
+         */
+        ReportPdfLocaleEnum: "en" | "es";
+        /** @description Pages used in analysis (keep=True), for GET /rh/history/analysis-pages. */
+        RhAnalysisPage: {
+            /**
+             * Format: int64
+             * @description The last registration year of the rent history covered by this page.
+             */
+            end_year?: number | null;
+            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
+            s3_key: string;
+            /**
+             * Format: int64
+             * @description The first registration year of the rent history covered by this page.
+             */
+            start_year?: number | null;
+        };
+        RhAnalysisPagesResponse: {
+            pages: components["schemas"]["RhAnalysisPage"][];
+        };
+        /** @description Contract v3 error envelope for RH API error responses. */
+        RhApiErrorResponse: {
+            details?: unknown;
+            error: string;
+            error_code: components["schemas"]["ErrorCodeEnum"];
+        };
+        /** @description Scan-extracted location fields from RhHistory (GET /rh/history/address). */
+        RhHistoryAddressResponse: {
+            address: string | null;
+            apartment: string | null;
+        };
+        RhHistoryCombinePagesOkResponse: {
+            status: string;
+        };
+        RhHistoryConfirmAddressRequestRequest: {
+            address?: string | null;
+            apartment?: string | null;
+            bbl: string;
+            bin?: string | null;
+            /** Format: uuid */
+            history_id: string;
+        };
+        RhHistoryConfirmAddressResponse: {
+            bbl_units: number | null;
+            bin_units: number | null;
+            is_421a_nycdb: boolean | null;
+            is_j51_nycdb: boolean | null;
+        };
+        /** @description Minimal response for POST /rh/history (create only). */
+        RhHistoryCreated: {
+            /**
+             * Format: uuid
+             * @description ID for a rent history record.
+             */
+            readonly id: string;
+        };
+        /** @description Request body or query with a single RhHistory UUID. */
+        RhHistoryIdRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+        };
+        RhHistoryList: {
+            /** @description The address of the property, updated after user confirmation of scan extraction and map confirmation with Geosearch API. */
+            readonly address: string | null;
+            /** @description The apartment number for the history. Taken directly from the scan document. Not updated by the user when they confirm the building address. Only used to help the user identify the history if they have multiple in their account */
+            readonly apartment: string | null;
+            /** Format: date-time */
+            readonly created_at: string;
+            /**
+             * @description The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.
+             *
+             *     * `DOCUMENT_SCAN` - Document Scan
+             *     * `SCAN_REVIEW` - Scan Review
+             *     * `ADDRESS_CONFIRMATION` - Address Confirmation
+             *     * `APARTMENT_INFO` - Apartment Info
+             *     * `FINDINGS_OVERVIEW` - Findings Overview
+             *     * `FINDINGS_REVIEW` - Findings Review
+             *     * `REPORT_GENERATION` - Report Generation
+             */
+            readonly last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
+        RhHistoryPageDeleteResponse: {
+            deleted_pages: number;
+            s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
+            s3_deleted_versions?: number;
+        };
+        /** @description POST /rh/history/report-email body. */
+        RhHistoryReportEmailCreateRequestRequest: {
+            /** @description Optional print CSS passed to the PDF renderer. */
+            css?: string | null;
+            /** Format: email */
+            email: string;
+            /** Format: uuid */
+            history_id: string;
+            /** @description HTML document to render as the report PDF (max 1 MiB). */
+            html: string;
+            locale: components["schemas"]["LocaleEnum"];
+            report_emails?: string[];
+        };
+        RhHistoryReportEmailEmailStep: {
+            status: components["schemas"]["ReportEmailStepStatusEnum"];
+        };
+        RhHistoryReportEmailPdfStep: {
+            has_report_pdf?: boolean;
+            /** Format: date-time */
+            report_pdf_generated_at?: string;
+            report_pdf_locale?: components["schemas"]["ReportPdfLocaleEnum"];
+            status: components["schemas"]["ReportEmailStepStatusEnum"];
+        };
+        /** @description POST /rh/history/report-email success payload. */
+        RhHistoryReportEmailResponse: {
+            email: components["schemas"]["RhHistoryReportEmailEmailStep"];
+            /** Format: uuid */
+            history_id: string;
+            pdf: components["schemas"]["RhHistoryReportEmailPdfStep"];
+        };
+        /** @description POST /rh/history/report-pdf body. */
+        RhHistoryReportPdfCreateRequestRequest: {
+            /** @description Optional print CSS passed to the PDF renderer. */
+            css?: string | null;
+            /** Format: uuid */
+            history_id: string;
+            /** @description HTML document to render as the report PDF (max 1 MiB). */
+            html: string;
+            locale: components["schemas"]["LocaleEnum"];
+        };
+        /** @description POST /rh/history/report-pdf success payload. */
+        RhHistoryReportPdfCreateResponse: {
+            has_report_pdf: boolean;
+            /** Format: uuid */
+            history_id: string;
+            /** Format: date-time */
+            report_pdf_generated_at: string;
+            report_pdf_locale: components["schemas"]["ReportPdfLocaleEnum"];
+        };
+        RhLoginStartResponse: {
+            created: boolean;
+            otp: components["schemas"]["RhOtpDelivery"];
+            profile: components["schemas"]["RhProfile"];
+        };
+        RhOtpDelivery: {
+            message?: string;
+            status: components["schemas"]["RhOtpDeliveryStatusEnum"];
+        };
+        /**
+         * @description * `sent` - sent
+         *     * `pending` - pending
+         * @enum {string}
+         */
+        RhOtpDeliveryStatusEnum: "sent" | "pending";
+        RhPage: {
+            /** @description Address text from this page's scan extraction (same field shape as RhHistory.address; may be refined later via user Geosearch confirmation on the history). */
+            address?: string | null;
+            /** @description Apartment number from this page's scan extraction (same semantics as RhHistory.apartment but captured per page before combine). */
+            apartment?: string | null;
+            carry_over_fields?: components["schemas"]["CarryOverFields"] | null;
+            /** Format: date-time */
+            readonly created_at: string;
+            readonly data: components["schemas"]["RhStandardizedTableRow"][];
+            /**
+             * Format: int64
+             * @description The last registration year of the rent history covered by this page.
+             */
+            end_year?: number | null;
+            /** @description Error message from the scan image extraction pipeline for this page. */
+            error?: string | null;
+            /** @description Extra information about the apartment of building from the section below the table on the last page of the rent history document. */
+            extra_info?: string | null;
+            /** @description The number of times the Gemini API was called for the image extraction pipeline for  this page. Used to track usage and billing. */
+            gemini_usage_calls?: unknown;
+            /**
+             * Format: uuid
+             * @description The rent history of this page.
+             */
+            readonly history_id: string;
+            readonly id: number;
+            /** @description Whether the page is the cover page of RH without table data */
+            is_coverpage?: boolean | null;
+            /** @description True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until combine-pages runs. */
+            readonly keep: boolean | null;
+            /** @description The ID of the model used for the image extraction pipeline for this page. Used to track usage and billing. */
+            model_id?: string | null;
+            /** @description Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data. */
+            needs_retake: boolean;
+            /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
+            quality_issue_reason?: string | null;
+            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
+            s3_key: string;
+            /**
+             * Format: int64
+             * @description The first registration year of the rent history covered by this page.
+             */
+            start_year?: number | null;
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
+        RhPageCreateRequestRequest: {
+            address?: string | null;
+            apartment?: string | null;
+            carry_over_fields?: components["schemas"]["CarryOverFieldsRequest"] | null;
+            data: components["schemas"]["RhStandardizedTableRowRequest"][];
+            end_year?: number | null;
+            error?: string | null;
+            extra_info?: string | null;
+            gemini_usage_calls?: unknown;
+            /** Format: uuid */
+            history_id: string;
+            is_coverpage?: boolean | null;
+            model_id?: string | null;
+            needs_retake: boolean;
+            profile_id: number;
+            quality_issue_reason?: string | null;
+            s3_key: string;
+            start_year?: number | null;
+        };
+        /** @description Subset of RhPage fields returned by pages-readiness on HTTP 200. */
+        RhPageSummary: {
+            /**
+             * Format: int64
+             * @description The last registration year of the rent history covered by this page.
+             */
+            end_year?: number | null;
+            /** @description Error message from the scan image extraction pipeline for this page. */
+            error?: string | null;
+            /** @description Whether the page is the cover page of RH without table data */
+            is_coverpage?: boolean | null;
+            /** @description Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data. */
+            needs_retake: boolean;
+            /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
+            quality_issue_reason?: string | null;
+            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
+            s3_key: string;
+            /**
+             * Format: int64
+             * @description The first registration year of the rent history covered by this page.
+             */
+            start_year?: number | null;
+        };
+        RhPagesReadinessResponse: {
+            database: components["schemas"]["RhReadinessAxis"];
+            pages?: components["schemas"]["RhPageSummary"][];
+            s3: components["schemas"]["RhReadinessAxis"];
+            status: components["schemas"]["RhPagesReadinessResponseStatusEnum"];
+        };
+        /**
+         * @description * `ready` - ready
+         *     * `pending` - pending
+         *     * `excess` - excess
+         * @enum {string}
+         */
+        RhPagesReadinessResponseStatusEnum: "ready" | "pending" | "excess";
+        RhProfile: {
+            readonly id: number;
+            /** @description E.164 US number; must match AuthUser.username. */
+            phone_number: string;
+        };
+        RhReadinessAxis: {
+            count: number;
+            expected: number;
+            relation: components["schemas"]["RelationEnum"];
+        };
+        /** @description POST /rh/history/scan-presign body. */
+        RhScanPresignRequestRequest: {
+            keys: string[];
+            operation: components["schemas"]["OperationEnum"];
+        };
+        RhScanPresignResponse: {
+            urls: components["schemas"]["RhScanPresignUrlEntry"][];
+        };
+        RhScanPresignUrlEntry: {
+            expires_in: number;
+            key: string;
+            /** Format: uri */
+            url: string;
+        };
+        /** @description One element of RhPage.data[]. Declares OpenAPI field types and validates request rows. */
+        RhStandardizedTableRow: {
+            /** Format: double */
+            actual_rent_paid?: number | null;
+            actual_rent_paid_text?: string | null;
+            apt_stat: string;
+            filing_date?: string | null;
+            lease_began?: string | null;
+            lease_ends?: string | null;
+            /** Format: double */
+            legal_regulated_rent?: number | null;
+            legal_regulated_rent_text?: string | null;
+            /** Format: double */
+            prefer_rent?: number | null;
+            prefer_rent_text?: string | null;
+            reasons_differ_change?: string[];
+            reg_type?: string | null;
+            reg_year?: number | null;
+            sub_lines?: string[];
+        };
+        /** @description One element of RhPage.data[]. Declares OpenAPI field types and validates request rows. */
+        RhStandardizedTableRowRequest: {
+            /** Format: double */
+            actual_rent_paid?: number | null;
+            actual_rent_paid_text?: string | null;
+            apt_stat: string;
+            filing_date?: string | null;
+            lease_began?: string | null;
+            lease_ends?: string | null;
+            /** Format: double */
+            legal_regulated_rent?: number | null;
+            legal_regulated_rent_text?: string | null;
+            /** Format: double */
+            prefer_rent?: number | null;
+            prefer_rent_text?: string | null;
+            reasons_differ_change?: string[];
+            reg_type?: string | null;
+            reg_year?: number | null;
+            sub_lines?: string[];
+        };
+        /**
+         * @description * `deleted` - deleted
+         *     * `failed` - failed
+         * @enum {string}
+         */
+        S3CleanupStatusEnum: "deleted" | "failed";
     };
-    /**
-     * @description Optional page-level carry-over from the prior page's table (subset of row fields).
-     *
-     *     Unknown keys are ignored (parity with rh-extract Pydantic extra="ignore").
-     *     All-empty payloads normalize to null.
-     */
-    CarryOverFieldsRequest: {
-      lease_ends?: string | null;
-      reasons_differ_change?: string[];
-      sub_lines?: string[];
-    };
-    /**
-     * @description * `otp_expired` - OTP expired
-     *     * `otp_invalid` - OTP invalid
-     *     * `otp_locked` - OTP locked
-     *     * `profile_not_found` - Profile not found
-     *     * `history_not_found` - History not found
-     *     * `rh_profile_not_found` - RH profile not found
-     *     * `rh_history_not_found` - RH history not found
-     *     * `history_profile_mismatch` - History does not belong to profile
-     *     * `invalid_phone_number` - Invalid phone number
-     *     * `validation_error` - Validation error
-     *     * `invalid_client` - Invalid OAuth client
-     *     * `unauthorized_client` - Unauthorized OAuth client
-     *     * `nycdb_not_configured` - NYCDB not configured
-     *     * `nycdb_query_failed` - NYCDB query failed
-     *     * `combine_pages_failed` - Combine pages failed
-     *     * `storage_not_configured` - Storage not configured
-     *     * `storage_read_failed` - Storage read failed
-     *     * `storage_write_failed` - Storage write failed
-     *     * `pages_sync_error` - Pages out of sync with scans
-     *     * `pdf_generation_failed` - PDF generation failed
-     *     * `report_pdf_not_found` - Report PDF not found
-     *     * `email_send_failed` - Email send failed
-     *     * `s3_key_access_denied` - S3 key access denied
-     * @enum {string}
-     */
-    ErrorCodeEnum:
-      | "otp_expired"
-      | "otp_invalid"
-      | "otp_locked"
-      | "profile_not_found"
-      | "history_not_found"
-      | "rh_profile_not_found"
-      | "rh_history_not_found"
-      | "history_profile_mismatch"
-      | "invalid_phone_number"
-      | "validation_error"
-      | "invalid_client"
-      | "unauthorized_client"
-      | "nycdb_not_configured"
-      | "nycdb_query_failed"
-      | "combine_pages_failed"
-      | "storage_not_configured"
-      | "storage_read_failed"
-      | "storage_write_failed"
-      | "pages_sync_error"
-      | "pdf_generation_failed"
-      | "report_pdf_not_found"
-      | "email_send_failed"
-      | "s3_key_access_denied";
-    /**
-     * @description * `DOCUMENT_SCAN` - Document Scan
-     *     * `SCAN_REVIEW` - Scan Review
-     *     * `ADDRESS_CONFIRMATION` - Address Confirmation
-     *     * `APARTMENT_INFO` - Apartment Info
-     *     * `FINDINGS_OVERVIEW` - Findings Overview
-     *     * `FINDINGS_REVIEW` - Findings Review
-     *     * `REPORT_GENERATION` - Report Generation
-     * @enum {string}
-     */
-    LastStepReachedEnum:
-      | "DOCUMENT_SCAN"
-      | "SCAN_REVIEW"
-      | "ADDRESS_CONFIRMATION"
-      | "APARTMENT_INFO"
-      | "FINDINGS_OVERVIEW"
-      | "FINDINGS_REVIEW"
-      | "REPORT_GENERATION";
-    /**
-     * @description * `en` - English
-     *     * `es` - Spanish
-     * @enum {string}
-     */
-    LocaleEnum: "en" | "es";
-    /** @enum {unknown} */
-    NullEnum: null;
-    /**
-     * @description * `upload` - upload
-     *     * `download` - download
-     * @enum {string}
-     */
-    OperationEnum: "upload" | "download";
-    OtpTokenRequestRequest: {
-      client_id: string;
-      client_secret?: string;
-      code: string;
-      /** @default password */
-      grant_type: string;
-      phone_number: string;
-    };
-    OtpTokenResponse: {
-      access_token: string;
-      expires_in: number;
-      profile: components["schemas"]["RhProfile"];
-      refresh_token: string;
-      scope: string;
-      token_type: string;
-    };
-    PhoneNumberRequestRequest: {
-      phone_number: string;
-    };
-    /**
-     * @description * `less` - less
-     *     * `equal` - equal
-     *     * `more` - more
-     * @enum {string}
-     */
-    RelationEnum: "less" | "equal" | "more";
-    /**
-     * @description * `succeeded` - Succeeded
-     *     * `failed` - Failed
-     *     * `not_attempted` - Not attempted
-     * @enum {string}
-     */
-    ReportEmailStepStatusEnum: "succeeded" | "failed" | "not_attempted";
-    /**
-     * @description * `en` - English
-     *     * `es` - Spanish
-     * @enum {string}
-     */
-    ReportPdfLocaleEnum: "en" | "es";
-    /** @description Pages used in analysis (keep=True), for GET /rh/history/analysis-pages. */
-    RhAnalysisPage: {
-      /**
-       * Format: int64
-       * @description The last registration year of the rent history covered by this page.
-       */
-      end_year?: number | null;
-      /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
-      s3_key: string;
-      /**
-       * Format: int64
-       * @description The first registration year of the rent history covered by this page.
-       */
-      start_year?: number | null;
-    };
-    RhAnalysisPagesResponse: {
-      pages: components["schemas"]["RhAnalysisPage"][];
-    };
-    /** @description Contract v3 error envelope for RH API error responses. */
-    RhApiErrorResponse: {
-      details?: unknown;
-      error: string;
-      error_code: components["schemas"]["ErrorCodeEnum"];
-    };
-    /** @description Scan-extracted location fields from RhHistory (GET /rh/history/address). */
-    RhHistoryAddressResponse: {
-      address: string | null;
-      apartment: string | null;
-    };
-    RhHistoryCombinePagesOkResponse: {
-      status: string;
-    };
-    RhHistoryConfirmAddressRequestRequest: {
-      address?: string | null;
-      apartment?: string | null;
-      bbl: string;
-      bin?: string | null;
-      /** Format: uuid */
-      history_id: string;
-    };
-    RhHistoryConfirmAddressResponse: {
-      bbl_units: number | null;
-      bin_units: number | null;
-      is_421a_nycdb: boolean | null;
-      is_j51_nycdb: boolean | null;
-    };
-    /** @description Minimal response for POST /rh/history (create only). */
-    RhHistoryCreated: {
-      /**
-       * Format: uuid
-       * @description ID for a rent history record.
-       */
-      readonly id: string;
-    };
-    /** @description Request body or query with a single RhHistory UUID. */
-    RhHistoryIdRequestRequest: {
-      /** Format: uuid */
-      history_id: string;
-    };
-    RhHistoryList: {
-      /** @description The address of the property, updated after user confirmation of scan extraction and map confirmation with Geosearch API. */
-      readonly address: string | null;
-      /** @description The apartment number for the history. Taken directly from the scan document. Not updated by the user when they confirm the building address. Only used to help the user identify the history if they have multiple in their account */
-      readonly apartment: string | null;
-      /** Format: date-time */
-      readonly created_at: string;
-      /**
-       * @description The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.
-       *
-       *     * `DOCUMENT_SCAN` - Document Scan
-       *     * `SCAN_REVIEW` - Scan Review
-       *     * `ADDRESS_CONFIRMATION` - Address Confirmation
-       *     * `APARTMENT_INFO` - Apartment Info
-       *     * `FINDINGS_OVERVIEW` - Findings Overview
-       *     * `FINDINGS_REVIEW` - Findings Review
-       *     * `REPORT_GENERATION` - Report Generation
-       */
-      readonly last_step_reached:
-        | (
-            | components["schemas"]["LastStepReachedEnum"]
-            | components["schemas"]["NullEnum"]
-          )
-        | null;
-      /** Format: date-time */
-      readonly updated_at: string;
-    };
-    RhHistoryPageDeleteResponse: {
-      deleted_pages: number;
-      s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
-      s3_deleted_versions?: number;
-    };
-    /** @description POST /rh/history/report-email body. */
-    RhHistoryReportEmailCreateRequestRequest: {
-      /** @description Optional print CSS passed to the PDF renderer. */
-      css?: string | null;
-      /** Format: email */
-      email: string;
-      /** Format: uuid */
-      history_id: string;
-      /** @description HTML document to render as the report PDF (max 1 MiB). */
-      html: string;
-      locale: components["schemas"]["LocaleEnum"];
-      report_emails?: string[];
-    };
-    RhHistoryReportEmailEmailStep: {
-      status: components["schemas"]["ReportEmailStepStatusEnum"];
-    };
-    RhHistoryReportEmailPdfStep: {
-      has_report_pdf?: boolean;
-      /** Format: date-time */
-      report_pdf_generated_at?: string;
-      report_pdf_locale?: components["schemas"]["ReportPdfLocaleEnum"];
-      status: components["schemas"]["ReportEmailStepStatusEnum"];
-    };
-    /** @description POST /rh/history/report-email success payload. */
-    RhHistoryReportEmailResponse: {
-      email: components["schemas"]["RhHistoryReportEmailEmailStep"];
-      /** Format: uuid */
-      history_id: string;
-      pdf: components["schemas"]["RhHistoryReportEmailPdfStep"];
-    };
-    /** @description POST /rh/history/report-pdf body. */
-    RhHistoryReportPdfCreateRequestRequest: {
-      /** @description Optional print CSS passed to the PDF renderer. */
-      css?: string | null;
-      /** Format: uuid */
-      history_id: string;
-      /** @description HTML document to render as the report PDF (max 1 MiB). */
-      html: string;
-      locale: components["schemas"]["LocaleEnum"];
-    };
-    /** @description POST /rh/history/report-pdf success payload. */
-    RhHistoryReportPdfCreateResponse: {
-      has_report_pdf: boolean;
-      /** Format: uuid */
-      history_id: string;
-      /** Format: date-time */
-      report_pdf_generated_at: string;
-      report_pdf_locale: components["schemas"]["ReportPdfLocaleEnum"];
-    };
-    RhLoginStartResponse: {
-      created: boolean;
-      otp: components["schemas"]["RhOtpDelivery"];
-      profile: components["schemas"]["RhProfile"];
-    };
-    RhOtpDelivery: {
-      message?: string;
-      status: components["schemas"]["RhOtpDeliveryStatusEnum"];
-    };
-    /**
-     * @description * `sent` - sent
-     *     * `pending` - pending
-     * @enum {string}
-     */
-    RhOtpDeliveryStatusEnum: "sent" | "pending";
-    RhPage: {
-      /** @description Address text from this page's scan extraction (same field shape as RhHistory.address; may be refined later via user Geosearch confirmation on the history). */
-      address?: string | null;
-      /** @description Apartment number from this page's scan extraction (same semantics as RhHistory.apartment but captured per page before combine). */
-      apartment?: string | null;
-      carry_over_fields?: components["schemas"]["CarryOverFields"] | null;
-      /** Format: date-time */
-      readonly created_at: string;
-      readonly data: components["schemas"]["RhStandardizedTableRow"][];
-      /**
-       * Format: int64
-       * @description The last registration year of the rent history covered by this page.
-       */
-      end_year?: number | null;
-      /** @description Error message from the scan image extraction pipeline for this page. */
-      error?: string | null;
-      /** @description Extra information about the apartment of building from the section below the table on the last page of the rent history document. */
-      extra_info?: string | null;
-      /** @description The number of times the Gemini API was called for the image extraction pipeline for  this page. Used to track usage and billing. */
-      gemini_usage_calls?: unknown;
-      /**
-       * Format: uuid
-       * @description The rent history of this page.
-       */
-      readonly history_id: string;
-      readonly id: number;
-      /** @description Whether the page is the cover page of RH without table data */
-      is_coverpage?: boolean | null;
-      /** @description True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until combine-pages runs. */
-      readonly keep: boolean | null;
-      /** @description The ID of the model used for the image extraction pipeline for this page. Used to track usage and billing. */
-      model_id?: string | null;
-      /** @description Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data. */
-      needs_retake: boolean;
-      /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
-      quality_issue_reason?: string | null;
-      /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
-      s3_key: string;
-      /**
-       * Format: int64
-       * @description The first registration year of the rent history covered by this page.
-       */
-      start_year?: number | null;
-      /** Format: date-time */
-      readonly updated_at: string;
-    };
-    RhPageCreateRequestRequest: {
-      address?: string | null;
-      apartment?: string | null;
-      carry_over_fields?:
-        | components["schemas"]["CarryOverFieldsRequest"]
-        | null;
-      data: components["schemas"]["RhStandardizedTableRowRequest"][];
-      end_year?: number | null;
-      error?: string | null;
-      extra_info?: string | null;
-      gemini_usage_calls?: unknown;
-      /** Format: uuid */
-      history_id: string;
-      is_coverpage?: boolean | null;
-      model_id?: string | null;
-      needs_retake: boolean;
-      profile_id: number;
-      quality_issue_reason?: string | null;
-      s3_key: string;
-      start_year?: number | null;
-    };
-    /** @description Subset of RhPage fields returned by pages-readiness on HTTP 200. */
-    RhPageSummary: {
-      /**
-       * Format: int64
-       * @description The last registration year of the rent history covered by this page.
-       */
-      end_year?: number | null;
-      /** @description Error message from the scan image extraction pipeline for this page. */
-      error?: string | null;
-      /** @description Whether the page is the cover page of RH without table data */
-      is_coverpage?: boolean | null;
-      /** @description Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data. */
-      needs_retake: boolean;
-      /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
-      quality_issue_reason?: string | null;
-      /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
-      s3_key: string;
-      /**
-       * Format: int64
-       * @description The first registration year of the rent history covered by this page.
-       */
-      start_year?: number | null;
-    };
-    RhPagesReadinessResponse: {
-      database: components["schemas"]["RhReadinessAxis"];
-      pages?: components["schemas"]["RhPageSummary"][];
-      s3: components["schemas"]["RhReadinessAxis"];
-      status: components["schemas"]["RhPagesReadinessResponseStatusEnum"];
-    };
-    /**
-     * @description * `ready` - ready
-     *     * `pending` - pending
-     *     * `excess` - excess
-     * @enum {string}
-     */
-    RhPagesReadinessResponseStatusEnum: "ready" | "pending" | "excess";
-    RhProfile: {
-      readonly id: number;
-      /** @description E.164 US number; must match AuthUser.username. */
-      phone_number: string;
-    };
-    RhReadinessAxis: {
-      count: number;
-      expected: number;
-      relation: components["schemas"]["RelationEnum"];
-    };
-    /** @description POST /rh/history/scan-presign body. */
-    RhScanPresignRequestRequest: {
-      keys: string[];
-      operation: components["schemas"]["OperationEnum"];
-    };
-    RhScanPresignResponse: {
-      urls: components["schemas"]["RhScanPresignUrlEntry"][];
-    };
-    RhScanPresignUrlEntry: {
-      expires_in: number;
-      key: string;
-      /** Format: uri */
-      url: string;
-    };
-    /** @description One element of RhPage.data[]. Declares OpenAPI field types and validates request rows. */
-    RhStandardizedTableRow: {
-      /** Format: double */
-      actual_rent_paid?: number | null;
-      actual_rent_paid_text?: string | null;
-      apt_stat: string;
-      filing_date?: string | null;
-      lease_began?: string | null;
-      lease_ends?: string | null;
-      /** Format: double */
-      legal_regulated_rent?: number | null;
-      legal_regulated_rent_text?: string | null;
-      /** Format: double */
-      prefer_rent?: number | null;
-      prefer_rent_text?: string | null;
-      reasons_differ_change?: string[];
-      reg_type?: string | null;
-      reg_year?: number | null;
-      sub_lines?: string[];
-    };
-    /** @description One element of RhPage.data[]. Declares OpenAPI field types and validates request rows. */
-    RhStandardizedTableRowRequest: {
-      /** Format: double */
-      actual_rent_paid?: number | null;
-      actual_rent_paid_text?: string | null;
-      apt_stat: string;
-      filing_date?: string | null;
-      lease_began?: string | null;
-      lease_ends?: string | null;
-      /** Format: double */
-      legal_regulated_rent?: number | null;
-      legal_regulated_rent_text?: string | null;
-      /** Format: double */
-      prefer_rent?: number | null;
-      prefer_rent_text?: string | null;
-      reasons_differ_change?: string[];
-      reg_type?: string | null;
-      reg_year?: number | null;
-      sub_lines?: string[];
-    };
-    /**
-     * @description * `deleted` - deleted
-     *     * `failed` - failed
-     * @enum {string}
-     */
-    S3CleanupStatusEnum: "deleted" | "failed";
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  histories_list: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    histories_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryList"][];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No RhProfile for the resource owner. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    history_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["RhHistoryList"][];
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryCreated"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No RhProfile for the resource owner. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
         };
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description No RhProfile for the resource owner. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
     };
-  };
-  history_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    history_address_retrieve: {
+        parameters: {
+            query: {
+                /** @description UUID of the RhHistory whose address fields should be returned. */
+                history_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryAddressResponse"];
+                };
+            };
+            /** @description Missing or invalid history_id. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown;
+    history_analysis_pages_retrieve: {
+        parameters: {
+            query: {
+                /** @description UUID of the RhHistory whose analysis pages should be returned. */
+                history_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["RhHistoryCreated"];
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhAnalysisPagesResponse"];
+                };
+            };
+            /** @description Missing or invalid history_id. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
         };
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description No RhProfile for the resource owner. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
     };
-  };
-  history_address_retrieve: {
-    parameters: {
-      query: {
-        /** @description UUID of the RhHistory whose address fields should be returned. */
-        history_id: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
+    history_combine_pages_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryIdRequestRequest"];
+            };
+        };
+        responses: {
+            /** @description Combine completed and history updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryCombinePagesOkResponse"];
+                };
+            };
+            /** @description Validation failed (e.g. non-contiguous reg_year). */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    history_confirm_address_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["RhHistoryAddressResponse"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryConfirmAddressRequestRequest"];
+            };
         };
-      };
-      /** @description Missing or invalid history_id. */
-      400: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryConfirmAddressResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No RhProfile or matching RhHistory. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description NYCDB is not configured or unavailable. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
         };
-        content?: never;
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
     };
-  };
-  history_analysis_pages_retrieve: {
-    parameters: {
-      query: {
-        /** @description UUID of the RhHistory whose analysis pages should be returned. */
-        history_id: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
+    history_delete_pages_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryIdRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryPageDeleteResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    history_page_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["RhAnalysisPagesResponse"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhPageCreateRequestRequest"];
+            };
         };
-      };
-      /** @description Missing or invalid history_id. */
-      400: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhPage"];
+                };
+            };
+            /** @description Validation error or history/profile mismatch. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid bearer token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
         };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
     };
-  };
-  history_combine_pages_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    history_pages_readiness_retrieve: {
+        parameters: {
+            query: {
+                /** @description UUID of the RhHistory to check. */
+                history_id: string;
+                /** @description Number of pages the client believes were scanned (minimum 1). */
+                num_pages: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Readiness check succeeded (ready, pending, or excess). */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhPagesReadinessResponse"];
+                };
+            };
+            /** @description Invalid history_id or num_pages. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage misconfiguration, S3 failure, or DB count exceeds S3 count. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RhHistoryIdRequestRequest"];
-      };
+    history_report_email_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryReportEmailCreateRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryReportEmailResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description PDF rendering failed. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage or email delivery failed. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    responses: {
-      /** @description Combine completed and history updated. */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    history_report_pdf_retrieve: {
+        parameters: {
+            query: {
+                /** @description UUID of the RhHistory whose report PDF should be downloaded. */
+                history_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["RhHistoryCombinePagesOkResponse"];
+        requestBody?: never;
+        responses: {
+            /** @description PDF file (application/pdf). */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+            /** @description Missing or invalid history_id. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile, RhHistory, or report PDF not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage not configured or read failed. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
         };
-      };
-      /** @description Validation failed (e.g. non-contiguous reg_year). */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
     };
-  };
-  history_confirm_address_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    history_report_pdf_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryReportPdfCreateRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryReportPdfCreateResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description PDF rendering failed. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage not configured or write failed. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RhHistoryConfirmAddressRequestRequest"];
-      };
+    history_scan_presign_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhScanPresignRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhScanPresignResponse"];
+                };
+            };
+            /** @description Validation error (invalid operation, keys, or key count). */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description S3 key does not belong to the authenticated user. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description RhProfile not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage misconfiguration or presign generation failure. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
+    login_start_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["RhHistoryConfirmAddressResponse"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PhoneNumberRequestRequest"];
+            };
         };
-      };
-      /** @description Validation error. */
-      400: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Profile upserted and OTP issued. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhLoginStartResponse"];
+                };
+            };
+            /** @description Invalid phone number. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
         };
-        content?: never;
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description No RhProfile or matching RhHistory. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description NYCDB is not configured or unavailable. */
-      503: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
     };
-  };
-  history_delete_pages_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    profile_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhProfile"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No RhProfile for the resource owner. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RhHistoryIdRequestRequest"];
-      };
+    verify_otp_token_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OtpTokenRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OtpTokenResponse"];
+                };
+            };
+            /** @description Invalid input, expired OTP, wrong grant type, or unauthorized client. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Invalid client credentials. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description No user found with this phone number. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Too many invalid attempts; request a new code. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
     };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhHistoryPageDeleteResponse"];
-        };
-      };
-      /** @description Validation error. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  history_page_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RhPageCreateRequestRequest"];
-      };
-    };
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhPage"];
-        };
-      };
-      /** @description Validation error or history/profile mismatch. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Missing or invalid bearer token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  history_pages_readiness_retrieve: {
-    parameters: {
-      query: {
-        /** @description UUID of the RhHistory to check. */
-        history_id: string;
-        /** @description Number of pages the client believes were scanned (minimum 1). */
-        num_pages: number;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Readiness check succeeded (ready, pending, or excess). */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhPagesReadinessResponse"];
-        };
-      };
-      /** @description Invalid history_id or num_pages. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Storage misconfiguration, S3 failure, or DB count exceeds S3 count. */
-      503: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  history_report_email_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RhHistoryReportEmailCreateRequestRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhHistoryReportEmailResponse"];
-        };
-      };
-      /** @description Validation error. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description PDF rendering failed. */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Storage or email delivery failed. */
-      503: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  history_report_pdf_retrieve: {
-    parameters: {
-      query: {
-        /** @description UUID of the RhHistory whose report PDF should be downloaded. */
-        history_id: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description PDF file (application/pdf). */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/pdf": string;
-        };
-      };
-      /** @description Missing or invalid history_id. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile, RhHistory, or report PDF not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Storage not configured or read failed. */
-      503: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  history_report_pdf_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RhHistoryReportPdfCreateRequestRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhHistoryReportPdfCreateResponse"];
-        };
-      };
-      /** @description Validation error. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description RhProfile or RhHistory not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description PDF rendering failed. */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Storage not configured or write failed. */
-      503: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  history_scan_presign_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RhScanPresignRequestRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhScanPresignResponse"];
-        };
-      };
-      /** @description Validation error (invalid operation, keys, or key count). */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description S3 key does not belong to the authenticated user. */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description RhProfile not found. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Storage misconfiguration or presign generation failure. */
-      503: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  login_start_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["PhoneNumberRequestRequest"];
-      };
-    };
-    responses: {
-      /** @description Profile upserted and OTP issued. */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhLoginStartResponse"];
-        };
-      };
-      /** @description Invalid phone number. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  profile_retrieve: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhProfile"];
-        };
-      };
-      /** @description Missing or invalid access token. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description No RhProfile for the resource owner. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
-  verify_otp_token_create: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["OtpTokenRequestRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["OtpTokenResponse"];
-        };
-      };
-      /** @description Invalid input, expired OTP, wrong grant type, or unauthorized client. */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Invalid client credentials. */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description No user found with this phone number. */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-      /** @description Too many invalid attempts; request a new code. */
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RhApiErrorResponse"];
-        };
-      };
-    };
-  };
 }
