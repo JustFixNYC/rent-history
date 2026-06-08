@@ -46,7 +46,7 @@
         "type": "object"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `s3_key_access_denied` - S3 key access denied",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied",
         "enum": [
           "otp_expired",
           "otp_invalid",
@@ -69,6 +69,7 @@
           "pages_sync_error",
           "pdf_generation_failed",
           "report_pdf_not_found",
+          "email_send_failed",
           "s3_key_access_denied"
         ],
         "type": "string"
@@ -192,6 +193,15 @@
           "less",
           "equal",
           "more"
+        ],
+        "type": "string"
+      },
+      "ReportEmailStepStatusEnum": {
+        "description": "* `succeeded` - Succeeded\n* `failed` - Failed\n* `not_attempted` - Not attempted",
+        "enum": [
+          "succeeded",
+          "failed",
+          "not_attempted"
         ],
         "type": "string"
       },
@@ -441,6 +451,101 @@
         "required": [
           "deleted_pages",
           "s3_cleanup_status"
+        ],
+        "type": "object"
+      },
+      "RhHistoryReportEmailCreateRequestRequest": {
+        "description": "POST /rh/history/report-email body.",
+        "properties": {
+          "css": {
+            "description": "Optional print CSS passed to the PDF renderer.",
+            "maxLength": 262144,
+            "nullable": true,
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "minLength": 1,
+            "type": "string"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "html": {
+            "description": "HTML document to render as the report PDF (max 1 MiB).",
+            "maxLength": 1048576,
+            "minLength": 1,
+            "type": "string"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/LocaleEnum"
+          },
+          "report_emails": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "email",
+          "history_id",
+          "html",
+          "locale"
+        ],
+        "type": "object"
+      },
+      "RhHistoryReportEmailEmailStep": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/ReportEmailStepStatusEnum"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "RhHistoryReportEmailPdfStep": {
+        "properties": {
+          "has_report_pdf": {
+            "type": "boolean"
+          },
+          "report_pdf_generated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "report_pdf_locale": {
+            "$ref": "#/components/schemas/ReportPdfLocaleEnum"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ReportEmailStepStatusEnum"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "RhHistoryReportEmailResponse": {
+        "description": "POST /rh/history/report-email success payload.",
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/RhHistoryReportEmailEmailStep"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "pdf": {
+            "$ref": "#/components/schemas/RhHistoryReportEmailPdfStep"
+          }
+        },
+        "required": [
+          "email",
+          "history_id",
+          "pdf"
         ],
         "type": "object"
       },
@@ -1629,6 +1734,81 @@
           }
         ],
         "summary": "Scan upload and extraction readiness for a RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/report-email": {
+      "post": {
+        "description": "Renders HTML to PDF, stores it in S3 (same as POST /rh/history/report-pdf), persists recipient emails on RhHistory, and sends the PDF via email.",
+        "operationId": "history_report_email_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistoryReportEmailCreateRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryReportEmailResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "PDF rendering failed."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Storage or email delivery failed."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Generate report PDF and email it to the user",
         "tags": [
           "Rent History"
         ]
