@@ -16,6 +16,10 @@ import {
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
 import { buildReportPdfRequest } from "./ReportPDF";
+import {
+  ReportEmailForm,
+  type ReportEmailFormOutcome,
+} from "./ReportEmailForm";
 import "./Report.scss";
 
 const REPORT_PDF_FILENAME = "rent-history-report.pdf";
@@ -39,6 +43,12 @@ const Report: React.FC = () => {
   const accessToken = session?.accessToken;
 
   const [pageError, setPageError] = useState<string | null>(null);
+  const [emailStatusMessage, setEmailStatusMessage] = useState<string | null>(
+    null
+  );
+  const [emailStatusTone, setEmailStatusTone] = useState<"success" | "error">(
+    "success"
+  );
   const [canDownload, setCanDownload] = useState(false);
 
   const generateMutation = useMutation({
@@ -100,6 +110,32 @@ const Report: React.FC = () => {
     }
   };
 
+  const onEmailOutcome = (outcome: ReportEmailFormOutcome) => {
+    switch (outcome.type) {
+      case "success":
+        setEmailStatusTone("success");
+        setEmailStatusMessage(
+          _(
+            msg`Your report was emailed successfully. You can also download it above.`
+          )
+        );
+        setCanDownload(true);
+        break;
+      case "email_failed":
+        setEmailStatusTone("error");
+        setEmailStatusMessage(outcome.message);
+        setCanDownload(true);
+        break;
+      case "pdf_failed":
+        setEmailStatusTone("error");
+        setEmailStatusMessage(outcome.message);
+        break;
+      case "request_failed":
+        setEmailStatusMessage(null);
+        break;
+    }
+  };
+
   if (!accessToken) {
     return (
       <section id="report-page" className="preflow-section">
@@ -153,6 +189,28 @@ const Report: React.FC = () => {
           ) : null}
         </div>
         {pageError ? <p className="report-page__error">{pageError}</p> : null}
+      </article>
+
+      <article className="preflow-card report-page__email-card">
+        <ReportEmailForm
+          accessToken={accessToken}
+          historyId={historyId}
+          locale={toReportPdfLocale(i18n.locale)}
+          onOutcome={onEmailOutcome}
+          onSubmitStart={() => setEmailStatusMessage(null)}
+        />
+        {emailStatusMessage ? (
+          <p
+            className={
+              emailStatusTone === "success"
+                ? "report-page__success"
+                : "report-page__error"
+            }
+            role="status"
+          >
+            {emailStatusMessage}
+          </p>
+        ) : null}
       </article>
     </section>
   );
