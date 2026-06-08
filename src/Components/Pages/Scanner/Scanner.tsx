@@ -198,12 +198,11 @@ const Scanner: React.FC = () => {
         );
         return;
       }
-      const message =
-        isAccountApiError(readinessError)
-          ? readinessError.message
-          : readinessError instanceof Error
-          ? readinessError.message
-          : String(readinessError);
+      const message = isAccountApiError(readinessError)
+        ? readinessError.message
+        : readinessError instanceof Error
+        ? readinessError.message
+        : String(readinessError);
       setReadinessPhase("error");
       setReadinessErrorMessage(message);
       return;
@@ -379,7 +378,10 @@ const Scanner: React.FC = () => {
     if (!readScanKeyPrefix()) return;
     if (historyId) {
       await queryClient.removeQueries({
-        queryKey: accountQueryKeys.pagesReadiness(historyId, numPagesAfterScanRef.current),
+        queryKey: accountQueryKeys.pagesReadiness(
+          historyId,
+          numPagesAfterScanRef.current
+        ),
       });
     }
     setReadinessPhase("idle");
@@ -400,10 +402,7 @@ const Scanner: React.FC = () => {
     const restartSession = getRhAuthSession();
     const restartHistoryId = getRhHistoryId();
     if (!restartSession?.accessToken || !restartHistoryId) return;
-    await deleteRhHistoryPages(
-      restartSession.accessToken,
-      restartHistoryId
-    );
+    await deleteRhHistoryPages(restartSession.accessToken, restartHistoryId);
     await launchScanner();
   };
 

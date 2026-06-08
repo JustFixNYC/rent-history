@@ -88,7 +88,9 @@ const LoginPage: React.FC = () => {
     setVerificationError(null);
     setVerificationNotice(null);
     try {
-      const { created, otp } = await startRhLoginMutation.mutateAsync(numericPhone);
+      const { created, otp } = await startRhLoginMutation.mutateAsync(
+        numericPhone
+      );
       setProfileCreated(created);
       setRhProfileCreated(created);
       setVerificationNotice(
