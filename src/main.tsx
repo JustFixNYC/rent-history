@@ -12,12 +12,23 @@ const rollbarConfig = {
     import.meta.env.MODE === "production",
 };
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <RollbarProvider config={rollbarConfig}>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    </RollbarProvider>
-  </StrictMode>
-);
+async function bootstrap() {
+  if (import.meta.env.DEV) {
+    const { findingsReviewWorker } = await import(
+      "./mocks/findingsReview/browser"
+    );
+    await findingsReviewWorker.start({ onUnhandledRequest: "bypass" });
+  }
+
+  createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+      <RollbarProvider config={rollbarConfig}>
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      </RollbarProvider>
+    </StrictMode>
+  );
+}
+
+void bootstrap();

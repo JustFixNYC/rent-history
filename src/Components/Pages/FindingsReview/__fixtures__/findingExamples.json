@@ -1,0 +1,31 @@
+{
+  "OVERCHARGE_PREHSTPA": {
+    "id": "86f89e90-b6e4-48c0-9bcb-5f33fd2cf60b",
+    "key": {
+      "type": "OVERCHARGE_PREHSTPA",
+      "finding_year": 1992,
+      "subtype": null
+    },
+    "type": "OVERCHARGE_PREHSTPA",
+    "finding_year": 1992,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 1991,
+          "legal_rent": 2283.1,
+          "tenants": ["KEITH ANTOINE"],
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 1992,
+          "legal_rent": 2590.86,
+          "tenants": ["CHRISTINE DOE"],
+          "gets_vacancy_increase": null,
+          "rgb_pct": 0.0
+        }
+      ]
+    },
+    "validated_at": null
+  }
+}

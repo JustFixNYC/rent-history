@@ -28,17 +28,20 @@ describe("post-OTP route protection", () => {
     clearRhAuthSession();
   });
 
-  it.each(["/en/account", "/en/scanner", "/en/review", "/en/confirm-address"])(
-    "redirects unauthenticated deep-link %s to login",
-    async (path) => {
-      window.history.pushState({}, "", path);
-      render(<App />);
+  it.each([
+    "/en/account",
+    "/en/scanner",
+    "/en/review",
+    "/en/confirm-address",
+    "/en/findings-review",
+  ])("redirects unauthenticated deep-link %s to login", async (path) => {
+    window.history.pushState({}, "", path);
+    render(<App />);
 
-      await waitFor(() => {
-        expect(window.location.pathname).toBe("/en/login");
-      });
-    }
-  );
+    await waitFor(() => {
+      expect(window.location.pathname).toBe("/en/login");
+    });
+  });
 
   it("allows protected routes when otp session is valid", async () => {
     setRhAuthSession(tokenPayload);

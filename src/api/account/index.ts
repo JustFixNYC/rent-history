@@ -65,6 +65,10 @@ export {
   useRhHistoryAddress,
 } from "./hooks/confirmAddress";
 export {
+  useRhFindingsState,
+  useValidateRhFinding,
+} from "./hooks/findingsReview";
+export {
   combineRhHistoryPages,
   confirmRhHistoryAddress,
   createRhHistory,
@@ -79,3 +83,4 @@ export {
   startRhLogin,
   verifyRhOtp,
 } from "./api";
+export { getRhFindingsState, validateRhFinding } from "./findingsReview";

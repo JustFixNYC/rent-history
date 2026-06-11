@@ -27,7 +27,7 @@ import type {
   RhScanPresignResponse,
 } from "./types";
 
-const getAuthProviderBaseUrl = (): string => {
+export const getAuthProviderBaseUrl = (): string => {
   const baseUrl = import.meta.env.VITE_AUTH_PROVIDER_BASE_URL as
     | string
     | undefined;
