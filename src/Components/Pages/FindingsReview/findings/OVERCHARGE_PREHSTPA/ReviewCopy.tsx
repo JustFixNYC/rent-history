@@ -97,6 +97,15 @@ export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
   </p>
 );
 
+export const TenancyBodyMultiple = () => (
+  <p className="prehstpa-step-copy">
+    <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple">
+      Look at <DocumentLink /> — What is the earliest year any of the following
+      names appear in your rent history document?
+    </Trans>
+  </p>
+);
+
 type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
 
 export const ResultConfirmedTitle = () => (

@@ -381,7 +381,16 @@
   flex-direction: column;
   gap: jfcl.$JF_SPACING_05;
   width: 100%;
+}
 
+// Figma 5360:457 — multi-tenant tenancy step stacked chips
+.prehstpa-tenancy-step__tenant-list {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_03;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .prehstpa-yes-no-sr-label {

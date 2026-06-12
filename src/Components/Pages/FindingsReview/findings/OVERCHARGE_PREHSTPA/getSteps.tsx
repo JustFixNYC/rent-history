@@ -7,6 +7,7 @@ import { YearField } from "../../fields/YearField";
 import { FindingFormShell } from "../../FindingFormShell";
 import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
 import { StepNumberBadge } from "../../StepNumberBadge";
+import { TenantChip } from "../../TenantChip";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import {
   OcrConfirmStep,
@@ -19,12 +20,13 @@ import type { PrehstpaFormState } from "./answers";
 import {
   OcrHeading,
   TenancyBody,
+  TenancyBodyMultiple,
   TenancyHeading,
   VacancyBody,
   VacancyHeading,
 } from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
-import { ROW_INDEX } from "./spec";
+import { getTenancyRowTenants, ROW_INDEX } from "./spec";
 
 export type PrehstpaGetStepsBindings = {
   finding: Finding;
@@ -136,8 +138,8 @@ const TenancyStepModule = ({
   isPastStep,
 }: TenancyStepModuleProps) => {
   const { _ } = useLingui();
-  const row0 = finding.data.rows[ROW_INDEX.tenancy];
-  const tenant = row0.tenants?.[0] ?? "";
+  const tenants = getTenancyRowTenants(finding);
+  const isMulti = tenants.length > 1;
 
   return (
     <FindingFormShell
@@ -148,8 +150,25 @@ const TenancyStepModule = ({
         <div
           className="prehstpa-tenancy-step"
           data-testid="prehstpa-tenancy-step"
+          data-tenant-mode={isMulti ? "multiple" : "single"}
         >
-          <TenancyBody tenant={tenant} />
+          {isMulti ? (
+            <TenancyBodyMultiple />
+          ) : (
+            <TenancyBody tenant={tenants[0] ?? ""} />
+          )}
+          {isMulti ? (
+            <ul
+              className="prehstpa-tenancy-step__tenant-list"
+              aria-label={_(msg`Tenant names`)}
+            >
+              {tenants.map((tenant) => (
+                <li key={tenant}>
+                  <TenantChip tenant={tenant} />
+                </li>
+              ))}
+            </ul>
+          ) : null}
           <YearField
             id="prehstpa-tenancy-start"
             value={formState.tenancyStart}

@@ -1,8 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { cleanup, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
 
 import findingExamples from "../../__fixtures__/findingExamples.json";
 import { filterVisibleSteps } from "../../hooks/stepVisibility";
 import type { Finding, ValidateFindingAnswers } from "../../types/finding";
+import "../../FindingsReview.scss";
 
 import {
   buildAnswers,
@@ -16,6 +20,31 @@ import { EXCLUDED_ANSWER_KEYS, ROW_INDEX } from "./spec";
 const finding = findingExamples.OVERCHARGE_PREHSTPA as Finding;
 
 const noopFormChange = () => {};
+
+afterEach(() => {
+  cleanup();
+});
+
+const renderWithI18n = (ui: React.ReactElement) => {
+  i18n.load("en", {});
+  i18n.activate("en");
+  return render(<I18nProvider i18n={i18n}>{ui}</I18nProvider>);
+};
+
+function renderTenancyStep(findingOverride: Finding) {
+  const steps = getSteps({
+    finding: findingOverride,
+    formState: createInitialFormState(findingOverride),
+    onFormStateChange: noopFormChange,
+  });
+  const tenancyStep = steps.find((step) => step.id === "tenancy_start");
+
+  if (!tenancyStep) {
+    throw new Error("tenancy_start step not found");
+  }
+
+  return renderWithI18n(tenancyStep.render({ isPastStep: false }));
+}
 
 function stepsForAnswers(answers: ValidateFindingAnswers) {
   const formState: PrehstpaFormState = {
@@ -75,6 +104,46 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
     });
 
     expect(visible.map((step) => step.id)).toEqual(["ocr_confirm", "vacancy"]);
+  });
+
+  it("renders single-tenant tenancy step for one tenant", () => {
+    renderTenancyStep(finding);
+
+    const step = screen.getByTestId("prehstpa-tenancy-step");
+    expect(step).toHaveAttribute("data-tenant-mode", "single");
+    expect(
+      step.querySelector(".prehstpa-tenancy-step__tenant-list")
+    ).toBeNull();
+    expect(screen.getAllByTestId("tenant-chip")).toHaveLength(1);
+    expect(screen.getByText("KEITH ANTOINE")).toBeInTheDocument();
+    expect(document.getElementById("prehstpa-tenancy-start")).toBeInTheDocument();
+  });
+
+  it("renders multi-tenant tenancy step with stacked chips", () => {
+    const multiTenantFinding: Finding = {
+      ...finding,
+      data: {
+        rows: [
+          {
+            ...finding.data.rows[ROW_INDEX.tenancy],
+            tenants: ["Tenant A", "Tenant B"],
+          },
+          finding.data.rows[ROW_INDEX.vacancy],
+        ],
+      },
+    };
+
+    renderTenancyStep(multiTenantFinding);
+
+    const step = screen.getByTestId("prehstpa-tenancy-step");
+    expect(step).toHaveAttribute("data-tenant-mode", "multiple");
+    expect(
+      step.querySelector(".prehstpa-tenancy-step__tenant-list")
+    ).not.toBeNull();
+    expect(screen.getAllByTestId("tenant-chip")).toHaveLength(2);
+    expect(screen.getByText("Tenant A")).toBeInTheDocument();
+    expect(screen.getByText("Tenant B")).toBeInTheDocument();
+    expect(document.getElementById("prehstpa-tenancy-start")).toBeInTheDocument();
   });
 });
 

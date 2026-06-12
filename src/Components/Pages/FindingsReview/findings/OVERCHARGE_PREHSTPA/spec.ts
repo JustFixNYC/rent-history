@@ -61,3 +61,7 @@ export type IntroValues = {
   rent1: number;
   percentIncrease: number;
 };
+
+export function getTenancyRowTenants(finding: Finding): string[] {
+  return finding.data.rows[ROW_INDEX.tenancy]?.tenants?.filter(Boolean) ?? [];
+}

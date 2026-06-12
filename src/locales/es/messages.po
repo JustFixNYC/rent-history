@@ -13,6 +13,16 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:157
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:126
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
+#~ msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -143,7 +153,7 @@ msgid "Completed Feb 1, 2026"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:591
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:184
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:162
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:119
 msgid "Continue"
 msgstr "Continuar"
@@ -328,7 +338,7 @@ msgstr ""
 msgid "Loading address…"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:230
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:34
 msgid "Loading findings…"
 msgstr ""
 
@@ -364,6 +374,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:92
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:102
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
 msgstr ""
 
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:101
@@ -421,13 +436,8 @@ msgid "No rent history session was found. Complete the upload flow first, then r
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:134
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:157
-msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:21
@@ -494,13 +504,8 @@ msgid "Please sign in to generate your report."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:103
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:112
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:126
-msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:29
@@ -606,7 +611,7 @@ msgid "Scanning in progress..."
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:151
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:176
 msgid "Select Year"
 msgstr ""
 
@@ -659,6 +664,10 @@ msgstr ""
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:163
+msgid "Tenant names"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Footer.tsx:32
 msgid "Terms of use"
 msgstr ""
@@ -667,17 +676,17 @@ msgstr ""
 msgid "That code is incorrect. Try again."
 msgstr ""
 
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:145
-msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
-msgstr ""
-
 #: src/Components/Pages/PageLayout/Footer.tsx:17
 msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:114
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:143
+msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:123
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
 msgstr ""
 
@@ -714,7 +723,7 @@ msgstr ""
 msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:235
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:39
 msgid "Unable to load findings state."
 msgstr ""
 
@@ -733,7 +742,7 @@ msgid "Unit number"
 msgstr ""
 
 #. placeholder {0}: currentFinding.type
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:248
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:53
 msgid "Unsupported finding type: {0}"
 msgstr ""
 
