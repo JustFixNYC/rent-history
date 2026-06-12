@@ -15,3 +15,9 @@ export type {
 } from "./finding";
 
 export { FINDING_STATUSES } from "./finding";
+
+export type {
+  FindingStep,
+  FindingStepRenderContext,
+  FindingStepVisibilityContext,
+} from "./step";
