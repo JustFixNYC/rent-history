@@ -23,7 +23,7 @@ export const FindingResultPanel = ({
         "finding-result-panel",
         isConfirmed
           ? "finding-result-panel--confirmed"
-          : "finding-result-panel--explained-away",
+          : "finding-result-panel--explained-away"
       )}
       data-testid="finding-result-panel"
       data-outcome={outcome}

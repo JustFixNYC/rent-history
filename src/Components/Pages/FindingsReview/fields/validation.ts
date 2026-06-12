@@ -51,10 +51,9 @@ export function createRequiredYearSchema(
   messages: { required: string; invalid: string },
   range?: { min?: number; max?: number }
 ) {
-  return createYearSchema(messages, range).nullable().refine(
-    (value): value is number => value !== null,
-    messages.required
-  );
+  return createYearSchema(messages, range)
+    .nullable()
+    .refine((value): value is number => value !== null, messages.required);
 }
 
 export function createYesNoSchema(requiredMessage: string) {

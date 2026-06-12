@@ -1,6 +1,9 @@
 import { findingReviewModule as overchargePrehstpaModule } from "../findings/OVERCHARGE_PREHSTPA";
 
-import { registerFindingModule, type AnyFindingReviewModule } from "./findingModule";
+import {
+  registerFindingModule,
+  type AnyFindingReviewModule,
+} from "./findingModule";
 
 export const FINDING_MODULES = {
   OVERCHARGE_PREHSTPA: registerFindingModule(overchargePrehstpaModule),

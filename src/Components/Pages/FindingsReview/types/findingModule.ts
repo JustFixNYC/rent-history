@@ -23,7 +23,7 @@ export type FindingReviewModule<TForm = unknown> = {
   isStepComplete: (
     stepId: string,
     formState: TForm,
-    ctx: { ocrConfirmed: boolean },
+    ctx: { ocrConfirmed: boolean }
   ) => boolean;
   renderResult: (result: FindingResult) => ReactNode;
 };
@@ -39,18 +39,21 @@ export type AnyFindingReviewModule = {
   createInitialFormState: (finding: Finding) => unknown;
   getIntro: (finding: Finding) => FindingIntroPanelProps;
   getSteps: (bindings: AnyFindingModuleStepBindings) => FindingStep[];
-  buildAnswers: (finding: Finding, formState: unknown) => ValidateFindingAnswers;
+  buildAnswers: (
+    finding: Finding,
+    formState: unknown
+  ) => ValidateFindingAnswers;
   isStepComplete: (
     stepId: string,
     formState: unknown,
-    ctx: { ocrConfirmed: boolean },
+    ctx: { ocrConfirmed: boolean }
   ) => boolean;
   renderResult: (result: FindingResult) => ReactNode;
 };
 
 /** Register a typed module in `FINDING_MODULES` (variance-safe boundary). */
 export function registerFindingModule<TForm>(
-  module: FindingReviewModule<TForm>,
+  module: FindingReviewModule<TForm>
 ): AnyFindingReviewModule {
   return module as unknown as AnyFindingReviewModule;
 }

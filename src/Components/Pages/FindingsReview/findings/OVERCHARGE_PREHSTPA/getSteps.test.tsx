@@ -44,7 +44,10 @@ function renderTenancyStep(findingOverride: Finding) {
   }
 
   return renderWithI18n(
-    tenancyStep.render({ isPastStep: false, isActive: true }) as React.ReactElement
+    tenancyStep.render({
+      isPastStep: false,
+      isActive: true,
+    }) as React.ReactElement
   );
 }
 
@@ -118,7 +121,9 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
     ).toBeNull();
     expect(screen.getAllByTestId("tenant-chip")).toHaveLength(1);
     expect(screen.getByText("KEITH ANTOINE")).toBeInTheDocument();
-    expect(document.getElementById("prehstpa-tenancy-start")).toBeInTheDocument();
+    expect(
+      document.getElementById("prehstpa-tenancy-start")
+    ).toBeInTheDocument();
   });
 
   it("renders multi-tenant tenancy step with stacked chips", () => {
@@ -145,7 +150,9 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
     expect(screen.getAllByTestId("tenant-chip")).toHaveLength(2);
     expect(screen.getByText("Tenant A")).toBeInTheDocument();
     expect(screen.getByText("Tenant B")).toBeInTheDocument();
-    expect(document.getElementById("prehstpa-tenancy-start")).toBeInTheDocument();
+    expect(
+      document.getElementById("prehstpa-tenancy-start")
+    ).toBeInTheDocument();
   });
 });
 

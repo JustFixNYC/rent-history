@@ -5,12 +5,7 @@ type StepNumberBadgeProps = {
 };
 
 export const StepNumberBadge = ({ stepNumber }: StepNumberBadgeProps) => (
-  <Pill
-    color="black"
-    circle
-    aria-hidden
-    data-testid="step-number-badge"
-  >
+  <Pill color="black" circle aria-hidden data-testid="step-number-badge">
     {stepNumber}
   </Pill>
 );

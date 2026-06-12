@@ -57,9 +57,9 @@ describe("OVERCHARGE_PREHSTPA isStepComplete", () => {
   });
 
   it("returns false for unknown step ids", () => {
-    expect(
-      isStepComplete("intro", baseFormState, { ocrConfirmed: true })
-    ).toBe(false);
+    expect(isStepComplete("intro", baseFormState, { ocrConfirmed: true })).toBe(
+      false
+    );
     expect(
       isStepComplete("submit", baseFormState, { ocrConfirmed: true })
     ).toBe(false);

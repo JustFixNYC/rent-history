@@ -1,11 +1,7 @@
 import type { FindingIntroPanelProps } from "../../FindingIntroPanel";
 import type { Finding } from "../../types/finding";
 
-import {
-  IntroDescription,
-  IntroEyebrow,
-  IntroTitle,
-} from "./ReviewCopy";
+import { IntroDescription, IntroEyebrow, IntroTitle } from "./ReviewCopy";
 import { INTRO_VALUE_MAP, type IntroValues } from "./spec";
 
 export function getIntroValues(finding: Finding): IntroValues {

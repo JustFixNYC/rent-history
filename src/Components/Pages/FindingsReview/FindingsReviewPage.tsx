@@ -1,8 +1,6 @@
 import { Trans } from "@lingui/react/macro";
 
-import {
-  useRhFindingsState,
-} from "../../../api/account/hooks/findingsReview";
+import { useRhFindingsState } from "../../../api/account/hooks/findingsReview";
 import {
   getRhAuthSession,
   getRhHistoryId,

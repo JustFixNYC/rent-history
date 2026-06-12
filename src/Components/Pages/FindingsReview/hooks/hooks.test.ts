@@ -36,18 +36,15 @@ const vacancyFalseAnswers: ValidateFindingAnswers = {
 
 describe("filterVisibleSteps", () => {
   it("includes all steps when tenancy branch is true", () => {
-    expect(filterVisibleSteps(prehstpaSteps, vacancyTrueAnswers).map((s) => s.id)).toEqual([
-      "ocr_confirm",
-      "vacancy",
-      "tenancy_start",
-    ]);
+    expect(
+      filterVisibleSteps(prehstpaSteps, vacancyTrueAnswers).map((s) => s.id)
+    ).toEqual(["ocr_confirm", "vacancy", "tenancy_start"]);
   });
 
   it("omits tenancy_start when gets_vacancy_increase is false", () => {
-    expect(filterVisibleSteps(prehstpaSteps, vacancyFalseAnswers).map((s) => s.id)).toEqual([
-      "ocr_confirm",
-      "vacancy",
-    ]);
+    expect(
+      filterVisibleSteps(prehstpaSteps, vacancyFalseAnswers).map((s) => s.id)
+    ).toEqual(["ocr_confirm", "vacancy"]);
   });
 
   it("omits tenancy_start when gets_vacancy_increase is null", () => {
@@ -58,10 +55,9 @@ describe("filterVisibleSteps", () => {
       ],
     };
 
-    expect(filterVisibleSteps(prehstpaSteps, answers).map((s) => s.id)).toEqual([
-      "ocr_confirm",
-      "vacancy",
-    ]);
+    expect(filterVisibleSteps(prehstpaSteps, answers).map((s) => s.id)).toEqual(
+      ["ocr_confirm", "vacancy"]
+    );
   });
 });
 

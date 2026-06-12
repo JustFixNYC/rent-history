@@ -87,7 +87,9 @@ const clickNext = () => {
 
 describe("FindingsReviewPage integration", () => {
   beforeEach(() => {
-    vi.mocked(rhSessionStorage.getRhAuthSession).mockReturnValue(mockAuthSession);
+    vi.mocked(rhSessionStorage.getRhAuthSession).mockReturnValue(
+      mockAuthSession
+    );
     vi.mocked(rhSessionStorage.getRhHistoryId).mockReturnValue(TEST_HISTORY_ID);
   });
 
@@ -96,74 +98,68 @@ describe("FindingsReviewPage integration", () => {
     vi.clearAllMocks();
   });
 
-  it(
-    "renders pinned intro and only the OCR module on load",
-    async () => {
-      renderFindingsReviewPage();
-      await waitForReviewFlow();
+  it("renders pinned intro and only the OCR module on load", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
 
-      expect(screen.getByText("Large rent increase")).toBeInTheDocument();
-      expect(screen.getByText(/Year 1992/)).toBeInTheDocument();
+    expect(screen.getByText("Large rent increase")).toBeInTheDocument();
+    expect(screen.getByText(/Year 1992/)).toBeInTheDocument();
 
-      const stack = screen.getByTestId("finding-module-stack");
-      expect(stack).toHaveAttribute("data-revealed-count", "1");
-      expect(stack).toHaveAttribute("data-active-step-index", "0");
+    const stack = screen.getByTestId("finding-module-stack");
+    expect(stack).toHaveAttribute("data-revealed-count", "1");
+    expect(stack).toHaveAttribute("data-active-step-index", "0");
 
-      expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
-      expect(screen.queryByTestId("prehstpa-vacancy-step")).not.toBeInTheDocument();
-      expect(screen.queryByTestId("prehstpa-tenancy-step")).not.toBeInTheDocument();
-    },
-    15000
-  );
+    expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("prehstpa-vacancy-step")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("prehstpa-tenancy-step")
+    ).not.toBeInTheDocument();
+  }, 15000);
 
-  it(
-    "enables Next after OCR confirm and reveals vacancy on advance",
-    async () => {
-      renderFindingsReviewPage();
-      await waitForReviewFlow();
+  it("enables Next after OCR confirm and reveals vacancy on advance", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
 
-      const nextButton = screen.getByRole("button", { name: "Next" });
-      expect(nextButton).toBeDisabled();
+    const nextButton = screen.getByRole("button", { name: "Next" });
+    expect(nextButton).toBeDisabled();
 
-      confirmOcr();
-      expect(nextButton).not.toBeDisabled();
+    confirmOcr();
+    expect(nextButton).not.toBeDisabled();
 
-      clickNext();
+    clickNext();
 
-      const stack = screen.getByTestId("finding-module-stack");
-      expect(stack).toHaveAttribute("data-revealed-count", "2");
-      expect(stack).toHaveAttribute("data-active-step-index", "1");
-      expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
-      expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
-    },
-    15000
-  );
+    const stack = screen.getByTestId("finding-module-stack");
+    expect(stack).toHaveAttribute("data-revealed-count", "2");
+    expect(stack).toHaveAttribute("data-active-step-index", "1");
+    expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
+    expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+  }, 15000);
 
-  it(
-    "reveals result panel after validate when vacancy is No",
-    async () => {
-      renderFindingsReviewPage();
-      await waitForReviewFlow();
+  it("reveals result panel after validate when vacancy is No", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
 
-      confirmOcr();
-      clickNext();
+    confirmOcr();
+    clickNext();
 
-      fireEvent.click(screen.getByRole("radio", { name: "No" }));
-      clickNext();
+    fireEvent.click(screen.getByRole("radio", { name: "No" }));
+    clickNext();
 
-      await waitFor(
-        () => {
-          expect(screen.getByTestId("finding-result-panel")).toBeInTheDocument();
-        },
-        { timeout: 2000 }
-      );
+    await waitFor(
+      () => {
+        expect(screen.getByTestId("finding-result-panel")).toBeInTheDocument();
+      },
+      { timeout: 2000 }
+    );
 
-      expect(screen.getByTestId("finding-result-panel")).toHaveAttribute(
-        "data-outcome",
-        "explained_away"
-      );
-      expect(screen.getByRole("button", { name: "Continue" })).toBeInTheDocument();
-    },
-    15000
-  );
+    expect(screen.getByTestId("finding-result-panel")).toHaveAttribute(
+      "data-outcome",
+      "explained_away"
+    );
+    expect(
+      screen.getByRole("button", { name: "Continue" })
+    ).toBeInTheDocument();
+  }, 15000);
 });

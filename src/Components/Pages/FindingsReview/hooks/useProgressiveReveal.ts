@@ -19,7 +19,7 @@ export type UseProgressiveRevealResult = {
 
 function resolveActiveStepComplete(
   isActiveStepComplete: UseProgressiveRevealOptions["isActiveStepComplete"],
-  activeStepIndex: number,
+  activeStepIndex: number
 ): boolean {
   return typeof isActiveStepComplete === "function"
     ? isActiveStepComplete(activeStepIndex)
@@ -35,12 +35,10 @@ export function useProgressiveReveal({
 
   const safeStepCount = Math.max(stepCount, 0);
   const clampedActiveIndex =
-    safeStepCount === 0
-      ? 0
-      : Math.min(activeStepIndex, safeStepCount - 1);
+    safeStepCount === 0 ? 0 : Math.min(activeStepIndex, safeStepCount - 1);
   const activeStepComplete = resolveActiveStepComplete(
     isActiveStepComplete,
-    clampedActiveIndex,
+    clampedActiveIndex
   );
 
   useEffect(() => {
@@ -74,7 +72,6 @@ export function useProgressiveReveal({
       activeStepComplete &&
       safeStepCount > 0 &&
       activeStepIndex < safeStepCount - 1,
-    isLastStep:
-      safeStepCount > 0 && activeStepIndex >= safeStepCount - 1,
+    isLastStep: safeStepCount > 0 && activeStepIndex >= safeStepCount - 1,
   };
 }

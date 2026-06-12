@@ -40,7 +40,7 @@ export type PrehstpaGetStepsBindings = {
 function buildOcrRows(
   finding: Finding,
   formState: PrehstpaFormState,
-  onFormStateChange: (patch: Partial<PrehstpaFormState>) => void,
+  onFormStateChange: (patch: Partial<PrehstpaFormState>) => void
 ): OcrConfirmRowConfig[] {
   const row0 = finding.data.rows[ROW_INDEX.tenancy];
   const row1 = finding.data.rows[ROW_INDEX.vacancy];

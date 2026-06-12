@@ -64,8 +64,7 @@ export const OcrConfirmStep = ({
 
   const resolvedConfirmLabel =
     confirmLabel ?? _(msg`Yes, this matches my document`);
-  const resolvedConfirmedLabel =
-    confirmedLabel ?? _(msg`Values confirmed`);
+  const resolvedConfirmedLabel = confirmedLabel ?? _(msg`Values confirmed`);
   const resolvedEditLabel = editLabel ?? _(msg`Edit`);
 
   return (
@@ -86,10 +85,7 @@ export const OcrConfirmStep = ({
           {rows.map((row, index) => (
             <Fragment key={row.regYear}>
               {index > 0 ? (
-                <hr
-                  className="ocr-confirm-step__divider"
-                  aria-hidden="true"
-                />
+                <hr className="ocr-confirm-step__divider" aria-hidden="true" />
               ) : null}
               <div className="ocr-confirm-step__row-block">
                 <h3 className="ocr-confirm-step__year-heading">

@@ -34,10 +34,12 @@ export function FindingReviewFlow({
   const navigate = useNavigate();
   const stackEndRef = useRef<HTMLDivElement>(null);
 
-  const [formState, setFormState] = useState<Record<string, unknown>>(() =>
-    module.createInitialFormState(finding) as Record<string, unknown>,
+  const [formState, setFormState] = useState<Record<string, unknown>>(
+    () => module.createInitialFormState(finding) as Record<string, unknown>
   );
-  const [validatedFinding, setValidatedFinding] = useState<Finding | null>(null);
+  const [validatedFinding, setValidatedFinding] = useState<Finding | null>(
+    null
+  );
 
   const ocrState = useOcrConfirmState();
   const validateMutation = useValidateRhFinding();
@@ -50,7 +52,7 @@ export function FindingReviewFlow({
 
   const answers = useMemo(
     () => module.buildAnswers(finding, formState),
-    [module, finding, formState],
+    [module, finding, formState]
   );
 
   const steps = useMemo(
@@ -71,7 +73,7 @@ export function FindingReviewFlow({
       ocrState.phase,
       ocrState.confirm,
       ocrState.edit,
-    ],
+    ]
   );
 
   const { visibleSteps } = useFindingSteps(steps, answers);
@@ -92,7 +94,7 @@ export function FindingReviewFlow({
         ocrConfirmed: ocrState.isConfirmed,
       });
     },
-    [showResult, visibleSteps, module, formState, ocrState.isConfirmed],
+    [showResult, visibleSteps, module, formState, ocrState.isConfirmed]
   );
 
   const {
@@ -110,7 +112,10 @@ export function FindingReviewFlow({
   const activeStepReady = isActiveStepComplete(activeStepIndex);
 
   useEffect(() => {
-    stackEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    stackEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
   }, [revealedCount, showResult]);
 
   const intro = useMemo(() => module.getIntro(finding), [module, finding]);
@@ -139,7 +144,7 @@ export function FindingReviewFlow({
           onSuccess: (response) => {
             setValidatedFinding(response.finding);
           },
-        },
+        }
       );
       return;
     }

@@ -21,15 +21,17 @@ describe("FindingFormShell", () => {
     );
 
     expect(screen.getByTestId("step-number-badge")).toHaveTextContent("1");
-    expect(screen.getByRole("heading", { name: "Confirm values" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Confirm values" })
+    ).toBeInTheDocument();
     expect(screen.getByText("Body content")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Continue" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Continue" })
+    ).toBeInTheDocument();
   });
 
   it("uses active border variant by default", () => {
-    render(
-      <FindingFormShell title="Active step" body={<p>Body</p>} />
-    );
+    render(<FindingFormShell title="Active step" body={<p>Body</p>} />);
 
     const shell = screen.getByTestId("finding-form-shell");
     expect(shell).toHaveClass("finding-form-shell--active");

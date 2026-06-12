@@ -10,11 +10,11 @@ export type UseFindingStepsResult<T extends StepWithVisibility> = {
 
 export function useFindingSteps<T extends StepWithVisibility>(
   steps: T[],
-  answers: ValidateFindingAnswers,
+  answers: ValidateFindingAnswers
 ): UseFindingStepsResult<T> {
   const visibleSteps = useMemo(
     () => filterVisibleSteps(steps, answers),
-    [steps, answers],
+    [steps, answers]
   );
 
   return { visibleSteps };

@@ -1,11 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-} from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import { afterEach, describe, expect, it } from "vitest";
 
@@ -99,11 +94,15 @@ describe("OcrConfirmStep", () => {
     const shell = screen.getByTestId("finding-form-shell");
     expect(shell).toHaveAttribute("data-variant", "completed");
 
-    expect(screen.getByRole("button", { name: "Values confirmed" })).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: "Values confirmed" })
+    ).toBeDisabled();
 
-    screen.getAllByRole("spinbutton", { name: "Legal Regulated Rent" }).forEach((input) => {
-      expect(input).toBeDisabled();
-    });
+    screen
+      .getAllByRole("spinbutton", { name: "Legal Regulated Rent" })
+      .forEach((input) => {
+        expect(input).toBeDisabled();
+      });
 
     fireEvent.click(screen.getByRole("button", { name: "Edit" }));
 
@@ -142,6 +141,8 @@ describe("OcrConfirmStep", () => {
       "data-phase",
       "confirmed"
     );
-    expect(screen.queryByRole("button", { name: "Edit" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Edit" })
+    ).not.toBeInTheDocument();
   });
 });

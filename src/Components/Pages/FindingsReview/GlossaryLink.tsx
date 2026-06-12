@@ -29,7 +29,11 @@ export const GlossaryLink = ({
         aria-haspopup="dialog"
       >
         {term}
-        <Icon icon="circleInfo" className="jfcl-link__icon" aria-hidden="true" />
+        <Icon
+          icon="circleInfo"
+          className="jfcl-link__icon"
+          aria-hidden="true"
+        />
       </LinkStyledButton>
       <PlaceholderInfoModal
         isOpen={isOpen}
