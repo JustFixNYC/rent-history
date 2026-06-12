@@ -8,6 +8,11 @@ Object.defineProperty(window, "scrollTo", {
   writable: true,
 });
 
+Object.defineProperty(window.Element.prototype, "scrollIntoView", {
+  value: () => {},
+  writable: true,
+});
+
 beforeAll(() => {
   findingsReviewServer.listen({ onUnhandledRequest: "bypass" });
 });

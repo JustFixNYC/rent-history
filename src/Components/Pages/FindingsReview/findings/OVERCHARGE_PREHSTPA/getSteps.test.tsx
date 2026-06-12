@@ -43,7 +43,9 @@ function renderTenancyStep(findingOverride: Finding) {
     throw new Error("tenancy_start step not found");
   }
 
-  return renderWithI18n(tenancyStep.render({ isPastStep: false }));
+  return renderWithI18n(
+    tenancyStep.render({ isPastStep: false, isActive: true }) as React.ReactElement
+  );
 }
 
 function stepsForAnswers(answers: ValidateFindingAnswers) {

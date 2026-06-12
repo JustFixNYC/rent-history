@@ -180,4 +180,71 @@ describe("useProgressiveReveal", () => {
     expect(result.current.revealedCount).toBe(3);
     expect(result.current.activeStepIndex).toBe(1);
   });
+
+  it("blocks goNext when callback returns false for the current index", () => {
+    const { result } = renderHook(() =>
+      useProgressiveReveal({
+        stepCount: 3,
+        isActiveStepComplete: (activeStepIndex) => activeStepIndex !== 0,
+      })
+    );
+
+    act(() => {
+      result.current.goNext();
+    });
+
+    expect(result.current.revealedCount).toBe(1);
+    expect(result.current.activeStepIndex).toBe(0);
+    expect(result.current.canGoNext).toBe(false);
+  });
+
+  it("advances when callback returns true for the current index", () => {
+    const { result } = renderHook(() =>
+      useProgressiveReveal({
+        stepCount: 3,
+        isActiveStepComplete: (activeStepIndex) => activeStepIndex === 0,
+      })
+    );
+
+    act(() => {
+      result.current.goNext();
+    });
+
+    expect(result.current.revealedCount).toBe(2);
+    expect(result.current.activeStepIndex).toBe(1);
+    expect(result.current.canGoNext).toBe(false);
+
+    act(() => {
+      result.current.goNext();
+    });
+
+    expect(result.current.revealedCount).toBe(2);
+    expect(result.current.activeStepIndex).toBe(1);
+  });
+
+  it("does not collapse revealedCount on goBack when using callback form", () => {
+    const { result } = renderHook(() =>
+      useProgressiveReveal({
+        stepCount: 3,
+        isActiveStepComplete: () => true,
+      })
+    );
+
+    act(() => {
+      result.current.goNext();
+    });
+
+    act(() => {
+      result.current.goNext();
+    });
+
+    expect(result.current.revealedCount).toBe(3);
+
+    act(() => {
+      result.current.goBack();
+    });
+
+    expect(result.current.revealedCount).toBe(3);
+    expect(result.current.activeStepIndex).toBe(1);
+  });
 });

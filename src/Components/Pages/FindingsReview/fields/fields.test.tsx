@@ -92,7 +92,7 @@ describe("CurrencyField", () => {
 
     fireEvent.change(input, { target: { value: "2500" } });
 
-    expect(changes.at(-1)).toBe("2500");
+    expect(changes[changes.length - 1]).toBe("2500");
     expect(input).toHaveValue(2500);
   });
 
