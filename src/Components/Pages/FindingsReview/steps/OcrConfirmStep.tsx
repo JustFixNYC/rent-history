@@ -9,7 +9,10 @@ import { FindingFormShell } from "../FindingFormShell";
 import { StepNumberBadge } from "../StepNumberBadge";
 import type { FindingStepRenderContext } from "../types/step";
 
-import { useOcrConfirmState } from "../hooks/useOcrConfirmState";
+import {
+  useOcrConfirmState,
+  type OcrConfirmPhase,
+} from "../hooks/useOcrConfirmState";
 
 export type OcrConfirmRowFieldContext = {
   readonly: boolean;
@@ -27,6 +30,10 @@ export type OcrConfirmStepProps = {
   rows: OcrConfirmRowConfig[];
   /** When true, force confirmed readonly presentation (user moved past this step). */
   isPastStep?: boolean;
+  /** Controlled phase; when omitted, uses internal `useOcrConfirmState`. */
+  phase?: OcrConfirmPhase;
+  onConfirm?: () => void;
+  onEdit?: () => void;
   confirmLabel?: string;
   confirmedLabel?: string;
   editLabel?: string;
@@ -37,12 +44,18 @@ export const OcrConfirmStep = ({
   title,
   rows,
   isPastStep = false,
+  phase: controlledPhase,
+  onConfirm,
+  onEdit,
   confirmLabel,
   confirmedLabel,
   editLabel,
 }: OcrConfirmStepProps) => {
   const { _ } = useLingui();
-  const { phase, confirm, edit } = useOcrConfirmState();
+  const internalOcr = useOcrConfirmState();
+  const phase = controlledPhase ?? internalOcr.phase;
+  const confirm = onConfirm ?? internalOcr.confirm;
+  const edit = onEdit ?? internalOcr.edit;
 
   const effectivePhase = isPastStep ? "confirmed" : phase;
   const isConfirmed = effectivePhase === "confirmed";

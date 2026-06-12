@@ -7,6 +7,7 @@ import { YearField } from "../../fields/YearField";
 import { FindingFormShell } from "../../FindingFormShell";
 import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
 import { StepNumberBadge } from "../../StepNumberBadge";
+import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import {
   OcrConfirmStep,
   type OcrConfirmRowConfig,
@@ -29,6 +30,9 @@ export type PrehstpaGetStepsBindings = {
   finding: Finding;
   formState: PrehstpaFormState;
   onFormStateChange: (patch: Partial<PrehstpaFormState>) => void;
+  ocrPhase?: OcrConfirmPhase;
+  onOcrConfirm?: () => void;
+  onOcrEdit?: () => void;
 };
 
 function buildOcrRows(
@@ -154,7 +158,14 @@ const TenancyStepModule = ({
 };
 
 export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
-  const { finding, formState, onFormStateChange } = bindings;
+  const {
+    finding,
+    formState,
+    onFormStateChange,
+    ocrPhase,
+    onOcrConfirm,
+    onOcrEdit,
+  } = bindings;
   const ocrRows = buildOcrRows(finding, formState, onFormStateChange);
 
   return [
@@ -167,6 +178,9 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
           title={<OcrHeading />}
           rows={ocrRows}
           isPastStep={isPastStep}
+          phase={ocrPhase}
+          onConfirm={onOcrConfirm}
+          onEdit={onOcrEdit}
         />
       ),
     },

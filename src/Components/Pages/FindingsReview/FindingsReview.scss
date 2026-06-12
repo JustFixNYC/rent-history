@@ -395,3 +395,35 @@
   white-space: nowrap;
   width: 1px;
 }
+
+// Figma 5314:3721 (confirmed) / 5314:3711 (explained_away) — result Info Box
+.finding-result-panel {
+  margin-top: jfcl.$JF_SPACING_05;
+  width: 100%;
+
+  &__info-box.jfcl-info-box {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  &__title {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0 0 jfcl.$JF_SPACING_03;
+  }
+
+  &__body {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &--confirmed &__info-box.jfcl-info-box {
+    background: jfcl.$PURPLE_100;
+    border-color: jfcl.$PURPLE_200;
+  }
+
+  &--explained-away &__info-box.jfcl-info-box {
+    background: jfcl.$OFF_WHITE_200;
+    border-color: jfcl.$GREY_200;
+  }
+}

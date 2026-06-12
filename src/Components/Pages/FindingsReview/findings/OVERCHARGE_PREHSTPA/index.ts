@@ -11,10 +11,7 @@ export { getIntro, getIntroValues } from "./getIntro";
 export { getSteps } from "./getSteps";
 export type { PrehstpaGetStepsBindings } from "./getSteps";
 
-export {
-  buildAnswers,
-  createInitialFormState,
-} from "./answers";
+export { buildAnswers, createInitialFormState } from "./answers";
 export type { PrehstpaFormState } from "./answers";
 
 export {
@@ -26,6 +23,8 @@ export {
   VacancyBody,
   TenancyHeading,
   TenancyBody,
-  ResultConfirmedCopy,
-  ResultExplainedAwayCopy,
+  ResultConfirmedBody,
+  ResultConfirmedTitle,
+  ResultExplainedAwayBody,
+  ResultExplainedAwayTitle,
 } from "./ReviewCopy";

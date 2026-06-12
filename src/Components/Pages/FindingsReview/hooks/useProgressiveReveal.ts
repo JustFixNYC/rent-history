@@ -4,7 +4,7 @@ export type UseProgressiveRevealOptions = {
   /** Number of visible steps (typically from useFindingSteps). */
   stepCount: number;
   /** Whether the active step is complete enough to advance via Next. */
-  isActiveStepComplete: boolean;
+  isActiveStepComplete: boolean | ((activeStepIndex: number) => boolean);
 };
 
 export type UseProgressiveRevealResult = {
@@ -16,6 +16,15 @@ export type UseProgressiveRevealResult = {
   canGoNext: boolean;
   isLastStep: boolean;
 };
+
+function resolveActiveStepComplete(
+  isActiveStepComplete: UseProgressiveRevealOptions["isActiveStepComplete"],
+  activeStepIndex: number,
+): boolean {
+  return typeof isActiveStepComplete === "function"
+    ? isActiveStepComplete(activeStepIndex)
+    : isActiveStepComplete;
+}
 
 export function useProgressiveReveal({
   stepCount,
@@ -29,6 +38,10 @@ export function useProgressiveReveal({
     safeStepCount === 0
       ? 0
       : Math.min(activeStepIndex, safeStepCount - 1);
+  const activeStepComplete = resolveActiveStepComplete(
+    isActiveStepComplete,
+    clampedActiveIndex,
+  );
 
   useEffect(() => {
     if (safeStepCount === 0) return;
@@ -38,13 +51,13 @@ export function useProgressiveReveal({
   }, [activeStepIndex, safeStepCount]);
 
   const goNext = useCallback(() => {
-    if (!isActiveStepComplete || safeStepCount === 0) return;
+    if (!activeStepComplete || safeStepCount === 0) return;
     if (activeStepIndex >= safeStepCount - 1) return;
 
     const nextIndex = activeStepIndex + 1;
     setActiveStepIndex(nextIndex);
     setRevealedCount((prev) => Math.max(prev, nextIndex + 1));
-  }, [activeStepIndex, isActiveStepComplete, safeStepCount]);
+  }, [activeStepIndex, activeStepComplete, safeStepCount]);
 
   const goBack = useCallback(() => {
     if (activeStepIndex <= 0) return;
@@ -58,7 +71,7 @@ export function useProgressiveReveal({
     goBack,
     canGoBack: activeStepIndex > 0,
     canGoNext:
-      isActiveStepComplete &&
+      activeStepComplete &&
       safeStepCount > 0 &&
       activeStepIndex < safeStepCount - 1,
     isLastStep:

@@ -99,27 +99,41 @@ export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
 
 type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
 
-export const ResultConfirmedCopy = ({
-  rent0,
-  rent1,
-  year0,
-  year1,
-}: ResultCopyProps) => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.result.confirmed">
-    Potential violation found. The legal regulated rent increased from ${rent0}{" "}
-    in {year0} to ${rent1} in {year1}, and allowable bonuses may not fully
-    explain the jump.
+export const ResultConfirmedTitle = () => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.result.confirmed.title">
+    Potential violation found
   </Trans>
 );
 
-export const ResultExplainedAwayCopy = ({
+export const ResultConfirmedBody = ({
   rent0,
   rent1,
   year0,
   year1,
 }: ResultCopyProps) => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.result.explained_away">
-    No violation found. The increase from ${rent0} in {year0} to ${rent1} in{" "}
-    {year1} can be explained by allowable bonuses.
+  <Trans id="findings.OVERCHARGE_PREHSTPA.result.confirmed.body">
+    The rent increase from ${rent0} in year {year0} to ${rent1} in year {year1}{" "}
+    does not appear to be explained by allowable bonuses. One of the only ways
+    the rent could have reached ${rent1} is through Individual Apartment
+    Improvements (IAIs). Your report will include this finding.
+  </Trans>
+);
+
+export const ResultExplainedAwayTitle = () => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.result.explained_away.title">
+    No violation found
+  </Trans>
+);
+
+export const ResultExplainedAwayBody = ({
+  rent0,
+  rent1,
+  year0,
+  year1,
+}: ResultCopyProps) => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.result.explained_away.body">
+    The rent increase from ${rent0} in year {year0} to ${rent1} in year {year1}{" "}
+    appears to be explained by allowable bonuses. Your report will include this
+    finding.
   </Trans>
 );

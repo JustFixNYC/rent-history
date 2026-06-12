@@ -143,6 +143,7 @@ msgid "Completed Feb 1, 2026"
 msgstr "Completed Feb 1, 2026"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:591
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:184
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:119
 msgid "Continue"
 msgstr "Continue"
@@ -180,7 +181,7 @@ msgstr "Download report"
 #~ msgid "Dynamsoft"
 #~ msgstr "Dynamsoft"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:56
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
 msgid "Edit"
 msgstr "Edit"
 
@@ -243,11 +244,11 @@ msgid "Finding review navigation"
 msgstr "Finding review navigation"
 
 #: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:23
-msgid "Findings review"
-msgstr "Findings review"
+#~ msgid "Findings review"
+#~ msgstr "Findings review"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:34
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
@@ -310,7 +311,7 @@ msgid "Landlords in NYC are required to follow strict rules about rent increases
 msgstr "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:19
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:21
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Large rent increase"
 
@@ -327,7 +328,7 @@ msgstr "Legal and feedback"
 msgid "Loading address…"
 msgstr "Loading address…"
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:27
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:230
 msgid "Loading findings…"
 msgstr "Loading findings…"
 
@@ -343,25 +344,25 @@ msgstr "Loading scan previews…"
 msgid "Log out"
 msgstr "Log out"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:79
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:82
 msgid "longevity bonus"
 msgstr "longevity bonus"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:80
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:83
 msgid "Longevity bonus"
 msgstr "Longevity bonus"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:83
 msgid "Look at"
 msgstr "Look at"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:61
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:63
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
 msgstr "Look at <0/> — do any tenant(s) in <1/> appear to be listed as tenants in <2/>?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:89
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:92
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
 msgstr "Look at <0/> — What is the earliest year <1/> appears as a tenant in your rent history document?"
 
@@ -394,12 +395,12 @@ msgid "Next"
 msgstr "Next"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:48
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:50
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
 msgstr "Next, let's check to see if the landlord used something called a <0/>."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:76
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:79
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "Next, let's check to see if the landlord used something called a <0/>."
 
@@ -420,7 +421,12 @@ msgid "No rent history session was found. Complete the upload flow first, then r
 msgstr "No rent history session was found. Complete the upload flow first, then return to this page."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:118
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:134
+msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
+msgstr "No violation found"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:157
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away"
 msgstr "No violation found. The increase from ${rent0} in {year0} to ${rent1} in {year1} can be explained by allowable bonuses."
 
@@ -488,7 +494,12 @@ msgid "Please sign in to generate your report."
 msgstr "Please sign in to generate your report."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:105
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:103
+msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
+msgstr "Potential violation found"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:126
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
 msgstr "Potential violation found. The legal regulated rent increased from ${rent0} in {year0} to ${rent1} in {year1}, and allowable bonuses may not fully explain the jump."
 
@@ -595,7 +606,7 @@ msgid "Scanning in progress..."
 msgstr "Scanning in progress..."
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:147
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:151
 msgid "Select Year"
 msgstr "Select Year"
 
@@ -656,12 +667,22 @@ msgstr "Terms of use"
 msgid "That code is incorrect. Try again."
 msgstr "That code is incorrect. Try again."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:145
+msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
+msgstr "The increase from ${rent0} in {year0} to ${rent1} in {year1} can be explained by allowable bonuses."
+
 #: src/Components/Pages/PageLayout/Footer.tsx:17
 msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
 msgstr "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:27
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:114
+msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
+msgstr "The legal regulated rent increased from ${rent0} in {year0} to ${rent1} in {year1}, and allowable bonuses may not fully explain the jump."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:29
 msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
 msgstr "The rent jumped {percentIncrease}% in one year. We'll check whether this increase can be explained by allowable bonuses."
 
@@ -681,7 +702,7 @@ msgstr "Timed out waiting for scans to finish processing. Use Restart scanning o
 msgid "Tips for getting a high quality scan"
 msgstr "Tips for getting a high quality scan"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:84
 msgid "to confirm the information below matches."
 msgstr "to confirm the information below matches."
 
@@ -693,7 +714,7 @@ msgstr "Too many invalid attempts. Request a new code."
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:32
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:235
 msgid "Unable to load findings state."
 msgstr "Unable to load findings state."
 
@@ -711,6 +732,11 @@ msgstr "Unable to update address right now. Please try again."
 msgid "Unit number"
 msgstr "Unit number"
 
+#. placeholder {0}: currentFinding.type
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:248
+msgid "Unsupported finding type: {0}"
+msgstr "Unsupported finding type: {0}"
+
 #: src/Components/Pages/Home/Home.tsx:12
 #~ msgid "Upload your rent history"
 #~ msgstr "Upload your rent history"
@@ -723,15 +749,15 @@ msgstr "Use you mobile phone's camera to scan each page of your rent history doc
 #~ msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 #~ msgstr "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:51
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:53
 msgid "vacancy bonus"
 msgstr "vacancy bonus"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:52
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:54
 msgid "Vacancy bonus"
 msgstr "Vacancy bonus"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:55
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:68
 msgid "Values confirmed"
 msgstr "Values confirmed"
 
@@ -798,7 +824,7 @@ msgid "We'll use publicly available information about the building and apartment
 msgstr "We'll use publicly available information about the building and apartment to support your rent history analysis."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:13
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
@@ -806,7 +832,7 @@ msgstr "Year {findingYear}"
 msgid "Yes"
 msgstr "Yes"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:53
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:66
 msgid "Yes, this matches my document"
 msgstr "Yes, this matches my document"
 
