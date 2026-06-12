@@ -21,3 +21,6 @@ export type {
   FindingStepRenderContext,
   FindingStepVisibilityContext,
 } from "./step";
+
+export { FINDING_MODULES } from "./registry";
+export type { FindingModuleType } from "./registry";

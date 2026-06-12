@@ -180,6 +180,10 @@ msgstr ""
 #~ msgid "Dynamsoft"
 #~ msgstr ""
 
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:56
+msgid "Edit"
+msgstr ""
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:377
 msgid "Edit address"
 msgstr ""
@@ -242,6 +246,11 @@ msgstr ""
 msgid "Findings review"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:34
+msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:526
 msgid "Flatten any folds in the pages and lay them on a flat surface"
 msgstr ""
@@ -300,6 +309,11 @@ msgstr ""
 msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:19
+msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
+msgstr ""
+
 #: src/Components/Pages/Landing/Landing.tsx:59
 #: src/Components/Pages/LoginPage/LoginPage.tsx:225
 msgid "Learn more"
@@ -327,6 +341,28 @@ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:76
 msgid "Log out"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:79
+msgid "longevity bonus"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:80
+msgid "Longevity bonus"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
+msgid "Look at"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:61
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:89
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
 msgstr ""
 
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:101
@@ -357,6 +393,20 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:48
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:76
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
+msgid "No"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:185
 msgid "No pages were saved from the scanner. Use Restart scanning to try again."
 msgstr ""
@@ -367,6 +417,11 @@ msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:153
 msgid "No rent history session was found. Complete the upload flow first, then return to this page."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:118
+msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:21
@@ -430,6 +485,11 @@ msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:143
 msgid "Please sign in to generate your report."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:105
+msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:29
@@ -534,6 +594,11 @@ msgstr ""
 msgid "Scanning in progress..."
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:147
+msgid "Select Year"
+msgstr ""
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:262
 msgid "Send verification code"
 msgstr "Enviar código de verificación"
@@ -595,6 +660,11 @@ msgstr ""
 msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:27
+msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
+msgstr ""
+
 #: src/Components/Pages/Report/ReportPDF.tsx:18
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 msgstr ""
@@ -609,6 +679,10 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:522
 msgid "Tips for getting a high quality scan"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
+msgid "to confirm the information below matches."
 msgstr ""
 
 #: src/api/account/errors.ts:169
@@ -648,6 +722,18 @@ msgstr ""
 #: src/Components/Pages/Home/Home.tsx:14
 #~ msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 #~ msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:51
+msgid "vacancy bonus"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:52
+msgid "Vacancy bonus"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:55
+msgid "Values confirmed"
+msgstr ""
 
 #. placeholder {0}: index + 1
 #: src/Components/Pages/LoginPage/LoginPage.tsx:302
@@ -711,6 +797,19 @@ msgstr ""
 msgid "We'll use publicly available information about the building and apartment to support your rent history analysis."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:13
+msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
+msgid "Yes"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:53
+msgid "Yes, this matches my document"
+msgstr ""
+
 #: src/Components/Pages/Report/ReportEmailForm.tsx:84
 msgid "You can add up to 10 additional recipients."
 msgstr ""
@@ -723,11 +822,11 @@ msgstr ""
 msgid "Your email (required)"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/DocumentLink.tsx:27
+#: src/Components/Pages/FindingsReview/DocumentLink.tsx:26
 msgid "your rent history"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/DocumentLink.tsx:32
+#: src/Components/Pages/FindingsReview/DocumentLink.tsx:31
 msgid "Your rent history"
 msgstr ""
 

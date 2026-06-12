@@ -367,3 +367,31 @@
     width: 100%;
   }
 }
+
+// Figma 5314:3674 / 5314:3701 — PREHSTPA vacancy + tenancy step bodies
+.prehstpa-step-copy {
+  @include jfcl.body_standard_mobile;
+  margin: 0;
+  padding: 0 jfcl.$JF_SPACING_06;
+}
+
+.prehstpa-vacancy-step,
+.prehstpa-tenancy-step {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+  width: 100%;
+
+}
+
+.prehstpa-yes-no-sr-label {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
