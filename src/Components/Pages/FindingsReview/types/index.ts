@@ -22,5 +22,14 @@ export type {
   FindingStepVisibilityContext,
 } from "./step";
 
+export type {
+  AnyFindingModuleStepBindings,
+  AnyFindingReviewModule,
+  FindingModuleStepBindings,
+  FindingReviewModule,
+} from "./findingModule";
+
+export { registerFindingModule } from "./findingModule";
+
 export { FINDING_MODULES } from "./registry";
 export type { FindingModuleType } from "./registry";

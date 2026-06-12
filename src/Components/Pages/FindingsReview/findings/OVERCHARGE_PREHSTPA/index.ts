@@ -1,3 +1,12 @@
+import type { FindingReviewModule } from "../../types/findingModule";
+
+import { buildAnswers, createInitialFormState } from "./answers";
+import type { PrehstpaFormState } from "./answers";
+import { getIntro } from "./getIntro";
+import { getSteps } from "./getSteps";
+import { isStepComplete } from "./isStepComplete";
+import { renderPrehstpaResult } from "./ResultPanel";
+
 export {
   TYPE,
   ROW_INDEX,
@@ -14,6 +23,9 @@ export type { PrehstpaGetStepsBindings } from "./getSteps";
 export { buildAnswers, createInitialFormState } from "./answers";
 export type { PrehstpaFormState } from "./answers";
 
+export { isStepComplete } from "./isStepComplete";
+export { renderPrehstpaResult } from "./ResultPanel";
+
 export {
   IntroEyebrow,
   IntroTitle,
@@ -28,3 +40,12 @@ export {
   ResultExplainedAwayBody,
   ResultExplainedAwayTitle,
 } from "./ReviewCopy";
+
+export const findingReviewModule: FindingReviewModule<PrehstpaFormState> = {
+  createInitialFormState,
+  getIntro,
+  getSteps,
+  buildAnswers,
+  isStepComplete,
+  renderResult: renderPrehstpaResult,
+};

@@ -1,27 +1,21 @@
 import classNames from "classnames";
 import { InfoBox } from "@justfixnyc/component-library";
+import type { ReactNode } from "react";
 
-import type { FindingResult } from "./types/finding";
-
-import {
-  ResultConfirmedBody,
-  ResultConfirmedTitle,
-  ResultExplainedAwayBody,
-  ResultExplainedAwayTitle,
-} from "./findings/OVERCHARGE_PREHSTPA/ReviewCopy";
+import type { FindingResultOutcome } from "./types/finding";
 
 export type FindingResultPanelProps = {
-  result: FindingResult;
+  outcome: FindingResultOutcome;
+  title: ReactNode;
+  body: ReactNode;
 };
 
-export const FindingResultPanel = ({ result }: FindingResultPanelProps) => {
-  const isConfirmed = result.outcome === "confirmed";
-  const copyProps = {
-    rent0: result.rent0,
-    rent1: result.rent1,
-    year0: result.year0,
-    year1: result.year1,
-  };
+export const FindingResultPanel = ({
+  outcome,
+  title,
+  body,
+}: FindingResultPanelProps) => {
+  const isConfirmed = outcome === "confirmed";
 
   return (
     <section
@@ -32,20 +26,12 @@ export const FindingResultPanel = ({ result }: FindingResultPanelProps) => {
           : "finding-result-panel--explained-away",
       )}
       data-testid="finding-result-panel"
-      data-outcome={result.outcome}
+      data-outcome={outcome}
       aria-live="polite"
     >
       <InfoBox color="white" className="finding-result-panel__info-box">
-        <p className="finding-result-panel__title">
-          {isConfirmed ? <ResultConfirmedTitle /> : <ResultExplainedAwayTitle />}
-        </p>
-        <p className="finding-result-panel__body">
-          {isConfirmed ? (
-            <ResultConfirmedBody {...copyProps} />
-          ) : (
-            <ResultExplainedAwayBody {...copyProps} />
-          )}
-        </p>
+        <p className="finding-result-panel__title">{title}</p>
+        <p className="finding-result-panel__body">{body}</p>
       </InfoBox>
     </section>
   );

@@ -38,7 +38,7 @@ export type PrehstpaGetStepsBindings = {
 function buildOcrRows(
   finding: Finding,
   formState: PrehstpaFormState,
-  onFormStateChange: (patch: Partial<PrehstpaFormState>) => void
+  onFormStateChange: (patch: Partial<PrehstpaFormState>) => void,
 ): OcrConfirmRowConfig[] {
   const row0 = finding.data.rows[ROW_INDEX.tenancy];
   const row1 = finding.data.rows[ROW_INDEX.vacancy];
@@ -76,6 +76,9 @@ function buildOcrRows(
   ];
 }
 
+// TODO later Vacancy and Tenancy modules can be refactored in a similar way as
+// OcrConfirmStep to reduce repetition across finding types given similar
+// structure
 type VacancyStepModuleProps = PrehstpaGetStepsBindings & {
   stepNumber: number;
   isPastStep: boolean;
@@ -96,7 +99,10 @@ const VacancyStepModule = ({
       badge={<StepNumberBadge stepNumber={stepNumber} />}
       title={<VacancyHeading />}
       body={
-        <div className="prehstpa-vacancy-step" data-testid="prehstpa-vacancy-step">
+        <div
+          className="prehstpa-vacancy-step"
+          data-testid="prehstpa-vacancy-step"
+        >
           <VacancyBody year0={year0} year1={year1} />
           <YesNoField
             id="prehstpa-vacancy"
