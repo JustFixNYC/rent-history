@@ -24,7 +24,6 @@ export type FindingDataRow = {
   gets_vacancy_increase?: boolean | null;
   rgb_pct?: number;
   status?: string;
-  is_user_last_tenant?: boolean;
   [key: string]: unknown;
 };
 
