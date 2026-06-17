@@ -12,7 +12,7 @@
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
     "extract": "lingui extract",
     "generate:api:account": "openapi-typescript src/api/contract/account-openapi.json -o src/api/generated/account-openapi.d.ts",
-    "generate:api": "yarn generate:api:account"
+    "generate:api": "yarn generate:api:account",
     "export-rent-stab-map": "node scripts/export-rent-stabilized-map-json.mjs"
   },
   "dependencies": {
