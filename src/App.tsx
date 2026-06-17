@@ -13,6 +13,7 @@ import { QueryProvider } from "./providers/QueryProvider";
 import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
 import { TermsOfUse } from "./Components/Pages/Legal/TermsOfUse";
 import Landing from "./Components/Pages/Landing/Landing";
+import RentStabilizedMapPage from "./Components/Pages/RentStabilizedMap/RentStabilizedMapPage";
 import LoginPage from "./Components/Pages/LoginPage/LoginPage";
 import AccountPage from "./Components/Pages/AccountPage/AccountPage";
 import HistoryPage from "./Components/Pages/HistoryPage/HistoryPage";
@@ -55,6 +56,10 @@ const createAppRouter = () =>
           </Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms_of_use" element={<TermsOfUse />} />
+          <Route
+            path="rent-stabilized-map"
+            element={<RentStabilizedMapPage />}
+          />
         </Route>
         {/* Catch-all route for paths without locale - will redirect */}
         <Route path="/" element={<PageLayout />}>
@@ -68,6 +73,12 @@ const createAppRouter = () =>
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
           </Route>
+          <Route path="privacy_policy" element={<PrivacyPolicy />} />
+          <Route path="terms_of_use" element={<TermsOfUse />} />
+          <Route
+            path="rent-stabilized-map"
+            element={<RentStabilizedMapPage />}
+          />
           <Route path="*" element={<Landing />} />
         </Route>
       </>
