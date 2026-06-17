@@ -8,9 +8,11 @@ export { YearField } from "./YearField";
 export type { YearFieldProps } from "./YearField";
 
 export {
+  buildRentAnswer,
   buildYearOptions,
   buildYearRangeOptions,
   createCurrencyStringSchema,
+  createRentValueStringSchema,
   createRequiredYearSchema,
   createYearSchema,
   createYesNoSchema,

@@ -17,8 +17,8 @@ export type FindingKey = {
 
 export type FindingDataRow = {
   reg_year: number;
-  legal_rent?: number;
-  pref_rent?: number | null;
+  legal_rent?: number | string | null;
+  pref_rent?: number | string | null;
   tenants?: string[];
   tenancy_start?: number | null;
   gets_vacancy_increase?: boolean | null;

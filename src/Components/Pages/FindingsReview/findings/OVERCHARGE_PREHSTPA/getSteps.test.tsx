@@ -208,4 +208,22 @@ describe("buildAnswers", () => {
       expect(serialized).not.toContain(`"${key}"`);
     }
   });
+
+  it("sends null legal_rent when the user clears a rent field", () => {
+    const answers = buildAnswers(finding, {
+      ...createInitialFormState(finding),
+      row1LegalRent: "",
+    });
+
+    expect(answers.rows[ROW_INDEX.vacancy].legal_rent).toBeNull();
+  });
+
+  it("sends non-numeric rent labels without row fallback", () => {
+    const answers = buildAnswers(finding, {
+      ...createInitialFormState(finding),
+      row1LegalRent: "EXEMPT",
+    });
+
+    expect(answers.rows[ROW_INDEX.vacancy].legal_rent).toBe("EXEMPT");
+  });
 });

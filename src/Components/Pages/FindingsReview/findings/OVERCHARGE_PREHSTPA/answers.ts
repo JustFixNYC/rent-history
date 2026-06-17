@@ -1,4 +1,4 @@
-import { parseCurrencyInput } from "../../fields/validation";
+import { buildRentAnswer } from "../../fields/validation";
 import type { Finding, ValidateFindingAnswers } from "../../types/finding";
 
 import { ROW_INDEX } from "./spec";
@@ -30,12 +30,9 @@ export function buildAnswers(
   const row0 = finding.data.rows[ROW_INDEX.tenancy];
   const row1 = finding.data.rows[ROW_INDEX.vacancy];
 
-  const legalRent0 = parseCurrencyInput(formState.row0LegalRent);
-  const legalRent1 = parseCurrencyInput(formState.row1LegalRent);
-
   const answersRow0: ValidateFindingAnswers["rows"][number] = {
     reg_year: row0.reg_year,
-    legal_rent: legalRent0 ?? row0.legal_rent,
+    legal_rent: buildRentAnswer(formState.row0LegalRent),
   };
 
   if (
@@ -47,7 +44,7 @@ export function buildAnswers(
 
   const answersRow1: ValidateFindingAnswers["rows"][number] = {
     reg_year: row1.reg_year,
-    legal_rent: legalRent1 ?? row1.legal_rent,
+    legal_rent: buildRentAnswer(formState.row1LegalRent),
     gets_vacancy_increase: formState.getsVacancyIncrease,
   };
 

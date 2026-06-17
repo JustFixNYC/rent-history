@@ -31,6 +31,24 @@ export function createCurrencyStringSchema(messages: {
     }, messages.invalid);
 }
 
+/** Rent OCR/review input: empty is valid (no value on document); any non-empty string is allowed. */
+export function createRentValueStringSchema() {
+  return z.string();
+}
+
+/** Map rent field input to validate-finding answer scalar (number, text label, or explicit clear). */
+export function buildRentAnswer(input: string): number | string | null {
+  const trimmed = input.trim();
+  if (trimmed === "") {
+    return null;
+  }
+  const parsed = parseCurrencyInput(trimmed);
+  if (parsed !== null) {
+    return parsed;
+  }
+  return trimmed;
+}
+
 export function createYearSchema(
   messages: { required: string; invalid: string },
   range?: { min?: number; max?: number }
