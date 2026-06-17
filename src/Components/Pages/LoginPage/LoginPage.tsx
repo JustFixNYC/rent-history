@@ -8,12 +8,14 @@ import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, TextInput } from "@justfixnyc/component-library";
 import {
-  RhAuthApiError,
+  isAccountApiError,
+  otpVerificationMessage,
+  phoneLoginMessage,
+  phoneResendMessage,
   RhProfile,
-  requestRhOtp,
-  upsertRhPhone,
-  verifyRhOtp,
-} from "../../../api/rhAuth";
+  useStartRhLogin,
+  useVerifyRhOtp,
+} from "../../../api/account";
 import {
   clearRhHistoryId,
   clearRhSessionDocument,
@@ -42,8 +44,10 @@ const LoginPage: React.FC = () => {
   const [verificationNotice, setVerificationNotice] = useState<string | null>(
     null
   );
-  const [isSendingCode, setIsSendingCode] = useState(false);
-  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
+  const startRhLoginMutation = useStartRhLogin();
+  const verifyRhOtpMutation = useVerifyRhOtp();
+  const isSendingCode = startRhLoginMutation.isPending;
+  const isVerifyingCode = verifyRhOtpMutation.isPending;
   const [, setVerifiedProfile] = useSessionStorage<RhProfile | null>(
     "rhVerifiedProfile",
     null
@@ -83,38 +87,34 @@ const LoginPage: React.FC = () => {
     setPhoneError(null);
     setVerificationError(null);
     setVerificationNotice(null);
-    setIsSendingCode(true);
     try {
-      const { created } = await upsertRhPhone(numericPhone);
+      const { created, otp } = await startRhLoginMutation.mutateAsync(numericPhone);
       setProfileCreated(created);
       setRhProfileCreated(created);
-      const result = await requestRhOtp(numericPhone);
       setVerificationNotice(
-        result.status === "pending"
+        otp.status === "pending"
           ? _(msg`We requested your code. Delivery may take a moment.`)
           : _(msg`Code sent. Enter it below to continue.`)
       );
       setIsVerificationStep(true);
     } catch (error) {
-      if (error instanceof RhAuthApiError && error.status === 400) {
-        setPhoneError(_(msg`Please enter a valid phone number.`));
-      } else if (error instanceof RhAuthApiError) {
-        setPhoneError(error.message);
+      if (isAccountApiError(error)) {
+        setPhoneError(phoneLoginMessage(error, _));
       } else {
         setPhoneError(
           _(msg`Something went wrong while sending your verification code.`)
         );
       }
-    } finally {
-      setIsSendingCode(false);
     }
   });
 
   const onVerificationNext = otpForm.handleSubmit(async (data) => {
     setVerificationError(null);
-    setIsVerifyingCode(true);
     try {
-      const otpSession = await verifyRhOtp(numericPhone, data.code);
+      const otpSession = await verifyRhOtpMutation.mutateAsync({
+        phoneNumber: numericPhone,
+        code: data.code,
+      });
       // Reset any stale flow/session document before writing fresh auth state.
       clearRhSessionDocument();
       setRhAuthSession(otpSession);
@@ -122,32 +122,13 @@ const LoginPage: React.FC = () => {
       clearRhHistoryId();
       navigate(`/${i18n.locale}/${profileCreated ? "history" : "account"}`);
     } catch (error) {
-      if (error instanceof RhAuthApiError) {
-        if (error.status === 429) {
-          setVerificationError(
-            _(msg`Too many invalid attempts. Request a new code.`)
-          );
-        } else if (
-          error.status === 400 &&
-          error.message.toLowerCase().includes("expired")
-        ) {
-          setVerificationError(_(msg`Your code expired. Request a new code.`));
-        } else if (error.status === 400) {
-          setVerificationError(_(msg`That code is incorrect. Try again.`));
-        } else if (error.status === 404) {
-          setVerificationError(
-            _(msg`We could not find an account for this phone number.`)
-          );
-        } else {
-          setVerificationError(error.message);
-        }
+      if (isAccountApiError(error)) {
+        setVerificationError(otpVerificationMessage(error, _));
       } else {
         setVerificationError(
           _(msg`Something went wrong while verifying your code.`)
         );
       }
-    } finally {
-      setIsVerifyingCode(false);
     }
   });
 
@@ -155,28 +136,21 @@ const LoginPage: React.FC = () => {
     if (!isPhoneValid || isSendingCode) return;
     setVerificationError(null);
     setVerificationNotice(null);
-    setIsSendingCode(true);
     try {
-      const result = await requestRhOtp(numericPhone);
+      const { otp } = await startRhLoginMutation.mutateAsync(numericPhone);
       setVerificationNotice(
-        result.status === "pending"
+        otp.status === "pending"
           ? _(msg`Code request received. Delivery may take a moment.`)
           : _(msg`A new code has been sent.`)
       );
     } catch (error) {
-      if (error instanceof RhAuthApiError && error.status === 400) {
-        setVerificationError(
-          _(msg`Please confirm your phone number and try again.`)
-        );
-      } else if (error instanceof RhAuthApiError) {
-        setVerificationError(error.message);
+      if (isAccountApiError(error)) {
+        setVerificationError(phoneResendMessage(error, _));
       } else {
         setVerificationError(
           _(msg`Unable to resend code right now. Please try again.`)
         );
       }
-    } finally {
-      setIsSendingCode(false);
     }
   };
 

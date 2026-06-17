@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { downloadScans } from "../api/presignedS3";
+import { downloadScans } from "../api/thirdParty/presignedS3";
 import { useRhSession } from "../session/RhSessionContext";
 
 export type RhScanBlobItem = { key: string; blob: Blob };

@@ -1,5 +1,6 @@
 import { DocumentScanner } from "dynamsoft-document-scanner";
 import { ReactNode, useEffect, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Trans } from "@lingui/react/macro";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
@@ -10,14 +11,16 @@ import {
   downloadScans,
   PresignApiError,
   uploadScan,
-} from "../../../api/presignedS3";
+} from "../../../api/thirdParty/presignedS3";
 import {
-  combineRhHistoryPages,
+  accountQueryKeys,
   deleteRhHistoryPages,
-  getRhHistoryAnalysisPages,
-  getRhHistoryPagesReadiness,
-  RhAuthApiError,
-} from "../../../api/rhAuth";
+  isAccountApiError,
+  useCombineRhHistoryPages,
+  useRhHistoryAnalysisPages,
+  useRhPagesReadiness,
+  RhPagesReadinessExcessError,
+} from "../../../api/account";
 import { Button } from "@justfixnyc/component-library";
 import EmblaCarousel from "../../EmblaCarousel/EmblaCarousel";
 import BlobImage from "../../EmblaCarousel/BlobImage";
@@ -35,14 +38,7 @@ type ReadinessPhase = "idle" | "processing" | "ready" | "error";
 
 const OPTIONS: EmblaOptionsType = {};
 
-const POLL_INITIAL_MS = 1500;
-const POLL_CAP_MS = 15000;
 const POLL_MAX_TOTAL_MS = 180000;
-
-const sleep = (ms: number): Promise<void> =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 
 const readScanKeyPrefix = (): string | null => {
   const session = getRhAuthSession();
@@ -54,6 +50,7 @@ const readScanKeyPrefix = (): string | null => {
 const Scanner: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [scanStatus, setScanStatus] = useState<ScanStatus>("waiting");
   const [scanner, setScanner] = useState<DocumentScanner>();
@@ -62,10 +59,40 @@ const Scanner: React.FC = () => {
     string | null
   >(null);
   const [slides, setSlides] = useState<ReactNode[]>([]);
-  const [isCombining, setIsCombining] = useState(false);
   const [combineError, setCombineError] = useState<string | null>(null);
   const pageNumber = useRef(1);
   const numPagesAfterScanRef = useRef(0);
+  const pollStartedRef = useRef<number | null>(null);
+
+  const session = getRhAuthSession();
+  const accessToken = session?.accessToken;
+  const historyId = getRhHistoryId();
+  const readinessEnabled = scanStatus === "complete";
+  const numPages = numPagesAfterScanRef.current;
+
+  const pagesReadinessQuery = useRhPagesReadiness({
+    accessToken,
+    historyId: historyId ?? undefined,
+    numPages,
+    enabled: readinessEnabled,
+    maxPollMs: POLL_MAX_TOTAL_MS,
+  });
+  const {
+    data: readinessData,
+    error: readinessError,
+    isPending: readinessPending,
+    isFetching: readinessFetching,
+  } = pagesReadinessQuery;
+
+  const combinePagesMutation = useCombineRhHistoryPages();
+  const analysisPagesQuery = useRhHistoryAnalysisPages({
+    accessToken,
+    historyId: historyId ?? undefined,
+    enabled: false,
+  });
+  const slidesBuiltKeyRef = useRef<string | null>(null);
+  const isCombining =
+    combinePagesMutation.isPending || analysisPagesQuery.isFetching;
 
   useEffect(() => {
     const initScanner = async () => {
@@ -129,15 +156,19 @@ const Scanner: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (scanStatus !== "complete") {
+    if (!readinessEnabled) {
+      pollStartedRef.current = null;
+      return;
+    }
+    pollStartedRef.current = Date.now();
+  }, [readinessEnabled]);
+
+  useEffect(() => {
+    if (!readinessEnabled) {
       return;
     }
 
-    const session = getRhAuthSession();
-    const historyId = getRhHistoryId();
-    const numPages = numPagesAfterScanRef.current;
-
-    if (!session || !historyId) {
+    if (!accessToken || !historyId) {
       setReadinessPhase("error");
       setReadinessErrorMessage(
         _(
@@ -157,36 +188,8 @@ const Scanner: React.FC = () => {
       return;
     }
 
-    let cancelled = false;
-
-    const run = async () => {
-      setReadinessPhase("processing");
-      setReadinessErrorMessage(null);
-
-      let delay = POLL_INITIAL_MS;
-      const started = Date.now();
-      let lastResult = await getRhHistoryPagesReadiness(
-        session.accessToken,
-        historyId,
-        numPages
-      ).catch((err: unknown) => {
-        if (cancelled) return null;
-        const message =
-          err instanceof RhAuthApiError
-            ? err.message
-            : err instanceof Error
-            ? err.message
-            : String(err);
-        setReadinessPhase("error");
-        setReadinessErrorMessage(message);
-        return null;
-      });
-
-      if (cancelled || lastResult === null) {
-        return;
-      }
-
-      if (lastResult.status === "excess") {
+    if (readinessError) {
+      if (readinessError instanceof RhPagesReadinessExcessError) {
         setReadinessPhase("error");
         setReadinessErrorMessage(
           _(
@@ -195,52 +198,30 @@ const Scanner: React.FC = () => {
         );
         return;
       }
+      const message =
+        isAccountApiError(readinessError)
+          ? readinessError.message
+          : readinessError instanceof Error
+          ? readinessError.message
+          : String(readinessError);
+      setReadinessPhase("error");
+      setReadinessErrorMessage(message);
+      return;
+    }
 
-      while (!cancelled && Date.now() - started < POLL_MAX_TOTAL_MS) {
-        if (lastResult.status === "ready") {
-          break;
-        }
+    if (readinessPending || readinessFetching) {
+      setReadinessPhase("processing");
+      setReadinessErrorMessage(null);
+      return;
+    }
 
-        if (lastResult.status === "excess") {
-          setReadinessPhase("error");
-          setReadinessErrorMessage(
-            _(
-              msg`More scan files or records were found than expected. Use Restart scanning to clear this history and scan again.`
-            )
-          );
-          return;
-        }
+    if (!readinessData) {
+      return;
+    }
 
-        await sleep(delay);
-        delay = Math.min(delay * 2, POLL_CAP_MS);
-
-        lastResult = await getRhHistoryPagesReadiness(
-          session.accessToken,
-          historyId,
-          numPages
-        ).catch((err: unknown) => {
-          if (cancelled) return null;
-          const message =
-            err instanceof RhAuthApiError
-              ? err.message
-              : err instanceof Error
-              ? err.message
-              : String(err);
-          setReadinessPhase("error");
-          setReadinessErrorMessage(message);
-          return null;
-        });
-
-        if (cancelled || lastResult === null) {
-          return;
-        }
-      }
-
-      if (cancelled) {
-        return;
-      }
-
-      if (!lastResult || lastResult.status !== "ready") {
+    if (readinessData.status === "pending") {
+      const started = pollStartedRef.current;
+      if (started !== null && Date.now() - started >= POLL_MAX_TOTAL_MS) {
         setReadinessPhase("error");
         setReadinessErrorMessage(
           _(
@@ -249,19 +230,36 @@ const Scanner: React.FC = () => {
         );
         return;
       }
+      setReadinessPhase("processing");
+      setReadinessErrorMessage(null);
+      return;
+    }
 
-      const pages = lastResult.pages;
+    if (readinessData.status !== "ready") {
+      return;
+    }
 
-      if (pages.length === 0) {
-        if (cancelled) return;
-        setReadinessPhase("error");
-        setReadinessErrorMessage(
-          _(
-            msg`No processed pages were returned. Use Restart scanning to try again.`
-          )
-        );
-        return;
-      }
+    const pages = readinessData.pages;
+    const slidesBuildKey = pages.map((p) => p.s3_key).join("|");
+    if (slidesBuiltKeyRef.current === slidesBuildKey) {
+      return;
+    }
+    slidesBuiltKeyRef.current = slidesBuildKey;
+    if (pages.length === 0) {
+      setReadinessPhase("error");
+      setReadinessErrorMessage(
+        _(
+          msg`No processed pages were returned. Use Restart scanning to try again.`
+        )
+      );
+      return;
+    }
+
+    let cancelled = false;
+
+    const buildSlides = async () => {
+      setReadinessPhase("processing");
+      setReadinessErrorMessage(null);
 
       const keys = pages.map((p) => p.s3_key);
 
@@ -280,7 +278,6 @@ const Scanner: React.FC = () => {
       }
 
       const byKey = new Map(downloads.map((d) => [d.key, d]));
-
       const nextSlides: ReactNode[] = [];
 
       for (let i = 0; i < pages.length; i++) {
@@ -359,23 +356,37 @@ const Scanner: React.FC = () => {
       setReadinessPhase("ready");
     };
 
-    void run();
+    void buildSlides();
 
     return () => {
       cancelled = true;
     };
-    // Poll only when a scan session completes; do not tie to `_` identity to avoid aborting mid-poll.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scanStatus]);
+  }, [
+    readinessEnabled,
+    accessToken,
+    historyId,
+    numPages,
+    readinessData,
+    readinessError,
+    readinessPending,
+    readinessFetching,
+  ]);
 
   const canStartScan = Boolean(readScanKeyPrefix());
 
   const launchScanner = async () => {
     if (!readScanKeyPrefix()) return;
+    if (historyId) {
+      await queryClient.removeQueries({
+        queryKey: accountQueryKeys.pagesReadiness(historyId, numPagesAfterScanRef.current),
+      });
+    }
     setReadinessPhase("idle");
     setReadinessErrorMessage(null);
     setCombineError(null);
     setSlides([]);
+    slidesBuiltKeyRef.current = null;
     setScanStatus("scanning");
     pageNumber.current = 1;
     clearRhSessionPages();
@@ -386,37 +397,38 @@ const Scanner: React.FC = () => {
   };
 
   const restartScanner = async () => {
-    const session = getRhAuthSession();
-    const historyId = getRhHistoryId();
-    if (!session || !historyId) return;
-    await deleteRhHistoryPages(session.accessToken, historyId);
+    const restartSession = getRhAuthSession();
+    const restartHistoryId = getRhHistoryId();
+    if (!restartSession?.accessToken || !restartHistoryId) return;
+    await deleteRhHistoryPages(
+      restartSession.accessToken,
+      restartHistoryId
+    );
     await launchScanner();
   };
 
   const onNext = async () => {
-    const session = getRhAuthSession();
-    const historyId = getRhHistoryId();
-    if (!session || !historyId) {
+    if (!accessToken || !historyId) {
       setCombineError(_(msg`Your session is missing a rent history record.`));
       return;
     }
     setCombineError(null);
-    setIsCombining(true);
     try {
-      await combineRhHistoryPages(session.accessToken, historyId);
-      const analysisPages = await getRhHistoryAnalysisPages(
-        session.accessToken,
-        historyId
-      );
+      await combinePagesMutation.mutateAsync({
+        accessToken,
+        historyId,
+      });
+      const { data: analysisPages } = await analysisPagesQuery.refetch();
+      if (!analysisPages) {
+        throw new Error("Missing analysis pages after combine.");
+      }
       setRhSessionAnalysisPages(analysisPages);
       navigate(`/${i18n.locale}/confirm-address`);
     } catch (err) {
       const fallback = _(
         msg`We couldn't combine your pages. Please try again.`
       );
-      setCombineError(err instanceof RhAuthApiError ? err.message : fallback);
-    } finally {
-      setIsCombining(false);
+      setCombineError(isAccountApiError(err) ? err.message : fallback);
     }
   };
 

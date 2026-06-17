@@ -6,10 +6,26 @@ import {
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
-  RhAuthApiError,
-  upsertRhPhone,
+  startRhLogin,
   verifyRhOtp,
-} from "./rhAuth";
+} from "./api";
+const jsonResponse = (body: unknown, init: ResponseInit): Response =>
+  new Response(JSON.stringify(body), {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      ...init.headers,
+    },
+  });
+
+const getMockedFetchRequest = (
+  fetchSpy: ReturnType<typeof vi.spyOn>,
+  callIndex = 0
+): Request => {
+  const [input] = fetchSpy.mock.calls[callIndex] as [Request];
+  expect(input).toBeInstanceOf(Request);
+  return input;
+};
 
 describe("verifyRhOtp", () => {
   afterEach(() => {
@@ -23,8 +39,8 @@ describe("verifyRhOtp", () => {
     vi.stubEnv("VITE_RH_OAUTH_CLIENT_SECRET", "");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+      jsonResponse(
+        {
           access_token: "access",
           refresh_token: "refresh",
           token_type: "Bearer",
@@ -33,34 +49,28 @@ describe("verifyRhOtp", () => {
           profile: {
             id: 1,
             phone_number: "15554443333",
-            rent_history_id: "abc",
           },
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
         },
-      ),
+        { status: 200 }
+      )
     );
 
     await verifyRhOtp("15554443333", "123456");
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
-    expect(String(requestUrl)).toBe(
-      "https://auth.example.org/rh/verify-otp-token",
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/verify-otp-token"
     );
-    expect(requestInit?.method).toBe("POST");
-    expect(requestInit?.headers).toEqual({
-      "Content-Type": "application/json",
-    });
-    expect(requestInit?.body).toBe(
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(await request.text()).toBe(
       JSON.stringify({
         phone_number: "15554443333",
         code: "123456",
         client_id: "client-id-123",
         grant_type: "password",
-      }),
+      })
     );
   });
 
@@ -70,8 +80,8 @@ describe("verifyRhOtp", () => {
     vi.stubEnv("VITE_RH_OAUTH_CLIENT_SECRET", "top-secret");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+      jsonResponse(
+        {
           access_token: "access",
           refresh_token: "refresh",
           token_type: "Bearer",
@@ -80,19 +90,15 @@ describe("verifyRhOtp", () => {
           profile: {
             id: 1,
             phone_number: "15554443333",
-            rent_history_id: "abc",
           },
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
         },
-      ),
+        { status: 200 }
+      )
     );
 
     await verifyRhOtp("15554443333", "123456");
-    const [, requestInit] = fetchSpy.mock.calls[0];
-    expect(requestInit?.body).toContain('"client_secret":"top-secret"');
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(await request.text()).toContain('"client_secret":"top-secret"');
   });
 });
 
@@ -106,27 +112,20 @@ describe("createRhHistory", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
-          id: "11111111-1111-4111-8111-111111111111",
-        }),
-        {
-          status: 201,
-          headers: { "Content-Type": "application/json" },
-        },
-      ),
+      jsonResponse(
+        { id: "11111111-1111-4111-8111-111111111111" },
+        { status: 201 }
+      )
     );
 
     await createRhHistory("access-token");
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
-    expect(String(requestUrl)).toBe("https://auth.example.org/rh/history");
-    expect(requestInit?.method).toBe("POST");
-    expect(requestInit?.headers).toEqual({
-      Authorization: "Bearer access-token",
-    });
-    expect(requestInit?.body).toBeUndefined();
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe("https://auth.example.org/rh/history");
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(await request.text()).toBe("");
   });
 });
 
@@ -141,18 +140,15 @@ describe("confirmRhHistoryAddress", () => {
 
     const historyId = "22222222-2222-4222-8222-222222222222";
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+      jsonResponse(
+        {
           bbl_units: 8,
           bin_units: 6,
           is_421a_nycdb: true,
           is_j51_nycdb: false,
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
         },
-      ),
+        { status: 200 }
+      )
     );
 
     const result = await confirmRhHistoryAddress("access-token", {
@@ -163,16 +159,14 @@ describe("confirmRhHistoryAddress", () => {
     });
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
-    expect(String(requestUrl)).toBe(
-      "https://auth.example.org/rh/history/confirm-address",
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/history/confirm-address"
     );
-    expect(requestInit?.method).toBe("POST");
-    expect(requestInit?.headers).toEqual({
-      Authorization: "Bearer access-token",
-      "Content-Type": "application/json",
-    });
-    expect(JSON.parse(requestInit?.body as string)).toEqual({
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(JSON.parse(await request.text())).toEqual({
       history_id: historyId,
       bbl: "1000010001",
       bin: "1234567",
@@ -197,26 +191,21 @@ describe("combineRhHistoryPages", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ status: "ok" }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }),
+      jsonResponse({ status: "ok" }, { status: 200 })
     );
 
     const hid = "22222222-2222-4222-8222-222222222222";
     await combineRhHistoryPages("access-token", hid);
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
-    expect(String(requestUrl)).toBe(
-      "https://auth.example.org/rh/history/combine-pages",
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/history/combine-pages"
     );
-    expect(requestInit?.method).toBe("POST");
-    expect(requestInit?.headers).toEqual({
-      Authorization: "Bearer access-token",
-      "Content-Type": "application/json",
-    });
-    expect(requestInit?.body).toBe(JSON.stringify({ history_id: hid }));
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(await request.text()).toBe(JSON.stringify({ history_id: hid }));
   });
 });
 
@@ -232,8 +221,8 @@ describe("getRhHistoryPagesReadiness", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+      jsonResponse(
+        {
           status: "ready",
           s3: { count: 1, expected: 1, relation: "equal" },
           database: { count: 1, expected: 1, relation: "equal" },
@@ -246,26 +235,24 @@ describe("getRhHistoryPagesReadiness", () => {
               is_coverpage: false,
             },
           ],
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      ),
+        },
+        { status: 200 }
+      )
     );
 
     const result = await getRhHistoryPagesReadiness(
       "access-token",
       historyId,
-      1,
+      1
     );
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
-    expect(String(requestUrl)).toBe(
-      `https://auth.example.org/rh/history/pages-readiness?history_id=${historyId}&num_pages=1`,
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      `https://auth.example.org/rh/history/pages-readiness?history_id=${historyId}&num_pages=1`
     );
-    expect(requestInit?.method).toBe("GET");
-    expect(requestInit?.headers).toEqual({
-      Authorization: "Bearer access-token",
-    });
+    expect(request.method).toBe("GET");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
 
     expect(result.status).toBe("ready");
     if (result.status === "ready") {
@@ -277,20 +264,20 @@ describe("getRhHistoryPagesReadiness", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+      jsonResponse(
+        {
           status: "pending",
           s3: { count: 1, expected: 2, relation: "less" },
           database: { count: 1, expected: 2, relation: "less" },
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
+        },
+        { status: 200 }
       )
     );
 
     const result = await getRhHistoryPagesReadiness(
       "access-token",
       historyId,
-      2,
+      2
     );
 
     expect(result.status).toBe("pending");
@@ -303,13 +290,13 @@ describe("getRhHistoryPagesReadiness", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+      jsonResponse(
+        {
           status: "excess",
           s3: { count: 3, expected: 2, relation: "more" },
           database: { count: 2, expected: 2, relation: "equal" },
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
+        },
+        { status: 200 }
       )
     );
 
@@ -322,49 +309,63 @@ describe("getRhHistoryPagesReadiness", () => {
     expect(result.status).toBe("excess");
   });
 
-  it("upsertRhPhone returns profile and created flag", async () => {
+  it("startRhLogin returns profile, created flag, and otp delivery", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
-    vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
           created: true,
           profile: { id: 1, phone_number: "+15551234567" },
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
+          otp: { status: "sent" },
+        },
+        { status: 200 }
       )
     );
 
-    const result = await upsertRhPhone("5551234567");
+    const result = await startRhLogin("5551234567");
 
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe("https://auth.example.org/rh/login/start");
+    expect(request.method).toBe("POST");
     expect(result.created).toBe(true);
     expect(result.profile.phone_number).toBe("+15551234567");
+    expect(result.otp.status).toBe("sent");
   });
 
-  it("throws RhAuthApiError on 400 validation (no readiness axes)", async () => {
+  it("throws AccountApiError on 400 validation (no readiness axes)", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ num_pages: ["Invalid"] }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      }),
+      jsonResponse(
+        {
+          error: "Validation failed.",
+          error_code: "validation_error",
+          details: { num_pages: ["Invalid"] },
+        },
+        { status: 400 }
+      )
     );
 
     await expect(
-      getRhHistoryPagesReadiness("access-token", historyId, 0),
-    ).rejects.toThrow(RhAuthApiError);
+      getRhHistoryPagesReadiness("access-token", historyId, 0)
+    ).rejects.toMatchObject({
+      name: "AccountApiError",
+      status: 400,
+      errorCode: "validation_error",
+    });
   });
 
   it("throws on 401", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(null, { status: 401 }),
+      new Response(null, { status: 401 })
     );
 
     await expect(
-      getRhHistoryPagesReadiness("access-token", historyId, 1),
+      getRhHistoryPagesReadiness("access-token", historyId, 1)
     ).rejects.toMatchObject({ status: 401 });
   });
 });
@@ -381,26 +382,28 @@ describe("getRhHistoryAnalysisPages", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify([
-          {
-            s3_key: "1/uuid/page1.jpg",
-            start_year: 2018,
-            end_year: 2019,
-          },
-        ]),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      ),
+      jsonResponse(
+        {
+          pages: [
+            {
+              s3_key: "1/uuid/page1.jpg",
+              start_year: 2018,
+              end_year: 2019,
+            },
+          ],
+        },
+        { status: 200 }
+      )
     );
 
     const pages = await getRhHistoryAnalysisPages("access-token", historyId);
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
-    expect(String(requestUrl)).toBe(
-      `https://auth.example.org/rh/history/analysis-pages?history_id=${historyId}`,
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      `https://auth.example.org/rh/history/analysis-pages?history_id=${historyId}`
     );
-    expect(requestInit?.method).toBe("GET");
+    expect(request.method).toBe("GET");
     expect(pages).toEqual([
       { s3_key: "1/uuid/page1.jpg", start_year: 2018, end_year: 2019 },
     ]);
@@ -419,26 +422,24 @@ describe("getRhHistoryAddress", () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(
-        JSON.stringify({
+      jsonResponse(
+        {
           apartment: "4B",
           address: "228 Atlantic Avenue, Brooklyn, NY 11201",
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
+        },
+        { status: 200 }
       )
     );
 
     const result = await getRhHistoryAddress("access-token", historyId);
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const [requestUrl, requestInit] = fetchSpy.mock.calls[0];
-    expect(String(requestUrl)).toBe(
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
       `https://auth.example.org/rh/history/address?history_id=${historyId}`
     );
-    expect(requestInit?.method).toBe("GET");
-    expect(requestInit?.headers).toEqual({
-      Authorization: "Bearer access-token",
-    });
+    expect(request.method).toBe("GET");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
     expect(result).toEqual({
       apartment: "4B",
       address: "228 Atlantic Avenue, Brooklyn, NY 11201",

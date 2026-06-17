@@ -1,5 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   cleanup,
   fireEvent,
@@ -11,8 +12,8 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import Scanner from "./Scanner";
-import { RhAuthApiError } from "../../../api/rhAuth";
-import * as rhAuthApi from "../../../api/rhAuth";
+import { AccountApiError } from "../../../api/account";
+import * as accountApi from "../../../api/account/api";
 import {
   getRhSessionAnalysisPages,
   setRhAuthSession,
@@ -55,7 +56,7 @@ vi.mock("dynamsoft-document-scanner", () => ({
   }),
 }));
 
-vi.mock("../../../api/presignedS3", () => ({
+vi.mock("../../../api/thirdParty/presignedS3", () => ({
   uploadScan: vi.fn().mockResolvedValue(undefined),
   downloadScans: vi.fn().mockResolvedValue([
     {
@@ -73,10 +74,10 @@ vi.mock("../../EmblaCarousel/EmblaCarousel", () => ({
   default: () => null,
 }));
 
-vi.mock("../../../api/rhAuth", async () => {
-  const actual = await vi.importActual<typeof import("../../../api/rhAuth")>(
-    "../../../api/rhAuth"
-  );
+vi.mock("../../../api/account/api", async () => {
+  const actual = await vi.importActual<
+    typeof import("../../../api/account/api")
+  >("../../../api/account/api");
   return {
     ...actual,
     combineRhHistoryPages: vi.fn(),
@@ -114,21 +115,31 @@ const tokenPayload = {
   profile: {
     id: 1,
     phone_number: "15554443333",
-    rent_history_id: "rh-1",
   },
 };
 
 const historyId = testHistoryId;
 
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
 const renderScanner = () => {
   i18n.load("en", {});
   i18n.activate("en");
+  const queryClient = createTestQueryClient();
   return render(
-    <MemoryRouter initialEntries={["/en/scanner"]}>
-      <I18nProvider i18n={i18n}>
-        <Scanner />
-      </I18nProvider>
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/en/scanner"]}>
+        <I18nProvider i18n={i18n}>
+          <Scanner />
+        </I18nProvider>
+      </MemoryRouter>
+    </QueryClientProvider>
   );
 };
 
@@ -153,7 +164,7 @@ describe("Scanner Next button", () => {
   });
 
   it("calls combine-pages and navigates to /confirm-address on success", async () => {
-    vi.mocked(rhAuthApi.combineRhHistoryPages).mockResolvedValue({
+    vi.mocked(accountApi.combineRhHistoryPages).mockResolvedValue({
       status: "ok",
     });
 
@@ -162,11 +173,11 @@ describe("Scanner Next button", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(rhAuthApi.combineRhHistoryPages).toHaveBeenCalledWith(
+      expect(accountApi.combineRhHistoryPages).toHaveBeenCalledWith(
         "access-token",
         historyId
       );
-      expect(rhAuthApi.getRhHistoryAnalysisPages).toHaveBeenCalledWith(
+      expect(accountApi.getRhHistoryAnalysisPages).toHaveBeenCalledWith(
         "access-token",
         historyId
       );
@@ -182,8 +193,11 @@ describe("Scanner Next button", () => {
   });
 
   it("shows backend error message and stays on scanner when combine-pages fails", async () => {
-    vi.mocked(rhAuthApi.combineRhHistoryPages).mockRejectedValue(
-      new RhAuthApiError(400, "reg_year sequence is not contiguous")
+    vi.mocked(accountApi.combineRhHistoryPages).mockRejectedValue(
+      new AccountApiError(400, {
+        error: "reg_year sequence is not contiguous",
+        error_code: "validation_error",
+      })
     );
 
     renderScanner();

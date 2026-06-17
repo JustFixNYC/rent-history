@@ -1,5 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   cleanup,
   fireEvent,
@@ -10,18 +11,25 @@ import {
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import LoginPage from "./LoginPage";
-import { RhAuthApiError } from "../../../api/rhAuth";
-import * as rhAuthApi from "../../../api/rhAuth";
+import { AccountApiError } from "../../../api/account";
+import * as accountApi from "../../../api/account/api";
 import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
-vi.mock("../../../api/rhAuth", async () => {
-  const actual = await vi.importActual<typeof import("../../../api/rhAuth")>(
-    "../../../api/rhAuth"
-  );
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
+vi.mock("../../../api/account/api", async () => {
+  const actual = await vi.importActual<
+    typeof import("../../../api/account/api")
+  >("../../../api/account/api");
   return {
     ...actual,
-    requestRhOtp: vi.fn(),
-    upsertRhPhone: vi.fn(),
+    startRhLogin: vi.fn(),
     verifyRhOtp: vi.fn(),
   };
 });
@@ -39,12 +47,15 @@ vi.mock("../../../session/rhSessionStorage", async () => {
 const renderLoginPage = () => {
   i18n.load("en", {});
   i18n.activate("en");
+  const queryClient = createTestQueryClient();
   return render(
-    <MemoryRouter initialEntries={["/en/login"]}>
-      <I18nProvider i18n={i18n}>
-        <LoginPage />
-      </I18nProvider>
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/en/login"]}>
+        <I18nProvider i18n={i18n}>
+          <LoginPage />
+        </I18nProvider>
+      </MemoryRouter>
+    </QueryClientProvider>
   );
 };
 
@@ -56,15 +67,14 @@ describe("LoginPage OTP verification", () => {
   });
 
   it("stores otp session on successful verification", async () => {
-    vi.mocked(rhAuthApi.upsertRhPhone).mockResolvedValue({
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
       created: true,
       profile: {
         id: 1,
         phone_number: "15554443333",
-        rent_history_id: "rh-1",
       },
+      otp: { status: "sent" },
     });
-    vi.mocked(rhAuthApi.requestRhOtp).mockResolvedValue({ status: "sent" });
     const otpPayload = {
       access_token: "access-token",
       refresh_token: "refresh-token",
@@ -74,10 +84,9 @@ describe("LoginPage OTP verification", () => {
       profile: {
         id: 1,
         phone_number: "15554443333",
-        rent_history_id: "rh-1",
       },
     };
-    vi.mocked(rhAuthApi.verifyRhOtp).mockResolvedValue(otpPayload);
+    vi.mocked(accountApi.verifyRhOtp).mockResolvedValue(otpPayload);
 
     renderLoginPage();
 
@@ -99,7 +108,7 @@ describe("LoginPage OTP verification", () => {
     fireEvent.click(screen.getByRole("button", { name: "Verify" }));
 
     await waitFor(() => {
-      expect(rhAuthApi.verifyRhOtp).toHaveBeenCalledWith(
+      expect(accountApi.verifyRhOtp).toHaveBeenCalledWith(
         "5554443333",
         "123456"
       );
@@ -110,17 +119,19 @@ describe("LoginPage OTP verification", () => {
   });
 
   it("shows expired-code error message when backend returns expired", async () => {
-    vi.mocked(rhAuthApi.upsertRhPhone).mockResolvedValue({
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
       created: true,
       profile: {
         id: 1,
         phone_number: "15554443333",
-        rent_history_id: "rh-1",
       },
+      otp: { status: "sent" },
     });
-    vi.mocked(rhAuthApi.requestRhOtp).mockResolvedValue({ status: "sent" });
-    vi.mocked(rhAuthApi.verifyRhOtp).mockRejectedValue(
-      new RhAuthApiError(400, "Code expired")
+    vi.mocked(accountApi.verifyRhOtp).mockRejectedValue(
+      new AccountApiError(
+        400,
+        { error: "Code expired.", error_code: "otp_expired" }
+      )
     );
 
     renderLoginPage();

@@ -14,7 +14,32 @@ The post-OTP routes are protected and require a valid session token produced by 
 
 - Runtime contract endpoint is `GET /rh/schema` from `auth-provider`.
 - Canonical committed contract artifact is `auth-provider/rh/openapi/openapi.json`.
-- When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR.
+- Generated account API types live at `src/api/generated/account-openapi.d.ts` (committed; not gitignored).
+- When backend `rh/` API contract changes, export and commit `openapi.json` in auth-provider, copy it into rent-history, then regenerate and commit frontend types:
+
+```bash
+# After auth-provider exports rh/openapi/openapi.json:
+cp ../auth-provider/rh/openapi/openapi.json src/api/contract/account-openapi.json
+yarn generate:api:account
+```
+
+- `yarn generate:api` is an alias for `generate:api:account` (data-api codegen is deferred).
+- Pinned spec for codegen and CI: `src/api/contract/account-openapi.json` (copy of auth-provider’s committed artifact).
+- **CI:** GitHub Actions (`.github/workflows/account-openapi-contract.yml`) regenerates from the pinned spec and fails if `yarn generate:api:account` would change the committed `.d.ts`.
+- **Netlify / builds:** Use the committed `account-openapi.d.ts` only; no auth-provider checkout required at build time.
+- When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR (hook migrations follow the Tier 1 codegen plan).
+
+## `src/api/` layout
+
+| Path | Role |
+|------|------|
+| `contract/account-openapi.json` | Pinned OpenAPI spec (sync from auth-provider on contract changes) |
+| `generated/account-openapi.d.ts` | Committed OpenAPI types (`yarn generate:api:account`) |
+| `account/` | Typed openapi-fetch client, imperative `/rh/*` API (`api.ts`), errors, types, TanStack Query hooks (`index.ts` barrel) |
+| `data/README.md` | Placeholder for a future read-only data API (not used in v1) |
+| `thirdParty/` | Hand-written modules for external hosts (GeoSearch, S3 presign) |
+
+Architecture reference: [frontend-api-architecture.md](https://github.com/JustFixNYC/cursor-workspaces/blob/main/rent-history-analyzer/codegen/docs/frontend-api-architecture.md) in `cursor-workspaces/rent-history-analyzer/codegen/docs/`.
 
 Currently, two official plugins are available:
 

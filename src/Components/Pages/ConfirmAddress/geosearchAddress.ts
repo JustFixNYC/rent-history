@@ -1,4 +1,4 @@
-import type { GeosearchFeature } from "../../../api/geosearch";
+import type { GeosearchFeature } from "../../../api/thirdParty/geosearch";
 import type { AddressState } from "./confirmAddressState";
 
 const toTitleCase = (value: string) =>

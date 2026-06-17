@@ -3,7 +3,7 @@ import type {
   RhAnalysisPage,
   RhOtpTokenResponse,
   RhProfile,
-} from "../api/rhAuth";
+} from "../api/account";
 
 export const RH_SESSION_STORAGE_KEY = "rh_session";
 
