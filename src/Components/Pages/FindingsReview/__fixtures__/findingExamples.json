@@ -13,16 +13,16 @@
       "rows": [
         {
           "reg_year": 1991,
+          "apt_stat": "RS",
           "legal_rent": 2283.1,
           "tenants": ["KEITH ANTOINE"],
           "tenancy_start": null
         },
         {
           "reg_year": 1992,
+          "apt_stat": "RS",
           "legal_rent": 2590.86,
-          "tenants": ["CHRISTINE DOE"],
-          "gets_vacancy_increase": null,
-          "rgb_pct": 0.0
+          "gets_vacancy_increase": null
         }
       ]
     },

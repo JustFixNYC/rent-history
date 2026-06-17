@@ -53,6 +53,8 @@ function renderTenancyStep(findingOverride: Finding) {
 
 function stepsForAnswers(answers: ValidateFindingAnswers) {
   const formState: PrehstpaFormState = {
+    row0AptStat: "RS",
+    row1AptStat: "RS",
     row0LegalRent: "2283.1",
     row1LegalRent: "2590.86",
     getsVacancyIncrease: answers.rows[1]?.gets_vacancy_increase ?? null,
@@ -83,6 +85,36 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
       "tenancy_start",
     ]);
     expect(steps.find((step) => step.id === "intro")).toBeUndefined();
+  });
+
+  it("renders apt_stat dropdowns in the OCR step", () => {
+    const steps = getSteps({
+      finding,
+      formState: createInitialFormState(finding),
+      onFormStateChange: noopFormChange,
+    });
+    const ocrStep = steps.find((step) => step.id === "ocr_confirm");
+
+    if (!ocrStep) {
+      throw new Error("ocr_confirm step not found");
+    }
+
+    renderWithI18n(
+      ocrStep.render({
+        isPastStep: false,
+        isActive: true,
+      }) as React.ReactElement
+    );
+
+    expect(screen.getAllByRole("combobox", { name: "Apt Stat" })).toHaveLength(
+      2
+    );
+    expect(
+      document.getElementById("prehstpa-ocr-apt-stat-0")
+    ).toBeInTheDocument();
+    expect(
+      document.getElementById("prehstpa-ocr-apt-stat-1")
+    ).toBeInTheDocument();
   });
 
   it("shows three visible steps when vacancy is true", () => {
@@ -172,6 +204,8 @@ describe("getIntroValues", () => {
 describe("buildAnswers", () => {
   it("maps form state to shape-A rows with reg_year preserved", () => {
     const formState: PrehstpaFormState = {
+      row0AptStat: "RS",
+      row1AptStat: "RS",
       row0LegalRent: "2283.1",
       row1LegalRent: "2590.86",
       getsVacancyIncrease: true,
@@ -180,14 +214,26 @@ describe("buildAnswers", () => {
 
     expect(buildAnswers(finding, formState)).toEqual({
       rows: [
-        { reg_year: 1991, legal_rent: 2283.1, tenancy_start: 1989 },
-        { reg_year: 1992, legal_rent: 2590.86, gets_vacancy_increase: true },
+        {
+          reg_year: 1991,
+          apt_stat: "RS",
+          legal_rent: 2283.1,
+          tenancy_start: 1989,
+        },
+        {
+          reg_year: 1992,
+          apt_stat: "RS",
+          legal_rent: 2590.86,
+          gets_vacancy_increase: true,
+        },
       ],
     });
   });
 
   it("omits tenancy_start when vacancy is false", () => {
     const formState: PrehstpaFormState = {
+      row0AptStat: "RS",
+      row1AptStat: "RS",
       row0LegalRent: "2283.1",
       row1LegalRent: "2590.86",
       getsVacancyIncrease: false,
@@ -200,7 +246,7 @@ describe("buildAnswers", () => {
     expect(answers.rows[ROW_INDEX.vacancy].gets_vacancy_increase).toBe(false);
   });
 
-  it("never includes excluded keys (rgb_pct, tenants) in answers", () => {
+  it("never includes excluded keys (tenants) in answers", () => {
     const answers = buildAnswers(finding, createInitialFormState(finding));
     const serialized = JSON.stringify(answers);
 

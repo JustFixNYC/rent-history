@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  buildRentAnswer,
-  createRentValueStringSchema,
-} from "./validation";
+import { buildRentAnswer, createRentValueStringSchema } from "./validation";
 
 describe("createRentValueStringSchema", () => {
   const schema = createRentValueStringSchema();

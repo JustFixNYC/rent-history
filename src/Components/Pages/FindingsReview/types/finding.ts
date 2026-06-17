@@ -22,8 +22,7 @@ export type FindingDataRow = {
   tenants?: string[];
   tenancy_start?: number | null;
   gets_vacancy_increase?: boolean | null;
-  rgb_pct?: number;
-  status?: string;
+  apt_stat?: string;
   [key: string]: unknown;
 };
 

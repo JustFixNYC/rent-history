@@ -14,8 +14,8 @@ export function getIntroValues(finding: Finding): IntroValues {
   if (
     year0 == null ||
     year1 == null ||
-    rent0 == null ||
-    rent1 == null ||
+    typeof rent0 !== "number" ||
+    typeof rent1 !== "number" ||
     percentIncrease == null
   ) {
     throw new Error(

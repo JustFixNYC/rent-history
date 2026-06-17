@@ -4,6 +4,8 @@ import type { Finding, ValidateFindingAnswers } from "../../types/finding";
 import { ROW_INDEX } from "./spec";
 
 export type PrehstpaFormState = {
+  row0AptStat: string;
+  row1AptStat: string;
   row0LegalRent: string;
   row1LegalRent: string;
   getsVacancyIncrease: boolean | null;
@@ -15,6 +17,8 @@ export function createInitialFormState(finding: Finding): PrehstpaFormState {
   const row1 = finding.data.rows[ROW_INDEX.vacancy];
 
   return {
+    row0AptStat: row0?.apt_stat ?? "",
+    row1AptStat: row1?.apt_stat ?? "",
     row0LegalRent: row0?.legal_rent != null ? String(row0.legal_rent) : "",
     row1LegalRent: row1?.legal_rent != null ? String(row1.legal_rent) : "",
     getsVacancyIncrease: row1?.gets_vacancy_increase ?? null,
@@ -32,6 +36,7 @@ export function buildAnswers(
 
   const answersRow0: ValidateFindingAnswers["rows"][number] = {
     reg_year: row0.reg_year,
+    apt_stat: formState.row0AptStat,
     legal_rent: buildRentAnswer(formState.row0LegalRent),
   };
 
@@ -44,6 +49,7 @@ export function buildAnswers(
 
   const answersRow1: ValidateFindingAnswers["rows"][number] = {
     reg_year: row1.reg_year,
+    apt_stat: formState.row1AptStat,
     legal_rent: buildRentAnswer(formState.row1LegalRent),
     gets_vacancy_increase: formState.getsVacancyIncrease,
   };

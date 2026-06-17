@@ -12,7 +12,7 @@ export {
   ROW_INDEX,
   PATCHABLE_KEYS,
   EXCLUDED_ANSWER_KEYS,
-  DEFERRED_OCR_LEFT_FIELD,
+  OCR_LEFT_FIELD,
 } from "./spec";
 export type { IntroValues } from "./spec";
 

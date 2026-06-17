@@ -1,6 +1,7 @@
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 
+import { AptStatField } from "../../fields/AptStatField";
 import { CurrencyField } from "../../fields/CurrencyField";
 import { YesNoField } from "../../fields/YesNoField";
 import { YearField } from "../../fields/YearField";
@@ -45,13 +46,18 @@ function buildOcrRows(
   const row0 = finding.data.rows[ROW_INDEX.tenancy];
   const row1 = finding.data.rows[ROW_INDEX.vacancy];
 
-  // Figma OCR left slot is Apt Stat (`apt_stat` Dropdown) — deferred until fixture rows include the field.
-  const renderOcrLeftPlaceholder = () => null;
-
   return [
     {
       regYear: row0.reg_year,
-      renderLeft: renderOcrLeftPlaceholder,
+      renderLeft: ({ readonly }) => (
+        <AptStatField
+          id="prehstpa-ocr-apt-stat-0"
+          labelText="Apt Stat"
+          value={formState.row0AptStat}
+          onChange={(value) => onFormStateChange({ row0AptStat: value })}
+          disabled={readonly}
+        />
+      ),
       renderRight: ({ readonly }) => (
         <CurrencyField
           id="prehstpa-ocr-rent-0"
@@ -64,7 +70,15 @@ function buildOcrRows(
     },
     {
       regYear: row1.reg_year,
-      renderLeft: renderOcrLeftPlaceholder,
+      renderLeft: ({ readonly }) => (
+        <AptStatField
+          id="prehstpa-ocr-apt-stat-1"
+          labelText="Apt Stat"
+          value={formState.row1AptStat}
+          onChange={(value) => onFormStateChange({ row1AptStat: value })}
+          disabled={readonly}
+        />
+      ),
       renderRight: ({ readonly }) => (
         <CurrencyField
           id="prehstpa-ocr-rent-1"

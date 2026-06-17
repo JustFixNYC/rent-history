@@ -4,6 +4,8 @@ import type { PrehstpaFormState } from "./answers";
 import { isStepComplete } from "./isStepComplete";
 
 const baseFormState: PrehstpaFormState = {
+  row0AptStat: "RS",
+  row1AptStat: "RS",
   row0LegalRent: "2283.1",
   row1LegalRent: "2590.86",
   getsVacancyIncrease: null,

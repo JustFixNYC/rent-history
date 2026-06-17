@@ -11,18 +11,15 @@ export const ROW_INDEX = {
 
 /** Keys the user may patch per row during review (OCR + step fields). */
 export const PATCHABLE_KEYS = {
-  row0: ["legal_rent", "tenancy_start"] as const,
-  row1: ["legal_rent", "gets_vacancy_increase"] as const,
+  row0: ["apt_stat", "legal_rent", "tenancy_start"] as const,
+  row1: ["apt_stat", "legal_rent", "gets_vacancy_increase"] as const,
 };
 
-/**
- * OCR `renderLeft` — Figma Apt Stat dropdown (`apt_stat` on `finding.data.rows`).
- * Excluded from pilot until fixture rows include the field; `getSteps` uses an empty placeholder.
- */
-export const DEFERRED_OCR_LEFT_FIELD = "apt_stat" as const;
+/** OCR `renderLeft` — Figma Apt Stat dropdown (`apt_stat` on `finding.data.rows`). */
+export const OCR_LEFT_FIELD = "apt_stat" as const;
 
-/** Analysis-only keys — never sent in shape-A answers. */
-export const EXCLUDED_ANSWER_KEYS = ["rgb_pct", "tenants"] as const;
+/** Display-only keys — never sent in shape-A answers. */
+export const EXCLUDED_ANSWER_KEYS = ["tenants"] as const;
 
 /** Interactive step ids returned by `getSteps()` (intro is pinned, not listed). */
 export const INTERACTIVE_STEP_IDS = [
@@ -46,7 +43,7 @@ export const INTRO_VALUE_MAP = {
   percentIncrease: (finding: Finding) => {
     const rent0 = finding.data.rows[ROW_INDEX.tenancy]?.legal_rent;
     const rent1 = finding.data.rows[ROW_INDEX.vacancy]?.legal_rent;
-    if (rent0 == null || rent1 == null || rent0 === 0) {
+    if (typeof rent0 !== "number" || typeof rent1 !== "number" || rent0 === 0) {
       return null;
     }
     return Math.round(((rent1 - rent0) / rent0) * 100);

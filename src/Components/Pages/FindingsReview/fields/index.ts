@@ -1,3 +1,6 @@
+export { AptStatField, DEFAULT_APT_STAT_OPTIONS } from "./AptStatField";
+export type { AptStatFieldProps } from "./AptStatField";
+
 export { CurrencyField } from "./CurrencyField";
 export type { CurrencyFieldProps } from "./CurrencyField";
 
