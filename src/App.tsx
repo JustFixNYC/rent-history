@@ -25,6 +25,7 @@ import { parseLocaleFromPath } from "./i18n";
 import { RhSessionProvider } from "./session/RhSessionContext";
 import { getRhAuthSession } from "./session/rhSessionStorage";
 import { ConfirmAddress } from "./Components/Pages/ConfirmAddress/ConfirmAddress";
+import Report from "./Components/Pages/Report/Report";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -53,6 +54,7 @@ const createAppRouter = () =>
             <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
+            <Route path="report" element={<Report />} />
           </Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms_of_use" element={<TermsOfUse />} />
@@ -72,6 +74,7 @@ const createAppRouter = () =>
             <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
+            <Route path="report" element={<Report />} />
           </Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms_of_use" element={<TermsOfUse />} />

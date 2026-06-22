@@ -3,7 +3,10 @@ import {
   createAccountClient,
   unwrapAccountResponse,
 } from "./client";
-import { accountApiUnexpectedShapeError } from "./errors";
+import {
+  accountApiErrorFromResponse,
+  accountApiUnexpectedShapeError,
+} from "./errors";
 import type {
   RhAnalysisPage,
   RhHistoryAddressResponse,
@@ -12,6 +15,8 @@ import type {
   RhHistoryConfirmAddressResponse,
   RhHistoryPageDeleteResponse,
   RhHistoryRecord,
+  RhHistoryReportPdfCreateRequest,
+  RhHistoryReportPdfCreateResponse,
   RhPagesReadinessResponse,
   RhLoginStartResponse,
   RhOtpTokenResponse,
@@ -188,4 +193,47 @@ export const getRhHistoryAddress = async (
   }
 
   return data;
+};
+
+/** `POST /rh/history/report-pdf` — render HTML to PDF, upload to S3, return metadata. */
+export const createRhHistoryReportPdf = (
+  accessToken: string,
+  body: RhHistoryReportPdfCreateRequest
+): Promise<RhHistoryReportPdfCreateResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/report-pdf", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
+
+/**
+ * `GET /rh/history/report-pdf` — OAuth2 bearer; returns PDF bytes as a Blob.
+ */
+export const downloadRhHistoryReportPdf = async (
+  accessToken: string,
+  historyId: string
+): Promise<Blob> => {
+  const { data, error, response } = await getAccountClient().GET(
+    "/rh/history/report-pdf",
+    {
+      headers: bearerHeaders(accessToken),
+      params: { query: { history_id: historyId } },
+    }
+  );
+
+  if (!response.ok) {
+    let errorBody: unknown = error;
+    if (errorBody === undefined) {
+      try {
+        errorBody = await response.clone().json();
+      } catch {
+        errorBody = undefined;
+      }
+    }
+    throw accountApiErrorFromResponse(response.status, errorBody, response);
+  }
+
+  void data;
+  return response.blob();
 };
