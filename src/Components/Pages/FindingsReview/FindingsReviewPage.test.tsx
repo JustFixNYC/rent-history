@@ -156,7 +156,7 @@ describe("FindingsReviewPage integration", () => {
 
     expect(screen.getByTestId("finding-result-panel")).toHaveAttribute(
       "data-outcome",
-      "explained_away"
+      "no_violation"
     );
     expect(
       screen.getByRole("button", { name: "Continue" })

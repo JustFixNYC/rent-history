@@ -4,7 +4,6 @@ export type {
   FindingDataRow,
   FindingKey,
   FindingResult,
-  FindingResultOutcome,
   FindingStatus,
   FindingsStateResponse,
   QueueDelta,

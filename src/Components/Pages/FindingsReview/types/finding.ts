@@ -30,16 +30,10 @@ export type FindingData = {
   rows: FindingDataRow[];
 };
 
-export type FindingResultOutcome = "confirmed" | "explained_away";
-
-/** Local stub until backend `result` spec lands in OpenAPI. */
-export type FindingResult = {
-  outcome: FindingResultOutcome;
-  rent0: number;
-  rent1: number;
-  year0: number;
-  year1: number;
-};
+export type FindingResult =
+  | "no_violation"
+  | "potential_violation"
+  | "dismissed";
 
 export type Finding = {
   id: string;

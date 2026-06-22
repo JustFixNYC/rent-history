@@ -2,31 +2,31 @@ import classNames from "classnames";
 import { InfoBox } from "@justfixnyc/component-library";
 import type { ReactNode } from "react";
 
-import type { FindingResultOutcome } from "./types/finding";
+import type { FindingResult } from "./types/finding";
 
 export type FindingResultPanelProps = {
-  outcome: FindingResultOutcome;
+  result: FindingResult;
   title: ReactNode;
   body: ReactNode;
 };
 
 export const FindingResultPanel = ({
-  outcome,
+  result,
   title,
   body,
 }: FindingResultPanelProps) => {
-  const isConfirmed = outcome === "confirmed";
+  const isPotentialViolation = result === "potential_violation";
 
   return (
     <section
       className={classNames(
         "finding-result-panel",
-        isConfirmed
+        isPotentialViolation
           ? "finding-result-panel--confirmed"
           : "finding-result-panel--explained-away"
       )}
       data-testid="finding-result-panel"
-      data-outcome={outcome}
+      data-outcome={result}
       aria-live="polite"
     >
       <InfoBox color="white" className="finding-result-panel__info-box">

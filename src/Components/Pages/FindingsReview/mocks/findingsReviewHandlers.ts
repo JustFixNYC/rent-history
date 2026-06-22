@@ -32,33 +32,14 @@ const mergeAnswersIntoFinding = (
   };
 };
 
-const buildStubResult = (
-  finding: Finding,
-  outcome: FindingResult["outcome"]
-): FindingResult => {
-  const [row0, row1] = finding.data.rows;
+const resolveMockResult = (finding: Finding): FindingResult => {
+  for (const row of finding.data.rows) {
+    if (row.gets_vacancy_increase === false) {
+      return "no_violation";
+    }
+  }
 
-  return {
-    outcome,
-    year0: row0.reg_year,
-    year1: row1.reg_year,
-    rent0: row0.legal_rent ?? 0,
-    rent1: row1.legal_rent ?? 0,
-  };
-};
-
-const resolveOutcome = (
-  answers: ValidateFindingAnswers
-): FindingResult["outcome"] => {
-  const vacancyRow = answers.rows.find(
-    (row) =>
-      row.gets_vacancy_increase !== undefined &&
-      row.gets_vacancy_increase !== null
-  );
-
-  return vacancyRow?.gets_vacancy_increase === false
-    ? "explained_away"
-    : "confirmed";
+  return "potential_violation";
 };
 
 export const findingsReviewHandlers = [
@@ -86,9 +67,8 @@ export const findingsReviewHandlers = [
 
     const body = (await request.json()) as ValidateFindingRequest;
     const finding = mergeAnswersIntoFinding(pilotFinding(), body.answers);
-    const outcome = resolveOutcome(body.answers);
 
-    finding.result = buildStubResult(finding, outcome);
+    finding.result = resolveMockResult(finding);
 
     return HttpResponse.json({
       finding,

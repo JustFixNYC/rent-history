@@ -176,7 +176,7 @@ export function FindingReviewFlow({
         activeStepIndex={activeStepIndex}
       />
       {showResult && validatedFinding?.result
-        ? module.renderResult(validatedFinding.result)
+        ? module.renderResult(validatedFinding)
         : null}
       <div ref={stackEndRef} aria-hidden="true" />
       <FindingReviewNav
