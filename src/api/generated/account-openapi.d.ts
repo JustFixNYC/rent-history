@@ -268,6 +268,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/validate-finding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Validate a finding and re-run analysis
+         * @description Patches data_current from shape-A answers, re-runs mock analysis with result attachment, reconciles findings_current, and marks the finding validated.
+         */
+        post: operations["history_validate_finding_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/login/start": {
         parameters: {
             query?: never;
@@ -371,6 +391,8 @@ export interface components {
          *     * `nycdb_query_failed` - NYCDB query failed
          *     * `combine_pages_failed` - Combine pages failed
          *     * `analysis_already_run` - Analysis already run
+         *     * `finding_not_found` - Finding not found
+         *     * `findings_not_initialized` - Findings not initialized
          *     * `storage_not_configured` - Storage not configured
          *     * `storage_read_failed` - Storage read failed
          *     * `storage_write_failed` - Storage write failed
@@ -381,7 +403,7 @@ export interface components {
          *     * `s3_key_access_denied` - S3 key access denied
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied";
         /**
          * @description * `DOCUMENT_SCAN` - Document Scan
          *     * `SCAN_REVIEW` - Scan Review
@@ -393,12 +415,6 @@ export interface components {
          * @enum {string}
          */
         LastStepReachedEnum: "DOCUMENT_SCAN" | "SCAN_REVIEW" | "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
-        /**
-         * @description * `en` - English
-         *     * `es` - Spanish
-         * @enum {string}
-         */
-        LocaleEnum: "en" | "es";
         /** @enum {unknown} */
         NullEnum: null;
         /**
@@ -493,6 +509,23 @@ export interface components {
             type: string;
             validated_at?: string | null;
         };
+        /**
+         * @description One element of validate-finding ``answers.rows`` (shape A).
+         *
+         *     Present-only semantics: only keys included in each row are validated here.
+         *     Omitted keys are not checked or coerced; full enforcement remains in
+         *     ``apply_finding_patch``. Patchable keys only — no ``tenants``.
+         */
+        RhFindingAnswerRowRequest: {
+            apt_stat?: string | null;
+            gets_vacancy_increase?: boolean | null;
+            /** @description Rent scalar: integer, number, or non-empty string (e.g. EXEMPT). */
+            legal_rent?: (number | string) | null;
+            /** @description Rent scalar: integer, number, or non-empty string (e.g. EXEMPT). */
+            pref_rent?: (number | string) | null;
+            reg_year: number;
+            tenancy_start?: number | null;
+        };
         /** @description Finding payload: registration-year rows. */
         RhFindingData: {
             rows: components["schemas"]["RhFindingRow"][];
@@ -507,8 +540,10 @@ export interface components {
         RhFindingRow: {
             apt_stat?: string | null;
             gets_vacancy_increase?: boolean | null;
-            legal_rent?: string | null;
-            pref_rent?: string | null;
+            /** @description Rent scalar: integer, number, or non-empty string (e.g. EXEMPT). */
+            legal_rent?: (number | string) | null;
+            /** @description Rent scalar: integer, number, or non-empty string (e.g. EXEMPT). */
+            pref_rent?: (number | string) | null;
             reg_year: number;
             tenancy_start?: number | null;
             tenants?: string[] | null;
@@ -593,7 +628,7 @@ export interface components {
             history_id: string;
             /** @description HTML document to render as the report PDF (max 1 MiB). */
             html: string;
-            locale: components["schemas"]["LocaleEnum"];
+            locale: components["schemas"]["ReportPdfLocaleEnum"];
             report_emails?: string[];
         };
         RhHistoryReportEmailEmailStep: {
@@ -621,7 +656,7 @@ export interface components {
             history_id: string;
             /** @description HTML document to render as the report PDF (max 1 MiB). */
             html: string;
-            locale: components["schemas"]["LocaleEnum"];
+            locale: components["schemas"]["ReportPdfLocaleEnum"];
         };
         /** @description POST /rh/history/report-pdf success payload. */
         RhHistoryReportPdfCreateResponse: {
@@ -753,6 +788,13 @@ export interface components {
             /** @description E.164 US number; must match AuthUser.username. */
             phone_number: string;
         };
+        /** @description Queue changes after reconcile / validate-finding. */
+        RhQueueDelta: {
+            added: string[];
+            current_index_hint?: number | null;
+            ordered_ids: string[];
+            removed: string[];
+        };
         RhReadinessAxis: {
             count: number;
             expected: number;
@@ -830,6 +872,23 @@ export interface components {
             reg_type?: string | null;
             reg_year?: number | null;
             sub_lines?: string[];
+        };
+        /** @description Validate-finding answers payload (shape A). */
+        RhValidateFindingAnswersRequest: {
+            rows: components["schemas"]["RhFindingAnswerRowRequest"][];
+        };
+        /** @description POST validate-finding request body. */
+        RhValidateFindingRequestRequest: {
+            answers: components["schemas"]["RhValidateFindingAnswersRequest"];
+            /** Format: uuid */
+            finding_id: string;
+            /** Format: uuid */
+            history_id: string;
+        };
+        /** @description POST validate-finding response. */
+        RhValidateFindingResponse: {
+            finding: components["schemas"]["RhFinding"];
+            queue_delta: components["schemas"]["RhQueueDelta"];
         };
         /**
          * @description * `deleted` - deleted
@@ -1560,6 +1619,63 @@ export interface operations {
             };
             /** @description Storage misconfiguration or presign generation failure. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_validate_finding_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhValidateFindingRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhValidateFindingResponse"];
+                };
+            };
+            /** @description Validation failed, combine-pages not completed, or analysis not run. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile, RhHistory, or finding not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Finding has already been validated or dismissed. */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };

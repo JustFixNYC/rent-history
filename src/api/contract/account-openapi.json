@@ -46,7 +46,7 @@
         "type": "object"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `analysis_already_run` - Analysis already run\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `analysis_already_run` - Analysis already run\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied",
         "enum": [
           "otp_expired",
           "otp_invalid",
@@ -64,6 +64,8 @@
           "nycdb_query_failed",
           "combine_pages_failed",
           "analysis_already_run",
+          "finding_not_found",
+          "findings_not_initialized",
           "storage_not_configured",
           "storage_read_failed",
           "storage_write_failed",
@@ -85,14 +87,6 @@
           "FINDINGS_OVERVIEW",
           "FINDINGS_REVIEW",
           "REPORT_GENERATION"
-        ],
-        "type": "string"
-      },
-      "LocaleEnum": {
-        "description": "* `en` - English\n* `es` - Spanish",
-        "enum": [
-          "en",
-          "es"
         ],
         "type": "string"
       },
@@ -334,6 +328,60 @@
         ],
         "type": "object"
       },
+      "RhFindingAnswerRowRequest": {
+        "description": "One element of validate-finding ``answers.rows`` (shape A).\n\nPresent-only semantics: only keys included in each row are validated here.\nOmitted keys are not checked or coerced; full enforcement remains in\n``apply_finding_patch``. Patchable keys only \u2014 no ``tenants``.",
+        "properties": {
+          "apt_stat": {
+            "nullable": true,
+            "type": "string"
+          },
+          "gets_vacancy_increase": {
+            "nullable": true,
+            "type": "boolean"
+          },
+          "legal_rent": {
+            "description": "Rent scalar: integer, number, or non-empty string (e.g. EXEMPT).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "pref_rent": {
+            "description": "Rent scalar: integer, number, or non-empty string (e.g. EXEMPT).",
+            "nullable": true,
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "reg_year": {
+            "type": "integer"
+          },
+          "tenancy_start": {
+            "nullable": true,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "reg_year"
+        ],
+        "type": "object"
+      },
       "RhFindingData": {
         "description": "Finding payload: registration-year rows.",
         "properties": {
@@ -381,12 +429,34 @@
             "type": "boolean"
           },
           "legal_rent": {
+            "description": "Rent scalar: integer, number, or non-empty string (e.g. EXEMPT).",
             "nullable": true,
-            "type": "string"
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "pref_rent": {
+            "description": "Rent scalar: integer, number, or non-empty string (e.g. EXEMPT).",
             "nullable": true,
-            "type": "string"
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "reg_year": {
             "type": "integer"
@@ -621,7 +691,7 @@
             "type": "string"
           },
           "locale": {
-            "$ref": "#/components/schemas/LocaleEnum"
+            "$ref": "#/components/schemas/ReportPdfLocaleEnum"
           },
           "report_emails": {
             "items": {
@@ -711,7 +781,7 @@
             "type": "string"
           },
           "locale": {
-            "$ref": "#/components/schemas/LocaleEnum"
+            "$ref": "#/components/schemas/ReportPdfLocaleEnum"
           }
         },
         "required": [
@@ -1099,6 +1169,39 @@
         ],
         "type": "object"
       },
+      "RhQueueDelta": {
+        "description": "Queue changes after reconcile / validate-finding.",
+        "properties": {
+          "added": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "current_index_hint": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "ordered_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "removed": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "added",
+          "ordered_ids",
+          "removed"
+        ],
+        "type": "object"
+      },
       "RhReadinessAxis": {
         "properties": {
           "count": {
@@ -1369,6 +1472,59 @@
         },
         "required": [
           "apt_stat"
+        ],
+        "type": "object"
+      },
+      "RhValidateFindingAnswersRequest": {
+        "description": "Validate-finding answers payload (shape A).",
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/RhFindingAnswerRowRequest"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "rows"
+        ],
+        "type": "object"
+      },
+      "RhValidateFindingRequestRequest": {
+        "description": "POST validate-finding request body.",
+        "properties": {
+          "answers": {
+            "$ref": "#/components/schemas/RhValidateFindingAnswersRequest"
+          },
+          "finding_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "answers",
+          "finding_id",
+          "history_id"
+        ],
+        "type": "object"
+      },
+      "RhValidateFindingResponse": {
+        "description": "POST validate-finding response.",
+        "properties": {
+          "finding": {
+            "$ref": "#/components/schemas/RhFinding"
+          },
+          "queue_delta": {
+            "$ref": "#/components/schemas/RhQueueDelta"
+          }
+        },
+        "required": [
+          "finding",
+          "queue_delta"
         ],
         "type": "object"
       },
@@ -2299,6 +2455,78 @@
           }
         ],
         "summary": "Batch presigned S3 URLs for scan upload or download",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/validate-finding": {
+      "post": {
+        "description": "Patches data_current from shape-A answers, re-runs mock analysis with result attachment, reconciles findings_current, and marks the finding validated.",
+        "operationId": "history_validate_finding_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhValidateFindingRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhValidateFindingResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation failed, combine-pages not completed, or analysis not run."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile, RhHistory, or finding not found."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Finding has already been validated or dismissed."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Validate a finding and re-run analysis",
         "tags": [
           "Rent History"
         ]
