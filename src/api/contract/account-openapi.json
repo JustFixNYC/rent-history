@@ -46,7 +46,7 @@
         "type": "object"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `analysis_already_run` - Analysis already run\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied",
         "enum": [
           "otp_expired",
           "otp_invalid",
@@ -63,6 +63,7 @@
           "nycdb_not_configured",
           "nycdb_query_failed",
           "combine_pages_failed",
+          "analysis_already_run",
           "storage_not_configured",
           "storage_read_failed",
           "storage_write_failed",
@@ -213,6 +214,15 @@
         ],
         "type": "string"
       },
+      "ResultEnum": {
+        "description": "* `no_violation` - no_violation\n* `potential_violation` - potential_violation\n* `dismissed` - dismissed",
+        "enum": [
+          "no_violation",
+          "potential_violation",
+          "dismissed"
+        ],
+        "type": "string"
+      },
       "RhAnalysisPage": {
         "description": "Pages used in analysis (keep=True), for GET /rh/history/analysis-pages.",
         "properties": {
@@ -275,6 +285,138 @@
           "error_code"
         ],
         "type": "object"
+      },
+      "RhFinding": {
+        "description": "MVP finding wire object (7 core keys + optional ``result``).\n\nNever exposes ``form``. Unknown top-level keys are rejected.",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RhFindingData"
+          },
+          "finding_year": {
+            "type": "integer"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "key": {
+            "$ref": "#/components/schemas/RhFindingKey"
+          },
+          "result": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ResultEnum"
+              },
+              {
+                "$ref": "#/components/schemas/NullEnum"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/RhFindingStatusEnum"
+          },
+          "type": {
+            "type": "string"
+          },
+          "validated_at": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "data",
+          "finding_year",
+          "id",
+          "key",
+          "status",
+          "type"
+        ],
+        "type": "object"
+      },
+      "RhFindingData": {
+        "description": "Finding payload: registration-year rows.",
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/RhFindingRow"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "rows"
+        ],
+        "type": "object"
+      },
+      "RhFindingKey": {
+        "description": "Composite finding identity (``type`` + ``finding_year`` + optional ``subtype``).",
+        "properties": {
+          "finding_year": {
+            "type": "integer"
+          },
+          "subtype": {
+            "nullable": true,
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "finding_year",
+          "type"
+        ],
+        "type": "object"
+      },
+      "RhFindingRow": {
+        "description": "One element of ``finding.data.rows`` (slim wire shape).",
+        "properties": {
+          "apt_stat": {
+            "nullable": true,
+            "type": "string"
+          },
+          "gets_vacancy_increase": {
+            "nullable": true,
+            "type": "boolean"
+          },
+          "legal_rent": {
+            "nullable": true,
+            "type": "string"
+          },
+          "pref_rent": {
+            "nullable": true,
+            "type": "string"
+          },
+          "reg_year": {
+            "type": "integer"
+          },
+          "tenancy_start": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "tenants": {
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "type": "array"
+          }
+        },
+        "required": [
+          "reg_year"
+        ],
+        "type": "object"
+      },
+      "RhFindingStatusEnum": {
+        "description": "* `pending` - pending\n* `in_review` - in_review\n* `validated` - validated\n* `dismissed` - dismissed",
+        "enum": [
+          "pending",
+          "in_review",
+          "validated",
+          "dismissed"
+        ],
+        "type": "string"
       },
       "RhHistoryAddressResponse": {
         "description": "Scan-extracted location fields from RhHistory (GET /rh/history/address).",
@@ -976,6 +1118,59 @@
         ],
         "type": "object"
       },
+      "RhReviewQueue": {
+        "description": "Ordered finding ids for review navigation.",
+        "properties": {
+          "ordered_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "ordered_ids"
+        ],
+        "type": "object"
+      },
+      "RhRunAnalysisRequestRequest": {
+        "description": "POST run-analysis request body.\n\nAlias of :class:`rh.serializers.RhHistoryIdRequestSerializer` (``history_id`` only).",
+        "properties": {
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "history_id"
+        ],
+        "type": "object"
+      },
+      "RhRunAnalysisResponse": {
+        "description": "POST run-analysis response.",
+        "properties": {
+          "findings_current": {
+            "items": {
+              "$ref": "#/components/schemas/RhFinding"
+            },
+            "type": "array"
+          },
+          "findings_initial": {
+            "items": {
+              "$ref": "#/components/schemas/RhFinding"
+            },
+            "type": "array"
+          },
+          "review_queue": {
+            "$ref": "#/components/schemas/RhReviewQueue"
+          }
+        },
+        "required": [
+          "findings_current",
+          "review_queue"
+        ],
+        "type": "object"
+      },
       "RhScanPresignRequestRequest": {
         "description": "POST /rh/history/scan-presign body.",
         "properties": {
@@ -1423,7 +1618,7 @@
     },
     "/rh/history/combine-pages": {
       "post": {
-        "description": "Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial. Does not return the merged table.",
+        "description": "Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial and data_current (deep copy; same row shape). Does not return the merged table.",
         "operationId": "history_combine_pages_create",
         "requestBody": {
           "content": {
@@ -1950,6 +2145,78 @@
           }
         ],
         "summary": "Generate and store a rent history report PDF",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/run-analysis": {
+      "post": {
+        "description": "Runs mock analysis on existing data_current (from combine-pages), populates findings_initial and findings_current, and returns the review queue.",
+        "operationId": "history_run_analysis_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhRunAnalysisRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhRunAnalysisResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation failed or combine-pages not completed."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Analysis has already been run for this history."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Run findings analysis on combined history data",
         "tags": [
           "Rent History"
         ]

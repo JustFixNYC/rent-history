@@ -95,7 +95,7 @@ export interface paths {
         put?: never;
         /**
          * Combine RhPages into RhHistory.data_initial
-         * @description Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial. Does not return the merged table.
+         * @description Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial and data_current (deep copy; same row shape). Does not return the merged table.
          */
         post: operations["history_combine_pages_create"];
         delete?: never;
@@ -228,6 +228,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/run-analysis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Run findings analysis on combined history data
+         * @description Runs mock analysis on existing data_current (from combine-pages), populates findings_initial and findings_current, and returns the review queue.
+         */
+        post: operations["history_run_analysis_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/history/scan-presign": {
         parameters: {
             query?: never;
@@ -350,6 +370,7 @@ export interface components {
          *     * `nycdb_not_configured` - NYCDB not configured
          *     * `nycdb_query_failed` - NYCDB query failed
          *     * `combine_pages_failed` - Combine pages failed
+         *     * `analysis_already_run` - Analysis already run
          *     * `storage_not_configured` - Storage not configured
          *     * `storage_read_failed` - Storage read failed
          *     * `storage_write_failed` - Storage write failed
@@ -360,7 +381,7 @@ export interface components {
          *     * `s3_key_access_denied` - S3 key access denied
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied";
         /**
          * @description * `DOCUMENT_SCAN` - Document Scan
          *     * `SCAN_REVIEW` - Scan Review
@@ -425,6 +446,13 @@ export interface components {
          * @enum {string}
          */
         ReportPdfLocaleEnum: "en" | "es";
+        /**
+         * @description * `no_violation` - no_violation
+         *     * `potential_violation` - potential_violation
+         *     * `dismissed` - dismissed
+         * @enum {string}
+         */
+        ResultEnum: "no_violation" | "potential_violation" | "dismissed";
         /** @description Pages used in analysis (keep=True), for GET /rh/history/analysis-pages. */
         RhAnalysisPage: {
             /**
@@ -449,6 +477,50 @@ export interface components {
             error: string;
             error_code: components["schemas"]["ErrorCodeEnum"];
         };
+        /**
+         * @description MVP finding wire object (7 core keys + optional ``result``).
+         *
+         *     Never exposes ``form``. Unknown top-level keys are rejected.
+         */
+        RhFinding: {
+            data: components["schemas"]["RhFindingData"];
+            finding_year: number;
+            /** Format: uuid */
+            id: string;
+            key: components["schemas"]["RhFindingKey"];
+            result?: (components["schemas"]["ResultEnum"] | components["schemas"]["NullEnum"]) | null;
+            status: components["schemas"]["RhFindingStatusEnum"];
+            type: string;
+            validated_at?: string | null;
+        };
+        /** @description Finding payload: registration-year rows. */
+        RhFindingData: {
+            rows: components["schemas"]["RhFindingRow"][];
+        };
+        /** @description Composite finding identity (``type`` + ``finding_year`` + optional ``subtype``). */
+        RhFindingKey: {
+            finding_year: number;
+            subtype?: string | null;
+            type: string;
+        };
+        /** @description One element of ``finding.data.rows`` (slim wire shape). */
+        RhFindingRow: {
+            apt_stat?: string | null;
+            gets_vacancy_increase?: boolean | null;
+            legal_rent?: string | null;
+            pref_rent?: string | null;
+            reg_year: number;
+            tenancy_start?: number | null;
+            tenants?: string[] | null;
+        };
+        /**
+         * @description * `pending` - pending
+         *     * `in_review` - in_review
+         *     * `validated` - validated
+         *     * `dismissed` - dismissed
+         * @enum {string}
+         */
+        RhFindingStatusEnum: "pending" | "in_review" | "validated" | "dismissed";
         /** @description Scan-extracted location fields from RhHistory (GET /rh/history/address). */
         RhHistoryAddressResponse: {
             address: string | null;
@@ -685,6 +757,25 @@ export interface components {
             count: number;
             expected: number;
             relation: components["schemas"]["RelationEnum"];
+        };
+        /** @description Ordered finding ids for review navigation. */
+        RhReviewQueue: {
+            ordered_ids: string[];
+        };
+        /**
+         * @description POST run-analysis request body.
+         *
+         *     Alias of :class:`rh.serializers.RhHistoryIdRequestSerializer` (``history_id`` only).
+         */
+        RhRunAnalysisRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+        };
+        /** @description POST run-analysis response. */
+        RhRunAnalysisResponse: {
+            findings_current: components["schemas"]["RhFinding"][];
+            findings_initial?: components["schemas"]["RhFinding"][];
+            review_queue: components["schemas"]["RhReviewQueue"];
         };
         /** @description POST /rh/history/scan-presign body. */
         RhScanPresignRequestRequest: {
@@ -1346,6 +1437,63 @@ export interface operations {
             };
             /** @description Storage not configured or write failed. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_run_analysis_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhRunAnalysisRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhRunAnalysisResponse"];
+                };
+            };
+            /** @description Validation failed or combine-pages not completed. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Analysis has already been run for this history. */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
