@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type UseProgressiveRevealOptions = {
   /** Number of visible steps (typically from useFindingSteps). */
   stepCount: number;
   /** Whether the active step is complete enough to advance via Next. */
   isActiveStepComplete: boolean | ((activeStepIndex: number) => boolean);
+  /** When true, call goNext once when the active step newly becomes complete. */
+  autoRevealOnComplete?: boolean;
 };
 
 export type UseProgressiveRevealResult = {
@@ -29,9 +31,11 @@ function resolveActiveStepComplete(
 export function useProgressiveReveal({
   stepCount,
   isActiveStepComplete,
+  autoRevealOnComplete = false,
 }: UseProgressiveRevealOptions): UseProgressiveRevealResult {
   const [revealedCount, setRevealedCount] = useState(1);
   const [activeStepIndex, setActiveStepIndex] = useState(0);
+  const stepCompleteSnapshotRef = useRef<Record<number, boolean>>({});
 
   const safeStepCount = Math.max(stepCount, 0);
   const clampedActiveIndex =
@@ -61,6 +65,25 @@ export function useProgressiveReveal({
     if (activeStepIndex <= 0) return;
     setActiveStepIndex((prev) => prev - 1);
   }, [activeStepIndex]);
+
+  useEffect(() => {
+    if (!autoRevealOnComplete) return;
+
+    const wasComplete =
+      stepCompleteSnapshotRef.current[activeStepIndex] ?? false;
+    stepCompleteSnapshotRef.current[activeStepIndex] = activeStepComplete;
+
+    if (!activeStepComplete || wasComplete) return;
+    if (activeStepIndex >= safeStepCount - 1) return;
+
+    goNext();
+  }, [
+    activeStepComplete,
+    activeStepIndex,
+    autoRevealOnComplete,
+    goNext,
+    safeStepCount,
+  ]);
 
   return {
     revealedCount: safeStepCount === 0 ? 0 : revealedCount,

@@ -150,7 +150,7 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
       step.querySelector(".prehstpa-tenancy-step__tenant-list")
     ).toBeNull();
     expect(screen.getAllByTestId("tenant-chip")).toHaveLength(1);
-    expect(screen.getByText("KEITH ANTOINE")).toBeInTheDocument();
+    expect(screen.getByText("AUDREY JOHNSON")).toBeInTheDocument();
     expect(
       document.getElementById("prehstpa-tenancy-start")
     ).toBeInTheDocument();
@@ -192,9 +192,9 @@ describe("getIntroValues", () => {
       findingYear: 1992,
       year0: 1991,
       year1: 1992,
-      rent0: 2283.1,
-      rent1: 2590.86,
-      percentIncrease: 13,
+      rent0: 1350.06,
+      rent1: 1665.26,
+      percentIncrease: 23,
     });
   });
 });

@@ -7,6 +7,7 @@ import {
   render,
   screen,
   waitFor,
+  within,
 } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -16,7 +17,11 @@ import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
 import findingExamples from "./__fixtures__/findingExamples.json";
 import FindingsReviewPage from "./FindingsReviewPage";
-import type { Finding, ValidateFindingResponse } from "./types/finding";
+import type {
+  Finding,
+  FindingResult,
+  ValidateFindingResponse,
+} from "./types/finding";
 import "./FindingsReview.scss";
 
 const TEST_ACCESS_TOKEN = "test-access-token";
@@ -102,8 +107,21 @@ const confirmOcr = () => {
   );
 };
 
-const clickNext = () => {
-  fireEvent.click(screen.getByRole("button", { name: "Next" }));
+const clickSubmit = () => {
+  fireEvent.click(screen.getByRole("button", { name: "Submit" }));
+};
+
+const completeVacancyNo = () => {
+  fireEvent.click(screen.getByRole("radio", { name: "No" }));
+};
+
+const completeFlowThroughVacancyNo = async () => {
+  await waitForReviewFlow();
+  confirmOcr();
+  await waitFor(() => {
+    expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+  });
+  completeVacancyNo();
 };
 
 describe("FindingsReviewPage integration", () => {
@@ -153,46 +171,133 @@ describe("FindingsReviewPage integration", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("enables Next after OCR confirm and reveals vacancy on advance", async () => {
+  it("auto-reveals vacancy when OCR is confirmed", async () => {
     renderFindingsReviewPage();
     await waitForReviewFlow();
 
-    const nextButton = screen.getByRole("button", { name: "Next" });
-    expect(nextButton).toBeDisabled();
+    const submitButton = screen.getByRole("button", { name: "Submit" });
+    expect(submitButton).toBeDisabled();
 
     confirmOcr();
-    expect(nextButton).not.toBeDisabled();
-
-    clickNext();
-
-    const stack = screen.getByTestId("finding-module-stack");
-    expect(stack).toHaveAttribute("data-revealed-count", "2");
-    expect(stack).toHaveAttribute("data-active-step-index", "1");
-    expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
-    expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
-  });
-
-  it("reveals result panel after validate when vacancy is No", async () => {
-    renderFindingsReviewPage();
-    await waitForReviewFlow();
-
-    confirmOcr();
-    clickNext();
-
-    fireEvent.click(screen.getByRole("radio", { name: "No" }));
-    clickNext();
 
     await waitFor(() => {
-      expect(screen.getByTestId("finding-result-panel")).toBeInTheDocument();
+      const stack = screen.getByTestId("finding-module-stack");
+      expect(stack).toHaveAttribute("data-revealed-count", "2");
+      expect(stack).toHaveAttribute("data-active-step-index", "1");
     });
 
-    expect(screen.getByTestId("finding-result-panel")).toHaveAttribute(
+    expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
+    expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+    expect(submitButton).toBeDisabled();
+  });
+
+  it("keeps Submit disabled until all visible steps are complete", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
+
+    confirmOcr();
+    await waitFor(() => {
+      expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+    });
+
+    expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
+
+    completeVacancyNo();
+    expect(screen.getByRole("button", { name: "Submit" })).not.toBeDisabled();
+  });
+
+  it("opens result modal after validate when vacancy is No", async () => {
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyNo();
+
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+    });
+
+    const modal = screen.getByTestId("finding-result-modal");
+    expect(within(modal).getByTestId("finding-result-panel")).toHaveAttribute(
       "data-outcome",
       "no_violation"
     );
     expect(
-      screen.getByRole("button", { name: "Continue" })
-    ).toBeInTheDocument();
+      screen.queryByRole("button", { name: "Continue" })
+    ).not.toBeInTheDocument();
     expect(mockValidateMutate).toHaveBeenCalledTimes(1);
+  });
+
+  it("closes result modal via Back and does not leave inline result in stack", async () => {
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyNo();
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+    });
+
+    const modal = screen.getByTestId("finding-result-modal");
+    fireEvent.click(within(modal).getByRole("button", { name: "Back" }));
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId("finding-result-modal")
+      ).not.toBeInTheDocument();
+    });
+
+    expect(
+      screen.queryByTestId("finding-result-panel")
+    ).not.toBeInTheDocument();
+    expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+  });
+
+  it.each<[FindingResult, string]>([
+    ["potential_violation", "finding-result-panel--confirmed"],
+    ["no_violation", "finding-result-panel--explained-away"],
+    ["dismissed", "finding-result-panel--explained-away"],
+  ])("renders %s result variant in modal", async (result, expectedClass) => {
+    mockValidateMutate.mockImplementationOnce(
+      (
+        _vars,
+        options?: { onSuccess?: (data: ValidateFindingResponse) => void }
+      ) => {
+        options?.onSuccess?.({
+          finding: {
+            ...prehstpaFinding,
+            status: result === "dismissed" ? "dismissed" : "validated",
+            result,
+            validated_at: "2026-01-01T00:00:00Z",
+          },
+          queue_delta: { ordered_ids: [] },
+        });
+      }
+    );
+
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyNo();
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+    });
+
+    const panel = within(
+      screen.getByTestId("finding-result-modal")
+    ).getByTestId("finding-result-panel");
+    expect(panel).toHaveAttribute("data-outcome", result);
+    expect(panel.className).toContain(expectedClass);
+  });
+
+  it("disables Back and shows spinner on Submit while validating", async () => {
+    vi.mocked(findingsReviewHooks.useValidateRhFinding).mockReturnValue({
+      mutate: mockValidateMutate,
+      isPending: true,
+    } as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
+
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyNo();
+
+    expect(screen.getByRole("button", { name: "Back" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
   });
 });

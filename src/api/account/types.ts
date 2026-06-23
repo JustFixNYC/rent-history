@@ -161,8 +161,7 @@ export type RhValidateFindingAnswersRequest =
   Schemas["RhValidateFindingAnswersRequest"];
 
 /** One element of validate-finding `answers.rows`. */
-export type RhFindingAnswerRowRequest =
-  Schemas["RhFindingAnswerRowRequest"];
+export type RhFindingAnswerRowRequest = Schemas["RhFindingAnswerRowRequest"];
 
 /** `GET /rh/history/findings-state` response. */
 export type RhFindingsStateResponse = Schemas["RhFindingsStateResponse"];

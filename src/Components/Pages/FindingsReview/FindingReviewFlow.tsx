@@ -1,12 +1,10 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useValidateRhFinding } from "../../../api/account/hooks/findingsReview";
 
 import { FindingIntroPanel } from "./FindingIntroPanel";
 import { FindingModuleStack } from "./FindingModuleStack";
+import { FindingResultModal } from "./FindingResultModal";
 import { FindingReviewNav } from "./FindingReviewNav";
 import { useFindingSteps } from "./hooks/useFindingSteps";
 import { useOcrConfirmState } from "./hooks/useOcrConfirmState";
@@ -30,8 +28,6 @@ export function FindingReviewFlow({
   accessToken,
   historyId,
 }: FindingReviewFlowProps) {
-  const { i18n, _ } = useLingui();
-  const navigate = useNavigate();
   const stackEndRef = useRef<HTMLDivElement>(null);
 
   const [formState, setFormState] = useState<Record<string, unknown>>(
@@ -77,79 +73,76 @@ export function FindingReviewFlow({
   );
 
   const { visibleSteps } = useFindingSteps(steps, answers);
-  const showResult = validatedFinding?.result != null;
+  const showResultModal = validatedFinding?.result != null;
+
+  const stepCompleteCtx = useMemo(
+    () => ({ ocrConfirmed: ocrState.isConfirmed }),
+    [ocrState.isConfirmed]
+  );
 
   const isActiveStepComplete = useCallback(
     (stepIndex: number) => {
-      if (showResult) {
-        return true;
-      }
-
       const activeStep = visibleSteps[stepIndex];
       if (!activeStep) {
         return false;
       }
 
-      return module.isStepComplete(activeStep.id, formState, {
-        ocrConfirmed: ocrState.isConfirmed,
-      });
+      return module.isStepComplete(activeStep.id, formState, stepCompleteCtx);
     },
-    [showResult, visibleSteps, module, formState, ocrState.isConfirmed]
+    [visibleSteps, module, formState, stepCompleteCtx]
   );
 
-  const {
-    revealedCount,
-    activeStepIndex,
-    goNext,
-    goBack,
-    canGoBack,
-    isLastStep,
-  } = useProgressiveReveal({
-    stepCount: visibleSteps.length,
-    isActiveStepComplete,
-  });
+  const allStepsComplete = useMemo(
+    () =>
+      visibleSteps.length > 0 &&
+      visibleSteps.every((step) =>
+        module.isStepComplete(step.id, formState, stepCompleteCtx)
+      ),
+    [visibleSteps, module, formState, stepCompleteCtx]
+  );
 
-  const activeStepReady = isActiveStepComplete(activeStepIndex);
+  const { revealedCount, activeStepIndex, goBack, canGoBack } =
+    useProgressiveReveal({
+      stepCount: visibleSteps.length,
+      isActiveStepComplete,
+      autoRevealOnComplete: true,
+    });
+
+  const resultContent = useMemo(
+    () =>
+      validatedFinding?.result != null
+        ? module.renderResult(validatedFinding)
+        : null,
+    [module, validatedFinding]
+  );
 
   useEffect(() => {
     stackEndRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
     });
-  }, [revealedCount, showResult]);
+  }, [revealedCount]);
 
-  const intro = useMemo(() => module.getIntro(finding), [module, finding]);
-
-  const handleNext = () => {
-    if (showResult) {
-      navigate(`/${i18n.locale}/report`);
+  const handleSubmit = () => {
+    if (!allStepsComplete || validateMutation.isPending) {
       return;
     }
 
-    if (!activeStepReady || validateMutation.isPending) {
-      return;
-    }
-
-    if (isLastStep) {
-      validateMutation.mutate(
-        {
-          accessToken,
-          body: {
-            history_id: historyId,
-            finding_id: finding.id,
-            answers: module.buildAnswers(finding, formState),
-          },
+    validateMutation.mutate(
+      {
+        accessToken,
+        body: {
+          history_id: historyId,
+          finding_id: finding.id,
+          answers: module.buildAnswers(finding, formState),
         },
-        {
-          onSuccess: (response) => {
-            setValidatedFinding(response.finding);
-          },
-        }
-      );
-      return;
-    }
-
-    goNext();
+      },
+      {
+        onSuccess: (response) => {
+          setValidatedFinding(response.finding);
+        },
+      }
+    );
   };
 
   const handleBack = () => {
@@ -157,36 +150,48 @@ export function FindingReviewFlow({
       return;
     }
 
-    if (showResult) {
+    if (showResultModal) {
       setValidatedFinding(null);
+      return;
     }
 
     goBack();
   };
 
-  const nextLabel = showResult ? _(msg`Continue`) : undefined;
-  const nextDisabled = !showResult && !activeStepReady;
+  const handleResultModalBack = () => {
+    setValidatedFinding(null);
+  };
+
+  const handleResultModalNext = () => {
+    // Queue advance wired in Task 4.
+  };
 
   return (
     <>
-      <FindingIntroPanel {...intro} />
+      <FindingIntroPanel {...module.getIntro(finding)} />
       <FindingModuleStack
         steps={visibleSteps}
         revealedCount={revealedCount}
         activeStepIndex={activeStepIndex}
       />
-      {showResult && validatedFinding?.result
-        ? module.renderResult(validatedFinding)
-        : null}
       <div ref={stackEndRef} aria-hidden="true" />
       <FindingReviewNav
         onBack={handleBack}
-        onNext={handleNext}
+        onNext={handleSubmit}
         isValidating={validateMutation.isPending}
-        backDisabled={!canGoBack && !showResult}
-        nextDisabled={nextDisabled}
-        nextLabel={nextLabel}
+        backDisabled={!canGoBack && !showResultModal}
+        nextDisabled={!allStepsComplete}
       />
+      {showResultModal && validatedFinding?.result && resultContent ? (
+        <FindingResultModal
+          isOpen
+          result={validatedFinding.result}
+          title={resultContent.title}
+          body={resultContent.body}
+          onBack={handleResultModalBack}
+          onNext={handleResultModalNext}
+        />
+      ) : null}
     </>
   );
 }

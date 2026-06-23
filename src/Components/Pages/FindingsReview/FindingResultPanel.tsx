@@ -8,12 +8,14 @@ export type FindingResultPanelProps = {
   result: FindingResult;
   title: ReactNode;
   body: ReactNode;
+  className?: string;
 };
 
 export const FindingResultPanel = ({
   result,
   title,
   body,
+  className,
 }: FindingResultPanelProps) => {
   const isPotentialViolation = result === "potential_violation";
 
@@ -23,7 +25,8 @@ export const FindingResultPanel = ({
         "finding-result-panel",
         isPotentialViolation
           ? "finding-result-panel--confirmed"
-          : "finding-result-panel--explained-away"
+          : "finding-result-panel--explained-away",
+        className
       )}
       data-testid="finding-result-panel"
       data-outcome={result}

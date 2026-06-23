@@ -244,3 +244,46 @@ describe("useProgressiveReveal", () => {
     expect(result.current.activeStepIndex).toBe(1);
   });
 });
+
+describe("useProgressiveReveal autoRevealOnComplete", () => {
+  it("advances once when the active step newly becomes complete", () => {
+    const { result, rerender } = renderHook(
+      ({ completeIndex }) =>
+        useProgressiveReveal({
+          stepCount: 3,
+          isActiveStepComplete: (index) => index <= completeIndex,
+          autoRevealOnComplete: true,
+        }),
+      { initialProps: { completeIndex: -1 } }
+    );
+
+    expect(result.current.activeStepIndex).toBe(0);
+
+    rerender({ completeIndex: 0 });
+
+    expect(result.current.activeStepIndex).toBe(1);
+    expect(result.current.revealedCount).toBe(2);
+  });
+
+  it("does not re-advance when returning to an already-complete step", () => {
+    const { result, rerender } = renderHook(
+      ({ completeIndex }) =>
+        useProgressiveReveal({
+          stepCount: 3,
+          isActiveStepComplete: (index) => index <= completeIndex,
+          autoRevealOnComplete: true,
+        }),
+      { initialProps: { completeIndex: -1 } }
+    );
+
+    rerender({ completeIndex: 0 });
+    expect(result.current.activeStepIndex).toBe(1);
+
+    act(() => {
+      result.current.goBack();
+    });
+
+    expect(result.current.activeStepIndex).toBe(0);
+    expect(result.current.revealedCount).toBe(2);
+  });
+});

@@ -435,4 +435,47 @@
     background: jfcl.$OFF_WHITE_200;
     border-color: jfcl.$GREY_200;
   }
+
+  &--in-modal {
+    margin-top: 0;
+  }
+}
+
+// Figma 5482:2850 / 5482:2904 — non-dismissible result modal
+.finding-result-modal {
+  background: jfcl.$WHITE;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(36, 35, 35, 0.12);
+  margin: auto;
+  max-width: 28rem;
+  padding: jfcl.$JF_SPACING_06;
+  width: calc(100% - 2rem);
+
+  &::backdrop {
+    background: rgba(36, 35, 35, 0.45);
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: jfcl.$JF_SPACING_05;
+  }
+
+  &__back {
+    @include jfcl.body_standard_link_mobile;
+    align-items: center;
+    background: none;
+    border: 0;
+    color: jfcl.$OFF_BLACK;
+    cursor: pointer;
+    display: inline-flex;
+    gap: jfcl.$JF_SPACING_02;
+    padding: 0 jfcl.$JF_SPACING_03 0 0;
+  }
+
+  &__next {
+    min-width: 223px;
+  }
 }

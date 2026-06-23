@@ -1,5 +1,5 @@
 import type { Finding } from "../../types/finding";
-import { FindingResultPanel } from "../../FindingResultPanel";
+import type { FindingResultContent } from "../../types/findingModule";
 
 import { ROW_INDEX } from "./spec";
 import {
@@ -10,7 +10,9 @@ import {
 } from "./ReviewCopy";
 
 // TODO later may refactor to reduce repetition across finding types given similar structure
-export function renderPrehstpaResult(finding: Finding) {
+export function renderPrehstpaResult(
+  finding: Finding
+): FindingResultContent | null {
   const result = finding.result;
   if (!result) {
     return null;
@@ -27,23 +29,16 @@ export function renderPrehstpaResult(finding: Finding) {
 
   const isPotentialViolation = result === "potential_violation";
 
-  return (
-    <FindingResultPanel
-      result={result}
-      title={
-        isPotentialViolation ? (
-          <ResultConfirmedTitle />
-        ) : (
-          <ResultExplainedAwayTitle />
-        )
-      }
-      body={
-        isPotentialViolation ? (
-          <ResultConfirmedBody {...copyProps} />
-        ) : (
-          <ResultExplainedAwayBody {...copyProps} />
-        )
-      }
-    />
-  );
+  return {
+    title: isPotentialViolation ? (
+      <ResultConfirmedTitle />
+    ) : (
+      <ResultExplainedAwayTitle />
+    ),
+    body: isPotentialViolation ? (
+      <ResultConfirmedBody {...copyProps} />
+    ) : (
+      <ResultExplainedAwayBody {...copyProps} />
+    ),
+  };
 }

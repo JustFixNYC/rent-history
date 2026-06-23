@@ -6,6 +6,11 @@ import type { OcrConfirmPhase } from "../hooks/useOcrConfirmState";
 import type { Finding, ValidateFindingAnswers } from "./finding";
 import type { FindingStep } from "./step";
 
+export type FindingResultContent = {
+  title: ReactNode;
+  body: ReactNode;
+};
+
 export type FindingModuleStepBindings<TForm> = {
   finding: Finding;
   formState: TForm;
@@ -25,7 +30,7 @@ export type FindingReviewModule<TForm = unknown> = {
     formState: TForm,
     ctx: { ocrConfirmed: boolean }
   ) => boolean;
-  renderResult: (finding: Finding) => ReactNode;
+  renderResult: (finding: Finding) => FindingResultContent | null;
 };
 
 /** Step bindings with erased form state — used by the shared orchestrator. */
@@ -48,7 +53,7 @@ export type AnyFindingReviewModule = {
     formState: unknown,
     ctx: { ocrConfirmed: boolean }
   ) => boolean;
-  renderResult: (finding: Finding) => ReactNode;
+  renderResult: (finding: Finding) => FindingResultContent | null;
 };
 
 /** Register a typed module in `FINDING_MODULES` (variance-safe boundary). */

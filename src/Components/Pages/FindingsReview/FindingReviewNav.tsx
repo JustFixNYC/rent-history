@@ -21,7 +21,7 @@ export const FindingReviewNav = ({
   nextLabel,
 }: FindingReviewNavProps) => {
   const { _ } = useLingui();
-  const resolvedNextLabel = nextLabel ?? _(msg`Next`);
+  const resolvedNextLabel = nextLabel ?? _(msg`Submit`);
 
   return (
     <nav

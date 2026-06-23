@@ -57,6 +57,10 @@ export const OcrConfirmStep = ({
   const confirm = onConfirm ?? internalOcr.confirm;
   const edit = onEdit ?? internalOcr.edit;
 
+  const handleConfirm = () => {
+    confirm();
+  };
+
   const effectivePhase = isPastStep ? "confirmed" : phase;
   const isConfirmed = effectivePhase === "confirmed";
   const readonly = isConfirmed;
@@ -127,7 +131,7 @@ export const OcrConfirmStep = ({
             className="ocr-confirm-step__cta-primary"
             labelText={resolvedConfirmLabel}
             variant="secondary"
-            onClick={confirm}
+            onClick={handleConfirm}
           />
         )
       }

@@ -476,7 +476,9 @@ describe("postRhHistoryRunAnalysis", () => {
     expect(request.method).toBe("POST");
     expect(request.headers.get("Authorization")).toBe("Bearer access-token");
     expect(request.headers.get("Content-Type")).toBe("application/json");
-    expect(await request.text()).toBe(JSON.stringify({ history_id: historyId }));
+    expect(await request.text()).toBe(
+      JSON.stringify({ history_id: historyId })
+    );
     expect(result).toEqual(responseBody);
   });
 });
