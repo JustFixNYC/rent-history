@@ -56,7 +56,6 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "jsdom": "^29.1.0",
-    "msw": "^2.7.3",
     "openapi-typescript": "7.13.0",
     "prettier": "^2.2.1",
     "sass": "^1.97.3",
@@ -67,11 +66,6 @@
   },
   "engines": {
     "node": "20.x"
-  },
-  "msw": {
-    "workerDirectory": [
-      "public"
-    ]
   },
   "packageManager": "yarn@1.22.22"
 }

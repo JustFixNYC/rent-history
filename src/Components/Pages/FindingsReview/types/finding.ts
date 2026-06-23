@@ -1,77 +1,24 @@
-/** MVP finding wire shape — mirrors auth-provider fixtures (no `form` on wire). */
+/** UI aliases for OpenAPI-derived wire types — single source in `api/account/types`. */
+
+import type { RhFindingStatusEnum } from "../../../../api/account/types";
+
+export type {
+  RhFinding as Finding,
+  RhFindingData as FindingData,
+  RhFindingKey as FindingKey,
+  RhFindingResult as FindingResult,
+  RhFindingRow as FindingDataRow,
+  RhFindingStatusEnum as FindingStatus,
+  RhFindingsStateResponse as FindingsStateResponse,
+  RhQueueDelta as QueueDelta,
+  RhReviewQueue as ReviewQueue,
+  RhValidateFindingAnswersRequest as ValidateFindingAnswers,
+  RhValidateFindingRequestRequest as ValidateFindingRequest,
+  RhValidateFindingResponse as ValidateFindingResponse,
+} from "../../../../api/account/types";
 
 export const FINDING_STATUSES = [
   "pending",
   "validated",
   "dismissed",
-] as const;
-
-export type FindingStatus = (typeof FINDING_STATUSES)[number];
-
-export type FindingKey = {
-  type: string;
-  finding_year: number;
-  subtype: string | null;
-};
-
-export type FindingDataRow = {
-  reg_year: number;
-  legal_rent?: number | string | null;
-  pref_rent?: number | string | null;
-  tenants?: string[];
-  tenancy_start?: number | null;
-  gets_vacancy_increase?: boolean | null;
-  apt_stat?: string;
-  [key: string]: unknown;
-};
-
-export type FindingData = {
-  rows: FindingDataRow[];
-};
-
-export type FindingResult =
-  | "no_violation"
-  | "potential_violation"
-  | "dismissed";
-
-export type Finding = {
-  id: string;
-  key: FindingKey;
-  type: string;
-  finding_year: number;
-  status: FindingStatus;
-  data: FindingData;
-  result?: FindingResult | null;
-  validated_at: string | null;
-};
-
-export type ValidateFindingAnswers = {
-  rows: FindingDataRow[];
-};
-
-export type ValidateFindingRequest = {
-  history_id: string;
-  finding_id: string;
-  answers: ValidateFindingAnswers;
-};
-
-export type QueueDelta = {
-  ordered_ids: string[];
-  added: string[];
-  removed: string[];
-  current_index_hint: number | null;
-};
-
-export type ValidateFindingResponse = {
-  finding: Finding;
-  queue_delta: QueueDelta;
-};
-
-export type ReviewQueue = {
-  ordered_ids: string[];
-};
-
-export type FindingsStateResponse = {
-  findings_current: Finding[];
-  review_queue: ReviewQueue;
-};
+] as const satisfies readonly RhFindingStatusEnum[];
