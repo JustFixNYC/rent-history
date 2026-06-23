@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import type { ValidateFindingRequest } from "../../../Components/Pages/FindingsReview/types";
-import { getRhFindingsState, validateRhFinding } from "../findingsReview";
+import { getRhFindingsState, validateRhFinding } from "../api";
 import { accountQueryKeys } from "../queryKeys";
 
 export type UseRhFindingsStateParams = {

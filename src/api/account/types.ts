@@ -117,3 +117,52 @@ export type RhPagesReadinessResponse =
       s3: RhReadinessAxis;
       database: RhReadinessAxis;
     };
+
+/** MVP finding wire object (`findings_current` / validate-finding response). */
+export type RhFinding = Schemas["RhFinding"];
+
+/** One element of `finding.data.rows`. */
+export type RhFindingRow = Schemas["RhFindingRow"];
+
+/** Finding payload: registration-year rows. */
+export type RhFindingData = Schemas["RhFindingData"];
+
+/** Composite finding identity (`type` + `finding_year` + optional `subtype`). */
+export type RhFindingKey = Schemas["RhFindingKey"];
+
+/** Finding review status (`pending` | `validated` | `dismissed`). */
+export type RhFindingStatusEnum = Schemas["RhFindingStatusEnum"];
+
+/** Finding outcome (`no_violation` | `potential_violation` | `dismissed`). */
+export type RhFindingResult = Schemas["ResultEnum"];
+
+/** Ordered finding ids for review navigation. */
+export type RhReviewQueue = Schemas["RhReviewQueue"];
+
+/** Queue changes after reconcile / validate-finding. */
+export type RhQueueDelta = Schemas["RhQueueDelta"];
+
+/** `POST /rh/history/run-analysis` request body. */
+export type RhRunAnalysisRequestRequest =
+  Schemas["RhRunAnalysisRequestRequest"];
+
+/** `POST /rh/history/run-analysis` response. */
+export type RhRunAnalysisResponse = Schemas["RhRunAnalysisResponse"];
+
+/** `POST /rh/history/validate-finding` request body. */
+export type RhValidateFindingRequestRequest =
+  Schemas["RhValidateFindingRequestRequest"];
+
+/** `POST /rh/history/validate-finding` response. */
+export type RhValidateFindingResponse = Schemas["RhValidateFindingResponse"];
+
+/** Validate-finding answers payload (shape A). */
+export type RhValidateFindingAnswersRequest =
+  Schemas["RhValidateFindingAnswersRequest"];
+
+/** One element of validate-finding `answers.rows`. */
+export type RhFindingAnswerRowRequest =
+  Schemas["RhFindingAnswerRowRequest"];
+
+/** `GET /rh/history/findings-state` response. */
+export type RhFindingsStateResponse = Schemas["RhFindingsStateResponse"];

@@ -10,6 +10,7 @@ import {
 } from "./errors";
 import type {
   RhAnalysisPage,
+  RhFindingsStateResponse,
   RhHistoryAddressResponse,
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
@@ -23,8 +24,11 @@ import type {
   RhPagesReadinessResponse,
   RhLoginStartResponse,
   RhOtpTokenResponse,
+  RhRunAnalysisResponse,
   RhScanPresignRequest,
   RhScanPresignResponse,
+  RhValidateFindingRequestRequest,
+  RhValidateFindingResponse,
 } from "./types";
 
 export const getAuthProviderBaseUrl = (): string => {
@@ -280,3 +284,45 @@ export const downloadRhHistoryReportPdf = async (
   void data;
   return response.blob();
 };
+
+/**
+ * `POST /rh/history/run-analysis` — OAuth2 bearer; run analysis and return findings + queue.
+ */
+export const postRhHistoryRunAnalysis = (
+  accessToken: string,
+  historyId: string
+): Promise<RhRunAnalysisResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/run-analysis", {
+      headers: bearerHeaders(accessToken),
+      body: { history_id: historyId },
+    })
+  );
+
+/**
+ * `POST /rh/history/validate-finding` — OAuth2 bearer; validate one finding and return queue delta.
+ */
+export const validateRhFinding = (
+  accessToken: string,
+  body: RhValidateFindingRequestRequest
+): Promise<RhValidateFindingResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/validate-finding", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
+
+/**
+ * `GET /rh/history/findings-state` — OAuth2 bearer; current findings and review queue.
+ */
+export const getRhFindingsState = (
+  accessToken: string,
+  historyId: string
+): Promise<RhFindingsStateResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().GET("/rh/history/findings-state", {
+      headers: bearerHeaders(accessToken),
+      params: { query: { history_id: historyId } },
+    })
+  );
