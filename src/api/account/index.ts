@@ -81,6 +81,7 @@ export {
 } from "./hooks/confirmAddress";
 export {
   useRhFindingsState,
+  useRunRhAnalysis,
   useValidateRhFinding,
 } from "./hooks/findingsReview";
 export {
