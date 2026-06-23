@@ -2,7 +2,6 @@
 
 export const FINDING_STATUSES = [
   "pending",
-  "in_review",
   "validated",
   "dismissed",
 ] as const;
