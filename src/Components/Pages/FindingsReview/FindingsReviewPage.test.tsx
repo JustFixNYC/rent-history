@@ -11,13 +11,18 @@ import {
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import * as findingsReviewHooks from "../../../api/account/hooks/findingsReview";
 import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
+import findingExamples from "./__fixtures__/findingExamples.json";
 import FindingsReviewPage from "./FindingsReviewPage";
+import type { Finding, ValidateFindingResponse } from "./types/finding";
 import "./FindingsReview.scss";
 
 const TEST_ACCESS_TOKEN = "test-access-token";
 const TEST_HISTORY_ID = "test-history-id";
+
+const prehstpaFinding = findingExamples.OVERCHARGE_PREHSTPA as Finding;
 
 const mockAuthSession: rhSessionStorage.RhSessionAuth = {
   accessToken: TEST_ACCESS_TOKEN,
@@ -31,6 +36,23 @@ const mockAuthSession: rhSessionStorage.RhSessionAuth = {
   },
 };
 
+const mockValidateMutate = vi.fn(
+  (
+    _vars: unknown,
+    options?: { onSuccess?: (data: ValidateFindingResponse) => void }
+  ) => {
+    options?.onSuccess?.({
+      finding: {
+        ...prehstpaFinding,
+        status: "validated",
+        result: "no_violation",
+        validated_at: "2026-01-01T00:00:00Z",
+      },
+      queue_delta: { ordered_ids: [] },
+    });
+  }
+);
+
 vi.mock("../../../session/rhSessionStorage", async () => {
   const actual = await vi.importActual<
     typeof import("../../../session/rhSessionStorage")
@@ -41,6 +63,8 @@ vi.mock("../../../session/rhSessionStorage", async () => {
     getRhHistoryId: vi.fn(),
   };
 });
+
+vi.mock("../../../api/account/hooks/findingsReview");
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -67,12 +91,9 @@ const renderFindingsReviewPage = () => {
 };
 
 const waitForReviewFlow = async () => {
-  await waitFor(
-    () => {
-      expect(screen.getByTestId("finding-intro-panel")).toBeInTheDocument();
-    },
-    { timeout: 10000 }
-  );
+  await waitFor(() => {
+    expect(screen.getByTestId("finding-intro-panel")).toBeInTheDocument();
+  });
 };
 
 const confirmOcr = () => {
@@ -91,6 +112,20 @@ describe("FindingsReviewPage integration", () => {
       mockAuthSession
     );
     vi.mocked(rhSessionStorage.getRhHistoryId).mockReturnValue(TEST_HISTORY_ID);
+
+    vi.mocked(findingsReviewHooks.useRhFindingsState).mockReturnValue({
+      data: {
+        findings_current: [prehstpaFinding],
+        review_queue: { ordered_ids: [prehstpaFinding.id] },
+      },
+      isLoading: false,
+      isError: false,
+    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+
+    vi.mocked(findingsReviewHooks.useValidateRhFinding).mockReturnValue({
+      mutate: mockValidateMutate,
+      isPending: false,
+    } as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
   });
 
   afterEach(() => {
@@ -116,7 +151,7 @@ describe("FindingsReviewPage integration", () => {
     expect(
       screen.queryByTestId("prehstpa-tenancy-step")
     ).not.toBeInTheDocument();
-  }, 15000);
+  });
 
   it("enables Next after OCR confirm and reveals vacancy on advance", async () => {
     renderFindingsReviewPage();
@@ -135,7 +170,7 @@ describe("FindingsReviewPage integration", () => {
     expect(stack).toHaveAttribute("data-active-step-index", "1");
     expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
     expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
-  }, 15000);
+  });
 
   it("reveals result panel after validate when vacancy is No", async () => {
     renderFindingsReviewPage();
@@ -147,12 +182,9 @@ describe("FindingsReviewPage integration", () => {
     fireEvent.click(screen.getByRole("radio", { name: "No" }));
     clickNext();
 
-    await waitFor(
-      () => {
-        expect(screen.getByTestId("finding-result-panel")).toBeInTheDocument();
-      },
-      { timeout: 2000 }
-    );
+    await waitFor(() => {
+      expect(screen.getByTestId("finding-result-panel")).toBeInTheDocument();
+    });
 
     expect(screen.getByTestId("finding-result-panel")).toHaveAttribute(
       "data-outcome",
@@ -161,5 +193,6 @@ describe("FindingsReviewPage integration", () => {
     expect(
       screen.getByRole("button", { name: "Continue" })
     ).toBeInTheDocument();
-  }, 15000);
+    expect(mockValidateMutate).toHaveBeenCalledTimes(1);
+  });
 });

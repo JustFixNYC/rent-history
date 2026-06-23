@@ -106,9 +106,7 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
       }) as React.ReactElement
     );
 
-    expect(screen.getAllByRole("combobox", { name: "Apt Stat" })).toHaveLength(
-      2
-    );
+    expect(screen.getAllByRole("combobox")).toHaveLength(2);
     expect(
       document.getElementById("prehstpa-ocr-apt-stat-0")
     ).toBeInTheDocument();

@@ -2,11 +2,14 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   combineRhHistoryPages,
   createRhHistory,
+  getRhFindingsState,
   getRhHistoryAddress,
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
+  postRhHistoryRunAnalysis,
   startRhLogin,
+  validateRhFinding,
   verifyRhOtp,
 } from "./api";
 const jsonResponse = (body: unknown, init: ResponseInit): Response =>
@@ -407,6 +410,181 @@ describe("getRhHistoryAnalysisPages", () => {
     expect(pages).toEqual([
       { s3_key: "1/uuid/page1.jpg", start_year: 2018, end_year: 2019 },
     ]);
+  });
+});
+
+const historyId = "22222222-2222-4222-8222-222222222222";
+const findingId = "86f89e90-b6e4-48c0-9bcb-5f33fd2cf60b";
+
+const sampleFinding = {
+  id: findingId,
+  key: {
+    type: "OVERCHARGE_PREHSTPA",
+    finding_year: 1992,
+    subtype: null,
+  },
+  type: "OVERCHARGE_PREHSTPA",
+  finding_year: 1992,
+  status: "pending" as const,
+  data: {
+    rows: [
+      {
+        reg_year: 1991,
+        apt_stat: "RS",
+        legal_rent: 2283.1,
+        tenants: ["KEITH ANTOINE"],
+        tenancy_start: null,
+      },
+      {
+        reg_year: 1992,
+        apt_stat: "RS",
+        legal_rent: 2590.86,
+        gets_vacancy_increase: null,
+      },
+    ],
+  },
+  validated_at: null,
+  result: null,
+};
+
+describe("postRhHistoryRunAnalysis", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("posts history_id with Bearer and JSON body to run-analysis", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const responseBody = {
+      findings_current: [sampleFinding],
+      findings_initial: [sampleFinding],
+      review_queue: { ordered_ids: [findingId] },
+    };
+
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(jsonResponse(responseBody, { status: 200 }));
+
+    const result = await postRhHistoryRunAnalysis("access-token", historyId);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/history/run-analysis"
+    );
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(await request.text()).toBe(JSON.stringify({ history_id: historyId }));
+    expect(result).toEqual(responseBody);
+  });
+});
+
+describe("validateRhFinding", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  const validateBody = {
+    history_id: historyId,
+    finding_id: findingId,
+    answers: {
+      rows: [
+        { reg_year: 1991, legal_rent: 2283.1 },
+        {
+          reg_year: 1992,
+          legal_rent: 2590.86,
+          gets_vacancy_increase: false,
+        },
+      ],
+    },
+  };
+
+  it("posts shape-A answers with Bearer to validate-finding", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const responseBody = {
+      finding: {
+        ...sampleFinding,
+        status: "validated",
+        result: "no_violation",
+        validated_at: "2026-01-01T00:00:00Z",
+      },
+      queue_delta: { ordered_ids: [] },
+    };
+
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(jsonResponse(responseBody, { status: 200 }));
+
+    const result = await validateRhFinding("access-token", validateBody);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/history/validate-finding"
+    );
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(JSON.parse(await request.text())).toEqual(validateBody);
+    expect(result).toEqual(responseBody);
+  });
+
+  it("throws AccountApiError on 400 validation", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          error: "Validation failed.",
+          error_code: "validation_error",
+          details: { answers: ["Invalid"] },
+        },
+        { status: 400 }
+      )
+    );
+
+    await expect(
+      validateRhFinding("access-token", validateBody)
+    ).rejects.toMatchObject({
+      name: "AccountApiError",
+      status: 400,
+      errorCode: "validation_error",
+    });
+  });
+});
+
+describe("getRhFindingsState", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("GETs findings-state with Bearer and history_id query param", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const responseBody = {
+      findings_current: [sampleFinding],
+      review_queue: { ordered_ids: [findingId] },
+    };
+
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(jsonResponse(responseBody, { status: 200 }));
+
+    const result = await getRhFindingsState("access-token", historyId);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      `https://auth.example.org/rh/history/findings-state?history_id=${historyId}`
+    );
+    expect(request.method).toBe("GET");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(result).toEqual(responseBody);
   });
 });
 
