@@ -479,14 +479,32 @@
         "type": "object"
       },
       "RhFindingStatusEnum": {
-        "description": "* `pending` - pending\n* `in_review` - in_review\n* `validated` - validated\n* `dismissed` - dismissed",
+        "description": "* `pending` - pending\n* `validated` - validated\n* `dismissed` - dismissed",
         "enum": [
           "pending",
-          "in_review",
           "validated",
           "dismissed"
         ],
         "type": "string"
+      },
+      "RhFindingsStateResponse": {
+        "description": "GET findings-state response.",
+        "properties": {
+          "findings_current": {
+            "items": {
+              "$ref": "#/components/schemas/RhFinding"
+            },
+            "type": "array"
+          },
+          "review_queue": {
+            "$ref": "#/components/schemas/RhReviewQueue"
+          }
+        },
+        "required": [
+          "findings_current",
+          "review_queue"
+        ],
+        "type": "object"
       },
       "RhHistoryAddressResponse": {
         "description": "Scan-extracted location fields from RhHistory (GET /rh/history/address).",
@@ -1949,6 +1967,70 @@
           }
         ],
         "summary": "Delete RhPage scan data for a given RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/findings-state": {
+      "get": {
+        "description": "Returns persisted findings_current and a freshly derived review_queue for resuming findings review. Read-only \u2014 does not mutate history state.",
+        "operationId": "history_findings_state_retrieve",
+        "parameters": [
+          {
+            "description": "UUID of the RhHistory whose findings state should be returned.",
+            "in": "query",
+            "name": "history_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhFindingsStateResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation failed, combine-pages not completed, or analysis not run."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Get findings review resume state",
         "tags": [
           "Rent History"
         ]

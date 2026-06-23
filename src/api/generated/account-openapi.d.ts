@@ -144,6 +144,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/findings-state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get findings review resume state
+         * @description Returns persisted findings_current and a freshly derived review_queue for resuming findings review. Read-only — does not mutate history state.
+         */
+        get: operations["history_findings_state_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/history/page": {
         parameters: {
             query?: never;
@@ -550,12 +570,16 @@ export interface components {
         };
         /**
          * @description * `pending` - pending
-         *     * `in_review` - in_review
          *     * `validated` - validated
          *     * `dismissed` - dismissed
          * @enum {string}
          */
-        RhFindingStatusEnum: "pending" | "in_review" | "validated" | "dismissed";
+        RhFindingStatusEnum: "pending" | "validated" | "dismissed";
+        /** @description GET findings-state response. */
+        RhFindingsStateResponse: {
+            findings_current: components["schemas"]["RhFinding"][];
+            review_queue: components["schemas"]["RhReviewQueue"];
+        };
         /** @description Scan-extracted location fields from RhHistory (GET /rh/history/address). */
         RhHistoryAddressResponse: {
             address: string | null;
@@ -1198,6 +1222,53 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_findings_state_retrieve: {
+        parameters: {
+            query: {
+                /** @description UUID of the RhHistory whose findings state should be returned. */
+                history_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhFindingsStateResponse"];
+                };
+            };
+            /** @description Validation failed, combine-pages not completed, or analysis not run. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
             };
             /** @description Missing or invalid access token. */
             401: {
