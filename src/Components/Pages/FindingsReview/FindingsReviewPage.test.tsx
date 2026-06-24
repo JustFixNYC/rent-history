@@ -159,9 +159,9 @@ const completeFlowThroughVacancyNo = async () => {
   completeVacancyNo();
 };
 
-const clickModalNext = () => {
+const clickModalNext = (buttonName = "Next") => {
   const modal = screen.getByTestId("finding-result-modal");
-  fireEvent.click(within(modal).getByRole("button", { name: "Next" }));
+  fireEvent.click(within(modal).getByRole("button", { name: buttonName }));
 };
 
 describe("FindingsReviewPage integration", () => {
@@ -431,6 +431,14 @@ describe("FindingsReviewPage integration", () => {
       expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
     });
 
+    const modal = screen.getByTestId("finding-result-modal");
+    expect(
+      within(modal).getByRole("button", { name: "Next" })
+    ).toBeInTheDocument();
+    expect(
+      within(modal).queryByRole("button", { name: "View report" })
+    ).not.toBeInTheDocument();
+
     clickModalNext();
 
     await waitFor(() => {
@@ -484,7 +492,12 @@ describe("FindingsReviewPage integration", () => {
       expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
     });
 
-    clickModalNext();
+    const modal = screen.getByTestId("finding-result-modal");
+    expect(
+      within(modal).getByRole("button", { name: "View report" })
+    ).toBeInTheDocument();
+
+    clickModalNext("View report");
 
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith("/en/report");

@@ -15,6 +15,7 @@ export type FindingResultModalProps = {
   body: ReactNode;
   onBack: () => void;
   onNext: () => void;
+  nextLabel?: string;
 };
 
 export const FindingResultModal = ({
@@ -24,8 +25,10 @@ export const FindingResultModal = ({
   body,
   onBack,
   onNext,
+  nextLabel,
 }: FindingResultModalProps) => {
   const { _ } = useLingui();
+  const resolvedNextLabel = nextLabel ?? _(msg`Next`);
   const titleId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -73,7 +76,7 @@ export const FindingResultModal = ({
         </button>
         <Button
           className="finding-result-modal__next"
-          labelText={_(msg`Next`)}
+          labelText={resolvedNextLabel}
           onClick={onNext}
         />
       </nav>

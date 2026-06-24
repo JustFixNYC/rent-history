@@ -173,7 +173,9 @@ const VacancyStepModule = ({
             id="prehstpa-vacancy"
             labelText={
               <span className="prehstpa-yes-no-sr-label">
-                {_(msg`Did tenants in the earlier year appear in the later year?`)}
+                {_(
+                  msg`Did tenants in the earlier year appear in the later year?`
+                )}
               </span>
             }
             value={formState.getsVacancyIncrease}

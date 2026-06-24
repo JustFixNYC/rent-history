@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +36,7 @@ export function FindingReviewFlow({
   historyId,
   onAdvanceToFinding,
 }: FindingReviewFlowProps) {
-  const { i18n } = useLingui();
+  const { i18n, _ } = useLingui();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const stackEndRef = useRef<HTMLDivElement>(null);
@@ -168,15 +169,19 @@ export function FindingReviewFlow({
     goBack();
   };
 
+  const getReviewQueueRemainingIds = useCallback(() => {
+    const findingsState = queryClient.getQueryData<RhFindingsStateResponse>(
+      accountQueryKeys.findingsState(historyId)
+    );
+    return findingsState?.review_queue.ordered_ids ?? [];
+  }, [queryClient, historyId]);
+
   const handleResultModalBack = () => {
     setValidatedFinding(null);
   };
 
   const handleResultModalNext = () => {
-    const findingsState = queryClient.getQueryData<RhFindingsStateResponse>(
-      accountQueryKeys.findingsState(historyId)
-    );
-    const remainingIds = findingsState?.review_queue.ordered_ids ?? [];
+    const remainingIds = getReviewQueueRemainingIds();
 
     setValidatedFinding(null);
 
@@ -187,6 +192,16 @@ export function FindingReviewFlow({
 
     onAdvanceToFinding(remainingIds[0]);
   };
+
+  const resultModalNextLabel = useMemo(() => {
+    if (!showResultModal) {
+      return _(msg`Next`);
+    }
+
+    return getReviewQueueRemainingIds().length === 0
+      ? _(msg`View report`)
+      : _(msg`Next`);
+  }, [showResultModal, getReviewQueueRemainingIds, _]);
 
   return (
     <>
@@ -212,6 +227,7 @@ export function FindingReviewFlow({
           body={resultContent.body}
           onBack={handleResultModalBack}
           onNext={handleResultModalNext}
+          nextLabel={resultModalNextLabel}
         />
       ) : null}
     </>
