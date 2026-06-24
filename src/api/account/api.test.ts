@@ -458,7 +458,6 @@ describe("postRhHistoryRunAnalysis", () => {
 
     const responseBody = {
       findings_current: [sampleFinding],
-      findings_initial: [sampleFinding],
       review_queue: { ordered_ids: [findingId] },
     };
 

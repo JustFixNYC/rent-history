@@ -1276,12 +1276,6 @@
             },
             "type": "array"
           },
-          "findings_initial": {
-            "items": {
-              "$ref": "#/components/schemas/RhFinding"
-            },
-            "type": "array"
-          },
           "review_queue": {
             "$ref": "#/components/schemas/RhReviewQueue"
           }
@@ -2589,16 +2583,6 @@
               }
             },
             "description": "RhProfile, RhHistory, or finding not found."
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "Finding has already been validated or dismissed."
           }
         },
         "security": [

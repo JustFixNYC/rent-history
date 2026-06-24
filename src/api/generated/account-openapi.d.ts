@@ -840,7 +840,6 @@ export interface components {
         /** @description POST run-analysis response. */
         RhRunAnalysisResponse: {
             findings_current: components["schemas"]["RhFinding"][];
-            findings_initial?: components["schemas"]["RhFinding"][];
             review_queue: components["schemas"]["RhReviewQueue"];
         };
         /** @description POST /rh/history/scan-presign body. */
@@ -1738,15 +1737,6 @@ export interface operations {
             };
             /** @description RhProfile, RhHistory, or finding not found. */
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Finding has already been validated or dismissed. */
-            409: {
                 headers: {
                     [name: string]: unknown;
                 };
