@@ -12,6 +12,7 @@ import {
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import { accountQueryKeys } from "../../../api/account/queryKeys";
 import * as findingsReviewHooks from "../../../api/account/hooks/findingsReview";
 import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
@@ -20,6 +21,7 @@ import FindingsReviewPage from "./FindingsReviewPage";
 import type {
   Finding,
   FindingResult,
+  FindingsStateResponse,
   ValidateFindingResponse,
 } from "./types/finding";
 import "./FindingsReview.scss";
@@ -28,6 +30,30 @@ const TEST_ACCESS_TOKEN = "test-access-token";
 const TEST_HISTORY_ID = "test-history-id";
 
 const prehstpaFinding = findingExamples.OVERCHARGE_PREHSTPA as Finding;
+
+const secondPrehstpaFinding: Finding = {
+  ...prehstpaFinding,
+  id: "bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbbb",
+  finding_year: 1993,
+  key: {
+    ...prehstpaFinding.key,
+    finding_year: 1993,
+  },
+};
+
+const { navigateMock } = vi.hoisted(() => ({
+  navigateMock: vi.fn(),
+}));
+
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual<typeof import("react-router-dom")>(
+    "react-router-dom"
+  );
+  return {
+    ...actual,
+    useNavigate: () => navigateMock,
+  };
+});
 
 const mockAuthSession: rhSessionStorage.RhSessionAuth = {
   accessToken: TEST_ACCESS_TOKEN,
@@ -79,14 +105,23 @@ const createTestQueryClient = () =>
     },
   });
 
-const renderFindingsReviewPage = () => {
+let queryClient: QueryClient;
+
+const seedFindingsState = (state: FindingsStateResponse) => {
+  queryClient.setQueryData(
+    accountQueryKeys.findingsState(TEST_HISTORY_ID),
+    state
+  );
+};
+
+const renderFindingsReviewPage = (initialEntry = "/en/findings-review") => {
   i18n.load("en", {});
   i18n.activate("en");
-  const queryClient = createTestQueryClient();
+  queryClient = createTestQueryClient();
 
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/en/findings-review"]}>
+      <MemoryRouter initialEntries={[initialEntry]}>
         <I18nProvider i18n={i18n}>
           <FindingsReviewPage />
         </I18nProvider>
@@ -122,6 +157,11 @@ const completeFlowThroughVacancyNo = async () => {
     expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
   });
   completeVacancyNo();
+};
+
+const clickModalNext = () => {
+  const modal = screen.getByTestId("finding-result-modal");
+  fireEvent.click(within(modal).getByRole("button", { name: "Next" }));
 };
 
 describe("FindingsReviewPage integration", () => {
@@ -299,5 +339,155 @@ describe("FindingsReviewPage integration", () => {
 
     expect(screen.getByRole("button", { name: "Back" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
+  });
+
+  it("resolves the current finding from review_queue head, not findings_current order", async () => {
+    vi.mocked(findingsReviewHooks.useRhFindingsState).mockReturnValue({
+      data: {
+        findings_current: [prehstpaFinding, secondPrehstpaFinding],
+        review_queue: {
+          ordered_ids: [secondPrehstpaFinding.id, prehstpaFinding.id],
+        },
+      },
+      isLoading: false,
+      isError: false,
+    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+
+    renderFindingsReviewPage();
+
+    await waitForReviewFlow();
+    expect(screen.getByText(/Year 1993/)).toBeInTheDocument();
+    expect(screen.queryByText(/Year 1992/)).not.toBeInTheDocument();
+  });
+
+  it("honors ?finding_id= resume hint when the id exists in findings_current", async () => {
+    vi.mocked(findingsReviewHooks.useRhFindingsState).mockReturnValue({
+      data: {
+        findings_current: [prehstpaFinding, secondPrehstpaFinding],
+        review_queue: {
+          ordered_ids: [secondPrehstpaFinding.id, prehstpaFinding.id],
+        },
+      },
+      isLoading: false,
+      isError: false,
+    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+
+    renderFindingsReviewPage(
+      `/en/findings-review?finding_id=${prehstpaFinding.id}`
+    );
+
+    await waitForReviewFlow();
+    expect(screen.getByText(/Year 1992/)).toBeInTheDocument();
+    expect(screen.queryByText(/Year 1993/)).not.toBeInTheDocument();
+  });
+
+  it("modal Next advances to the next queued finding when the queue has remaining items", async () => {
+    vi.mocked(findingsReviewHooks.useRhFindingsState).mockReturnValue({
+      data: {
+        findings_current: [prehstpaFinding, secondPrehstpaFinding],
+        review_queue: {
+          ordered_ids: [prehstpaFinding.id, secondPrehstpaFinding.id],
+        },
+      },
+      isLoading: false,
+      isError: false,
+    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+
+    mockValidateMutate.mockImplementationOnce(
+      (
+        _vars,
+        options?: { onSuccess?: (data: ValidateFindingResponse) => void }
+      ) => {
+        seedFindingsState({
+          findings_current: [
+            {
+              ...prehstpaFinding,
+              status: "validated",
+              result: "no_violation",
+              validated_at: "2026-01-01T00:00:00Z",
+            },
+            secondPrehstpaFinding,
+          ],
+          review_queue: { ordered_ids: [secondPrehstpaFinding.id] },
+        });
+
+        options?.onSuccess?.({
+          finding: {
+            ...prehstpaFinding,
+            status: "validated",
+            result: "no_violation",
+            validated_at: "2026-01-01T00:00:00Z",
+          },
+          queue_delta: { ordered_ids: [secondPrehstpaFinding.id] },
+        });
+      }
+    );
+
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyNo();
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+    });
+
+    clickModalNext();
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId("finding-result-modal")
+      ).not.toBeInTheDocument();
+    });
+
+    expect(screen.getByText(/Year 1993/)).toBeInTheDocument();
+    expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
+    const stack = screen.getByTestId("finding-module-stack");
+    expect(stack).toHaveAttribute("data-revealed-count", "1");
+    expect(stack).toHaveAttribute("data-active-step-index", "0");
+  });
+
+  it("modal Next navigates to /report when the review queue is exhausted", async () => {
+    mockValidateMutate.mockImplementationOnce(
+      (
+        _vars,
+        options?: { onSuccess?: (data: ValidateFindingResponse) => void }
+      ) => {
+        seedFindingsState({
+          findings_current: [
+            {
+              ...prehstpaFinding,
+              status: "validated",
+              result: "no_violation",
+              validated_at: "2026-01-01T00:00:00Z",
+            },
+          ],
+          review_queue: { ordered_ids: [] },
+        });
+
+        options?.onSuccess?.({
+          finding: {
+            ...prehstpaFinding,
+            status: "validated",
+            result: "no_violation",
+            validated_at: "2026-01-01T00:00:00Z",
+          },
+          queue_delta: { ordered_ids: [] },
+        });
+      }
+    );
+
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyNo();
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+    });
+
+    clickModalNext();
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/report");
+    });
   });
 });

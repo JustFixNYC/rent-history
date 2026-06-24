@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Trans } from "@lingui/react/macro";
+import { useSearchParams } from "react-router-dom";
 
 import { useRhFindingsState } from "../../../api/account/hooks/findingsReview";
 import {
@@ -7,10 +9,14 @@ import {
 } from "../../../session/rhSessionStorage";
 
 import { FindingReviewFlow } from "./FindingReviewFlow";
+import { getCurrentFindingFromQueue } from "./getCurrentFindingFromQueue";
 import { FINDING_MODULES } from "./types/registry";
 import "./FindingsReview.scss";
 
 const FindingsReviewPage = () => {
+  const [searchParams] = useSearchParams();
+  const resumeHint = searchParams.get("finding_id");
+
   const session = getRhAuthSession();
   const historyId = getRhHistoryId();
   const { data, isLoading, isError } = useRhFindingsState({
@@ -18,7 +24,37 @@ const FindingsReviewPage = () => {
     historyId: historyId ?? undefined,
   });
 
-  const currentFinding = data?.findings_current[0];
+  const [activeFindingId, setActiveFindingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+
+    setActiveFindingId((current) => {
+      if (current != null) {
+        const stillInFindings = data.findings_current.some(
+          (finding) => finding.id === current
+        );
+        if (stillInFindings) {
+          return current;
+        }
+      }
+
+      const hintedId =
+        resumeHint != null &&
+        data.findings_current.some((finding) => finding.id === resumeHint)
+          ? resumeHint
+          : null;
+
+      return hintedId ?? data.review_queue.ordered_ids[0] ?? null;
+    });
+  }, [data, resumeHint]);
+
+  const currentFinding = getCurrentFindingFromQueue(
+    data,
+    activeFindingId ?? resumeHint
+  );
   const module =
     currentFinding?.type != null
       ? FINDING_MODULES[currentFinding.type as keyof typeof FINDING_MODULES]
@@ -44,6 +80,7 @@ const FindingsReviewPage = () => {
             finding={currentFinding}
             accessToken={session.accessToken}
             historyId={historyId}
+            onAdvanceToFinding={setActiveFindingId}
           />
         ) : null}
         {currentFinding && !module ? (

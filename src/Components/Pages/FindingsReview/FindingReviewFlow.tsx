@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLingui } from "@lingui/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 import { useValidateRhFinding } from "../../../api/account/hooks/findingsReview";
+import { accountQueryKeys } from "../../../api/account/queryKeys";
+import type { RhFindingsStateResponse } from "../../../api/account/types";
 
 import { FindingIntroPanel } from "./FindingIntroPanel";
 import { FindingModuleStack } from "./FindingModuleStack";
@@ -20,6 +25,7 @@ type FindingReviewFlowProps = {
   finding: Finding;
   accessToken: string;
   historyId: string;
+  onAdvanceToFinding: (findingId: string) => void;
 };
 
 export function FindingReviewFlow({
@@ -27,7 +33,11 @@ export function FindingReviewFlow({
   finding,
   accessToken,
   historyId,
+  onAdvanceToFinding,
 }: FindingReviewFlowProps) {
+  const { i18n } = useLingui();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const stackEndRef = useRef<HTMLDivElement>(null);
 
   const [formState, setFormState] = useState<Record<string, unknown>>(
@@ -163,7 +173,19 @@ export function FindingReviewFlow({
   };
 
   const handleResultModalNext = () => {
-    // Queue advance wired in Task 4.
+    const findingsState = queryClient.getQueryData<RhFindingsStateResponse>(
+      accountQueryKeys.findingsState(historyId)
+    );
+    const remainingIds = findingsState?.review_queue.ordered_ids ?? [];
+
+    setValidatedFinding(null);
+
+    if (remainingIds.length === 0) {
+      navigate(`/${i18n.locale}/report`);
+      return;
+    }
+
+    onAdvanceToFinding(remainingIds[0]);
   };
 
   return (
