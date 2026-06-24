@@ -7,7 +7,10 @@ export type RhProfile = Schemas["RhProfile"];
 /** `POST /rh/login/start` response (profile upsert + OTP delivery). */
 export type RhLoginStartResponse = Schemas["RhLoginStartResponse"];
 
-export type RhOtpTokenResponse = Omit<Schemas["OtpTokenResponse"], "profile"> & {
+export type RhOtpTokenResponse = Omit<
+  Schemas["OtpTokenResponse"],
+  "profile"
+> & {
   profile: RhProfile;
 };
 
@@ -29,7 +32,8 @@ export type RhHistoryConfirmAddressRequest =
 export type RhHistoryConfirmAddressResponse =
   Schemas["RhHistoryConfirmAddressResponse"];
 
-export type RhHistoryPageDeleteResponse = Schemas["RhHistoryPageDeleteResponse"];
+export type RhHistoryPageDeleteResponse =
+  Schemas["RhHistoryPageDeleteResponse"];
 
 /** Axis from `GET /rh/history/pages-readiness`. */
 export type RhReadinessAxis = Schemas["RhReadinessAxis"];

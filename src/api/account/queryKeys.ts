@@ -7,6 +7,7 @@ export const accountQueryKeys = {
     [...accountRoot, "pages-readiness", historyId, numPages] as const,
   analysisPages: (historyId: string) =>
     [...accountRoot, "analysis-pages", historyId] as const,
-  address: (historyId: string) => [...accountRoot, "address", historyId] as const,
+  address: (historyId: string) =>
+    [...accountRoot, "address", historyId] as const,
   profile: () => [...accountRoot, "profile"] as const,
 };

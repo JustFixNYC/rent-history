@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Map, {
-  Layer,
-  NavigationControl,
-  Source,
-} from "react-map-gl/mapbox";
+import Map, { Layer, NavigationControl, Source } from "react-map-gl/mapbox";
 import type { MapRef } from "react-map-gl/mapbox";
 import type { LngLatBoundsLike, MapMouseEvent } from "react-map-gl/mapbox";
-import type { CircleLayerSpecification, SymbolLayerSpecification } from "mapbox-gl";
+import type {
+  CircleLayerSpecification,
+  SymbolLayerSpecification,
+} from "mapbox-gl";
 import type { FeatureCollection, Point } from "geojson";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
@@ -136,7 +135,9 @@ const toGeoJson = (
   })),
 });
 
-const pointFromFeature = (feature: GeoJSON.Feature): RentStabilizedMapPoint | null => {
+const pointFromFeature = (
+  feature: GeoJSON.Feature
+): RentStabilizedMapPoint | null => {
   const props = feature.properties;
   if (!props || feature.geometry.type !== "Point") return null;
   const [lng, lat] = feature.geometry.coordinates;
@@ -209,39 +210,45 @@ const RentStabilizedMapPage: React.FC = () => {
     });
   }, []);
 
-  const onMapClick = useCallback((event: MapMouseEvent) => {
-    const feature = event.features?.[0];
-    if (!feature) return;
+  const onMapClick = useCallback(
+    (event: MapMouseEvent) => {
+      const feature = event.features?.[0];
+      if (!feature) return;
 
-    const clusterId = feature.properties?.cluster_id;
-    const map = event.target;
+      const clusterId = feature.properties?.cluster_id;
+      const map = event.target;
 
-    if (clusterId != null) {
-      const source = map.getSource("rent-stab-points");
-      if (source && "getClusterExpansionZoom" in source) {
-        source.getClusterExpansionZoom(
-          clusterId,
-          (err: Error | null | undefined, zoom: number | null | undefined) => {
-            if (err || zoom == null) return;
-            const coordinates = (feature.geometry as Point).coordinates as [
-              number,
-              number,
-            ];
-            map.easeTo({
-              center: coordinates,
-              zoom,
-            });
-          }
-        );
+      if (clusterId != null) {
+        const source = map.getSource("rent-stab-points");
+        if (source && "getClusterExpansionZoom" in source) {
+          source.getClusterExpansionZoom(
+            clusterId,
+            (
+              err: Error | null | undefined,
+              zoom: number | null | undefined
+            ) => {
+              if (err || zoom == null) return;
+              const coordinates = (feature.geometry as Point).coordinates as [
+                number,
+                number
+              ];
+              map.easeTo({
+                center: coordinates,
+                zoom,
+              });
+            }
+          );
+        }
+        return;
       }
-      return;
-    }
 
-    const clicked = pointFromFeature(feature as GeoJSON.Feature);
-    if (clicked) {
-      focusPoint(clicked);
-    }
-  }, [focusPoint]);
+      const clicked = pointFromFeature(feature as GeoJSON.Feature);
+      if (clicked) {
+        focusPoint(clicked);
+      }
+    },
+    [focusPoint]
+  );
 
   const onGeosearchSelect = useCallback(
     (selection: GeoSearchDropdownSelection | null) => {

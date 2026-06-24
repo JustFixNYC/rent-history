@@ -25,7 +25,10 @@ yarn generate:api:account
 
 - `yarn generate:api` is an alias for `generate:api:account` (data-api codegen is deferred).
 - Pinned spec for codegen and CI: `src/api/contract/account-openapi.json` (copy of auth-provider’s committed artifact).
-- **CI:** GitHub Actions (`.github/workflows/account-openapi-contract.yml`) regenerates from the pinned spec and fails if `yarn generate:api:account` would change the committed `.d.ts`.
+- **CI:** GitHub Actions run on pushes to `main` and on all pull requests:
+  - `.github/workflows/ci.yml` — `format:check`, `lint`, `test`, `build`
+  - `.github/workflows/account-openapi-contract.yml` — regenerates from the pinned spec and fails if `yarn generate:api:account` would change the committed `.d.ts`
+- **Local CI reproduction:** `yarn format:check && yarn lint && yarn test && yarn build`
 - **Netlify / builds:** Use the committed `account-openapi.d.ts` only; no auth-provider checkout required at build time.
 - When backend `rh/` API contract changes, update frontend typed client/request handling in the same PR or in a linked PR (hook migrations follow the Tier 1 codegen plan).
 

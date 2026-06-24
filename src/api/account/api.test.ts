@@ -59,9 +59,7 @@ describe("verifyRhOtp", () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const request = getMockedFetchRequest(fetchSpy);
-    expect(request.url).toBe(
-      "https://auth.example.org/rh/verify-otp-token"
-    );
+    expect(request.url).toBe("https://auth.example.org/rh/verify-otp-token");
     expect(request.method).toBe("POST");
     expect(request.headers.get("Content-Type")).toBe("application/json");
     expect(await request.text()).toBe(
@@ -111,12 +109,14 @@ describe("createRhHistory", () => {
   it("posts to rh/history with Bearer authorization and no JSON body", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
-    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      jsonResponse(
-        { id: "11111111-1111-4111-8111-111111111111" },
-        { status: 201 }
-      )
-    );
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(
+        jsonResponse(
+          { id: "11111111-1111-4111-8111-111111111111" },
+          { status: 201 }
+        )
+      );
 
     await createRhHistory("access-token");
 
@@ -190,9 +190,9 @@ describe("combineRhHistoryPages", () => {
   it("posts history_id with Bearer and JSON body to combine-pages", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
-    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      jsonResponse({ status: "ok" }, { status: 200 })
-    );
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(jsonResponse({ status: "ok" }, { status: 200 }));
 
     const hid = "22222222-2222-4222-8222-222222222222";
     await combineRhHistoryPages("access-token", hid);

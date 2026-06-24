@@ -128,10 +128,10 @@ describe("LoginPage OTP verification", () => {
       otp: { status: "sent" },
     });
     vi.mocked(accountApi.verifyRhOtp).mockRejectedValue(
-      new AccountApiError(
-        400,
-        { error: "Code expired.", error_code: "otp_expired" }
-      )
+      new AccountApiError(400, {
+        error: "Code expired.",
+        error_code: "otp_expired",
+      })
     );
 
     renderLoginPage();

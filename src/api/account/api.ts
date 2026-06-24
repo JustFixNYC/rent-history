@@ -244,11 +244,7 @@ export const emailRhHistoryReportPdf = async (
   );
 
   if (error !== undefined || data === undefined) {
-    throw accountReportEmailErrorFromResponse(
-      response.status,
-      error,
-      response
-    );
+    throw accountReportEmailErrorFromResponse(response.status, error, response);
   }
 
   return data;

@@ -1,4 +1,4 @@
-name: Account OpenAPI contract
+name: CI
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  account-openapi-contract:
+  ci:
     runs-on: ubuntu-latest
     environment: actions
     env:
@@ -30,12 +30,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Regenerate account OpenAPI types
-        run: yarn generate:api:account
+      - name: Check formatting
+        run: yarn format:check
 
-      - name: Fail on generated types drift
-        run: |
-          git diff --exit-code src/api/generated/account-openapi.d.ts || (
-            echo "Account OpenAPI types drift detected. Run 'yarn generate:api:account' and commit src/api/generated/account-openapi.d.ts."
-            exit 1
-          )
+      - name: Lint
+        run: yarn lint
+
+      - name: Test
+        run: yarn test
+
+      - name: Build
+        run: yarn build

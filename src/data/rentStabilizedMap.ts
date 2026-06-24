@@ -9,7 +9,8 @@ export type RentStabilizedMapPoint = {
   rs_units: number;
 };
 
-export const RENT_STABILIZED_MAP_DATA_URL = "/data/rent-stabilized-map-points.json";
+export const RENT_STABILIZED_MAP_DATA_URL =
+  "/data/rent-stabilized-map-points.json";
 
 /** Normalize BBLs from GeoSearch PAD (may drop leading zeros). */
 export const normalizeBbl = (bbl: string): string =>
