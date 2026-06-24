@@ -184,6 +184,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/report-email": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Generate report PDF and email it to the user
+         * @description Renders HTML to PDF, stores it in S3 (same as POST /rh/history/report-pdf), persists recipient emails on RhHistory, and sends the PDF via email.
+         */
+        post: operations["history_report_email_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/history/report-pdf": {
         parameters: {
             query?: never;
@@ -336,10 +356,11 @@ export interface components {
          *     * `pages_sync_error` - Pages out of sync with scans
          *     * `pdf_generation_failed` - PDF generation failed
          *     * `report_pdf_not_found` - Report PDF not found
+         *     * `email_send_failed` - Email send failed
          *     * `s3_key_access_denied` - S3 key access denied
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "s3_key_access_denied";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied";
         /**
          * @description * `DOCUMENT_SCAN` - Document Scan
          *     * `SCAN_REVIEW` - Scan Review
@@ -391,6 +412,13 @@ export interface components {
          * @enum {string}
          */
         RelationEnum: "less" | "equal" | "more";
+        /**
+         * @description * `succeeded` - Succeeded
+         *     * `failed` - Failed
+         *     * `not_attempted` - Not attempted
+         * @enum {string}
+         */
+        ReportEmailStepStatusEnum: "succeeded" | "failed" | "not_attempted";
         /**
          * @description * `en` - English
          *     * `es` - Spanish
@@ -482,6 +510,36 @@ export interface components {
             deleted_pages: number;
             s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
             s3_deleted_versions?: number;
+        };
+        /** @description POST /rh/history/report-email body. */
+        RhHistoryReportEmailCreateRequestRequest: {
+            /** @description Optional print CSS passed to the PDF renderer. */
+            css?: string | null;
+            /** Format: email */
+            email: string;
+            /** Format: uuid */
+            history_id: string;
+            /** @description HTML document to render as the report PDF (max 1 MiB). */
+            html: string;
+            locale: components["schemas"]["LocaleEnum"];
+            report_emails?: string[];
+        };
+        RhHistoryReportEmailEmailStep: {
+            status: components["schemas"]["ReportEmailStepStatusEnum"];
+        };
+        RhHistoryReportEmailPdfStep: {
+            has_report_pdf?: boolean;
+            /** Format: date-time */
+            report_pdf_generated_at?: string;
+            report_pdf_locale?: components["schemas"]["ReportPdfLocaleEnum"];
+            status: components["schemas"]["ReportEmailStepStatusEnum"];
+        };
+        /** @description POST /rh/history/report-email success payload. */
+        RhHistoryReportEmailResponse: {
+            email: components["schemas"]["RhHistoryReportEmailEmailStep"];
+            /** Format: uuid */
+            history_id: string;
+            pdf: components["schemas"]["RhHistoryReportEmailPdfStep"];
         };
         /** @description POST /rh/history/report-pdf body. */
         RhHistoryReportPdfCreateRequestRequest: {
@@ -1104,6 +1162,70 @@ export interface operations {
                 };
             };
             /** @description Storage misconfiguration, S3 failure, or DB count exceeds S3 count. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_report_email_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryReportEmailCreateRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryReportEmailResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description PDF rendering failed. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage or email delivery failed. */
             503: {
                 headers: {
                     [name: string]: unknown;

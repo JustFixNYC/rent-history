@@ -1,11 +1,72 @@
 import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import type { components } from "../generated/account-openapi";
+import type {
+  RhHistoryReportEmailEmailStep,
+  RhHistoryReportEmailPdfStep,
+  RhHistoryReportEmailStepFields,
+  RhHistoryReportEmailStepStatus,
+} from "./types";
 
 export type AccountApiErrorBody = {
   error: string;
   error_code?: components["schemas"]["ErrorCodeEnum"];
   details?: unknown;
+};
+
+const isReportEmailStepStatus = (
+  value: unknown
+): value is RhHistoryReportEmailStepStatus =>
+  value === "succeeded" || value === "failed" || value === "not_attempted";
+
+const parseReportEmailPdfStep = (
+  value: unknown
+): RhHistoryReportEmailPdfStep | undefined => {
+  if (typeof value !== "object" || value === null || !("status" in value)) {
+    return undefined;
+  }
+  const record = value as Record<string, unknown>;
+  if (!isReportEmailStepStatus(record.status)) {
+    return undefined;
+  }
+  return value as RhHistoryReportEmailPdfStep;
+};
+
+const parseReportEmailEmailStep = (
+  value: unknown
+): RhHistoryReportEmailEmailStep | undefined => {
+  if (typeof value !== "object" || value === null || !("status" in value)) {
+    return undefined;
+  }
+  const record = value as Record<string, unknown>;
+  if (!isReportEmailStepStatus(record.status)) {
+    return undefined;
+  }
+  return value as RhHistoryReportEmailEmailStep;
+};
+
+/** Extract pdf/email step fields from report-email error JSON when present. */
+export const parseRhHistoryReportEmailSteps = (
+  data: unknown
+): RhHistoryReportEmailStepFields | undefined => {
+  if (typeof data !== "object" || data === null) {
+    return undefined;
+  }
+  const record = data as Record<string, unknown>;
+  const pdf = parseReportEmailPdfStep(record.pdf);
+  const email = parseReportEmailEmailStep(record.email);
+  const historyId =
+    typeof record.history_id === "string" ? record.history_id : undefined;
+
+  if (!pdf && !email && !historyId) {
+    return undefined;
+  }
+
+  return {
+    ...(historyId ? { history_id: historyId } : {}),
+    ...(pdf ? { pdf } : {}),
+    ...(email ? { email } : {}),
+  };
 };
 
 export class AccountApiError extends Error {
@@ -14,7 +75,8 @@ export class AccountApiError extends Error {
   constructor(
     readonly status: number,
     readonly body: AccountApiErrorBody,
-    readonly raw?: unknown
+    readonly raw?: unknown,
+    readonly reportEmailSteps?: RhHistoryReportEmailStepFields
   ) {
     super(body.error);
   }
@@ -50,6 +112,19 @@ export const accountApiErrorFromResponse = (
   response: Response
 ): AccountApiError =>
   new AccountApiError(status, parseAccountErrorBody(data, response), data);
+
+/** Like `accountApiErrorFromResponse`, but preserves report-email step fields on the error. */
+export const accountReportEmailErrorFromResponse = (
+  status: number,
+  data: unknown,
+  response: Response
+): AccountApiError =>
+  new AccountApiError(
+    status,
+    parseAccountErrorBody(data, response),
+    data,
+    parseRhHistoryReportEmailSteps(data)
+  );
 
 export const accountApiUnexpectedShapeError = (
   status: number,

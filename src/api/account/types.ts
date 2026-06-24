@@ -57,6 +57,33 @@ export type RhHistoryReportPdfCreateRequest =
 export type RhHistoryReportPdfCreateResponse =
   Schemas["RhHistoryReportPdfCreateResponse"];
 
+/** `POST /rh/history/report-email` request body. */
+export type RhHistoryReportEmailRequest =
+  Schemas["RhHistoryReportEmailCreateRequestRequest"];
+
+/** PDF step in `POST /rh/history/report-email` response (and non-200 bodies). */
+export type RhHistoryReportEmailPdfStep =
+  Schemas["RhHistoryReportEmailPdfStep"];
+
+/** Email step in `POST /rh/history/report-email` response (and non-200 bodies). */
+export type RhHistoryReportEmailEmailStep =
+  Schemas["RhHistoryReportEmailEmailStep"];
+
+/** `POST /rh/history/report-email` success body. */
+export type RhHistoryReportEmailResponse =
+  Schemas["RhHistoryReportEmailResponse"];
+
+/** Step status for report-email PDF and email steps. */
+export type RhHistoryReportEmailStepStatus =
+  Schemas["ReportEmailStepStatusEnum"];
+
+/** PDF/email step fields merged into report-email error bodies (partial on failures). */
+export type RhHistoryReportEmailStepFields = {
+  history_id?: string;
+  pdf?: RhHistoryReportEmailPdfStep;
+  email?: RhHistoryReportEmailEmailStep;
+};
+
 /** Locale sent when generating a report PDF (`en` | `es`). */
 export type ReportPdfLocale = Schemas["ReportPdfLocaleEnum"];
 

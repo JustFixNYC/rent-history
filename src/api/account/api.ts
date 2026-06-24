@@ -6,6 +6,7 @@ import {
 import {
   accountApiErrorFromResponse,
   accountApiUnexpectedShapeError,
+  accountReportEmailErrorFromResponse,
 } from "./errors";
 import type {
   RhAnalysisPage,
@@ -15,6 +16,8 @@ import type {
   RhHistoryConfirmAddressResponse,
   RhHistoryPageDeleteResponse,
   RhHistoryRecord,
+  RhHistoryReportEmailRequest,
+  RhHistoryReportEmailResponse,
   RhHistoryReportPdfCreateRequest,
   RhHistoryReportPdfCreateResponse,
   RhPagesReadinessResponse,
@@ -222,6 +225,34 @@ export const createRhHistoryReportPdf = (
       body,
     })
   );
+
+/**
+ * `POST /rh/history/report-email` — render PDF, store in S3, and email to the user.
+ * Non-200 responses throw `AccountApiError` with `reportEmailSteps` when the body
+ * includes `pdf` / `email` step status (e.g. 503 `email_send_failed` partial success).
+ */
+export const emailRhHistoryReportPdf = async (
+  accessToken: string,
+  body: RhHistoryReportEmailRequest
+): Promise<RhHistoryReportEmailResponse> => {
+  const { data, error, response } = await getAccountClient().POST(
+    "/rh/history/report-email",
+    {
+      headers: bearerHeaders(accessToken),
+      body,
+    }
+  );
+
+  if (error !== undefined || data === undefined) {
+    throw accountReportEmailErrorFromResponse(
+      response.status,
+      error,
+      response
+    );
+  }
+
+  return data;
+};
 
 /**
  * `GET /rh/history/report-pdf` — OAuth2 bearer; returns PDF bytes as a Blob.
