@@ -2,7 +2,7 @@ import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { CurrencyField } from "../fields/CurrencyField";
 import { TenantChip } from "../TenantChip";
@@ -113,12 +113,13 @@ describe("OcrConfirmStep", () => {
     ).toBeInTheDocument();
   });
 
-  it("forces confirmed presentation when isPastStep is true", () => {
+  it("shows Edit when confirmed even if isPastStep is true", () => {
     renderWithI18n(
       <OcrConfirmStep
         stepNumber={1}
         title="Confirm values"
         isPastStep
+        phase="confirmed"
         rows={[
           {
             regYear: 1991,
@@ -141,8 +142,76 @@ describe("OcrConfirmStep", () => {
       "data-phase",
       "confirmed"
     );
+    expect(screen.getByRole("button", { name: "Edit" })).toBeInTheDocument();
+  });
+
+  it("returns to editable mode when Edit is clicked on a past step", () => {
+    const onEdit = vi.fn();
+
+    const { rerender } = renderWithI18n(
+      <OcrConfirmStep
+        stepNumber={1}
+        title="Confirm values"
+        isPastStep
+        phase="confirmed"
+        onEdit={onEdit}
+        rows={[
+          {
+            regYear: 1991,
+            renderLeft: () => <TenantChip tenant="KEITH ANTOINE" />,
+            renderRight: ({ readonly }) => (
+              <CurrencyField
+                id="ocr-rent-0"
+                labelText="Legal Regulated Rent"
+                value="2283.1"
+                onChange={() => {}}
+                readonly={readonly}
+              />
+            ),
+          },
+        ]}
+      />
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Edit" }));
+    expect(onEdit).toHaveBeenCalledTimes(1);
+
+    rerender(
+      <I18nProvider i18n={i18n}>
+        <OcrConfirmStep
+          stepNumber={1}
+          title="Confirm values"
+          isPastStep
+          phase="initial"
+          onEdit={onEdit}
+          rows={[
+            {
+              regYear: 1991,
+              renderLeft: () => <TenantChip tenant="KEITH ANTOINE" />,
+              renderRight: ({ readonly }) => (
+                <CurrencyField
+                  id="ocr-rent-0"
+                  labelText="Legal Regulated Rent"
+                  value="2283.1"
+                  onChange={() => {}}
+                  readonly={readonly}
+                />
+              ),
+            },
+          ]}
+        />
+      </I18nProvider>
+    );
+
+    expect(screen.getByTestId("ocr-confirm-step")).toHaveAttribute(
+      "data-phase",
+      "initial"
+    );
     expect(
-      screen.queryByRole("button", { name: "Edit" })
-    ).not.toBeInTheDocument();
+      screen.getByRole("button", { name: "Yes, this matches my document" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("spinbutton", { name: "Legal Regulated Rent" })
+    ).not.toBeDisabled();
   });
 });

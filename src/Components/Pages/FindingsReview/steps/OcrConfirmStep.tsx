@@ -28,7 +28,7 @@ export type OcrConfirmStepProps = {
   stepNumber: number;
   title: React.ReactNode;
   rows: OcrConfirmRowConfig[];
-  /** When true, force confirmed readonly presentation (user moved past this step). */
+  /** Set by the module stack when a later step is active; does not affect confirm/edit. */
   isPastStep?: boolean;
   /** Controlled phase; when omitted, uses internal `useOcrConfirmState`. */
   phase?: OcrConfirmPhase;
@@ -43,7 +43,6 @@ export const OcrConfirmStep = ({
   stepNumber,
   title,
   rows,
-  isPastStep = false,
   phase: controlledPhase,
   onConfirm,
   onEdit,
@@ -61,10 +60,9 @@ export const OcrConfirmStep = ({
     confirm();
   };
 
-  const effectivePhase = isPastStep ? "confirmed" : phase;
-  const isConfirmed = effectivePhase === "confirmed";
+  const isConfirmed = phase === "confirmed";
   const readonly = isConfirmed;
-  const showEditLink = isConfirmed && !isPastStep;
+  const showEditLink = isConfirmed;
 
   const resolvedConfirmLabel =
     confirmLabel ?? _(msg`Yes, this matches my document`);
@@ -80,7 +78,7 @@ export const OcrConfirmStep = ({
         <div
           className="ocr-confirm-step"
           data-testid="ocr-confirm-step"
-          data-phase={effectivePhase}
+          data-phase={phase}
         >
           <p className="ocr-confirm-step__intro">
             <Trans>Look at</Trans> <DocumentLink />{" "}

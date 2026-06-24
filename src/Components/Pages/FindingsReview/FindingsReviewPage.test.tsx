@@ -235,6 +235,46 @@ describe("FindingsReviewPage integration", () => {
     expect(submitButton).toBeDisabled();
   });
 
+  it("shows OCR Edit after confirm while vacancy is revealed", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
+
+    confirmOcr();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+    });
+
+    const ocrStep = screen.getByTestId("ocr-confirm-step");
+    expect(ocrStep).toHaveAttribute("data-phase", "confirmed");
+    expect(screen.getByRole("button", { name: "Edit" })).toBeInTheDocument();
+  });
+
+  it("keeps subsequent steps revealed when OCR Edit is clicked", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
+
+    confirmOcr();
+
+    await waitFor(() => {
+      const stack = screen.getByTestId("finding-module-stack");
+      expect(stack).toHaveAttribute("data-revealed-count", "2");
+      expect(stack).toHaveAttribute("data-active-step-index", "1");
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Edit" }));
+
+    const stack = screen.getByTestId("finding-module-stack");
+    expect(stack).toHaveAttribute("data-revealed-count", "2");
+    expect(stack).toHaveAttribute("data-active-step-index", "1");
+    expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+    expect(screen.getByTestId("ocr-confirm-step")).toHaveAttribute(
+      "data-phase",
+      "initial"
+    );
+    expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
+  });
+
   it("keeps Submit disabled until all visible steps are complete", async () => {
     renderFindingsReviewPage();
     await waitForReviewFlow();
