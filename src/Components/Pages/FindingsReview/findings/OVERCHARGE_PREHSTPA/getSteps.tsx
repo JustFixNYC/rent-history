@@ -38,6 +38,58 @@ export type PrehstpaGetStepsBindings = {
   onOcrEdit?: () => void;
 };
 
+type OcrAptStatFieldProps = {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  readonly: boolean;
+};
+
+const OcrAptStatField = ({
+  id,
+  value,
+  onChange,
+  readonly,
+}: OcrAptStatFieldProps) => {
+  const { _ } = useLingui();
+
+  return (
+    <AptStatField
+      id={id}
+      labelText={_(msg`Apt Stat`)}
+      value={value}
+      onChange={onChange}
+      readonly={readonly}
+    />
+  );
+};
+
+type OcrCurrencyFieldProps = {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  readonly: boolean;
+};
+
+const OcrCurrencyField = ({
+  id,
+  value,
+  onChange,
+  readonly,
+}: OcrCurrencyFieldProps) => {
+  const { _ } = useLingui();
+
+  return (
+    <CurrencyField
+      id={id}
+      labelText={_(msg`Legal Regulated Rent`)}
+      value={value}
+      onChange={onChange}
+      readonly={readonly}
+    />
+  );
+};
+
 function buildOcrRows(
   finding: Finding,
   formState: PrehstpaFormState,
@@ -50,18 +102,16 @@ function buildOcrRows(
     {
       regYear: row0.reg_year,
       renderLeft: ({ readonly }) => (
-        <AptStatField
+        <OcrAptStatField
           id="prehstpa-ocr-apt-stat-0"
-          labelText="Apt Stat"
           value={formState.row0AptStat}
           onChange={(value) => onFormStateChange({ row0AptStat: value })}
-          disabled={readonly}
+          readonly={readonly}
         />
       ),
       renderRight: ({ readonly }) => (
-        <CurrencyField
+        <OcrCurrencyField
           id="prehstpa-ocr-rent-0"
-          labelText="Legal Regulated Rent"
           value={formState.row0LegalRent}
           onChange={(value) => onFormStateChange({ row0LegalRent: value })}
           readonly={readonly}
@@ -71,18 +121,16 @@ function buildOcrRows(
     {
       regYear: row1.reg_year,
       renderLeft: ({ readonly }) => (
-        <AptStatField
+        <OcrAptStatField
           id="prehstpa-ocr-apt-stat-1"
-          labelText="Apt Stat"
           value={formState.row1AptStat}
           onChange={(value) => onFormStateChange({ row1AptStat: value })}
-          disabled={readonly}
+          readonly={readonly}
         />
       ),
       renderRight: ({ readonly }) => (
-        <CurrencyField
+        <OcrCurrencyField
           id="prehstpa-ocr-rent-1"
-          labelText="Legal Regulated Rent"
           value={formState.row1LegalRent}
           onChange={(value) => onFormStateChange({ row1LegalRent: value })}
           readonly={readonly}
@@ -107,6 +155,7 @@ const VacancyStepModule = ({
   stepNumber,
   isPastStep,
 }: VacancyStepModuleProps) => {
+  const { _ } = useLingui();
   const { year0, year1 } = getIntroValues(finding);
 
   return (
@@ -124,7 +173,7 @@ const VacancyStepModule = ({
             id="prehstpa-vacancy"
             labelText={
               <span className="prehstpa-yes-no-sr-label">
-                Did tenants in the earlier year appear in the later year?
+                {_(msg`Did tenants in the earlier year appear in the later year?`)}
               </span>
             }
             value={formState.getsVacancyIncrease}

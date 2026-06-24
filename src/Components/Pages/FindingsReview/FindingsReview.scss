@@ -259,6 +259,51 @@
   }
 }
 
+// Figma 5363:11693 / 5363:11724 — OCR apt_stat dropdown (94px left slot)
+.findings-review-apt-stat-field {
+  margin: 0;
+  width: 100%;
+
+  .jfcl-input-header__label {
+    @include jfcl.small_text_mobile;
+    color: jfcl.$OFF_BLACK;
+    font-weight: 500;
+    margin-bottom: jfcl.$JF_SPACING_03;
+    padding: 0;
+  }
+
+  .jfcl-dropdown__control {
+    @include jfcl.body_standard_mobile;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_600;
+    border-radius: 4px;
+    box-shadow: none;
+    min-height: 44px;
+  }
+
+  .jfcl-dropdown__value-container {
+    min-height: 42px;
+    padding: 0 9px;
+  }
+
+  .jfcl-dropdown__placeholder {
+    color: jfcl.$GREY_600;
+  }
+
+  &.findings-review-apt-stat-field--readonly .jfcl-dropdown.is-disabled {
+    .jfcl-dropdown__control {
+      background: jfcl.$GREY_50;
+      border-color: jfcl.$GREY_400;
+      cursor: default;
+      opacity: 1;
+    }
+
+    .jfcl-dropdown__single-value {
+      color: jfcl.$GREY_600;
+    }
+  }
+}
+
 // Figma 5314:3688 — year select, 44px height
 .findings-review-year-field {
   margin: 0;

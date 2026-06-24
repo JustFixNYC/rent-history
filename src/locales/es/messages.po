@@ -101,6 +101,10 @@ msgstr ""
 msgid "Apartment address"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:59
+msgid "Apt Stat"
+msgstr "Estado del apt."
+
 #. placeholder {0}: confirmedAddress.unitNumber.trim()
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:366
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:411
@@ -112,6 +116,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:72
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:39
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:116
 #: src/Components/Pages/LoginPage/LoginPage.tsx:259
@@ -153,7 +158,6 @@ msgid "Completed Feb 1, 2026"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:591
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:162
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:119
 msgid "Continue"
 msgstr "Continuar"
@@ -170,6 +174,10 @@ msgstr ""
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:88
 msgid "Current monthly rent"
 msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:176
+msgid "Did tenants in the earlier year appear in the later year?"
+msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
@@ -191,9 +199,9 @@ msgstr ""
 #~ msgid "Dynamsoft"
 #~ msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:72
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:377
 msgid "Edit address"
@@ -249,9 +257,13 @@ msgstr ""
 msgid "Find out if you’ve been overcharged on rent"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:64
+msgid "Finding result navigation"
+msgstr "Navegación del resultado del hallazgo"
+
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:29
 msgid "Finding review navigation"
-msgstr ""
+msgstr "Navegación de revisión de hallazgos"
 
 #: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:23
 #~ msgid "Findings review"
@@ -260,7 +272,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
-msgstr ""
+msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:526
 msgid "Flatten any folds in the pages and lay them on a flat surface"
@@ -285,7 +297,7 @@ msgstr "Comenzar"
 
 #: src/Components/Pages/FindingsReview/GlossaryLink.tsx:22
 msgid "Glossary"
-msgstr ""
+msgstr "Glosario"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:539
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
@@ -323,7 +335,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:21
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
-msgstr ""
+msgstr "Gran aumento de alquiler"
 
 #: src/Components/Pages/Landing/Landing.tsx:59
 #: src/Components/Pages/LoginPage/LoginPage.tsx:225
@@ -334,13 +346,17 @@ msgstr ""
 msgid "Legal and feedback"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:85
+msgid "Legal Regulated Rent"
+msgstr "Alquiler regulado legal"
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:189
 msgid "Loading address…"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:34
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:68
 msgid "Loading findings…"
-msgstr ""
+msgstr "Cargando hallazgos…"
 
 #: src/Components/EmblaCarousel/BlobImage.tsx:30
 msgid "Loading image..."
@@ -356,30 +372,30 @@ msgstr ""
 
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:82
 msgid "longevity bonus"
-msgstr ""
+msgstr "bono por antigüedad"
 
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:83
 msgid "Longevity bonus"
-msgstr ""
+msgstr "Bono por antigüedad"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:83
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:86
 msgid "Look at"
-msgstr ""
+msgstr "Mire"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:63
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
-msgstr ""
+msgstr "Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como inquilino(s) en <2/>?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:92
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
-msgstr ""
+msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino en su documento de historial de alquiler?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:102
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
-msgstr ""
+msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes nombres aparece en su documento de historial de alquiler?"
 
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:101
 msgid "Manually enter your rent history"
@@ -404,24 +420,24 @@ msgstr "Menú"
 msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:76
 #: src/Components/Pages/Scanner/Scanner.tsx:498
 msgid "Next"
-msgstr ""
+msgstr "Siguiente"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:50
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
-msgstr ""
+msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:79
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
-msgstr ""
+msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:185
 msgid "No pages were saved from the scanner. Use Restart scanning to try again."
@@ -438,7 +454,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
-msgstr ""
+msgstr "No se encontró ninguna infracción"
 
 #: src/Components/Pages/Landing/Landing.tsx:21
 #~ msgid "Open menu"
@@ -506,7 +522,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:112
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
-msgstr ""
+msgstr "Posible infracción encontrada"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:29
 msgid "Privacy policy"
@@ -610,10 +626,14 @@ msgstr ""
 msgid "Scanning in progress..."
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/fields/AptStatField.tsx:78
+msgid "Select Apt Stat"
+msgstr "Seleccionar estado del apt."
+
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:176
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:239
 msgid "Select Year"
-msgstr ""
+msgstr "Seleccionar año"
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:262
 msgid "Send verification code"
@@ -660,13 +680,17 @@ msgstr ""
 msgid "Step 5: Provide your rent"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
+msgid "Submit"
+msgstr "Enviar"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:531
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:163
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:226
 msgid "Tenant names"
-msgstr ""
+msgstr "Nombres de inquilinos"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:32
 msgid "Terms of use"
@@ -683,17 +707,17 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:143
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
-msgstr ""
+msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:123
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
-msgstr ""
+msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en {year1}, y los bonos permitidos podrían no explicar completamente el salto."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:29
 msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
-msgstr ""
+msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si este aumento puede explicarse mediante bonos permitidos."
 
 #: src/Components/Pages/Report/ReportPDF.tsx:18
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
@@ -711,9 +735,9 @@ msgstr ""
 msgid "Tips for getting a high quality scan"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:84
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:87
 msgid "to confirm the information below matches."
-msgstr ""
+msgstr "para confirmar que la información a continuación coincide."
 
 #: src/api/account/errors.ts:169
 msgid "Too many invalid attempts. Request a new code."
@@ -723,9 +747,9 @@ msgstr ""
 msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:39
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:73
 msgid "Unable to load findings state."
-msgstr ""
+msgstr "No se pudo cargar el estado de los hallazgos."
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:153
 msgid "Unable to resend code right now. Please try again."
@@ -742,9 +766,9 @@ msgid "Unit number"
 msgstr ""
 
 #. placeholder {0}: currentFinding.type
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:53
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:88
 msgid "Unsupported finding type: {0}"
-msgstr ""
+msgstr "Tipo de hallazgo no compatible: {0}"
 
 #: src/Components/Pages/Home/Home.tsx:12
 #~ msgid "Upload your rent history"
@@ -760,15 +784,15 @@ msgstr ""
 
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:53
 msgid "vacancy bonus"
-msgstr ""
+msgstr "bono por vacancia"
 
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:54
 msgid "Vacancy bonus"
-msgstr ""
+msgstr "Bono por vacancia"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:68
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
 msgid "Values confirmed"
-msgstr ""
+msgstr "Valores confirmados"
 
 #. placeholder {0}: index + 1
 #: src/Components/Pages/LoginPage/LoginPage.tsx:302
@@ -835,15 +859,15 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
-msgstr ""
+msgstr "Año {findingYear}"
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:66
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
 msgid "Yes, this matches my document"
-msgstr ""
+msgstr "Sí, coincide con mi documento"
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:84
 msgid "You can add up to 10 additional recipients."
@@ -859,11 +883,11 @@ msgstr ""
 
 #: src/Components/Pages/FindingsReview/DocumentLink.tsx:26
 msgid "your rent history"
-msgstr ""
+msgstr "su historial de alquiler"
 
 #: src/Components/Pages/FindingsReview/DocumentLink.tsx:31
 msgid "Your rent history"
-msgstr ""
+msgstr "Su historial de alquiler"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:51
 msgid "Your rent history report(s)"

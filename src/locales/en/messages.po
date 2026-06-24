@@ -101,6 +101,10 @@ msgstr "Analyze your rent history to identify potential violations and overcharg
 msgid "Apartment address"
 msgstr "Apartment address"
 
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:59
+msgid "Apt Stat"
+msgstr "Apt Stat"
+
 #. placeholder {0}: confirmedAddress.unitNumber.trim()
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:366
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:411
@@ -112,6 +116,7 @@ msgstr "Apt. {0}"
 #~ msgstr "Apt. 1"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:72
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:39
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:116
 #: src/Components/Pages/LoginPage/LoginPage.tsx:259
@@ -153,7 +158,6 @@ msgid "Completed Feb 1, 2026"
 msgstr "Completed Feb 1, 2026"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:591
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:162
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:119
 msgid "Continue"
 msgstr "Continue"
@@ -170,6 +174,10 @@ msgstr "Cover page"
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:88
 msgid "Current monthly rent"
 msgstr "Current monthly rent"
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:176
+msgid "Did tenants in the earlier year appear in the later year?"
+msgstr "Did tenants in the earlier year appear in the later year?"
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
@@ -191,7 +199,7 @@ msgstr "Download report"
 #~ msgid "Dynamsoft"
 #~ msgstr "Dynamsoft"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:72
 msgid "Edit"
 msgstr "Edit"
 
@@ -248,6 +256,10 @@ msgstr "Feedback form"
 #: src/Components/Pages/Landing/Landing.tsx:16
 msgid "Find out if you’ve been overcharged on rent"
 msgstr "Find out if you’ve been overcharged on rent"
+
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:64
+msgid "Finding result navigation"
+msgstr "Finding result navigation"
 
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:29
 msgid "Finding review navigation"
@@ -334,11 +346,15 @@ msgstr "Learn more"
 msgid "Legal and feedback"
 msgstr "Legal and feedback"
 
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:85
+msgid "Legal Regulated Rent"
+msgstr "Legal Regulated Rent"
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:189
 msgid "Loading address…"
 msgstr "Loading address…"
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:34
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:68
 msgid "Loading findings…"
 msgstr "Loading findings…"
 
@@ -362,7 +378,7 @@ msgstr "longevity bonus"
 msgid "Longevity bonus"
 msgstr "Longevity bonus"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:83
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:86
 msgid "Look at"
 msgstr "Look at"
 
@@ -404,7 +420,7 @@ msgstr "Menu"
 msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 msgstr "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 
-#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:76
 #: src/Components/Pages/Scanner/Scanner.tsx:498
 msgid "Next"
 msgstr "Next"
@@ -610,8 +626,12 @@ msgstr "Scanning complete"
 msgid "Scanning in progress..."
 msgstr "Scanning in progress..."
 
+#: src/Components/Pages/FindingsReview/fields/AptStatField.tsx:78
+msgid "Select Apt Stat"
+msgstr "Select Apt Stat"
+
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:176
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:239
 msgid "Select Year"
 msgstr "Select Year"
 
@@ -660,11 +680,15 @@ msgstr "Step 4: Enter address"
 msgid "Step 5: Provide your rent"
 msgstr "Step 5: Provide your rent"
 
+#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
+msgid "Submit"
+msgstr "Submit"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:531
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr "Take photos in a well lit location and enable your camera flash"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:163
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:226
 msgid "Tenant names"
 msgstr "Tenant names"
 
@@ -711,7 +735,7 @@ msgstr "Timed out waiting for scans to finish processing. Use Restart scanning o
 msgid "Tips for getting a high quality scan"
 msgstr "Tips for getting a high quality scan"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:84
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:87
 msgid "to confirm the information below matches."
 msgstr "to confirm the information below matches."
 
@@ -723,7 +747,7 @@ msgstr "Too many invalid attempts. Request a new code."
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:39
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:73
 msgid "Unable to load findings state."
 msgstr "Unable to load findings state."
 
@@ -742,7 +766,7 @@ msgid "Unit number"
 msgstr "Unit number"
 
 #. placeholder {0}: currentFinding.type
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:53
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:88
 msgid "Unsupported finding type: {0}"
 msgstr "Unsupported finding type: {0}"
 
@@ -766,7 +790,7 @@ msgstr "vacancy bonus"
 msgid "Vacancy bonus"
 msgstr "Vacancy bonus"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:68
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
 msgid "Values confirmed"
 msgstr "Values confirmed"
 
@@ -841,7 +865,7 @@ msgstr "Year {findingYear}"
 msgid "Yes"
 msgstr "Yes"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:66
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
 msgid "Yes, this matches my document"
 msgstr "Yes, this matches my document"
 

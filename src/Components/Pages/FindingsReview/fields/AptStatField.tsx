@@ -29,6 +29,8 @@ export type AptStatFieldProps = {
   className?: string;
   invalid?: boolean;
   invalidText?: string;
+  /** OCR confirmed state — disabled control with readonly palette (Figma 5363:11724). */
+  readonly?: boolean;
   disabled?: boolean;
 };
 
@@ -42,6 +44,7 @@ export const AptStatField: React.FC<AptStatFieldProps> = ({
   className,
   invalid,
   invalidText,
+  readonly = false,
   disabled = false,
 }) => {
   const { _ } = useLingui();
@@ -58,11 +61,17 @@ export const AptStatField: React.FC<AptStatFieldProps> = ({
     onChange(option?.value ?? "");
   };
 
+  const isDisabled = disabled || readonly;
+
   return (
     <Dropdown
       inputId={id}
       labelText={labelText}
-      className={classNames("findings-review-apt-stat-field", className)}
+      className={classNames(
+        "findings-review-apt-stat-field",
+        readonly && "findings-review-apt-stat-field--readonly",
+        className
+      )}
       options={dropdownOptions}
       value={selectedOption}
       onChange={handleChange}
@@ -70,7 +79,7 @@ export const AptStatField: React.FC<AptStatFieldProps> = ({
       isClearable={false}
       invalid={invalid}
       invalidText={invalidText}
-      disabled={disabled}
+      disabled={isDisabled}
     />
   );
 };
