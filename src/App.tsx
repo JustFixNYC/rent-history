@@ -26,6 +26,7 @@ import { getRhAuthSession } from "./session/rhSessionStorage";
 import { ConfirmAddress } from "./Components/Pages/ConfirmAddress/ConfirmAddress";
 import Report from "./Components/Pages/Report/Report";
 import FindingsReviewPage from "./Components/Pages/FindingsReview/FindingsReviewPage";
+import FindingsOverviewPage from "./Components/Pages/FindingsOverview/FindingsOverviewPage";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -54,6 +55,10 @@ const createAppRouter = () =>
             <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
+            <Route
+              path="findings-overview"
+              element={<FindingsOverviewPage />}
+            />
             <Route path="report" element={<Report />} />
             <Route path="findings-review" element={<FindingsReviewPage />} />
           </Route>
@@ -71,8 +76,12 @@ const createAppRouter = () =>
             <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
-            <Route path="report" element={<Report />} />
+            <Route
+              path="findings-overview"
+              element={<FindingsOverviewPage />}
+            />
             <Route path="findings-review" element={<FindingsReviewPage />} />
+            <Route path="report" element={<Report />} />
           </Route>
           <Route path="*" element={<Landing />} />
         </Route>

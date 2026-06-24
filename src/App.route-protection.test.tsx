@@ -33,6 +33,7 @@ describe("post-OTP route protection", () => {
     "/en/scanner",
     "/en/review",
     "/en/confirm-address",
+    "/en/findings-overview",
     "/en/findings-review",
   ])("redirects unauthenticated deep-link %s to login", async (path) => {
     window.history.pushState({}, "", path);

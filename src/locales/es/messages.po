@@ -88,12 +88,20 @@ msgstr ""
 msgid "Additional recipients"
 msgstr ""
 
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:83
+msgid "Analysis has already been run for this rent history."
+msgstr ""
+
 #: src/Components/EditableTable/EditableTable.tsx:496
 msgid "Analyze my rent history"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:19
 msgid "Analyze your rent history to identify potential violations and overcharges."
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
+msgid "and ask you to confirm a few things,"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:439
@@ -116,12 +124,13 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:147
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:75
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:39
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:116
 #: src/Components/Pages/LoginPage/LoginPage.tsx:259
 #: src/Components/Pages/LoginPage/LoginPage.tsx:329
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:102
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:156
 msgid "Back"
 msgstr "Volver"
 
@@ -170,8 +179,8 @@ msgstr ""
 msgid "Cover page"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:66
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:88
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:114
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:136
 msgid "Current monthly rent"
 msgstr ""
 
@@ -354,6 +363,7 @@ msgstr "Alquiler regulado legal"
 msgid "Loading address…"
 msgstr ""
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:70
 #: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:68
 msgid "Loading findings…"
 msgstr "Cargando hallazgos…"
@@ -437,6 +447,14 @@ msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:99
+msgid "Next, we will walk through each potential violation"
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:120
+msgid "Next, your report will provide more details"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
 msgid "No"
 msgstr "No"
@@ -501,7 +519,7 @@ msgstr ""
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:35
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:44
 msgid "Please enter a valid rent amount."
 msgstr ""
 
@@ -513,7 +531,7 @@ msgstr ""
 msgid "Please enter your email address."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:31
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:40
 msgid "Please enter your monthly rent."
 msgstr ""
 
@@ -654,8 +672,12 @@ msgstr ""
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:106
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:97
 msgid "Start analysis"
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:152
+msgid "Start review"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:458
@@ -666,20 +688,40 @@ msgstr ""
 msgid "Started Feb 3, 2026"
 msgstr ""
 
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
+msgid "Starting analysis…"
+msgstr ""
+
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:68
 msgid "Step 1: Upload"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:301
-msgid "Step 4: Confirm address"
+msgid "Step 3: Confirm address"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:299
-msgid "Step 4: Enter address"
+msgid "Step 3: Enter address"
+msgstr ""
+
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:301
+#~ msgid "Step 4: Confirm address"
+#~ msgstr ""
+
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:299
+#~ msgid "Step 4: Enter address"
+#~ msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:104
+msgid "Step 4: Provide your rent"
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:56
-msgid "Step 5: Provide your rent"
+#~ msgid "Step 5: Provide your rent"
+#~ msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:61
+msgid "Step 5: What we found"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
@@ -737,6 +779,10 @@ msgstr ""
 msgid "Tips for getting a high quality scan"
 msgstr ""
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:105
+msgid "to check if there is a way they may or may not be explained."
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:87
 msgid "to confirm the information below matches."
 msgstr "para confirmar que la información a continuación coincide."
@@ -753,8 +799,16 @@ msgstr ""
 msgid "Unable to load findings state."
 msgstr "No se pudo cargar el estado de los hallazgos."
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:76
+msgid "Unable to load findings."
+msgstr ""
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:153
 msgid "Unable to resend code right now. Please try again."
+msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:91
+msgid "Unable to start analysis. Please try again."
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:217
@@ -806,6 +860,7 @@ msgid "Verify"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:25
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:152
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
 msgstr ""
@@ -814,7 +869,7 @@ msgstr ""
 msgid "View scanned document"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:69
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
 msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
 msgstr ""
 
@@ -833,6 +888,10 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:428
 msgid "We couldn't combine your pages. Please try again."
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:114
+msgid "We have not found any potential violations in your apartment's rent history."
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:98
@@ -859,6 +918,14 @@ msgstr ""
 msgid "We'll use publicly available information about the building and apartment to support your rent history analysis."
 msgstr ""
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:93
+msgid "We've found potential violations in your apartment's rent history."
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:129
+msgid "Why this is important"
+msgstr ""
+
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
@@ -874,6 +941,10 @@ msgstr "Sí, coincide con mi documento"
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:84
 msgid "You can add up to 10 additional recipients."
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:132
+msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 msgstr ""
 
 #: src/api/account/errors.ts:171
@@ -914,6 +985,10 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:450
 msgid "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
+msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:63
+msgid "Your session is missing a rent history record. Please sign in again."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:175
