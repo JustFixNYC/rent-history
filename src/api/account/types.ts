@@ -60,6 +60,14 @@ export type RhHistoryReportPdfCreateResponse =
 /** Locale sent when generating a report PDF (`en` | `es`). */
 export type ReportPdfLocale = Schemas["ReportPdfLocaleEnum"];
 
+/** `POST /rh/history/scan-presign` request body. */
+export type RhScanPresignRequest = Schemas["RhScanPresignRequestRequest"];
+
+/** `POST /rh/history/scan-presign` success body. */
+export type RhScanPresignResponse = Schemas["RhScanPresignResponse"];
+
+export type RhScanPresignUrlEntry = Schemas["RhScanPresignUrlEntry"];
+
 /** `GET /rh/history/pages-readiness` response (discriminated by `status`). */
 export type RhPagesReadinessResponse =
   | {

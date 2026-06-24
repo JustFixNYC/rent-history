@@ -208,6 +208,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/scan-presign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Batch presigned S3 URLs for scan upload or download
+         * @description Returns presigned PUT (upload) or GET (download) URLs for scan image keys under `<profile_id>/<history_id>/filename`. Each key must belong to the authenticated user's profile and an owned RhHistory. Upload keys must use a `.jpg` or `.jpeg` filename. At most 20 keys per request.
+         */
+        post: operations["history_scan_presign_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/login/start": {
         parameters: {
             query?: never;
@@ -316,9 +336,10 @@ export interface components {
          *     * `pages_sync_error` - Pages out of sync with scans
          *     * `pdf_generation_failed` - PDF generation failed
          *     * `report_pdf_not_found` - Report PDF not found
+         *     * `s3_key_access_denied` - S3 key access denied
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "s3_key_access_denied";
         /**
          * @description * `DOCUMENT_SCAN` - Document Scan
          *     * `SCAN_REVIEW` - Scan Review
@@ -338,6 +359,12 @@ export interface components {
         LocaleEnum: "en" | "es";
         /** @enum {unknown} */
         NullEnum: null;
+        /**
+         * @description * `upload` - upload
+         *     * `download` - download
+         * @enum {string}
+         */
+        OperationEnum: "upload" | "download";
         OtpTokenRequestRequest: {
             client_id: string;
             client_secret?: string;
@@ -600,6 +627,20 @@ export interface components {
             count: number;
             expected: number;
             relation: components["schemas"]["RelationEnum"];
+        };
+        /** @description POST /rh/history/scan-presign body. */
+        RhScanPresignRequestRequest: {
+            keys: string[];
+            operation: components["schemas"]["OperationEnum"];
+        };
+        RhScanPresignResponse: {
+            urls: components["schemas"]["RhScanPresignUrlEntry"][];
+        };
+        RhScanPresignUrlEntry: {
+            expires_in: number;
+            key: string;
+            /** Format: uri */
+            url: string;
         };
         /** @description One element of RhPage.data[]. Declares OpenAPI field types and validates request rows. */
         RhStandardizedTableRow: {
@@ -1182,6 +1223,72 @@ export interface operations {
                 };
             };
             /** @description Storage not configured or write failed. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_scan_presign_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhScanPresignRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhScanPresignResponse"];
+                };
+            };
+            /** @description Validation error (invalid operation, keys, or key count). */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description S3 key does not belong to the authenticated user. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description RhProfile not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Storage misconfiguration or presign generation failure. */
             503: {
                 headers: {
                     [name: string]: unknown;

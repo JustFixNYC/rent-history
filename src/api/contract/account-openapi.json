@@ -46,7 +46,7 @@
         "type": "object"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `s3_key_access_denied` - S3 key access denied",
         "enum": [
           "otp_expired",
           "otp_invalid",
@@ -68,7 +68,8 @@
           "storage_write_failed",
           "pages_sync_error",
           "pdf_generation_failed",
-          "report_pdf_not_found"
+          "report_pdf_not_found",
+          "s3_key_access_denied"
         ],
         "type": "string"
       },
@@ -97,6 +98,14 @@
         "enum": [
           null
         ]
+      },
+      "OperationEnum": {
+        "description": "* `upload` - upload\n* `download` - download",
+        "enum": [
+          "upload",
+          "download"
+        ],
+        "type": "string"
       },
       "OtpTokenRequestRequest": {
         "properties": {
@@ -859,6 +868,64 @@
           "count",
           "expected",
           "relation"
+        ],
+        "type": "object"
+      },
+      "RhScanPresignRequestRequest": {
+        "description": "POST /rh/history/scan-presign body.",
+        "properties": {
+          "keys": {
+            "items": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "type": "array"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/OperationEnum"
+          }
+        },
+        "required": [
+          "keys",
+          "operation"
+        ],
+        "type": "object"
+      },
+      "RhScanPresignResponse": {
+        "properties": {
+          "urls": {
+            "items": {
+              "$ref": "#/components/schemas/RhScanPresignUrlEntry"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "urls"
+        ],
+        "type": "object"
+      },
+      "RhScanPresignUrlEntry": {
+        "properties": {
+          "expires_in": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "key": {
+            "type": "string"
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expires_in",
+          "key",
+          "url"
         ],
         "type": "object"
       },
@@ -1703,6 +1770,88 @@
           }
         ],
         "summary": "Generate and store a rent history report PDF",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/scan-presign": {
+      "post": {
+        "description": "Returns presigned PUT (upload) or GET (download) URLs for scan image keys under `<profile_id>/<history_id>/filename`. Each key must belong to the authenticated user's profile and an owned RhHistory. Upload keys must use a `.jpg` or `.jpeg` filename. At most 20 keys per request.",
+        "operationId": "history_scan_presign_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhScanPresignRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhScanPresignResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error (invalid operation, keys, or key count)."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "S3 key does not belong to the authenticated user."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile not found."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Storage misconfiguration or presign generation failure."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Batch presigned S3 URLs for scan upload or download",
         "tags": [
           "Rent History"
         ]

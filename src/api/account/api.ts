@@ -20,6 +20,8 @@ import type {
   RhPagesReadinessResponse,
   RhLoginStartResponse,
   RhOtpTokenResponse,
+  RhScanPresignRequest,
+  RhScanPresignResponse,
 } from "./types";
 
 const getAuthProviderBaseUrl = (): string => {
@@ -194,6 +196,20 @@ export const getRhHistoryAddress = async (
 
   return data;
 };
+
+/**
+ * `POST /rh/history/scan-presign` — OAuth2 bearer; batch presigned PUT/GET URLs for scan keys.
+ */
+export const postRhHistoryScanPresign = (
+  accessToken: string,
+  body: RhScanPresignRequest
+): Promise<RhScanPresignResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/scan-presign", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
 
 /** `POST /rh/history/report-pdf` — render HTML to PDF, upload to S3, return metadata. */
 export const createRhHistoryReportPdf = (
