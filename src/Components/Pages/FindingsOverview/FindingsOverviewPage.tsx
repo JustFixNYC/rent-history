@@ -97,14 +97,8 @@ const FindingsOverviewPage = () => {
                   </h1>
                   <p>
                     <Trans>
-                      Next, we will walk through each potential violation
-                    </Trans>{" "}
-                    <s>
-                      <Trans>and ask you to confirm a few things,</Trans>
-                    </s>{" "}
-                    <Trans>
-                      to check if there is a way they may or may not be
-                      explained.
+                      Next, we will walk through each potential violation to
+                      check if there is a way they may or may not be explained.
                     </Trans>
                   </p>
                 </>
