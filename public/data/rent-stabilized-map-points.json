@@ -1,0 +1,22 @@
+[
+  {
+    "bbl": "4116700053",
+    "address": "115-27 126 STREET",
+    "borough": "Queens",
+    "zip": "11420",
+    "lat": 40.6780643,
+    "lng": -73.8128145,
+    "units_res": 1,
+    "rs_units": 1
+  },
+  {
+    "bbl": "4116830043",
+    "address": "116-45 126 STREET",
+    "borough": "Queens",
+    "zip": "11420",
+    "lat": 40.6758228,
+    "lng": -73.8117212,
+    "units_res": 1,
+    "rs_units": 2
+  }
+]

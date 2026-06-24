@@ -39,6 +39,11 @@ msgstr ""
 msgid "(optional)"
 msgstr ""
 
+#. placeholder {0}: points.length.toLocaleString()
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:332
+msgid "{0} buildings"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:311
 msgid "{end}"
 msgstr ""
@@ -63,7 +68,7 @@ msgstr ""
 msgid "A new code has been sent."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:48
+#: src/Components/Pages/Landing/Landing.tsx:53
 msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
 msgstr ""
 
@@ -71,7 +76,7 @@ msgstr ""
 msgid "A scan image failed to download. Use Restart scanning to try again."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:33
+#: src/Components/Pages/Landing/Landing.tsx:38
 msgid "About this site"
 msgstr ""
 
@@ -88,6 +93,10 @@ msgstr ""
 msgid "Additional recipients"
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:394
+msgid "Address"
+msgstr ""
+
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:83
 msgid "Analysis has already been run for this rent history."
 msgstr ""
@@ -101,8 +110,8 @@ msgid "Analyze your rent history to identify potential violations and overcharge
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
-msgid "and ask you to confirm a few things,"
-msgstr ""
+#~ msgid "and ask you to confirm a few things,"
+#~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:439
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:505
@@ -124,7 +133,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:147
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:75
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:39
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:116
@@ -134,9 +143,17 @@ msgstr ""
 msgid "Back"
 msgstr "Volver"
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:408
+msgid "BBL"
+msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:102
 #~ msgid "Brooklyn, New York 11201"
 #~ msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:383
+msgid "Building details"
+msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:47
 msgid "By"
@@ -147,6 +164,7 @@ msgid "Cancel"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/PlaceholderInfoModal.tsx:54
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:386
 msgid "Close"
 msgstr ""
 
@@ -208,7 +226,7 @@ msgstr ""
 #~ msgid "Dynamsoft"
 #~ msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:72
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
 msgid "Edit"
 msgstr "Editar"
 
@@ -235,6 +253,10 @@ msgstr ""
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:246
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:273
 msgid "Enter an address to get started"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:312
+msgid "Enter an NYC address"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:423
@@ -297,6 +319,7 @@ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:450
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:516
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr ""
 
@@ -328,7 +351,7 @@ msgstr ""
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:45
+#: src/Components/Pages/Landing/Landing.tsx:50
 #: src/Components/Pages/PageLayout/Footer.tsx:49
 msgid "JustFix"
 msgstr ""
@@ -337,7 +360,7 @@ msgstr ""
 msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:36
+#: src/Components/Pages/Landing/Landing.tsx:41
 msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
 msgstr ""
 
@@ -346,7 +369,7 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Gran aumento de alquiler"
 
-#: src/Components/Pages/Landing/Landing.tsx:59
+#: src/Components/Pages/Landing/Landing.tsx:64
 #: src/Components/Pages/LoginPage/LoginPage.tsx:225
 msgid "Learn more"
 msgstr ""
@@ -372,8 +395,16 @@ msgstr "Cargando hallazgos…"
 msgid "Loading image..."
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:321
+msgid "Loading map data…"
+msgstr ""
+
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:25
 msgid "Loading scan previews…"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:400
+msgid "Location"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:76
@@ -388,7 +419,7 @@ msgstr "bono por antigüedad"
 msgid "Longevity bonus"
 msgstr "Bono por antigüedad"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:86
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:84
 msgid "Look at"
 msgstr "Mire"
 
@@ -414,6 +445,10 @@ msgstr ""
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:353
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:398
 msgid "Map image"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:287
+msgid "Map is not configured. Set VITE_MAPBOX_ACCESS_TOKEN."
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:347
@@ -448,10 +483,14 @@ msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:99
-msgid "Next, we will walk through each potential violation"
+#~ msgid "Next, we will walk through each potential violation"
+#~ msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:99
+msgid "Next, we will walk through each potential violation to check if there is a way they may or may not be explained."
 msgstr ""
 
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:120
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:114
 msgid "Next, your report will provide more details"
 msgstr ""
 
@@ -539,6 +578,10 @@ msgstr ""
 msgid "Please sign in to generate your report."
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:300
+msgid "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
+msgstr ""
+
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:112
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
@@ -581,12 +624,24 @@ msgstr ""
 msgid "Rent history scan: {caption}"
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:297
+msgid "Rent-stabilized buildings in NYC"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:414
+msgid "Rent-stabilized units"
+msgstr ""
+
 #: src/Components/Pages/Report/Report.tsx:166
 msgid "Report"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:313
 msgid "Resend"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:420
+msgid "Residential units"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:483
@@ -646,12 +701,16 @@ msgstr ""
 msgid "Scanning in progress..."
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:311
+msgid "Search for a building"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/AptStatField.tsx:78
 msgid "Select Apt Stat"
 msgstr "Seleccionar estado del apt."
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:241
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:247
 msgid "Select Year"
 msgstr "Seleccionar año"
 
@@ -676,7 +735,7 @@ msgstr ""
 msgid "Start analysis"
 msgstr ""
 
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:152
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:146
 msgid "Start review"
 msgstr ""
 
@@ -732,7 +791,7 @@ msgstr "Enviar"
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:228
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:234
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
@@ -763,6 +822,10 @@ msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en
 msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
 msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si este aumento puede explicarse mediante bonos permitidos."
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
+msgid "This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data)."
+msgstr ""
+
 #: src/Components/Pages/Report/ReportPDF.tsx:18
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 msgstr ""
@@ -780,10 +843,10 @@ msgid "Tips for getting a high quality scan"
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:105
-msgid "to check if there is a way they may or may not be explained."
-msgstr ""
+#~ msgid "to check if there is a way they may or may not be explained."
+#~ msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:87
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:85
 msgid "to confirm the information below matches."
 msgstr "para confirmar que la información a continuación coincide."
 
@@ -846,7 +909,7 @@ msgstr "bono por vacancia"
 msgid "Vacancy bonus"
 msgstr "Bono por vacancia"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
 msgid "Values confirmed"
 msgstr "Valores confirmados"
 
@@ -859,8 +922,12 @@ msgstr ""
 msgid "Verify"
 msgstr ""
 
+#: src/Components/Pages/Landing/Landing.tsx:31
+msgid "View map of rent-stabilized buildings"
+msgstr ""
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:25
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:152
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:146
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
 msgstr ""
@@ -871,6 +938,10 @@ msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
 msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:261
+msgid "We could not find a building ID for that address. Try another search."
 msgstr ""
 
 #: src/api/account/errors.ts:175
@@ -890,7 +961,7 @@ msgstr ""
 msgid "We couldn't combine your pages. Please try again."
 msgstr ""
 
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:114
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:108
 msgid "We have not found any potential violations in your apartment's rent history."
 msgstr ""
 
@@ -922,7 +993,7 @@ msgstr ""
 msgid "We've found potential violations in your apartment's rent history."
 msgstr ""
 
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:129
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:123
 msgid "Why this is important"
 msgstr ""
 
@@ -935,7 +1006,7 @@ msgstr "Año {findingYear}"
 msgid "Yes"
 msgstr "Sí"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:68
 msgid "Yes, this matches my document"
 msgstr "Sí, coincide con mi documento"
 
@@ -943,7 +1014,7 @@ msgstr "Sí, coincide con mi documento"
 msgid "You can add up to 10 additional recipients."
 msgstr ""
 
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:132
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:126
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 msgstr ""
 
