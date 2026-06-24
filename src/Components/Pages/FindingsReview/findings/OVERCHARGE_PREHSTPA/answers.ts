@@ -40,7 +40,9 @@ export function buildAnswers(
     legal_rent: buildRentAnswer(formState.row0LegalRent),
   };
 
-  if (
+  if (formState.getsVacancyIncrease === false) {
+    answersRow0.tenancy_start = null;
+  } else if (
     formState.getsVacancyIncrease === true &&
     formState.tenancyStart != null
   ) {

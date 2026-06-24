@@ -36,6 +36,7 @@ export function useProgressiveReveal({
   const [revealedCount, setRevealedCount] = useState(1);
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const stepCompleteSnapshotRef = useRef<Record<number, boolean>>({});
+  const previousStepCountRef = useRef(stepCount);
 
   const safeStepCount = Math.max(stepCount, 0);
   const clampedActiveIndex =
@@ -51,6 +52,25 @@ export function useProgressiveReveal({
       setActiveStepIndex(safeStepCount - 1);
     }
   }, [activeStepIndex, safeStepCount]);
+
+  useEffect(() => {
+    const previousStepCount = previousStepCountRef.current;
+    previousStepCountRef.current = safeStepCount;
+
+    if (safeStepCount <= previousStepCount) {
+      return;
+    }
+
+    if (
+      activeStepComplete &&
+      activeStepIndex >= Math.max(previousStepCount - 1, 0)
+    ) {
+      setRevealedCount((prev) => Math.max(prev, safeStepCount));
+      if (activeStepIndex < safeStepCount - 1) {
+        setActiveStepIndex(activeStepIndex + 1);
+      }
+    }
+  }, [safeStepCount, activeStepComplete, activeStepIndex]);
 
   const goNext = useCallback(() => {
     if (!activeStepComplete || safeStepCount === 0) return;

@@ -179,10 +179,16 @@ const VacancyStepModule = ({
               </span>
             }
             value={formState.getsVacancyIncrease}
-            onChange={(value) =>
-              onFormStateChange({ getsVacancyIncrease: value })
-            }
-            disabled={isPastStep}
+            onChange={(value) => {
+              if (value === false) {
+                onFormStateChange({
+                  getsVacancyIncrease: false,
+                  tenancyStart: null,
+                });
+                return;
+              }
+              onFormStateChange({ getsVacancyIncrease: value });
+            }}
           />
         </div>
       }
@@ -239,7 +245,6 @@ const TenancyStepModule = ({
             value={formState.tenancyStart}
             onChange={(value) => onFormStateChange({ tenancyStart: value })}
             placeholder={_(msg`Select Year`)}
-            disabled={isPastStep}
           />
         </div>
       }

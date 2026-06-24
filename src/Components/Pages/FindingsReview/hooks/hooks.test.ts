@@ -245,6 +245,56 @@ describe("useProgressiveReveal", () => {
   });
 });
 
+describe("useProgressiveReveal stepCount changes", () => {
+  it("reveals new steps when stepCount increases after active step is complete", () => {
+    const { result, rerender } = renderHook(
+      ({ stepCount }) =>
+        useProgressiveReveal({
+          stepCount,
+          isActiveStepComplete: true,
+        }),
+      { initialProps: { stepCount: 2 } }
+    );
+
+    act(() => {
+      result.current.goNext();
+    });
+
+    expect(result.current.activeStepIndex).toBe(1);
+    expect(result.current.revealedCount).toBe(2);
+
+    rerender({ stepCount: 3 });
+
+    expect(result.current.revealedCount).toBe(3);
+    expect(result.current.activeStepIndex).toBe(2);
+  });
+
+  it("clamps activeStepIndex when stepCount decreases", () => {
+    const { result, rerender } = renderHook(
+      ({ stepCount }) =>
+        useProgressiveReveal({
+          stepCount,
+          isActiveStepComplete: true,
+        }),
+      { initialProps: { stepCount: 3 } }
+    );
+
+    act(() => {
+      result.current.goNext();
+    });
+    expect(result.current.activeStepIndex).toBe(1);
+
+    act(() => {
+      result.current.goNext();
+    });
+    expect(result.current.activeStepIndex).toBe(2);
+
+    rerender({ stepCount: 2 });
+
+    expect(result.current.activeStepIndex).toBe(1);
+  });
+});
+
 describe("useProgressiveReveal autoRevealOnComplete", () => {
   it("advances once when the active step newly becomes complete", () => {
     const { result, rerender } = renderHook(

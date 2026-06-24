@@ -1,6 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
 import findingExamples from "../../__fixtures__/findingExamples.json";
@@ -184,6 +184,40 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
       document.getElementById("prehstpa-tenancy-start")
     ).toBeInTheDocument();
   });
+
+  it("clears tenancyStart when vacancy changes to false", () => {
+    let formState: PrehstpaFormState = {
+      ...createInitialFormState(finding),
+      getsVacancyIncrease: true,
+      tenancyStart: 1989,
+    };
+    const onFormStateChange = (patch: Partial<PrehstpaFormState>) => {
+      formState = { ...formState, ...patch };
+    };
+
+    const steps = getSteps({
+      finding,
+      formState,
+      onFormStateChange,
+    });
+    const vacancyStep = steps.find((step) => step.id === "vacancy");
+
+    if (!vacancyStep) {
+      throw new Error("vacancy step not found");
+    }
+
+    renderWithI18n(
+      vacancyStep.render({
+        isPastStep: false,
+        isActive: true,
+      }) as React.ReactElement
+    );
+
+    fireEvent.click(screen.getByRole("radio", { name: "No" }));
+
+    expect(formState.getsVacancyIncrease).toBe(false);
+    expect(formState.tenancyStart).toBeNull();
+  });
 });
 
 describe("getIntroValues", () => {
@@ -228,7 +262,7 @@ describe("buildAnswers", () => {
     });
   });
 
-  it("omits tenancy_start when vacancy is false", () => {
+  it("sends tenancy_start null when vacancy is false", () => {
     const formState: PrehstpaFormState = {
       row0AptStat: "RS",
       row1AptStat: "RS",
@@ -240,7 +274,7 @@ describe("buildAnswers", () => {
 
     const answers = buildAnswers(finding, formState);
 
-    expect(answers.rows[ROW_INDEX.tenancy]).not.toHaveProperty("tenancy_start");
+    expect(answers.rows[ROW_INDEX.tenancy].tenancy_start).toBeNull();
     expect(answers.rows[ROW_INDEX.vacancy].gets_vacancy_increase).toBe(false);
   });
 

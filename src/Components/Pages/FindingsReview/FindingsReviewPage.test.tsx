@@ -150,6 +150,10 @@ const completeVacancyNo = () => {
   fireEvent.click(screen.getByRole("radio", { name: "No" }));
 };
 
+const completeVacancyYes = () => {
+  fireEvent.click(screen.getByRole("radio", { name: "Yes" }));
+};
+
 const completeFlowThroughVacancyNo = async () => {
   await waitForReviewFlow();
   confirmOcr();
@@ -289,6 +293,81 @@ describe("FindingsReviewPage integration", () => {
       screen.queryByTestId("finding-result-panel")
     ).not.toBeInTheDocument();
     expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+  });
+
+  it("reveals tenancy step when vacancy changes from No to Yes", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
+    confirmOcr();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+    });
+
+    completeVacancyNo();
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId("prehstpa-tenancy-step")
+      ).not.toBeInTheDocument();
+    });
+
+    completeVacancyYes();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("prehstpa-tenancy-step")).toBeInTheDocument();
+    });
+  });
+
+  it("allows re-submit after closing the result modal", async () => {
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyNo();
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+    });
+
+    const modal = screen.getByTestId("finding-result-modal");
+    fireEvent.click(within(modal).getByRole("button", { name: "Back" }));
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId("finding-result-modal")
+      ).not.toBeInTheDocument();
+    });
+
+    clickSubmit();
+
+    expect(mockValidateMutate).toHaveBeenCalledTimes(2);
+  });
+
+  it("sends tenancy_start null when submitting after flipping vacancy to No", async () => {
+    renderFindingsReviewPage();
+    await waitForReviewFlow();
+    confirmOcr();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
+    });
+
+    completeVacancyYes();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("prehstpa-tenancy-step")).toBeInTheDocument();
+    });
+
+    completeVacancyNo();
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(mockValidateMutate).toHaveBeenCalledTimes(1);
+    });
+
+    const firstCall = mockValidateMutate.mock.calls[0]?.[0] as {
+      body: { answers: { rows: Array<{ tenancy_start?: number | null }> } };
+    };
+    expect(firstCall.body.answers.rows[0]?.tenancy_start).toBeNull();
   });
 
   it.each<[FindingResult, string]>([
