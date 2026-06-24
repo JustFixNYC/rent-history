@@ -537,7 +537,11 @@ describe("FindingsReviewPage integration", () => {
             result: "no_violation",
             validated_at: "2026-01-01T00:00:00Z",
           },
-          queue_delta: { ordered_ids: [secondPrehstpaFinding.id], added: [], removed: [] },
+          queue_delta: {
+            ordered_ids: [secondPrehstpaFinding.id],
+            added: [],
+            removed: [],
+          },
         });
       }
     );
