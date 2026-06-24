@@ -112,7 +112,7 @@ describe("FindingsOverviewPage", () => {
       isLoading: false,
       isError: false,
       error: null,
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     renderFindingsOverviewPage();
 
@@ -144,7 +144,7 @@ describe("FindingsOverviewPage", () => {
       isLoading: false,
       isError: false,
       error: null,
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     renderFindingsOverviewPage();
 
@@ -178,7 +178,7 @@ describe("FindingsOverviewPage", () => {
       isLoading: false,
       isError: false,
       error: null,
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     renderFindingsOverviewPage();
 
@@ -200,7 +200,7 @@ describe("FindingsOverviewPage", () => {
         error: "Findings not initialized.",
         error_code: "findings_not_initialized",
       }),
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     renderFindingsOverviewPage();
 

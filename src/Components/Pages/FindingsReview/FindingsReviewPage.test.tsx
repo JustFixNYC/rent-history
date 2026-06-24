@@ -79,7 +79,7 @@ const mockValidateMutate = vi.fn(
         result: "no_violation",
         validated_at: "2026-01-01T00:00:00Z",
       },
-      queue_delta: { ordered_ids: [] },
+      queue_delta: { ordered_ids: [], added: [], removed: [] },
     });
   }
 );
@@ -182,12 +182,12 @@ describe("FindingsReviewPage integration", () => {
       },
       isLoading: false,
       isError: false,
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     vi.mocked(findingsReviewHooks.useValidateRhFinding).mockReturnValue({
       mutate: mockValidateMutate,
       isPending: false,
-    } as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
   });
 
   afterEach(() => {
@@ -427,7 +427,7 @@ describe("FindingsReviewPage integration", () => {
             result,
             validated_at: "2026-01-01T00:00:00Z",
           },
-          queue_delta: { ordered_ids: [] },
+          queue_delta: { ordered_ids: [], added: [], removed: [] },
         });
       }
     );
@@ -451,7 +451,7 @@ describe("FindingsReviewPage integration", () => {
     vi.mocked(findingsReviewHooks.useValidateRhFinding).mockReturnValue({
       mutate: mockValidateMutate,
       isPending: true,
-    } as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
 
     renderFindingsReviewPage();
     await completeFlowThroughVacancyNo();
@@ -470,7 +470,7 @@ describe("FindingsReviewPage integration", () => {
       },
       isLoading: false,
       isError: false,
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     renderFindingsReviewPage();
 
@@ -489,7 +489,7 @@ describe("FindingsReviewPage integration", () => {
       },
       isLoading: false,
       isError: false,
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     renderFindingsReviewPage(
       `/en/findings-review?finding_id=${prehstpaFinding.id}`
@@ -510,7 +510,7 @@ describe("FindingsReviewPage integration", () => {
       },
       isLoading: false,
       isError: false,
-    } as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
+    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     mockValidateMutate.mockImplementationOnce(
       (
@@ -537,7 +537,7 @@ describe("FindingsReviewPage integration", () => {
             result: "no_violation",
             validated_at: "2026-01-01T00:00:00Z",
           },
-          queue_delta: { ordered_ids: [secondPrehstpaFinding.id] },
+          queue_delta: { ordered_ids: [secondPrehstpaFinding.id], added: [], removed: [] },
         });
       }
     );
@@ -598,7 +598,7 @@ describe("FindingsReviewPage integration", () => {
             result: "no_violation",
             validated_at: "2026-01-01T00:00:00Z",
           },
-          queue_delta: { ordered_ids: [] },
+          queue_delta: { ordered_ids: [], added: [], removed: [] },
         });
       }
     );
