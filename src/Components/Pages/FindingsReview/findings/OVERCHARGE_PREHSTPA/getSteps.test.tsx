@@ -146,9 +146,7 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
 
     const step = screen.getByTestId("prehstpa-tenancy-step");
     expect(step).toHaveAttribute("data-tenant-mode", "single");
-    expect(
-      step.querySelector(".prehstpa-tenancy-step__tenant-list")
-    ).toBeNull();
+    expect(step.querySelector(".tenancy-step__tenant-list")).toBeNull();
     expect(screen.getAllByTestId("tenant-chip")).toHaveLength(1);
     expect(screen.getByText("AUDREY JOHNSON")).toBeInTheDocument();
     expect(
@@ -174,9 +172,7 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
 
     const step = screen.getByTestId("prehstpa-tenancy-step");
     expect(step).toHaveAttribute("data-tenant-mode", "multiple");
-    expect(
-      step.querySelector(".prehstpa-tenancy-step__tenant-list")
-    ).not.toBeNull();
+    expect(step.querySelector(".tenancy-step__tenant-list")).not.toBeNull();
     expect(screen.getAllByTestId("tenant-chip")).toHaveLength(2);
     expect(screen.getByText("Tenant A")).toBeInTheDocument();
     expect(screen.getByText("Tenant B")).toBeInTheDocument();

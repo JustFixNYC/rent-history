@@ -348,15 +348,15 @@
   }
 }
 
-// Figma 5314:3674 / 5314:3701 — PREHSTPA vacancy + tenancy step bodies
-.prehstpa-step-copy {
+// Figma 5314:3674 / 5314:3701 — vacancy + tenancy step bodies (shared)
+.finding-step-copy {
   @include jfcl.body_standard_mobile;
   margin: 0;
   padding: 0 jfcl.$JF_SPACING_06;
 }
 
-.prehstpa-vacancy-step,
-.prehstpa-tenancy-step {
+.vacancy-step,
+.tenancy-step {
   display: flex;
   flex-direction: column;
   gap: jfcl.$JF_SPACING_05;
@@ -364,7 +364,7 @@
 }
 
 // Figma 5360:457 — multi-tenant tenancy step stacked chips
-.prehstpa-tenancy-step__tenant-list {
+.tenancy-step__tenant-list {
   display: flex;
   flex-direction: column;
   gap: jfcl.$JF_SPACING_03;
@@ -373,7 +373,7 @@
   padding: 0;
 }
 
-.prehstpa-yes-no-sr-label {
+.vacancy-step__yes-no-sr-label {
   border: 0;
   clip: rect(0, 0, 0, 0);
   height: 1px;

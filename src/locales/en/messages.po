@@ -212,7 +212,12 @@ msgstr "Cover page"
 msgid "Current monthly rent"
 msgstr "Current monthly rent"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:86
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:75
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend"
+msgstr "Did tenants in the earlier year appear in the later year?"
+
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:43
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "Did tenants in the earlier year appear in the later year?"
 
@@ -431,11 +436,11 @@ msgstr "Location"
 msgid "Log out"
 msgstr "Log out"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:82
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:93
 msgid "longevity bonus"
 msgstr "longevity bonus"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:83
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:94
 msgid "Longevity bonus"
 msgstr "Longevity bonus"
 
@@ -449,12 +454,12 @@ msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
 msgstr "Look at <0/> — do any tenant(s) in <1/> appear to be listed as tenants in <2/>?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:92
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:103
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
 msgstr "Look at <0/> — What is the earliest year <1/> appears as a tenant in your rent history document?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:102
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:113
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
 msgstr "Look at <0/> — What is the earliest year any of the following names appear in your rent history document?"
 
@@ -498,7 +503,7 @@ msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
 msgstr "Next, let's check to see if the landlord used something called a <0/>."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:79
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "Next, let's check to see if the landlord used something called a <0/>."
 
@@ -739,7 +744,7 @@ msgid "Select Apt Stat"
 msgstr "Select Apt Stat"
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:156
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:36
 msgid "Select Year"
 msgstr "Select Year"
 
@@ -820,7 +825,7 @@ msgstr "Submit"
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr "Take photos in a well lit location and enable your camera flash"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:143
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:53
 msgid "Tenant names"
 msgstr "Tenant names"
 
@@ -843,7 +848,7 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
 msgstr "The increase in legal regulated rent from ${rent0} in year {year0} to ${rent1} in year {year1} appears to be within the limits of the standard RGB increase."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:144
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:155
 msgid "findings.OVERCHARGE_PREHSTPA.result.dismissed.body"
 msgstr "The increase in legal regulated rent from ${rent0} in year {year0} to ${rent1} in year {year1} appears to be within the RGB limit."
 
@@ -862,12 +867,12 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
 msgstr "The legal regulated rent jumped {percentIncrease}% in one year. We'll check whether this increase can be explained."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:131
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:142
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "The increase from ${rent0} in {year0} to ${rent1} in {year1} can be explained by allowable bonuses."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:117
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:128
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
 msgstr "The legal regulated rent increased from ${rent0} in {year0} to ${rent1} in {year1}, and allowable bonuses may not fully explain the jump."
 

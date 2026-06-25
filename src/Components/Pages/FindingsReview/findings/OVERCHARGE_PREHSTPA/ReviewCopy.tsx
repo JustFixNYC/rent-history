@@ -59,7 +59,7 @@ export const VacancyHeading = () => {
 };
 
 export const VacancyBody = ({ year0, year1 }: VacancyCopyProps) => (
-  <p className="prehstpa-step-copy">
+  <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.body">
       Look at <DocumentLink /> — do any tenant(s) in year{" "}
       <YearChip year={year0} /> appear to be listed as tenants in year{" "}
@@ -67,6 +67,17 @@ export const VacancyBody = ({ year0, year1 }: VacancyCopyProps) => (
     </Trans>
   </p>
 );
+
+export const VacancyYesNoLegend = () => {
+  const { _ } = useLingui();
+
+  return _(
+    msg({
+      id: "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend",
+      message: "Did tenants in the earlier year appear in the later year?",
+    })
+  );
+};
 
 type TenancyCopyProps = {
   tenant: string;
@@ -88,7 +99,7 @@ export const TenancyHeading = () => {
 };
 
 export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
-  <p className="prehstpa-step-copy">
+  <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body">
       Look at <DocumentLink /> — What is the earliest year{" "}
       <TenantChip tenant={tenant} /> appears as a tenant in your rent history
@@ -98,7 +109,7 @@ export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
 );
 
 export const TenancyBodyMultiple = () => (
-  <p className="prehstpa-step-copy">
+  <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple">
       Look at <DocumentLink /> — What is the earliest year any of the following
       names appear in your rent history document?

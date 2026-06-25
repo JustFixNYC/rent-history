@@ -212,7 +212,12 @@ msgstr ""
 msgid "Current monthly rent"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:86
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:75
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:43
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 
@@ -431,11 +436,11 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:82
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:93
 msgid "longevity bonus"
 msgstr "bono por antigüedad"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:83
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:94
 msgid "Longevity bonus"
 msgstr "Bono por antigüedad"
 
@@ -449,12 +454,12 @@ msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
 msgstr "Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como inquilino(s) en <2/>?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:92
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:103
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
 msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino en su documento de historial de alquiler?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:102
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:113
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
 msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes nombres aparece en su documento de historial de alquiler?"
 
@@ -498,7 +503,7 @@ msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:79
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
@@ -739,7 +744,7 @@ msgid "Select Apt Stat"
 msgstr "Seleccionar estado del apt."
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:156
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:36
 msgid "Select Year"
 msgstr "Seleccionar año"
 
@@ -820,7 +825,7 @@ msgstr "Enviar"
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:143
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:53
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
@@ -843,7 +848,7 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:144
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:155
 msgid "findings.OVERCHARGE_PREHSTPA.result.dismissed.body"
 msgstr ""
 
@@ -862,12 +867,12 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:131
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:142
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:117
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:128
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
 msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en {year1}, y los bonos permitidos podrían no explicar completamente el salto."
 
