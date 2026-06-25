@@ -128,6 +128,16 @@ msgstr ""
 msgid "Apartment address"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:19
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.title"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
 msgid "Apt Stat"
 msgstr "Estado del apt."
@@ -212,7 +222,7 @@ msgstr ""
 msgid "Current monthly rent"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:43
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:60
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 
@@ -231,6 +241,11 @@ msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:14
 msgid "Disclaimer"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
+msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:183
@@ -316,14 +331,19 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
+msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
 msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
@@ -355,6 +375,14 @@ msgstr "Comenzar"
 #: src/Components/GlossaryLink/GlossaryLink.tsx:22
 msgid "Glossary"
 msgstr "Glosario"
+
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:113
+msgid "High rent vacancy destabilization"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:112
+msgid "high rent vacancy destabilization."
+msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:539
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
@@ -506,6 +534,11 @@ msgstr ""
 #: src/Components/Pages/Scanner/Scanner.tsx:498
 msgid "Next"
 msgstr "Siguiente"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:44
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.heading"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:50
@@ -995,10 +1028,12 @@ msgstr ""
 #~ msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 #~ msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:47
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:53
 msgid "vacancy bonus"
 msgstr "bono por vacancia"
 
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:48
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:54
 msgid "Vacancy bonus"
 msgstr "Bono por vacancia"
@@ -1087,19 +1122,34 @@ msgstr ""
 msgid "We've found potential violations in your apartment's rent history."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:59
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:69
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.yes_no_legend"
+msgstr ""
+
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:123
 msgid "Why this is important"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:13
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
 msgstr "Año {findingYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
@@ -1120,6 +1170,21 @@ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:126
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:81
+msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:108
+msgid "findings.NONREGISTRATION_PREHSTPA.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:93
+msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.no.body"
 msgstr ""
 
 #: src/api/account/errors.ts:171

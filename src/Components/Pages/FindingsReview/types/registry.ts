@@ -1,3 +1,4 @@
+import { findingReviewModule as nonregistrationPrehstpaModule } from "../findings/NONREGISTRATION_PREHSTPA";
 import { findingReviewModule as overchargeLegalrentPosthstpaModule } from "../findings/OVERCHARGE_LEGALRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentPosthstpaModule } from "../findings/OVERCHARGE_PREFRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrehstpaModule } from "../findings/OVERCHARGE_PREHSTPA";
@@ -14,6 +15,9 @@ export const FINDING_MODULES = {
   ),
   OVERCHARGE_PREFRENT_POSTHSTPA: registerFindingModule(
     overchargePrefrentPosthstpaModule
+  ),
+  NONREGISTRATION_PREHSTPA: registerFindingModule(
+    nonregistrationPrehstpaModule
   ),
 } as const satisfies Record<string, AnyFindingReviewModule>;
 

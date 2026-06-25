@@ -128,6 +128,16 @@ msgstr "Analyze your rent history to identify potential violations and overcharg
 msgid "Apartment address"
 msgstr "Apartment address"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
+msgstr "Apartment is missing registration from year {missingFromYear} onward. We'll check whether this non registration can be explained by destabilization."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:19
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.title"
+msgstr "Apartment missing registration"
+
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
 msgid "Apt Stat"
 msgstr "Apt Stat"
@@ -212,7 +222,7 @@ msgstr "Cover page"
 msgid "Current monthly rent"
 msgstr "Current monthly rent"
 
-#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:43
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:60
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "Did tenants in the earlier year appear in the later year?"
 
@@ -232,6 +242,11 @@ msgstr "Didn’t receive a code?"
 #: src/Components/Pages/PageLayout/Footer.tsx:14
 msgid "Disclaimer"
 msgstr "Disclaimer"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
+msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
+msgstr "dismissed finding result copy TK"
 
 #: src/Components/Pages/Report/Report.tsx:183
 msgid "Download report"
@@ -316,13 +331,18 @@ msgstr "Finding review navigation"
 #~ msgstr "Findings review"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
+msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
+msgstr "First, let's make sure we are working with the right values"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
@@ -355,6 +375,14 @@ msgstr "Get started"
 #: src/Components/GlossaryLink/GlossaryLink.tsx:22
 msgid "Glossary"
 msgstr "Glossary"
+
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:113
+msgid "High rent vacancy destabilization"
+msgstr "High rent vacancy destabilization"
+
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:112
+msgid "high rent vacancy destabilization."
+msgstr "high rent vacancy destabilization."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:539
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
@@ -506,6 +534,11 @@ msgstr "More scan files or records were found than expected. Use Restart scannin
 #: src/Components/Pages/Scanner/Scanner.tsx:498
 msgid "Next"
 msgstr "Next"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:44
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.heading"
+msgstr "Next, let's check to see if the landlord used something called a <0/>."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:50
@@ -995,10 +1028,12 @@ msgstr "Use you mobile phone's camera to scan each page of your rent history doc
 #~ msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 #~ msgstr "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:47
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:53
 msgid "vacancy bonus"
 msgstr "vacancy bonus"
 
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:48
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:54
 msgid "Vacancy bonus"
 msgstr "Vacancy bonus"
@@ -1087,18 +1122,33 @@ msgstr "We'll use publicly available information about the building and apartmen
 msgid "We've found potential violations in your apartment's rent history."
 msgstr "We've found potential violations in your apartment's rent history."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:59
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.body"
+msgstr "Were you living in this apartment in <0/>?"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:69
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.yes_no_legend"
+msgstr "Were you living in this apartment in year {vacancyYear}?"
+
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:123
 msgid "Why this is important"
 msgstr "Why this is important"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:13
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
+msgstr "Year {findingYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
@@ -1121,6 +1171,21 @@ msgstr "You can add up to 10 additional recipients."
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:126
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 msgstr "Your answers directly inform our assessment of any potential violations that may appear in our final report."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:81
+msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
+msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this with additional details."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:108
+msgid "findings.NONREGISTRATION_PREHSTPA.result.no_violation.body"
+msgstr "Your apartment is missing registration from year {missingFromYear} onward. This appears to be explained by <0/> Your report will include this with additional details."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:93
+msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.no.body"
+msgstr "Your apartment is missing registration from year {missingFromYear} onward. This could indicate that your landlord is currently treating your apartment as not rent stabilized, or your apartment was legally destabilized at some point between year {missingFromYear} and year {findingYear}. Your report will include this with additional details."
 
 #: src/api/account/errors.ts:171
 msgid "Your code expired. Request a new code."
