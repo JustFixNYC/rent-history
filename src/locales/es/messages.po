@@ -128,8 +128,7 @@ msgstr ""
 msgid "Apartment address"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/getSteps.tsx:45
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:59
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
 msgid "Apt Stat"
 msgstr "Estado del apt."
 
@@ -213,7 +212,7 @@ msgstr ""
 msgid "Current monthly rent"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:177
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:86
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 
@@ -312,14 +311,14 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
 msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
+msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:526
 msgid "Flatten any folds in the pages and lay them on a flat surface"
@@ -399,8 +398,7 @@ msgstr ""
 msgid "Legal and feedback"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/getSteps.tsx:71
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:85
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:44
 msgid "Legal Regulated Rent"
 msgstr "Alquiler regulado legal"
 
@@ -614,6 +612,10 @@ msgstr ""
 msgid "findings.result.potential_violation.title"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:63
+msgid "Preferential Rent"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Footer.tsx:29
 msgid "Privacy policy"
 msgstr ""
@@ -737,7 +739,7 @@ msgid "Select Apt Stat"
 msgstr "Seleccionar estado del apt."
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:247
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:156
 msgid "Select Year"
 msgstr "Seleccionar año"
 
@@ -818,7 +820,7 @@ msgstr "Enviar"
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:234
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:143
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
@@ -1050,14 +1052,14 @@ msgid "Why this is important"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
 msgstr "Año {findingYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
+msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
 msgid "Yes"

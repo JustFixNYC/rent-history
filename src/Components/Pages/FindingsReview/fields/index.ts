@@ -4,6 +4,13 @@ export type { AptStatFieldProps } from "./AptStatField";
 export { CurrencyField } from "./CurrencyField";
 export type { CurrencyFieldProps } from "./CurrencyField";
 
+export {
+  OcrAptStatField,
+  OcrLegalRentField,
+  OcrPrefRentField,
+} from "./OcrFieldWrappers";
+export type { OcrFieldWrapperProps } from "./OcrFieldWrappers";
+
 export { YesNoField } from "./YesNoField";
 export type { YesNoFieldProps } from "./YesNoField";
 

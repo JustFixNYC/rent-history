@@ -128,8 +128,7 @@ msgstr "Analyze your rent history to identify potential violations and overcharg
 msgid "Apartment address"
 msgstr "Apartment address"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/getSteps.tsx:45
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:59
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
 msgid "Apt Stat"
 msgstr "Apt Stat"
 
@@ -213,7 +212,7 @@ msgstr "Cover page"
 msgid "Current monthly rent"
 msgstr "Current monthly rent"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:177
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:86
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "Did tenants in the earlier year appear in the later year?"
 
@@ -312,13 +311,13 @@ msgstr "Finding review navigation"
 #~ msgstr "Findings review"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
-msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:526
@@ -399,8 +398,7 @@ msgstr "Learn more"
 msgid "Legal and feedback"
 msgstr "Legal and feedback"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/getSteps.tsx:71
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:85
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:44
 msgid "Legal Regulated Rent"
 msgstr "Legal Regulated Rent"
 
@@ -614,6 +612,10 @@ msgstr "Points show residential buildings with at least one rent-stabilized unit
 msgid "findings.result.potential_violation.title"
 msgstr "Potential violation found"
 
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:63
+msgid "Preferential Rent"
+msgstr "Preferential Rent"
+
 #: src/Components/Pages/PageLayout/Footer.tsx:29
 msgid "Privacy policy"
 msgstr "Privacy policy"
@@ -737,7 +739,7 @@ msgid "Select Apt Stat"
 msgstr "Select Apt Stat"
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:247
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:156
 msgid "Select Year"
 msgstr "Select Year"
 
@@ -818,7 +820,7 @@ msgstr "Submit"
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr "Take photos in a well lit location and enable your camera flash"
 
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:234
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:143
 msgid "Tenant names"
 msgstr "Tenant names"
 
@@ -1050,13 +1052,13 @@ msgid "Why this is important"
 msgstr "Why this is important"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
+msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
-msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
