@@ -128,6 +128,7 @@ msgstr ""
 msgid "Apartment address"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/getSteps.tsx:45
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:59
 msgid "Apt Stat"
 msgstr "Estado del apt."
@@ -311,6 +312,11 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
 msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
@@ -375,6 +381,11 @@ msgid "Landlords in NYC are required to follow strict rules about rent increases
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:14
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:21
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Gran aumento de alquiler"
@@ -388,6 +399,7 @@ msgstr ""
 msgid "Legal and feedback"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/getSteps.tsx:71
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/getSteps.tsx:85
 msgid "Legal Regulated Rent"
 msgstr "Alquiler regulado legal"
@@ -819,12 +831,32 @@ msgid "That code is incorrect. Try again."
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:57
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:70
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:144
 msgid "findings.OVERCHARGE_PREHSTPA.result.dismissed.body"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:42
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.body"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Footer.tsx:17
 msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:22
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1015,6 +1047,11 @@ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:123
 msgid "Why this is important"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
