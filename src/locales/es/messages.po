@@ -129,6 +129,11 @@ msgid "Apartment address"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:16
+msgid "findings.HRVD.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
 msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
 msgstr ""
@@ -165,6 +170,11 @@ msgstr "Volver"
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:408
 msgid "BBL"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
+msgid "findings.HRVD.intro.description"
 msgstr ""
 
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:102
@@ -241,6 +251,11 @@ msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:14
 msgid "Disclaimer"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
+msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -331,8 +346,8 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
-msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
+msgid "findings.HRVD.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -348,6 +363,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
+msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:526
@@ -376,10 +396,16 @@ msgstr "Comenzar"
 msgid "Glossary"
 msgstr "Glosario"
 
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:29
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:56
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:72
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:113
 msgid "High rent vacancy destabilization"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:28
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:55
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:71
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:112
 msgid "high rent vacancy destabilization."
 msgstr ""
@@ -536,11 +562,6 @@ msgid "Next"
 msgstr "Siguiente"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:44
-msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:50
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
@@ -549,6 +570,11 @@ msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:44
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.heading"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:39
@@ -886,6 +912,16 @@ msgid "That code is incorrect. Try again."
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:68
+msgid "findings.HRVD.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:51
+msgid "findings.HRVD.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:57
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.dismissed.body"
 msgstr ""
@@ -1137,8 +1173,8 @@ msgid "Why this is important"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:13
-msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
+msgid "findings.HRVD.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1154,6 +1190,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:13
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32

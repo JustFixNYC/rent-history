@@ -1,3 +1,4 @@
+import { findingReviewModule as hrvdModule } from "../findings/HRVD";
 import { findingReviewModule as nonregistrationPrehstpaModule } from "../findings/NONREGISTRATION_PREHSTPA";
 import { findingReviewModule as overchargeLegalrentPosthstpaModule } from "../findings/OVERCHARGE_LEGALRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentPosthstpaModule } from "../findings/OVERCHARGE_PREFRENT_POSTHSTPA";
@@ -19,6 +20,7 @@ export const FINDING_MODULES = {
   NONREGISTRATION_PREHSTPA: registerFindingModule(
     nonregistrationPrehstpaModule
   ),
+  HRVD: registerFindingModule(hrvdModule),
 } as const satisfies Record<string, AnyFindingReviewModule>;
 
 export type FindingModuleType = keyof typeof FINDING_MODULES;
