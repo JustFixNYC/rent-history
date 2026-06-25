@@ -4,17 +4,15 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Button } from "@justfixnyc/component-library";
 
-type PlaceholderInfoModalProps = {
+import "./InfoModal.scss";
+
+type InfoModalProps = {
   isOpen: boolean;
   title: string;
   onClose: () => void;
 };
 
-export const PlaceholderInfoModal = ({
-  isOpen,
-  title,
-  onClose,
-}: PlaceholderInfoModalProps) => {
+export const InfoModal = ({ isOpen, title, onClose }: InfoModalProps) => {
   const { _ } = useLingui();
   const titleId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -36,7 +34,7 @@ export const PlaceholderInfoModal = ({
   return (
     <dialog
       ref={dialogRef}
-      className="placeholder-info-modal"
+      className="info-modal"
       aria-labelledby={titleId}
       onCancel={(event) => {
         event.preventDefault();
@@ -44,13 +42,13 @@ export const PlaceholderInfoModal = ({
       }}
       onClose={onClose}
     >
-      <h2 id={titleId} className="placeholder-info-modal__title">
+      <h2 id={titleId} className="info-modal__title">
         {title}
       </h2>
-      <p className="placeholder-info-modal__body">
+      <p className="info-modal__body">
         <Trans>Coming soon</Trans>
       </p>
-      <div className="placeholder-info-modal__actions">
+      <div className="info-modal__actions">
         <Button labelText={_(msg`Close`)} onClick={onClose} />
       </div>
     </dialog>

@@ -447,6 +447,44 @@ describe("FindingsReviewPage integration", () => {
     expect(panel.className).toContain(expectedClass);
   });
 
+  it.each<[Extract<FindingResult, "no_violation" | "dismissed">, RegExp]>([
+    ["no_violation", /explained by allowable bonuses/i],
+    ["dismissed", /within the RGB limit/i],
+  ])(
+    "renders distinct %s result body copy",
+    async (result, expectedSnippet) => {
+      mockValidateMutate.mockImplementationOnce(
+        (
+          _vars,
+          options?: { onSuccess?: (data: ValidateFindingResponse) => void }
+        ) => {
+          options?.onSuccess?.({
+            finding: {
+              ...prehstpaFinding,
+              status: result === "dismissed" ? "dismissed" : "validated",
+              result,
+              validated_at: "2026-01-01T00:00:00Z",
+            },
+            queue_delta: { ordered_ids: [], added: [], removed: [] },
+          });
+        }
+      );
+
+      renderFindingsReviewPage();
+      await completeFlowThroughVacancyNo();
+      clickSubmit();
+
+      await waitFor(() => {
+        expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+      });
+
+      const panel = within(
+        screen.getByTestId("finding-result-modal")
+      ).getByTestId("finding-result-panel");
+      expect(panel).toHaveTextContent(expectedSnippet);
+    }
+  );
+
   it("disables Back and shows spinner on Submit while validating", async () => {
     vi.mocked(findingsReviewHooks.useValidateRhFinding).mockReturnValue({
       mutate: mockValidateMutate,

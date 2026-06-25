@@ -23,6 +23,16 @@ msgstr ""
 #~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
+#~ msgstr "No se encontró ninguna infracción"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:112
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
+#~ msgstr "Posible infracción encontrada"
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -163,7 +173,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/PlaceholderInfoModal.tsx:54
+#: src/Components/InfoModal/InfoModal.tsx:52
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:386
 msgid "Close"
 msgstr ""
@@ -176,7 +186,7 @@ msgstr ""
 msgid "Code sent. Enter it below to continue."
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/PlaceholderInfoModal.tsx:51
+#: src/Components/InfoModal/InfoModal.tsx:49
 msgid "Coming soon"
 msgstr ""
 
@@ -327,7 +337,7 @@ msgstr ""
 msgid "Get started"
 msgstr "Comenzar"
 
-#: src/Components/Pages/FindingsReview/GlossaryLink.tsx:22
+#: src/Components/GlossaryLink/GlossaryLink.tsx:22
 msgid "Glossary"
 msgstr "Glosario"
 
@@ -511,9 +521,14 @@ msgid "No rent history session was found. Complete the upload flow first, then r
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
-msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
-msgstr "No se encontró ninguna infracción"
+#: src/Components/Pages/FindingsReview/resultCopy.tsx:17
+msgid "findings.result.no_violation.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/resultCopy.tsx:23
+msgid "findings.result.dismissed.title"
+msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:21
 #~ msgid "Open menu"
@@ -583,9 +598,9 @@ msgid "Points show residential buildings with at least one rent-stabilized unit 
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:112
-msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
-msgstr "Posible infracción encontrada"
+#: src/Components/Pages/FindingsReview/resultCopy.tsx:11
+msgid "findings.result.potential_violation.title"
+msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:29
 msgid "Privacy policy"
@@ -803,17 +818,22 @@ msgstr ""
 msgid "That code is incorrect. Try again."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:144
+msgid "findings.OVERCHARGE_PREHSTPA.result.dismissed.body"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Footer.tsx:17
 msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:143
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:131
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:123
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:117
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
 msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en {year1}, y los bonos permitidos podrían no explicar completamente el salto."
 
@@ -1026,11 +1046,11 @@ msgstr ""
 msgid "Your email (required)"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/DocumentLink.tsx:26
+#: src/Components/DocumentLink/DocumentLink.tsx:28
 msgid "your rent history"
 msgstr "su historial de alquiler"
 
-#: src/Components/Pages/FindingsReview/DocumentLink.tsx:31
+#: src/Components/DocumentLink/DocumentLink.tsx:33
 msgid "Your rent history"
 msgstr "Su historial de alquiler"
 

@@ -2,7 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { FindingFormShell } from "./FindingFormShell";
-import { StepNumberBadge } from "./StepNumberBadge";
+import { StepNumberBadge } from "../../StepNumberBadge/StepNumberBadge";
 import "./FindingsReview.scss";
 
 afterEach(() => {

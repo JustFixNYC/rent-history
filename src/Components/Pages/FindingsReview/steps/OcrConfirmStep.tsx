@@ -4,9 +4,9 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Button, LinkStyledButton } from "@justfixnyc/component-library";
 
-import { DocumentLink } from "../DocumentLink";
+import { DocumentLink } from "../../../DocumentLink/DocumentLink";
 import { FindingFormShell } from "../FindingFormShell";
-import { StepNumberBadge } from "../StepNumberBadge";
+import { StepNumberBadge } from "../../../StepNumberBadge/StepNumberBadge";
 import type { FindingStepRenderContext } from "../types/step";
 
 import {

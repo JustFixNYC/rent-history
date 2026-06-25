@@ -7,8 +7,8 @@ import { YesNoField } from "../../fields/YesNoField";
 import { YearField } from "../../fields/YearField";
 import { FindingFormShell } from "../../FindingFormShell";
 import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
-import { StepNumberBadge } from "../../StepNumberBadge";
-import { TenantChip } from "../../TenantChip";
+import { StepNumberBadge } from "../../../../StepNumberBadge/StepNumberBadge";
+import { TenantChip } from "../../../../InlineChip/TenantChip";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import {
   OcrConfirmStep,

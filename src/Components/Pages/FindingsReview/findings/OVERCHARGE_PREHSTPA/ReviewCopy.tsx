@@ -2,10 +2,10 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
-import { DocumentLink } from "../../DocumentLink";
-import { GlossaryLink } from "../../GlossaryLink";
-import { TenantChip } from "../../TenantChip";
-import { YearChip } from "../../YearChip";
+import { DocumentLink } from "../../../../DocumentLink/DocumentLink";
+import { GlossaryLink } from "../../../../GlossaryLink/GlossaryLink";
+import { TenantChip } from "../../../../InlineChip/TenantChip";
+import { YearChip } from "../../../../InlineChip/YearChip";
 
 import type { IntroValues } from "./spec";
 
@@ -108,13 +108,7 @@ export const TenancyBodyMultiple = () => (
 
 type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
 
-export const ResultConfirmedTitle = () => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.result.confirmed.title">
-    Potential violation found
-  </Trans>
-);
-
-export const ResultConfirmedBody = ({
+export const ResultPotentialViolationBody = ({
   rent0,
   rent1,
   year0,
@@ -128,13 +122,7 @@ export const ResultConfirmedBody = ({
   </Trans>
 );
 
-export const ResultExplainedAwayTitle = () => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.result.explained_away.title">
-    No violation found
-  </Trans>
-);
-
-export const ResultExplainedAwayBody = ({
+export const ResultNoViolationBody = ({
   rent0,
   rent1,
   year0,
@@ -144,5 +132,17 @@ export const ResultExplainedAwayBody = ({
     The rent increase from ${rent0} in year {year0} to ${rent1} in year {year1}{" "}
     appears to be explained by allowable bonuses. Your report will include this
     finding.
+  </Trans>
+);
+
+export const ResultDismissedBody = ({
+  rent0,
+  rent1,
+  year0,
+  year1,
+}: ResultCopyProps) => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.result.dismissed.body">
+    The increase in legal regulated rent from ${rent0} in year {year0} to $
+    {rent1} in year {year1} appears to be within the RGB limit.
   </Trans>
 );

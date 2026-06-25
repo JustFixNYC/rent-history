@@ -5,7 +5,7 @@ import { useState } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { CurrencyField } from "../fields/CurrencyField";
-import { TenantChip } from "../TenantChip";
+import { TenantChip } from "../../../InlineChip/TenantChip";
 import { OcrConfirmStep } from "./OcrConfirmStep";
 import "../FindingsReview.scss";
 
