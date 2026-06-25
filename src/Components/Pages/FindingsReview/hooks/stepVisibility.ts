@@ -12,7 +12,7 @@ export function filterVisibleSteps<T extends StepWithVisibility>(
   return steps.filter((step) => (step.isVisible ? step.isVisible(ctx) : true));
 }
 
-/** PREHSTPA: omit tenancy_start when row 1 gets_vacancy_increase is not true. */
+/** PREHSTPA types: show tenancy_start when row 1 gets_vacancy_increase is true. */
 export function isTenancyStartStepVisible(
   ctx: FindingStepVisibilityContext
 ): boolean {

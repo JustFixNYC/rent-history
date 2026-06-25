@@ -38,7 +38,41 @@ describe("VacancyStep", () => {
     expect(document.getElementById("test-vacancy-yes")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("radio", { name: "Yes" }));
+    expect(onChange).toHaveBeenCalledWith(false);
+  });
+
+  it("maps No selection to gets_vacancy_increase true", () => {
+    const onChange = vi.fn();
+
+    renderWithI18n(
+      <VacancyStep
+        stepNumber={2}
+        title="Vacancy heading"
+        body={<p>Vacancy body copy</p>}
+        idPrefix="test"
+        getsVacancyIncrease={null}
+        onGetsVacancyIncreaseChange={onChange}
+      />
+    );
+
+    fireEvent.click(screen.getByRole("radio", { name: "No" }));
     expect(onChange).toHaveBeenCalledWith(true);
+  });
+
+  it("checks Yes when gets_vacancy_increase is false", () => {
+    renderWithI18n(
+      <VacancyStep
+        stepNumber={2}
+        title="Vacancy heading"
+        body={<p>Vacancy body copy</p>}
+        idPrefix="test"
+        getsVacancyIncrease={false}
+        onGetsVacancyIncreaseChange={() => {}}
+      />
+    );
+
+    expect(screen.getByRole("radio", { name: "Yes" })).toBeChecked();
+    expect(screen.getByRole("radio", { name: "No" })).not.toBeChecked();
   });
 
   it("renders extra fields and userRow variant", () => {

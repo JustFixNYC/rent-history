@@ -209,7 +209,7 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
       }) as React.ReactElement
     );
 
-    fireEvent.click(screen.getByRole("radio", { name: "No" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Yes" }));
 
     expect(formState.getsVacancyIncrease).toBe(false);
     expect(formState.tenancyStart).toBeNull();

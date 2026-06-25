@@ -25,6 +25,23 @@ export type VacancyStepProps = {
   variant?: VacancyStepVariant;
 };
 
+// Vacancy questions ask if tenants match between years (or if you are the
+// tenant from the prior year) and so a "yes" means there was no vacancy, so we
+// need to invert the answer for backend gets_vacancy_increase.
+
+/** Map wire `gets_vacancy_increase` to yes/no UI (affirmative answer → false). */
+function wireToUiValue(getsVacancyIncrease: boolean | null): boolean | null {
+  if (getsVacancyIncrease === null) {
+    return null;
+  }
+  return !getsVacancyIncrease;
+}
+
+/** Map yes/no UI selection to wire `gets_vacancy_increase`. */
+function uiToWireValue(uiAnswer: boolean): boolean {
+  return !uiAnswer;
+}
+
 export const VacancyStep = ({
   stepNumber,
   title,
@@ -62,8 +79,10 @@ export const VacancyStep = ({
                 {resolvedYesNoLegend}
               </span>
             }
-            value={getsVacancyIncrease}
-            onChange={onGetsVacancyIncreaseChange}
+            value={wireToUiValue(getsVacancyIncrease)}
+            onChange={(uiAnswer) =>
+              onGetsVacancyIncreaseChange(uiToWireValue(uiAnswer))
+            }
           />
         </div>
       }
