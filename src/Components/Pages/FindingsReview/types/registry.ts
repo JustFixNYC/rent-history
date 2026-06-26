@@ -1,5 +1,6 @@
 import { findingReviewModule as hrvdModule } from "../findings/HRVD";
 import { findingReviewModule as nonregistrationPosthstpaModule } from "../findings/NONREGISTRATION_POSTHSTPA";
+import { findingReviewModule as nonregistrationPrefrentPosthstpaModule } from "../findings/NONREGISTRATION_PREFRENT_POSTHSTPA";
 import { findingReviewModule as nonregistrationPrehstpaModule } from "../findings/NONREGISTRATION_PREHSTPA";
 import { findingReviewModule as overchargeLegalrentPosthstpaModule } from "../findings/OVERCHARGE_LEGALRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentPosthstpaModule } from "../findings/OVERCHARGE_PREFRENT_POSTHSTPA";
@@ -23,6 +24,9 @@ export const FINDING_MODULES = {
   ),
   NONREGISTRATION_POSTHSTPA: registerFindingModule(
     nonregistrationPosthstpaModule
+  ),
+  NONREGISTRATION_PREFRENT_POSTHSTPA: registerFindingModule(
+    nonregistrationPrefrentPosthstpaModule
   ),
   HRVD: registerFindingModule(hrvdModule),
 } as const satisfies Record<string, AnyFindingReviewModule>;
