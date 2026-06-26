@@ -134,9 +134,19 @@ msgid "findings.HRVD.intro.title"
 msgstr "Apartment claimed exempt from rent stabilization"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
+msgstr "Apartment is missing registration from year {missingFromYear} onward. We'll check whether this missing registration can be explained by destabilization."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
 msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
 msgstr "Apartment is missing registration from year {missingFromYear} onward. We'll check whether this non registration can be explained by destabilization."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
+msgstr "Apartment missing registration"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:19
@@ -254,13 +264,18 @@ msgid "Disclaimer"
 msgstr "Disclaimer"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
-msgid "findings.HRVD.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
 msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
+msgstr "dismissed finding result copy TK"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
+msgid "findings.HRVD.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
 #: src/Components/Pages/Report/Report.tsx:183
@@ -346,8 +361,8 @@ msgstr "Finding review navigation"
 #~ msgstr "Findings review"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
-msgid "findings.HRVD.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
+msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
@@ -368,6 +383,11 @@ msgstr "First, let's make sure we are working with the right values"
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
 msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
+msgstr "First, let's make sure we are working with the right values"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
+msgid "findings.HRVD.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:526
@@ -1173,8 +1193,8 @@ msgid "Why this is important"
 msgstr "Why this is important"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
-msgid "findings.HRVD.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
@@ -1197,6 +1217,11 @@ msgstr "Year {findingYear}"
 msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
+msgid "findings.HRVD.intro.eyebrow"
+msgstr "Year {findingYear}"
+
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
 msgid "Yes"
 msgstr "Yes"
@@ -1214,9 +1239,19 @@ msgid "Your answers directly inform our assessment of any potential violations t
 msgstr "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
+msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this finding."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:81
 msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this with additional details."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
+msgstr "Your apartment is missing registration from year {missingFromYear} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases. Your report will include this finding."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:108

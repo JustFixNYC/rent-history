@@ -134,8 +134,18 @@ msgid "findings.HRVD.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
 msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -254,13 +264,18 @@ msgid "Disclaimer"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
-msgid "findings.HRVD.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
 msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
+msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:183
@@ -346,8 +361,8 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
-msgid "findings.HRVD.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
+msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -368,6 +383,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
 msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
+msgid "findings.HRVD.ocr.heading"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:526
@@ -1173,8 +1193,8 @@ msgid "Why this is important"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
-msgid "findings.HRVD.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1197,6 +1217,11 @@ msgstr ""
 msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
+msgid "findings.HRVD.intro.eyebrow"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
 msgid "Yes"
 msgstr "Sí"
@@ -1214,8 +1239,18 @@ msgid "Your answers directly inform our assessment of any potential violations t
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:81
 msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
