@@ -92,6 +92,11 @@ msgstr ""
 msgid "findings.PREFRENT_421A.result.potential_violation.body"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:291
 msgid "A scan image failed to download. Use Restart scanning to try again."
 msgstr ""
@@ -284,6 +289,11 @@ msgid "Disclaimer"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:63
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
 msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
 msgstr ""
@@ -398,6 +408,11 @@ msgstr "Primero, asegurémonos de que estamos trabajando con los valores correct
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -756,6 +771,11 @@ msgid "Preferential Rent"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:15
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
 msgid "findings.PREFRENT_421A.intro.title"
 msgstr ""
@@ -890,6 +910,16 @@ msgstr "Seleccionar año"
 #: src/Components/Pages/LoginPage/LoginPage.tsx:262
 msgid "Send verification code"
 msgstr "Enviar código de verificación"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:47
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:55
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.no_violation.body"
+msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:107
 msgid "Something went wrong while sending your verification code."
@@ -1053,6 +1083,11 @@ msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si es
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:33
 msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.no_pref_rent_label"
 msgstr ""
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
@@ -1265,6 +1300,11 @@ msgstr "Año {findingYear}"
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:9
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id

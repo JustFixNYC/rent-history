@@ -4,6 +4,7 @@ import { findingReviewModule as nonregistrationPrefrentPosthstpaModule } from ".
 import { findingReviewModule as nonregistrationPrehstpaModule } from "../findings/NONREGISTRATION_PREHSTPA";
 import { findingReviewModule as overchargeLegalrentPosthstpaModule } from "../findings/OVERCHARGE_LEGALRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentPosthstpaModule } from "../findings/OVERCHARGE_PREFRENT_POSTHSTPA";
+import { findingReviewModule as overchargePrefrentremovedPosthstpaModule } from "../findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA";
 import { findingReviewModule as overchargePrehstpaModule } from "../findings/OVERCHARGE_PREHSTPA";
 import { findingReviewModule as prefrent421aModule } from "../findings/PREFRENT_421A";
 
@@ -19,6 +20,9 @@ export const FINDING_MODULES = {
   ),
   OVERCHARGE_PREFRENT_POSTHSTPA: registerFindingModule(
     overchargePrefrentPosthstpaModule
+  ),
+  OVERCHARGE_PREFRENTREMOVED_POSTHSTPA: registerFindingModule(
+    overchargePrefrentremovedPosthstpaModule
   ),
   NONREGISTRATION_PREHSTPA: registerFindingModule(
     nonregistrationPrehstpaModule

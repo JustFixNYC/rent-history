@@ -92,6 +92,11 @@ msgstr "A preferential rent appears to have been charged during the first year o
 msgid "findings.PREFRENT_421A.result.potential_violation.body"
 msgstr "A preferential rent appears to have been charged during the first year of this building's participation in the 421a tax program (year {year0}). Your report will include this with additional details."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description"
+msgstr "A preferential rent was offered in year {year0}, but then not offered in year {year1}. We'll check to see if this is due to a change in tenancy."
+
 #: src/Components/Pages/Scanner/Scanner.tsx:291
 msgid "A scan image failed to download. Use Restart scanning to try again."
 msgstr "A scan image failed to download. Use Restart scanning to try again."
@@ -284,6 +289,11 @@ msgid "Disclaimer"
 msgstr "Disclaimer"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:63
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.dismissed.body"
+msgstr "dismissed fidning copy TK"
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
 msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
@@ -398,6 +408,11 @@ msgstr "First, let's make sure we are working with the right values"
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+msgstr "First, let's make sure we are working with the right values"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
@@ -756,6 +771,11 @@ msgid "Preferential Rent"
 msgstr "Preferential Rent"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:15
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.title"
+msgstr "Preferential rent not offered"
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
 msgid "findings.PREFRENT_421A.intro.title"
 msgstr "Preferential rent offered during initial year of this building's participation in 421a tax program."
@@ -890,6 +910,16 @@ msgstr "Select Year"
 #: src/Components/Pages/LoginPage/LoginPage.tsx:262
 msgid "Send verification code"
 msgstr "Send verification code"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:47
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
+msgstr "Since a preferential rent was offered in {year0}, and there was no change in tenancy in {year1}, the landlord was required to offer a preferential rent in {year1}. Your report will include this with additional details."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:55
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.no_violation.body"
+msgstr "Since there was a change in tenancy from year {year0} to year {year1}, the landlord was not required to offer a preferential rent in {year1}. Your report will include this with additional details."
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:107
 msgid "Something went wrong while sending your verification code."
@@ -1053,6 +1083,11 @@ msgstr "The rent jumped {percentIncrease}% in one year. We'll check whether this
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:33
 msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
+msgstr "There is no preferential rent in this year"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.no_pref_rent_label"
 msgstr "There is no preferential rent in this year"
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
@@ -1265,6 +1300,11 @@ msgstr "Year {findingYear}"
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+msgstr "Year {findingYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:9
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
