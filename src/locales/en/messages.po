@@ -82,6 +82,16 @@ msgstr "A new code has been sent."
 msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
 msgstr "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:20
+msgid "findings.PREFRENT_421A.intro.description"
+msgstr "A preferential rent appears to have been charged during the first year of this building's participation in 421a tax program. We'll check if this can be explained."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:41
+msgid "findings.PREFRENT_421A.result.potential_violation.body"
+msgstr "A preferential rent appears to have been charged during the first year of this building's participation in the 421a tax program (year {year0}). Your report will include this with additional details."
+
 #: src/Components/Pages/Scanner/Scanner.tsx:291
 msgid "A scan image failed to download. Use Restart scanning to try again."
 msgstr "A scan image failed to download. Use Restart scanning to try again."
@@ -376,13 +386,18 @@ msgstr "Finding review navigation"
 #~ msgstr "Findings review"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:28
+msgid "findings.PREFRENT_421A.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
+msgstr "First, let's make sure we are working with the right values"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
@@ -740,6 +755,11 @@ msgstr "Potential violation found"
 msgid "Preferential Rent"
 msgstr "Preferential Rent"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
+msgid "findings.PREFRENT_421A.intro.title"
+msgstr "Preferential rent offered during initial year of this building's participation in 421a tax program."
+
 #: src/Components/Pages/PageLayout/Footer.tsx:29
 msgid "Privacy policy"
 msgstr "Privacy policy"
@@ -1030,6 +1050,11 @@ msgstr "The legal regulated rent increased from ${rent0} in {year0} to ${rent1} 
 msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
 msgstr "The rent jumped {percentIncrease}% in one year. We'll check whether this increase can be explained by allowable bonuses."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:33
+msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
+msgstr "There is no preferential rent in this year"
+
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
 msgid "This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data)."
 msgstr "This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data)."
@@ -1228,13 +1253,18 @@ msgid "Why this is important"
 msgstr "Why this is important"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:9
+msgid "findings.PREFRENT_421A.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
+msgstr "Year {findingYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
@@ -1273,6 +1303,16 @@ msgstr "Yes, this matches my document"
 #: src/Components/Pages/Report/ReportEmailForm.tsx:84
 msgid "You can add up to 10 additional recipients."
 msgstr "You can add up to 10 additional recipients."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:49
+msgid "findings.PREFRENT_421A.result.no_violation.body"
+msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:57
+msgid "findings.PREFRENT_421A.result.dismissed.body"
+msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:126
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
