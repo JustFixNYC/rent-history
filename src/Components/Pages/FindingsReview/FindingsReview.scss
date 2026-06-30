@@ -129,71 +129,6 @@
   }
 }
 
-// Figma 5314:3656 — 12px Suisse mono uppercase; no jfcl mixin at 12px
-.findings-review-chip {
-  @include jfcl.eyebrow_mobile;
-  background: jfcl.$GREY_50;
-  border: 1px solid jfcl.$GREY_200;
-  border-radius: 100px;
-  color: jfcl.$OFF_BLACK;
-  display: inline-block;
-  font-size: 0.75rem;
-  letter-spacing: 0.36px;
-  line-height: 1.15;
-  padding: jfcl.$JF_SPACING_01 jfcl.$JF_SPACING_03;
-  white-space: nowrap;
-}
-
-// DocumentLink only — GlossaryLink uses LinkStyledButton (jfcl-link)
-.findings-review-inline-link {
-  @include jfcl.body_standard_link_mobile;
-  align-items: center;
-  background: none;
-  border: 0;
-  color: jfcl.$OFF_BLACK;
-  cursor: pointer;
-  display: inline-flex;
-  gap: jfcl.$JF_SPACING_01;
-  padding: 0;
-
-  svg {
-    flex-shrink: 0;
-    height: 17px;
-    width: 17px;
-  }
-}
-
-.placeholder-info-modal {
-  background: jfcl.$WHITE;
-  border: 1px solid jfcl.$GREY_200;
-  border-radius: 4px;
-  box-shadow: 0 4px 16px rgba(36, 35, 35, 0.12);
-  margin: auto;
-  max-width: 20rem;
-  padding: jfcl.$JF_SPACING_06;
-  width: calc(100% - 2rem);
-
-  &::backdrop {
-    background: rgba(36, 35, 35, 0.45);
-  }
-
-  &__title {
-    @include jfcl.body_standard_mobile;
-    font-weight: 600;
-    margin: 0 0 jfcl.$JF_SPACING_04;
-  }
-
-  &__body {
-    @include jfcl.body_standard_mobile;
-    margin: 0 0 jfcl.$JF_SPACING_05;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-  }
-}
-
 // Figma 5314:3554 — form-field currency input
 .findings-review-currency-field {
   margin: 0;
@@ -413,15 +348,15 @@
   }
 }
 
-// Figma 5314:3674 / 5314:3701 — PREHSTPA vacancy + tenancy step bodies
-.prehstpa-step-copy {
+// Figma 5314:3674 / 5314:3701 — vacancy + tenancy step bodies (shared)
+.finding-step-copy {
   @include jfcl.body_standard_mobile;
   margin: 0;
   padding: 0 jfcl.$JF_SPACING_06;
 }
 
-.prehstpa-vacancy-step,
-.prehstpa-tenancy-step {
+.vacancy-step,
+.tenancy-step {
   display: flex;
   flex-direction: column;
   gap: jfcl.$JF_SPACING_05;
@@ -429,7 +364,7 @@
 }
 
 // Figma 5360:457 — multi-tenant tenancy step stacked chips
-.prehstpa-tenancy-step__tenant-list {
+.tenancy-step__tenant-list {
   display: flex;
   flex-direction: column;
   gap: jfcl.$JF_SPACING_03;
@@ -438,7 +373,7 @@
   padding: 0;
 }
 
-.prehstpa-yes-no-sr-label {
+.vacancy-step__yes-no-sr-label {
   border: 0;
   clip: rect(0, 0, 0, 0);
   height: 1px;

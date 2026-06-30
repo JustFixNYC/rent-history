@@ -1,0 +1,16 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+// Figma 5314:3656 — 12px Suisse mono uppercase; no jfcl mixin at 12px
+.inline-chip {
+  @include jfcl.eyebrow_mobile;
+  background: jfcl.$GREY_50;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 100px;
+  color: jfcl.$OFF_BLACK;
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.36px;
+  line-height: 1.15;
+  padding: jfcl.$JF_SPACING_01 jfcl.$JF_SPACING_03;
+  white-space: nowrap;
+}

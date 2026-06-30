@@ -2,10 +2,10 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
-import { DocumentLink } from "../../DocumentLink";
-import { GlossaryLink } from "../../GlossaryLink";
-import { TenantChip } from "../../TenantChip";
-import { YearChip } from "../../YearChip";
+import { DocumentLink } from "../../../../DocumentLink/DocumentLink";
+import { GlossaryLink } from "../../../../GlossaryLink/GlossaryLink";
+import { TenantChip } from "../../../../InlineChip/TenantChip";
+import { YearChip } from "../../../../InlineChip/YearChip";
 
 import type { IntroValues } from "./spec";
 
@@ -59,7 +59,7 @@ export const VacancyHeading = () => {
 };
 
 export const VacancyBody = ({ year0, year1 }: VacancyCopyProps) => (
-  <p className="prehstpa-step-copy">
+  <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.body">
       Look at <DocumentLink /> — do any tenant(s) in year{" "}
       <YearChip year={year0} /> appear to be listed as tenants in year{" "}
@@ -67,6 +67,17 @@ export const VacancyBody = ({ year0, year1 }: VacancyCopyProps) => (
     </Trans>
   </p>
 );
+
+export const VacancyYesNoLegend = () => {
+  const { _ } = useLingui();
+
+  return _(
+    msg({
+      id: "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend",
+      message: "Did tenants in the earlier year appear in the later year?",
+    })
+  );
+};
 
 type TenancyCopyProps = {
   tenant: string;
@@ -88,7 +99,7 @@ export const TenancyHeading = () => {
 };
 
 export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
-  <p className="prehstpa-step-copy">
+  <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body">
       Look at <DocumentLink /> — What is the earliest year{" "}
       <TenantChip tenant={tenant} /> appears as a tenant in your rent history
@@ -98,7 +109,7 @@ export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
 );
 
 export const TenancyBodyMultiple = () => (
-  <p className="prehstpa-step-copy">
+  <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple">
       Look at <DocumentLink /> — What is the earliest year any of the following
       names appear in your rent history document?
@@ -108,13 +119,7 @@ export const TenancyBodyMultiple = () => (
 
 type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
 
-export const ResultConfirmedTitle = () => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.result.confirmed.title">
-    Potential violation found
-  </Trans>
-);
-
-export const ResultConfirmedBody = ({
+export const ResultPotentialViolationBody = ({
   rent0,
   rent1,
   year0,
@@ -128,13 +133,7 @@ export const ResultConfirmedBody = ({
   </Trans>
 );
 
-export const ResultExplainedAwayTitle = () => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.result.explained_away.title">
-    No violation found
-  </Trans>
-);
-
-export const ResultExplainedAwayBody = ({
+export const ResultNoViolationBody = ({
   rent0,
   rent1,
   year0,
@@ -144,5 +143,17 @@ export const ResultExplainedAwayBody = ({
     The rent increase from ${rent0} in year {year0} to ${rent1} in year {year1}{" "}
     appears to be explained by allowable bonuses. Your report will include this
     finding.
+  </Trans>
+);
+
+export const ResultDismissedBody = ({
+  rent0,
+  rent1,
+  year0,
+  year1,
+}: ResultCopyProps) => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.result.dismissed.body">
+    The increase in legal regulated rent from ${rent0} in year {year0} to $
+    {rent1} in year {year1} appears to be within the RGB limit.
   </Trans>
 );

@@ -154,13 +154,24 @@ const completeVacancyYes = () => {
   fireEvent.click(screen.getByRole("radio", { name: "Yes" }));
 };
 
-const completeFlowThroughVacancyNo = async () => {
+const completeTenancyYear = async (year = 1989) => {
+  await waitFor(() => {
+    expect(screen.getByTestId("prehstpa-tenancy-step")).toBeInTheDocument();
+  });
+
+  const tenancyStep = screen.getByTestId("prehstpa-tenancy-step");
+  const combobox = within(tenancyStep).getByRole("combobox");
+  fireEvent.mouseDown(combobox);
+  fireEvent.click(screen.getByText(String(year)));
+};
+
+const completeFlowThroughVacancyYes = async () => {
   await waitForReviewFlow();
   confirmOcr();
   await waitFor(() => {
     expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
   });
-  completeVacancyNo();
+  completeVacancyYes();
 };
 
 const clickModalNext = (buttonName = "Next") => {
@@ -287,12 +298,15 @@ describe("FindingsReviewPage integration", () => {
     expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
 
     completeVacancyNo();
+    expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
+
+    await completeTenancyYear();
     expect(screen.getByRole("button", { name: "Submit" })).not.toBeDisabled();
   });
 
-  it("opens result modal after validate when vacancy is No", async () => {
+  it("opens result modal after validate when vacancy is Yes", async () => {
     renderFindingsReviewPage();
-    await completeFlowThroughVacancyNo();
+    await completeFlowThroughVacancyYes();
 
     clickSubmit();
 
@@ -313,7 +327,7 @@ describe("FindingsReviewPage integration", () => {
 
   it("closes result modal via Back and does not leave inline result in stack", async () => {
     renderFindingsReviewPage();
-    await completeFlowThroughVacancyNo();
+    await completeFlowThroughVacancyYes();
     clickSubmit();
 
     await waitFor(() => {
@@ -335,7 +349,7 @@ describe("FindingsReviewPage integration", () => {
     expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
   });
 
-  it("reveals tenancy step when vacancy changes from No to Yes", async () => {
+  it("reveals tenancy step when vacancy changes from Yes to No", async () => {
     renderFindingsReviewPage();
     await waitForReviewFlow();
     confirmOcr();
@@ -344,7 +358,7 @@ describe("FindingsReviewPage integration", () => {
       expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
     });
 
-    completeVacancyNo();
+    completeVacancyYes();
 
     await waitFor(() => {
       expect(
@@ -352,7 +366,7 @@ describe("FindingsReviewPage integration", () => {
       ).not.toBeInTheDocument();
     });
 
-    completeVacancyYes();
+    completeVacancyNo();
 
     await waitFor(() => {
       expect(screen.getByTestId("prehstpa-tenancy-step")).toBeInTheDocument();
@@ -361,7 +375,7 @@ describe("FindingsReviewPage integration", () => {
 
   it("allows re-submit after closing the result modal", async () => {
     renderFindingsReviewPage();
-    await completeFlowThroughVacancyNo();
+    await completeFlowThroughVacancyYes();
     clickSubmit();
 
     await waitFor(() => {
@@ -382,7 +396,7 @@ describe("FindingsReviewPage integration", () => {
     expect(mockValidateMutate).toHaveBeenCalledTimes(2);
   });
 
-  it("sends tenancy_start null when submitting after flipping vacancy to No", async () => {
+  it("sends tenancy_start null when submitting after flipping vacancy to Yes", async () => {
     renderFindingsReviewPage();
     await waitForReviewFlow();
     confirmOcr();
@@ -391,13 +405,14 @@ describe("FindingsReviewPage integration", () => {
       expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
     });
 
-    completeVacancyYes();
+    completeVacancyNo();
 
     await waitFor(() => {
       expect(screen.getByTestId("prehstpa-tenancy-step")).toBeInTheDocument();
     });
 
-    completeVacancyNo();
+    await completeTenancyYear();
+    completeVacancyYes();
     clickSubmit();
 
     await waitFor(() => {
@@ -433,7 +448,7 @@ describe("FindingsReviewPage integration", () => {
     );
 
     renderFindingsReviewPage();
-    await completeFlowThroughVacancyNo();
+    await completeFlowThroughVacancyYes();
     clickSubmit();
 
     await waitFor(() => {
@@ -447,6 +462,44 @@ describe("FindingsReviewPage integration", () => {
     expect(panel.className).toContain(expectedClass);
   });
 
+  it.each<[Extract<FindingResult, "no_violation" | "dismissed">, RegExp]>([
+    ["no_violation", /explained by allowable bonuses/i],
+    ["dismissed", /within the RGB limit/i],
+  ])(
+    "renders distinct %s result body copy",
+    async (result, expectedSnippet) => {
+      mockValidateMutate.mockImplementationOnce(
+        (
+          _vars,
+          options?: { onSuccess?: (data: ValidateFindingResponse) => void }
+        ) => {
+          options?.onSuccess?.({
+            finding: {
+              ...prehstpaFinding,
+              status: result === "dismissed" ? "dismissed" : "validated",
+              result,
+              validated_at: "2026-01-01T00:00:00Z",
+            },
+            queue_delta: { ordered_ids: [], added: [], removed: [] },
+          });
+        }
+      );
+
+      renderFindingsReviewPage();
+      await completeFlowThroughVacancyYes();
+      clickSubmit();
+
+      await waitFor(() => {
+        expect(screen.getByTestId("finding-result-modal")).toBeInTheDocument();
+      });
+
+      const panel = within(
+        screen.getByTestId("finding-result-modal")
+      ).getByTestId("finding-result-panel");
+      expect(panel).toHaveTextContent(expectedSnippet);
+    }
+  );
+
   it("disables Back and shows spinner on Submit while validating", async () => {
     vi.mocked(findingsReviewHooks.useValidateRhFinding).mockReturnValue({
       mutate: mockValidateMutate,
@@ -454,7 +507,7 @@ describe("FindingsReviewPage integration", () => {
     } as unknown as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
 
     renderFindingsReviewPage();
-    await completeFlowThroughVacancyNo();
+    await completeFlowThroughVacancyYes();
 
     expect(screen.getByRole("button", { name: "Back" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
@@ -547,7 +600,7 @@ describe("FindingsReviewPage integration", () => {
     );
 
     renderFindingsReviewPage();
-    await completeFlowThroughVacancyNo();
+    await completeFlowThroughVacancyYes();
     clickSubmit();
 
     await waitFor(() => {
@@ -608,7 +661,7 @@ describe("FindingsReviewPage integration", () => {
     );
 
     renderFindingsReviewPage();
-    await completeFlowThroughVacancyNo();
+    await completeFlowThroughVacancyYes();
     clickSubmit();
 
     await waitFor(() => {

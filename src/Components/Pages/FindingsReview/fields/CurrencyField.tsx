@@ -31,7 +31,8 @@ export const CurrencyField: React.FC<CurrencyFieldProps> = ({
   <TextInput
     id={id}
     labelText={labelText}
-    type="money"
+    type="text"
+    inputMode="decimal"
     className={classNames(
       "findings-review-currency-field",
       readonly && "findings-review-currency-field--readonly",

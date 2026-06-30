@@ -3,7 +3,7 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Icon, LinkStyledButton } from "@justfixnyc/component-library";
 
-import { PlaceholderInfoModal } from "./PlaceholderInfoModal";
+import { InfoModal } from "../InfoModal/InfoModal";
 
 type GlossaryLinkProps = {
   term: ReactNode;
@@ -35,7 +35,7 @@ export const GlossaryLink = ({
           aria-hidden="true"
         />
       </LinkStyledButton>
-      <PlaceholderInfoModal
+      <InfoModal
         isOpen={isOpen}
         title={resolvedTitle}
         onClose={() => setIsOpen(false)}

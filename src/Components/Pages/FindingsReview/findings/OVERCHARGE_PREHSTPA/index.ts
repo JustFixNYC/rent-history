@@ -35,10 +35,9 @@ export {
   VacancyBody,
   TenancyHeading,
   TenancyBody,
-  ResultConfirmedBody,
-  ResultConfirmedTitle,
-  ResultExplainedAwayBody,
-  ResultExplainedAwayTitle,
+  ResultPotentialViolationBody,
+  ResultNoViolationBody,
+  ResultDismissedBody,
 } from "./ReviewCopy";
 
 export const findingReviewModule: FindingReviewModule<PrehstpaFormState> = {
