@@ -174,16 +174,6 @@ const completeFlowThroughVacancyYes = async () => {
   completeVacancyYes();
 };
 
-const completeFlowThroughVacancyNo = async () => {
-  await waitForReviewFlow();
-  confirmOcr();
-  await waitFor(() => {
-    expect(screen.getByTestId("prehstpa-vacancy-step")).toBeInTheDocument();
-  });
-  completeVacancyNo();
-  await completeTenancyYear();
-};
-
 const clickModalNext = (buttonName = "Next") => {
   const modal = screen.getByTestId("finding-result-modal");
   fireEvent.click(within(modal).getByRole("button", { name: buttonName }));
