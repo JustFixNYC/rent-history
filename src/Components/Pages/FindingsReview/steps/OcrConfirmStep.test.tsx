@@ -73,7 +73,7 @@ describe("OcrConfirmStep", () => {
       screen.getByRole("button", { name: "Yes, this matches my document" })
     ).toBeInTheDocument();
 
-    const rentInputs = screen.getAllByRole("spinbutton", {
+    const rentInputs = screen.getAllByRole("textbox", {
       name: "Legal Regulated Rent",
     });
     expect(rentInputs).toHaveLength(2);
@@ -99,7 +99,7 @@ describe("OcrConfirmStep", () => {
     ).toBeDisabled();
 
     screen
-      .getAllByRole("spinbutton", { name: "Legal Regulated Rent" })
+      .getAllByRole("textbox", { name: "Legal Regulated Rent" })
       .forEach((input) => {
         expect(input).toBeDisabled();
       });
@@ -211,7 +211,7 @@ describe("OcrConfirmStep", () => {
       screen.getByRole("button", { name: "Yes, this matches my document" })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("spinbutton", { name: "Legal Regulated Rent" })
+      screen.getByRole("textbox", { name: "Legal Regulated Rent" })
     ).not.toBeDisabled();
   });
 });

@@ -80,21 +80,21 @@ describe("CurrencyField", () => {
       />
     );
 
-    const input = screen.getByRole("spinbutton", {
+    const input = screen.getByRole("textbox", {
       name: "Legal Regulated Rent",
     });
-    expect(input).toHaveValue(2283.1);
+    expect(input).toHaveValue("2283.1");
 
     fireEvent.change(input, { target: { value: "2500" } });
 
     expect(changes[changes.length - 1]).toBe("2500");
-    expect(input).toHaveValue(2500);
+    expect(input).toHaveValue("2500");
   });
 
   it("renders readonly variant as disabled with readonly styling class", () => {
     renderWithI18n(<CurrencyFieldFormHarness readonly />);
 
-    const input = screen.getByRole("spinbutton", {
+    const input = screen.getByRole("textbox", {
       name: "Legal Regulated Rent",
     });
     expect(input).toBeDisabled();

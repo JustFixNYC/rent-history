@@ -10,9 +10,11 @@ describe("createRentValueStringSchema", () => {
     expect(schema.safeParse("   ").success).toBe(true);
   });
 
-  it("accepts numeric and non-numeric rent labels", () => {
+  it("accepts numeric, weekly, and non-numeric rent labels", () => {
     expect(schema.safeParse("2590.86").success).toBe(true);
     expect(schema.safeParse("$2,590.86").success).toBe(true);
+    expect(schema.safeParse("500.00W").success).toBe(true);
+    expect(schema.safeParse("$500.00 W").success).toBe(true);
     expect(schema.safeParse("EXEMPT").success).toBe(true);
     expect(schema.safeParse("MISSING").success).toBe(true);
   });
@@ -32,5 +34,11 @@ describe("buildRentAnswer", () => {
   it("returns text labels unchanged for non-numeric input", () => {
     expect(buildRentAnswer("EXEMPT")).toBe("EXEMPT");
     expect(buildRentAnswer("MISSING")).toBe("MISSING");
+  });
+
+  it("returns weekly rent strings unchanged for backend normalization", () => {
+    expect(buildRentAnswer("500.00W")).toBe("500.00W");
+    expect(buildRentAnswer("$500.00W")).toBe("$500.00W");
+    expect(buildRentAnswer("500.00 W")).toBe("500.00 W");
   });
 });
