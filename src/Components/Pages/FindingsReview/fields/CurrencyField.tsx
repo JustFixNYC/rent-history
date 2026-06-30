@@ -36,7 +36,7 @@ export const CurrencyField: React.FC<CurrencyFieldProps> = ({
     className={classNames(
       "findings-review-currency-field",
       readonly && "findings-review-currency-field--readonly",
-      className,
+      className
     )}
     value={value}
     onChange={(event) => onChange(event.target.value)}
