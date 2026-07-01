@@ -606,6 +606,20 @@
         ],
         "type": "object"
       },
+      "RhHistoryDeleteResponse": {
+        "properties": {
+          "s3_cleanup_status": {
+            "$ref": "#/components/schemas/S3CleanupStatusEnum"
+          },
+          "s3_deleted_versions": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "s3_cleanup_status"
+        ],
+        "type": "object"
+      },
       "RhHistoryIdRequestRequest": {
         "description": "Request body or query with a single RhHistory UUID.",
         "properties": {
@@ -638,6 +652,12 @@
             "readOnly": true,
             "type": "string"
           },
+          "id": {
+            "description": "ID for a rent history record.",
+            "format": "uuid",
+            "readOnly": true,
+            "type": "string"
+          },
           "last_step_reached": {
             "description": "The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.\n\n* `DOCUMENT_SCAN` - Document Scan\n* `SCAN_REVIEW` - Scan Review\n* `ADDRESS_CONFIRMATION` - Address Confirmation\n* `APARTMENT_INFO` - Apartment Info\n* `FINDINGS_OVERVIEW` - Findings Overview\n* `FINDINGS_REVIEW` - Findings Review\n* `REPORT_GENERATION` - Report Generation",
             "nullable": true,
@@ -661,6 +681,7 @@
           "address",
           "apartment",
           "created_at",
+          "id",
           "last_step_reached",
           "updated_at"
         ],
@@ -1578,7 +1599,7 @@
   "paths": {
     "/rh/histories": {
       "get": {
-        "description": "Returns the authenticated user's RhHistories ordered by `created_at` descending. The list endpoint uses a slim serializer; fetch details via the page endpoints.",
+        "description": "Returns the authenticated user's RhHistories that have reached at least SCAN_REVIEW, ordered by `created_at` descending. The list endpoint uses a slim serializer; fetch details via the page endpoints.",
         "operationId": "histories_list",
         "responses": {
           "200": {
@@ -1906,6 +1927,61 @@
           }
         ],
         "summary": "Confirm address and look up NYCDB building info",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/delete": {
+      "post": {
+        "description": "Deletes the given RhHistory and cascades related RhPage rows. Performs best-effort cleanup of versioned S3 objects under the scan prefix `<profile_id>/<history_id>/` and the report PDF when present.",
+        "operationId": "history_delete_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistoryIdRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistoryDeleteResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Delete a RhHistory for the resource owner",
         "tags": [
           "Rent History"
         ]

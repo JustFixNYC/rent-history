@@ -15,6 +15,8 @@ import type {
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhHistoryDeleteResponse,
+  RhHistoryList,
   RhHistoryPageDeleteResponse,
   RhHistoryRecord,
   RhHistoryReportEmailRequest,
@@ -87,6 +89,28 @@ export const verifyRhOtp = (
     })
   ) as Promise<RhOtpTokenResponse>;
 };
+
+/** `GET /rh/histories` — OAuth2 bearer; list histories at SCAN_REVIEW or later. */
+export const listRhHistories = (
+  accessToken: string
+): Promise<RhHistoryList[]> =>
+  unwrapAccountResponse(
+    getAccountClient().GET("/rh/histories", {
+      headers: bearerHeaders(accessToken),
+    })
+  ).then((body) => body as RhHistoryList[]);
+
+/** `POST /rh/history/delete` — Delete one RhHistory and best-effort S3 cleanup. */
+export const deleteRhHistory = (
+  accessToken: string,
+  body: { history_id: string }
+): Promise<RhHistoryDeleteResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/delete", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
 
 /** `POST /rh/history` — OpenAPI: Bearer token only, response 201 + `RhHistory`. */
 export const createRhHistory = (

@@ -32,6 +32,8 @@ export type {
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhHistoryDeleteResponse,
+  RhHistoryList,
   RhHistoryPageDeleteResponse,
   RhHistoryRecord,
   RhHistoryReportEmailEmailStep,
@@ -69,6 +71,7 @@ export {
 export { accountQueryKeys } from "./queryKeys";
 export { useStartRhLogin, useVerifyRhOtp } from "./hooks/login";
 export { useCreateRhHistory } from "./hooks/history";
+export { useDeleteRhHistory, useRhHistories } from "./hooks/histories";
 export {
   RhPagesReadinessExcessError,
   useCombineRhHistoryPages,
@@ -89,7 +92,9 @@ export {
   confirmRhHistoryAddress,
   createRhHistory,
   createRhHistoryReportPdf,
+  deleteRhHistory,
   deleteRhHistoryPages,
+  listRhHistories,
   downloadRhHistoryReportPdf,
   emailRhHistoryReportPdf,
   getRhFindingsState,

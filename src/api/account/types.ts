@@ -165,3 +165,9 @@ export type RhFindingAnswerRowRequest = Schemas["RhFindingAnswerRowRequest"];
 
 /** `GET /rh/history/findings-state` response. */
 export type RhFindingsStateResponse = Schemas["RhFindingsStateResponse"];
+
+/** One item from `GET /rh/histories`. */
+export type RhHistoryList = Schemas["RhHistoryList"];
+
+/** `POST /rh/history/delete` success body. */
+export type RhHistoryDeleteResponse = Schemas["RhHistoryDeleteResponse"];
