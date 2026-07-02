@@ -1,0 +1,213 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "./layoutVars" as layout;
+
+.sidebar-nav {
+  background-color: jfcl.$OFF_WHITE_200;
+  border-right: 1px solid jfcl.$OFF_BLACK;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100vh;
+  width: layout.$sidebar-width;
+
+  @include layout.mobile {
+    border-right: none;
+    bottom: 0;
+    height: calc(100vh - layout.$header-height);
+    left: 0;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transform: translateY(-100%);
+    width: unset;
+    z-index: 1000;
+
+    &--mobile-open {
+      margin-top: layout.$header-height;
+      transform: translateY(0);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    @include layout.mobile {
+      @include jfcl.body_large_desktop;
+      background-color: jfcl.$OFF_BLACK;
+    }
+  }
+
+  &__nameplate {
+    border-bottom: 1px solid jfcl.$OFF_BLACK;
+    flex-shrink: 0;
+    padding: 1.5rem 2.25rem;
+
+    @include layout.mobile {
+      display: none;
+    }
+
+    h1,
+    a {
+      color: jfcl.$OFF_BLACK;
+      font-family: "Degular Display";
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 0.045rem;
+      line-height: 100%;
+      margin: 0;
+      text-decoration: none;
+      white-space: nowrap;
+
+      &:hover {
+        color: jfcl.$GREY_600;
+      }
+    }
+
+    &--es a {
+      font-size: 1.3rem;
+    }
+  }
+
+  &__items {
+    .app-nav-items__list {
+      @include layout.mobile {
+        padding-top: 0.75rem;
+      }
+    }
+
+    .app-nav-items__item {
+      background-color: jfcl.$OFF_WHITE_200;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover:not(.app-nav-items__item--active) {
+        background-color: #e4dcc9;
+      }
+
+      &:active:not(.app-nav-items__item--active) {
+        background-color: #d7cdb7;
+      }
+
+      &--active {
+        background-color: jfcl.$OFF_BLACK;
+      }
+
+      &--active:hover,
+      &--active:active {
+        background-color: jfcl.$GREY_700;
+      }
+
+      @include layout.mobile {
+        background-color: jfcl.$OFF_BLACK;
+
+        &:hover:not(.app-nav-items__item--active),
+        &:active:not(.app-nav-items__item--active),
+        &--active,
+        &--active:hover,
+        &--active:active {
+          background-color: unset;
+        }
+      }
+    }
+
+    .app-nav-items__link {
+      @include layout.mobile {
+        @include jfcl.body_large_desktop;
+        color: jfcl.$WHITE;
+      }
+    }
+
+    .app-nav-items__item--active .app-nav-items__link {
+      color: jfcl.$OFF_WHITE_100;
+      font-weight: 500;
+
+      @include layout.mobile {
+        font-weight: 600;
+        text-decoration: underline;
+      }
+    }
+
+    .app-nav-items__icon {
+      @include layout.mobile {
+        color: jfcl.$WHITE;
+      }
+    }
+
+    .app-nav-items__item--active .app-nav-items__icon {
+      color: jfcl.$OFF_WHITE_100;
+    }
+  }
+
+  &__locale {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 1.5rem 1.5rem 2rem 2.25rem;
+
+    @include layout.mobile {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 2.25rem;
+      padding: 0 2.25rem;
+    }
+  }
+
+  &__locale-label {
+    @include jfcl.small_text_bold_desktop;
+    margin: 0 0 0.5rem;
+
+    @include layout.mobile {
+      @include jfcl.body_standard_mobile;
+      color: jfcl.$WHITE;
+      margin: 0;
+    }
+  }
+
+  .language-toggle {
+    @include jfcl.body_standard_desktop;
+    display: inline-flex;
+    gap: 0.25rem;
+
+    button {
+      background: none;
+      border: none;
+      color: jfcl.$OFF_BLACK;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      padding: 0;
+      text-decoration: none;
+
+      &:hover:not(:disabled) {
+        color: jfcl.$GREY_600;
+        text-decoration: underline;
+      }
+
+      &:disabled {
+        cursor: default;
+        text-decoration: underline;
+      }
+
+      @include layout.mobile {
+        color: jfcl.$WHITE;
+
+        &:hover:not(:disabled) {
+          color: jfcl.$GREY_200;
+          text-decoration: underline;
+        }
+
+        &:disabled {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    @include layout.mobile {
+      margin-left: 0.5rem;
+    }
+  }
+}

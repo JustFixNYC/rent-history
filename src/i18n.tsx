@@ -3,8 +3,8 @@ import {
   Link,
   LinkProps,
   Navigate,
-  NavLink,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { I18nProvider, useLingui } from "@lingui/react";
 import { i18n } from "@lingui/core";
@@ -117,9 +117,9 @@ export function I18n({ children }: { children: React.ReactNode }): JSX.Element {
  * without the locale prefix (e.g. `/boop`).
  */
 export function removeLocalePrefix(path: string): string {
-  const match = path.match(/^\/([a-z]{2})\/(.*)$/);
+  const match = path.match(/^\/([a-z]{2})(\/.*)?$/);
   if (!match || !isSupportedLocale(match[1])) return path;
-  return `/${match[2]}`;
+  return match[2] ?? "/";
 }
 
 /**
@@ -129,13 +129,32 @@ export function removeLocalePrefix(path: string): string {
  * other language.
  */
 export function LocaleSwitcher() {
+  const { i18n } = useLingui();
+  const navigate = useNavigate();
   const location = useLocation();
-  const to = (toLocale: SupportedLocale) =>
-    `/${toLocale}${removeLocalePrefix(location.pathname)}`;
+
+  const switchToLocale = (locale: SupportedLocale) => {
+    const pathWithoutLocale = removeLocalePrefix(location.pathname);
+    navigate(`/${locale}${pathWithoutLocale}${location.search}`);
+  };
 
   return (
     <span className="language-toggle">
-      <NavLink to={to("en")}>EN</NavLink>/<NavLink to={to("es")}>ES</NavLink>
+      <button
+        type="button"
+        onClick={() => switchToLocale("en")}
+        disabled={i18n.locale === "en"}
+      >
+        English
+      </button>
+      /
+      <button
+        type="button"
+        onClick={() => switchToLocale("es")}
+        disabled={i18n.locale === "es"}
+      >
+        Español
+      </button>
     </span>
   );
 }

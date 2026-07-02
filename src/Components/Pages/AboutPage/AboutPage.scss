@@ -1,0 +1,9 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../shared/preflowBlocks.scss";
+
+.about-page {
+  &__message {
+    @include jfcl.body_large_desktop;
+    margin: 1rem 0 0;
+  }
+}

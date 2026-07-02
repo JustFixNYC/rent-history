@@ -1,0 +1,36 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.app-nav-items {
+  &__list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    margin: 0;
+  }
+
+  &__link {
+    align-items: center;
+    color: jfcl.$OFF_BLACK;
+    display: flex;
+    font-size: 1.125rem;
+    font-weight: 500;
+    gap: 1rem;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    padding: 1.5rem 1.5rem 1.5rem 2.25rem;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    font-size: 1.5rem;
+    width: 1.5rem;
+  }
+}

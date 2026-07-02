@@ -1,0 +1,15 @@
+$desktop-min: 56.25rem;
+$sidebar-width: 15.0625rem; // 241px per Figma
+$header-height: 4.5rem;
+
+@mixin desktop {
+  @media (min-width: $desktop-min) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: calc($desktop-min - 0.0625rem)) {
+    @content;
+  }
+}
