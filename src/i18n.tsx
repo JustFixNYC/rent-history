@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  LinkProps,
-  Navigate,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, LinkProps, Navigate, useLocation } from "react-router-dom";
 import { I18nProvider, useLingui } from "@lingui/react";
 import { i18n } from "@lingui/core";
 
-import { SupportedLocale, defaultLocale, isSupportedLocale } from "./i18n-base";
+import {
+  SupportedLocale,
+  defaultLocale,
+  isSupportedLocale,
+  languageNames,
+  supportedLocales,
+} from "./i18n-base";
 
 // Dynamic activation function that loads catalogs on demand
 export async function dynamicActivate(locale: SupportedLocale) {
@@ -123,38 +123,49 @@ export function removeLocalePrefix(path: string): string {
 }
 
 /**
- * A UI affordance that allows the user to switch locales.
+ * Build a locale-prefixed path for the same page in another language.
  *
- * Since we currently only have two locales, this just offers a toggle to the
- * other language.
+ * Reusable across JustFix apps that use `/:locale/...` routing: pair with
+ * `removeLocalePrefix` and `LocaleSwitcher` for URL-based locale switching.
+ */
+export function buildLocalePath(
+  locale: SupportedLocale,
+  pathname: string,
+  search = ""
+): string {
+  return `/${locale}${removeLocalePrefix(pathname)}${search}`;
+}
+
+/**
+ * Locale switcher for URL-based i18n routing.
+ *
+ * Current locale is non-interactive text with `aria-current`; the alternate
+ * locale is a real link (preserves open-in-new-tab, copy URL, etc.).
  */
 export function LocaleSwitcher() {
   const { i18n } = useLingui();
-  const navigate = useNavigate();
   const location = useLocation();
-
-  const switchToLocale = (locale: SupportedLocale) => {
-    const pathWithoutLocale = removeLocalePrefix(location.pathname);
-    navigate(`/${locale}${pathWithoutLocale}${location.search}`);
-  };
 
   return (
     <span className="language-toggle">
-      <button
-        type="button"
-        onClick={() => switchToLocale("en")}
-        disabled={i18n.locale === "en"}
-      >
-        English
-      </button>
-      /
-      <button
-        type="button"
-        onClick={() => switchToLocale("es")}
-        disabled={i18n.locale === "es"}
-      >
-        Español
-      </button>
+      {supportedLocales.map((locale, index) => (
+        <React.Fragment key={locale}>
+          {index > 0 && <span aria-hidden="true"> / </span>}
+          {locale === i18n.locale ? (
+            <span lang={locale} aria-current="true">
+              {languageNames[locale]}
+            </span>
+          ) : (
+            <Link
+              to={buildLocalePath(locale, location.pathname, location.search)}
+              lang={locale}
+              hrefLang={locale}
+            >
+              {languageNames[locale]}
+            </Link>
+          )}
+        </React.Fragment>
+      ))}
     </span>
   );
 }

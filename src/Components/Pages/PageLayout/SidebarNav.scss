@@ -172,9 +172,7 @@
     display: inline-flex;
     gap: 0.25rem;
 
-    button {
-      background: none;
-      border: none;
+    a {
       color: jfcl.$OFF_BLACK;
       cursor: pointer;
       font: inherit;
@@ -182,27 +180,28 @@
       padding: 0;
       text-decoration: none;
 
-      &:hover:not(:disabled) {
+      &:hover {
         color: jfcl.$GREY_600;
-        text-decoration: underline;
-      }
-
-      &:disabled {
-        cursor: default;
         text-decoration: underline;
       }
 
       @include layout.mobile {
         color: jfcl.$WHITE;
 
-        &:hover:not(:disabled) {
+        &:hover {
           color: jfcl.$GREY_200;
           text-decoration: underline;
         }
+      }
+    }
 
-        &:disabled {
-          text-decoration: underline;
-        }
+    [aria-current="true"] {
+      cursor: default;
+      font-weight: 600;
+      text-decoration: underline;
+
+      @include layout.mobile {
+        color: jfcl.$WHITE;
       }
     }
 
