@@ -34,13 +34,13 @@ const sortHistories = (histories: RhHistoryList[]): RhHistoryList[] => {
     .filter((history) => !isCompletedHistory(history))
     .sort(
       (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     );
   const completed = histories
     .filter(isCompletedHistory)
     .sort(
       (a, b) =>
-        new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime(),
+        new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime()
     );
   return [...inProgress, ...completed];
 };
@@ -67,7 +67,7 @@ const AccountPage: React.FC = () => {
 
   const sortedHistories = useMemo(
     () => sortHistories(histories ?? []),
-    [histories],
+    [histories]
   );
 
   const formatDate = (iso: string): string =>
@@ -108,7 +108,7 @@ const AccountPage: React.FC = () => {
       { accessToken, historyId: historyPendingDelete.id },
       {
         onSuccess: () => setHistoryPendingDelete(null),
-      },
+      }
     );
   };
 
@@ -122,7 +122,7 @@ const AccountPage: React.FC = () => {
     ? formatDate(
         isCompletedHistory(historyPendingDelete)
           ? historyPendingDelete.updated_at
-          : historyPendingDelete.created_at,
+          : historyPendingDelete.created_at
       )
     : "";
 
