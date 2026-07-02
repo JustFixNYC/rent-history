@@ -55,7 +55,7 @@ msgid "{0} buildings"
 msgstr ""
 
 #. placeholder {0}: history.apartment
-#: src/Components/Pages/AccountPage/AccountPage.tsx:79
+#: src/Components/Pages/AccountPage/AccountPage.tsx:83
 msgid "{address}, Apt {0}"
 msgstr ""
 
@@ -72,8 +72,8 @@ msgid "{start}–{end}"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:205
-msgid "+ Scan a new rent history"
-msgstr ""
+#~ msgid "+ Scan a new rent history"
+#~ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:71
 #~ msgid "+ Start a new analysis"
@@ -92,7 +92,11 @@ msgid "A new code has been sent."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:53
-msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
+#~ msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
+#~ msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:189
+msgid "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -119,7 +123,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:38
+#: src/Components/Pages/Landing/Landing.tsx:145
 msgid "About this site"
 msgstr ""
 
@@ -149,12 +153,16 @@ msgid "Analyze my rent history"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:19
-msgid "Analyze your rent history to identify potential violations and overcharges."
-msgstr ""
+#~ msgid "Analyze your rent history to identify potential violations and overcharges."
+#~ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
 #~ msgid "and ask you to confirm a few things,"
 #~ msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:89
+msgid "Answer a few questions"
+msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:439
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:505
@@ -242,8 +250,8 @@ msgstr ""
 msgid "By"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:235
-#: src/Components/Pages/AccountPage/AccountPage.tsx:257
+#: src/Components/Pages/AccountPage/AccountPage.tsx:242
+#: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:572
 msgid "Cancel"
 msgstr ""
@@ -275,11 +283,11 @@ msgstr ""
 msgid "Coming soon."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:169
+#: src/Components/Pages/AccountPage/AccountPage.tsx:174
 msgid "Completed"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:177
+#: src/Components/Pages/AccountPage/AccountPage.tsx:191
 msgid "Completed {completedOn}"
 msgstr ""
 
@@ -305,8 +313,8 @@ msgstr ""
 msgid "Current monthly rent"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:187
-#: src/Components/Pages/AccountPage/AccountPage.tsx:240
+#: src/Components/Pages/AccountPage/AccountPage.tsx:182
+#: src/Components/Pages/AccountPage/AccountPage.tsx:236
 msgid "Delete"
 msgstr ""
 
@@ -354,6 +362,10 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
 msgid "findings.HRVD.result.dismissed.body"
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:118
+msgid "Don’t have your rent history?"
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:183
@@ -426,7 +438,7 @@ msgstr ""
 #~ msgid "Find out if you've been overcharged on rent"
 #~ msgstr "Averigua si te han cobrado de más en el alquiler"
 
-#: src/Components/Pages/Landing/Landing.tsx:16
+#: src/Components/Pages/Landing/Landing.tsx:31
 msgid "Find out if you’ve been overcharged on rent"
 msgstr ""
 
@@ -505,9 +517,13 @@ msgstr ""
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:25
+#: src/Components/Pages/Landing/Landing.tsx:52
 msgid "Get started"
 msgstr "Comenzar"
+
+#: src/Components/Pages/Landing/Landing.tsx:105
+msgid "Get your report"
+msgstr ""
 
 #: src/Components/GlossaryLink/GlossaryLink.tsx:22
 msgid "Glossary"
@@ -535,8 +551,16 @@ msgstr ""
 #~ msgid "Housing Justice for All"
 #~ msgstr ""
 
+#: src/Components/Pages/Landing/Landing.tsx:68
+msgid "How it works"
+msgstr ""
+
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:76
 msgid "How would you like to provide your rent history information?"
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:59
+msgid "I don’t have my rent history"
 msgstr ""
 
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:105
@@ -547,11 +571,15 @@ msgstr ""
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:171
+#: src/Components/Pages/Landing/Landing.tsx:35
+msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
+msgstr ""
+
+#: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:50
+#: src/Components/Pages/Landing/Landing.tsx:175
 #: src/Components/Pages/PageLayout/Footer.tsx:49
 msgid "JustFix"
 msgstr ""
@@ -561,8 +589,8 @@ msgid "Keep your phone steady in position and wait for the scanner to automatica
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:41
-msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
-msgstr ""
+#~ msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
+#~ msgstr ""
 
 #: src/Components/Pages/PageLayout/SidebarNav.tsx:52
 msgid "Language"
@@ -583,7 +611,7 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Gran aumento de alquiler"
 
-#: src/Components/Pages/Landing/Landing.tsx:64
+#: src/Components/Pages/Landing/Landing.tsx:162
 #: src/Components/Pages/LoginPage/LoginPage.tsx:225
 msgid "Learn more"
 msgstr ""
@@ -622,7 +650,7 @@ msgstr ""
 msgid "Loading scan previews…"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:135
+#: src/Components/Pages/AccountPage/AccountPage.tsx:147
 msgid "Loading your rent histories…"
 msgstr ""
 
@@ -630,12 +658,12 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:213
-#: src/Components/Pages/AccountPage/AccountPage.tsx:262
+#: src/Components/Pages/AccountPage/AccountPage.tsx:214
+#: src/Components/Pages/AccountPage/AccountPage.tsx:258
 msgid "Log out"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:250
+#: src/Components/Pages/AccountPage/AccountPage.tsx:251
 msgid "Log out?"
 msgstr ""
 
@@ -690,6 +718,10 @@ msgstr "Menú"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:196
 msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:148
+msgid "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:31
@@ -774,7 +806,7 @@ msgstr ""
 msgid "Page {0} scan image"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:220
+#: src/Components/Pages/AccountPage/AccountPage.tsx:221
 msgid "Permanently delete this rent history?"
 msgstr ""
 
@@ -859,6 +891,10 @@ msgstr ""
 msgid "Re-scan page"
 msgstr ""
 
+#: src/Components/Pages/Landing/Landing.tsx:131
+msgid "Receive your rent history by mail. Take the first step to learning about your stabilized status and whether you’re paying too much rent."
+msgstr ""
+
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:89
 msgid "Recommended"
 msgstr ""
@@ -910,13 +946,13 @@ msgstr ""
 msgid "Restart scanning"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:157
+#: src/Components/Pages/AccountPage/AccountPage.tsx:165
 msgid "Resume"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:156
-msgid "Resume on your mobile device"
-msgstr ""
+#~ msgid "Resume on your mobile device"
+#~ msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:34
 msgid "Retry"
@@ -934,6 +970,10 @@ msgstr ""
 msgid "Save page"
 msgstr ""
 
+#: src/Components/Pages/AccountPage/AccountPage.tsx:139
+msgid "Scan a new rent history"
+msgstr ""
+
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
 #~ msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
 #~ msgstr ""
@@ -948,6 +988,10 @@ msgstr ""
 
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:86
 msgid "Scan your rent history documents"
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:75
+msgid "Scan your rent history with your phone"
 msgstr ""
 
 #: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
@@ -1022,7 +1066,7 @@ msgstr ""
 msgid "Start scanning"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:179
+#: src/Components/Pages/AccountPage/AccountPage.tsx:193
 msgid "Started {startedOn}"
 msgstr ""
 
@@ -1069,6 +1113,10 @@ msgstr ""
 #: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
 msgid "Submit"
 msgstr "Enviar"
+
+#: src/Components/Pages/Landing/Landing.tsx:126
+msgid "Submit request"
+msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:531
 msgid "Take photos in a well lit location and enable your camera flash"
@@ -1182,12 +1230,16 @@ msgstr ""
 msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:223
+#: src/Components/Pages/AccountPage/AccountPage.tsx:224
 msgid "This rent history, completed on {deleteDate}, will be permanently deleted. This can't be undone."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:228
+#: src/Components/Pages/AccountPage/AccountPage.tsx:229
 msgid "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:168
+msgid "This tool was created by JustFix, in collaboration with leading rent history experts."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:227
@@ -1245,13 +1297,17 @@ msgstr ""
 msgid "Unsupported finding type: {0}"
 msgstr "Tipo de hallazgo no compatible: {0}"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:77
+#: src/Components/Pages/AccountPage/AccountPage.tsx:81
 msgid "Untitled rent history"
 msgstr ""
 
 #: src/Components/Pages/Home/Home.tsx:12
 #~ msgid "Upload your rent history"
 #~ msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:78
+msgid "Use our built-in scanner to photograph each page. No app download needed."
+msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:441
 msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
@@ -1285,21 +1341,25 @@ msgid "Verify"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:31
-msgid "View map of rent-stabilized buildings"
-msgstr ""
+#~ msgid "View map of rent-stabilized buildings"
+#~ msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:154
+#: src/Components/Pages/AccountPage/AccountPage.tsx:164
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:146
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:153
-msgid "View report on your mobile device"
-msgstr ""
+#~ msgid "View report on your mobile device"
+#~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
 msgid "View scanned document"
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:184
+msgid "Visit JustFix"
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
@@ -1327,8 +1387,12 @@ msgstr ""
 msgid "We couldn't combine your pages. Please try again."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:139
+#: src/Components/Pages/AccountPage/AccountPage.tsx:151
 msgid "We couldn't load your rent histories. Please try again later."
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:108
+msgid "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:108
@@ -1345,6 +1409,14 @@ msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:178
 msgid "We will generate your report PDF and email it to you. You can optionally send copies to other people you trust."
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:41
+msgid "We’ll analyze it for signs of overcharges and illegal deregulations and tell you what it could mean for you."
+msgstr ""
+
+#: src/Components/Pages/Landing/Landing.tsx:92
+msgid "We’ll ask you a few questions and run an analysis of your rent history. If anything looks suspicious, we’ll ask some simple follow-up questions to help understand if there are any overcharges or violations."
 msgstr ""
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:266
@@ -1444,7 +1516,7 @@ msgstr "Sí, coincide con mi documento"
 msgid "You can add up to 10 additional recipients."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:145
+#: src/Components/Pages/AccountPage/AccountPage.tsx:157
 msgid "You don't have any rent histories yet."
 msgstr ""
 
@@ -1458,7 +1530,7 @@ msgstr ""
 msgid "findings.PREFRENT_421A.result.dismissed.body"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:252
+#: src/Components/Pages/AccountPage/AccountPage.tsx:253
 msgid "You'll need to enter your phone number to access your reports again."
 msgstr ""
 
@@ -1517,7 +1589,7 @@ msgstr "su historial de alquiler"
 msgid "Your rent history"
 msgstr "Su historial de alquiler"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:130
+#: src/Components/Pages/AccountPage/AccountPage.tsx:134
 msgid "Your rent history report(s)"
 msgstr ""
 

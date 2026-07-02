@@ -1,95 +1,273 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../PageLayout/layoutVars" as layout;
 
 #landing-page {
   color: jfcl.$OFF_BLACK;
   background: jfcl.$OFF_WHITE_100;
 }
 
+.landing-hero,
+.landing-how,
+.landing-about {
+  border-bottom: 1px solid jfcl.$OFF_BLACK;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+// HERO
+// ----
 .landing-hero {
   background: jfcl.$OFF_WHITE_200;
-  border-bottom: 1px solid jfcl.$OFF_BLACK;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem;
 
-  h1 {
-    font-size: 3rem;
+  @include layout.desktop {
+    padding: 2.5rem;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @include layout.desktop {
+      margin: 0 auto;
+      max-width: 884px;
+    }
+  }
+
+  // Degular Display Medium 48px has no exact JFCL mixin on mobile.
+  &__title {
+    font-family: "Degular Display", Arial, Helvetica, sans-serif;
+    font-size: 3rem; // 48px
     font-weight: 500;
-    letter-spacing: 0.03em;
+    letter-spacing: 1.44px;
     line-height: 1.04;
     margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.h2_desktop;
+    }
   }
 
-  p {
-    font-size: 2rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    line-height: 1.2;
-    margin: 1.5rem 0;
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    p {
+      @include jfcl.body_large_mobile;
+      margin: 0;
+
+      @include layout.desktop {
+        @include jfcl.body_large_desktop_degtext;
+      }
+    }
   }
 
-  &__cta {
-    box-sizing: border-box;
-    display: flex !important;
-    padding: 1rem 1.25rem !important;
-    width: 100% !important;
-  }
+  &__ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
-  &__map-link {
-    margin: 1.25rem 0 0;
-    font-size: 1.125rem;
+    @include layout.desktop {
+      flex-direction: row;
+      gap: 0.75rem;
+    }
 
-    a {
-      color: jfcl.$OFF_BLACK;
-      text-decoration: underline;
+    .jfcl-button-styled-link {
+      box-sizing: border-box;
+      width: 100%;
+
+      @include layout.desktop {
+        width: auto;
+      }
     }
   }
 }
 
+// HOW IT WORKS
+// ------------
+.landing-how {
+  padding: 2rem 1.5rem;
+
+  @include layout.desktop {
+    padding: 3rem;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @include layout.desktop {
+      gap: 2rem;
+      margin: 0 auto;
+      max-width: 884px;
+    }
+  }
+
+  &__heading {
+    @include jfcl.h3_mobile;
+    margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.h3_desktop;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @include layout.desktop {
+      gap: 2rem;
+    }
+  }
+
+  &__item {
+    align-items: flex-start;
+    display: flex;
+    gap: 1rem;
+
+    // 24px circle on mobile, 36px on desktop (Pill circle is 1.5em wide).
+    .jfcl-pill--circle {
+      flex-shrink: 0;
+      font-size: 1rem;
+
+      @include layout.desktop {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  &__item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__item-title {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+      font-weight: 600;
+    }
+  }
+
+  &__item-desc {
+    @include jfcl.body_large_mobile;
+    margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+    }
+  }
+}
+
+// ABOUT
+// -----
 .landing-about {
   padding: 2rem 1.5rem;
 
-  h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 1.2;
+  @include layout.desktop {
+    padding: 3rem;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @include layout.desktop {
+      gap: 2rem;
+      margin: 0 auto;
+      max-width: 884px;
+    }
+  }
+
+  &__intro,
+  &__org {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__heading {
+    @include jfcl.h3_mobile;
     margin: 0;
-  }
 
-  > p {
-    font-size: 2rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    line-height: 1.2;
-    margin: 1rem 0 0;
-  }
-
-  &__card {
-    background: jfcl.$OFF_WHITE_200;
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-
-    h3 {
-      font-size: 2rem;
-      font-weight: 600;
-      line-height: 1.2;
-      margin: 0;
-    }
-
-    p {
-      font-size: 1.125rem;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      line-height: 1.2;
-      margin: 0.5rem 0 0;
+    @include layout.desktop {
+      @include jfcl.h3_desktop;
     }
   }
 
-  &__link {
-    align-items: center;
-    color: jfcl.$OFF_BLACK;
-    display: inline-flex;
-    gap: 0.25rem;
-    font-size: 1.125rem;
-    margin-top: 1rem;
+  &__text {
+    @include jfcl.body_large_mobile;
+    margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+    }
+  }
+
+  &__link.jfcl-link {
+    @include jfcl.body_large_mobile;
+    align-self: flex-start;
     text-decoration: underline;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+    }
+  }
+}
+
+// CALLOUT OVERRIDES
+// -----------------
+// JFCL's own mobile breakpoint is 767px, but this page switches at 900px, so
+// re-assert the mobile treatment as the base and layer the desktop values.
+.landing-callout.jfcl-callout-box {
+  border-radius: 2px;
+  margin: 0;
+  padding: 1.5rem;
+
+  @include layout.desktop {
+    border-radius: 4px;
+    padding: 2rem;
+  }
+
+  .jfcl-callout-box__header {
+    @include jfcl.h3_mobile;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+      font-weight: 600;
+    }
+  }
+
+  .jfcl-callout-box__content {
+    @include jfcl.body_standard_mobile;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+    }
+  }
+
+  .jfcl-callout-box__action .jfcl-link {
+    @include jfcl.body_standard_mobile;
+    text-decoration: underline;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop_degtext;
+    }
+  }
+  .jfcl-button-styled-link {
+    margin-top: 1rem;
   }
 }
