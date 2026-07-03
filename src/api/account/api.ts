@@ -63,11 +63,12 @@ const getRhOauthClientSecret = (): string | undefined => {
 const getAccountClient = () => createAccountClient(getAuthProviderBaseUrl());
 
 export const startRhLogin = (
-  phoneNumber: string
+  phoneNumber: string,
+  source: "desktop" | "mobile" = "mobile"
 ): Promise<RhLoginStartResponse> =>
   unwrapAccountResponse(
     getAccountClient().POST("/rh/login/start", {
-      body: { phone_number: phoneNumber },
+      body: { phone_number: phoneNumber, source },
     })
   ) as Promise<RhLoginStartResponse>;
 

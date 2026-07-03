@@ -88,9 +88,10 @@ const LoginPage: React.FC = () => {
     setVerificationError(null);
     setVerificationNotice(null);
     try {
-      const { created, otp } = await startRhLoginMutation.mutateAsync(
-        numericPhone
-      );
+      const { created, otp } = await startRhLoginMutation.mutateAsync({
+        phoneNumber: numericPhone,
+        source: "mobile",
+      });
       setProfileCreated(created);
       setRhProfileCreated(created);
       setVerificationNotice(
@@ -139,7 +140,10 @@ const LoginPage: React.FC = () => {
     setVerificationError(null);
     setVerificationNotice(null);
     try {
-      const { otp } = await startRhLoginMutation.mutateAsync(numericPhone);
+      const { otp } = await startRhLoginMutation.mutateAsync({
+        phoneNumber: numericPhone,
+        source: "mobile",
+      });
       setVerificationNotice(
         otp.status === "pending"
           ? _(msg`Code request received. Delivery may take a moment.`)
