@@ -1,1 +1,129 @@
 /* Login-specific styles; shared `preflow-*` rules load via PageLayout. */
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../PageLayout/layoutVars" as layout;
+
+.login-desktop {
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_06;
+  }
+
+  &__title {
+    @include jfcl.h3_desktop;
+    margin: 0;
+    text-align: left;
+  }
+
+  &__card {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_06;
+    padding: jfcl.$JF_SPACING_06;
+    text-align: left;
+
+    form {
+      width: 100%;
+    }
+
+    &--flush {
+      background: jfcl.$OFF_WHITE_100;
+    }
+  }
+
+  &__card-header {
+    align-items: center;
+    display: flex;
+    gap: jfcl.$JF_SPACING_04;
+    width: 100%;
+  }
+
+  &__card-heading {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_01;
+    min-width: 0;
+  }
+
+  &__icon {
+    align-items: center;
+    background: jfcl.$OFF_BLACK;
+    border-radius: 4px;
+    color: jfcl.$OFF_WHITE_100;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 2rem;
+    height: 4rem;
+    justify-content: center;
+    line-height: 1;
+    width: 4rem;
+  }
+
+  &__card-title {
+    @include jfcl.body_large_desktop;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__card-copy {
+    @include jfcl.body_standard_desktop;
+    margin: 0;
+  }
+
+  // "Or" divider: a centered label straddling short hairline rules.
+  &__divider {
+    align-items: center;
+    display: flex;
+    gap: jfcl.$JF_SPACING_04;
+    justify-content: center;
+
+    &::before,
+    &::after {
+      background: jfcl.$GREY_200;
+      content: "";
+      flex-shrink: 0;
+      height: 1px;
+      width: 3.125rem;
+    }
+
+    span {
+      @include jfcl.body_standard_desktop_degtext;
+      color: jfcl.$GREY_600;
+    }
+  }
+
+  &__form-row {
+    align-items: flex-end;
+    display: flex;
+    gap: jfcl.$JF_SPACING_04;
+    width: 100%;
+
+    .preflow-phone-input {
+      flex: 1;
+      margin-bottom: 0;
+      min-width: 0;
+    }
+
+    .preflow-primary-btn {
+      flex-shrink: 0;
+      min-width: auto;
+    }
+  }
+
+  &__notice {
+    margin-top: jfcl.$JF_SPACING_05;
+    width: 100%;
+  }
+
+  // The desktop treatment only applies at/above the shared breakpoint; the
+  // markup itself is already gated behind `useIsDesktop()`.
+  @include layout.desktop {
+    &__cards {
+      align-items: stretch;
+      margin: 0 auto;
+      max-width: 40.875rem;
+    }
+  }
+}

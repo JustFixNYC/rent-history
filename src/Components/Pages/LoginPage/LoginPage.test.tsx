@@ -59,16 +59,33 @@ const renderLoginPage = () => {
   );
 };
 
+// `useIsDesktop` reads `window.matchMedia`; jsdom has no implementation, so we
+// stub it to force the desktop (matches: true) or mobile (matches: false) path.
+const setMatchMedia = (matches: boolean) => {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches,
+    media: query,
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+};
+
 describe("LoginPage OTP verification", () => {
   beforeEach(() => {
     cleanup();
     vi.clearAllMocks();
     window.sessionStorage.clear();
+    setMatchMedia(false);
   });
 
   it("stores otp session on successful verification", async () => {
     vi.mocked(accountApi.startRhLogin).mockResolvedValue({
       created: true,
+      has_viewable_report: false,
       profile: {
         id: 1,
         phone_number: "15554443333",
@@ -121,6 +138,7 @@ describe("LoginPage OTP verification", () => {
   it("shows expired-code error message when backend returns expired", async () => {
     vi.mocked(accountApi.startRhLogin).mockResolvedValue({
       created: true,
+      has_viewable_report: false,
       profile: {
         id: 1,
         phone_number: "15554443333",
@@ -154,5 +172,107 @@ describe("LoginPage OTP verification", () => {
 
     await screen.findByText("Your code expired. Request a new code.");
     expect(rhSessionStorage.setRhAuthSession).not.toHaveBeenCalled();
+  });
+
+  it("mobile submit calls startRhLogin with source 'mobile'", async () => {
+    setMatchMedia(false);
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: true,
+      has_viewable_report: false,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+
+    renderLoginPage();
+
+    fireEvent.change(screen.getByLabelText("Phone number (required)"), {
+      target: { value: "(555) 444-3333" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "Send verification code" })
+    );
+
+    // Mobile always advances to the verification step regardless of report.
+    await screen.findByRole("heading", { name: "Enter verification code" });
+    expect(accountApi.startRhLogin).toHaveBeenCalledWith(
+      "5554443333",
+      "mobile"
+    );
+  });
+});
+
+describe("LoginPage desktop variant", () => {
+  beforeEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    setMatchMedia(true);
+  });
+
+  it("renders the two-card desktop layout with the QR lockup", () => {
+    renderLoginPage();
+
+    expect(
+      screen.getByRole("heading", { name: "Analyze a new rent history" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Access completed or in-progress reports",
+      })
+    ).toBeInTheDocument();
+    expect(screen.getByText("Or")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Log in" })).toBeInTheDocument();
+  });
+
+  it("shows the no-report notice and stays on the phone step when has_viewable_report is false", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: false,
+      has_viewable_report: false,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "skipped" },
+    });
+
+    renderLoginPage();
+
+    fireEvent.change(screen.getByLabelText("Phone number (required)"), {
+      target: { value: "(555) 444-3333" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Log in" }));
+
+    await screen.findByText(/We don't have any reports associated/);
+    expect(accountApi.startRhLogin).toHaveBeenCalledWith(
+      "5554443333",
+      "desktop"
+    );
+    // Stays on the phone step — no verification heading, no navigation.
+    expect(
+      screen.queryByRole("heading", { name: "Enter verification code" })
+    ).not.toBeInTheDocument();
+    expect(rhSessionStorage.setRhAuthSession).not.toHaveBeenCalled();
+  });
+
+  it("advances to the verification step when has_viewable_report is true", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: false,
+      has_viewable_report: true,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+
+    renderLoginPage();
+
+    fireEvent.change(screen.getByLabelText("Phone number (required)"), {
+      target: { value: "(555) 444-3333" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Log in" }));
+
+    await screen.findByRole("heading", { name: "Enter verification code" });
+    expect(accountApi.startRhLogin).toHaveBeenCalledWith(
+      "5554443333",
+      "desktop"
+    );
+    expect(
+      screen.queryByText(/We don't have any reports associated/)
+    ).not.toBeInTheDocument();
   });
 });

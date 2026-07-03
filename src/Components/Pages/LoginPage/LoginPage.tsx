@@ -6,7 +6,12 @@ import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
-import { Button, Icon, TextInput } from "@justfixnyc/component-library";
+import {
+  Button,
+  Icon,
+  InfoBox,
+  TextInput,
+} from "@justfixnyc/component-library";
 import {
   isAccountApiError,
   otpVerificationMessage,
@@ -22,14 +27,19 @@ import {
   setRhAuthSession,
 } from "../../../session/rhSessionStorage";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
+import { useIsDesktop } from "../../../utils/useIsDesktop";
+import { LoginQrLockup } from "../../LoginQrLockup/LoginQrLockup";
 import { formatPhone, setRhProfileCreated } from "../shared/flowSession";
 import "./LoginPage.scss";
 
 const LoginPage: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
+  const isDesktop = useIsDesktop();
+  const source = isDesktop ? "desktop" : "mobile";
 
   const [isVerificationStep, setIsVerificationStep] = useState(false);
+  const [showNoReportNotice, setShowNoReportNotice] = useState(false);
   const [verificationDigits, setVerificationDigits] = useState<string[]>(
     Array.from({ length: 6 }, () => "")
   );
@@ -87,11 +97,19 @@ const LoginPage: React.FC = () => {
     setPhoneError(null);
     setVerificationError(null);
     setVerificationNotice(null);
+    setShowNoReportNotice(false);
     try {
-      const { created, otp } = await startRhLoginMutation.mutateAsync({
-        phoneNumber: numericPhone,
-        source: "mobile",
-      });
+      const { created, otp, has_viewable_report } =
+        await startRhLoginMutation.mutateAsync({
+          phoneNumber: numericPhone,
+          source,
+        });
+      // Desktop with no viewable report: OTP was skipped by the backend, so
+      // stay on the phone step and surface the QR-code notice instead.
+      if (isDesktop && !has_viewable_report) {
+        setShowNoReportNotice(true);
+        return;
+      }
       setProfileCreated(created);
       setRhProfileCreated(created);
       setVerificationNotice(
@@ -142,7 +160,7 @@ const LoginPage: React.FC = () => {
     try {
       const { otp } = await startRhLoginMutation.mutateAsync({
         phoneNumber: numericPhone,
-        source: "mobile",
+        source,
       });
       setVerificationNotice(
         otp.status === "pending"
@@ -208,7 +226,102 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      {!isVerificationStep && (
+      {!isVerificationStep && isDesktop && (
+        <section className="preflow-section preflow-section--with-footer-gap login-desktop">
+          <div className="login-desktop__cards">
+            <h1 className="login-desktop__title">
+              <Trans>Get started</Trans>
+            </h1>
+            <article className="preflow-card login-desktop__card">
+              <div className="login-desktop__card-header">
+                <span className="login-desktop__icon" aria-hidden="true">
+                  {/* TODO: Replace with phone icon once added to JFCL */}
+                  <Icon icon="sms" />
+                </span>
+                <div className="login-desktop__card-heading">
+                  <h2 className="login-desktop__card-title">
+                    <Trans>Analyze a new rent history</Trans>
+                  </h2>
+                  <p className="login-desktop__card-copy">
+                    <Trans>Scan the QR code below to get started.</Trans>
+                  </p>
+                </div>
+              </div>
+              <LoginQrLockup size={108} />
+            </article>
+            <div className="login-desktop__divider" aria-hidden="true">
+              <span>
+                <Trans>Or</Trans>
+              </span>
+            </div>
+            <article className="preflow-card login-desktop__card login-desktop__card--flush">
+              <div className="login-desktop__card-heading">
+                <h2 className="login-desktop__card-title">
+                  <Trans>Access completed or in-progress reports</Trans>
+                </h2>
+                <p className="login-desktop__card-copy">
+                  <Trans>Enter your phone number below to log in.</Trans>
+                </p>
+              </div>
+              <form ref={phoneFormRef} onSubmit={onPhoneNext}>
+                <div className="login-desktop__form-row">
+                  <TextInput
+                    id="phone-input"
+                    labelText={_(msg`Phone number (required)`)}
+                    type="tel"
+                    value={maskedPhone}
+                    onChange={(e) => {
+                      phoneForm.setValue("phone", e.target.value);
+                      setPhoneError(null);
+                      setShowNoReportNotice(false);
+                    }}
+                    placeholder={_(msg`(123) 456-7890`)}
+                    className="preflow-phone-input"
+                    invalid={phoneValue.length > 0 && !isPhoneValid}
+                    invalidText={_(
+                      msg`Please enter a valid 10-digit phone number.`
+                    )}
+                  />
+                  <Button
+                    labelText={_(msg`Log in`)}
+                    className="preflow-primary-btn"
+                    onClick={() => phoneFormRef.current?.requestSubmit()}
+                    disabled={!isPhoneValid || isSendingCode}
+                  />
+                </div>
+                {phoneError && (
+                  <p className="preflow-error" role="alert">
+                    {phoneError}
+                  </p>
+                )}
+              </form>
+              {showNoReportNotice && (
+                <InfoBox
+                  color="blue"
+                  role="status"
+                  className="login-desktop__notice"
+                >
+                  <p>
+                    <Trans>
+                      We don't have any reports associated with this number. To
+                      get started, scan the QR code below with your phone.
+                    </Trans>
+                  </p>
+                  <LoginQrLockup size={96} />
+                </InfoBox>
+              )}
+            </article>
+          </div>
+          <div className="preflow-actions">
+            <button type="button" className="preflow-link-btn" onClick={onBack}>
+              <Icon icon="chevronLeft" />
+              <Trans>Back</Trans>
+            </button>
+          </div>
+        </section>
+      )}
+
+      {!isVerificationStep && !isDesktop && (
         <section className="preflow-section preflow-section--with-footer-gap">
           <form ref={phoneFormRef} onSubmit={onPhoneNext}>
             <article className="preflow-card">
