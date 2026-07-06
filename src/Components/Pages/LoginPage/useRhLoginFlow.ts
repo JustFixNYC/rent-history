@@ -38,9 +38,7 @@ export function useRhLoginFlow() {
   const [verificationError, setVerificationError] = useState<string | null>(
     null
   );
-  const [verificationNotice, setVerificationNotice] = useState<string | null>(
-    null
-  );
+  const [codeResent, setCodeResent] = useState(false);
   const startRhLoginMutation = useStartRhLogin();
   const verifyRhOtpMutation = useVerifyRhOtp();
   const isSendingCode = startRhLoginMutation.isPending;
@@ -83,10 +81,10 @@ export function useRhLoginFlow() {
   const onPhoneNext = phoneForm.handleSubmit(async () => {
     setPhoneError(null);
     setVerificationError(null);
-    setVerificationNotice(null);
+    setCodeResent(false);
     setShowNoReportNotice(false);
     try {
-      const { created, otp, has_viewable_report } =
+      const { created, has_viewable_report } =
         await startRhLoginMutation.mutateAsync({
           phoneNumber: numericPhone,
           source,
@@ -97,11 +95,6 @@ export function useRhLoginFlow() {
       }
       setProfileCreated(created);
       setRhProfileCreated(created);
-      setVerificationNotice(
-        otp.status === "pending"
-          ? _(msg`We requested your code. Delivery may take a moment.`)
-          : _(msg`Code sent. Enter it below to continue.`)
-      );
       setIsVerificationStep(true);
     } catch (error) {
       if (isAccountApiError(error)) {
@@ -141,17 +134,12 @@ export function useRhLoginFlow() {
     if (!isPhoneValid || isSendingCode) return;
     otpForm.setValue("code", "");
     setVerificationError(null);
-    setVerificationNotice(null);
     try {
-      const { otp } = await startRhLoginMutation.mutateAsync({
+      await startRhLoginMutation.mutateAsync({
         phoneNumber: numericPhone,
         source,
       });
-      setVerificationNotice(
-        otp.status === "pending"
-          ? _(msg`Code request received. Delivery may take a moment.`)
-          : _(msg`A new code has been sent.`)
-      );
+      setCodeResent(true);
     } catch (error) {
       if (isAccountApiError(error)) {
         setVerificationError(phoneResendMessage(error, _));
@@ -169,13 +157,14 @@ export function useRhLoginFlow() {
       return;
     }
     setIsVerificationStep(false);
+    setCodeResent(false);
   };
 
   const onPhoneChange = (value: string) => {
     phoneForm.setValue("phone", value);
     setPhoneError(null);
     setShowNoReportNotice(false);
-    setVerificationNotice(null);
+    setCodeResent(false);
   };
 
   const onOtpChange = (value: string) => {
@@ -196,7 +185,7 @@ export function useRhLoginFlow() {
     isVerifyingCode,
     phoneError,
     verificationError,
-    verificationNotice,
+    codeResent,
     showNoReportNotice,
     onPhoneNext,
     onVerificationNext,

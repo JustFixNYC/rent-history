@@ -10,7 +10,7 @@ type LoginVerificationStepProps = {
   otpFormRef: React.RefObject<HTMLFormElement>;
   maskedPhone: string;
   verificationCode: string;
-  verificationNotice: string | null;
+  codeResent: boolean;
   verificationError: string | null;
   isVerificationCodeValid: boolean;
   isVerifyingCode: boolean;
@@ -25,7 +25,7 @@ export function LoginVerificationStep({
   otpFormRef,
   maskedPhone,
   verificationCode,
-  verificationNotice,
+  codeResent,
   verificationError,
   isVerificationCodeValid,
   isVerifyingCode,
@@ -57,14 +57,17 @@ export function LoginVerificationStep({
           <h1>
             <Trans>Enter verification code</Trans>
           </h1>
-          <p className="preflow-subtitle">
-            {_(msg`We sent a code to`)} <strong>{maskedPhone}</strong>
+          <p className="preflow-subtitle" role="status" aria-live="polite">
+            {codeResent ? (
+              <Trans>
+                We sent a new code to <strong>{maskedPhone}</strong>
+              </Trans>
+            ) : (
+              <Trans>
+                We sent a code to <strong>{maskedPhone}</strong>
+              </Trans>
+            )}
           </p>
-          {verificationNotice && (
-            <p className="preflow-notice" role="status">
-              {verificationNotice}
-            </p>
-          )}
           <OtpInput
             id="verification-code"
             name="code"

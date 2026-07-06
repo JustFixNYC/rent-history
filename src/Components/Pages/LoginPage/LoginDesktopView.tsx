@@ -1,7 +1,12 @@
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { Button, Icon, InfoBox, TextInput } from "@justfixnyc/component-library";
+import {
+  Button,
+  Icon,
+  InfoBox,
+  TextInput,
+} from "@justfixnyc/component-library";
 import { LoginQrLockup } from "../../LoginQrLockup/LoginQrLockup";
 
 type LoginDesktopViewProps = {
@@ -105,8 +110,8 @@ export function LoginDesktopView({
             >
               <p>
                 <Trans>
-                  We don't have any reports associated with this number. To
-                  get started, scan the QR code below with your phone.
+                  We don't have any reports associated with this number. To get
+                  started, scan the QR code below with your phone.
                 </Trans>
               </p>
               <LoginQrLockup size={96} />

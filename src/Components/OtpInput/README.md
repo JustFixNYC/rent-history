@@ -20,13 +20,13 @@ A common pattern renders six separate `<input maxLength={1}>` fields. That break
 
 ## Module contents
 
-| File | Role |
-|------|------|
-| `OtpInput.tsx` | Presentational controlled input + visual cells |
-| `useOtpInput.ts` | Optional local state + sanitized handlers |
-| `useWebOtp.ts` | Optional Android WebOTP progressive enhancement |
-| `OtpInput.scss` | BEM layout (`.otp-input`, `__cells`, `__cell`, `__field`) |
-| `index.ts` | Barrel exports |
+| File             | Role                                                      |
+| ---------------- | --------------------------------------------------------- |
+| `OtpInput.tsx`   | Presentational controlled input + visual cells            |
+| `useOtpInput.ts` | Optional local state + sanitized handlers                 |
+| `useWebOtp.ts`   | Optional Android WebOTP progressive enhancement           |
+| `OtpInput.scss`  | BEM layout (`.otp-input`, `__cells`, `__cell`, `__field`) |
+| `index.ts`       | Barrel exports                                            |
 
 ---
 
@@ -74,7 +74,7 @@ const { value, setValue, inputRef, onChange, onKeyDown, onPaste, isComplete } =
   onPaste={onPaste}
   inputRef={inputRef}
   aria-label="Verification code"
-/>
+/>;
 ```
 
 Use **either** `useOtpInput` local state **or** an external store (react-hook-form, etc.) — not both as competing sources of truth.
@@ -95,7 +95,7 @@ useWebOtp({
 On mount (when `enabled` and `'OTPCredential' in window`), the hook calls:
 
 ```ts
-navigator.credentials.get({ otp: { transport: ["sms"] }, signal })
+navigator.credentials.get({ otp: { transport: ["sms"] }, signal });
 ```
 
 The resolved credential’s `code` is passed to `onCode`. An `AbortController` cancels the request on unmount (e.g. navigation away or successful submit).

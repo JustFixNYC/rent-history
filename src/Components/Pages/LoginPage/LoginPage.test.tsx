@@ -81,12 +81,59 @@ const enterVerificationCode = (code: string) => {
   );
 };
 
+const advanceToVerificationStep = async () => {
+  fireEvent.change(screen.getByLabelText("Phone number (required)"), {
+    target: { value: "(555) 444-3333" },
+  });
+  fireEvent.click(
+    screen.getByRole("button", { name: "Send verification code" })
+  );
+  await screen.findByRole("heading", { name: "Enter verification code" });
+};
+
 describe("LoginPage OTP verification", () => {
   beforeEach(() => {
     cleanup();
     vi.clearAllMocks();
     window.sessionStorage.clear();
     setMatchMedia(false);
+  });
+
+  it("shows initial verification subtitle after phone submit", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: true,
+      has_viewable_report: false,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+
+    renderLoginPage();
+    await advanceToVerificationStep();
+
+    const subtitle = screen.getByRole("status");
+    expect(subtitle).toHaveTextContent("We sent a code to");
+    expect(subtitle).toHaveTextContent("(555) 444-3333");
+    expect(subtitle).not.toHaveTextContent("new code");
+  });
+
+  it("updates verification subtitle after resend", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: true,
+      has_viewable_report: false,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+
+    renderLoginPage();
+    await advanceToVerificationStep();
+
+    fireEvent.click(screen.getByRole("button", { name: "Resend" }));
+
+    await waitFor(() => {
+      const subtitle = screen.getByRole("status");
+      expect(subtitle).toHaveTextContent("We sent a new code to");
+      expect(subtitle).toHaveTextContent("(555) 444-3333");
+    });
   });
 
   it("stores otp session on successful verification", async () => {

@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
         otpFormRef={flow.otpFormRef}
         maskedPhone={flow.maskedPhone}
         verificationCode={flow.verificationCode}
-        verificationNotice={flow.verificationNotice}
+        codeResent={flow.codeResent}
         verificationError={flow.verificationError}
         isVerificationCodeValid={flow.isVerificationCodeValid}
         isVerifyingCode={flow.isVerifyingCode}
