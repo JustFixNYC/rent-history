@@ -34,5 +34,8 @@
   // .inline-chip uses the uppercase eyebrow_mobile mixin; a URL should stay lowercase.
   &__url {
     text-transform: none;
+    padding: 0.5rem;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_50;
   }
 }

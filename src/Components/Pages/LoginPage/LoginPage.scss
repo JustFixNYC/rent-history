@@ -49,9 +49,10 @@
 
   &__icon {
     align-items: center;
-    background: jfcl.$OFF_BLACK;
+    background: jfcl.$OFF_WHITE_100;
     border-radius: 4px;
-    color: jfcl.$OFF_WHITE_100;
+    color: jfcl.$OFF_BLACK;
+    border: 1px solid jfcl.$OFF_WHITE_200;
     display: inline-flex;
     flex-shrink: 0;
     font-size: 2rem;

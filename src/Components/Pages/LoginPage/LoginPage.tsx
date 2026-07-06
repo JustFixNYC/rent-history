@@ -235,8 +235,7 @@ const LoginPage: React.FC = () => {
             <article className="preflow-card login-desktop__card">
               <div className="login-desktop__card-header">
                 <span className="login-desktop__icon" aria-hidden="true">
-                  {/* TODO: Replace with phone icon once added to JFCL */}
-                  <Icon icon="sms" />
+                  <Icon icon="mobileScreenButton" />
                 </span>
                 <div className="login-desktop__card-heading">
                   <h2 className="login-desktop__card-title">
@@ -283,9 +282,10 @@ const LoginPage: React.FC = () => {
                     )}
                   />
                   <Button
+                    type="submit"
                     labelText={_(msg`Log in`)}
+                    size="small"
                     className="preflow-primary-btn"
-                    onClick={() => phoneFormRef.current?.requestSubmit()}
                     disabled={!isPhoneValid || isSendingCode}
                   />
                 </div>
