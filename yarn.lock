@@ -847,21 +847,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@justfixnyc/component-library@0.61.2":
-  version "0.61.2"
-  resolved "https://registry.yarnpkg.com/@justfixnyc/component-library/-/component-library-0.61.2.tgz#ee0a40fa4ac51c14bc510b3c750396e5c273e811"
-  integrity sha512-NBuKrQzXCBfVqUFf69Doob0zT3KzU7ezRj0JT/uIb6nqGnoRRJX6onFyW+CQILSrXIgz/F25TwS4GDB89A9fKg==
+"@justfixnyc/component-library@0.61.3":
+  version "0.61.3"
+  resolved "https://registry.yarnpkg.com/@justfixnyc/component-library/-/component-library-0.61.3.tgz#a6fb698e22322f87acf4160ce538f6f9870233dc"
+  integrity sha512-I6rqR7XzYEQZJWFrRHjzrSvGpAv8dIxPyBjdr6JiVzH9YfJVnv+Kg3j6cBMFnN5FeAKYZZj0WPdkuqVtvPNF2Q==
   dependencies:
     "@awesome.me/kit-6863e5a21e" "^1.0.4"
     "@babel/runtime" "^7.12.5"
     "@fortawesome/fontawesome-svg-core" "^7.1.0"
     "@fortawesome/react-fontawesome" "^3.1.0"
     react-select "^5.7.2"
-
-"@justfixnyc/geosearch-requester@^1.0.3-alpha.0":
-  version "1.0.3-alpha.0"
-  resolved "https://registry.npmjs.org/@justfixnyc/geosearch-requester/-/geosearch-requester-1.0.3-alpha.0.tgz"
-  integrity sha512-Q0gBy44pykP54MfDkLO6ejr+AmJ6zoL00G+EBa9kw4uYXegZYTKrDJI097ioi/Uly7SHNSfI+VM7YSL7H13uJA==
 
 "@lingui/babel-plugin-extract-messages@5.4.1":
   version "5.4.1"
