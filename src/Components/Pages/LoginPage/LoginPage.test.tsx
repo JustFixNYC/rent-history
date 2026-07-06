@@ -74,6 +74,13 @@ const setMatchMedia = (matches: boolean) => {
   }));
 };
 
+const enterVerificationCode = (code: string) => {
+  fireEvent.change(
+    screen.getByRole("textbox", { name: /verification code/i }),
+    { target: { value: code } }
+  );
+};
+
 describe("LoginPage OTP verification", () => {
   beforeEach(() => {
     cleanup();
@@ -116,11 +123,7 @@ describe("LoginPage OTP verification", () => {
 
     await screen.findByRole("heading", { name: "Enter verification code" });
 
-    for (let index = 1; index <= 6; index += 1) {
-      fireEvent.change(screen.getByLabelText(`Verification digit ${index}`), {
-        target: { value: String(index) },
-      });
-    }
+    enterVerificationCode("123456");
 
     fireEvent.click(screen.getByRole("button", { name: "Verify" }));
 
@@ -162,11 +165,7 @@ describe("LoginPage OTP verification", () => {
     );
 
     await screen.findByRole("heading", { name: "Enter verification code" });
-    for (let index = 1; index <= 6; index += 1) {
-      fireEvent.change(screen.getByLabelText(`Verification digit ${index}`), {
-        target: { value: String(index) },
-      });
-    }
+    enterVerificationCode("123456");
 
     fireEvent.click(screen.getByRole("button", { name: "Verify" }));
 

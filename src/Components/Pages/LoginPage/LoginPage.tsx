@@ -1,461 +1,60 @@
-import { useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useLingui } from "@lingui/react";
-import { msg } from "@lingui/core/macro";
-import { Trans } from "@lingui/react/macro";
-import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  Icon,
-  InfoBox,
-  TextInput,
-} from "@justfixnyc/component-library";
-import {
-  isAccountApiError,
-  otpVerificationMessage,
-  phoneLoginMessage,
-  phoneResendMessage,
-  RhProfile,
-  useStartRhLogin,
-  useVerifyRhOtp,
-} from "../../../api/account";
-import {
-  clearRhHistoryId,
-  clearRhSessionDocument,
-  setRhAuthSession,
-} from "../../../session/rhSessionStorage";
-import { useSessionStorage } from "../../../hooks/useSessionStorage";
-import { useIsDesktop } from "../../../utils/useIsDesktop";
-import { LoginQrLockup } from "../../LoginQrLockup/LoginQrLockup";
-import { formatPhone, setRhProfileCreated } from "../shared/flowSession";
+import { useRhLoginFlow } from "./useRhLoginFlow";
+import { LoginDesktopView } from "./LoginDesktopView";
+import { LoginPhoneStep } from "./LoginPhoneStep";
+import { LoginVerificationStep } from "./LoginVerificationStep";
 import "./LoginPage.scss";
 
 const LoginPage: React.FC = () => {
-  const { i18n, _ } = useLingui();
-  const navigate = useNavigate();
-  const isDesktop = useIsDesktop();
-  const source = isDesktop ? "desktop" : "mobile";
+  const flow = useRhLoginFlow();
 
-  const [isVerificationStep, setIsVerificationStep] = useState(false);
-  const [showNoReportNotice, setShowNoReportNotice] = useState(false);
-  const [verificationDigits, setVerificationDigits] = useState<string[]>(
-    Array.from({ length: 6 }, () => "")
-  );
-  const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
-  const phoneFormRef = useRef<HTMLFormElement>(null);
-  const otpFormRef = useRef<HTMLFormElement>(null);
-  const [profileCreated, setProfileCreated] = useState(false);
-  const [phoneError, setPhoneError] = useState<string | null>(null);
-  const [verificationError, setVerificationError] = useState<string | null>(
-    null
-  );
-  const [verificationNotice, setVerificationNotice] = useState<string | null>(
-    null
-  );
-  const startRhLoginMutation = useStartRhLogin();
-  const verifyRhOtpMutation = useVerifyRhOtp();
-  const isSendingCode = startRhLoginMutation.isPending;
-  const isVerifyingCode = verifyRhOtpMutation.isPending;
-  const [, setVerifiedProfile] = useSessionStorage<RhProfile | null>(
-    "rhVerifiedProfile",
-    null
-  );
+  if (flow.isVerificationStep) {
+    return (
+      <LoginVerificationStep
+        otpFormRef={flow.otpFormRef}
+        maskedPhone={flow.maskedPhone}
+        verificationCode={flow.verificationCode}
+        verificationNotice={flow.verificationNotice}
+        verificationError={flow.verificationError}
+        isVerificationCodeValid={flow.isVerificationCodeValid}
+        isVerifyingCode={flow.isVerifyingCode}
+        isSendingCode={flow.isSendingCode}
+        onVerificationNext={flow.onVerificationNext}
+        onOtpChange={flow.onOtpChange}
+        onResendCode={flow.onResendCode}
+        onBack={flow.onBack}
+      />
+    );
+  }
 
-  const phoneForm = useForm<{ phone: string }>({
-    resolver: zodResolver(
-      z.object({
-        phone: z
-          .string()
-          .refine(
-            (val) => val.replace(/\D/g, "").length === 10,
-            _(msg`Please enter a valid phone number.`)
-          ),
-      })
-    ),
-    defaultValues: { phone: "" },
-  });
-
-  const otpForm = useForm<{ code: string }>({
-    resolver: zodResolver(
-      z.object({
-        code: z.string().length(6, _(msg`Please enter all 6 digits.`)),
-      })
-    ),
-    defaultValues: { code: "" },
-  });
-
-  const phoneValue = phoneForm.watch("phone");
-  const numericPhone = phoneValue.replace(/\D/g, "");
-  const isPhoneValid = numericPhone.length === 10;
-  const verificationCode = verificationDigits.join("");
-  const isVerificationCodeValid = verificationCode.length === 6;
-  const maskedPhone = useMemo(() => formatPhone(phoneValue), [phoneValue]);
-
-  const onPhoneNext = phoneForm.handleSubmit(async () => {
-    setPhoneError(null);
-    setVerificationError(null);
-    setVerificationNotice(null);
-    setShowNoReportNotice(false);
-    try {
-      const { created, otp, has_viewable_report } =
-        await startRhLoginMutation.mutateAsync({
-          phoneNumber: numericPhone,
-          source,
-        });
-      // Desktop with no viewable report: OTP was skipped by the backend, so
-      // stay on the phone step and surface the QR-code notice instead.
-      if (isDesktop && !has_viewable_report) {
-        setShowNoReportNotice(true);
-        return;
-      }
-      setProfileCreated(created);
-      setRhProfileCreated(created);
-      setVerificationNotice(
-        otp.status === "pending"
-          ? _(msg`We requested your code. Delivery may take a moment.`)
-          : _(msg`Code sent. Enter it below to continue.`)
-      );
-      setIsVerificationStep(true);
-    } catch (error) {
-      if (isAccountApiError(error)) {
-        setPhoneError(phoneLoginMessage(error, _));
-      } else {
-        setPhoneError(
-          _(msg`Something went wrong while sending your verification code.`)
-        );
-      }
-    }
-  });
-
-  const onVerificationNext = otpForm.handleSubmit(async (data) => {
-    setVerificationError(null);
-    try {
-      const otpSession = await verifyRhOtpMutation.mutateAsync({
-        phoneNumber: numericPhone,
-        code: data.code,
-      });
-      // Reset any stale flow/session document before writing fresh auth state.
-      clearRhSessionDocument();
-      setRhAuthSession(otpSession);
-      setVerifiedProfile(otpSession.profile);
-      clearRhHistoryId();
-      navigate(`/${i18n.locale}/${profileCreated ? "history" : "account"}`);
-    } catch (error) {
-      if (isAccountApiError(error)) {
-        setVerificationError(otpVerificationMessage(error, _));
-      } else {
-        setVerificationError(
-          _(msg`Something went wrong while verifying your code.`)
-        );
-      }
-    }
-  });
-
-  const onResendCode = async () => {
-    if (!isPhoneValid || isSendingCode) return;
-    setVerificationError(null);
-    setVerificationNotice(null);
-    try {
-      const { otp } = await startRhLoginMutation.mutateAsync({
-        phoneNumber: numericPhone,
-        source,
-      });
-      setVerificationNotice(
-        otp.status === "pending"
-          ? _(msg`Code request received. Delivery may take a moment.`)
-          : _(msg`A new code has been sent.`)
-      );
-    } catch (error) {
-      if (isAccountApiError(error)) {
-        setVerificationError(phoneResendMessage(error, _));
-      } else {
-        setVerificationError(
-          _(msg`Unable to resend code right now. Please try again.`)
-        );
-      }
-    }
-  };
-
-  const updateDigit = (index: number, value: string) => {
-    const digit = value.replace(/\D/g, "").slice(-1);
-    const next = [...verificationDigits];
-    next[index] = digit;
-    setVerificationDigits(next);
-    otpForm.setValue("code", next.join(""));
-
-    if (digit && index < otpRefs.current.length - 1) {
-      otpRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const onDigitKeyDown = (
-    index: number,
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    if (event.key === "Backspace" && !verificationDigits[index] && index > 0) {
-      otpRefs.current[index - 1]?.focus();
-    } else if (event.key === "Enter") {
-      otpFormRef.current?.requestSubmit();
-    }
-  };
-
-  const onOtpPaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
-    const pasted = event.clipboardData
-      .getData("text")
-      .replace(/\D/g, "")
-      .slice(0, 6);
-    if (!pasted) return;
-
-    event.preventDefault();
-    const next = Array.from({ length: 6 }, (_, i) => pasted[i] || "");
-    setVerificationDigits(next);
-    otpForm.setValue("code", next.join(""));
-    const targetIndex = Math.min(pasted.length, 6) - 1;
-    otpRefs.current[Math.max(targetIndex, 0)]?.focus();
-  };
-
-  const onBack = () => {
-    if (!isVerificationStep) {
-      navigate(`/${i18n.locale}`);
-      return;
-    }
-    setIsVerificationStep(false);
-  };
+  if (flow.isDesktop) {
+    return (
+      <LoginDesktopView
+        phoneFormRef={flow.phoneFormRef}
+        maskedPhone={flow.maskedPhone}
+        phoneValue={flow.phoneValue}
+        isPhoneValid={flow.isPhoneValid}
+        isSendingCode={flow.isSendingCode}
+        phoneError={flow.phoneError}
+        showNoReportNotice={flow.showNoReportNotice}
+        onPhoneNext={flow.onPhoneNext}
+        onPhoneChange={flow.onPhoneChange}
+        onBack={flow.onBack}
+      />
+    );
+  }
 
   return (
-    <>
-      {!isVerificationStep && isDesktop && (
-        <section className="preflow-section preflow-section--with-footer-gap login-desktop">
-          <div className="login-desktop__cards">
-            <h1 className="login-desktop__title">
-              <Trans>Get started</Trans>
-            </h1>
-            <article className="preflow-card login-desktop__card">
-              <div className="login-desktop__card-header">
-                <span className="login-desktop__icon" aria-hidden="true">
-                  <Icon icon="mobileScreenButton" />
-                </span>
-                <div className="login-desktop__card-heading">
-                  <h2 className="login-desktop__card-title">
-                    <Trans>Analyze a new rent history</Trans>
-                  </h2>
-                  <p className="login-desktop__card-copy">
-                    <Trans>Scan the QR code below to get started.</Trans>
-                  </p>
-                </div>
-              </div>
-              <LoginQrLockup size={108} />
-            </article>
-            <div className="login-desktop__divider" aria-hidden="true">
-              <span>
-                <Trans>Or</Trans>
-              </span>
-            </div>
-            <article className="preflow-card login-desktop__card login-desktop__card--flush">
-              <div className="login-desktop__card-heading">
-                <h2 className="login-desktop__card-title">
-                  <Trans>Access completed or in-progress reports</Trans>
-                </h2>
-                <p className="login-desktop__card-copy">
-                  <Trans>Enter your phone number below to log in.</Trans>
-                </p>
-              </div>
-              <form ref={phoneFormRef} onSubmit={onPhoneNext}>
-                <div className="login-desktop__form-row">
-                  <TextInput
-                    id="phone-input"
-                    labelText={_(msg`Phone number (required)`)}
-                    type="tel"
-                    value={maskedPhone}
-                    onChange={(e) => {
-                      phoneForm.setValue("phone", e.target.value);
-                      setPhoneError(null);
-                      setShowNoReportNotice(false);
-                    }}
-                    placeholder={_(msg`(123) 456-7890`)}
-                    className="preflow-phone-input"
-                    invalid={phoneValue.length > 0 && !isPhoneValid}
-                    invalidText={_(
-                      msg`Please enter a valid 10-digit phone number.`
-                    )}
-                  />
-                  <Button
-                    type="submit"
-                    labelText={_(msg`Log in`)}
-                    size="small"
-                    className="preflow-primary-btn"
-                    disabled={!isPhoneValid || isSendingCode}
-                  />
-                </div>
-                {phoneError && (
-                  <p className="preflow-error" role="alert">
-                    {phoneError}
-                  </p>
-                )}
-              </form>
-              {showNoReportNotice && (
-                <InfoBox
-                  color="blue"
-                  role="status"
-                  className="login-desktop__notice"
-                >
-                  <p>
-                    <Trans>
-                      We don't have any reports associated with this number. To
-                      get started, scan the QR code below with your phone.
-                    </Trans>
-                  </p>
-                  <LoginQrLockup size={96} />
-                </InfoBox>
-              )}
-            </article>
-          </div>
-          <div className="preflow-actions">
-            <button type="button" className="preflow-link-btn" onClick={onBack}>
-              <Icon icon="chevronLeft" />
-              <Trans>Back</Trans>
-            </button>
-          </div>
-        </section>
-      )}
-
-      {!isVerificationStep && !isDesktop && (
-        <section className="preflow-section preflow-section--with-footer-gap">
-          <form ref={phoneFormRef} onSubmit={onPhoneNext}>
-            <article className="preflow-card">
-              <h1>
-                <Trans>Enter your phone number</Trans>
-              </h1>
-              <div className="preflow-helper">
-                <Icon icon="circleInfo" />
-                <p>
-                  <Trans>
-                    We’ll text you a code to verify and save your progress.
-                  </Trans>{" "}
-                  <a
-                    href="https://www.justfix.org"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Trans>Learn more</Trans>
-                  </a>
-                </p>
-              </div>
-              <TextInput
-                id="phone-input"
-                labelText={_(msg`Phone number (required)`)}
-                type="tel"
-                value={maskedPhone}
-                onChange={(e) => {
-                  phoneForm.setValue("phone", e.target.value);
-                  setPhoneError(null);
-                  setVerificationNotice(null);
-                }}
-                placeholder={_(msg`(123) 456-7890`)}
-                className="preflow-phone-input"
-                invalid={phoneValue.length > 0 && !isPhoneValid}
-                invalidText={_(
-                  msg`Please enter a valid 10-digit phone number.`
-                )}
-              />
-              {phoneError && (
-                <p className="preflow-error" role="alert">
-                  {phoneError}
-                </p>
-              )}
-            </article>
-            <div className="preflow-actions">
-              <button
-                type="button"
-                className="preflow-link-btn"
-                onClick={onBack}
-              >
-                <Icon icon="chevronLeft" />
-                <Trans>Back</Trans>
-              </button>
-              <Button
-                labelText={_(msg`Send verification code`)}
-                className="preflow-primary-btn"
-                onClick={() => phoneFormRef.current?.requestSubmit()}
-                disabled={!isPhoneValid || isSendingCode}
-              />
-            </div>
-          </form>
-        </section>
-      )}
-
-      {isVerificationStep && (
-        <section className="preflow-section preflow-section--with-footer-gap">
-          <form ref={otpFormRef} onSubmit={onVerificationNext}>
-            <input type="hidden" {...otpForm.register("code")} />
-            <article className="preflow-card">
-              <h1>
-                <Trans>Enter verification code</Trans>
-              </h1>
-              <p className="preflow-subtitle">
-                {_(msg`We sent a code to`)} <strong>{maskedPhone}</strong>
-              </p>
-              {verificationNotice && (
-                <p className="preflow-notice" role="status">
-                  {verificationNotice}
-                </p>
-              )}
-              <div className="preflow-code">
-                {verificationDigits.map((digit, index) => (
-                  <input
-                    key={`code-${index}`}
-                    ref={(element) => {
-                      otpRefs.current[index] = element;
-                    }}
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={1}
-                    value={digit}
-                    onChange={(e) => updateDigit(index, e.target.value)}
-                    onKeyDown={(e) => onDigitKeyDown(index, e)}
-                    onPaste={onOtpPaste}
-                    aria-label={_(msg`Verification digit ${index + 1}`)}
-                  />
-                ))}
-              </div>
-              <p className="preflow-resend">
-                <Trans>Didn’t receive a code?</Trans>{" "}
-                <button
-                  type="button"
-                  onClick={onResendCode}
-                  disabled={isSendingCode}
-                >
-                  <Trans>Resend</Trans>
-                </button>
-              </p>
-              {verificationError && (
-                <p className="preflow-error" role="alert">
-                  {verificationError}
-                </p>
-              )}
-            </article>
-            <div className="preflow-actions">
-              <button
-                type="button"
-                className="preflow-link-btn"
-                onClick={onBack}
-              >
-                <Icon icon="chevronLeft" />
-                <Trans>Back</Trans>
-              </button>
-              <Button
-                labelText={_(msg`Verify`)}
-                className="preflow-primary-btn"
-                type="submit"
-                disabled={!isVerificationCodeValid || isVerifyingCode}
-              />
-            </div>
-          </form>
-        </section>
-      )}
-    </>
+    <LoginPhoneStep
+      phoneFormRef={flow.phoneFormRef}
+      maskedPhone={flow.maskedPhone}
+      phoneValue={flow.phoneValue}
+      isPhoneValid={flow.isPhoneValid}
+      isSendingCode={flow.isSendingCode}
+      phoneError={flow.phoneError}
+      onPhoneNext={flow.onPhoneNext}
+      onPhoneChange={flow.onPhoneChange}
+      onBack={flow.onBack}
+    />
   );
 };
 
