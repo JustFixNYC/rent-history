@@ -4,3 +4,4 @@ export {
   type UseOtpInputOptions,
   type UseOtpInputResult,
 } from "./useOtpInput";
+export { useWebOtp } from "./useWebOtp";
