@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
@@ -36,11 +36,17 @@ export function LoginVerificationStep({
   onBack,
 }: LoginVerificationStepProps) {
   const { _ } = useLingui();
+  const otpInputRef = useRef<HTMLInputElement>(null);
 
   const handleWebOtpCode = useCallback(
     (code: string) => onOtpChange(code),
     [onOtpChange]
   );
+
+  const handleResendCode = () => {
+    onResendCode();
+    otpInputRef.current?.focus();
+  };
 
   useWebOtp({ onCode: handleWebOtpCode });
 
@@ -63,6 +69,8 @@ export function LoginVerificationStep({
             id="verification-code"
             name="code"
             value={verificationCode}
+            autoFocus
+            inputRef={otpInputRef}
             onChange={(event) => onOtpChange(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
@@ -80,7 +88,7 @@ export function LoginVerificationStep({
             <Trans>Didn’t receive a code?</Trans>{" "}
             <button
               type="button"
-              onClick={onResendCode}
+              onClick={handleResendCode}
               disabled={isSendingCode}
             >
               <Trans>Resend</Trans>

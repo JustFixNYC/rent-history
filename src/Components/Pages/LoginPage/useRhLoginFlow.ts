@@ -139,6 +139,7 @@ export function useRhLoginFlow() {
 
   const onResendCode = async () => {
     if (!isPhoneValid || isSendingCode) return;
+    otpForm.setValue("code", "");
     setVerificationError(null);
     setVerificationNotice(null);
     try {

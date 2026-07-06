@@ -173,6 +173,36 @@ describe("LoginPage OTP verification", () => {
     expect(rhSessionStorage.setRhAuthSession).not.toHaveBeenCalled();
   });
 
+  it("clears the OTP field when resend is clicked", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: true,
+      has_viewable_report: false,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+
+    renderLoginPage();
+
+    fireEvent.change(screen.getByLabelText("Phone number (required)"), {
+      target: { value: "(555) 444-3333" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "Send verification code" })
+    );
+
+    await screen.findByRole("heading", { name: "Enter verification code" });
+
+    enterVerificationCode("123");
+
+    fireEvent.click(screen.getByRole("button", { name: "Resend" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("textbox", { name: /verification code/i })
+      ).toHaveValue("");
+    });
+  });
+
   it("mobile submit calls startRhLogin with source 'mobile'", async () => {
     setMatchMedia(false);
     vi.mocked(accountApi.startRhLogin).mockResolvedValue({
