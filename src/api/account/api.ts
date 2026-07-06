@@ -68,7 +68,11 @@ export const startRhLogin = (
 ): Promise<RhLoginStartResponse> =>
   unwrapAccountResponse(
     getAccountClient().POST("/rh/login/start", {
-      body: { phone_number: phoneNumber, source },
+      body: {
+        phone_number: phoneNumber,
+        source,
+        otp_domain: window.location.hostname,
+      },
     })
   ) as Promise<RhLoginStartResponse>;
 

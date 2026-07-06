@@ -332,6 +332,11 @@ describe("getRhHistoryPagesReadiness", () => {
     const request = getMockedFetchRequest(fetchSpy);
     expect(request.url).toBe("https://auth.example.org/rh/login/start");
     expect(request.method).toBe("POST");
+    await expect(request.json()).resolves.toEqual({
+      phone_number: "5551234567",
+      source: "mobile",
+      otp_domain: window.location.hostname,
+    });
     expect(result.created).toBe(true);
     expect(result.profile.phone_number).toBe("+15551234567");
     expect(result.otp.status).toBe("sent");
