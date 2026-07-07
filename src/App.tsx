@@ -16,7 +16,6 @@ import Landing from "./Components/Pages/Landing/Landing";
 import RentStabilizedMapPage from "./Components/Pages/RentStabilizedMap/RentStabilizedMapPage";
 import LoginPage from "./Components/Pages/LoginPage/LoginPage";
 import AccountPage from "./Components/Pages/AccountPage/AccountPage";
-import HistoryPage from "./Components/Pages/HistoryPage/HistoryPage";
 import { PageLayout } from "./Components/Pages/PageLayout/PageLayout";
 import { RentQuestions } from "./Components/Pages/RentQuestions/RentQuestions";
 import Scanner from "./Components/Pages/Scanner/Scanner";
@@ -53,7 +52,6 @@ const createAppRouter = () =>
           <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
-            <Route path="history" element={<HistoryPage />} />
             <Route path="scanner" element={<Scanner />} />
             <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
@@ -79,7 +77,6 @@ const createAppRouter = () =>
           <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
-            <Route path="history" element={<HistoryPage />} />
             <Route path="scanner" element={<Scanner />} />
             <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />

@@ -17,6 +17,7 @@ import {
   deleteRhHistoryPages,
   isAccountApiError,
   useCombineRhHistoryPages,
+  useCreateRhHistory,
   useRhHistoryAnalysisPages,
   useRhPagesReadiness,
   RhPagesReadinessExcessError,
@@ -29,6 +30,7 @@ import {
   clearRhSessionPages,
   getRhAuthSession,
   getRhHistoryId,
+  setRhHistoryId,
   setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
 
@@ -36,13 +38,14 @@ type ScanStatus = "waiting" | "scanning" | "complete";
 
 type ReadinessPhase = "idle" | "processing" | "ready" | "error";
 
+type HistoryCreatePhase = "idle" | "creating" | "ready" | "error";
+
 const OPTIONS: EmblaOptionsType = {};
 
 const POLL_MAX_TOTAL_MS = 180000;
 
-const readScanKeyPrefix = (): string | null => {
+const readScanKeyPrefix = (historyId: string | null): string | null => {
   const session = getRhAuthSession();
-  const historyId = getRhHistoryId();
   if (!session || !historyId) return null;
   return `${session.profile.id}/${historyId}`;
 };
@@ -60,13 +63,23 @@ const Scanner: React.FC = () => {
   >(null);
   const [slides, setSlides] = useState<ReactNode[]>([]);
   const [combineError, setCombineError] = useState<string | null>(null);
+  const [historyId, setHistoryIdState] = useState<string | null>(() =>
+    getRhHistoryId()
+  );
+  const [historyCreatePhase, setHistoryCreatePhase] =
+    useState<HistoryCreatePhase>(() => (getRhHistoryId() ? "ready" : "idle"));
+  const [historyCreateError, setHistoryCreateError] = useState<string | null>(
+    null
+  );
   const pageNumber = useRef(1);
+  const historyIdRef = useRef(historyId);
+  historyIdRef.current = historyId;
   const numPagesAfterScanRef = useRef(0);
   const pollStartedRef = useRef<number | null>(null);
 
   const session = getRhAuthSession();
   const accessToken = session?.accessToken;
-  const historyId = getRhHistoryId();
+  const createRhHistoryMutation = useCreateRhHistory();
   const readinessEnabled = scanStatus === "complete";
   const numPages = numPagesAfterScanRef.current;
 
@@ -93,6 +106,54 @@ const Scanner: React.FC = () => {
   const slidesBuiltKeyRef = useRef<string | null>(null);
   const isCombining =
     combinePagesMutation.isPending || analysisPagesQuery.isFetching;
+
+  useEffect(() => {
+    if (historyId || historyCreatePhase !== "idle") return;
+
+    const otpSession = getRhAuthSession();
+    if (!otpSession) {
+      setHistoryCreatePhase("error");
+      setHistoryCreateError(
+        _(
+          msg`Your session is missing login data. Go back to login and try again.`
+        )
+      );
+      return;
+    }
+
+    let cancelled = false;
+    setHistoryCreatePhase("creating");
+    setHistoryCreateError(null);
+
+    const ensureHistory = async () => {
+      try {
+        const history = await createRhHistoryMutation.mutateAsync(
+          otpSession.accessToken
+        );
+        if (cancelled) return;
+        setRhHistoryId(history.id);
+        setHistoryIdState(history.id);
+        setHistoryCreatePhase("ready");
+      } catch (error) {
+        if (cancelled) return;
+        setHistoryCreatePhase("error");
+        if (isAccountApiError(error)) {
+          setHistoryCreateError(error.message);
+        } else {
+          setHistoryCreateError(
+            _(msg`Unable to create your rent history record. Please try again.`)
+          );
+        }
+      }
+    };
+
+    void ensureHistory();
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [historyId, historyCreatePhase]);
 
   useEffect(() => {
     const initScanner = async () => {
@@ -128,7 +189,7 @@ const Scanner: React.FC = () => {
           showPoweredByDynamsoft: false,
         },
         onDocumentScanned: async (result) => {
-          const prefix = readScanKeyPrefix();
+          const prefix = readScanKeyPrefix(historyIdRef.current);
           if (!prefix) {
             console.error(
               "Missing OTP session or rent history id for scan upload."
@@ -372,10 +433,10 @@ const Scanner: React.FC = () => {
     readinessFetching,
   ]);
 
-  const canStartScan = Boolean(readScanKeyPrefix());
+  const canStartScan = Boolean(readScanKeyPrefix(historyId));
 
   const launchScanner = async () => {
-    if (!readScanKeyPrefix()) return;
+    if (!readScanKeyPrefix(historyId)) return;
     if (historyId) {
       await queryClient.removeQueries({
         queryKey: accountQueryKeys.pagesReadiness(
@@ -445,14 +506,24 @@ const Scanner: React.FC = () => {
           </Trans>
         </p>
         {/* TODO: Decide how to handle missing session variables */}
-        {scanStatus === "waiting" && !canStartScan && (
-          <p role="alert">
-            <Trans>
-              Your session is missing a rent history record. Go back and
-              continue from the rent history step before scanning.
-            </Trans>
+        {scanStatus === "waiting" && historyCreatePhase === "creating" && (
+          <p>
+            <Trans>Preparing your rent history record…</Trans>
           </p>
         )}
+        {scanStatus === "waiting" &&
+          historyCreatePhase === "error" &&
+          historyCreateError && <p role="alert">{historyCreateError}</p>}
+        {scanStatus === "waiting" &&
+          historyCreatePhase === "ready" &&
+          !canStartScan && (
+            <p role="alert">
+              <Trans>
+                Your session is missing a rent history record. Go back to login
+                and try again.
+              </Trans>
+            </p>
+          )}
         {scanStatus === "waiting" && canStartScan && (
           <Button
             labelText={_(msg`Start scanning`)}
