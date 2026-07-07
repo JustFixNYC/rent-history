@@ -3,7 +3,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
 import { StepNumberBadge } from "../../StepNumberBadge/StepNumberBadge";
-import { FindingReviewNav } from "../FindingsReview/FindingReviewNav";
+import { FlowNav } from "../../FlowNav";
 
 import "./PreScanScreen.scss";
 
@@ -83,7 +83,7 @@ export const PreScanScreen = ({
         </p>
       )}
 
-      <FindingReviewNav
+      <FlowNav
         onBack={onBack}
         onNext={onStartScanning}
         backDisabled={historyCreatePhase === "creating"}

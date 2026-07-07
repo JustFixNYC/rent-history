@@ -227,10 +227,9 @@ msgstr "Apt. {0}"
 #~ msgid "Apt. 1"
 #~ msgstr "Apt. 1"
 
+#: src/Components/FlowNav/FlowNav.tsx:46
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
-#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:75
-#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:39
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:109
@@ -461,11 +460,11 @@ msgstr "Find out if you've been overcharged"
 msgid "Find out if you’ve been overcharged on rent"
 msgstr "Find out if you’ve been overcharged on rent"
 
-#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:67
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:68
 msgid "Finding result navigation"
 msgstr "Finding result navigation"
 
-#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:29
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:221
 msgid "Finding review navigation"
 msgstr "Finding review navigation"
 
@@ -473,7 +472,7 @@ msgstr "Finding review navigation"
 #~ msgid "Findings review"
 #~ msgstr "Findings review"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:252
+#: src/Components/Pages/Scanner/Scanner.tsx:251
 msgid "Finish scanning"
 msgstr "Finish scanning"
 
@@ -768,11 +767,15 @@ msgstr "Menu"
 #~ msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 #~ msgstr "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 
+#: src/Components/FlowNav/FlowNav.tsx:31
+msgid "Navigation"
+msgstr "Navigation"
+
 #: src/Components/Pages/Landing/Landing.tsx:153
 msgid "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
 msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
 
-#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:31
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
 msgid "Next"
@@ -956,7 +959,7 @@ msgstr "Privacy policy"
 #~ msgid "Processing document scan…"
 #~ msgstr "Processing document scan…"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:126
+#: src/Components/Pages/Scanner/Scanner.tsx:125
 msgid "Re-scan page"
 msgstr "Re-scan page"
 
@@ -1035,7 +1038,7 @@ msgstr "Return to this page and tap <0>Start scanning</0>, below."
 msgid "Review and edit your rent history"
 msgstr "Review and edit your rent history"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:338
+#: src/Components/Pages/Scanner/Scanner.tsx:337
 msgid "Review your scanned pages before continuing. Full scan review UI will appear here."
 msgstr "Review your scanned pages before continuing. Full scan review UI will appear here."
 
@@ -1043,7 +1046,7 @@ msgstr "Review your scanned pages before continuing. Full scan review UI will ap
 msgid "Save address"
 msgstr "Save address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:130
+#: src/Components/Pages/Scanner/Scanner.tsx:129
 msgid "Save page"
 msgstr "Save page"
 
@@ -1055,7 +1058,7 @@ msgstr "Scan a new rent history"
 #~ msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
 #~ msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:335
+#: src/Components/Pages/Scanner/Scanner.tsx:334
 msgid "Scan review"
 msgstr "Scan review"
 
@@ -1196,7 +1199,7 @@ msgstr "Step 4: Provide your rent"
 msgid "Step 5: What we found"
 msgstr "Step 5: What we found"
 
-#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
+#: src/Components/FlowNav/FlowNav.tsx:30
 msgid "Submit"
 msgstr "Submit"
 
@@ -1364,7 +1367,7 @@ msgstr "to confirm the information below matches."
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:102
+#: src/Components/Pages/Scanner/Scanner.tsx:101
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
@@ -1754,7 +1757,7 @@ msgstr "Your scanned pages"
 msgid "Your session is missing a rent history record. Please sign in again."
 msgstr "Your session is missing a rent history record. Please sign in again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:76
+#: src/Components/Pages/Scanner/Scanner.tsx:75
 msgid "Your session is missing login data. Go back to login and try again."
 msgstr "Your session is missing login data. Go back to login and try again."
 

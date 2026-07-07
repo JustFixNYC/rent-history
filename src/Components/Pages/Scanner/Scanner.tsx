@@ -6,7 +6,6 @@ import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 
 import "./Scanner.scss";
-import "../FindingsReview/FindingsReview.scss";
 import { uploadScan } from "../../../api/account/scanPresign";
 import { isAccountApiError, useCreateRhHistory } from "../../../api/account";
 import {
