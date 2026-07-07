@@ -149,7 +149,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:83
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:95
 msgid "Analysis has already been run for this rent history."
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr ""
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:109
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:156
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:172
 msgid "Back"
 msgstr "Volver"
 
@@ -318,8 +318,7 @@ msgstr ""
 msgid "Cover page"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:114
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:136
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:152
 msgid "Current monthly rent"
 msgstr ""
 
@@ -865,7 +864,7 @@ msgstr ""
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:44
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:51
 msgid "Please enter a valid rent amount."
 msgstr ""
 
@@ -877,7 +876,7 @@ msgstr ""
 msgid "Please enter your email address."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:40
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:47
 msgid "Please enter your monthly rent."
 msgstr ""
 
@@ -1087,7 +1086,7 @@ msgstr ""
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:97
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:112
 msgid "Start analysis"
 msgstr ""
 
@@ -1107,7 +1106,7 @@ msgstr ""
 #~ msgid "Started Feb 3, 2026"
 #~ msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:111
 msgid "Starting analysis…"
 msgstr ""
 
@@ -1131,7 +1130,7 @@ msgstr ""
 #~ msgid "Step 4: Enter address"
 #~ msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:104
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:119
 msgid "Step 4: Provide your rent"
 msgstr ""
 
@@ -1275,6 +1274,10 @@ msgstr ""
 msgid "This tool was created by JustFix, in collaboration with leading rent history experts."
 msgstr ""
 
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:134
+msgid "This will help in our analysis of your rent history TK"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:227
 msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 msgstr ""
@@ -1311,7 +1314,7 @@ msgstr ""
 msgid "Unable to resend code right now. Please try again."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:91
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:103
 msgid "Unable to start analysis. Please try again."
 msgstr ""
 
@@ -1399,8 +1402,8 @@ msgid "Visit JustFix"
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
-msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
-msgstr ""
+#~ msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
+#~ msgstr ""
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:261
 msgid "We could not find a building ID for that address. Try another search."
@@ -1501,6 +1504,10 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:60
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
+msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:129
+msgid "What is the total monthly rent for your entire apartment?"
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:123
@@ -1661,7 +1668,7 @@ msgstr ""
 msgid "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:63
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:70
 msgid "Your session is missing a rent history record. Please sign in again."
 msgstr ""
 
