@@ -5,73 +5,72 @@ import { accountQueryKeys } from "../queryKeys";
 import {
   combineRhHistoryPages,
   getRhHistoryAnalysisPages,
-  getRhHistoryPagesReadiness,
+  getRhHistoryScanReview,
 } from "../api";
 
-/** Thrown when pages-readiness returns HTTP 200 with `status: "excess"`. */
-export class RhPagesReadinessExcessError extends Error {
-  constructor() {
-    super("Pages readiness excess");
-    this.name = "RhPagesReadinessExcessError";
-  }
-}
-
-export type UseRhPagesReadinessParams = {
+export type UseRhScanReviewParams = {
   accessToken: string | undefined;
   historyId: string | undefined;
-  numPages: number;
+  expectedPageCount: number;
   enabled?: boolean;
-  /** Stop polling after this many ms while still `pending` (default 180_000). */
+  /** Stop polling after this many ms while still `pending`, then fetch once with `acceptPartial` (default 180_000). */
   maxPollMs?: number;
 };
 
 const DEFAULT_MAX_POLL_MS = 180_000;
 const PENDING_REFETCH_MS = 1500;
 
-export const useRhPagesReadiness = ({
+export const useRhScanReview = ({
   accessToken,
   historyId,
-  numPages,
+  expectedPageCount,
   enabled = true,
   maxPollMs = DEFAULT_MAX_POLL_MS,
-}: UseRhPagesReadinessParams) => {
+}: UseRhScanReviewParams) => {
   const pollStartedRef = useRef<number | null>(null);
+  const acceptPartialAttemptedRef = useRef(false);
   const queryEnabled = Boolean(
-    enabled && accessToken && historyId && numPages > 0
+    enabled && accessToken && historyId && expectedPageCount > 0
   );
 
   useEffect(() => {
     if (queryEnabled) {
       pollStartedRef.current = Date.now();
+      acceptPartialAttemptedRef.current = false;
     } else {
       pollStartedRef.current = null;
+      acceptPartialAttemptedRef.current = false;
     }
-  }, [queryEnabled]);
+  }, [queryEnabled, historyId, expectedPageCount]);
 
   return useQuery({
-    queryKey: accountQueryKeys.pagesReadiness(historyId ?? "", numPages),
-    queryFn: async () => {
-      const result = await getRhHistoryPagesReadiness(
+    queryKey: accountQueryKeys.scanReview(historyId ?? "", expectedPageCount),
+    queryFn: () =>
+      getRhHistoryScanReview(
         accessToken!,
         historyId!,
-        numPages
-      );
-      if (result.status === "excess") {
-        throw new RhPagesReadinessExcessError();
-      }
-      return result;
-    },
+        expectedPageCount,
+        acceptPartialAttemptedRef.current ? { acceptPartial: true } : undefined
+      ),
     enabled: queryEnabled,
     refetchInterval: (query) => {
       if (query.state.error) return false;
       const data = query.state.data;
       if (!data || data.status !== "pending") return false;
-      if (
-        pollStartedRef.current !== null &&
-        Date.now() - pollStartedRef.current >= maxPollMs
-      ) {
+
+      const elapsed =
+        pollStartedRef.current !== null
+          ? Date.now() - pollStartedRef.current
+          : 0;
+
+      if (elapsed >= maxPollMs) {
+        if (!acceptPartialAttemptedRef.current) {
+          acceptPartialAttemptedRef.current = true;
+          return 0;
+        }
         return false;
       }
+
       return PENDING_REFETCH_MS;
     },
   });
