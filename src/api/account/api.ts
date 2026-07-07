@@ -15,6 +15,8 @@ import type {
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhHistorySetCurrentRentRequest,
+  RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
   RhHistoryList,
   RhHistoryPageDeleteResponse,
@@ -134,6 +136,18 @@ export const confirmRhHistoryAddress = (
 ): Promise<RhHistoryConfirmAddressResponse> =>
   unwrapAccountResponse(
     getAccountClient().POST("/rh/history/confirm-address", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
+
+/** `POST /rh/history/current-rent` — Persist monthly rent on an owned RhHistory. */
+export const setRhHistoryCurrentRent = (
+  accessToken: string,
+  body: RhHistorySetCurrentRentRequest
+): Promise<RhHistorySetCurrentRentResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/current-rent", {
       headers: bearerHeaders(accessToken),
       body,
     })

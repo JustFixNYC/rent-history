@@ -7,6 +7,7 @@ import {
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
   confirmRhHistoryAddress,
+  setRhHistoryCurrentRent,
   postRhHistoryRunAnalysis,
   startRhLogin,
   validateRhFinding,
@@ -180,6 +181,48 @@ describe("confirmRhHistoryAddress", () => {
       bin_units: 6,
       is_421a_nycdb: true,
       is_j51_nycdb: false,
+    });
+  });
+});
+
+describe("setRhHistoryCurrentRent", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("posts to rh/history/current-rent with Bearer authorization and JSON body", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const historyId = "22222222-2222-4222-8222-222222222222";
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          current_rent: 2500,
+        },
+        { status: 200 }
+      )
+    );
+
+    const result = await setRhHistoryCurrentRent("access-token", {
+      history_id: historyId,
+      current_rent: 2500,
+    });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/history/current-rent"
+    );
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(JSON.parse(await request.text())).toEqual({
+      history_id: historyId,
+      current_rent: 2500,
+    });
+    expect(result).toEqual({
+      current_rent: 2500,
     });
   });
 });
