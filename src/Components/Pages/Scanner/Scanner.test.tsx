@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, act } from "react";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -15,16 +15,39 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Scanner from "./Scanner";
 import { AccountApiError } from "../../../api/account";
 import * as accountApi from "../../../api/account/api";
+import * as scannerOverlay from "./scanner-overlay";
 import {
+  clearRhAuthSession,
   getRhHistoryId,
   getRhSessionAnalysisPages,
   setRhAuthSession,
   setRhHistoryId,
 } from "../../../session/rhSessionStorage";
 
-const { navigateMock, testHistoryId } = vi.hoisted(() => ({
+const { navigateMock, testHistoryId, scannerHarness } = vi.hoisted(() => ({
   navigateMock: vi.fn(),
   testHistoryId: "22222222-2222-4222-8222-222222222222",
+  scannerHarness: {
+    hangLaunch: false,
+    launchResolvers: [] as Array<() => void>,
+    onDocumentScanned: null as
+      | ((result: {
+          correctedImageResult?: { toBlob: (type: string) => Promise<Blob> };
+        }) => void | Promise<void>)
+      | null,
+    releaseLaunch() {
+      const resolve = scannerHarness.launchResolvers.shift();
+      resolve?.();
+    },
+    async simulateDocumentScan() {
+      if (!scannerHarness.onDocumentScanned) return;
+      await scannerHarness.onDocumentScanned({
+        correctedImageResult: {
+          toBlob: async () => new Blob(),
+        },
+      });
+    },
+  },
 }));
 
 vi.mock("react-router-dom", async () => {
@@ -46,14 +69,16 @@ vi.mock("dynamsoft-document-scanner", () => ({
       }) => void | Promise<void>;
     }
   ) {
+    scannerHarness.onDocumentScanned = config?.onDocumentScanned ?? null;
     this.launch = vi.fn().mockImplementation(async () => {
-      if (config?.onDocumentScanned) {
-        await config.onDocumentScanned({
-          correctedImageResult: {
-            toBlob: async () => new Blob(),
-          },
+      if (scannerHarness.hangLaunch) {
+        await new Promise<void>((resolve) => {
+          scannerHarness.launchResolvers.push(resolve);
         });
+        return;
       }
+
+      await scannerHarness.simulateDocumentScan();
     });
   }),
 }));
@@ -76,6 +101,35 @@ vi.mock("../../EmblaCarousel/EmblaCarousel", () => ({
   default: () => null,
 }));
 
+vi.mock("./scanner-overlay", async () => {
+  const actual = await vi.importActual<typeof import("./scanner-overlay")>(
+    "./scanner-overlay"
+  );
+  return {
+    ...actual,
+    probeCameraAccess: vi.fn().mockResolvedValue(true),
+    isRetakeOrSavePreviewVisible: vi.fn().mockReturnValue(false),
+  };
+});
+
+const readyScanReviewPage = {
+  id: 1,
+  needs_retake: false,
+  s3_key: `1/${testHistoryId}/page1.jpg`,
+  start_year: 2020,
+  end_year: 2021,
+  is_coverpage: false,
+};
+
+const readyScanReviewResponse = {
+  status: "ready" as const,
+  db_count: 1,
+  expected_page_count: 1,
+  processing_complete: true,
+  missing_year_ranges: [] as string[],
+  pages: [readyScanReviewPage],
+};
+
 vi.mock("../../../api/account/api", async () => {
   const actual = await vi.importActual<
     typeof import("../../../api/account/api")
@@ -84,13 +138,25 @@ vi.mock("../../../api/account/api", async () => {
     ...actual,
     combineRhHistoryPages: vi.fn(),
     createRhHistory: vi.fn(),
-    deleteRhHistoryPages: vi.fn(),
-    getRhHistoryPagesReadiness: vi.fn().mockResolvedValue({
+    deleteAllRhScannedPages: vi.fn().mockResolvedValue({
+      deleted_pages: 1,
+      s3_cleanup_status: "ok",
+      s3_deleted_versions: 1,
+    }),
+    deleteRhScannedPages: vi.fn().mockResolvedValue({
+      deleted_pages: 1,
+      s3_cleanup_status: "ok",
+      s3_deleted_keys: 1,
+    }),
+    getRhHistoryScanReview: vi.fn().mockImplementation(async () => ({
       status: "ready",
-      s3: { count: 1, expected: 1, relation: "equal" },
-      database: { count: 1, expected: 1, relation: "equal" },
+      db_count: 1,
+      expected_page_count: 1,
+      processing_complete: true,
+      missing_year_ranges: [],
       pages: [
         {
+          id: 1,
           needs_retake: false,
           s3_key: `1/${testHistoryId}/page1.jpg`,
           start_year: 2020,
@@ -98,7 +164,7 @@ vi.mock("../../../api/account/api", async () => {
           is_coverpage: false,
         },
       ],
-    }),
+    })),
     getRhHistoryAnalysisPages: vi.fn().mockResolvedValue([
       {
         s3_key: `1/${testHistoryId}/page1.jpg`,
@@ -147,12 +213,22 @@ const renderScanner = (options?: { strictMode?: boolean }) => {
   return render(options?.strictMode ? <StrictMode>{tree}</StrictMode> : tree);
 };
 
-const advanceToScanComplete = async () => {
+const clickStartScanning = async () => {
   const startButton = await screen.findByRole("button", {
     name: "Start scanning",
   });
   fireEvent.click(startButton);
-  return screen.findByRole("button", { name: "Next" });
+};
+
+const advanceToScanComplete = async () => {
+  await clickStartScanning();
+
+  await waitFor(() => {
+    const nextButton = screen.getByRole("button", { name: "Next" });
+    expect(nextButton).not.toBeDisabled();
+  });
+
+  return screen.getByRole("button", { name: "Next" });
 };
 
 describe("Scanner Next button", () => {
@@ -161,10 +237,15 @@ describe("Scanner Next button", () => {
     window.sessionStorage.clear();
     setRhAuthSession(tokenPayload);
     setRhHistoryId(historyId);
+    vi.mocked(accountApi.getRhHistoryScanReview).mockResolvedValue(
+      readyScanReviewResponse
+    );
   });
 
   afterEach(() => {
     vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
   });
 
   it("calls combine-pages and navigates to /confirm-address on success", async () => {
@@ -225,6 +306,8 @@ describe("Scanner history create on mount", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
   });
 
   it("reaches ready under StrictMode after createRhHistory succeeds", async () => {
@@ -244,5 +327,253 @@ describe("Scanner history create on mount", () => {
     expect(accountApi.createRhHistory).toHaveBeenCalledTimes(1);
     expect(accountApi.createRhHistory).toHaveBeenCalledWith("access-token");
     expect(getRhHistoryId()).toBe(testHistoryId);
+  });
+});
+
+describe("Scanner overlay visibility", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    scannerHarness.hangLaunch = true;
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
+      false
+    );
+  });
+
+  afterEach(() => {
+    scannerHarness.hangLaunch = false;
+    scannerHarness.releaseLaunch();
+    vi.useRealTimers();
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it(
+    "hides the overlay while retake/save preview is visible and shows it again on live capture",
+    async () => {
+      renderScanner();
+      await clickStartScanning();
+
+      await waitFor(() => {
+        expect(
+          document.body.querySelector(".scanner-scan-guide")
+        ).toBeInTheDocument();
+        expect(
+          screen.getByText("Looking for your document")
+        ).toBeInTheDocument();
+      });
+
+      vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
+        true
+      );
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(150);
+      });
+
+      await waitFor(() => {
+        expect(
+          document.body.querySelector(".scanner-scan-guide")
+        ).not.toBeInTheDocument();
+      });
+
+      vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
+        false
+      );
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(150);
+      });
+
+      await waitFor(() => {
+        expect(
+          document.body.querySelector(".scanner-scan-guide")
+        ).toBeInTheDocument();
+      });
+
+      scannerHarness.releaseLaunch();
+    },
+    10_000
+  );
+});
+
+describe("Scanner expectedPageCount lifecycle", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    vi.mocked(accountApi.getRhHistoryScanReview).mockResolvedValue(
+      readyScanReviewResponse
+    );
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("passes incremented upload count to scan-review after a scan", async () => {
+    renderScanner();
+    await advanceToScanComplete();
+
+    await waitFor(() => {
+      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        1,
+        undefined
+      );
+    });
+  });
+
+  it("decrements expectedPageCount when re-scanning retake pages", async () => {
+    vi.mocked(accountApi.getRhHistoryScanReview).mockResolvedValue({
+      ...readyScanReviewResponse,
+      pages: [
+        {
+          id: 7,
+          needs_retake: true,
+          s3_key: `1/${testHistoryId}/page-retake.jpg`,
+          start_year: 2018,
+          end_year: 2019,
+          is_coverpage: false,
+        },
+      ],
+    });
+
+    renderScanner();
+    await advanceToScanComplete();
+
+    const initialPollCount = vi.mocked(accountApi.getRhHistoryScanReview).mock
+      .calls.length;
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Re-scan these pages" })
+    );
+
+    await waitFor(() => {
+      expect(accountApi.deleteRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        [7]
+      );
+    });
+
+    await waitFor(() => {
+      expect(
+        vi.mocked(accountApi.getRhHistoryScanReview).mock.calls.length
+      ).toBeGreaterThan(initialPollCount);
+      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        1,
+        undefined
+      );
+    });
+  });
+
+  it("resets expectedPageCount when restarting the scan", async () => {
+    renderScanner();
+    await advanceToScanComplete();
+
+    const initialPollCount = vi.mocked(accountApi.getRhHistoryScanReview).mock
+      .calls.length;
+
+    fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
+    fireEvent.click(
+      screen.getAllByRole("button", { name: "Restart scan" })[1]
+    );
+
+    await waitFor(() => {
+      expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId
+      );
+      expect(
+        vi.mocked(accountApi.getRhHistoryScanReview).mock.calls.length
+      ).toBeGreaterThan(initialPollCount);
+      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        1,
+        undefined
+      );
+    });
+  });
+});
+
+describe("Scanner scan-review callouts", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("disables Next when missing_year_ranges is non-empty", async () => {
+    vi.mocked(accountApi.getRhHistoryScanReview).mockResolvedValue({
+      ...readyScanReviewResponse,
+      missing_year_ranges: ["2015-2016"],
+    });
+
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByText("Missing registration years")).toBeInTheDocument();
+      expect(screen.getByText(/2015-2016/)).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Next" })).toBeDisabled();
+    });
+  });
+
+  it("shows a warning callout after accept-partial timeout when processing is incomplete", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+
+    vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(
+      async (_token, _hid, _count, opts) => {
+        if (opts?.acceptPartial) {
+          return {
+            ...readyScanReviewResponse,
+            processing_complete: false,
+          };
+        }
+        return {
+          status: "pending",
+          db_count: 0,
+          expected_page_count: 1,
+        };
+      }
+    );
+
+    renderScanner();
+    await clickStartScanning();
+
+    await screen.findByTestId("scan-review-loading");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(181_000);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Still processing pages")).toBeInTheDocument();
+      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        1,
+        { acceptPartial: true }
+      );
+    });
+
+    vi.useRealTimers();
   });
 });

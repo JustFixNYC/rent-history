@@ -342,6 +342,7 @@ describe("getRhHistoryScanReview", () => {
       expect(result.pages).toHaveLength(1);
       expect(result.pages[0].id).toBe(42);
       expect(result.processing_complete).toBe(true);
+      expect(result.missing_year_ranges ?? []).toEqual([]);
     }
   });
 
