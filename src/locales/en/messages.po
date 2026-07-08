@@ -50,6 +50,11 @@ msgstr "(123) 456-7890"
 msgid "(optional)"
 msgstr "(optional)"
 
+#. placeholder {0}: pages.length
+#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:51
+msgid "{0, plural, one {Re-scan this page} other {Re-scan these pages}}"
+msgstr "{0, plural, one {Re-scan this page} other {Re-scan these pages}}"
+
 #. placeholder {0}: points.length.toLocaleString()
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:332
 msgid "{0} buildings"
@@ -1010,8 +1015,8 @@ msgid "Re-scan page"
 msgstr "Re-scan page"
 
 #: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:50
-msgid "Re-scan these pages"
-msgstr "Re-scan these pages"
+#~ msgid "Re-scan these pages"
+#~ msgstr "Re-scan these pages"
 
 #: src/Components/Pages/Landing/Landing.tsx:136
 msgid "Receive your rent history by mail. Take the first step to learning about your stabilized status and whether you’re paying too much rent."

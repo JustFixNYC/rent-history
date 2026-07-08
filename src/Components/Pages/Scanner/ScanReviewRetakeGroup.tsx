@@ -1,4 +1,4 @@
-import { msg } from "@lingui/core/macro";
+import { plural } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Button, Pill } from "@justfixnyc/component-library";
@@ -47,7 +47,12 @@ export const ScanReviewRetakeGroup = ({
       <Button
         className="scan-review-retake-group__cta"
         labelIcon="cameraRegular"
-        labelText={_(msg`Re-scan these pages`)}
+        labelText={_(
+          plural(pages.length, {
+            one: "Re-scan this page",
+            other: "Re-scan these pages",
+          })
+        )}
         onClick={onRescanClick}
       />
     </section>

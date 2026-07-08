@@ -446,7 +446,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
       .calls.length;
 
     fireEvent.click(
-      screen.getByRole("button", { name: "Re-scan these pages" })
+      screen.getByRole("button", { name: "Re-scan this page" })
     );
 
     await waitFor(() => {
