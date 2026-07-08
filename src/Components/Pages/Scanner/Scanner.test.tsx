@@ -352,51 +352,45 @@ describe("Scanner overlay visibility", () => {
     clearRhAuthSession();
   });
 
-  it(
-    "hides the overlay while retake/save preview is visible and shows it again on live capture",
-    async () => {
-      renderScanner();
-      await clickStartScanning();
+  it("hides the overlay while retake/save preview is visible and shows it again on live capture", async () => {
+    renderScanner();
+    await clickStartScanning();
 
-      await waitFor(() => {
-        expect(
-          document.body.querySelector(".scanner-scan-guide")
-        ).toBeInTheDocument();
-        expect(
-          screen.getByText("Looking for your document")
-        ).toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(
+        document.body.querySelector(".scanner-scan-guide")
+      ).toBeInTheDocument();
+      expect(screen.getByText("Looking for your document")).toBeInTheDocument();
+    });
 
-      vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
-        true
-      );
-      await act(async () => {
-        await vi.advanceTimersByTimeAsync(150);
-      });
+    vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
+      true
+    );
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(150);
+    });
 
-      await waitFor(() => {
-        expect(
-          document.body.querySelector(".scanner-scan-guide")
-        ).not.toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(
+        document.body.querySelector(".scanner-scan-guide")
+      ).not.toBeInTheDocument();
+    });
 
-      vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
-        false
-      );
-      await act(async () => {
-        await vi.advanceTimersByTimeAsync(150);
-      });
+    vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
+      false
+    );
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(150);
+    });
 
-      await waitFor(() => {
-        expect(
-          document.body.querySelector(".scanner-scan-guide")
-        ).toBeInTheDocument();
-      });
+    await waitFor(() => {
+      expect(
+        document.body.querySelector(".scanner-scan-guide")
+      ).toBeInTheDocument();
+    });
 
-      scannerHarness.releaseLaunch();
-    },
-    10_000
-  );
+    scannerHarness.releaseLaunch();
+  }, 10_000);
 });
 
 describe("Scanner expectedPageCount lifecycle", () => {
@@ -484,9 +478,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
       .calls.length;
 
     fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
-    fireEvent.click(
-      screen.getAllByRole("button", { name: "Restart scan" })[1]
-    );
+    fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);
 
     await waitFor(() => {
       expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
@@ -530,7 +522,9 @@ describe("Scanner scan-review callouts", () => {
     await clickStartScanning();
 
     await waitFor(() => {
-      expect(screen.getByText("Missing registration years")).toBeInTheDocument();
+      expect(
+        screen.getByText("Missing registration years")
+      ).toBeInTheDocument();
       expect(screen.getByText(/2015-2016/)).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Next" })).toBeDisabled();
     });
