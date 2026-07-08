@@ -6,23 +6,6 @@
   min-height: 100%;
 }
 
-.scanner-scan-review-shell {
-  margin: 0 auto;
-  max-width: 327px;
-  padding: jfcl.$JF_SPACING_05 jfcl.$JF_SPACING_06;
-
-  &__title {
-    @include jfcl.body_large_mobile;
-    font-weight: 600;
-    margin: 0 0 jfcl.$JF_SPACING_05;
-  }
-
-  &__body {
-    @include jfcl.body_standard_mobile;
-    margin: 0;
-  }
-}
-
 .scanner-scan-guide {
   position: fixed;
   inset: 0;

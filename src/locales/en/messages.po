@@ -132,6 +132,10 @@ msgstr "About this site"
 msgid "Access completed or in-progress reports"
 msgstr "Access completed or in-progress reports"
 
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:79
+msgid "Add missing pages"
+msgstr "Add missing pages"
+
 #: src/Components/Pages/Report/ReportEmailForm.tsx:236
 msgid "Add recipients"
 msgstr "Add recipients"
@@ -227,7 +231,7 @@ msgstr "Apt. {0}"
 #~ msgid "Apt. 1"
 #~ msgstr "Apt. 1"
 
-#: src/Components/FlowNav/FlowNav.tsx:46
+#: src/Components/FlowNav/FlowNav.tsx:33
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
@@ -245,6 +249,10 @@ msgstr "BBL"
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
 msgid "findings.HRVD.intro.description"
 msgstr "Before HSTPA, the most common way to destabilize a unit was through <0/> We'll check whether this exemption from rent stabilization can be explained."
+
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:56
+msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
+msgstr "Before we analyze your rent history, let's make sure we have all pages of your rent history."
 
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:102
 #~ msgid "Brooklyn, New York 11201"
@@ -598,6 +606,14 @@ msgstr "How to allow access:"
 msgid "I don’t have my rent history"
 msgstr "I don’t have my rent history"
 
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:62
+msgid "If any pages are missing, you can <0>add a page</0>."
+msgstr "If any pages are missing, you can <0>add a page</0>."
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:85
+msgid "If it seems like any pages are missing, you can add them now by scanning."
+msgstr "If it seems like any pages are missing, you can add them now by scanning."
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:105
 #~ msgid "If this address does not match the address on the rent history document,"
 #~ msgstr "If this address does not match the address on the rent history document,"
@@ -763,13 +779,21 @@ msgstr "Map showing location of the entered address."
 msgid "Menu"
 msgstr "Menu"
 
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:30
+msgid "Missing registration years"
+msgstr "Missing registration years"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:257
 #~ msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 #~ msgstr "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 
-#: src/Components/FlowNav/FlowNav.tsx:31
+#: src/Components/FlowNav/FlowNav.tsx:35
 msgid "Navigation"
 msgstr "Navigation"
+
+#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:32
+msgid "Needs re-scan"
+msgstr "Needs re-scan"
 
 #: src/Components/Pages/Landing/Landing.tsx:153
 msgid "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
@@ -778,6 +802,7 @@ msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landl
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:116
 msgid "Next"
 msgstr "Next"
 
@@ -867,6 +892,10 @@ msgstr "Or, type this URL into your phone's browser:"
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:43
 msgid "Page {0} scan image"
 msgstr "Page {0} scan image"
+
+#: src/Components/Pages/Scanner/ScanReviewPageCard.tsx:54
+msgid "Page scan preview"
+msgstr "Page scan preview"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:221
 msgid "Permanently delete this rent history?"
@@ -959,9 +988,17 @@ msgstr "Privacy policy"
 #~ msgid "Processing document scan…"
 #~ msgstr "Processing document scan…"
 
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:83
+msgid "Processing your scanned pages…"
+msgstr "Processing your scanned pages…"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:125
 msgid "Re-scan page"
 msgstr "Re-scan page"
+
+#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:50
+msgid "Re-scan these pages"
+msgstr "Re-scan these pages"
 
 #: src/Components/Pages/Landing/Landing.tsx:136
 msgid "Receive your rent history by mail. Take the first step to learning about your stabilized status and whether you’re paying too much rent."
@@ -1013,6 +1050,10 @@ msgstr "Resend"
 msgid "Residential units"
 msgstr "Residential units"
 
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:114
+msgid "Restart scan"
+msgstr "Restart scan"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:554
 #: src/Components/Pages/Scanner/Scanner.tsx:574
 #~ msgid "Restart scanning"
@@ -1039,8 +1080,8 @@ msgid "Review and edit your rent history"
 msgstr "Review and edit your rent history"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:337
-msgid "Review your scanned pages before continuing. Full scan review UI will appear here."
-msgstr "Review your scanned pages before continuing. Full scan review UI will appear here."
+#~ msgid "Review your scanned pages before continuing. Full scan review UI will appear here."
+#~ msgstr "Review your scanned pages before continuing. Full scan review UI will appear here."
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:560
 msgid "Save address"
@@ -1059,8 +1100,12 @@ msgstr "Scan a new rent history"
 #~ msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:334
-msgid "Scan review"
-msgstr "Scan review"
+#~ msgid "Scan review"
+#~ msgstr "Scan review"
+
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:117
+msgid "Scan review navigation"
+msgstr "Scan review navigation"
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:55
 msgid "Scan the QR code below to get started."
@@ -1128,6 +1173,10 @@ msgstr "Since there was a change in tenancy from year {year0} to year {year1}, t
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:26
 msgid "Site navigation"
 msgstr "Site navigation"
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:72
+msgid "Something missing?"
+msgstr "Something missing?"
 
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:102
 msgid "Something went wrong while sending your verification code."
@@ -1199,7 +1248,11 @@ msgstr "Step 4: Provide your rent"
 msgid "Step 5: What we found"
 msgstr "Step 5: What we found"
 
-#: src/Components/FlowNav/FlowNav.tsx:30
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:47
+msgid "Still processing pages"
+msgstr "Still processing pages"
+
+#: src/Components/FlowNav/FlowNav.tsx:34
 msgid "Submit"
 msgstr "Submit"
 
@@ -1470,6 +1523,10 @@ msgstr "View scanned document"
 msgid "Visit JustFix"
 msgstr "Visit JustFix"
 
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:51
+msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
+msgstr "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
+
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
 #~ msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
 #~ msgstr "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
@@ -1506,6 +1563,10 @@ msgstr "We don't have any reports associated with this number. To get started, s
 #: src/Components/Pages/Landing/Landing.tsx:112
 msgid "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
 msgstr "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
+
+#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:38
+msgid "We had some trouble reading the scan of the following pages:"
+msgstr "We had some trouble reading the scan of the following pages:"
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:108
 msgid "We have not found any potential violations in your apartment's rent history."
@@ -1740,6 +1801,10 @@ msgstr "Your report was emailed successfully. You can also download it above."
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50
 msgid "Your scanned pages"
 msgstr "Your scanned pages"
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:34
+msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
+msgstr "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:472
 #~ msgid "Your session is missing a rent history record."

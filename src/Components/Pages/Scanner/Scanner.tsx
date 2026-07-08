@@ -2,7 +2,6 @@ import { DocumentScanner } from "dynamsoft-document-scanner";
 import { useEffect, useRef, useState } from "react";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
-import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 
 import "./Scanner.scss";
@@ -16,6 +15,7 @@ import {
 } from "../../../session/rhSessionStorage";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
+import { ScanReviewScreen } from "./ScanReviewScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
 import {
   isCameraPermissionError,
@@ -329,17 +329,17 @@ const Scanner: React.FC = () => {
       {phase === "scanning" && <ScannerOverlay visible={showScannerGuide} />}
 
       {phase === "scan-review" && (
-        <section className="scanner-scan-review-shell" aria-live="polite">
-          <h1 className="scanner-scan-review-shell__title">
-            <Trans>Scan review</Trans>
-          </h1>
-          <p className="scanner-scan-review-shell__body">
-            <Trans>
-              Review your scanned pages before continuing. Full scan review UI
-              will appear here.
-            </Trans>
-          </p>
-        </section>
+        <ScanReviewScreen
+          pages={[]}
+          missingYearRanges={[]}
+          processingComplete={false}
+          isLoading
+          onRescanPage={() => undefined}
+          onRestart={() => undefined}
+          onNext={() => undefined}
+          onAddMore={() => undefined}
+          nextDisabled
+        />
       )}
     </div>
   );

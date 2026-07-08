@@ -132,6 +132,10 @@ msgstr ""
 msgid "Access completed or in-progress reports"
 msgstr ""
 
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:79
+msgid "Add missing pages"
+msgstr ""
+
 #: src/Components/Pages/Report/ReportEmailForm.tsx:236
 msgid "Add recipients"
 msgstr ""
@@ -227,7 +231,7 @@ msgstr ""
 #~ msgid "Apt. 1"
 #~ msgstr ""
 
-#: src/Components/FlowNav/FlowNav.tsx:46
+#: src/Components/FlowNav/FlowNav.tsx:33
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
@@ -244,6 +248,10 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
 msgid "findings.HRVD.intro.description"
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:56
+msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
 msgstr ""
 
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:102
@@ -598,6 +606,14 @@ msgstr ""
 msgid "I don’t have my rent history"
 msgstr ""
 
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:62
+msgid "If any pages are missing, you can <0>add a page</0>."
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:85
+msgid "If it seems like any pages are missing, you can add them now by scanning."
+msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:105
 #~ msgid "If this address does not match the address on the rent history document,"
 #~ msgstr ""
@@ -763,12 +779,20 @@ msgstr ""
 msgid "Menu"
 msgstr "Menú"
 
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:30
+msgid "Missing registration years"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:257
 #~ msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 #~ msgstr ""
 
-#: src/Components/FlowNav/FlowNav.tsx:31
+#: src/Components/FlowNav/FlowNav.tsx:35
 msgid "Navigation"
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:32
+msgid "Needs re-scan"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:153
@@ -778,6 +802,7 @@ msgstr ""
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:116
 msgid "Next"
 msgstr "Siguiente"
 
@@ -866,6 +891,10 @@ msgstr ""
 #. placeholder {0}: index + 1
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:43
 msgid "Page {0} scan image"
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewPageCard.tsx:54
+msgid "Page scan preview"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:221
@@ -959,8 +988,16 @@ msgstr ""
 #~ msgid "Processing document scan…"
 #~ msgstr ""
 
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:83
+msgid "Processing your scanned pages…"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:125
 msgid "Re-scan page"
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:50
+msgid "Re-scan these pages"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:136
@@ -1013,6 +1050,10 @@ msgstr ""
 msgid "Residential units"
 msgstr ""
 
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:114
+msgid "Restart scan"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:554
 #: src/Components/Pages/Scanner/Scanner.tsx:574
 #~ msgid "Restart scanning"
@@ -1039,8 +1080,8 @@ msgid "Review and edit your rent history"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:337
-msgid "Review your scanned pages before continuing. Full scan review UI will appear here."
-msgstr ""
+#~ msgid "Review your scanned pages before continuing. Full scan review UI will appear here."
+#~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:560
 msgid "Save address"
@@ -1059,7 +1100,11 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:334
-msgid "Scan review"
+#~ msgid "Scan review"
+#~ msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:117
+msgid "Scan review navigation"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:55
@@ -1127,6 +1172,10 @@ msgstr ""
 
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:26
 msgid "Site navigation"
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:72
+msgid "Something missing?"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:102
@@ -1199,7 +1248,11 @@ msgstr ""
 msgid "Step 5: What we found"
 msgstr ""
 
-#: src/Components/FlowNav/FlowNav.tsx:30
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:47
+msgid "Still processing pages"
+msgstr ""
+
+#: src/Components/FlowNav/FlowNav.tsx:34
 msgid "Submit"
 msgstr "Enviar"
 
@@ -1470,6 +1523,10 @@ msgstr ""
 msgid "Visit JustFix"
 msgstr ""
 
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:51
+msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
+msgstr ""
+
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
 #~ msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
 #~ msgstr ""
@@ -1505,6 +1562,10 @@ msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:112
 msgid "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:38
+msgid "We had some trouble reading the scan of the following pages:"
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:108
@@ -1739,6 +1800,10 @@ msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50
 msgid "Your scanned pages"
+msgstr ""
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:34
+msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:472
