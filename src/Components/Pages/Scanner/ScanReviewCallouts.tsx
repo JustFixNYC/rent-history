@@ -1,9 +1,34 @@
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { Button, CalloutBox } from "@justfixnyc/component-library";
+import {
+  Button,
+  CalloutBox,
+  Icon,
+  InfoBox,
+} from "@justfixnyc/component-library";
 
 import "./ScanReviewScreen.scss";
+
+export const ScanReviewRescanSuccessInfo = () => (
+  <InfoBox
+    color="blue"
+    role="status"
+    className="scan-review-success-info"
+    data-testid="scan-review-rescan-success"
+  >
+    <div className="scan-review-success-info__content">
+      <Icon
+        icon="check"
+        className="scan-review-success-info__icon"
+        aria-hidden="true"
+      />
+      <p className="scan-review-success-info__text">
+        <Trans>Page(s) successfully scanned.</Trans>
+      </p>
+    </div>
+  </InfoBox>
+);
 
 export type ScanReviewTopCalloutProps = {
   missingYearRanges: string[];

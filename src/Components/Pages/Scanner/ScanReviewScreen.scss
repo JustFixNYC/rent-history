@@ -159,6 +159,32 @@
   }
 }
 
+.scan-review-success-info.jfcl-info-box {
+  margin: 0;
+
+  .jfcl-info-box__icon {
+    display: none;
+  }
+}
+
+.scan-review-success-info__content {
+  align-items: flex-start;
+  display: flex;
+  gap: jfcl.$JF_SPACING_03;
+}
+
+.scan-review-success-info__icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+  padding-top: 3px;
+}
+
+.scan-review-success-info__text {
+  @include jfcl.body_standard_mobile;
+  color: jfcl.$OFF_BLACK;
+  margin: 0;
+}
+
 .scan-review-callout.jfcl-callout-box {
   border-radius: 4px;
   margin: 0;

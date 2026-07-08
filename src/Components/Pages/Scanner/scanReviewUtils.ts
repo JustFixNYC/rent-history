@@ -1,3 +1,22 @@
+import type { RhPageSummary } from "../../../api/account/types";
+
+import type { ScanReviewPage } from "./ScanReviewPageCard";
+
+export const mapScanReviewPagesWithImages = (
+  pages: RhPageSummary[],
+  imageUrlsByKey: Record<string, string>
+): ScanReviewPage[] =>
+  pages.map((page) => ({
+    ...page,
+    imageUrl: imageUrlsByKey[page.s3_key] ?? null,
+  }));
+
+export const isScanReviewClean = (
+  pages: ScanReviewPage[],
+  missingYearRanges: string[]
+): boolean =>
+  missingYearRanges.length === 0 && !pages.some((page) => page.needs_retake);
+
 export const formatRegYearRange = (
   startYear?: number | null,
   endYear?: number | null

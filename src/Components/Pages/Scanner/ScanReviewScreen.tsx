@@ -1,12 +1,17 @@
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { Icon, LinkStyledButton } from "@justfixnyc/component-library";
+import {
+  CalloutBox,
+  Icon,
+  LinkStyledButton,
+} from "@justfixnyc/component-library";
 
 import { FlowNav } from "../../FlowNav";
 
 import {
   ScanReviewAddMoreCallout,
+  ScanReviewRescanSuccessInfo,
   ScanReviewTopCallout,
 } from "./ScanReviewCallouts";
 import { ScanReviewPageCard, type ScanReviewPage } from "./ScanReviewPageCard";
@@ -19,7 +24,9 @@ export type ScanReviewScreenProps = {
   missingYearRanges: string[];
   processingComplete: boolean;
   isLoading: boolean;
-  onRescanPage: (id: number) => void;
+  showRescanSuccess?: boolean;
+  reviewError?: string | null;
+  onRescanPages: (ids: number[]) => void;
   onRestart: () => void;
   onNext: () => void;
   onAddMore: () => void;
@@ -31,7 +38,9 @@ export const ScanReviewScreen = ({
   missingYearRanges,
   processingComplete,
   isLoading,
-  onRescanPage,
+  showRescanSuccess = false,
+  reviewError = null,
+  onRescanPages,
   onRestart,
   onNext,
   onAddMore,
@@ -43,14 +52,14 @@ export const ScanReviewScreen = ({
   const reviewPages = pages.filter((page) => !page.needs_retake);
 
   const handleRescanPages = () => {
-    rescanPages.forEach((page) => {
-      onRescanPage(page.id);
-    });
+    onRescanPages(rescanPages.map((page) => page.id));
   };
 
   return (
     <div className="scan-review-screen" aria-live="polite">
       <div className="scan-review-screen__content">
+        {showRescanSuccess && <ScanReviewRescanSuccessInfo />}
+
         <div className="scan-review-screen__intro">
           <p className="scan-review-screen__intro-text">
             <Trans>
@@ -71,6 +80,16 @@ export const ScanReviewScreen = ({
             </Trans>
           </p>
         </div>
+
+        {reviewError && (
+          <CalloutBox
+            className="scan-review-callout scan-review-callout--error"
+            title={<Trans>Unable to load scan review</Trans>}
+            headingLevel={3}
+          >
+            <p>{reviewError}</p>
+          </CalloutBox>
+        )}
 
         {isLoading ? (
           <div

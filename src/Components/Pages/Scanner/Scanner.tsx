@@ -1,22 +1,37 @@
 import { DocumentScanner } from "dynamsoft-document-scanner";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLingui } from "@lingui/react";
+import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 import { useNavigate } from "react-router-dom";
 
 import "./Scanner.scss";
-import { uploadScan } from "../../../api/account/scanPresign";
-import { isAccountApiError, useCreateRhHistory } from "../../../api/account";
+import {
+  combineRhHistoryPages,
+  deleteAllRhScannedPages,
+  deleteRhScannedPages,
+  getRhHistoryAnalysisPages,
+  isAccountApiError,
+  useCreateRhHistory,
+  useRhScanReview,
+} from "../../../api/account";
+import { downloadScans, uploadScan } from "../../../api/account/scanPresign";
 import {
   clearRhSessionPages,
   getRhAuthSession,
   getRhHistoryId,
   setRhHistoryId,
+  setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
+import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
 import { ScanReviewScreen } from "./ScanReviewScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
+import {
+  isScanReviewClean,
+  mapScanReviewPagesWithImages,
+} from "./scanReviewUtils";
 import {
   isCameraPermissionError,
   isRetakeOrSavePreviewVisible,
@@ -57,15 +72,39 @@ const Scanner: React.FC = () => {
   const [historyCreateError, setHistoryCreateError] = useState<string | null>(
     null
   );
+  const [expectedPageCount, setExpectedPageCount] = useState(0);
+  const [flowError, setFlowError] = useState<string | null>(null);
+  const [pageImageUrls, setPageImageUrls] = useState<Record<string, string>>(
+    {}
+  );
+  const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
+  const [isRestarting, setIsRestarting] = useState(false);
+  const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
 
-  const pageNumber = useRef(1);
   const historyIdRef = useRef(historyId);
+  const pageImageUrlsRef = useRef(pageImageUrls);
+  const historyEnsurePromiseRef = useRef<Promise<void> | null>(null);
   historyIdRef.current = historyId;
+  pageImageUrlsRef.current = pageImageUrls;
+
+  const accessToken = getRhAuthSession()?.accessToken;
+  const scanReviewQuery = useRhScanReview({
+    accessToken,
+    historyId: historyId ?? undefined,
+    expectedPageCount,
+    enabled: phase === "scan-review",
+  });
 
   const createRhHistoryMutation = useCreateRhHistory();
 
+  const revokePageImageUrls = useCallback((urls: Record<string, string>) => {
+    Object.values(urls).forEach((url) => {
+      URL.revokeObjectURL(url);
+    });
+  }, []);
+
   useEffect(() => {
-    if (historyId || historyCreatePhase !== "idle") return;
+    if (historyId) return;
 
     const otpSession = getRhAuthSession();
     if (!otpSession) {
@@ -78,6 +117,8 @@ const Scanner: React.FC = () => {
       return;
     }
 
+    if (historyEnsurePromiseRef.current) return;
+
     let cancelled = false;
     setHistoryCreatePhase("creating");
     setHistoryCreateError(null);
@@ -87,7 +128,6 @@ const Scanner: React.FC = () => {
         const history = await createRhHistoryMutation.mutateAsync(
           otpSession.accessToken
         );
-        if (cancelled) return;
         setRhHistoryId(history.id);
         setHistoryIdState(history.id);
         setHistoryCreatePhase("ready");
@@ -104,13 +144,15 @@ const Scanner: React.FC = () => {
       }
     };
 
-    void ensureHistory();
+    historyEnsurePromiseRef.current = ensureHistory().finally(() => {
+      historyEnsurePromiseRef.current = null;
+    });
 
     return () => {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [historyId, historyCreatePhase]);
+  }, [historyId]);
 
   useEffect(() => {
     const initScanner = async () => {
@@ -163,9 +205,9 @@ const Scanner: React.FC = () => {
             console.error("no image from scan");
             return;
           }
-          const key = `${prefix}/page${pageNumber.current}.jpg`;
+          const key = `${prefix}/${crypto.randomUUID()}.jpg`;
           await uploadScan(key, jpgBlob);
-          pageNumber.current++;
+          setExpectedPageCount((count) => count + 1);
         },
       });
       setScanner(documentScanner);
@@ -236,15 +278,74 @@ const Scanner: React.FC = () => {
     };
   }, [phase]);
 
+  useEffect(() => {
+    const readyPages =
+      scanReviewQuery.data?.status === "ready"
+        ? scanReviewQuery.data.pages
+        : undefined;
+
+    if (phase !== "scan-review" || !readyPages?.length) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const loadPageImages = async () => {
+      try {
+        const keys = readyPages.map((page) => page.s3_key);
+        const results = await downloadScans(keys);
+        const nextUrls: Record<string, string> = {};
+
+        for (const { key, response } of results) {
+          if (!response.ok) {
+            throw new Error(
+              `Download failed for ${key} (HTTP ${response.status}).`
+            );
+          }
+          nextUrls[key] = URL.createObjectURL(await response.blob());
+        }
+
+        if (cancelled) {
+          revokePageImageUrls(nextUrls);
+          return;
+        }
+
+        setPageImageUrls((current) => {
+          revokePageImageUrls(current);
+          return nextUrls;
+        });
+      } catch (error) {
+        if (cancelled) return;
+        const message =
+          error instanceof Error
+            ? error.message
+            : _(msg`Unable to load scan previews.`);
+        setFlowError(message);
+      }
+    };
+
+    void loadPageImages();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [_, phase, revokePageImageUrls, scanReviewQuery.data]);
+
+  useEffect(
+    () => () => {
+      revokePageImageUrls(pageImageUrlsRef.current);
+    },
+    [revokePageImageUrls]
+  );
+
   const canStartScan = Boolean(readScanKeyPrefix(historyId));
 
-  const launchScanner = async () => {
+  const launchScanner = useCallback(async () => {
     const activeScanner = scanner;
     if (!readScanKeyPrefix(historyId) || !activeScanner) return;
 
     setPhase("scanning");
     setShowScannerGuide(true);
-    pageNumber.current = 1;
     clearRhSessionPages();
 
     const formatContinuousScanDoneLabel = (count: number): string =>
@@ -269,11 +370,12 @@ const Scanner: React.FC = () => {
     } finally {
       window.clearInterval(labelPatchInterval);
     }
-  };
+  }, [_, historyId, scanner]);
 
   const handleStartScanning = async () => {
     if (!canStartScan) return;
 
+    setFlowError(null);
     setIsCheckingCameraAccess(true);
     try {
       const granted = await probeCameraAccess();
@@ -300,6 +402,122 @@ const Scanner: React.FC = () => {
   const handleCameraAccessBack = () => {
     setPhase("pre-scan");
   };
+
+  const handleRestart = async () => {
+    const token = getRhAuthSession()?.accessToken;
+    const activeHistoryId = historyId;
+    if (!token || !activeHistoryId) return;
+
+    setFlowError(null);
+    setAwaitingRescanSuccess(false);
+    setIsRestarting(true);
+    try {
+      await deleteAllRhScannedPages(token, activeHistoryId);
+      setExpectedPageCount(0);
+      revokePageImageUrls(pageImageUrlsRef.current);
+      setPageImageUrls({});
+      await launchScanner();
+    } catch (error) {
+      if (isAccountApiError(error)) {
+        setFlowError(error.message);
+      } else {
+        setFlowError(_(msg`Unable to restart scanning. Please try again.`));
+      }
+    } finally {
+      setIsRestarting(false);
+    }
+  };
+
+  const closeRestartModal = () => {
+    if (isRestarting) return;
+    setIsRestartModalOpen(false);
+  };
+
+  const onConfirmRestart = () => {
+    setIsRestartModalOpen(false);
+    void handleRestart();
+  };
+
+  const handleRescanPages = async (pageIds: number[]) => {
+    if (pageIds.length === 0) return;
+
+    const token = getRhAuthSession()?.accessToken;
+    const activeHistoryId = historyId;
+    if (!token || !activeHistoryId) return;
+
+    setFlowError(null);
+    setAwaitingRescanSuccess(false);
+    try {
+      await deleteRhScannedPages(token, activeHistoryId, pageIds);
+      setExpectedPageCount((count) => count - pageIds.length);
+      revokePageImageUrls(pageImageUrlsRef.current);
+      setPageImageUrls({});
+      setAwaitingRescanSuccess(true);
+      await launchScanner();
+    } catch (error) {
+      if (isAccountApiError(error)) {
+        setFlowError(error.message);
+      } else {
+        setFlowError(_(msg`Unable to re-scan pages. Please try again.`));
+      }
+    }
+  };
+
+  const handleAddMore = async () => {
+    setFlowError(null);
+    setAwaitingRescanSuccess(false);
+    revokePageImageUrls(pageImageUrlsRef.current);
+    setPageImageUrls({});
+    await launchScanner();
+  };
+
+  const handleNext = async () => {
+    const token = getRhAuthSession()?.accessToken;
+    const activeHistoryId = historyId;
+    if (!token || !activeHistoryId) return;
+
+    setFlowError(null);
+    try {
+      await combineRhHistoryPages(token, activeHistoryId);
+      const analysisPages = await getRhHistoryAnalysisPages(
+        token,
+        activeHistoryId
+      );
+      setRhSessionAnalysisPages(analysisPages);
+      navigate(`/${i18n.locale}/confirm-address`);
+    } catch (error) {
+      if (isAccountApiError(error)) {
+        setFlowError(error.message);
+      } else {
+        setFlowError(_(msg`Unable to continue. Please try again.`));
+      }
+    }
+  };
+
+  const scanReviewData = scanReviewQuery.data;
+  const readyScanReview =
+    scanReviewData?.status === "ready" ? scanReviewData : null;
+  const scanReviewFetchError =
+    scanReviewQuery.isError && isAccountApiError(scanReviewQuery.error)
+      ? scanReviewQuery.error.message
+      : null;
+  const reviewError = flowError ?? scanReviewFetchError;
+  const isScanReviewLoading =
+    phase === "scan-review" &&
+    (scanReviewQuery.isLoading ||
+      scanReviewQuery.isFetching ||
+      scanReviewData?.status === "pending");
+  const scanReviewPages = readyScanReview
+    ? mapScanReviewPagesWithImages(readyScanReview.pages, pageImageUrls)
+    : [];
+  const missingYearRanges = readyScanReview?.missing_year_ranges ?? [];
+  const processingComplete = readyScanReview?.processing_complete ?? true;
+  const nextDisabled = missingYearRanges.length > 0;
+  const showRescanSuccess =
+    awaitingRescanSuccess &&
+    !isScanReviewLoading &&
+    processingComplete &&
+    isScanReviewClean(scanReviewPages, missingYearRanges);
 
   return (
     <div id="scanner-page" className="scanner-page">
@@ -330,17 +548,51 @@ const Scanner: React.FC = () => {
 
       {phase === "scan-review" && (
         <ScanReviewScreen
-          pages={[]}
-          missingYearRanges={[]}
-          processingComplete={false}
-          isLoading
-          onRescanPage={() => undefined}
-          onRestart={() => undefined}
-          onNext={() => undefined}
-          onAddMore={() => undefined}
-          nextDisabled
+          pages={scanReviewPages}
+          missingYearRanges={missingYearRanges}
+          processingComplete={processingComplete}
+          isLoading={isScanReviewLoading}
+          showRescanSuccess={showRescanSuccess}
+          reviewError={reviewError}
+          onRescanPages={(pageIds) => {
+            void handleRescanPages(pageIds);
+          }}
+          onRestart={() => {
+            setIsRestartModalOpen(true);
+          }}
+          onNext={() => {
+            void handleNext();
+          }}
+          onAddMore={() => {
+            void handleAddMore();
+          }}
+          nextDisabled={nextDisabled}
         />
       )}
+
+      <ConfirmModal
+        isOpen={isRestartModalOpen}
+        title={<Trans>Re-scan all pages?</Trans>}
+        body={
+          <Trans>
+            All scanned pages will be cleared and you&apos;ll need to scan all
+            pages again.
+          </Trans>
+        }
+        confirmAction={{
+          labelText: _(msg`Restart scan`),
+          variant: "primary",
+          onClick: onConfirmRestart,
+          disabled: isRestarting,
+        }}
+        cancelAction={{
+          labelText: _(msg`Cancel`),
+          variant: "secondary",
+          onClick: closeRestartModal,
+          disabled: isRestarting,
+        }}
+        onClose={closeRestartModal}
+      />
     </div>
   );
 };

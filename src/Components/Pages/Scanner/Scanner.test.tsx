@@ -1,3 +1,4 @@
+import { StrictMode } from "react";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -15,6 +16,7 @@ import Scanner from "./Scanner";
 import { AccountApiError } from "../../../api/account";
 import * as accountApi from "../../../api/account/api";
 import {
+  getRhHistoryId,
   getRhSessionAnalysisPages,
   setRhAuthSession,
   setRhHistoryId,
@@ -81,6 +83,7 @@ vi.mock("../../../api/account/api", async () => {
   return {
     ...actual,
     combineRhHistoryPages: vi.fn(),
+    createRhHistory: vi.fn(),
     deleteRhHistoryPages: vi.fn(),
     getRhHistoryPagesReadiness: vi.fn().mockResolvedValue({
       status: "ready",
@@ -128,11 +131,11 @@ const createTestQueryClient = () =>
     },
   });
 
-const renderScanner = () => {
+const renderScanner = (options?: { strictMode?: boolean }) => {
   i18n.load("en", {});
   i18n.activate("en");
   const queryClient = createTestQueryClient();
-  return render(
+  const tree = (
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={["/en/scanner"]}>
         <I18nProvider i18n={i18n}>
@@ -141,6 +144,7 @@ const renderScanner = () => {
       </MemoryRouter>
     </QueryClientProvider>
   );
+  return render(options?.strictMode ? <StrictMode>{tree}</StrictMode> : tree);
 };
 
 const advanceToScanComplete = async () => {
@@ -206,5 +210,39 @@ describe("Scanner Next button", () => {
 
     await screen.findByText("reg_year sequence is not contiguous");
     expect(navigateMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("Scanner history create on mount", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    vi.mocked(accountApi.createRhHistory).mockResolvedValue({
+      id: testHistoryId,
+    });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("reaches ready under StrictMode after createRhHistory succeeds", async () => {
+    renderScanner({ strictMode: true });
+
+    const startButton = await screen.findByRole("button", {
+      name: "Start scanning",
+    });
+
+    await waitFor(() => {
+      expect(startButton).not.toBeDisabled();
+      expect(
+        screen.queryByText("Preparing your rent history record…")
+      ).not.toBeInTheDocument();
+    });
+
+    expect(accountApi.createRhHistory).toHaveBeenCalledTimes(1);
+    expect(accountApi.createRhHistory).toHaveBeenCalledWith("access-token");
+    expect(getRhHistoryId()).toBe(testHistoryId);
   });
 });
