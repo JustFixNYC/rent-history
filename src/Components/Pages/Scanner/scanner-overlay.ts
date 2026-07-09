@@ -6,7 +6,11 @@ export const SAVE_BUTTON_CLASS = "rh-scan-save-button";
 
 export const CONTINUOUS_SCAN_DONE_LABEL_PATTERN = /^Done \((\d+)\)$/;
 
-const SCANNER_LIVE_VIEW_SELECTOR = ".dce-mn-continuous-scan-done-btn";
+const SCANNER_LIVE_VIEW_SELECTORS = [
+  ".dce-mn-close",
+  ".dce-mn-take-photo",
+  ".dce-mn-continuous-scan-done-btn",
+] as const;
 
 const walkShadowDom = (
   root: Document | ShadowRoot | Element,
@@ -20,6 +24,18 @@ const walkShadowDom = (
   });
 };
 
+const isDomElementVisible = (element: HTMLElement): boolean => {
+  const style = window.getComputedStyle(element);
+  if (style.display === "none" || style.visibility === "hidden") {
+    return false;
+  }
+  const rect = element.getBoundingClientRect();
+  if (rect.width > 0 && rect.height > 0) {
+    return true;
+  }
+  return element.offsetParent !== null;
+};
+
 const isElementVisibleInTree = (
   root: Document | ShadowRoot | Element,
   selector: string
@@ -29,8 +45,8 @@ const isElementVisibleInTree = (
     if (visible) {
       return;
     }
-    visible = Array.from(node.querySelectorAll(selector)).some(
-      (element) => (element as HTMLElement).offsetParent !== null
+    visible = Array.from(node.querySelectorAll(selector)).some((element) =>
+      isDomElementVisible(element as HTMLElement)
     );
   });
   return visible;
@@ -59,7 +75,9 @@ export const isElementVisible = (selector: string): boolean =>
   isElementVisibleInTree(document, selector);
 
 export const isDynamsoftScannerLiveViewVisible = (): boolean =>
-  isElementVisibleInTree(document, SCANNER_LIVE_VIEW_SELECTOR);
+  SCANNER_LIVE_VIEW_SELECTORS.some((selector) =>
+    isElementVisibleInTree(document, selector)
+  );
 
 export const isRetakeOrSavePreviewVisible = (): boolean =>
   isElementVisible(`.${RETAKE_BUTTON_CLASS}`) ||
