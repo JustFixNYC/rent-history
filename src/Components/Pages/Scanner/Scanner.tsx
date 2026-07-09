@@ -83,8 +83,22 @@ const Scanner: React.FC = () => {
 
   const historyIdRef = useRef(historyId);
   const expectedPageCountRef = useRef(expectedPageCount);
+  const scannerRef = useRef<DocumentScanner>();
+  const isLaunchActiveRef = useRef(false);
+  const isMountedRef = useRef(true);
   historyIdRef.current = historyId;
   expectedPageCountRef.current = expectedPageCount;
+
+  const disposeDocumentScanner = (instance: DocumentScanner) => {
+    try {
+      if (isLaunchActiveRef.current) {
+        instance.stopContinuousScanning();
+      }
+      instance.dispose();
+    } catch (error) {
+      console.error("Failed to dispose document scanner:", error);
+    }
+  };
 
   const persistScannerStep = (nextPhase: ScannerPhase, count: number) => {
     if (nextPhase === "scan-review" && count > 0) {
@@ -114,6 +128,9 @@ const Scanner: React.FC = () => {
     });
 
   useEffect(() => {
+    isMountedRef.current = true;
+    let cancelled = false;
+
     const initScanner = async () => {
       const documentScanner = new DocumentScanner({
         license: import.meta.env.VITE_DYNAMSOFT_LICENSE_KEY || "",
@@ -166,14 +183,40 @@ const Scanner: React.FC = () => {
           }
           const key = `${prefix}/${crypto.randomUUID()}.jpg`;
           await uploadScan(key, jpgBlob);
-          setExpectedPageCount((count) => count + 1);
+          setExpectedPageCount((count) => {
+            const next = count + 1;
+            expectedPageCountRef.current = next;
+            return next;
+          });
         },
       });
+      if (cancelled) {
+        disposeDocumentScanner(documentScanner);
+        return;
+      }
+      scannerRef.current = documentScanner;
       setScanner(documentScanner);
     };
     initScanner().catch((error) => {
       console.error("Error initializing document scanner:", error);
     });
+
+    return () => {
+      isMountedRef.current = false;
+      cancelled = true;
+      const instance = scannerRef.current;
+      if (instance) {
+        disposeDocumentScanner(instance);
+        scannerRef.current = undefined;
+      }
+      const count = expectedPageCountRef.current;
+      if (count > 0) {
+        writeScannerStepState({
+          phase: "scan-review",
+          expectedPageCount: count,
+        });
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -245,12 +288,15 @@ const Scanner: React.FC = () => {
       100
     );
 
+    isLaunchActiveRef.current = true;
     try {
       await activeScanner.launch();
+      if (!isMountedRef.current) return;
       setShowScannerGuide(false);
       setPhase("scan-review");
       persistScannerStep("scan-review", expectedPageCountRef.current);
     } catch (error) {
+      if (!isMountedRef.current) return;
       setShowScannerGuide(false);
       if (isCameraPermissionError(error)) {
         setPhase("camera-access");
@@ -259,6 +305,7 @@ const Scanner: React.FC = () => {
         setPhase("pre-scan");
       }
     } finally {
+      isLaunchActiveRef.current = false;
       window.clearInterval(labelPatchInterval);
     }
   }, [_, historyId, scanner]);

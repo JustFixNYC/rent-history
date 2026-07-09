@@ -37,6 +37,11 @@ const { navigateMock, testHistoryId, scannerHarness } = vi.hoisted(() => ({
   scannerHarness: {
     hangLaunch: false,
     launchResolvers: [] as Array<() => void>,
+    lastInstance: null as {
+      launch: ReturnType<typeof vi.fn>;
+      dispose: ReturnType<typeof vi.fn>;
+      stopContinuousScanning: ReturnType<typeof vi.fn>;
+    } | null,
     onDocumentScanned: null as
       | ((result: {
           correctedImageResult?: { toBlob: (type: string) => Promise<Blob> };
@@ -69,7 +74,11 @@ vi.mock("react-router-dom", async () => {
 
 vi.mock("dynamsoft-document-scanner", () => ({
   DocumentScanner: vi.fn(function DocumentScannerMock(
-    this: { launch: ReturnType<typeof vi.fn> },
+    this: {
+      launch: ReturnType<typeof vi.fn>;
+      dispose: ReturnType<typeof vi.fn>;
+      stopContinuousScanning: ReturnType<typeof vi.fn>;
+    },
     config?: {
       onDocumentScanned?: (result: {
         correctedImageResult?: { toBlob: (type: string) => Promise<Blob> };
@@ -77,6 +86,8 @@ vi.mock("dynamsoft-document-scanner", () => ({
     }
   ) {
     scannerHarness.onDocumentScanned = config?.onDocumentScanned ?? null;
+    this.dispose = vi.fn();
+    this.stopContinuousScanning = vi.fn();
     this.launch = vi.fn().mockImplementation(async () => {
       if (scannerHarness.hangLaunch) {
         await new Promise<void>((resolve) => {
@@ -87,6 +98,7 @@ vi.mock("dynamsoft-document-scanner", () => ({
 
       await scannerHarness.simulateDocumentScan();
     });
+    scannerHarness.lastInstance = this;
   }),
 }));
 
@@ -823,5 +835,128 @@ describe("Scanner phase persistence", () => {
     await screen.findByRole("button", { name: "Start scanning" });
     expect(readScannerStepState()).toBeNull();
     expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalled();
+  });
+});
+
+describe("Scanner unmount cleanup", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    scannerHarness.hangLaunch = false;
+    scannerHarness.lastInstance = null;
+    mockBootstrapNoRestorablePages();
+  });
+
+  afterEach(() => {
+    scannerHarness.hangLaunch = false;
+    scannerHarness.releaseLaunch();
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("disposes and stops continuous scanning when unmounting during active scan with pages", async () => {
+    scannerHarness.hangLaunch = true;
+    const view = renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-in-progress")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      await scannerHarness.simulateDocumentScan();
+    });
+
+    await waitFor(() => {
+      expect(readScannerStepState()).toBeNull();
+    });
+
+    view.unmount();
+
+    expect(
+      scannerHarness.lastInstance?.stopContinuousScanning
+    ).toHaveBeenCalled();
+    expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
+    expect(readScannerStepState()).toEqual({
+      phase: "scan-review",
+      expectedPageCount: 1,
+    });
+  });
+
+  it("disposes without persisting step state when unmounting during active scan with no pages", async () => {
+    scannerHarness.hangLaunch = true;
+    const view = renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-in-progress")).toBeInTheDocument();
+    });
+
+    view.unmount();
+
+    expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
+    expect(
+      scannerHarness.lastInstance?.stopContinuousScanning
+    ).toHaveBeenCalled();
+    expect(readScannerStepState()).toBeNull();
+  });
+
+  it("disposes without clearing step state when unmounting from scan-review", async () => {
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    mockBootstrapReady({
+      ...readyScanReviewResponse,
+      db_count: 2,
+      expected_page_count: 2,
+    });
+
+    const view = renderScanner();
+    await waitForScanReviewReady();
+    view.unmount();
+
+    expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
+    expect(readScannerStepState()).toEqual({
+      phase: "scan-review",
+      expectedPageCount: 2,
+    });
+  });
+
+  it("restores scan-review after unmounting mid-scan with pages", async () => {
+    scannerHarness.hangLaunch = true;
+
+    const first = renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-in-progress")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      await scannerHarness.simulateDocumentScan();
+    });
+
+    first.unmount();
+
+    expect(readScannerStepState()).toEqual({
+      phase: "scan-review",
+      expectedPageCount: 1,
+    });
+
+    mockBootstrapReady();
+    renderScanner();
+    await waitForScanReviewReady();
+    expect(
+      screen.queryByRole("button", { name: "Start scanning" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("disposes when unmounting from pre-scan", async () => {
+    const view = renderScanner();
+    await screen.findByRole("button", { name: "Start scanning" });
+    view.unmount();
+
+    expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
   });
 });
