@@ -4,10 +4,12 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { Icon } from "@justfixnyc/component-library";
 
 import "./Scanner.scss";
 import {
+  accountQueryKeys,
   combineRhHistoryPages,
   deleteAllRhScannedPages,
   deleteRhScannedPages,
@@ -15,7 +17,8 @@ import {
   isAccountApiError,
   useRhScanReview,
 } from "../../../api/account";
-import { downloadScans, uploadScan } from "../../../api/account/scanPresign";
+import { uploadScan } from "../../../api/account/scanPresign";
+import { mapPagesWithImageUrls } from "../../RentHistoryPageCard/pageCardUtils";
 import {
   clearRhSessionPages,
   getRhAuthSession,
@@ -27,15 +30,8 @@ import { PreScanScreen } from "./PreScanScreen";
 import { ScanReviewScreen } from "./ScanReviewScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
 import { clearScannerStepState, writeScannerStepState } from "./scannerState";
-import {
-  isScanReviewClean,
-  mapScanReviewPagesWithImages,
-} from "./scanReviewUtils";
-import {
-  clearStoredPageImageUrls,
-  flowErrorFromApi,
-  requireRhScanContext,
-} from "./scannerFlowUtils";
+import { isScanReviewClean } from "./scanReviewUtils";
+import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
 import {
   isCameraPermissionError,
   isRetakeOrSavePreviewVisible,
@@ -49,6 +45,7 @@ import {
   type ScannerPhase,
 } from "./hooks/useScannerBootstrapRestore";
 import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
+import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
 
 export type { ScannerPhase };
 
@@ -61,6 +58,7 @@ const readScanKeyPrefix = (historyId: string | null): string | null => {
 const Scanner: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [scanner, setScanner] = useState<DocumentScanner>();
   const [showScannerGuide, setShowScannerGuide] = useState(false);
@@ -77,18 +75,13 @@ const Scanner: React.FC = () => {
     restoreStatus,
   } = useScannerBootstrapRestore({ accessToken, historyId });
   const [flowError, setFlowError] = useState<string | null>(null);
-  const [pageImageUrls, setPageImageUrls] = useState<Record<string, string>>(
-    {}
-  );
   const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
   const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
 
   const historyIdRef = useRef(historyId);
-  const pageImageUrlsRef = useRef(pageImageUrls);
   const expectedPageCountRef = useRef(expectedPageCount);
   historyIdRef.current = historyId;
-  pageImageUrlsRef.current = pageImageUrls;
   expectedPageCountRef.current = expectedPageCount;
 
   const persistScannerStep = (nextPhase: ScannerPhase, count: number) => {
@@ -106,11 +99,17 @@ const Scanner: React.FC = () => {
     enabled: phase === "scan-review",
   });
 
-  const revokePageImageUrls = useCallback((urls: Record<string, string>) => {
-    Object.values(urls).forEach((url) => {
-      URL.revokeObjectURL(url);
+  const readyPages =
+    scanReviewQuery.data?.status === "ready"
+      ? scanReviewQuery.data.pages
+      : undefined;
+
+  const { urlsByKey: pageImageUrls, clear: clearPageImages } =
+    useScanReviewPageImages({
+      readyPages,
+      phase,
+      onError: setFlowError,
     });
-  }, []);
 
   useEffect(() => {
     const initScanner = async () => {
@@ -236,66 +235,6 @@ const Scanner: React.FC = () => {
     };
   }, [phase]);
 
-  useEffect(() => {
-    const readyPages =
-      scanReviewQuery.data?.status === "ready"
-        ? scanReviewQuery.data.pages
-        : undefined;
-
-    if (phase !== "scan-review" || !readyPages?.length) {
-      return;
-    }
-
-    let cancelled = false;
-
-    const loadPageImages = async () => {
-      try {
-        const keys = readyPages.map((page) => page.s3_key);
-        const results = await downloadScans(keys);
-        const nextUrls: Record<string, string> = {};
-
-        for (const { key, response } of results) {
-          if (!response.ok) {
-            throw new Error(
-              `Download failed for ${key} (HTTP ${response.status}).`
-            );
-          }
-          nextUrls[key] = URL.createObjectURL(await response.blob());
-        }
-
-        if (cancelled) {
-          revokePageImageUrls(nextUrls);
-          return;
-        }
-
-        setPageImageUrls((current) => {
-          revokePageImageUrls(current);
-          return nextUrls;
-        });
-      } catch (error) {
-        if (cancelled) return;
-        const message =
-          error instanceof Error
-            ? error.message
-            : _(msg`Unable to load scan previews.`);
-        setFlowError(message);
-      }
-    };
-
-    void loadPageImages();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [_, phase, revokePageImageUrls, scanReviewQuery.data]);
-
-  useEffect(
-    () => () => {
-      revokePageImageUrls(pageImageUrlsRef.current);
-    },
-    [revokePageImageUrls]
-  );
-
   const canStartScan = Boolean(readScanKeyPrefix(historyId));
 
   const launchScanner = useCallback(async () => {
@@ -376,11 +315,7 @@ const Scanner: React.FC = () => {
       await deleteAllRhScannedPages(token, activeHistoryId);
       clearScannerStepState();
       setExpectedPageCount(0);
-      clearStoredPageImageUrls(
-        pageImageUrlsRef.current,
-        revokePageImageUrls,
-        setPageImageUrls
-      );
+      clearPageImages();
       await launchScanner();
     } catch (error) {
       setFlowError(
@@ -418,11 +353,7 @@ const Scanner: React.FC = () => {
       await deleteRhScannedPages(token, activeHistoryId, pageIds);
       clearScannerStepState();
       setExpectedPageCount((count) => count - pageIds.length);
-      clearStoredPageImageUrls(
-        pageImageUrlsRef.current,
-        revokePageImageUrls,
-        setPageImageUrls
-      );
+      clearPageImages();
       setAwaitingRescanSuccess(true);
       await launchScanner();
     } catch (error) {
@@ -438,11 +369,7 @@ const Scanner: React.FC = () => {
   const handleAddMore = async () => {
     setFlowError(null);
     setAwaitingRescanSuccess(false);
-    clearStoredPageImageUrls(
-      pageImageUrlsRef.current,
-      revokePageImageUrls,
-      setPageImageUrls
-    );
+    clearPageImages();
     await launchScanner();
   };
 
@@ -458,6 +385,10 @@ const Scanner: React.FC = () => {
       const analysisPages = await getRhHistoryAnalysisPages(
         token,
         activeHistoryId
+      );
+      queryClient.setQueryData(
+        accountQueryKeys.analysisPages(activeHistoryId),
+        analysisPages
       );
       setRhSessionAnalysisPages(analysisPages);
       navigate(`/${i18n.locale}/confirm-address`);
@@ -483,7 +414,7 @@ const Scanner: React.FC = () => {
       scanReviewQuery.isFetching ||
       scanReviewData?.status === "pending");
   const scanReviewPages = readyScanReview
-    ? mapScanReviewPagesWithImages(readyScanReview.pages, pageImageUrls)
+    ? mapPagesWithImageUrls(readyScanReview.pages, pageImageUrls)
     : [];
   const missingYearRanges = readyScanReview?.missing_year_ranges ?? [];
   const processingComplete = readyScanReview?.processing_complete ?? true;

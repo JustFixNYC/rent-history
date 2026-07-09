@@ -20,12 +20,3 @@ export const flowErrorFromApi = (
   error: unknown,
   fallbackMessage: string
 ): string => (isAccountApiError(error) ? error.message : fallbackMessage);
-
-export const clearStoredPageImageUrls = (
-  urls: Record<string, string>,
-  revoke: (urls: Record<string, string>) => void,
-  setUrls: (urls: Record<string, string>) => void
-): void => {
-  revoke(urls);
-  setUrls({});
-};

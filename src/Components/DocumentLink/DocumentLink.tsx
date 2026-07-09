@@ -6,6 +6,7 @@ import { Trans } from "@lingui/react/macro";
 import { Icon } from "@justfixnyc/component-library";
 
 import { InfoModal } from "../InfoModal/InfoModal";
+import { RentHistoryPagesModalContent } from "./RentHistoryPagesModalContent";
 
 import "./DocumentLink.scss";
 
@@ -32,7 +33,9 @@ export const DocumentLink = ({ className }: DocumentLinkProps) => {
         isOpen={isOpen}
         title={_(msg`Your rent history`)}
         onClose={() => setIsOpen(false)}
-      />
+      >
+        <RentHistoryPagesModalContent enabled={isOpen} />
+      </InfoModal>
     </>
   );
 };

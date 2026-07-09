@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, type ReactNode } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
@@ -10,9 +10,15 @@ type InfoModalProps = {
   isOpen: boolean;
   title: string;
   onClose: () => void;
+  children?: ReactNode;
 };
 
-export const InfoModal = ({ isOpen, title, onClose }: InfoModalProps) => {
+export const InfoModal = ({
+  isOpen,
+  title,
+  onClose,
+  children,
+}: InfoModalProps) => {
   const { _ } = useLingui();
   const titleId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -45,9 +51,11 @@ export const InfoModal = ({ isOpen, title, onClose }: InfoModalProps) => {
       <h2 id={titleId} className="info-modal__title">
         {title}
       </h2>
-      <p className="info-modal__body">
-        <Trans>Coming soon</Trans>
-      </p>
+      {children ?? (
+        <p className="info-modal__body">
+          <Trans>Coming soon</Trans>
+        </p>
+      )}
       <div className="info-modal__actions">
         <Button labelText={_(msg`Close`)} onClick={onClose} />
       </div>

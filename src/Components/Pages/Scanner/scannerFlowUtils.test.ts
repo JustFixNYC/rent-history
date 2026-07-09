@@ -1,12 +1,8 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { AccountApiError } from "../../../api/account";
 import { setRhAuthSession } from "../../../session/rhSessionStorage";
-import {
-  clearStoredPageImageUrls,
-  flowErrorFromApi,
-  requireRhScanContext,
-} from "./scannerFlowUtils";
+import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
 
 const tokenPayload = {
   access_token: "test-token",
@@ -54,18 +50,5 @@ describe("flowErrorFromApi", () => {
 
   it("returns fallback for non-API errors", () => {
     expect(flowErrorFromApi(new Error("nope"), "fallback")).toBe("fallback");
-  });
-});
-
-describe("clearStoredPageImageUrls", () => {
-  it("revokes urls and clears state", () => {
-    const urls = { "key-1": "blob:1", "key-2": "blob:2" };
-    const revoke = vi.fn();
-    const setUrls = vi.fn();
-
-    clearStoredPageImageUrls(urls, revoke, setUrls);
-
-    expect(revoke).toHaveBeenCalledWith(urls);
-    expect(setUrls).toHaveBeenCalledWith({});
   });
 });

@@ -14,7 +14,8 @@ import {
   ScanReviewRescanSuccessInfo,
   ScanReviewTopCallout,
 } from "./ScanReviewCallouts";
-import { ScanReviewPageCard, type ScanReviewPage } from "./ScanReviewPageCard";
+import { RentHistoryPageCard } from "../../RentHistoryPageCard/RentHistoryPageCard";
+import type { ScanReviewPage } from "../../RentHistoryPageCard/pageCardUtils";
 import { ScanReviewRetakeGroup } from "./ScanReviewRetakeGroup";
 
 import "./ScanReviewScreen.scss";
@@ -119,7 +120,7 @@ export const ScanReviewScreen = ({
               )}
 
               {reviewPages.map((page) => (
-                <ScanReviewPageCard key={page.id} page={page} />
+                <RentHistoryPageCard key={page.id} page={page} />
               ))}
             </div>
 

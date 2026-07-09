@@ -3,7 +3,8 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Button, Pill } from "@justfixnyc/component-library";
 
-import { ScanReviewPageCard, type ScanReviewPage } from "./ScanReviewPageCard";
+import { RentHistoryPageCard } from "../../RentHistoryPageCard/RentHistoryPageCard";
+import type { ScanReviewPage } from "../../RentHistoryPageCard/pageCardUtils";
 
 import "./ScanReviewScreen.scss";
 
@@ -41,7 +42,7 @@ export const ScanReviewRetakeGroup = ({
       </p>
       <div className="scan-review-retake-group__pages">
         {pages.map((page) => (
-          <ScanReviewPageCard key={page.id} page={page} variant="retake" />
+          <RentHistoryPageCard key={page.id} page={page} variant="retake" />
         ))}
       </div>
       <Button
