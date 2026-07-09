@@ -30,14 +30,30 @@ export const ScanReviewRescanSuccessInfo = () => (
   </InfoBox>
 );
 
+const ScanReviewAddMoreButton = ({ onAddMore }: { onAddMore: () => void }) => {
+  const { _ } = useLingui();
+
+  return (
+    <Button
+      className="scan-review-callout__add-more-button"
+      variant="secondary"
+      labelIcon="cameraRegular"
+      labelText={_(msg`Add missing pages`)}
+      onClick={onAddMore}
+    />
+  );
+};
+
 export type ScanReviewTopCalloutProps = {
   missingYearRanges: string[];
   processingComplete: boolean;
+  onAddMore: () => void;
 };
 
 export const ScanReviewTopCallout = ({
   missingYearRanges,
   processingComplete,
+  onAddMore,
 }: ScanReviewTopCalloutProps) => {
   const hasGapError = missingYearRanges.length > 0;
   const hasProcessingWarning = !processingComplete;
@@ -54,6 +70,7 @@ export const ScanReviewTopCallout = ({
         className="scan-review-callout scan-review-callout--error"
         title={<Trans>Missing registration years</Trans>}
         headingLevel={3}
+        action={<ScanReviewAddMoreButton onAddMore={onAddMore} />}
       >
         <p>
           <Trans>
@@ -89,22 +106,12 @@ export type ScanReviewAddMoreCalloutProps = {
 export const ScanReviewAddMoreCallout = ({
   onAddMore,
 }: ScanReviewAddMoreCalloutProps) => {
-  const { _ } = useLingui();
-
   return (
     <CalloutBox
       className="scan-review-callout scan-review-callout--add-more"
       title={<Trans>Something missing?</Trans>}
       headingLevel={3}
-      action={
-        <Button
-          className="scan-review-callout__add-more-button"
-          variant="secondary"
-          labelIcon="cameraRegular"
-          labelText={_(msg`Add missing pages`)}
-          onClick={onAddMore}
-        />
-      }
+      action={<ScanReviewAddMoreButton onAddMore={onAddMore} />}
     >
       <p>
         <Trans>

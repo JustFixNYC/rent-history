@@ -137,7 +137,7 @@ msgstr "About this site"
 msgid "Access completed or in-progress reports"
 msgstr "Access completed or in-progress reports"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:104
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:41
 msgid "Add missing pages"
 msgstr "Add missing pages"
 
@@ -620,7 +620,7 @@ msgstr "I don’t have my rent history"
 msgid "If any pages are missing, you can <0>add a page</0>."
 msgstr "If any pages are missing, you can <0>add a page</0>."
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:110
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:117
 msgid "If it seems like any pages are missing, you can add them now by scanning."
 msgstr "If it seems like any pages are missing, you can add them now by scanning."
 
@@ -789,7 +789,7 @@ msgstr "Map showing location of the entered address."
 msgid "Menu"
 msgstr "Menu"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:55
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:71
 msgid "Missing registration years"
 msgstr "Missing registration years"
 
@@ -812,7 +812,7 @@ msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landl
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:135
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:138
 msgid "Next"
 msgstr "Next"
 
@@ -1069,7 +1069,7 @@ msgid "Residential units"
 msgstr "Residential units"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:680
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:133
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:136
 msgid "Restart scan"
 msgstr "Restart scan"
 
@@ -1122,7 +1122,7 @@ msgstr "Scan a new rent history"
 #~ msgid "Scan review"
 #~ msgstr "Scan review"
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:136
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:139
 msgid "Scan review navigation"
 msgstr "Scan review navigation"
 
@@ -1193,7 +1193,7 @@ msgstr "Since there was a change in tenancy from year {year0} to year {year1}, t
 msgid "Site navigation"
 msgstr "Site navigation"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:97
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:112
 msgid "Something missing?"
 msgstr "Something missing?"
 
@@ -1267,7 +1267,7 @@ msgstr "Step 4: Provide your rent"
 msgid "Step 5: What we found"
 msgstr "Step 5: What we found"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:72
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:89
 msgid "Still processing pages"
 msgstr "Still processing pages"
 
@@ -1562,7 +1562,7 @@ msgstr "View scanned document"
 msgid "Visit JustFix"
 msgstr "Visit JustFix"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:76
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:93
 msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
 msgstr "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
 
@@ -1841,7 +1841,7 @@ msgstr "Your report was emailed successfully. You can also download it above."
 msgid "Your scanned pages"
 msgstr "Your scanned pages"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:59
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:76
 msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 msgstr "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 

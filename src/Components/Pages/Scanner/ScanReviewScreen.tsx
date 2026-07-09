@@ -107,6 +107,7 @@ export const ScanReviewScreen = ({
             <ScanReviewTopCallout
               missingYearRanges={missingYearRanges}
               processingComplete={processingComplete}
+              onAddMore={onAddMore}
             />
 
             <div className="scan-review-screen__page-list">
@@ -122,7 +123,9 @@ export const ScanReviewScreen = ({
               ))}
             </div>
 
-            <ScanReviewAddMoreCallout onAddMore={onAddMore} />
+            {missingYearRanges.length === 0 && (
+              <ScanReviewAddMoreCallout onAddMore={onAddMore} />
+            )}
           </>
         )}
       </div>
