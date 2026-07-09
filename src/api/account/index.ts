@@ -78,6 +78,7 @@ export {
   useCombineRhHistoryPages,
   useRhHistoryAnalysisPages,
   useRhScanReview,
+  useRhScanReviewBootstrap,
 } from "./hooks/scanner";
 export {
   useConfirmRhHistoryAddress,

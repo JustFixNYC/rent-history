@@ -8,6 +8,29 @@ import {
   getRhHistoryScanReview,
 } from "../api";
 
+export type UseRhScanReviewBootstrapParams = {
+  accessToken: string | undefined;
+  historyId: string | undefined;
+  /** True once historyId + token are known, before phase is finalized. */
+  enabled: boolean;
+};
+
+export const useRhScanReviewBootstrap = ({
+  accessToken,
+  historyId,
+  enabled,
+}: UseRhScanReviewBootstrapParams) =>
+  useQuery({
+    queryKey: accountQueryKeys.scanReviewBootstrap(historyId ?? ""),
+    queryFn: () =>
+      getRhHistoryScanReview(accessToken!, historyId!, 1, {
+        acceptPartial: true,
+      }),
+    enabled: Boolean(enabled && accessToken && historyId),
+    staleTime: Infinity,
+    retry: false,
+  });
+
 export type UseRhScanReviewParams = {
   accessToken: string | undefined;
   historyId: string | undefined;

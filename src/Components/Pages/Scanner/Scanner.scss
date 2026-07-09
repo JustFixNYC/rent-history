@@ -6,6 +6,14 @@
   min-height: 100%;
 }
 
+.scanner-page__restore-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 12rem;
+  padding: 2rem;
+}
+
 .scanner-scan-guide {
   position: fixed;
   inset: 0;

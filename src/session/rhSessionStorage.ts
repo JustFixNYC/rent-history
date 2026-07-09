@@ -273,6 +273,14 @@ export function setRhSessionStepState(stepId: string, value: unknown): void {
   });
 }
 
+export function removeRhSessionStepState(stepId: string): void {
+  patchRhSessionDocument((draft) => {
+    const next = { ...draft.flow.steps };
+    delete next[stepId];
+    draft.flow.steps = next;
+  });
+}
+
 export function getRhSessionStepState<T>(
   stepId: string,
   schema: z.ZodType<T>

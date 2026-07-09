@@ -13,6 +13,7 @@ import {
   getValidRhAccessToken,
   parseRhSessionDocumentJson,
   readRhSessionDocument,
+  removeRhSessionStepState,
   RH_SESSION_STORAGE_KEY,
   setRhAuthSession,
   setRhHistoryId,
@@ -138,6 +139,19 @@ describe("rhSessionStorage", () => {
     );
     expect(valid).toEqual({ completed: true, pages: 2 });
     expect(invalid).toBeNull();
+  });
+
+  it("removeRhSessionStepState deletes a step entry", () => {
+    setRhSessionStepState("scanner", {
+      phase: "scan-review",
+      expectedPageCount: 2,
+    });
+    setRhSessionStepState("postScan", { completed: true });
+    removeRhSessionStepState("scanner");
+    expect(readRhSessionDocument()?.flow.steps.scanner).toBeUndefined();
+    expect(readRhSessionDocument()?.flow.steps.postScan).toEqual({
+      completed: true,
+    });
   });
 
   it("clears pages with clearRhSessionPages", () => {

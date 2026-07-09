@@ -4,6 +4,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 import { useNavigate } from "react-router-dom";
+import { Icon } from "@justfixnyc/component-library";
 
 import "./Scanner.scss";
 import {
@@ -14,6 +15,7 @@ import {
   isAccountApiError,
   useCreateRhHistory,
   useRhScanReview,
+  useRhScanReviewBootstrap,
 } from "../../../api/account";
 import { downloadScans, uploadScan } from "../../../api/account/scanPresign";
 import {
@@ -28,6 +30,11 @@ import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
 import { ScanReviewScreen } from "./ScanReviewScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
+import {
+  clearScannerStepState,
+  readScannerStepState,
+  writeScannerStepState,
+} from "./scannerState";
 import {
   isScanReviewClean,
   mapScanReviewPagesWithImages,
@@ -59,7 +66,11 @@ const Scanner: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
 
-  const [phase, setPhase] = useState<ScannerPhase>("pre-scan");
+  const savedStep = readScannerStepState();
+
+  const [phase, setPhase] = useState<ScannerPhase>(() =>
+    savedStep?.phase === "scan-review" ? "scan-review" : "pre-scan"
+  );
   const [scanner, setScanner] = useState<DocumentScanner>();
   const [showScannerGuide, setShowScannerGuide] = useState(false);
   const [cameraAccessGranted, setCameraAccessGranted] = useState(false);
@@ -72,7 +83,12 @@ const Scanner: React.FC = () => {
   const [historyCreateError, setHistoryCreateError] = useState<string | null>(
     null
   );
-  const [expectedPageCount, setExpectedPageCount] = useState(0);
+  const [expectedPageCount, setExpectedPageCount] = useState(() =>
+    savedStep?.phase === "scan-review" ? savedStep.expectedPageCount : 0
+  );
+  const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
+    savedStep?.phase === "scan-review" || getRhHistoryId() ? "pending" : "done"
+  );
   const [flowError, setFlowError] = useState<string | null>(null);
   const [pageImageUrls, setPageImageUrls] = useState<Record<string, string>>(
     {}
@@ -83,11 +99,28 @@ const Scanner: React.FC = () => {
 
   const historyIdRef = useRef(historyId);
   const pageImageUrlsRef = useRef(pageImageUrls);
+  const expectedPageCountRef = useRef(expectedPageCount);
   const historyEnsurePromiseRef = useRef<Promise<void> | null>(null);
   historyIdRef.current = historyId;
   pageImageUrlsRef.current = pageImageUrls;
+  expectedPageCountRef.current = expectedPageCount;
 
   const accessToken = getRhAuthSession()?.accessToken;
+
+  const persistScannerStep = (nextPhase: ScannerPhase, count: number) => {
+    if (nextPhase === "scan-review" && count > 0) {
+      writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
+    } else {
+      clearScannerStepState();
+    }
+  };
+
+  const scanReviewBootstrap = useRhScanReviewBootstrap({
+    accessToken,
+    historyId: historyId ?? undefined,
+    enabled: restoreStatus === "pending",
+  });
+
   const scanReviewQuery = useRhScanReview({
     accessToken,
     historyId: historyId ?? undefined,
@@ -153,6 +186,53 @@ const Scanner: React.FC = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyId]);
+
+  useEffect(() => {
+    if (restoreStatus !== "pending" || scanReviewBootstrap.isLoading) return;
+
+    if (scanReviewBootstrap.isError) {
+      setPhase("pre-scan");
+      setExpectedPageCount(0);
+      clearScannerStepState();
+      setRestoreStatus("done");
+      return;
+    }
+
+    const data = scanReviewBootstrap.data;
+    if (!data) return;
+
+    if (data.status === "ready" && data.pages.length > 0) {
+      setPhase("scan-review");
+      setExpectedPageCount(data.db_count);
+      writeScannerStepState({
+        phase: "scan-review",
+        expectedPageCount: data.db_count,
+      });
+      setRestoreStatus("done");
+      return;
+    }
+
+    if (data.status === "pending") {
+      setPhase("scan-review");
+      setExpectedPageCount(data.expected_page_count);
+      writeScannerStepState({
+        phase: "scan-review",
+        expectedPageCount: data.expected_page_count,
+      });
+      setRestoreStatus("done");
+      return;
+    }
+
+    setPhase("pre-scan");
+    setExpectedPageCount(0);
+    clearScannerStepState();
+    setRestoreStatus("done");
+  }, [
+    restoreStatus,
+    scanReviewBootstrap.data,
+    scanReviewBootstrap.isError,
+    scanReviewBootstrap.isLoading,
+  ]);
 
   useEffect(() => {
     const initScanner = async () => {
@@ -359,6 +439,7 @@ const Scanner: React.FC = () => {
       await activeScanner.launch();
       setShowScannerGuide(false);
       setPhase("scan-review");
+      persistScannerStep("scan-review", expectedPageCountRef.current);
     } catch (error) {
       setShowScannerGuide(false);
       if (isCameraPermissionError(error)) {
@@ -400,6 +481,7 @@ const Scanner: React.FC = () => {
   };
 
   const handleCameraAccessBack = () => {
+    clearScannerStepState();
     setPhase("pre-scan");
   };
 
@@ -413,6 +495,7 @@ const Scanner: React.FC = () => {
     setIsRestarting(true);
     try {
       await deleteAllRhScannedPages(token, activeHistoryId);
+      clearScannerStepState();
       setExpectedPageCount(0);
       revokePageImageUrls(pageImageUrlsRef.current);
       setPageImageUrls({});
@@ -449,6 +532,7 @@ const Scanner: React.FC = () => {
     setAwaitingRescanSuccess(false);
     try {
       await deleteRhScannedPages(token, activeHistoryId, pageIds);
+      clearScannerStepState();
       setExpectedPageCount((count) => count - pageIds.length);
       revokePageImageUrls(pageImageUrlsRef.current);
       setPageImageUrls({});
@@ -504,7 +588,8 @@ const Scanner: React.FC = () => {
   const reviewError = flowError ?? scanReviewFetchError;
   const isScanReviewLoading =
     phase === "scan-review" &&
-    (scanReviewQuery.isLoading ||
+    (restoreStatus === "pending" ||
+      scanReviewQuery.isLoading ||
       scanReviewQuery.isFetching ||
       scanReviewData?.status === "pending");
   const scanReviewPages = readyScanReview
@@ -519,9 +604,21 @@ const Scanner: React.FC = () => {
     processingComplete &&
     isScanReviewClean(scanReviewPages, missingYearRanges);
 
+  const showRestoreLoading =
+    restoreStatus === "pending" && phase === "pre-scan" && Boolean(historyId);
+
   return (
     <div id="scanner-page" className="scanner-page">
-      {phase === "pre-scan" && (
+      {showRestoreLoading && (
+        <div
+          className="scanner-page__restore-loading"
+          data-testid="scanner-restore-loading"
+        >
+          <Icon icon="spinner" aria-hidden="true" />
+        </div>
+      )}
+
+      {phase === "pre-scan" && restoreStatus === "done" && (
         <PreScanScreen
           onBack={handlePreScanBack}
           onStartScanning={() => {
