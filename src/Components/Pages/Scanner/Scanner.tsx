@@ -40,6 +40,11 @@ import {
   mapScanReviewPagesWithImages,
 } from "./scanReviewUtils";
 import {
+  clearStoredPageImageUrls,
+  flowErrorFromApi,
+  requireRhScanContext,
+} from "./scannerFlowUtils";
+import {
   isCameraPermissionError,
   isRetakeOrSavePreviewVisible,
   patchContinuousScanDoneLabels,
@@ -167,13 +172,12 @@ const Scanner: React.FC = () => {
       } catch (error) {
         if (cancelled) return;
         setHistoryCreatePhase("error");
-        if (isAccountApiError(error)) {
-          setHistoryCreateError(error.message);
-        } else {
-          setHistoryCreateError(
+        setHistoryCreateError(
+          flowErrorFromApi(
+            error,
             _(msg`Unable to create your rent history record. Please try again.`)
-          );
-        }
+          )
+        );
       }
     };
 
@@ -486,9 +490,10 @@ const Scanner: React.FC = () => {
   };
 
   const handleRestart = async () => {
-    const token = getRhAuthSession()?.accessToken;
-    const activeHistoryId = historyId;
-    if (!token || !activeHistoryId) return;
+    const context = requireRhScanContext(historyId);
+    if (!context) return;
+
+    const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
     setAwaitingRescanSuccess(false);
@@ -497,15 +502,19 @@ const Scanner: React.FC = () => {
       await deleteAllRhScannedPages(token, activeHistoryId);
       clearScannerStepState();
       setExpectedPageCount(0);
-      revokePageImageUrls(pageImageUrlsRef.current);
-      setPageImageUrls({});
+      clearStoredPageImageUrls(
+        pageImageUrlsRef.current,
+        revokePageImageUrls,
+        setPageImageUrls
+      );
       await launchScanner();
     } catch (error) {
-      if (isAccountApiError(error)) {
-        setFlowError(error.message);
-      } else {
-        setFlowError(_(msg`Unable to restart scanning. Please try again.`));
-      }
+      setFlowError(
+        flowErrorFromApi(
+          error,
+          _(msg`Unable to restart scanning. Please try again.`)
+        )
+      );
     } finally {
       setIsRestarting(false);
     }
@@ -524,9 +533,10 @@ const Scanner: React.FC = () => {
   const handleRescanPages = async (pageIds: number[]) => {
     if (pageIds.length === 0) return;
 
-    const token = getRhAuthSession()?.accessToken;
-    const activeHistoryId = historyId;
-    if (!token || !activeHistoryId) return;
+    const context = requireRhScanContext(historyId);
+    if (!context) return;
+
+    const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
     setAwaitingRescanSuccess(false);
@@ -534,31 +544,39 @@ const Scanner: React.FC = () => {
       await deleteRhScannedPages(token, activeHistoryId, pageIds);
       clearScannerStepState();
       setExpectedPageCount((count) => count - pageIds.length);
-      revokePageImageUrls(pageImageUrlsRef.current);
-      setPageImageUrls({});
+      clearStoredPageImageUrls(
+        pageImageUrlsRef.current,
+        revokePageImageUrls,
+        setPageImageUrls
+      );
       setAwaitingRescanSuccess(true);
       await launchScanner();
     } catch (error) {
-      if (isAccountApiError(error)) {
-        setFlowError(error.message);
-      } else {
-        setFlowError(_(msg`Unable to re-scan pages. Please try again.`));
-      }
+      setFlowError(
+        flowErrorFromApi(
+          error,
+          _(msg`Unable to re-scan pages. Please try again.`)
+        )
+      );
     }
   };
 
   const handleAddMore = async () => {
     setFlowError(null);
     setAwaitingRescanSuccess(false);
-    revokePageImageUrls(pageImageUrlsRef.current);
-    setPageImageUrls({});
+    clearStoredPageImageUrls(
+      pageImageUrlsRef.current,
+      revokePageImageUrls,
+      setPageImageUrls
+    );
     await launchScanner();
   };
 
   const handleNext = async () => {
-    const token = getRhAuthSession()?.accessToken;
-    const activeHistoryId = historyId;
-    if (!token || !activeHistoryId) return;
+    const context = requireRhScanContext(historyId);
+    if (!context) return;
+
+    const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
     try {
@@ -570,11 +588,9 @@ const Scanner: React.FC = () => {
       setRhSessionAnalysisPages(analysisPages);
       navigate(`/${i18n.locale}/confirm-address`);
     } catch (error) {
-      if (isAccountApiError(error)) {
-        setFlowError(error.message);
-      } else {
-        setFlowError(_(msg`Unable to continue. Please try again.`));
-      }
+      setFlowError(
+        flowErrorFromApi(error, _(msg`Unable to continue. Please try again.`))
+      );
     }
   };
 
