@@ -14,13 +14,11 @@ import {
   getRhHistoryAnalysisPages,
   isAccountApiError,
   useRhScanReview,
-  useRhScanReviewBootstrap,
 } from "../../../api/account";
 import { downloadScans, uploadScan } from "../../../api/account/scanPresign";
 import {
   clearRhSessionPages,
   getRhAuthSession,
-  getRhHistoryId,
   setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
@@ -28,11 +26,7 @@ import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
 import { ScanReviewScreen } from "./ScanReviewScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
-import {
-  clearScannerStepState,
-  readScannerStepState,
-  writeScannerStepState,
-} from "./scannerState";
+import { clearScannerStepState, writeScannerStepState } from "./scannerState";
 import {
   isScanReviewClean,
   mapScanReviewPagesWithImages,
@@ -50,13 +44,13 @@ import {
   RETAKE_BUTTON_CLASS,
   SAVE_BUTTON_CLASS,
 } from "./scanner-overlay";
+import {
+  useScannerBootstrapRestore,
+  type ScannerPhase,
+} from "./hooks/useScannerBootstrapRestore";
 import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
 
-export type ScannerPhase =
-  | "pre-scan"
-  | "scanning"
-  | "camera-access"
-  | "scan-review";
+export type { ScannerPhase };
 
 const readScanKeyPrefix = (historyId: string | null): string | null => {
   const session = getRhAuthSession();
@@ -68,23 +62,20 @@ const Scanner: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
 
-  const savedStep = readScannerStepState();
-
-  const [phase, setPhase] = useState<ScannerPhase>(() =>
-    savedStep?.phase === "scan-review" ? "scan-review" : "pre-scan"
-  );
   const [scanner, setScanner] = useState<DocumentScanner>();
   const [showScannerGuide, setShowScannerGuide] = useState(false);
   const [cameraAccessGranted, setCameraAccessGranted] = useState(false);
   const [isCheckingCameraAccess, setIsCheckingCameraAccess] = useState(false);
   const { historyId, historyCreatePhase, historyCreateError } =
     useScannerHistoryCreate();
-  const [expectedPageCount, setExpectedPageCount] = useState(() =>
-    savedStep?.phase === "scan-review" ? savedStep.expectedPageCount : 0
-  );
-  const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
-    savedStep?.phase === "scan-review" || getRhHistoryId() ? "pending" : "done"
-  );
+  const accessToken = getRhAuthSession()?.accessToken;
+  const {
+    phase,
+    setPhase,
+    expectedPageCount,
+    setExpectedPageCount,
+    restoreStatus,
+  } = useScannerBootstrapRestore({ accessToken, historyId });
   const [flowError, setFlowError] = useState<string | null>(null);
   const [pageImageUrls, setPageImageUrls] = useState<Record<string, string>>(
     {}
@@ -100,8 +91,6 @@ const Scanner: React.FC = () => {
   pageImageUrlsRef.current = pageImageUrls;
   expectedPageCountRef.current = expectedPageCount;
 
-  const accessToken = getRhAuthSession()?.accessToken;
-
   const persistScannerStep = (nextPhase: ScannerPhase, count: number) => {
     if (nextPhase === "scan-review" && count > 0) {
       writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
@@ -109,12 +98,6 @@ const Scanner: React.FC = () => {
       clearScannerStepState();
     }
   };
-
-  const scanReviewBootstrap = useRhScanReviewBootstrap({
-    accessToken,
-    historyId: historyId ?? undefined,
-    enabled: restoreStatus === "pending",
-  });
 
   const scanReviewQuery = useRhScanReview({
     accessToken,
@@ -128,53 +111,6 @@ const Scanner: React.FC = () => {
       URL.revokeObjectURL(url);
     });
   }, []);
-
-  useEffect(() => {
-    if (restoreStatus !== "pending" || scanReviewBootstrap.isLoading) return;
-
-    if (scanReviewBootstrap.isError) {
-      setPhase("pre-scan");
-      setExpectedPageCount(0);
-      clearScannerStepState();
-      setRestoreStatus("done");
-      return;
-    }
-
-    const data = scanReviewBootstrap.data;
-    if (!data) return;
-
-    if (data.status === "ready" && data.pages.length > 0) {
-      setPhase("scan-review");
-      setExpectedPageCount(data.db_count);
-      writeScannerStepState({
-        phase: "scan-review",
-        expectedPageCount: data.db_count,
-      });
-      setRestoreStatus("done");
-      return;
-    }
-
-    if (data.status === "pending") {
-      setPhase("scan-review");
-      setExpectedPageCount(data.expected_page_count);
-      writeScannerStepState({
-        phase: "scan-review",
-        expectedPageCount: data.expected_page_count,
-      });
-      setRestoreStatus("done");
-      return;
-    }
-
-    setPhase("pre-scan");
-    setExpectedPageCount(0);
-    clearScannerStepState();
-    setRestoreStatus("done");
-  }, [
-    restoreStatus,
-    scanReviewBootstrap.data,
-    scanReviewBootstrap.isError,
-    scanReviewBootstrap.isLoading,
-  ]);
 
   useEffect(() => {
     const initScanner = async () => {
