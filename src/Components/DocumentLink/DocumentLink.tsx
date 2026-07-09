@@ -34,7 +34,7 @@ export const DocumentLink = ({ className }: DocumentLinkProps) => {
         title={_(msg`Your rent history`)}
         onClose={() => setIsOpen(false)}
       >
-        <RentHistoryPagesModalContent enabled={isOpen} />
+        {isOpen ? <RentHistoryPagesModalContent enabled /> : null}
       </InfoModal>
     </>
   );
