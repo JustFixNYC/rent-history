@@ -57,8 +57,9 @@ describe("OtpInput", () => {
     expect(onComplete).toHaveBeenCalledWith("123456");
   });
 
-  it("pastes a full code into the single input", () => {
-    render(<OtpInputHarness />);
+  it("pastes a full code into the single input and calls onComplete", () => {
+    const onComplete = vi.fn();
+    render(<OtpInputHarness onComplete={onComplete} />);
 
     const input = screen.getByLabelText("Verification code");
 
@@ -69,6 +70,8 @@ describe("OtpInput", () => {
     });
 
     expect(input).toHaveValue("123456");
+    expect(onComplete).toHaveBeenCalledTimes(1);
+    expect(onComplete).toHaveBeenCalledWith("123456");
   });
 
   it("accepts multi-character autofill via change event", () => {

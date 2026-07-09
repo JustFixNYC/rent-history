@@ -43,6 +43,10 @@ export function LoginVerificationStep({
     [onOtpChange]
   );
 
+  const handleOtpComplete = useCallback(() => {
+    otpFormRef.current?.requestSubmit();
+  }, [otpFormRef]);
+
   const handleResendCode = () => {
     onResendCode();
     otpInputRef.current?.focus();
@@ -84,6 +88,7 @@ export function LoginVerificationStep({
               event.preventDefault();
               onOtpChange(event.clipboardData.getData("text"));
             }}
+            onComplete={handleOtpComplete}
             aria-label={_(msg`Verification code`)}
             invalid={verificationError !== null && verificationCode.length > 0}
           />
