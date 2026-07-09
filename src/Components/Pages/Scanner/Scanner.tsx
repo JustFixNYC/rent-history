@@ -28,12 +28,14 @@ import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
 import { ScanReviewScreen } from "./ScanReviewScreen";
+import { ScannerInProgressScreen } from "./ScannerInProgressScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
 import { clearScannerStepState, writeScannerStepState } from "./scannerState";
 import { isScanReviewClean } from "./scanReviewUtils";
 import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
 import {
   isCameraPermissionError,
+  isDynamsoftScannerLiveViewVisible,
   isRetakeOrSavePreviewVisible,
   patchContinuousScanDoneLabels,
   probeCameraAccess,
@@ -179,17 +181,9 @@ const Scanner: React.FC = () => {
     if (phase !== "scanning") return;
 
     const syncFromViewState = () => {
-      const previewVisible = isRetakeOrSavePreviewVisible();
-
-      setShowScannerGuide((current) => {
-        if (previewVisible && current) {
-          return false;
-        }
-        if (!previewVisible && !current) {
-          return true;
-        }
-        return current;
-      });
+      const shouldShow =
+        isDynamsoftScannerLiveViewVisible() && !isRetakeOrSavePreviewVisible();
+      setShowScannerGuide(shouldShow);
     };
 
     const interval = window.setInterval(syncFromViewState, 120);
@@ -242,7 +236,6 @@ const Scanner: React.FC = () => {
     if (!readScanKeyPrefix(historyId) || !activeScanner) return;
 
     setPhase("scanning");
-    setShowScannerGuide(true);
     clearRhSessionPages();
 
     const formatContinuousScanDoneLabel = (count: number): string =>
@@ -429,7 +422,12 @@ const Scanner: React.FC = () => {
     restoreStatus === "pending" && phase === "pre-scan" && Boolean(historyId);
 
   return (
-    <div id="scanner-page" className="scanner-page">
+    <div
+      id="scanner-page"
+      className={`scanner-page${
+        phase === "scanning" ? " scanner-page--scanning" : ""
+      }`}
+    >
       {showRestoreLoading && (
         <div
           className="scanner-page__restore-loading"
@@ -462,7 +460,12 @@ const Scanner: React.FC = () => {
         />
       )}
 
-      {phase === "scanning" && <ScannerOverlay visible={showScannerGuide} />}
+      {phase === "scanning" && (
+        <>
+          <ScannerInProgressScreen />
+          <ScannerOverlay visible={showScannerGuide} />
+        </>
+      )}
 
       {phase === "scan-review" && (
         <ScanReviewScreen

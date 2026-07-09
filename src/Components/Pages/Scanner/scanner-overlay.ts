@@ -6,6 +6,36 @@ export const SAVE_BUTTON_CLASS = "rh-scan-save-button";
 
 export const CONTINUOUS_SCAN_DONE_LABEL_PATTERN = /^Done \((\d+)\)$/;
 
+const SCANNER_LIVE_VIEW_SELECTOR = ".dce-mn-continuous-scan-done-btn";
+
+const walkShadowDom = (
+  root: Document | ShadowRoot | Element,
+  visit: (node: Document | ShadowRoot | Element) => void
+): void => {
+  visit(root);
+  root.querySelectorAll("*").forEach((el) => {
+    if (el.shadowRoot) {
+      walkShadowDom(el.shadowRoot, visit);
+    }
+  });
+};
+
+const isElementVisibleInTree = (
+  root: Document | ShadowRoot | Element,
+  selector: string
+): boolean => {
+  let visible = false;
+  walkShadowDom(root, (node) => {
+    if (visible) {
+      return;
+    }
+    visible = Array.from(node.querySelectorAll(selector)).some(
+      (element) => (element as HTMLElement).offsetParent !== null
+    );
+  });
+  return visible;
+};
+
 /** MDS overwrites `.dce-mn-continuous-scan-done-text` with hardcoded "Done (n)" at runtime. */
 export const patchContinuousScanDoneLabels = (
   formatLabel: (count: number) => string
@@ -18,24 +48,18 @@ export const patchContinuousScanDoneLabels = (
     }
   };
 
-  const walk = (root: Document | ShadowRoot | Element): void => {
+  walkShadowDom(document, (root) => {
     root
       .querySelectorAll(".dce-mn-continuous-scan-done-text")
       .forEach(patchElement);
-    root.querySelectorAll("*").forEach((el) => {
-      if (el.shadowRoot) {
-        walk(el.shadowRoot);
-      }
-    });
-  };
-
-  walk(document);
+  });
 };
 
 export const isElementVisible = (selector: string): boolean =>
-  Array.from(document.querySelectorAll(selector)).some(
-    (node) => (node as HTMLElement).offsetParent !== null
-  );
+  isElementVisibleInTree(document, selector);
+
+export const isDynamsoftScannerLiveViewVisible = (): boolean =>
+  isElementVisibleInTree(document, SCANNER_LIVE_VIEW_SELECTOR);
 
 export const isRetakeOrSavePreviewVisible = (): boolean =>
   isElementVisible(`.${RETAKE_BUTTON_CLASS}`) ||

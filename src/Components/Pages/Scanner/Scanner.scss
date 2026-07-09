@@ -6,6 +6,26 @@
   min-height: 100%;
 }
 
+.scanner-page--scanning {
+  min-height: calc(100dvh - 8rem);
+}
+
+.scanner-in-progress {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_04;
+  justify-content: center;
+  min-height: 100%;
+  padding: jfcl.$JF_SPACING_07 jfcl.$JF_SPACING_06;
+  text-align: center;
+}
+
+.scanner-in-progress__text {
+  @include jfcl.body_standard_mobile;
+  margin: 0;
+}
+
 .scanner-page__restore-loading {
   display: flex;
   align-items: center;

@@ -115,6 +115,7 @@ vi.mock("./scanner-overlay", async () => {
   return {
     ...actual,
     probeCameraAccess: vi.fn().mockResolvedValue(true),
+    isDynamsoftScannerLiveViewVisible: vi.fn().mockReturnValue(false),
     isRetakeOrSavePreviewVisible: vi.fn().mockReturnValue(false),
   };
 });
@@ -387,6 +388,9 @@ describe("Scanner overlay visibility", () => {
     mockBootstrapNoRestorablePages();
     scannerHarness.hangLaunch = true;
     vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.mocked(scannerOverlay.isDynamsoftScannerLiveViewVisible).mockReturnValue(
+      false
+    );
     vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
       false
     );
@@ -401,9 +405,40 @@ describe("Scanner overlay visibility", () => {
     clearRhAuthSession();
   });
 
+  it("shows the in-progress fallback while scanning before live view is visible", async () => {
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-in-progress")).toBeInTheDocument();
+      expect(screen.getByText("Scanning in process")).toBeInTheDocument();
+    });
+
+    expect(
+      document.body.querySelector(".scanner-scan-guide")
+    ).not.toBeInTheDocument();
+
+    scannerHarness.releaseLaunch();
+  });
+
   it("hides the overlay while retake/save preview is visible and shows it again on live capture", async () => {
     renderScanner();
     await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-in-progress")).toBeInTheDocument();
+    });
+
+    expect(
+      document.body.querySelector(".scanner-scan-guide")
+    ).not.toBeInTheDocument();
+
+    vi.mocked(scannerOverlay.isDynamsoftScannerLiveViewVisible).mockReturnValue(
+      true
+    );
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(150);
+    });
 
     await waitFor(() => {
       expect(
@@ -427,6 +462,9 @@ describe("Scanner overlay visibility", () => {
 
     vi.mocked(scannerOverlay.isRetakeOrSavePreviewVisible).mockReturnValue(
       false
+    );
+    vi.mocked(scannerOverlay.isDynamsoftScannerLiveViewVisible).mockReturnValue(
+      true
     );
     await act(async () => {
       await vi.advanceTimersByTimeAsync(150);
