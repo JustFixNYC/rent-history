@@ -10,12 +10,12 @@ Rent-history document scanning flow at `/:locale/scanner`. Users photograph each
 
 `Scanner.tsx` is the orchestrator. It renders one screen per `ScannerPhase`:
 
-| Phase | Screen | Persisted? |
-| ----- | ------ | ---------- |
-| `pre-scan` | `PreScanScreen` — tips + “Start scanning” | Yes (default) |
-| `camera-access` | `CameraAccessScreen` — permission instructions | No (transient) |
-| `scanning` | Dynamsoft UI + `ScannerInProgressScreen` + optional `ScannerOverlay` | No (transient) |
-| `scan-review` | `ScanReviewScreen` — page cards, retake groups, year-gap callouts | Yes |
+| Phase           | Screen                                                               | Persisted?     |
+| --------------- | -------------------------------------------------------------------- | -------------- |
+| `pre-scan`      | `PreScanScreen` — tips + “Start scanning”                            | Yes (default)  |
+| `camera-access` | `CameraAccessScreen` — permission instructions                       | No (transient) |
+| `scanning`      | Dynamsoft UI + `ScannerInProgressScreen` + optional `ScannerOverlay` | No (transient) |
+| `scan-review`   | `ScanReviewScreen` — page cards, retake groups, year-gap callouts    | Yes            |
 
 ```
 pre-scan ──Start──► scanning ──Done──► scan-review ──Next──► /confirm-address
@@ -42,23 +42,23 @@ Dynamsoft renders inside shadow DOM. `scanner-overlay.ts` walks that tree to pro
 
 ## Module contents
 
-| File / folder | Role |
-| ------------- | ---- |
-| `Scanner.tsx` | Phase state, Dynamsoft lifecycle, handlers (start, restart, rescan, add more, next) |
-| `PreScanScreen.tsx` | Pre-scan copy and tips |
-| `CameraAccessScreen.tsx` | Camera permission recovery |
-| `ScannerInProgressScreen.tsx` | Loading shell while Dynamsoft is active |
-| `ScanReviewScreen.tsx` | Review layout; delegates callouts and retake group |
-| `ScanReviewCallouts.tsx` | Missing-year, add-more, and rescan-success messaging |
-| `ScanReviewRetakeGroup.tsx` | Pages flagged `needs_retake` |
-| `ScannerOverlay.tsx` | US-letter aspect-ratio guide portal over Dynamsoft live view |
-| `scannerState.ts` | Session persistence for `scan-review` + `expectedPageCount` |
-| `scannerFlowUtils.ts` | Auth/history guard + API error mapping |
-| `scanner-overlay.ts` | Dynamsoft DOM helpers (visibility, labels, camera probe) |
-| `scanReviewUtils.ts` | `isScanReviewClean` — no missing years and no retakes |
-| `hooks/useScannerHistoryCreate.ts` | Ensures `historyId` exists via `POST` create |
-| `hooks/useScannerBootstrapRestore.ts` | Restore phase on load |
-| `hooks/useScanReviewPageImages.ts` | Presigned URLs for review thumbnails |
+| File / folder                         | Role                                                                                |
+| ------------------------------------- | ----------------------------------------------------------------------------------- |
+| `Scanner.tsx`                         | Phase state, Dynamsoft lifecycle, handlers (start, restart, rescan, add more, next) |
+| `PreScanScreen.tsx`                   | Pre-scan copy and tips                                                              |
+| `CameraAccessScreen.tsx`              | Camera permission recovery                                                          |
+| `ScannerInProgressScreen.tsx`         | Loading shell while Dynamsoft is active                                             |
+| `ScanReviewScreen.tsx`                | Review layout; delegates callouts and retake group                                  |
+| `ScanReviewCallouts.tsx`              | Missing-year, add-more, and rescan-success messaging                                |
+| `ScanReviewRetakeGroup.tsx`           | Pages flagged `needs_retake`                                                        |
+| `ScannerOverlay.tsx`                  | US-letter aspect-ratio guide portal over Dynamsoft live view                        |
+| `scannerState.ts`                     | Session persistence for `scan-review` + `expectedPageCount`                         |
+| `scannerFlowUtils.ts`                 | Auth/history guard + API error mapping                                              |
+| `scanner-overlay.ts`                  | Dynamsoft DOM helpers (visibility, labels, camera probe)                            |
+| `scanReviewUtils.ts`                  | `isScanReviewClean` — no missing years and no retakes                               |
+| `hooks/useScannerHistoryCreate.ts`    | Ensures `historyId` exists via `POST` create                                        |
+| `hooks/useScannerBootstrapRestore.ts` | Restore phase on load                                                               |
+| `hooks/useScanReviewPageImages.ts`    | Presigned URLs for review thumbnails                                                |
 
 API hooks live outside this folder: `src/api/account/hooks/scanner.ts` (`useRhScanReview`, `useRhScanReviewBootstrap`).
 
@@ -91,23 +91,23 @@ Transient phases (`scanning`, `camera-access`) are not persisted. On unmount dur
 
 ## External dependencies
 
-| Dependency | Usage |
-| ---------- | ----- |
-| `dynamsoft-document-scanner` | Camera capture UI |
-| `@tanstack/react-query` | Scan-review polling and analysis-page cache |
-| `@lingui/*` | Copy and Dynamsoft button labels |
-| `VITE_DYNAMSOFT_LICENSE_KEY` | Dynamsoft license (env) |
+| Dependency                   | Usage                                       |
+| ---------------------------- | ------------------------------------------- |
+| `dynamsoft-document-scanner` | Camera capture UI                           |
+| `@tanstack/react-query`      | Scan-review polling and analysis-page cache |
+| `@lingui/*`                  | Copy and Dynamsoft button labels            |
+| `VITE_DYNAMSOFT_LICENSE_KEY` | Dynamsoft license (env)                     |
 
 ---
 
 ## Tests
 
-| File | Coverage |
-| ---- | -------- |
-| `Scanner.test.tsx` | Phase rendering, start/restart/rescan flows |
-| `scannerState.test.ts` | Session read/write/clear |
-| `scannerFlowUtils.test.ts` | Context guard, error mapping |
-| `scanner-overlay.test.ts` | DOM visibility helpers, label patching |
-| `api/account/hooks/scanner.test.tsx` | Bootstrap and poll behavior |
+| File                                 | Coverage                                    |
+| ------------------------------------ | ------------------------------------------- |
+| `Scanner.test.tsx`                   | Phase rendering, start/restart/rescan flows |
+| `scannerState.test.ts`               | Session read/write/clear                    |
+| `scannerFlowUtils.test.ts`           | Context guard, error mapping                |
+| `scanner-overlay.test.ts`            | DOM visibility helpers, label patching      |
+| `api/account/hooks/scanner.test.tsx` | Bootstrap and poll behavior                 |
 
 Route registration: `src/App.tsx` (`path="scanner"`). Route protection: `App.route-protection.test.tsx`.
