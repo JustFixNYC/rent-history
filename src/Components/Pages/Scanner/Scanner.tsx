@@ -13,7 +13,6 @@ import {
   deleteRhScannedPages,
   getRhHistoryAnalysisPages,
   isAccountApiError,
-  useCreateRhHistory,
   useRhScanReview,
   useRhScanReviewBootstrap,
 } from "../../../api/account";
@@ -22,7 +21,6 @@ import {
   clearRhSessionPages,
   getRhAuthSession,
   getRhHistoryId,
-  setRhHistoryId,
   setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
@@ -52,14 +50,13 @@ import {
   RETAKE_BUTTON_CLASS,
   SAVE_BUTTON_CLASS,
 } from "./scanner-overlay";
+import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
 
 export type ScannerPhase =
   | "pre-scan"
   | "scanning"
   | "camera-access"
   | "scan-review";
-
-type HistoryCreatePhase = "idle" | "creating" | "ready" | "error";
 
 const readScanKeyPrefix = (historyId: string | null): string | null => {
   const session = getRhAuthSession();
@@ -80,14 +77,8 @@ const Scanner: React.FC = () => {
   const [showScannerGuide, setShowScannerGuide] = useState(false);
   const [cameraAccessGranted, setCameraAccessGranted] = useState(false);
   const [isCheckingCameraAccess, setIsCheckingCameraAccess] = useState(false);
-  const [historyId, setHistoryIdState] = useState<string | null>(() =>
-    getRhHistoryId()
-  );
-  const [historyCreatePhase, setHistoryCreatePhase] =
-    useState<HistoryCreatePhase>(() => (getRhHistoryId() ? "ready" : "idle"));
-  const [historyCreateError, setHistoryCreateError] = useState<string | null>(
-    null
-  );
+  const { historyId, historyCreatePhase, historyCreateError } =
+    useScannerHistoryCreate();
   const [expectedPageCount, setExpectedPageCount] = useState(() =>
     savedStep?.phase === "scan-review" ? savedStep.expectedPageCount : 0
   );
@@ -105,7 +96,6 @@ const Scanner: React.FC = () => {
   const historyIdRef = useRef(historyId);
   const pageImageUrlsRef = useRef(pageImageUrls);
   const expectedPageCountRef = useRef(expectedPageCount);
-  const historyEnsurePromiseRef = useRef<Promise<void> | null>(null);
   historyIdRef.current = historyId;
   pageImageUrlsRef.current = pageImageUrls;
   expectedPageCountRef.current = expectedPageCount;
@@ -133,63 +123,11 @@ const Scanner: React.FC = () => {
     enabled: phase === "scan-review",
   });
 
-  const createRhHistoryMutation = useCreateRhHistory();
-
   const revokePageImageUrls = useCallback((urls: Record<string, string>) => {
     Object.values(urls).forEach((url) => {
       URL.revokeObjectURL(url);
     });
   }, []);
-
-  useEffect(() => {
-    if (historyId) return;
-
-    const otpSession = getRhAuthSession();
-    if (!otpSession) {
-      setHistoryCreatePhase("error");
-      setHistoryCreateError(
-        _(
-          msg`Your session is missing login data. Go back to login and try again.`
-        )
-      );
-      return;
-    }
-
-    if (historyEnsurePromiseRef.current) return;
-
-    let cancelled = false;
-    setHistoryCreatePhase("creating");
-    setHistoryCreateError(null);
-
-    const ensureHistory = async () => {
-      try {
-        const history = await createRhHistoryMutation.mutateAsync(
-          otpSession.accessToken
-        );
-        setRhHistoryId(history.id);
-        setHistoryIdState(history.id);
-        setHistoryCreatePhase("ready");
-      } catch (error) {
-        if (cancelled) return;
-        setHistoryCreatePhase("error");
-        setHistoryCreateError(
-          flowErrorFromApi(
-            error,
-            _(msg`Unable to create your rent history record. Please try again.`)
-          )
-        );
-      }
-    };
-
-    historyEnsurePromiseRef.current = ensureHistory().finally(() => {
-      historyEnsurePromiseRef.current = null;
-    });
-
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [historyId]);
 
   useEffect(() => {
     if (restoreStatus !== "pending" || scanReviewBootstrap.isLoading) return;
