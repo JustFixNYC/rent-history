@@ -34,6 +34,7 @@ import {
   SCANNER_STEP_STATE_KEY,
   writeScannerStepState,
 } from "./scannerState";
+import * as rhScanKeyPrefix from "../../../utils/rhScanKeyPrefix";
 
 const { navigateMock, testHistoryId, scannerHarness } = vi.hoisted(() => ({
   navigateMock: vi.fn(),
@@ -1249,6 +1250,8 @@ describe("Scanner launch failure handling", () => {
   afterEach(() => {
     scannerHarness.rejectLaunch = false;
     scannerHarness.rejectLaunchError = null;
+    delete (globalThis as { __scannerTestInitDelay?: Promise<void> })
+      .__scannerTestInitDelay;
     vi.clearAllMocks();
     window.sessionStorage.clear();
     clearRhAuthSession();
@@ -1290,22 +1293,72 @@ describe("Scanner launch failure handling", () => {
     });
   });
 
-  it("stays on pre-scan without launch failure InfoBox when scanner is not ready", async () => {
+  it("shows init error on pre-scan when scanner fails to initialize", async () => {
     const { DocumentScanner } = await import("dynamsoft-document-scanner");
     vi.mocked(DocumentScanner).mockImplementationOnce(() => {
       throw new Error("Scanner init failed");
     });
 
     renderScanner();
-    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Unable to load the scanner. Please refresh the page and try again."
+      );
+      expect(
+        screen.getByRole("button", { name: "Start scanning" })
+      ).toBeDisabled();
+      expect(
+        screen.queryByTestId("scan-review-launch-failure")
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it("disables Start scanning while scanner is initializing", async () => {
+    let releaseInit!: () => void;
+    (
+      globalThis as { __scannerTestInitDelay?: Promise<void> }
+    ).__scannerTestInitDelay = new Promise<void>((resolve) => {
+      releaseInit = resolve;
+    });
+
+    renderScanner();
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId("scanner-restore-loading")
+      ).not.toBeInTheDocument();
+    });
+    expect(screen.getByText("Loading scanner…")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Start scanning" })
+    ).toBeDisabled();
+
+    releaseInit();
 
     await waitFor(() => {
       expect(
         screen.getByRole("button", { name: "Start scanning" })
-      ).toBeInTheDocument();
+      ).not.toBeDisabled();
+    });
+    expect(screen.queryByText("Loading scanner…")).not.toBeInTheDocument();
+
+    delete (globalThis as { __scannerTestInitDelay?: Promise<void> })
+      .__scannerTestInitDelay;
+  });
+
+  it("shows launch failure on scan-review when relaunch hits not_ready", async () => {
+    renderScanner();
+    await advanceToScanComplete();
+
+    vi.spyOn(rhScanKeyPrefix, "getRhScanKeyPrefix").mockReturnValueOnce(null);
+    fireEvent.click(screen.getByRole("button", { name: "add a page" }));
+
+    await waitFor(() => {
       expect(
-        screen.queryByTestId("scan-review-launch-failure")
-      ).not.toBeInTheDocument();
+        screen.getByTestId("scan-review-launch-failure")
+      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
     });
   });
 

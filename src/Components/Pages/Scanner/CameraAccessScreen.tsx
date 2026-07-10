@@ -12,6 +12,7 @@ export type CameraAccessScreenProps = {
   onStartScanning: () => void;
   cameraAccessGranted: boolean;
   isCheckingAccess?: boolean;
+  startDisabled?: boolean;
 };
 
 export const CameraAccessScreen = ({
@@ -19,6 +20,7 @@ export const CameraAccessScreen = ({
   onStartScanning,
   cameraAccessGranted,
   isCheckingAccess = false,
+  startDisabled = false,
 }: CameraAccessScreenProps) => {
   const { _ } = useLingui();
 
@@ -80,7 +82,7 @@ export const CameraAccessScreen = ({
       <FlowNav
         onBack={onBack}
         onNext={onStartScanning}
-        nextDisabled={!cameraAccessGranted || isCheckingAccess}
+        nextDisabled={!cameraAccessGranted || isCheckingAccess || startDisabled}
         nextLabel={_(msg`Start scanning`)}
       />
     </div>

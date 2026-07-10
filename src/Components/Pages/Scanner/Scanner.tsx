@@ -75,6 +75,11 @@ const Scanner: React.FC = () => {
   const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
   const [showLaunchFailure, setShowLaunchFailure] = useState(false);
   const [failedUploadCount, setFailedUploadCount] = useState(0);
+  const [scannerInitStatus, setScannerInitStatus] = useState<
+    "pending" | "ready" | "error"
+  >("pending");
+  const [scannerInitError, setScannerInitError] = useState<string | null>(null);
+  const [startScanError, setStartScanError] = useState<string | null>(null);
 
   const historyIdRef = useRef(historyId);
   const expectedPageCountRef = useRef(expectedPageCount);
@@ -128,79 +133,107 @@ const Scanner: React.FC = () => {
     let cancelled = false;
 
     const initScanner = async () => {
-      const documentScanner = new DocumentScanner({
-        license: import.meta.env.VITE_DYNAMSOFT_LICENSE_KEY || "",
-        enableContinuousScanning: true,
-        showCorrectionView: false,
-        enableFrameVerification: true,
-        resultViewConfig: {
-          toolbarButtonsConfig: {
-            retake: {
-              label: _(msg`Re-scan page`),
-              className: RETAKE_BUTTON_CLASS,
-            },
-            done: {
-              label: _(msg`Save page`),
-              className: SAVE_BUTTON_CLASS,
-            },
-            share: {
-              isHidden: true,
-            },
-            correct: {
-              isHidden: true,
-            },
-            upload: {
-              isHidden: true,
+      setScannerInitStatus("pending");
+      setScannerInitError(null);
+      await Promise.resolve();
+      const testInitDelay = import.meta.env.VITEST
+        ? (
+            globalThis as {
+              __scannerTestInitDelay?: Promise<void>;
+            }
+          ).__scannerTestInitDelay
+        : undefined;
+      if (testInitDelay) {
+        await testInitDelay;
+      }
+
+      let documentScanner: DocumentScanner;
+      try {
+        documentScanner = new DocumentScanner({
+          license: import.meta.env.VITE_DYNAMSOFT_LICENSE_KEY || "",
+          enableContinuousScanning: true,
+          showCorrectionView: false,
+          enableFrameVerification: true,
+          resultViewConfig: {
+            toolbarButtonsConfig: {
+              retake: {
+                label: _(msg`Re-scan page`),
+                className: RETAKE_BUTTON_CLASS,
+              },
+              done: {
+                label: _(msg`Save page`),
+                className: SAVE_BUTTON_CLASS,
+              },
+              share: {
+                isHidden: true,
+              },
+              correct: {
+                isHidden: true,
+              },
+              upload: {
+                isHidden: true,
+              },
             },
           },
-        },
-        scannerViewConfig: {
-          enableAutoCropMode: true,
-          enableSmartCaptureMode: true,
-          showSubfooter: false,
-          enableFrameVerification: true,
-          showPoweredByDynamsoft: false,
-        },
-        onDocumentScanned: async (result) => {
-          setShowScannerGuide(false);
-          const prefix = getRhScanKeyPrefix(historyIdRef.current ?? "");
-          if (!prefix) {
-            console.error(
-              "Missing OTP session or rent history id for scan upload."
+          scannerViewConfig: {
+            enableAutoCropMode: true,
+            enableSmartCaptureMode: true,
+            showSubfooter: false,
+            enableFrameVerification: true,
+            showPoweredByDynamsoft: false,
+          },
+          onDocumentScanned: async (result) => {
+            setShowScannerGuide(false);
+            const prefix = getRhScanKeyPrefix(historyIdRef.current ?? "");
+            if (!prefix) {
+              console.error(
+                "Missing OTP session or rent history id for scan upload."
+              );
+              return;
+            }
+            const jpgBlob = await result.correctedImageResult?.toBlob(
+              "image/jpeg"
             );
-            return;
-          }
-          const jpgBlob = await result.correctedImageResult?.toBlob(
-            "image/jpeg"
+            if (!jpgBlob) {
+              console.error("no image from scan");
+              return;
+            }
+            const key = `${prefix}/${crypto.randomUUID()}.jpg`;
+            try {
+              await uploadScan(key, jpgBlob, { retries: 1 });
+              setExpectedPageCount((count) => {
+                const next = count + 1;
+                expectedPageCountRef.current = next;
+                return next;
+              });
+            } catch (error) {
+              console.error("Scan upload failed after retry:", error);
+              failedUploadCountRef.current += 1;
+            }
+          },
+        });
+      } catch (error) {
+        console.error("Error initializing document scanner:", error);
+        if (!cancelled) {
+          setScannerInitStatus("error");
+          setScannerInitError(
+            _(
+              msg`Unable to load the scanner. Please refresh the page and try again.`
+            )
           );
-          if (!jpgBlob) {
-            console.error("no image from scan");
-            return;
-          }
-          const key = `${prefix}/${crypto.randomUUID()}.jpg`;
-          try {
-            await uploadScan(key, jpgBlob, { retries: 1 });
-            setExpectedPageCount((count) => {
-              const next = count + 1;
-              expectedPageCountRef.current = next;
-              return next;
-            });
-          } catch (error) {
-            console.error("Scan upload failed after retry:", error);
-            failedUploadCountRef.current += 1;
-          }
-        },
-      });
+        }
+        return;
+      }
+
       if (cancelled) {
         disposeDocumentScanner(documentScanner);
         return;
       }
       scannerRef.current = documentScanner;
       setScanner(documentScanner);
+      setScannerInitStatus("ready");
     };
-    initScanner().catch((error) => {
-      console.error("Error initializing document scanner:", error);
-    });
+    void initScanner();
 
     return () => {
       isMountedRef.current = false;
@@ -294,8 +327,14 @@ const Scanner: React.FC = () => {
     [invalidateScanReviewQueries, setPhase]
   );
 
+  const handleLaunchNotReady = useCallback(() => {
+    setScannerInitError(
+      _(msg`Scanner is still loading. Please wait a moment and try again.`)
+    );
+  }, [_]);
+
   const launchScanner = useCallback(async (): Promise<LaunchResult> => {
-    const activeScanner = scanner;
+    const activeScanner = scannerRef.current ?? scanner;
     if (!historyId || !getRhScanKeyPrefix(historyId) || !activeScanner) {
       return { ok: false, reason: "not_ready" };
     }
@@ -347,10 +386,39 @@ const Scanner: React.FC = () => {
     }
   }, [_, historyId, scanner, setPhase]);
 
+  const handleLaunchResult = (
+    result: LaunchResult,
+    activeHistoryId: string,
+    options: { fromScanReview?: boolean } = {}
+  ) => {
+    if (result.ok) return;
+
+    if (result.reason === "permission_denied") {
+      setPhase("camera-access");
+      return;
+    }
+
+    if (result.reason === "not_ready") {
+      if (options.fromScanReview) {
+        handleScanReviewLaunchFailure(activeHistoryId);
+      } else {
+        handleLaunchNotReady();
+      }
+      return;
+    }
+
+    if (options.fromScanReview) {
+      handleScanReviewLaunchFailure(activeHistoryId);
+    } else {
+      setStartScanError(_(msg`Unable to open the scanner. Please try again.`));
+    }
+  };
+
   const handleStartScanning = async () => {
-    if (!canStartScan) return;
+    if (!canStartScan || scannerInitStatus !== "ready") return;
 
     setFlowError(null);
+    setStartScanError(null);
     setShowLaunchFailure(false);
     setIsCheckingCameraAccess(true);
     try {
@@ -361,19 +429,17 @@ const Scanner: React.FC = () => {
         return;
       }
       const result = await launchScanner();
-      if (!result.ok) {
-        if (result.reason === "permission_denied") {
-          setPhase("camera-access");
-        } else {
-          setPhase("pre-scan");
-        }
+      if (!result.ok && historyId) {
+        handleLaunchResult(result, historyId);
       }
     } catch (error) {
       console.error("Unable to start scanning:", error);
       if (isCameraPermissionError(error)) {
         setPhase("camera-access");
       } else {
-        setPhase("pre-scan");
+        setStartScanError(
+          _(msg`Unable to open the scanner. Please try again.`)
+        );
       }
     } finally {
       setIsCheckingCameraAccess(false);
@@ -410,8 +476,13 @@ const Scanner: React.FC = () => {
       if (!result.ok) {
         if (result.reason === "permission_denied") {
           setPhase("camera-access");
+        } else if (result.reason === "not_ready") {
+          handleScanReviewLaunchFailure(activeHistoryId);
         } else {
           setPhase("pre-scan");
+          setStartScanError(
+            _(msg`Unable to open the scanner. Please try again.`)
+          );
         }
       }
     } catch (error) {
@@ -458,11 +529,7 @@ const Scanner: React.FC = () => {
       setAwaitingRescanSuccess(true);
       const result = await launchScanner();
       if (!result.ok) {
-        if (result.reason === "permission_denied") {
-          setPhase("camera-access");
-        } else {
-          handleScanReviewLaunchFailure(activeHistoryId);
-        }
+        handleLaunchResult(result, activeHistoryId, { fromScanReview: true });
       }
     } catch (error) {
       setFlowError(
@@ -484,11 +551,7 @@ const Scanner: React.FC = () => {
     clearPageImages();
     const result = await launchScanner();
     if (!result.ok) {
-      if (result.reason === "permission_denied") {
-        setPhase("camera-access");
-      } else {
-        handleScanReviewLaunchFailure(context.historyId);
-      }
+      handleLaunchResult(result, context.historyId, { fromScanReview: true });
     }
   };
 
@@ -546,6 +609,10 @@ const Scanner: React.FC = () => {
 
   const showRestoreLoading =
     restoreStatus === "pending" && phase === "pre-scan" && Boolean(historyId);
+  const isScannerReady = scannerInitStatus === "ready";
+  const preScanError = scannerInitError ?? startScanError;
+  const startDisabled =
+    !canStartScan || !isScannerReady || isCheckingCameraAccess;
 
   return (
     <div
@@ -569,9 +636,11 @@ const Scanner: React.FC = () => {
           onStartScanning={() => {
             void handleStartScanning();
           }}
-          startDisabled={!canStartScan || isCheckingCameraAccess}
+          startDisabled={startDisabled}
           historyCreatePhase={historyCreatePhase}
           historyCreateError={historyCreateError}
+          scannerInitStatus={scannerInitStatus}
+          preScanError={preScanError}
         />
       )}
 
@@ -583,6 +652,7 @@ const Scanner: React.FC = () => {
           }}
           cameraAccessGranted={cameraAccessGranted}
           isCheckingAccess={isCheckingCameraAccess}
+          startDisabled={!isScannerReady}
         />
       )}
 

@@ -19,6 +19,8 @@ export type PreScanScreenProps = {
   startDisabled?: boolean;
   historyCreatePhase?: "idle" | "creating" | "ready" | "error";
   historyCreateError?: string | null;
+  scannerInitStatus?: "pending" | "ready" | "error";
+  preScanError?: string | null;
 };
 
 export const PreScanScreen = ({
@@ -27,11 +29,16 @@ export const PreScanScreen = ({
   startDisabled = false,
   historyCreatePhase = "ready",
   historyCreateError = null,
+  scannerInitStatus = "ready",
+  preScanError = null,
 }: PreScanScreenProps) => {
   const { _ } = useLingui();
 
   const canStart =
-    historyCreatePhase === "ready" && !startDisabled && !historyCreateError;
+    historyCreatePhase === "ready" &&
+    scannerInitStatus === "ready" &&
+    !startDisabled &&
+    !historyCreateError;
 
   return (
     <div className="scanner-pre-scan">
@@ -77,9 +84,19 @@ export const PreScanScreen = ({
           <Trans>Preparing your rent history record…</Trans>
         </p>
       )}
+      {scannerInitStatus === "pending" && (
+        <p className="scanner-pre-scan__status">
+          <Trans>Loading scanner…</Trans>
+        </p>
+      )}
       {historyCreatePhase === "error" && historyCreateError && (
         <p className="scanner-pre-scan__error" role="alert">
           {historyCreateError}
+        </p>
+      )}
+      {preScanError && (
+        <p className="scanner-pre-scan__error" role="alert">
+          {preScanError}
         </p>
       )}
 

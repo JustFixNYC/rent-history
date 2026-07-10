@@ -166,7 +166,7 @@ msgstr "Additional recipients"
 msgid "Address"
 msgstr "Address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:626
+#: src/Components/Pages/Scanner/Scanner.tsx:696
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
 
@@ -283,18 +283,18 @@ msgstr "Building details"
 msgid "By"
 msgstr "By"
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:29
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:31
 msgid "Camera access"
 msgstr "Camera access"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:572
-#: src/Components/Pages/Scanner/Scanner.tsx:638
+#: src/Components/Pages/Scanner/Scanner.tsx:708
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:63
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:65
 msgid "Change <0>Camera</0> to <1>Allow.</1>"
 msgstr "Change <0>Camera</0> to <1>Allow.</1>"
 
@@ -498,7 +498,7 @@ msgstr "Finding review navigation"
 #~ msgid "Findings review"
 #~ msgstr "Findings review"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:309
+#: src/Components/Pages/Scanner/Scanner.tsx:348
 msgid "Finish scanning"
 msgstr "Finish scanning"
 
@@ -565,7 +565,7 @@ msgstr "Generate report"
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr "Geosearch is temporarily unavailable. Try again in a moment."
 
-#: src/Components/Pages/Scanner/PreScanScreen.tsx:41
+#: src/Components/Pages/Scanner/PreScanScreen.tsx:48
 msgid "Get ready to scan your rent history"
 msgstr "Get ready to scan your rent history"
 
@@ -612,7 +612,7 @@ msgstr "high rent vacancy destabilization."
 msgid "How it works"
 msgstr "How it works"
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:38
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:40
 msgid "How to allow access:"
 msgstr "How to allow access:"
 
@@ -718,6 +718,10 @@ msgstr "Loading map data…"
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:25
 msgid "Loading scan previews…"
 msgstr "Loading scan previews…"
+
+#: src/Components/Pages/Scanner/PreScanScreen.tsx:89
+msgid "Loading scanner…"
+msgstr "Loading scanner…"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:147
 msgid "Loading your rent histories…"
@@ -856,7 +860,7 @@ msgstr "Next, let's check to see if there was a change in tenancy from <0/> to <
 msgid "Next, we will walk through each potential violation to check if there is a way they may or may not be explained."
 msgstr "Next, we will walk through each potential violation to check if there is a way they may or may not be explained."
 
-#: src/Components/Pages/Scanner/PreScanScreen.tsx:50
+#: src/Components/Pages/Scanner/PreScanScreen.tsx:57
 msgid "Next, you will review your scanned pages and answer a few questions before we start your analysis."
 msgstr "Next, you will review your scanned pages and answer a few questions before we start your analysis."
 
@@ -1015,7 +1019,7 @@ msgstr "Preferential rent not offered"
 msgid "findings.PREFRENT_421A.intro.title"
 msgstr "Preferential rent offered during initial year of this building's participation in 421a tax program."
 
-#: src/Components/Pages/Scanner/PreScanScreen.tsx:77
+#: src/Components/Pages/Scanner/PreScanScreen.tsx:84
 msgid "Preparing your rent history record…"
 msgstr "Preparing your rent history record…"
 
@@ -1031,11 +1035,11 @@ msgstr "Privacy policy"
 msgid "Processing your scanned pages…"
 msgstr "Processing your scanned pages…"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:624
+#: src/Components/Pages/Scanner/Scanner.tsx:694
 msgid "Re-scan all pages?"
 msgstr "Re-scan all pages?"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:139
+#: src/Components/Pages/Scanner/Scanner.tsx:160
 msgid "Re-scan page"
 msgstr "Re-scan page"
 
@@ -1093,7 +1097,7 @@ msgstr "Resend"
 msgid "Residential units"
 msgstr "Residential units"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:632
+#: src/Components/Pages/Scanner/Scanner.tsx:702
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:150
 msgid "Restart scan"
 msgstr "Restart scan"
@@ -1116,7 +1120,7 @@ msgstr "Resume"
 msgid "Retry"
 msgstr "Retry"
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:71
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:73
 msgid "Return to this page and tap <0>Start scanning</0>, below."
 msgstr "Return to this page and tap <0>Start scanning</0>, below."
 
@@ -1132,7 +1136,7 @@ msgstr "Review and edit your rent history"
 msgid "Save address"
 msgstr "Save address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:143
+#: src/Components/Pages/Scanner/Scanner.tsx:164
 msgid "Save page"
 msgstr "Save page"
 
@@ -1179,6 +1183,10 @@ msgstr "Scan your rent history with your phone"
 #: src/Components/Pages/Home/Home.tsx:10
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:332
+msgid "Scanner is still loading. Please wait a moment and try again."
+msgstr "Scanner is still loading. Please wait a moment and try again."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:564
 #~ msgid "Scanning complete"
@@ -1248,8 +1256,8 @@ msgstr "Start analysis"
 msgid "Start review"
 msgstr "Start review"
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:84
-#: src/Components/Pages/Scanner/PreScanScreen.tsx:91
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:86
+#: src/Components/Pages/Scanner/PreScanScreen.tsx:108
 msgid "Start scanning"
 msgstr "Start scanning"
 
@@ -1313,11 +1321,11 @@ msgstr "Submit request"
 #~ msgid "Take photos in a well lit location and enable your camera flash"
 #~ msgstr "Take photos in a well lit location and enable your camera flash"
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:54
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:56
 msgid "Tap <0>Permissions</0> or <1>Site settings.</1>"
 msgstr "Tap <0>Permissions</0> or <1>Site settings.</1>"
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:45
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:47
 msgid "Tap the <0>lock icon</0> next to the website address in your web browser."
 msgstr "Tap the <0>lock icon</0> next to the website address in your web browser."
 
@@ -1449,7 +1457,7 @@ msgstr "This will help in our analysis of your rent history TK"
 #~ msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 #~ msgstr "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 
-#: src/Components/Pages/Scanner/PreScanScreen.tsx:63
+#: src/Components/Pages/Scanner/PreScanScreen.tsx:70
 msgid "Tips for a successful scan"
 msgstr "Tips for a successful scan"
 
@@ -1469,7 +1477,7 @@ msgstr "to confirm the information below matches."
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:516
+#: src/Components/Pages/Scanner/Scanner.tsx:579
 msgid "Unable to continue. Please try again."
 msgstr "Unable to continue. Please try again."
 
@@ -1493,11 +1501,18 @@ msgstr "Unable to load scan previews."
 msgid "Unable to load scan review"
 msgstr "Unable to load scan review"
 
+#: src/Components/Pages/Scanner/Scanner.tsx:221
+msgid "Unable to load the scanner. Please refresh the page and try again."
+msgstr "Unable to load the scanner. Please refresh the page and try again."
+
+#: src/Components/Pages/Scanner/Scanner.tsx:413
+#: src/Components/Pages/Scanner/Scanner.tsx:441
+#: src/Components/Pages/Scanner/Scanner.tsx:484
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:41
 msgid "Unable to open the scanner. Please try again."
 msgstr "Unable to open the scanner. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:471
+#: src/Components/Pages/Scanner/Scanner.tsx:538
 msgid "Unable to re-scan pages. Please try again."
 msgstr "Unable to re-scan pages. Please try again."
 
@@ -1505,7 +1520,7 @@ msgstr "Unable to re-scan pages. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:421
+#: src/Components/Pages/Scanner/Scanner.tsx:492
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 
@@ -1782,7 +1797,7 @@ msgstr "You can add up to 10 additional recipients."
 msgid "You don't have any rent histories yet."
 msgstr "You don't have any rent histories yet."
 
-#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:32
+#: src/Components/Pages/Scanner/CameraAccessScreen.tsx:34
 msgid "You must allow access to your device's camera to scan your document"
 msgstr "You must allow access to your device's camera to scan your document"
 
@@ -1800,7 +1815,7 @@ msgstr "You reported that a preferential rent was not charged during the first y
 msgid "You'll need to enter your phone number to access your reports again."
 msgstr "You'll need to enter your phone number to access your reports again."
 
-#: src/Components/Pages/Scanner/PreScanScreen.tsx:44
+#: src/Components/Pages/Scanner/PreScanScreen.tsx:51
 msgid "You'll take a picture of each individual page of your rent history document."
 msgstr "You'll take a picture of each individual page of your rent history document."
 
