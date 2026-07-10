@@ -11,6 +11,7 @@ import { FlowNav } from "../../FlowNav";
 
 import {
   ScanReviewAddMoreCallout,
+  ScanReviewLaunchFailureInfo,
   ScanReviewRescanSuccessInfo,
   ScanReviewTopCallout,
 } from "./ScanReviewCallouts";
@@ -26,6 +27,7 @@ export type ScanReviewScreenProps = {
   processingComplete: boolean;
   isLoading: boolean;
   showRescanSuccess?: boolean;
+  showLaunchFailure?: boolean;
   reviewError?: string | null;
   onRescanPages: (ids: number[]) => void;
   onRestart: () => void;
@@ -40,6 +42,7 @@ export const ScanReviewScreen = ({
   processingComplete,
   isLoading,
   showRescanSuccess = false,
+  showLaunchFailure = false,
   reviewError = null,
   onRescanPages,
   onRestart,
@@ -60,6 +63,7 @@ export const ScanReviewScreen = ({
     <div className="scan-review-screen" aria-live="polite">
       <div className="scan-review-screen__content">
         {showRescanSuccess && <ScanReviewRescanSuccessInfo />}
+        {showLaunchFailure && <ScanReviewLaunchFailureInfo />}
 
         <div className="scan-review-screen__intro">
           <p className="scan-review-screen__intro-text">

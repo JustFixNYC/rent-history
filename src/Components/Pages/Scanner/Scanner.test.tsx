@@ -36,6 +36,8 @@ const { navigateMock, testHistoryId, scannerHarness } = vi.hoisted(() => ({
   testHistoryId: "22222222-2222-4222-8222-222222222222",
   scannerHarness: {
     hangLaunch: false,
+    rejectLaunch: false,
+    rejectLaunchError: null as Error | null,
     launchResolvers: [] as Array<() => void>,
     lastInstance: null as {
       launch: ReturnType<typeof vi.fn>;
@@ -89,6 +91,9 @@ vi.mock("dynamsoft-document-scanner", () => ({
     this.dispose = vi.fn();
     this.stopContinuousScanning = vi.fn();
     this.launch = vi.fn().mockImplementation(async () => {
+      if (scannerHarness.rejectLaunch) {
+        throw scannerHarness.rejectLaunchError ?? new Error("launch failed");
+      }
       if (scannerHarness.hangLaunch) {
         await new Promise<void>((resolve) => {
           scannerHarness.launchResolvers.push(resolve);
@@ -958,5 +963,181 @@ describe("Scanner unmount cleanup", () => {
     view.unmount();
 
     expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
+  });
+});
+
+describe("Scanner launch failure handling", () => {
+  const mockRetakeScanReview = () => {
+    vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(
+      async (_token, _hid, _count, opts) => {
+        if (opts?.acceptPartial) {
+          throw new AccountApiError(400, {
+            error: "no pages",
+            error_code: "validation_error",
+          });
+        }
+        return {
+          ...readyScanReviewResponse,
+          pages: [
+            {
+              id: 7,
+              needs_retake: true,
+              s3_key: `1/${testHistoryId}/page-retake.jpg`,
+              start_year: 2018,
+              end_year: 2019,
+              is_coverpage: false,
+            },
+          ],
+        };
+      }
+    );
+  };
+
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    mockBootstrapNoRestorablePages();
+    scannerHarness.rejectLaunch = false;
+    scannerHarness.rejectLaunchError = null;
+  });
+
+  afterEach(() => {
+    scannerHarness.rejectLaunch = false;
+    scannerHarness.rejectLaunchError = null;
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("shows launch failure InfoBox on scan-review when rescan launch rejects", async () => {
+    mockRetakeScanReview();
+    renderScanner();
+    await advanceToScanComplete();
+
+    scannerHarness.rejectLaunch = true;
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
+
+    await waitFor(() => {
+      expect(accountApi.deleteRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        [7]
+      );
+      expect(
+        screen.getByTestId("scan-review-launch-failure")
+      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+    });
+  });
+
+  it("shows launch failure InfoBox when add-more launch rejects from scan-review", async () => {
+    renderScanner();
+    await advanceToScanComplete();
+
+    scannerHarness.rejectLaunch = true;
+    fireEvent.click(screen.getByRole("button", { name: "add a page" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-launch-failure")
+      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+    });
+  });
+
+  it("stays on pre-scan without launch failure InfoBox when scanner is not ready", async () => {
+    const { DocumentScanner } = await import("dynamsoft-document-scanner");
+    vi.mocked(DocumentScanner).mockImplementationOnce(() => {
+      throw new Error("Scanner init failed");
+    });
+
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Start scanning" })
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByTestId("scan-review-launch-failure")
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it("routes rescan permission errors to camera-access without launch failure InfoBox", async () => {
+    mockRetakeScanReview();
+    renderScanner();
+    await advanceToScanComplete();
+
+    scannerHarness.rejectLaunch = true;
+    scannerHarness.rejectLaunchError = new DOMException(
+      "Permission denied",
+      "NotAllowedError"
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Camera access")).toBeInTheDocument();
+      expect(
+        screen.queryByTestId("scan-review-launch-failure")
+      ).not.toBeInTheDocument();
+    });
+
+    scannerHarness.rejectLaunch = false;
+    scannerHarness.rejectLaunchError = null;
+    fireEvent.click(screen.getByRole("button", { name: "Start scanning" }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+    });
+  });
+
+  it("returns to pre-scan without launch failure InfoBox when restart launch rejects", async () => {
+    renderScanner();
+    await advanceToScanComplete();
+
+    scannerHarness.rejectLaunch = true;
+    fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
+    fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);
+
+    await waitFor(() => {
+      expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId
+      );
+      expect(
+        screen.getByRole("button", { name: "Start scanning" })
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByTestId("scan-review-launch-failure")
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it("shows scan review error callout when rescan delete API fails", async () => {
+    mockRetakeScanReview();
+    vi.mocked(accountApi.deleteRhScannedPages).mockRejectedValueOnce(
+      new AccountApiError(500, {
+        error: "delete failed",
+        error_code: "server_error",
+      })
+    );
+
+    renderScanner();
+    await advanceToScanComplete();
+
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Unable to load scan review")
+      ).toBeInTheDocument();
+      expect(screen.getByText("delete failed")).toBeInTheDocument();
+      expect(
+        screen.queryByTestId("scan-review-launch-failure")
+      ).not.toBeInTheDocument();
+    });
   });
 });

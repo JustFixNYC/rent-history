@@ -42,7 +42,7 @@ import {
   SAVE_BUTTON_CLASS,
 } from "./scanner-overlay";
 import { useScannerBootstrapRestore } from "./hooks/useScannerBootstrapRestore";
-import type { ScannerPhase } from "./scannerTypes";
+import type { LaunchResult, ScannerPhase } from "./scannerTypes";
 import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
 import { useScanReview } from "./hooks/useScanReview";
 import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
@@ -78,6 +78,7 @@ const Scanner: React.FC = () => {
   const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
   const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
+  const [showLaunchFailure, setShowLaunchFailure] = useState(false);
 
   const historyIdRef = useRef(historyId);
   const expectedPageCountRef = useRef(expectedPageCount);
@@ -272,10 +273,32 @@ const Scanner: React.FC = () => {
 
   const canStartScan = Boolean(readScanKeyPrefix(historyId));
 
-  const launchScanner = useCallback(async () => {
-    const activeScanner = scanner;
-    if (!readScanKeyPrefix(historyId) || !activeScanner) return;
+  const invalidateScanReviewQueries = useCallback(
+    (activeHistoryId: string) => {
+      void queryClient.invalidateQueries({
+        queryKey: ["account", "scan-review", activeHistoryId],
+      });
+    },
+    [queryClient]
+  );
 
+  const handleScanReviewLaunchFailure = useCallback(
+    (activeHistoryId: string) => {
+      setPhase("scan-review");
+      setShowLaunchFailure(true);
+      setAwaitingRescanSuccess(false);
+      invalidateScanReviewQueries(activeHistoryId);
+    },
+    [invalidateScanReviewQueries, setPhase]
+  );
+
+  const launchScanner = useCallback(async (): Promise<LaunchResult> => {
+    const activeScanner = scanner;
+    if (!readScanKeyPrefix(historyId) || !activeScanner) {
+      return { ok: false, reason: "not_ready" };
+    }
+
+    setShowLaunchFailure(false);
     setPhase("scanning");
     clearRhSessionPages();
 
@@ -289,29 +312,33 @@ const Scanner: React.FC = () => {
     isLaunchActiveRef.current = true;
     try {
       await activeScanner.launch();
-      if (!isMountedRef.current) return;
+      if (!isMountedRef.current) return { ok: true };
       setShowScannerGuide(false);
       setPhase("scan-review");
       persistScannerStep("scan-review", expectedPageCountRef.current);
+      setShowLaunchFailure(false);
+      return { ok: true };
     } catch (error) {
-      if (!isMountedRef.current) return;
+      if (!isMountedRef.current) {
+        return { ok: false, reason: "launch_failed", error };
+      }
       setShowScannerGuide(false);
       if (isCameraPermissionError(error)) {
-        setPhase("camera-access");
-      } else {
-        console.error("Scanner launch failed:", error);
-        setPhase("pre-scan");
+        return { ok: false, reason: "permission_denied", error };
       }
+      console.error("Scanner launch failed:", error);
+      return { ok: false, reason: "launch_failed", error };
     } finally {
       isLaunchActiveRef.current = false;
       window.clearInterval(labelPatchInterval);
     }
-  }, [_, historyId, scanner]);
+  }, [_, historyId, scanner, setPhase]);
 
   const handleStartScanning = async () => {
     if (!canStartScan) return;
 
     setFlowError(null);
+    setShowLaunchFailure(false);
     setIsCheckingCameraAccess(true);
     try {
       const granted = await probeCameraAccess();
@@ -320,11 +347,20 @@ const Scanner: React.FC = () => {
         setPhase("camera-access");
         return;
       }
-      await launchScanner();
+      const result = await launchScanner();
+      if (!result.ok) {
+        if (result.reason === "permission_denied") {
+          setPhase("camera-access");
+        } else {
+          setPhase("pre-scan");
+        }
+      }
     } catch (error) {
       console.error("Unable to start scanning:", error);
       if (isCameraPermissionError(error)) {
         setPhase("camera-access");
+      } else {
+        setPhase("pre-scan");
       }
     } finally {
       setIsCheckingCameraAccess(false);
@@ -347,6 +383,7 @@ const Scanner: React.FC = () => {
     const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
+    setShowLaunchFailure(false);
     setAwaitingRescanSuccess(false);
     setIsRestarting(true);
     try {
@@ -354,7 +391,14 @@ const Scanner: React.FC = () => {
       clearScannerStepState();
       setExpectedPageCount(0);
       clearPageImages();
-      await launchScanner();
+      const result = await launchScanner();
+      if (!result.ok) {
+        if (result.reason === "permission_denied") {
+          setPhase("camera-access");
+        } else {
+          setPhase("pre-scan");
+        }
+      }
     } catch (error) {
       setFlowError(
         flowErrorFromApi(
@@ -386,14 +430,25 @@ const Scanner: React.FC = () => {
     const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
+    setShowLaunchFailure(false);
     setAwaitingRescanSuccess(false);
     try {
       await deleteRhScannedPages(token, activeHistoryId, pageIds);
+      queryClient.removeQueries({
+        queryKey: ["account", "scan-review", activeHistoryId],
+      });
       clearScannerStepState();
       setExpectedPageCount((count) => count - pageIds.length);
       clearPageImages();
       setAwaitingRescanSuccess(true);
-      await launchScanner();
+      const result = await launchScanner();
+      if (!result.ok) {
+        if (result.reason === "permission_denied") {
+          setPhase("camera-access");
+        } else {
+          handleScanReviewLaunchFailure(activeHistoryId);
+        }
+      }
     } catch (error) {
       setFlowError(
         flowErrorFromApi(
@@ -405,10 +460,21 @@ const Scanner: React.FC = () => {
   };
 
   const handleAddMore = async () => {
+    const context = requireRhScanContext(historyId);
+    if (!context) return;
+
     setFlowError(null);
+    setShowLaunchFailure(false);
     setAwaitingRescanSuccess(false);
     clearPageImages();
-    await launchScanner();
+    const result = await launchScanner();
+    if (!result.ok) {
+      if (result.reason === "permission_denied") {
+        setPhase("camera-access");
+      } else {
+        handleScanReviewLaunchFailure(context.historyId);
+      }
+    }
   };
 
   const handleNext = async () => {
@@ -519,6 +585,7 @@ const Scanner: React.FC = () => {
           processingComplete={processingComplete}
           isLoading={isScanReviewLoading}
           showRescanSuccess={showRescanSuccess}
+          showLaunchFailure={showLaunchFailure}
           reviewError={reviewError}
           onRescanPages={(pageIds) => {
             void handleRescanPages(pageIds);

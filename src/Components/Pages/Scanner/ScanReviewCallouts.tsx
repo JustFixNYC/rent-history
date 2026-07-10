@@ -30,6 +30,17 @@ export const ScanReviewRescanSuccessInfo = () => (
   </InfoBox>
 );
 
+export const ScanReviewLaunchFailureInfo = () => (
+  <InfoBox
+    color="orange"
+    role="alert"
+    className="scan-review-launch-failure-info"
+    data-testid="scan-review-launch-failure"
+  >
+    <Trans>Unable to open the scanner. Please try again.</Trans>
+  </InfoBox>
+);
+
 const ScanReviewAddMoreButton = ({ onAddMore }: { onAddMore: () => void }) => {
   const { _ } = useLingui();
 

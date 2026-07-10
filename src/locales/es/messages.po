@@ -137,7 +137,7 @@ msgstr ""
 msgid "Access completed or in-progress reports"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:41
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:52
 msgid "Add missing pages"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:543
+#: src/Components/Pages/Scanner/Scanner.tsx:610
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr ""
 
@@ -197,13 +197,13 @@ msgid "findings.HRVD.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.description"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -217,13 +217,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:18
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:18
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
@@ -259,7 +259,7 @@ msgstr ""
 msgid "findings.HRVD.intro.description"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:66
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:70
 msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:572
-#: src/Components/Pages/Scanner/Scanner.tsx:555
+#: src/Components/Pages/Scanner/Scanner.tsx:622
 msgid "Cancel"
 msgstr ""
 
@@ -382,13 +382,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:89
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:89
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -490,7 +490,7 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgid "Findings review"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:283
+#: src/Components/Pages/Scanner/Scanner.tsx:306
 msgid "Finish scanning"
 msgstr ""
 
@@ -525,13 +525,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
+msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
-msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -616,11 +616,11 @@ msgstr ""
 msgid "I don’t have my rent history"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:72
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:76
 msgid "If any pages are missing, you can <0>add a page</0>."
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:117
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:128
 msgid "If it seems like any pages are missing, you can add them now by scanning."
 msgstr ""
 
@@ -793,7 +793,7 @@ msgstr ""
 msgid "Menu"
 msgstr "Menú"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:71
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:82
 msgid "Missing registration years"
 msgstr ""
 
@@ -816,7 +816,7 @@ msgstr ""
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:139
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:143
 msgid "Next"
 msgstr "Siguiente"
 
@@ -1010,15 +1010,15 @@ msgstr ""
 #~ msgid "Processing document scan…"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:103
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:107
 msgid "Processing your scanned pages…"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:541
+#: src/Components/Pages/Scanner/Scanner.tsx:608
 msgid "Re-scan all pages?"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:141
+#: src/Components/Pages/Scanner/Scanner.tsx:142
 msgid "Re-scan page"
 msgstr ""
 
@@ -1076,8 +1076,8 @@ msgstr ""
 msgid "Residential units"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:549
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:137
+#: src/Components/Pages/Scanner/Scanner.tsx:616
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:141
 msgid "Restart scan"
 msgstr ""
 
@@ -1115,7 +1115,7 @@ msgstr ""
 msgid "Save address"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:145
+#: src/Components/Pages/Scanner/Scanner.tsx:146
 msgid "Save page"
 msgstr ""
 
@@ -1131,7 +1131,7 @@ msgstr ""
 #~ msgid "Scan review"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:140
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:144
 msgid "Scan review navigation"
 msgstr ""
 
@@ -1206,7 +1206,7 @@ msgstr ""
 msgid "Site navigation"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:112
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:123
 msgid "Something missing?"
 msgstr ""
 
@@ -1280,7 +1280,7 @@ msgstr ""
 msgid "Step 5: What we found"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:89
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:100
 msgid "Still processing pages"
 msgstr ""
 
@@ -1452,7 +1452,7 @@ msgstr "para confirmar que la información a continuación coincide."
 msgid "Too many invalid attempts. Request a new code."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:435
+#: src/Components/Pages/Scanner/Scanner.tsx:501
 msgid "Unable to continue. Please try again."
 msgstr ""
 
@@ -1472,11 +1472,15 @@ msgstr ""
 msgid "Unable to load scan previews."
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:88
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:92
 msgid "Unable to load scan review"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:401
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:40
+msgid "Unable to open the scanner. Please try again."
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:456
 msgid "Unable to re-scan pages. Please try again."
 msgstr ""
 
@@ -1484,7 +1488,7 @@ msgstr ""
 msgid "Unable to resend code right now. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:362
+#: src/Components/Pages/Scanner/Scanner.tsx:406
 msgid "Unable to restart scanning. Please try again."
 msgstr ""
 
@@ -1575,7 +1579,7 @@ msgstr ""
 msgid "Visit JustFix"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:93
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:104
 msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
 msgstr ""
 
@@ -1731,13 +1735,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:12
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:12
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1788,13 +1792,13 @@ msgid "Your answers directly inform our assessment of any potential violations t
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1803,13 +1807,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:80
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:80
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1854,7 +1858,7 @@ msgstr ""
 msgid "Your scanned pages"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:76
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:87
 msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 msgstr ""
 
