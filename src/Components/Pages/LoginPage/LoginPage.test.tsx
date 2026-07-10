@@ -81,6 +81,14 @@ const enterVerificationCode = (code: string) => {
   );
 };
 
+const pasteVerificationCode = (code: string) => {
+  fireEvent.paste(screen.getByRole("textbox", { name: /verification code/i }), {
+    clipboardData: {
+      getData: () => code,
+    },
+  });
+};
+
 const advanceToVerificationStep = async () => {
   fireEvent.change(screen.getByLabelText("Phone number (required)"), {
     target: { value: "(555) 444-3333" },
@@ -181,6 +189,39 @@ describe("LoginPage OTP verification", () => {
       );
       expect(rhSessionStorage.setRhAuthSession).toHaveBeenCalledWith(
         otpPayload
+      );
+    });
+  });
+
+  it("auto-verifies when a full code is pasted", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: true,
+      has_viewable_report: false,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+    const otpPayload = {
+      access_token: "access-token",
+      refresh_token: "refresh-token",
+      token_type: "Bearer",
+      expires_in: 300,
+      scope: "read write",
+      profile: {
+        id: 1,
+        phone_number: "15554443333",
+      },
+    };
+    vi.mocked(accountApi.verifyRhOtp).mockResolvedValue(otpPayload);
+
+    renderLoginPage();
+    await advanceToVerificationStep();
+
+    pasteVerificationCode("123456");
+
+    await waitFor(() => {
+      expect(accountApi.verifyRhOtp).toHaveBeenCalledWith(
+        "5554443333",
+        "123456"
       );
     });
   });

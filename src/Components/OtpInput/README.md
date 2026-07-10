@@ -53,7 +53,7 @@ Controlled component. Parent owns `value` (e.g. react-hook-form `watch("code")`)
 
 **Optional:** `length` (default 6), `onComplete`, `onKeyDown`, `onPaste`, `inputRef`, `disabled`, `invalid`, `autoFocus`, `aria-describedby`, `className`.
 
-`onComplete` fires once when `value` reaches `length` (useful if you add auto-submit later; current login flow keeps an explicit Verify button).
+`onComplete` fires once when `value` reaches `length`. Wire it to form submission for auto-verify on paste, autofill, WebOTP, or typing the final digit (see `LoginVerificationStep.tsx`).
 
 ---
 
