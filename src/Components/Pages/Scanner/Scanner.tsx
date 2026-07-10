@@ -15,7 +15,6 @@ import {
   deleteRhScannedPages,
   getRhHistoryAnalysisPages,
   isAccountApiError,
-  useRhScanReview,
 } from "../../../api/account";
 import { uploadScan } from "../../../api/account/scanPresign";
 import { mapPagesWithImageUrls } from "../../RentHistoryPageCard/pageCardUtils";
@@ -42,11 +41,10 @@ import {
   RETAKE_BUTTON_CLASS,
   SAVE_BUTTON_CLASS,
 } from "./scanner-overlay";
-import {
-  useScannerBootstrapRestore,
-  type ScannerPhase,
-} from "./hooks/useScannerBootstrapRestore";
+import { useScannerBootstrapRestore } from "./hooks/useScannerBootstrapRestore";
+import type { ScannerPhase } from "./scannerTypes";
 import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
+import { useScanReview } from "./hooks/useScanReview";
 import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
 
 export type { ScannerPhase };
@@ -108,7 +106,7 @@ const Scanner: React.FC = () => {
     }
   };
 
-  const scanReviewQuery = useRhScanReview({
+  const scanReviewQuery = useScanReview({
     accessToken,
     historyId: historyId ?? undefined,
     expectedPageCount,

@@ -33,7 +33,7 @@ On return visits, `useScannerBootstrapRestore` reads persisted step state and/or
 
 1. **Dynamsoft** — `DocumentScanner` (continuous scanning, auto-crop, frame verification). Configured in `Scanner.tsx` on mount; disposed on unmount.
 2. **`onDocumentScanned`** — corrected JPEG blob uploaded via presigned S3 URL (`uploadScan` in `api/account/scanPresign.ts`). Key shape: `{profileId}/{historyId}/{uuid}.jpg`.
-3. **Backend processing** — S3 upload triggers server-side OCR/page assembly. Frontend polls `GET …/scan-review` until status is `ready` or times out with partial results (`useRhScanReview`).
+3. **Backend processing** — S3 upload triggers server-side OCR/page assembly. Frontend polls `GET …/scan-review` until status is `ready` or times out with partial results (`useScanReview`).
 4. **Review UI** — presigned download URLs for thumbnails (`useScanReviewPageImages` → `usePresignedPageImageUrls`).
 
 Dynamsoft renders inside shadow DOM. `scanner-overlay.ts` walks that tree to probe live-view visibility, patch the “Done (n)” button label for i18n, and detect camera-permission errors.
@@ -53,14 +53,17 @@ Dynamsoft renders inside shadow DOM. `scanner-overlay.ts` walks that tree to pro
 | `ScanReviewRetakeGroup.tsx`           | Pages flagged `needs_retake`                                                        |
 | `ScannerOverlay.tsx`                  | US-letter aspect-ratio guide portal over Dynamsoft live view                        |
 | `scannerState.ts`                     | Session persistence for `scan-review` + `expectedPageCount`                         |
+| `scannerTypes.ts`                     | `ScannerPhase` union type                                                           |
 | `scannerFlowUtils.ts`                 | Auth/history guard + API error mapping                                              |
 | `scanner-overlay.ts`                  | Dynamsoft DOM helpers (visibility, labels, camera probe)                            |
 | `scanReviewUtils.ts`                  | `isScanReviewClean` — no missing years and no retakes                               |
 | `hooks/useScannerHistoryCreate.ts`    | Ensures `historyId` exists via `POST` create                                        |
 | `hooks/useScannerBootstrapRestore.ts` | Restore phase on load                                                               |
 | `hooks/useScanReviewPageImages.ts`    | Presigned URLs for review thumbnails                                                |
+| `hooks/useScanReview.ts`              | Poll `scan-review` until ready or partial timeout                                   |
+| `hooks/useScanReviewBootstrap.ts`     | One-shot bootstrap fetch on load (restore scan-review)                              |
 
-API hooks live outside this folder: `src/api/account/hooks/scanner.ts` (`useRhScanReview`, `useRhScanReviewBootstrap`).
+Post-combine analysis pages (`useHistoryAnalysisPages`) live in `src/api/account/hooks/analysisPages.ts` and are consumed by `src/hooks/useRentHistoryDocumentPages.ts` (document viewer modal).
 
 ---
 
@@ -102,12 +105,13 @@ Transient phases (`scanning`, `camera-access`) are not persisted. On unmount dur
 
 ## Tests
 
-| File                                 | Coverage                                    |
-| ------------------------------------ | ------------------------------------------- |
-| `Scanner.test.tsx`                   | Phase rendering, start/restart/rescan flows |
-| `scannerState.test.ts`               | Session read/write/clear                    |
-| `scannerFlowUtils.test.ts`           | Context guard, error mapping                |
-| `scanner-overlay.test.ts`            | DOM visibility helpers, label patching      |
-| `api/account/hooks/scanner.test.tsx` | Bootstrap and poll behavior                 |
+| File                                    | Coverage                                    |
+| --------------------------------------- | ------------------------------------------- |
+| `Scanner.test.tsx`                      | Phase rendering, start/restart/rescan flows |
+| `scannerState.test.ts`                  | Session read/write/clear                    |
+| `scannerFlowUtils.test.ts`              | Context guard, error mapping                |
+| `scanner-overlay.test.ts`               | DOM visibility helpers, label patching      |
+| `hooks/useScanReviewBootstrap.test.tsx` | Bootstrap fetch behavior                    |
+| `hooks/useScanReview.test.tsx`          | Poll and accept-partial timeout behavior    |
 
 Route registration: `src/App.tsx` (`path="scanner"`). Route protection: `App.route-protection.test.tsx`.

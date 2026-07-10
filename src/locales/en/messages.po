@@ -158,7 +158,7 @@ msgstr "Additional recipients"
 msgid "Address"
 msgstr "Address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:545
+#: src/Components/Pages/Scanner/Scanner.tsx:543
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
 
@@ -282,7 +282,7 @@ msgstr "Camera access"
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:572
-#: src/Components/Pages/Scanner/Scanner.tsx:557
+#: src/Components/Pages/Scanner/Scanner.tsx:555
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -490,7 +490,7 @@ msgstr "Finding review navigation"
 #~ msgid "Findings review"
 #~ msgstr "Findings review"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:285
+#: src/Components/Pages/Scanner/Scanner.tsx:283
 msgid "Finish scanning"
 msgstr "Finish scanning"
 
@@ -1014,11 +1014,11 @@ msgstr "Privacy policy"
 msgid "Processing your scanned pages…"
 msgstr "Processing your scanned pages…"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:543
+#: src/Components/Pages/Scanner/Scanner.tsx:541
 msgid "Re-scan all pages?"
 msgstr "Re-scan all pages?"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:143
+#: src/Components/Pages/Scanner/Scanner.tsx:141
 msgid "Re-scan page"
 msgstr "Re-scan page"
 
@@ -1076,7 +1076,7 @@ msgstr "Resend"
 msgid "Residential units"
 msgstr "Residential units"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:551
+#: src/Components/Pages/Scanner/Scanner.tsx:549
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:137
 msgid "Restart scan"
 msgstr "Restart scan"
@@ -1115,7 +1115,7 @@ msgstr "Review and edit your rent history"
 msgid "Save address"
 msgstr "Save address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:147
+#: src/Components/Pages/Scanner/Scanner.tsx:145
 msgid "Save page"
 msgstr "Save page"
 
@@ -1452,7 +1452,7 @@ msgstr "to confirm the information below matches."
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:437
+#: src/Components/Pages/Scanner/Scanner.tsx:435
 msgid "Unable to continue. Please try again."
 msgstr "Unable to continue. Please try again."
 
@@ -1476,7 +1476,7 @@ msgstr "Unable to load scan previews."
 msgid "Unable to load scan review"
 msgstr "Unable to load scan review"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:403
+#: src/Components/Pages/Scanner/Scanner.tsx:401
 msgid "Unable to re-scan pages. Please try again."
 msgstr "Unable to re-scan pages. Please try again."
 
@@ -1484,7 +1484,7 @@ msgstr "Unable to re-scan pages. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:364
+#: src/Components/Pages/Scanner/Scanner.tsx:362
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 

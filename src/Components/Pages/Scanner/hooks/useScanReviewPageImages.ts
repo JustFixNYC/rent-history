@@ -1,7 +1,7 @@
 import type { RhPageSummary } from "../../../../api/account/types";
 import { usePresignedPageImageUrls } from "../../../../hooks/usePresignedPageImageUrls";
 
-import type { ScannerPhase } from "./useScannerBootstrapRestore";
+import type { ScannerPhase } from "../scannerTypes";
 
 export type UseScanReviewPageImagesParams = {
   readyPages: RhPageSummary[] | undefined;

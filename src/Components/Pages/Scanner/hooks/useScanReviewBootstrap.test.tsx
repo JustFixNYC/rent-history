@@ -2,11 +2,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as accountApi from "../api";
-import { useRhScanReviewBootstrap } from "./scanner";
+import * as accountApi from "../../../../api/account/api";
+import { useScanReviewBootstrap } from "./useScanReviewBootstrap";
 
-vi.mock("../api", async () => {
-  const actual = await vi.importActual<typeof import("../api")>("../api");
+vi.mock("../../../../api/account/api", async () => {
+  const actual = await vi.importActual<
+    typeof import("../../../../api/account/api")
+  >("../../../../api/account/api");
   return {
     ...actual,
     getRhHistoryScanReview: vi.fn(),
@@ -43,7 +45,7 @@ const createWrapper = () => {
   );
 };
 
-describe("useRhScanReviewBootstrap", () => {
+describe("useScanReviewBootstrap", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -51,7 +53,7 @@ describe("useRhScanReviewBootstrap", () => {
   it("does not fetch when disabled", () => {
     renderHook(
       () =>
-        useRhScanReviewBootstrap({
+        useScanReviewBootstrap({
           accessToken,
           historyId,
           enabled: false,
@@ -69,7 +71,7 @@ describe("useRhScanReviewBootstrap", () => {
 
     const { result } = renderHook(
       () =>
-        useRhScanReviewBootstrap({
+        useScanReviewBootstrap({
           accessToken,
           historyId,
           enabled: true,

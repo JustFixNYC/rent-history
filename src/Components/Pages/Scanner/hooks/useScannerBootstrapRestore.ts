@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 
-import { useRhScanReviewBootstrap } from "../../../../api/account";
+import { useScanReviewBootstrap } from "./useScanReviewBootstrap";
 import { getRhHistoryId } from "../../../../session/rhSessionStorage";
 import {
   clearScannerStepState,
   readScannerStepState,
   writeScannerStepState,
 } from "../scannerState";
+import type { ScannerPhase } from "../scannerTypes";
 
-export type ScannerPhase =
-  | "pre-scan"
-  | "scanning"
-  | "camera-access"
-  | "scan-review";
+export type { ScannerPhase };
 
 export type UseScannerBootstrapRestoreParams = {
   accessToken: string | undefined;
@@ -44,7 +41,7 @@ export function useScannerBootstrapRestore({
     savedStep?.phase === "scan-review" || getRhHistoryId() ? "pending" : "done"
   );
 
-  const scanReviewBootstrap = useRhScanReviewBootstrap({
+  const scanReviewBootstrap = useScanReviewBootstrap({
     accessToken,
     historyId: historyId ?? undefined,
     enabled: restoreStatus === "pending",

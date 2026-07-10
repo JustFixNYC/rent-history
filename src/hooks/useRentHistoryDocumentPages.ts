@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { useRhHistoryAnalysisPages } from "../api/account";
+import { useHistoryAnalysisPages } from "../api/account";
 import { getRhAuthSession } from "../session/rhSessionStorage";
 import { useRhSession } from "../session/RhSessionContext";
 
@@ -35,7 +35,7 @@ export const useRentHistoryDocumentPages = ({
     isError: isMetadataError,
     error: metadataError,
     refetch: refetchMetadata,
-  } = useRhHistoryAnalysisPages({
+  } = useHistoryAnalysisPages({
     accessToken,
     historyId,
     enabled: enabled && sessionPages.length === 0,
