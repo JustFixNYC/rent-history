@@ -184,7 +184,7 @@ describe("RentQuestions", () => {
     mockSetRhHistoryCurrentRent.mockRejectedValue(
       new AccountApiError(400, {
         error: "Invalid rent amount.",
-        error_code: "invalid_rent",
+        error_code: "validation_error",
       })
     );
 
