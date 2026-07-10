@@ -25,6 +25,9 @@ import {
   readRhSessionDocument,
   setRhAuthSession,
   setRhHistoryId,
+  setRhSessionAnalysisPages,
+  setRhSessionStepState,
+  switchRhHistory,
 } from "../../../session/rhSessionStorage";
 import {
   readScannerStepState,
@@ -922,6 +925,7 @@ describe("Scanner phase persistence", () => {
       { acceptPartial: true }
     );
     expect(readScannerStepState()).toEqual({
+      historyId,
       phase: "scan-review",
       expectedPageCount: 2,
     });
@@ -954,6 +958,7 @@ describe("Scanner phase persistence", () => {
     });
     await waitForScanReviewReady();
     expect(readScannerStepState()).toEqual({
+      historyId,
       phase: "scan-review",
       expectedPageCount: 1,
     });
@@ -986,6 +991,7 @@ describe("Scanner phase persistence", () => {
       expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
     });
     expect(readScannerStepState()).toEqual({
+      historyId,
       phase: "scan-review",
       expectedPageCount: 1,
     });
@@ -1026,6 +1032,54 @@ describe("Scanner phase persistence", () => {
     await screen.findByRole("button", { name: "Start scanning" });
     expect(readScannerStepState()).toBeNull();
     expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalled();
+  });
+
+  it("shows pre-scan after switching histories clears stale scanner step and pages", async () => {
+    const historyA = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
+    const historyB = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
+
+    setRhHistoryId(historyA);
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 3 });
+    setRhSessionAnalysisPages([
+      {
+        s3_key: `1/${historyA}/page1.jpg`,
+        start_year: 2020,
+        end_year: 2021,
+      },
+    ]);
+
+    switchRhHistory(historyB);
+    mockBootstrapNoRestorablePages();
+
+    renderScanner();
+
+    await screen.findByRole("button", { name: "Start scanning" });
+    expect(readScannerStepState()).toBeNull();
+    expect(getRhSessionAnalysisPages()).toEqual([]);
+    expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+      "access-token",
+      historyB,
+      1,
+      { acceptPartial: true }
+    );
+  });
+
+  it("ignores scanner step state when stored historyId does not match active session", async () => {
+    const historyA = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
+    const historyB = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
+
+    setRhHistoryId(historyB);
+    setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
+      historyId: historyA,
+      phase: "scan-review",
+      expectedPageCount: 3,
+    });
+    mockBootstrapNoRestorablePages();
+
+    renderScanner();
+
+    await screen.findByRole("button", { name: "Start scanning" });
+    expect(readScannerStepState()).toBeNull();
   });
 });
 
@@ -1072,6 +1126,7 @@ describe("Scanner unmount cleanup", () => {
     ).toHaveBeenCalled();
     expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
     expect(readScannerStepState()).toEqual({
+      historyId,
       phase: "scan-review",
       expectedPageCount: 1,
     });
@@ -1109,6 +1164,7 @@ describe("Scanner unmount cleanup", () => {
 
     expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
     expect(readScannerStepState()).toEqual({
+      historyId,
       phase: "scan-review",
       expectedPageCount: 2,
     });
@@ -1131,6 +1187,7 @@ describe("Scanner unmount cleanup", () => {
     first.unmount();
 
     expect(readScannerStepState()).toEqual({
+      historyId,
       phase: "scan-review",
       expectedPageCount: 1,
     });

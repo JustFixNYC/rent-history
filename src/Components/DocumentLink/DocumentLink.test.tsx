@@ -141,4 +141,41 @@ describe("DocumentLink", () => {
       ).toBeInTheDocument();
     });
   });
+
+  it("fetches analysis pages when session pages belong to a different history", async () => {
+    const otherHistoryId = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
+    setRhSessionAnalysisPages([
+      {
+        s3_key: `1/${otherHistoryId}/page1.jpg`,
+        start_year: 2020,
+        end_year: 2021,
+      },
+    ]);
+
+    vi.mocked(accountApi.getRhHistoryAnalysisPages).mockResolvedValue(
+      analysisPages
+    );
+
+    renderDocumentLink();
+
+    fireEvent.click(screen.getByRole("button", { name: /your rent history/i }));
+
+    await waitFor(() => {
+      expect(accountApi.getRhHistoryAnalysisPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId
+      );
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId(`rent-history-page-card-${analysisPages[0].s3_key}`)
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByTestId(
+        `rent-history-page-card-1/${otherHistoryId}/page1.jpg`
+      )
+    ).not.toBeInTheDocument();
+  });
 });

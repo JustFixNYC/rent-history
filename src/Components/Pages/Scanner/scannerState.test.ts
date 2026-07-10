@@ -9,19 +9,24 @@ import {
 import {
   getRhSessionStepState,
   readRhSessionDocument,
+  setRhHistoryId,
   setRhSessionStepState,
 } from "../../../session/rhSessionStorage";
 import { z } from "zod";
 
+const historyId = "hist-1";
+
 describe("scannerState", () => {
   beforeEach(() => {
     window.sessionStorage.clear();
+    setRhHistoryId(historyId);
   });
 
   it("round-trips write and read", () => {
     writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
 
     expect(readScannerStepState()).toEqual({
+      historyId,
       phase: "scan-review",
       expectedPageCount: 2,
     });
@@ -39,6 +44,25 @@ describe("scannerState", () => {
   it("returns null for unknown phase values", () => {
     setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
       phase: "scanning",
+      expectedPageCount: 2,
+    });
+
+    expect(readScannerStepState()).toBeNull();
+  });
+
+  it("returns null for legacy shape missing historyId", () => {
+    setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
+      phase: "scan-review",
+      expectedPageCount: 2,
+    });
+
+    expect(readScannerStepState()).toBeNull();
+  });
+
+  it("returns null when stored historyId does not match active session", () => {
+    setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
+      historyId: "hist-other",
+      phase: "scan-review",
       expectedPageCount: 2,
     });
 

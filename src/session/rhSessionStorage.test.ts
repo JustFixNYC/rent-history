@@ -19,7 +19,9 @@ import {
   setRhHistoryId,
   setRhSessionAnalysisPages,
   setRhSessionExtension,
+  setRhSessionFormDraft,
   setRhSessionStepState,
+  switchRhHistory,
 } from "./rhSessionStorage";
 
 const otpPayload = {
@@ -181,5 +183,29 @@ describe("rhSessionStorage", () => {
     clearRhHistoryId();
     expect(getRhAuthSession()).toBeNull();
     expect(getRhHistoryId()).toBeNull();
+  });
+
+  it("switchRhHistory sets historyId and clears flow slices", () => {
+    setRhAuthSession(otpPayload, Date.now());
+    setRhHistoryId("hist-a");
+    setRhSessionAnalysisPages([
+      { s3_key: "42/hist-a/page1.jpg", start_year: 2018, end_year: 2019 },
+    ]);
+    setRhSessionFormDraft({ rows: [1] });
+    setRhSessionExtension("featureA", { nested: { x: 1 } });
+    setRhSessionStepState("scanner", {
+      phase: "scan-review",
+      expectedPageCount: 2,
+    });
+
+    switchRhHistory("hist-b");
+
+    const doc = readRhSessionDocument();
+    expect(doc?.auth?.accessToken).toBe("access-token");
+    expect(getRhHistoryId()).toBe("hist-b");
+    expect(doc?.flow.pages).toEqual([]);
+    expect(doc?.flow.formDraft).toBeNull();
+    expect(doc?.flow.extensions).toEqual({});
+    expect(doc?.flow.steps).toEqual({});
   });
 });

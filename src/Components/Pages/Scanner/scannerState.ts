@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+  getRhHistoryId,
   getRhSessionStepState,
   removeRhSessionStepState,
   setRhSessionStepState,
@@ -10,22 +11,41 @@ import {
 export type PersistedScannerPhase = "pre-scan" | "scan-review";
 
 export type ScannerStepState = {
+  historyId: string;
+  phase: "scan-review";
+  expectedPageCount: number;
+};
+
+export type ScannerStepStateInput = {
   phase: "scan-review";
   expectedPageCount: number;
 };
 
 const scannerStepStateSchema = z.object({
+  historyId: z.string(),
   phase: z.literal("scan-review"),
   expectedPageCount: z.number().int().min(1),
 });
 
 export const SCANNER_STEP_STATE_KEY = "scanner";
 
-export const readScannerStepState = (): ScannerStepState | null =>
-  getRhSessionStepState(SCANNER_STEP_STATE_KEY, scannerStepStateSchema) ?? null;
+export const readScannerStepState = (): ScannerStepState | null => {
+  const saved =
+    getRhSessionStepState(SCANNER_STEP_STATE_KEY, scannerStepStateSchema) ??
+    null;
+  if (!saved) return null;
 
-export const writeScannerStepState = (state: ScannerStepState): void => {
-  const parsed = scannerStepStateSchema.parse(state);
+  const activeHistoryId = getRhHistoryId();
+  if (!activeHistoryId || saved.historyId !== activeHistoryId) return null;
+
+  return saved;
+};
+
+export const writeScannerStepState = (state: ScannerStepStateInput): void => {
+  const historyId = getRhHistoryId();
+  if (!historyId) return;
+
+  const parsed = scannerStepStateSchema.parse({ ...state, historyId });
   setRhSessionStepState(SCANNER_STEP_STATE_KEY, parsed);
 };
 

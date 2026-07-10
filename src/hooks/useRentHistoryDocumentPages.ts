@@ -9,6 +9,7 @@ import {
   type RentHistoryPageCardData,
 } from "../Components/RentHistoryPageCard/pageCardUtils";
 import { usePresignedPageImageUrls } from "./usePresignedPageImageUrls";
+import { sessionPagesMatchHistory } from "../utils/rhScanKeyPrefix";
 
 export type UseRentHistoryDocumentPagesParams = {
   enabled?: boolean;
@@ -29,6 +30,14 @@ export const useRentHistoryDocumentPages = ({
   const historyId = document.flow.historyId ?? undefined;
   const sessionPages = document.flow.pages;
 
+  const trustedSessionPages = useMemo(
+    () =>
+      historyId && sessionPagesMatchHistory(sessionPages, historyId)
+        ? sessionPages
+        : [],
+    [historyId, sessionPages]
+  );
+
   const {
     data: fetchedPages,
     isLoading: isMetadataLoading,
@@ -38,12 +47,13 @@ export const useRentHistoryDocumentPages = ({
   } = useHistoryAnalysisPages({
     accessToken,
     historyId,
-    enabled: enabled && sessionPages.length === 0,
+    enabled: enabled && trustedSessionPages.length === 0,
   });
 
   const metadataPages = useMemo(
-    () => (sessionPages.length > 0 ? sessionPages : fetchedPages ?? []),
-    [fetchedPages, sessionPages]
+    () =>
+      trustedSessionPages.length > 0 ? trustedSessionPages : fetchedPages ?? [],
+    [fetchedPages, trustedSessionPages]
   );
 
   const s3Keys = useMemo(
@@ -67,7 +77,7 @@ export const useRentHistoryDocumentPages = ({
   );
 
   const retry = () => {
-    if (sessionPages.length === 0) {
+    if (trustedSessionPages.length === 0) {
       void refetchMetadata();
     }
     retryImages();

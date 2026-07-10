@@ -32,6 +32,7 @@ import { ScannerOverlay } from "./ScannerOverlay";
 import { clearScannerStepState, writeScannerStepState } from "./scannerState";
 import { isScanReviewClean } from "./scanReviewUtils";
 import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
+import { getRhScanKeyPrefix } from "../../../utils/rhScanKeyPrefix";
 import {
   isCameraPermissionError,
   isDynamsoftScannerLiveViewVisible,
@@ -48,12 +49,6 @@ import { useScanReview } from "./hooks/useScanReview";
 import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
 
 export type { ScannerPhase };
-
-const readScanKeyPrefix = (historyId: string | null): string | null => {
-  const session = getRhAuthSession();
-  if (!session || !historyId) return null;
-  return `${session.profile.id}/${historyId}`;
-};
 
 const Scanner: React.FC = () => {
   const { i18n, _ } = useLingui();
@@ -168,7 +163,7 @@ const Scanner: React.FC = () => {
         },
         onDocumentScanned: async (result) => {
           setShowScannerGuide(false);
-          const prefix = readScanKeyPrefix(historyIdRef.current);
+          const prefix = getRhScanKeyPrefix(historyIdRef.current ?? "");
           if (!prefix) {
             console.error(
               "Missing OTP session or rent history id for scan upload."
@@ -278,7 +273,7 @@ const Scanner: React.FC = () => {
     };
   }, [phase]);
 
-  const canStartScan = Boolean(readScanKeyPrefix(historyId));
+  const canStartScan = Boolean(historyId && getRhScanKeyPrefix(historyId));
 
   const invalidateScanReviewQueries = useCallback(
     (activeHistoryId: string) => {
@@ -301,7 +296,7 @@ const Scanner: React.FC = () => {
 
   const launchScanner = useCallback(async (): Promise<LaunchResult> => {
     const activeScanner = scanner;
-    if (!readScanKeyPrefix(historyId) || !activeScanner) {
+    if (!historyId || !getRhScanKeyPrefix(historyId) || !activeScanner) {
       return { ok: false, reason: "not_ready" };
     }
 
