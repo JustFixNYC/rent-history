@@ -245,7 +245,7 @@ msgstr "Apt. {0}"
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:109
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:114
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:172
 msgid "Back"
 msgstr "Back"
@@ -363,7 +363,7 @@ msgstr "Did tenants in the earlier year appear in the later year?"
 #~ msgid "Didn't receive a code?"
 #~ msgstr "Didn't receive a code?"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:91
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:96
 msgid "Didn’t receive a code?"
 msgstr "Didn’t receive a code?"
 
@@ -445,7 +445,7 @@ msgstr "Enter an NYC address"
 msgid "Enter the address for this<0/>rent history"
 msgstr "Enter the address for this<0/>rent history"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:58
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:62
 msgid "Enter verification code"
 msgstr "Enter verification code"
 
@@ -1068,7 +1068,7 @@ msgstr "Rent-stabilized units"
 msgid "Report"
 msgstr "Report"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:97
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:102
 msgid "Resend"
 msgstr "Resend"
 
@@ -1541,7 +1541,7 @@ msgstr "Vacancy bonus"
 msgid "Values confirmed"
 msgstr "Values confirmed"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:87
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:92
 msgid "Verification code"
 msgstr "Verification code"
 
@@ -1549,7 +1549,7 @@ msgstr "Verification code"
 #~ msgid "Verification digit {0}"
 #~ msgstr "Verification digit {0}"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:112
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:117
 msgid "Verify"
 msgstr "Verify"
 
@@ -1632,11 +1632,11 @@ msgstr "We have not found any potential violations in your apartment's rent hist
 #~ msgid "We sent a code to"
 #~ msgstr "We sent a code to"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:66
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:70
 msgid "We sent a code to <0>{maskedPhone}</0>"
 msgstr "We sent a code to <0>{maskedPhone}</0>"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:62
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:66
 msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr "We sent a new code to <0>{maskedPhone}</0>"
 
