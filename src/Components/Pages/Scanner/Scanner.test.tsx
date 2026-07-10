@@ -15,6 +15,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Scanner from "./Scanner";
 import { AccountApiError } from "../../../api/account";
 import * as accountApi from "../../../api/account/api";
+import { uploadScan } from "../../../api/account/scanPresign";
 import * as scannerOverlay from "./scanner-overlay";
 import {
   clearRhAuthSession,
@@ -517,6 +518,11 @@ describe("Scanner expectedPageCount lifecycle", () => {
     await advanceToScanComplete();
 
     await waitFor(() => {
+      expect(uploadScan).toHaveBeenCalledWith(
+        expect.stringMatching(/^1\/.+\/.+\.jpg$/),
+        expect.any(Blob),
+        { retries: 1 }
+      );
       expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
         "access-token",
         historyId,
@@ -598,6 +604,104 @@ describe("Scanner expectedPageCount lifecycle", () => {
       expect(
         vi.mocked(accountApi.getRhHistoryScanReview).mock.calls.length
       ).toBeGreaterThan(initialPollCount);
+      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        1,
+        undefined
+      );
+    });
+  });
+});
+
+describe("Scanner upload failures", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    mockBootstrapNoRestorablePages();
+    vi.mocked(uploadScan).mockResolvedValue(undefined);
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("shows upload failure callout when upload throws and does not increment count", async () => {
+    vi.mocked(uploadScan).mockRejectedValue(new Error("upload failed"));
+
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(uploadScan).toHaveBeenCalledWith(
+        expect.stringMatching(/^1\/.+\/.+\.jpg$/),
+        expect.any(Blob),
+        { retries: 1 }
+      );
+      expect(
+        screen.getByTestId("scan-review-upload-failure")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "re-scan the missing pages" })
+      ).toBeInTheDocument();
+    });
+
+    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalledWith(
+      "access-token",
+      historyId,
+      1,
+      undefined
+    );
+  });
+
+  it("clears upload failure callout after add-more with successful upload", async () => {
+    vi.mocked(uploadScan).mockRejectedValueOnce(new Error("upload failed"));
+
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-upload-failure")
+      ).toBeInTheDocument();
+    });
+
+    vi.mocked(uploadScan).mockResolvedValue(undefined);
+    fireEvent.click(
+      screen.getByRole("button", { name: "re-scan the missing pages" })
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId("scan-review-upload-failure")
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it("clears upload failure callout on restart", async () => {
+    vi.mocked(uploadScan).mockRejectedValueOnce(new Error("upload failed"));
+
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-upload-failure")
+      ).toBeInTheDocument();
+    });
+
+    vi.mocked(uploadScan).mockResolvedValue(undefined);
+    fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
+    fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId("scan-review-upload-failure")
+      ).not.toBeInTheDocument();
       expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
         "access-token",
         historyId,

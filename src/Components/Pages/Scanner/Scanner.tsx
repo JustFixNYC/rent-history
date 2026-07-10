@@ -79,9 +79,11 @@ const Scanner: React.FC = () => {
   const [isRestarting, setIsRestarting] = useState(false);
   const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
   const [showLaunchFailure, setShowLaunchFailure] = useState(false);
+  const [failedUploadCount, setFailedUploadCount] = useState(0);
 
   const historyIdRef = useRef(historyId);
   const expectedPageCountRef = useRef(expectedPageCount);
+  const failedUploadCountRef = useRef(0);
   const scannerRef = useRef<DocumentScanner>();
   const isLaunchActiveRef = useRef(false);
   const isMountedRef = useRef(true);
@@ -181,12 +183,17 @@ const Scanner: React.FC = () => {
             return;
           }
           const key = `${prefix}/${crypto.randomUUID()}.jpg`;
-          await uploadScan(key, jpgBlob);
-          setExpectedPageCount((count) => {
-            const next = count + 1;
-            expectedPageCountRef.current = next;
-            return next;
-          });
+          try {
+            await uploadScan(key, jpgBlob, { retries: 1 });
+            setExpectedPageCount((count) => {
+              const next = count + 1;
+              expectedPageCountRef.current = next;
+              return next;
+            });
+          } catch (error) {
+            console.error("Scan upload failed after retry:", error);
+            failedUploadCountRef.current += 1;
+          }
         },
       });
       if (cancelled) {
@@ -299,6 +306,7 @@ const Scanner: React.FC = () => {
     }
 
     setShowLaunchFailure(false);
+    failedUploadCountRef.current = 0;
     setPhase("scanning");
     clearRhSessionPages();
 
@@ -315,6 +323,7 @@ const Scanner: React.FC = () => {
       if (!isMountedRef.current) return { ok: true };
       setShowScannerGuide(false);
       setPhase("scan-review");
+      setFailedUploadCount(failedUploadCountRef.current);
       persistScannerStep("scan-review", expectedPageCountRef.current);
       setShowLaunchFailure(false);
       return { ok: true };
@@ -390,6 +399,8 @@ const Scanner: React.FC = () => {
       await deleteAllRhScannedPages(token, activeHistoryId);
       clearScannerStepState();
       setExpectedPageCount(0);
+      setFailedUploadCount(0);
+      failedUploadCountRef.current = 0;
       clearPageImages();
       const result = await launchScanner();
       if (!result.ok) {
@@ -586,6 +597,7 @@ const Scanner: React.FC = () => {
           isLoading={isScanReviewLoading}
           showRescanSuccess={showRescanSuccess}
           showLaunchFailure={showLaunchFailure}
+          failedUploadCount={failedUploadCount}
           reviewError={reviewError}
           onRescanPages={(pageIds) => {
             void handleRescanPages(pageIds);

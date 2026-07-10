@@ -69,6 +69,7 @@ export {
   PresignApiError,
   uploadScan,
   type PresignedUrlEntry,
+  type ScanPresignOptions,
 } from "./scanPresign";
 export { accountQueryKeys } from "./queryKeys";
 export { useStartRhLogin, useVerifyRhOtp } from "./hooks/login";

@@ -14,6 +14,7 @@ import {
   ScanReviewLaunchFailureInfo,
   ScanReviewRescanSuccessInfo,
   ScanReviewTopCallout,
+  ScanReviewUploadFailureInfo,
 } from "./ScanReviewCallouts";
 import { RentHistoryPageCard } from "../../RentHistoryPageCard/RentHistoryPageCard";
 import type { ScanReviewPage } from "../../RentHistoryPageCard/pageCardUtils";
@@ -28,6 +29,7 @@ export type ScanReviewScreenProps = {
   isLoading: boolean;
   showRescanSuccess?: boolean;
   showLaunchFailure?: boolean;
+  failedUploadCount?: number;
   reviewError?: string | null;
   onRescanPages: (ids: number[]) => void;
   onRestart: () => void;
@@ -43,6 +45,7 @@ export const ScanReviewScreen = ({
   isLoading,
   showRescanSuccess = false,
   showLaunchFailure = false,
+  failedUploadCount = 0,
   reviewError = null,
   onRescanPages,
   onRestart,
@@ -64,6 +67,12 @@ export const ScanReviewScreen = ({
       <div className="scan-review-screen__content">
         {showRescanSuccess && <ScanReviewRescanSuccessInfo />}
         {showLaunchFailure && <ScanReviewLaunchFailureInfo />}
+        {failedUploadCount > 0 && (
+          <ScanReviewUploadFailureInfo
+            failedUploadCount={failedUploadCount}
+            onAddMore={onAddMore}
+          />
+        )}
 
         <div className="scan-review-screen__intro">
           <p className="scan-review-screen__intro-text">

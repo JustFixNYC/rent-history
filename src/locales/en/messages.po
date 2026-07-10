@@ -69,6 +69,14 @@ msgstr "{address}, Apt {0}"
 #~ msgid "{end}"
 #~ msgstr "{end}"
 
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:56
+msgid "{failedUploadCount, plural, one {# page was not properly captured.} other {# pages were not properly captured.}}"
+msgstr "{failedUploadCount, plural, one {# page was not properly captured.} other {# pages were not properly captured.}}"
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:79
+msgid "{failedUploadCount, plural, one {page} other {pages}}"
+msgstr "{failedUploadCount, plural, one {page} other {pages}}"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:369
 #~ msgid "{start}"
 #~ msgstr "{start}"
@@ -137,7 +145,7 @@ msgstr "About this site"
 msgid "Access completed or in-progress reports"
 msgstr "Access completed or in-progress reports"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:52
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:100
 msgid "Add missing pages"
 msgstr "Add missing pages"
 
@@ -158,7 +166,7 @@ msgstr "Additional recipients"
 msgid "Address"
 msgstr "Address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:610
+#: src/Components/Pages/Scanner/Scanner.tsx:622
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
 
@@ -197,13 +205,13 @@ msgid "findings.HRVD.intro.title"
 msgstr "Apartment claimed exempt from rent stabilization"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.description"
 msgstr "Apartment is missing registration from year {missingFromYear} onward. We'll check whether this missing registration can be explained by destabilization."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.description"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
 msgstr "Apartment is missing registration from year {missingFromYear} onward. We'll check whether this missing registration can be explained by destabilization."
 
 #. js-lingui-explicit-id
@@ -217,13 +225,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.intro.title"
 msgstr "Apartment missing registration"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:18
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
 msgstr "Apartment missing registration"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:18
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
 msgstr "Apartment missing registration"
 
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
@@ -259,7 +267,7 @@ msgstr "BBL"
 msgid "findings.HRVD.intro.description"
 msgstr "Before HSTPA, the most common way to destabilize a unit was through <0/> We'll check whether this exemption from rent stabilization can be explained."
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:70
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:79
 msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
 msgstr "Before we analyze your rent history, let's make sure we have all pages of your rent history."
 
@@ -282,7 +290,7 @@ msgstr "Camera access"
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:572
-#: src/Components/Pages/Scanner/Scanner.tsx:622
+#: src/Components/Pages/Scanner/Scanner.tsx:634
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -382,13 +390,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:89
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:89
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
@@ -490,7 +498,7 @@ msgstr "Finding review navigation"
 #~ msgid "Findings review"
 #~ msgstr "Findings review"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:306
+#: src/Components/Pages/Scanner/Scanner.tsx:314
 msgid "Finish scanning"
 msgstr "Finish scanning"
 
@@ -525,13 +533,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
-msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
+msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
 msgstr "First, let's make sure we are working with the right values"
 
 #. js-lingui-explicit-id
@@ -616,11 +624,11 @@ msgstr "How to allow access:"
 msgid "I don’t have my rent history"
 msgstr "I don’t have my rent history"
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:76
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:85
 msgid "If any pages are missing, you can <0>add a page</0>."
 msgstr "If any pages are missing, you can <0>add a page</0>."
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:128
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:176
 msgid "If it seems like any pages are missing, you can add them now by scanning."
 msgstr "If it seems like any pages are missing, you can add them now by scanning."
 
@@ -793,7 +801,7 @@ msgstr "Map showing location of the entered address."
 msgid "Menu"
 msgstr "Menu"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:82
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:130
 msgid "Missing registration years"
 msgstr "Missing registration years"
 
@@ -816,7 +824,7 @@ msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landl
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:143
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:152
 msgid "Next"
 msgstr "Next"
 
@@ -915,7 +923,7 @@ msgstr "Page {0} scan image"
 msgid "Page scan preview"
 msgstr "Page scan preview"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:27
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:28
 msgid "Page(s) successfully scanned."
 msgstr "Page(s) successfully scanned."
 
@@ -935,6 +943,15 @@ msgstr "Place each page on a flat surface and flatten any folds or curls as much
 #: src/Components/Pages/Scanner/Scanner.tsx:607
 #~ msgid "Place the pages against a dark background"
 #~ msgstr "Place the pages against a dark background"
+
+#. placeholder {0}: _( plural(failedUploadCount, { one: "page", other: "pages", }) )
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:71
+msgid "Please <0>re-scan the missing {0}</0>."
+msgstr "Please <0>re-scan the missing {0}</0>."
+
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:71
+#~ msgid "Please <0>re-scan the missing pages</0>."
+#~ msgstr "Please <0>re-scan the missing pages</0>."
 
 #: src/api/account/errors.ts:158
 msgid "Please confirm your phone number and try again."
@@ -1010,15 +1027,15 @@ msgstr "Privacy policy"
 #~ msgid "Processing document scan…"
 #~ msgstr "Processing document scan…"
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:107
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:116
 msgid "Processing your scanned pages…"
 msgstr "Processing your scanned pages…"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:608
+#: src/Components/Pages/Scanner/Scanner.tsx:620
 msgid "Re-scan all pages?"
 msgstr "Re-scan all pages?"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:142
+#: src/Components/Pages/Scanner/Scanner.tsx:144
 msgid "Re-scan page"
 msgstr "Re-scan page"
 
@@ -1076,8 +1093,8 @@ msgstr "Resend"
 msgid "Residential units"
 msgstr "Residential units"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:616
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:141
+#: src/Components/Pages/Scanner/Scanner.tsx:628
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:150
 msgid "Restart scan"
 msgstr "Restart scan"
 
@@ -1115,7 +1132,7 @@ msgstr "Review and edit your rent history"
 msgid "Save address"
 msgstr "Save address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:146
+#: src/Components/Pages/Scanner/Scanner.tsx:148
 msgid "Save page"
 msgstr "Save page"
 
@@ -1131,7 +1148,7 @@ msgstr "Scan a new rent history"
 #~ msgid "Scan review"
 #~ msgstr "Scan review"
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:144
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:153
 msgid "Scan review navigation"
 msgstr "Scan review navigation"
 
@@ -1206,7 +1223,7 @@ msgstr "Since there was a change in tenancy from year {year0} to year {year1}, t
 msgid "Site navigation"
 msgstr "Site navigation"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:123
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:171
 msgid "Something missing?"
 msgstr "Something missing?"
 
@@ -1280,7 +1297,7 @@ msgstr "Step 4: Provide your rent"
 msgid "Step 5: What we found"
 msgstr "Step 5: What we found"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:100
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:148
 msgid "Still processing pages"
 msgstr "Still processing pages"
 
@@ -1452,7 +1469,7 @@ msgstr "to confirm the information below matches."
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:501
+#: src/Components/Pages/Scanner/Scanner.tsx:512
 msgid "Unable to continue. Please try again."
 msgstr "Unable to continue. Please try again."
 
@@ -1472,15 +1489,15 @@ msgstr "Unable to load findings."
 msgid "Unable to load scan previews."
 msgstr "Unable to load scan previews."
 
-#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:92
+#: src/Components/Pages/Scanner/ScanReviewScreen.tsx:101
 msgid "Unable to load scan review"
 msgstr "Unable to load scan review"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:40
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:41
 msgid "Unable to open the scanner. Please try again."
 msgstr "Unable to open the scanner. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:456
+#: src/Components/Pages/Scanner/Scanner.tsx:467
 msgid "Unable to re-scan pages. Please try again."
 msgstr "Unable to re-scan pages. Please try again."
 
@@ -1488,7 +1505,7 @@ msgstr "Unable to re-scan pages. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:406
+#: src/Components/Pages/Scanner/Scanner.tsx:417
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 
@@ -1579,7 +1596,7 @@ msgstr "View scanned document"
 msgid "Visit JustFix"
 msgstr "Visit JustFix"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:104
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:152
 msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
 msgstr "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
 
@@ -1735,13 +1752,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:12
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:12
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.eyebrow"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #. js-lingui-explicit-id
@@ -1792,13 +1809,13 @@ msgid "Your answers directly inform our assessment of any potential violations t
 msgstr "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this finding."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this finding."
 
 #. js-lingui-explicit-id
@@ -1807,13 +1824,13 @@ msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this with additional details."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:80
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases. Your report will include this finding."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:80
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases. Your report will include this finding."
 
 #. js-lingui-explicit-id
@@ -1858,7 +1875,7 @@ msgstr "Your report was emailed successfully. You can also download it above."
 msgid "Your scanned pages"
 msgstr "Your scanned pages"
 
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:87
+#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:135
 msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 msgstr "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 

@@ -1,4 +1,4 @@
-import { msg } from "@lingui/core/macro";
+import { msg, plural } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import {
@@ -6,6 +6,7 @@ import {
   CalloutBox,
   Icon,
   InfoBox,
+  LinkStyledButton,
 } from "@justfixnyc/component-library";
 
 import "./ScanReviewScreen.scss";
@@ -40,6 +41,53 @@ export const ScanReviewLaunchFailureInfo = () => (
     <Trans>Unable to open the scanner. Please try again.</Trans>
   </InfoBox>
 );
+
+export type ScanReviewUploadFailureInfoProps = {
+  failedUploadCount: number;
+  onAddMore: () => void;
+};
+
+export const ScanReviewUploadFailureInfo = ({
+  failedUploadCount,
+  onAddMore,
+}: ScanReviewUploadFailureInfoProps) => {
+  const { _ } = useLingui();
+  const summary = _(
+    plural(failedUploadCount, {
+      one: "# page was not properly captured.",
+      other: "# pages were not properly captured.",
+    })
+  );
+
+  return (
+    <InfoBox
+      color="orange"
+      role="alert"
+      className="scan-review-launch-failure-info"
+      data-testid="scan-review-upload-failure"
+    >
+      <p className="scan-review-launch-failure-info__text">
+        {summary}{" "}
+        <Trans>
+          Please{" "}
+          <LinkStyledButton
+            className="scan-review-screen__add-page-link"
+            onClick={onAddMore}
+          >
+            re-scan the missing{" "}
+            {_(
+              plural(failedUploadCount, {
+                one: "page",
+                other: "pages",
+              })
+            )}
+          </LinkStyledButton>
+          .
+        </Trans>
+      </p>
+    </InfoBox>
+  );
+};
 
 const ScanReviewAddMoreButton = ({ onAddMore }: { onAddMore: () => void }) => {
   const { _ } = useLingui();
