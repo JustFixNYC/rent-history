@@ -12,7 +12,13 @@ const uploadKey = "1/history-id/page.jpg";
 const jpegBlob = new Blob(["jpeg"], { type: "image/jpeg" });
 
 const presignResponse = {
-  urls: [{ key: uploadKey, url: "https://s3.example.com/upload" }],
+  urls: [
+    {
+      key: uploadKey,
+      url: "https://s3.example.com/upload",
+      expires_in: 300,
+    },
+  ],
 };
 
 describe("uploadScan", () => {

@@ -1417,7 +1417,7 @@ describe("Scanner launch failure handling", () => {
     vi.mocked(accountApi.deleteRhScannedPages).mockRejectedValueOnce(
       new AccountApiError(500, {
         error: "delete failed",
-        error_code: "server_error",
+        error_code: "storage_write_failed",
       })
     );
 
