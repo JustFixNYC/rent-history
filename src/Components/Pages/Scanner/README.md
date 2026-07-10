@@ -25,7 +25,7 @@ pre-scan ──Start──► scanning ──Done──► scan-review ──Nex
                                               └── Restart ──► scanning (clears all)
 ```
 
-On return visits, `useScannerBootstrapRestore` reads persisted step state and/or asks the backend whether in-progress pages exist, then lands on `pre-scan` or `scan-review`.
+On return visits, `useScannerBootstrapRestore` reads persisted step state (scoped to active `historyId`) and/or asks the backend whether in-progress pages exist, then lands on `pre-scan` or `scan-review`.
 
 ---
 
@@ -49,10 +49,10 @@ Dynamsoft renders inside shadow DOM. `scanner-overlay.ts` walks that tree to pro
 | `CameraAccessScreen.tsx`              | Camera permission recovery                                                          |
 | `ScannerInProgressScreen.tsx`         | Loading shell while Dynamsoft is active                                             |
 | `ScanReviewScreen.tsx`                | Review layout; delegates callouts and retake group                                  |
-| `ScanReviewCallouts.tsx`              | Missing-year, add-more, and rescan-success messaging                                |
+| `ScanReviewCallouts.tsx`              | Year-gap, processing, upload/launch failure, add-more, and rescan-success callouts  |
 | `ScanReviewRetakeGroup.tsx`           | Pages flagged `needs_retake`                                                        |
 | `ScannerOverlay.tsx`                  | US-letter aspect-ratio guide portal over Dynamsoft live view                        |
-| `scannerState.ts`                     | Session persistence for `scan-review` + `expectedPageCount`                         |
+| `scannerState.ts`                     | Session persistence for `scan-review` + `expectedPageCount`, bound to `historyId`   |
 | `scannerTypes.ts`                     | `ScannerPhase` union type                                                           |
 | `scannerFlowUtils.ts`                 | Auth/history guard + API error mapping                                              |
 | `scanner-overlay.ts`                  | Dynamsoft DOM helpers (visibility, labels, camera probe)                            |
@@ -72,10 +72,10 @@ Post-combine analysis pages (`useHistoryAnalysisPages`) live in `src/api/account
 Only **`scan-review`** is written to session storage (`scannerState.ts`, key `"scanner"`):
 
 ```ts
-{ phase: "scan-review", expectedPageCount: number }
+{ historyId: string, phase: "scan-review", expectedPageCount: number }
 ```
 
-`expectedPageCount` tracks how many pages the client uploaded this session; the scan-review query uses it so the backend knows how many S3 objects to wait for.
+`readScannerStepState()` returns `null` when stored `historyId` does not match the active session (e.g. after switching rent histories). `expectedPageCount` tracks how many pages the client uploaded this session; the scan-review query uses it so the backend knows how many S3 objects to wait for.
 
 Transient phases (`scanning`, `camera-access`) are not persisted. On unmount during an active scan, if pages were captured, state is flushed to `scan-review` so a refresh can resume review.
 
@@ -86,6 +86,8 @@ Transient phases (`scanning`, `camera-access`) are not persisted. On unmount dur
 ## Scan review behavior
 
 - **`missing_year_ranges`** — gaps detected by OCR; **Next** stays disabled until filled (user adds pages or rescans).
+- **`processing_complete`** — when false, shows a warning callout; does not block **Next**.
+- **Upload / launch failures** — surfaced as info callouts after a scan session; user can re-scan missing pages.
 - **`needs_retake`** — poor-quality pages grouped in `ScanReviewRetakeGroup`; re-scan deletes those page records server-side, then relaunches Dynamsoft.
 - **Restart** — confirms via `ConfirmModal`, deletes all scanned pages, resets count, relaunches scanner.
 - **Next** — `combineRhHistoryPages`, fetches analysis pages into React Query + session, navigates to `confirm-address`.
