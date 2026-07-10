@@ -39,6 +39,8 @@ const { navigateMock, testHistoryId, scannerHarness } = vi.hoisted(() => ({
     hangLaunch: false,
     rejectLaunch: false,
     rejectLaunchError: null as Error | null,
+    skipAutoScanOnLaunch: false,
+    autoScanCount: 1,
     launchResolvers: [] as Array<() => void>,
     lastInstance: null as {
       launch: ReturnType<typeof vi.fn>;
@@ -102,7 +104,11 @@ vi.mock("dynamsoft-document-scanner", () => ({
         return;
       }
 
-      await scannerHarness.simulateDocumentScan();
+      if (!scannerHarness.skipAutoScanOnLaunch) {
+        for (let i = 0; i < scannerHarness.autoScanCount; i += 1) {
+          await scannerHarness.simulateDocumentScan();
+        }
+      }
     });
     scannerHarness.lastInstance = this;
   }),
@@ -299,6 +305,46 @@ const advanceToScanComplete = async () => {
 
   return screen.getByRole("button", { name: "Next" });
 };
+
+describe("Scanner zero-page completion", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    mockBootstrapNoRestorablePages();
+    scannerHarness.skipAutoScanOnLaunch = true;
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+    scannerHarness.skipAutoScanOnLaunch = false;
+  });
+
+  it("returns to pre-scan when scanner completes with zero pages", async () => {
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Start scanning" })
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByRole("button", { name: "Next" })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("scan-review-loading")).not.toBeInTheDocument();
+    expect(readScannerStepState()).toBeNull();
+    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalledWith(
+      "access-token",
+      historyId,
+      0,
+      expect.anything()
+    );
+  });
+});
 
 describe("Scanner Next button", () => {
   beforeEach(() => {
@@ -628,9 +674,10 @@ describe("Scanner upload failures", () => {
     vi.clearAllMocks();
     window.sessionStorage.clear();
     clearRhAuthSession();
+    scannerHarness.autoScanCount = 1;
   });
 
-  it("shows upload failure callout when upload throws and does not increment count", async () => {
+  it("returns to pre-scan when all uploads fail and no pages are saved", async () => {
     vi.mocked(uploadScan).mockRejectedValue(new Error("upload failed"));
 
     renderScanner();
@@ -643,13 +690,13 @@ describe("Scanner upload failures", () => {
         { retries: 1 }
       );
       expect(
-        screen.getByTestId("scan-review-upload-failure")
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: "re-scan the missing pages" })
+        screen.getByRole("button", { name: "Start scanning" })
       ).toBeInTheDocument();
     });
 
+    expect(
+      screen.queryByTestId("scan-review-upload-failure")
+    ).not.toBeInTheDocument();
     expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalledWith(
       "access-token",
       historyId,
@@ -658,8 +705,38 @@ describe("Scanner upload failures", () => {
     );
   });
 
+  it("shows upload failure callout when some uploads fail but at least one page is saved", async () => {
+    scannerHarness.autoScanCount = 2;
+    vi.mocked(uploadScan)
+      .mockResolvedValueOnce(undefined)
+      .mockRejectedValueOnce(new Error("upload failed"));
+
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(uploadScan).toHaveBeenCalledTimes(2);
+      expect(
+        screen.getByTestId("scan-review-upload-failure")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "re-scan the missing page" })
+      ).toBeInTheDocument();
+    });
+
+    expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+      "access-token",
+      historyId,
+      1,
+      undefined
+    );
+  });
+
   it("clears upload failure callout after add-more with successful upload", async () => {
-    vi.mocked(uploadScan).mockRejectedValueOnce(new Error("upload failed"));
+    scannerHarness.autoScanCount = 2;
+    vi.mocked(uploadScan)
+      .mockResolvedValueOnce(undefined)
+      .mockRejectedValueOnce(new Error("upload failed"));
 
     renderScanner();
     await clickStartScanning();
@@ -670,9 +747,10 @@ describe("Scanner upload failures", () => {
       ).toBeInTheDocument();
     });
 
+    scannerHarness.autoScanCount = 1;
     vi.mocked(uploadScan).mockResolvedValue(undefined);
     fireEvent.click(
-      screen.getByRole("button", { name: "re-scan the missing pages" })
+      screen.getByRole("button", { name: "re-scan the missing page" })
     );
 
     await waitFor(() => {
@@ -683,7 +761,10 @@ describe("Scanner upload failures", () => {
   });
 
   it("clears upload failure callout on restart", async () => {
-    vi.mocked(uploadScan).mockRejectedValueOnce(new Error("upload failed"));
+    scannerHarness.autoScanCount = 2;
+    vi.mocked(uploadScan)
+      .mockResolvedValueOnce(undefined)
+      .mockRejectedValueOnce(new Error("upload failed"));
 
     renderScanner();
     await clickStartScanning();
@@ -694,6 +775,7 @@ describe("Scanner upload failures", () => {
       ).toBeInTheDocument();
     });
 
+    scannerHarness.autoScanCount = 1;
     vi.mocked(uploadScan).mockResolvedValue(undefined);
     fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
     fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);

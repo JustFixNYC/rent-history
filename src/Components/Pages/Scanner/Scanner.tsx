@@ -322,9 +322,18 @@ const Scanner: React.FC = () => {
       await activeScanner.launch();
       if (!isMountedRef.current) return { ok: true };
       setShowScannerGuide(false);
+      const count = expectedPageCountRef.current;
+      if (count === 0) {
+        clearScannerStepState();
+        setPhase("pre-scan");
+        setFailedUploadCount(0);
+        failedUploadCountRef.current = 0;
+        setShowLaunchFailure(false);
+        return { ok: true };
+      }
       setPhase("scan-review");
       setFailedUploadCount(failedUploadCountRef.current);
-      persistScannerStep("scan-review", expectedPageCountRef.current);
+      persistScannerStep("scan-review", count);
       setShowLaunchFailure(false);
       return { ok: true };
     } catch (error) {

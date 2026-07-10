@@ -51,6 +51,10 @@ export function useScannerBootstrapRestore({
     if (restoreStatus !== "pending" || scanReviewBootstrap.isLoading) return;
 
     const promoteToScanReview = (count: number) => {
+      if (count <= 0) {
+        resetToPreScan();
+        return;
+      }
       setPhase("scan-review");
       setExpectedPageCount(count);
       writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
