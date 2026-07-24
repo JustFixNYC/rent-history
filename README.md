@@ -34,13 +34,13 @@ yarn generate:api:account
 
 ## `src/api/` layout
 
-| Path | Role |
-|------|------|
-| `contract/account-openapi.json` | Pinned OpenAPI spec (sync from auth-provider on contract changes) |
-| `generated/account-openapi.d.ts` | Committed OpenAPI types (`yarn generate:api:account`) |
-| `account/` | Typed openapi-fetch client, imperative `/rh/*` API (`api.ts`), errors, types, TanStack Query hooks (`index.ts` barrel) |
-| `data/README.md` | Placeholder for a future read-only data API (not used in v1) |
-| `thirdParty/` | Hand-written modules for external hosts (GeoSearch) |
+| Path                             | Role                                                                                                                   |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `contract/account-openapi.json`  | Pinned OpenAPI spec (sync from auth-provider on contract changes)                                                      |
+| `generated/account-openapi.d.ts` | Committed OpenAPI types (`yarn generate:api:account`)                                                                  |
+| `account/`                       | Typed openapi-fetch client, imperative `/rh/*` API (`api.ts`), errors, types, TanStack Query hooks (`index.ts` barrel) |
+| `data/README.md`                 | Placeholder for a future read-only data API (not used in v1)                                                           |
+| `thirdParty/`                    | Hand-written modules for external hosts (GeoSearch)                                                                    |
 
 Architecture reference: [frontend-api-architecture.md](https://github.com/JustFixNYC/cursor-workspaces/blob/main/rent-history-analyzer/codegen/docs/frontend-api-architecture.md) in `cursor-workspaces/rent-history-analyzer/codegen/docs/`.
 
@@ -60,11 +60,11 @@ export default tseslint.config({
   languageOptions: {
     // other options...
     parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -73,11 +73,11 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from "eslint-plugin-react";
 
 export default tseslint.config({
   // Set the react version
-  settings: { react: { version: '18.3' } },
+  settings: { react: { version: "18.3" } },
   plugins: {
     // Add the react plugin
     react,
@@ -86,7 +86,7 @@ export default tseslint.config({
     // other rules...
     // Enable its recommended rules
     ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
+    ...react.configs["jsx-runtime"].rules,
   },
-})
+});
 ```
