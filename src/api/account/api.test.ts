@@ -2,10 +2,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   combineRhHistoryPages,
   createRhHistory,
+  deleteAllRhScannedPages,
+  deleteRhScannedPages,
   getRhFindingsState,
   getRhHistoryAddress,
   getRhHistoryAnalysisPages,
-  getRhHistoryPagesReadiness,
+  getRhHistoryScanReview,
   confirmRhHistoryAddress,
   setRhHistoryCurrentRent,
   postRhHistoryRunAnalysis,
@@ -255,107 +257,13 @@ describe("combineRhHistoryPages", () => {
   });
 });
 
-describe("getRhHistoryPagesReadiness", () => {
+describe("startRhLogin", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
   });
 
-  const historyId = "22222222-2222-4222-8222-222222222222";
-
-  it("GETs pages-readiness with Bearer and query params", async () => {
-    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
-
-    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      jsonResponse(
-        {
-          status: "ready",
-          s3: { count: 1, expected: 1, relation: "equal" },
-          database: { count: 1, expected: 1, relation: "equal" },
-          pages: [
-            {
-              needs_retake: false,
-              s3_key: "1/uuid/page1.jpg",
-              start_year: 2020,
-              end_year: 2021,
-              is_coverpage: false,
-            },
-          ],
-        },
-        { status: 200 }
-      )
-    );
-
-    const result = await getRhHistoryPagesReadiness(
-      "access-token",
-      historyId,
-      1
-    );
-
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const request = getMockedFetchRequest(fetchSpy);
-    expect(request.url).toBe(
-      `https://auth.example.org/rh/history/pages-readiness?history_id=${historyId}&num_pages=1`
-    );
-    expect(request.method).toBe("GET");
-    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
-
-    expect(result.status).toBe("ready");
-    if (result.status === "ready") {
-      expect(result.pages).toHaveLength(1);
-    }
-  });
-
-  it("returns pending status on 200 while processing", async () => {
-    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
-
-    vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      jsonResponse(
-        {
-          status: "pending",
-          s3: { count: 1, expected: 2, relation: "less" },
-          database: { count: 1, expected: 2, relation: "less" },
-        },
-        { status: 200 }
-      )
-    );
-
-    const result = await getRhHistoryPagesReadiness(
-      "access-token",
-      historyId,
-      2
-    );
-
-    expect(result.status).toBe("pending");
-    if (result.status === "pending") {
-      expect(result.s3.relation).toBe("less");
-    }
-  });
-
-  it("returns excess status on 200 when counts exceed num_pages", async () => {
-    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
-
-    vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      jsonResponse(
-        {
-          status: "excess",
-          s3: { count: 3, expected: 2, relation: "more" },
-          database: { count: 2, expected: 2, relation: "equal" },
-        },
-        { status: 200 }
-      )
-    );
-
-    const result = await getRhHistoryPagesReadiness(
-      "access-token",
-      historyId,
-      2
-    );
-
-    expect(result.status).toBe("excess");
-  });
-
-  it("startRhLogin returns profile, created flag, and otp delivery", async () => {
+  it("returns profile, created flag, and otp delivery", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
@@ -384,8 +292,121 @@ describe("getRhHistoryPagesReadiness", () => {
     expect(result.profile.phone_number).toBe("+15551234567");
     expect(result.otp.status).toBe("sent");
   });
+});
 
-  it("throws AccountApiError on 400 validation (no readiness axes)", async () => {
+describe("getRhHistoryScanReview", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  const historyId = "22222222-2222-4222-8222-222222222222";
+
+  it("GETs scan-review with Bearer and query params", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          status: "ready",
+          db_count: 1,
+          expected_page_count: 1,
+          processing_complete: true,
+          pages: [
+            {
+              id: 42,
+              needs_retake: false,
+              s3_key: "1/uuid/page1.jpg",
+              start_year: 2020,
+              end_year: 2021,
+              is_coverpage: false,
+            },
+          ],
+        },
+        { status: 200 }
+      )
+    );
+
+    const result = await getRhHistoryScanReview("access-token", historyId, 1);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      `https://auth.example.org/rh/history/scan-review?history_id=${historyId}&expected_page_count=1`
+    );
+    expect(request.method).toBe("GET");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+
+    expect(result.status).toBe("ready");
+    if (result.status === "ready") {
+      expect(result.pages).toHaveLength(1);
+      expect(result.pages[0].id).toBe(42);
+      expect(result.processing_complete).toBe(true);
+      expect(result.missing_year_ranges ?? []).toEqual([]);
+    }
+  });
+
+  it("returns pending status on 200 while processing", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          status: "pending",
+          db_count: 1,
+          expected_page_count: 2,
+        },
+        { status: 200 }
+      )
+    );
+
+    const result = await getRhHistoryScanReview("access-token", historyId, 2);
+
+    expect(result.status).toBe("pending");
+    if (result.status === "pending") {
+      expect(result.db_count).toBe(1);
+      expect(result.expected_page_count).toBe(2);
+    }
+  });
+
+  it("passes accept_partial=true when requested", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          status: "ready",
+          db_count: 1,
+          expected_page_count: 2,
+          processing_complete: false,
+          pages: [
+            {
+              id: 7,
+              needs_retake: false,
+              s3_key: "1/uuid/page1.jpg",
+            },
+          ],
+        },
+        { status: 200 }
+      )
+    );
+
+    const result = await getRhHistoryScanReview("access-token", historyId, 2, {
+      acceptPartial: true,
+    });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      `https://auth.example.org/rh/history/scan-review?history_id=${historyId}&expected_page_count=2&accept_partial=true`
+    );
+    expect(result.status).toBe("ready");
+    if (result.status === "ready") {
+      expect(result.processing_complete).toBe(false);
+    }
+  });
+
+  it("throws AccountApiError on 400 validation", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
@@ -393,14 +414,14 @@ describe("getRhHistoryPagesReadiness", () => {
         {
           error: "Validation failed.",
           error_code: "validation_error",
-          details: { num_pages: ["Invalid"] },
+          details: { expected_page_count: ["Invalid"] },
         },
         { status: 400 }
       )
     );
 
     await expect(
-      getRhHistoryPagesReadiness("access-token", historyId, 0)
+      getRhHistoryScanReview("access-token", historyId, 0)
     ).rejects.toMatchObject({
       name: "AccountApiError",
       status: 400,
@@ -416,8 +437,98 @@ describe("getRhHistoryPagesReadiness", () => {
     );
 
     await expect(
-      getRhHistoryPagesReadiness("access-token", historyId, 1)
+      getRhHistoryScanReview("access-token", historyId, 1)
     ).rejects.toMatchObject({ status: 401 });
+  });
+});
+
+describe("deleteAllRhScannedPages", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  const historyId = "22222222-2222-4222-8222-222222222222";
+
+  it("posts history_id with Bearer to delete-all-scanned-pages", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          deleted_pages: 3,
+          s3_cleanup_status: "ok",
+          s3_deleted_versions: 3,
+        },
+        { status: 200 }
+      )
+    );
+
+    const result = await deleteAllRhScannedPages("access-token", historyId);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/history/delete-all-scanned-pages"
+    );
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(await request.text()).toBe(
+      JSON.stringify({ history_id: historyId })
+    );
+    expect(result).toEqual({
+      deleted_pages: 3,
+      s3_cleanup_status: "ok",
+      s3_deleted_versions: 3,
+    });
+  });
+});
+
+describe("deleteRhScannedPages", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  const historyId = "22222222-2222-4222-8222-222222222222";
+
+  it("posts history_id and page_ids with Bearer to delete-scanned-pages", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          deleted_pages: 2,
+          s3_cleanup_status: "ok",
+          s3_deleted_keys: 2,
+        },
+        { status: 200 }
+      )
+    );
+
+    const result = await deleteRhScannedPages(
+      "access-token",
+      historyId,
+      [10, 11]
+    );
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/history/delete-scanned-pages"
+    );
+    expect(request.method).toBe("POST");
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(request.headers.get("Content-Type")).toBe("application/json");
+    expect(await request.text()).toBe(
+      JSON.stringify({ history_id: historyId, page_ids: [10, 11] })
+    );
+    expect(result).toEqual({
+      deleted_pages: 2,
+      s3_cleanup_status: "ok",
+      s3_deleted_keys: 2,
+    });
   });
 });
 

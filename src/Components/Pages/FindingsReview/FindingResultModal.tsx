@@ -1,10 +1,9 @@
 import { useEffect, useId, useRef } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { Trans } from "@lingui/react/macro";
-import { Button, Icon } from "@justfixnyc/component-library";
 import type { ReactNode } from "react";
 
+import { FlowNav } from "../../FlowNav";
 import { FindingResultPanel } from "./FindingResultPanel";
 import type { FindingResult } from "./types/finding";
 
@@ -62,24 +61,12 @@ export const FindingResultModal = ({
         body={body}
         className="finding-result-panel--in-modal"
       />
-      <nav
-        className="finding-result-modal__actions"
-        aria-label={_(msg`Finding result navigation`)}
-      >
-        <button
-          type="button"
-          className="finding-result-modal__back"
-          onClick={onBack}
-        >
-          <Icon icon="chevronLeft" aria-hidden="true" />
-          <Trans>Back</Trans>
-        </button>
-        <Button
-          className="finding-result-modal__next"
-          labelText={resolvedNextLabel}
-          onClick={onNext}
-        />
-      </nav>
+      <FlowNav
+        onBack={onBack}
+        onNext={onNext}
+        nextLabel={resolvedNextLabel}
+        ariaLabel={_(msg`Finding result navigation`)}
+      />
     </dialog>
   );
 };

@@ -15,6 +15,20 @@ import { AccountApiError } from "../../../api/account";
 import * as accountApi from "../../../api/account/api";
 import * as rhSessionStorage from "../../../session/rhSessionStorage";
 
+const { navigateMock } = vi.hoisted(() => ({
+  navigateMock: vi.fn(),
+}));
+
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual<typeof import("react-router-dom")>(
+    "react-router-dom"
+  );
+  return {
+    ...actual,
+    useNavigate: () => navigateMock,
+  };
+});
+
 const createTestQueryClient = () =>
   new QueryClient({
     defaultOptions: {
@@ -391,5 +405,71 @@ describe("LoginPage desktop variant", () => {
     expect(
       screen.queryByText(/We don't have any reports associated/)
     ).not.toBeInTheDocument();
+  });
+});
+
+describe("LoginPage post-verification navigation", () => {
+  const otpPayload = {
+    access_token: "access-token",
+    refresh_token: "refresh-token",
+    token_type: "Bearer",
+    expires_in: 300,
+    scope: "read write",
+    profile: {
+      id: 1,
+      phone_number: "15554443333",
+    },
+  };
+
+  beforeEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    setMatchMedia(false);
+    vi.mocked(accountApi.verifyRhOtp).mockResolvedValue(otpPayload);
+  });
+
+  const completeMobileLogin = async () => {
+    fireEvent.change(screen.getByLabelText("Phone number (required)"), {
+      target: { value: "(555) 444-3333" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "Send verification code" })
+    );
+    await screen.findByRole("heading", { name: "Enter verification code" });
+    enterVerificationCode("123456");
+    fireEvent.click(screen.getByRole("button", { name: "Verify" }));
+  };
+
+  it("navigates to scanner when the user has no viewable report", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: true,
+      has_viewable_report: false,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+
+    renderLoginPage();
+    await completeMobileLogin();
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/scanner");
+    });
+  });
+
+  it("navigates to account when the user has a viewable report", async () => {
+    vi.mocked(accountApi.startRhLogin).mockResolvedValue({
+      created: false,
+      has_viewable_report: true,
+      profile: { id: 1, phone_number: "15554443333" },
+      otp: { status: "sent" },
+    });
+
+    renderLoginPage();
+    await completeMobileLogin();
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/account");
+    });
   });
 });

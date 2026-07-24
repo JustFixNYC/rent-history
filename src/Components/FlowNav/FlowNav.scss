@@ -1,0 +1,19 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.flow-nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: jfcl.$JF_SPACING_05;
+
+  &__back {
+    align-items: center;
+    display: inline-flex;
+    gap: jfcl.$JF_SPACING_02;
+    padding: 0 jfcl.$JF_SPACING_03 0 0;
+  }
+
+  &__next {
+    min-width: 223px;
+  }
+}

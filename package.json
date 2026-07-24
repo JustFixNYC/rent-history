@@ -20,7 +20,7 @@
     "@contentful/rich-text-react-renderer": "16.1.0",
     "@faker-js/faker": "^10.2.0",
     "@hookform/resolvers": "^5.2.1",
-    "@justfixnyc/component-library": "0.61.3",
+    "@justfixnyc/component-library": "0.61.9",
     "@lingui/react": "^5.3.3",
     "@rollbar/react": "^0.12.0-beta",
     "@tanstack/react-query": "^5.90.5",

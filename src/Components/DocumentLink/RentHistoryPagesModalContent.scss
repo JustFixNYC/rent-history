@@ -1,0 +1,36 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.document-pages-modal {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+
+  &__loading {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_04;
+    padding: jfcl.$JF_SPACING_05 0;
+    text-align: center;
+  }
+
+  &__loading-text {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__error {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__page-list {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_06;
+    margin: 0;
+    max-height: min(60vh, 28rem);
+    overflow-y: auto;
+    padding: 0;
+  }
+}

@@ -36,7 +36,8 @@ export type {
   RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
   RhHistoryList,
-  RhHistoryPageDeleteResponse,
+  RhDeleteAllScannedPagesResponse,
+  RhDeleteScannedPagesResponse,
   RhHistoryRecord,
   RhHistoryReportEmailEmailStep,
   RhHistoryReportEmailPdfStep,
@@ -49,14 +50,13 @@ export type {
   RhLoginStartResponse,
   RhOtpTokenResponse,
   RhPageSummary,
-  RhPagesReadinessResponse,
+  RhScanReviewResponse,
   RhQueueDelta,
   RhReviewQueue,
   RhRunAnalysisRequestRequest,
   RhRunAnalysisResponse,
   ReportPdfLocale,
   RhProfile,
-  RhReadinessAxis,
   RhScanPresignRequest,
   RhScanPresignResponse,
   RhScanPresignUrlEntry,
@@ -69,17 +69,13 @@ export {
   PresignApiError,
   uploadScan,
   type PresignedUrlEntry,
+  type ScanPresignOptions,
 } from "./scanPresign";
 export { accountQueryKeys } from "./queryKeys";
 export { useStartRhLogin, useVerifyRhOtp } from "./hooks/login";
 export { useCreateRhHistory } from "./hooks/history";
+export { useHistoryAnalysisPages } from "./hooks/analysisPages";
 export { useDeleteRhHistory, useRhHistories } from "./hooks/histories";
-export {
-  RhPagesReadinessExcessError,
-  useCombineRhHistoryPages,
-  useRhHistoryAnalysisPages,
-  useRhPagesReadiness,
-} from "./hooks/scanner";
 export {
   useConfirmRhHistoryAddress,
   useRhHistoryAddress,
@@ -96,14 +92,15 @@ export {
   createRhHistory,
   createRhHistoryReportPdf,
   deleteRhHistory,
-  deleteRhHistoryPages,
+  deleteAllRhScannedPages,
+  deleteRhScannedPages,
   listRhHistories,
   downloadRhHistoryReportPdf,
   emailRhHistoryReportPdf,
   getRhFindingsState,
   getRhHistoryAddress,
   getRhHistoryAnalysisPages,
-  getRhHistoryPagesReadiness,
+  getRhHistoryScanReview,
   postRhHistoryRunAnalysis,
   postRhHistoryScanPresign,
   startRhLogin,
