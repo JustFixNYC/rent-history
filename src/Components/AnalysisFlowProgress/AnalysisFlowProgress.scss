@@ -1,0 +1,12 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.analysis-flow-progress {
+  margin-bottom: 1.5rem;
+  width: 100%;
+
+  &__title {
+    color: jfcl.$OFF_BLACK;
+    @include jfcl.body_standard_desktop;
+    margin: 0;
+  }
+}

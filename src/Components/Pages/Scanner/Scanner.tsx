@@ -23,6 +23,7 @@ import {
   getRhAuthSession,
   setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
+import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
@@ -614,6 +615,8 @@ const Scanner: React.FC = () => {
   const startDisabled =
     !canStartScan || !isScannerReady || isCheckingCameraAccess;
 
+  const progressStepId = phase === "scan-review" ? "scan-review" : "scanner";
+
   return (
     <div
       id="scanner-page"
@@ -621,6 +624,10 @@ const Scanner: React.FC = () => {
         phase === "scanning" ? " scanner-page--scanning" : ""
       }`}
     >
+      <div className="scanner-page__progress">
+        <AnalysisFlowProgress stepId={progressStepId} />
+      </div>
+
       {showRestoreLoading && (
         <div
           className="scanner-page__restore-loading"

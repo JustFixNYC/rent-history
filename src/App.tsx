@@ -19,7 +19,6 @@ import AccountPage from "./Components/Pages/AccountPage/AccountPage";
 import { PageLayout } from "./Components/Pages/PageLayout/PageLayout";
 import { RentQuestions } from "./Components/Pages/RentQuestions/RentQuestions";
 import Scanner from "./Components/Pages/Scanner/Scanner";
-import { ReviewEditData } from "./Components/Pages/ReviewEditData/ReviewEditData";
 import { parseLocaleFromPath } from "./i18n";
 import { RhSessionProvider } from "./session/RhSessionContext";
 import { getRhAuthSession } from "./session/rhSessionStorage";
@@ -53,7 +52,6 @@ const createAppRouter = () =>
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
             <Route path="scanner" element={<Scanner />} />
-            <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
             <Route
@@ -78,7 +76,6 @@ const createAppRouter = () =>
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
             <Route path="scanner" element={<Scanner />} />
-            <Route path="review" element={<ReviewEditData />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
             <Route

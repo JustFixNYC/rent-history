@@ -27,9 +27,9 @@ export const CameraAccessScreen = ({
   return (
     <div className="scanner-camera-access">
       <div className="scanner-camera-access__content">
-        <h1 className="scanner-camera-access__title">
+        <h2 className="scanner-camera-access__title">
           <Trans>Camera access</Trans>
-        </h1>
+        </h2>
         <p className="scanner-camera-access__body">
           <Trans>
             You must allow access to your device&apos;s camera to scan your

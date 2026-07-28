@@ -21,11 +21,11 @@ const NamePlate: React.FC = () => {
         "sidebar-nav__nameplate--es": isSpanish,
       })}
     >
-      <h1>
+      <p className="sidebar-nav__brand-title">
         <Link to={`/${i18n.locale}`}>
           <Trans>Rent History NYC</Trans>
         </Link>
-      </h1>
+      </p>
     </div>
   );
 };

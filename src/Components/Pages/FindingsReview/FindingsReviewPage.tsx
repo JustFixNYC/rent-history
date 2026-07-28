@@ -7,6 +7,8 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
+import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
+import { getFindingsReviewSubsteps } from "../../AnalysisFlowProgress/analysisFlow";
 
 import { FindingReviewFlow } from "./FindingReviewFlow";
 import { getCurrentFindingFromQueue } from "./getCurrentFindingFromQueue";
@@ -60,9 +62,16 @@ const FindingsReviewPage = () => {
       ? FINDING_MODULES[currentFinding.type as keyof typeof FINDING_MODULES]
       : undefined;
 
+  const { substepIndex, substepCount } = getFindingsReviewSubsteps(data);
+
   return (
     <main className="findings-review-page">
       <div className="findings-review-body">
+        <AnalysisFlowProgress
+          stepId="findings-review"
+          substepIndex={substepIndex}
+          substepCount={substepCount}
+        />
         {isLoading ? (
           <p>
             <Trans>Loading findings…</Trans>

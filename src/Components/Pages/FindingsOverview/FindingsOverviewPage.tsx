@@ -11,6 +11,7 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
+import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import "./FindingsOverviewPage.scss";
 
 const FindingsOverviewPage = () => {
@@ -56,14 +57,7 @@ const FindingsOverviewPage = () => {
   return (
     <div id="findings-overview-page">
       <section className="postscan-body">
-        <div className="postscan-progress">
-          <p>
-            <Trans>Step 5: What we found</Trans>
-          </p>
-          <div className="postscan-progress__bar postscan-progress__bar--step-5">
-            <span />
-          </div>
-        </div>
+        <AnalysisFlowProgress stepId="findings-overview" />
 
         {isLoading ? (
           <p>
@@ -89,12 +83,12 @@ const FindingsOverviewPage = () => {
             >
               {hasFindings ? (
                 <>
-                  <h1>
+                  <h2>
                     <Trans>
                       We&apos;ve found potential violations in your
                       apartment&apos;s rent history.
                     </Trans>
-                  </h1>
+                  </h2>
                   <p>
                     <Trans>
                       Next, we will walk through each potential violation to
@@ -104,12 +98,12 @@ const FindingsOverviewPage = () => {
                 </>
               ) : (
                 <>
-                  <h1>
+                  <h2>
                     <Trans>
                       We have not found any potential violations in your
                       apartment&apos;s rent history.
                     </Trans>
-                  </h1>
+                  </h2>
                   <p>
                     <Trans>Next, your report will provide more details</Trans>
                   </p>

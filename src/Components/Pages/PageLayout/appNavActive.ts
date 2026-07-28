@@ -6,7 +6,6 @@ const HOME_FLOW_PATHS = [
   "login",
   "account",
   "scanner",
-  "review",
   "confirm-address",
   "rent-questions",
   "findings-overview",

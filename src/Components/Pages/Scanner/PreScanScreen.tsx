@@ -44,9 +44,9 @@ export const PreScanScreen = ({
     <div className="scanner-pre-scan">
       <div className="scanner-pre-scan__content">
         <div className="scanner-pre-scan__intro">
-          <h1 className="scanner-pre-scan__title">
+          <h2 className="scanner-pre-scan__title">
             <Trans>Get ready to scan your rent history</Trans>
-          </h1>
+          </h2>
           <p className="scanner-pre-scan__body">
             <Trans>
               You&apos;ll take a picture of each individual page of your rent
