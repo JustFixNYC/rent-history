@@ -29,6 +29,7 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
+import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import {
   AddressFlowState,
   AddressState,
@@ -185,6 +186,7 @@ export const ConfirmAddress: React.FC = () => {
     return (
       <div id="confirm-address-page">
         <section className="postscan-body">
+          <AnalysisFlowProgress stepId="confirm-address" />
           <p>
             <Trans>Loading address…</Trans>
           </p>
@@ -293,18 +295,7 @@ export const ConfirmAddress: React.FC = () => {
   return (
     <div id="confirm-address-page">
       <section className="postscan-body">
-        <div className="postscan-progress">
-          <p>
-            {addressFlowState === "enterAddress" ? (
-              <Trans>Step 3: Enter address</Trans>
-            ) : (
-              <Trans>Step 3: Confirm address</Trans>
-            )}
-          </p>
-          <div className="postscan-progress__bar">
-            <span />
-          </div>
-        </div>
+        <AnalysisFlowProgress stepId="confirm-address" />
 
         {addressFlowState === "editAddress" && (
           <button
@@ -419,13 +410,13 @@ export const ConfirmAddress: React.FC = () => {
           {addressFlowState === "enterAddress" && (
             <div className="postscan-card__content postscan-address-module">
               <div className="postscan-address-module__intro">
-                <h1>
+                <h2>
                   <Trans>
                     Enter the address for this
                     <br />
                     rent history
                   </Trans>
-                </h1>
+                </h2>
                 <p>
                   <Trans>
                     We&apos;ll use publicly available information about the
@@ -493,13 +484,13 @@ export const ConfirmAddress: React.FC = () => {
 
           {addressFlowState === "editAddress" && (
             <div className="postscan-card__content postscan-address-module">
-              <h1>
+              <h2>
                 <Trans>
                   Edit the address for this
                   <br />
                   rent history
                 </Trans>
-              </h1>
+              </h2>
               <div className="postscan-form-field">
                 <label htmlFor="postscan-edit-address-input">
                   <Trans>Apartment address</Trans>

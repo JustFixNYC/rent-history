@@ -7,7 +7,7 @@ type LastStepReached = NonNullable<RhHistoryList["last_step_reached"]>;
  * in-progress rent history, keyed by the last flow step they reached.
  */
 const RESUME_SUBPATH_BY_STEP: Partial<Record<LastStepReached, string>> = {
-  SCAN_REVIEW: "review",
+  SCAN_REVIEW: "scanner",
   ADDRESS_CONFIRMATION: "confirm-address",
   APARTMENT_INFO: "rent-questions",
   FINDINGS_OVERVIEW: "findings-overview",
