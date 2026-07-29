@@ -1,0 +1,210 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+// Pill fills not in JFCL tokens (from Figma)
+$pill-status-fill: #d9c5fa;
+$pill-stabilized-fill: #c6f4d9;
+$rail-gutter: 3.5rem; // 56px per Figma
+
+.timeline-element {
+  position: relative;
+  box-sizing: border-box;
+  overflow: visible;
+  padding: jfcl.$JF_SPACING_05 jfcl.$JF_SPACING_06 jfcl.$JF_SPACING_05
+    $rail-gutter;
+
+  &--primary {
+    background-color: jfcl.$PURPLE_100;
+  }
+
+  &--secondary {
+    background-color: jfcl.$WHITE;
+  }
+
+  &__rail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: $rail-gutter;
+    pointer-events: none;
+  }
+
+  &__rail-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: -1rem;
+    width: 2px;
+    transform: translateX(-50%);
+    background-color: jfcl.$OFF_WHITE_200;
+  }
+
+  &__rail-dot {
+    position: absolute;
+    left: 50%;
+    // Align with vertical center of year row (padding-top + ~half of small text)
+    top: calc(#{jfcl.$JF_SPACING_05} + 0.45rem);
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background-color: jfcl.$OFF_WHITE_200;
+  }
+
+  &--primary &__rail-line,
+  &--primary &__rail-dot {
+    background-color: jfcl.$PURPLE_200;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
+    width: 100%;
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: jfcl.$JF_SPACING_03;
+  }
+
+  &__year {
+    @include jfcl.small_text_bold_mobile;
+    color: jfcl.$OFF_BLACK;
+    flex-shrink: 0;
+    line-height: 130%;
+  }
+
+  &__pills {
+    display: flex;
+    flex: 1 0 0;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: jfcl.$JF_SPACING_02;
+    min-width: 0;
+  }
+
+  &__pill.jfcl-pill.jfcl-pill--none {
+    @include jfcl.small_text_mobile;
+    border-radius: 26px;
+    padding: 0 jfcl.$JF_SPACING_03;
+    color: jfcl.$OFF_BLACK;
+    border: 1px solid transparent;
+    line-height: 130%;
+  }
+
+  // Beat JFCL `.jfcl-pill.jfcl-pill--none { background: transparent }`
+  &__pill--violation.jfcl-pill.jfcl-pill--none {
+    background-color: jfcl.$PURPLE_200; // #BC9AFF
+    border-color: transparent;
+  }
+
+  &__pill--destabilized.jfcl-pill.jfcl-pill--none {
+    background-color: jfcl.$YELLOW_200; // #FFE7B3
+    border-color: jfcl.$YELLOW;
+  }
+
+  &__pill--currently-stabilized.jfcl-pill.jfcl-pill--none {
+    background-color: $pill-stabilized-fill; // #C6F4D9 (not in JFCL)
+    border-color: jfcl.$GREEN;
+  }
+
+  &__pill--status.jfcl-pill.jfcl-pill--none {
+    background-color: $pill-status-fill; // #D9C5FA (not in JFCL)
+    border-color: jfcl.$PURPLE_200;
+  }
+
+  &__title {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$OFF_BLACK;
+  }
+
+  &__toggle-button.jfcl-button {
+    width: 100%;
+
+    .jfcl-button__icon {
+      transition: transform 0.15s ease;
+    }
+  }
+
+  &--open &__toggle-button .jfcl-button__icon {
+    transform: rotate(180deg);
+  }
+
+  &__toggle-link.jfcl-link-styled-button {
+    @include jfcl.body_standard_mobile;
+    display: inline-flex;
+    align-items: center;
+    gap: jfcl.$JF_SPACING_03;
+    color: jfcl.$OFF_BLACK;
+    text-decoration: underline;
+    padding: 0;
+
+    .jfcl-icon {
+      transition: transform 0.15s ease;
+    }
+  }
+
+  &--open &__toggle-link .jfcl-icon {
+    transform: rotate(180deg);
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
+  }
+
+  &__panel[hidden] {
+    display: none;
+  }
+
+  &__description {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$OFF_BLACK;
+  }
+
+  &__footnote {
+    @include jfcl.small_text_mobile;
+    color: jfcl.$OFF_BLACK;
+  }
+
+  &__implications {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+    padding: jfcl.$JF_SPACING_04;
+    border: 1px solid jfcl.$PURPLE_200;
+    border-radius: 4px;
+    background-color: rgba(jfcl.$PURPLE_200, 0.3);
+    color: jfcl.$OFF_BLACK;
+  }
+
+  &__implications-heading {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__implications-body {
+    @include jfcl.body_standard_mobile;
+  }
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: visible;
+
+  > li {
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+}

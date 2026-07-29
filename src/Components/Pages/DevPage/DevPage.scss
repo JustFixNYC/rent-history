@@ -1,0 +1,26 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+#dev-page {
+  .dev-page__intro {
+    @include jfcl.body_standard_mobile;
+    margin: 0 0 jfcl.$JF_SPACING_06;
+    color: jfcl.$GREY_600;
+  }
+
+  .dev-page__section {
+    background: jfcl.$WHITE;
+    border: 1px solid jfcl.$GREY_NEW;
+    padding: jfcl.$JF_SPACING_06;
+    overflow: visible;
+    margin-bottom: jfcl.$JF_SPACING_06;
+  }
+
+  .dev-page__section-title {
+    @include jfcl.body_large_mobile;
+    margin: 0 0 jfcl.$JF_SPACING_05;
+  }
+
+  .timeline {
+    margin: 0;
+  }
+}

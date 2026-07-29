@@ -101,6 +101,10 @@ msgstr ""
 #~ msgid "228 Atlantic Avenue"
 #~ msgstr ""
 
+#: src/Components/TimelineElement/TimelineElement.tsx:97
+msgid "421-a expiration"
+msgstr ""
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:146
 #~ msgid "A new code has been sent."
 #~ msgstr ""
@@ -361,9 +365,21 @@ msgstr "Continuar"
 msgid "Current monthly rent"
 msgstr ""
 
+#: src/Components/TimelineElement/TimelineElement.tsx:89
+msgid "Currently Rent Stabilized"
+msgstr ""
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:182
 #: src/Components/Pages/AccountPage/AccountPage.tsx:236
 msgid "Delete"
+msgstr ""
+
+#: src/Components/TimelineElement/TimelineElement.tsx:87
+msgid "Destabilized"
+msgstr ""
+
+#: src/Components/TimelineElement/TimelineElement.tsx:108
+msgid "Details"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:60
@@ -594,6 +610,10 @@ msgstr ""
 msgid "Glossary"
 msgstr "Glosario"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:106
+msgid "Hide supporting evidence"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:29
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:56
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:72
@@ -654,6 +674,10 @@ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
+msgstr ""
+
+#: src/Components/TimelineElement/TimelineElement.tsx:95
+msgid "J51 expiration"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:180
@@ -787,6 +811,10 @@ msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los 
 msgid "Looking for your document"
 msgstr ""
 
+#: src/Components/TimelineElement/TimelineElement.tsx:99
+msgid "Major Capital Improvement"
+msgstr ""
+
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:12
 msgid "Make sure the room is well-lit and that the document is fully in frame."
 msgstr ""
@@ -812,6 +840,10 @@ msgstr ""
 #: src/Components/Pages/PageLayout/Header.tsx:61
 msgid "Menu"
 msgstr "Menú"
+
+#: src/Components/TimelineElement/TimelineElement.tsx:91
+msgid "Missing registration"
+msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:130
 msgid "Missing registration years"
@@ -1006,6 +1038,10 @@ msgstr ""
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:300
 msgid "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
+msgstr ""
+
+#: src/Components/TimelineElement/TimelineElement.tsx:85
+msgid "Potential Violation"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1237,6 +1273,10 @@ msgstr "Seleccionar año"
 msgid "Send verification code"
 msgstr "Enviar código de verificación"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:107
+msgid "Show supporting evidence"
+msgstr ""
+
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:47
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
@@ -1351,6 +1391,10 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:47
 msgid "Tap the <0>lock icon</0> next to the website address in your web browser."
+msgstr ""
+
+#: src/Components/TimelineElement/TimelineElement.tsx:93
+msgid "Temporary exemption"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:53
@@ -1750,6 +1794,10 @@ msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:123
 msgid "What is the total monthly rent for your entire apartment?"
+msgstr ""
+
+#: src/Components/TimelineElement/TimelineElement.tsx:196
+msgid "What this means for you"
 msgstr ""
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:37

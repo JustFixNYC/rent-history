@@ -101,6 +101,10 @@ msgstr "<0>By</0> <1>JustFix</1>"
 #~ msgid "228 Atlantic Avenue"
 #~ msgstr "228 Atlantic Avenue"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:97
+msgid "421-a expiration"
+msgstr "421-a expiration"
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:146
 #~ msgid "A new code has been sent."
 #~ msgstr "A new code has been sent."
@@ -361,10 +365,22 @@ msgstr "Continue"
 msgid "Current monthly rent"
 msgstr "Current monthly rent"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:89
+msgid "Currently Rent Stabilized"
+msgstr "Currently Rent Stabilized"
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:182
 #: src/Components/Pages/AccountPage/AccountPage.tsx:236
 msgid "Delete"
 msgstr "Delete"
+
+#: src/Components/TimelineElement/TimelineElement.tsx:87
+msgid "Destabilized"
+msgstr "Destabilized"
+
+#: src/Components/TimelineElement/TimelineElement.tsx:108
+msgid "Details"
+msgstr "Details"
 
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:60
 msgid "Did tenants in the earlier year appear in the later year?"
@@ -594,6 +610,10 @@ msgstr "Get your report"
 msgid "Glossary"
 msgstr "Glossary"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:106
+msgid "Hide supporting evidence"
+msgstr "Hide supporting evidence"
+
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:29
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:56
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:72
@@ -655,6 +675,10 @@ msgstr "If your apartment is rent stabilized, or has ever been rent stabilized, 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
 msgstr "In progress"
+
+#: src/Components/TimelineElement/TimelineElement.tsx:95
+msgid "J51 expiration"
+msgstr "J51 expiration"
 
 #: src/Components/Pages/Landing/Landing.tsx:180
 #: src/Components/Pages/PageLayout/Footer.tsx:49
@@ -787,6 +811,10 @@ msgstr "Look at <0/> — What is the earliest year any of the following names ap
 msgid "Looking for your document"
 msgstr "Looking for your document"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:99
+msgid "Major Capital Improvement"
+msgstr "Major Capital Improvement"
+
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:12
 msgid "Make sure the room is well-lit and that the document is fully in frame."
 msgstr "Make sure the room is well-lit and that the document is fully in frame."
@@ -812,6 +840,10 @@ msgstr "Map showing location of the entered address."
 #: src/Components/Pages/PageLayout/Header.tsx:61
 msgid "Menu"
 msgstr "Menu"
+
+#: src/Components/TimelineElement/TimelineElement.tsx:91
+msgid "Missing registration"
+msgstr "Missing registration"
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:130
 msgid "Missing registration years"
@@ -1007,6 +1039,10 @@ msgstr "Please sign in to generate your report."
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:300
 msgid "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
 msgstr "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
+
+#: src/Components/TimelineElement/TimelineElement.tsx:85
+msgid "Potential Violation"
+msgstr "Potential Violation"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/resultCopy.tsx:11
@@ -1237,6 +1273,10 @@ msgstr "Select Year"
 msgid "Send verification code"
 msgstr "Send verification code"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:107
+msgid "Show supporting evidence"
+msgstr "Show supporting evidence"
+
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:47
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
@@ -1352,6 +1392,10 @@ msgstr "Tap <0>Permissions</0> or <1>Site settings.</1>"
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:47
 msgid "Tap the <0>lock icon</0> next to the website address in your web browser."
 msgstr "Tap the <0>lock icon</0> next to the website address in your web browser."
+
+#: src/Components/TimelineElement/TimelineElement.tsx:93
+msgid "Temporary exemption"
+msgstr "Temporary exemption"
 
 #: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:53
 msgid "Tenant names"
@@ -1751,6 +1795,10 @@ msgstr "Were you living in this apartment in year {year0}?"
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:123
 msgid "What is the total monthly rent for your entire apartment?"
 msgstr "What is the total monthly rent for your entire apartment?"
+
+#: src/Components/TimelineElement/TimelineElement.tsx:196
+msgid "What this means for you"
+msgstr "What this means for you"
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:37
 msgid "What we found"
