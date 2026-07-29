@@ -27,6 +27,7 @@ import Report from "./Components/Pages/Report/Report";
 import FindingsReviewPage from "./Components/Pages/FindingsReview/FindingsReviewPage";
 import FindingsOverviewPage from "./Components/Pages/FindingsOverview/FindingsOverviewPage";
 import AboutPage from "./Components/Pages/AboutPage/AboutPage";
+import DevPage from "./Components/Pages/DevPage/DevPage";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -48,6 +49,7 @@ const createAppRouter = () =>
         <Route path="/:locale" element={<PageLayout />}>
           <Route index element={<Landing />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="dev" element={<DevPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
@@ -72,6 +74,7 @@ const createAppRouter = () =>
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Landing />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="dev" element={<DevPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
