@@ -29,11 +29,11 @@ export const Header: React.FC<HeaderProps> = ({
           "header__brand--es": i18n.locale === "es",
         })}
       >
-        <h1>
+        <p className="header__brand-title">
           <Link to={`/${i18n.locale}`}>
             <Trans>Rent History NYC</Trans>
           </Link>
-        </h1>
+        </p>
       </div>
       <div
         className={classNames("header__menu", {

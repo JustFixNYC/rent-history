@@ -17,6 +17,7 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
+import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import {
   readRentQuestionsState,
   writeRentQuestionsState,
@@ -114,22 +115,15 @@ export const RentQuestions: React.FC = () => {
   return (
     <div id="rent-questions-page">
       <section className="postscan-body">
-        <div className="postscan-progress">
-          <p>
-            <Trans>Step 4: Provide your rent</Trans>
-          </p>
-          <div className="postscan-progress__bar">
-            <span />
-          </div>
-        </div>
+        <AnalysisFlowProgress stepId="rent-questions" />
 
         <article className="postscan-card">
           <form className="postscan-card__content" onSubmit={saveAndContinue}>
-            <h1>
+            <h2>
               <Trans>
                 What is the total monthly rent for your entire apartment?
               </Trans>
-            </h1>
+            </h2>
             <p>
               <Trans>
                 This will help in our analysis of your rent history TK

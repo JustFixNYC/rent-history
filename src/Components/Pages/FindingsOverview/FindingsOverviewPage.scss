@@ -11,38 +11,6 @@
   padding: 2rem 1.5rem;
 }
 
-.postscan-progress {
-  margin-bottom: 1.5rem;
-
-  p {
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    line-height: 1.2;
-    margin: 0 0 0.5rem;
-  }
-
-  &__bar {
-    background: jfcl.$OFF_WHITE_100;
-    border: 1px solid jfcl.$OFF_BLACK;
-    border-radius: 999px;
-    height: 16px;
-    overflow: hidden;
-    width: 100%;
-
-    span {
-      background: jfcl.$OFF_BLACK;
-      display: block;
-      height: 100%;
-      width: 40%;
-    }
-
-    &--step-5 span {
-      width: 60%;
-    }
-  }
-}
-
 .findings-overview-info-box {
   border-radius: 4px;
   display: flex;
@@ -51,7 +19,7 @@
   margin-bottom: 1.5rem;
   padding: 1rem;
 
-  h1 {
+  h2 {
     font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: 0.03em;
