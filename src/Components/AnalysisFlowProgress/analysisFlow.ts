@@ -61,7 +61,8 @@ const PROGRESS_MAX = 100;
 
 /**
  * Equal-weight main steps; optional substeps subdivide the current step only.
- * `value` is at the start of the current substep (0-based).
+ * `value` is at the end of the current substep — the bar shows that step's
+ * portion as already filled on entry.
  */
 export function getProgressValue({
   stepIndex,
@@ -81,7 +82,8 @@ export function getProgressValue({
   );
 
   const value = Math.round(
-    ((clampedStepIndex + clampedSubstepIndex / safeSubstepCount) / stepCount) *
+    ((clampedStepIndex + (clampedSubstepIndex + 1) / safeSubstepCount) /
+      stepCount) *
       PROGRESS_MAX
   );
 

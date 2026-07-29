@@ -30,7 +30,7 @@ describe("AnalysisFlowProgress", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("progressbar")).toHaveAttribute(
       "aria-valuenow",
-      "29"
+      "43"
     );
     expect(screen.getByTestId("analysis-flow-progress")).toHaveAttribute(
       "data-step-id",
@@ -66,7 +66,7 @@ describe("AnalysisFlowProgress", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("progressbar")).toHaveAttribute(
       "aria-valuenow",
-      "14"
+      "29"
     );
   });
 });
