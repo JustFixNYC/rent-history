@@ -2,6 +2,8 @@ import {
   TimelineElement,
   TIMELINE_PILL_TYPES,
 } from "../../TimelineElement/TimelineElement";
+import { mapTimelineItemToProps } from "../../TimelineElement/mapTimelineItem";
+import { mockTimelineElements } from "../../TimelineElement/mockData";
 import "./DevPage.scss";
 
 /**
@@ -26,79 +28,13 @@ const DevPage: React.FC = () => (
     </article>
 
     <article className="dev-page__section">
-      <h2 className="dev-page__section-title">TimelineElement</h2>
+      <h2 className="dev-page__section-title">Timeline analysis results</h2>
       <ol className="timeline">
-        <li>
-          <TimelineElement
-            variant="secondary"
-            year={2008}
-            endYear={2015}
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          />
-        </li>
-        <li>
-          <TimelineElement
-            variant="primary"
-            year={2000}
-            title="Apartment listed as exempt from rent stabilization and may have been improperly destabilized."
-            pills={["violation", "destabilized"]}
-            description={
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-            }
-            footnote="Ut enim ad minim veniam, quis nostrud exercitation."
-            whatThisMeans="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore."
-          />
-        </li>
-        <li>
-          <TimelineElement
-            variant="primary"
-            year={2000}
-            title="Missing registration may indicate unofficial destabilization."
-            pills={["violation", "missing_registration"]}
-            defaultOpen
-            description={
-              <>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer nec odio. Praesent libero. Sed cursus ante dapibus
-                  diam.
-                </p>
-                <p>
-                  Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis
-                  sagittis ipsum. Praesent mauris.
-                </p>
-              </>
-            }
-            footnote="Fusce nec tellus sed augue semper porta."
-            whatThisMeans="Unless there is proof of legal destabilization, your apartment may still be rent stabilized."
-          />
-        </li>
-        <li>
-          <TimelineElement
-            variant="secondary"
-            year={2016}
-            endYear={2026}
-            title="No large rent increases were recorded during this period."
-            pills={["currently_stabilized"]}
-            description={
-              <p>
-                Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent
-                taciti sociosqu ad litora torquent per conubia nostra.
-              </p>
-            }
-          />
-        </li>
-        <li>
-          <TimelineElement
-            variant="secondary"
-            year={1995}
-            endYear={1999}
-            title="Building was exempt from rent stabilization during this period."
-          />
-        </li>
+        {mockTimelineElements.map((item, index) => (
+          <li key={`${item.type}-${item.year}-${index}`}>
+            <TimelineElement {...mapTimelineItemToProps(item)} />
+          </li>
+        ))}
       </ol>
     </article>
   </section>
