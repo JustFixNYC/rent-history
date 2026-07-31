@@ -1,0 +1,7 @@
+.glossary-link.jfcl-link-styled-button {
+  // text-decoration underlines paint spaces solid in many browsers;
+  // border-bottom keeps a continuous dotted line across the whole control.
+  text-decoration: none;
+  border-bottom: 0.11em dotted #4e4b4b;
+  padding-bottom: 0.05em;
+}

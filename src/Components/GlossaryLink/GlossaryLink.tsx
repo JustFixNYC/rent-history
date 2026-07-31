@@ -1,9 +1,12 @@
 import { useState, type ReactNode } from "react";
+import classNames from "classnames";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { Icon, LinkStyledButton } from "@justfixnyc/component-library";
+import { LinkStyledButton } from "@justfixnyc/component-library";
 
 import { InfoModal } from "../InfoModal/InfoModal";
+
+import "./GlossaryLink.scss";
 
 type GlossaryLinkProps = {
   term: ReactNode;
@@ -24,16 +27,15 @@ export const GlossaryLink = ({
   return (
     <>
       <LinkStyledButton
-        className={className}
+        className={classNames("glossary-link", className)}
         onClick={() => setIsOpen(true)}
         aria-haspopup="dialog"
       >
         {term}
-        <Icon
-          icon="circleInfo"
-          className="jfcl-link__icon"
-          aria-hidden="true"
-        />
+        <span className="glossary-link__icon" aria-hidden="true">
+          {" "}
+          (i)
+        </span>
       </LinkStyledButton>
       <InfoModal
         isOpen={isOpen}

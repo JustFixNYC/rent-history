@@ -301,7 +301,7 @@ describe("renderPrefrent421aResult", () => {
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/421a tax program \(year 1984\)/i)
+      screen.getByText(/421-a tax program \(year 1984\)/i)
     ).toBeInTheDocument();
   });
 });

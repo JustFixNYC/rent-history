@@ -12,14 +12,14 @@ export const IntroEyebrow = ({
 export const IntroTitle = () => (
   <Trans id="findings.PREFRENT_421A.intro.title">
     Preferential rent offered during initial year of this building&apos;s
-    participation in 421a tax program.
+    participation in 421-a tax program.
   </Trans>
 );
 
 export const IntroDescription = () => (
   <Trans id="findings.PREFRENT_421A.intro.description">
     A preferential rent appears to have been charged during the first year of
-    this building&apos;s participation in 421a tax program. We&apos;ll check if
+    this building&apos;s participation in 421-a tax program. We&apos;ll check if
     this can be explained.
   </Trans>
 );
@@ -56,7 +56,7 @@ export const ResultNoViolationBody = ({ year0 }: ResultCopyProps) => (
 export const ResultDismissedBody = ({ year0 }: ResultCopyProps) => (
   <Trans id="findings.PREFRENT_421A.result.dismissed.body">
     You reported that a preferential rent was not charged during the first year
-    of this building&apos;s participation in the 421a tax program (year {year0}
+    of this building&apos;s participation in the 421-a tax program (year {year0}
     ).
   </Trans>
 );
