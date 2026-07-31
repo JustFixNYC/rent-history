@@ -33,7 +33,7 @@ $rail-gutter: 3.5rem; // 56px per Figma
     position: absolute;
     left: 50%;
     top: 0;
-    bottom: -1rem;
+    bottom: 0;
     width: 2px;
     transform: translateX(-50%);
     background-color: jfcl.$OFF_WHITE_200;
@@ -164,6 +164,35 @@ $rail-gutter: 3.5rem; // 56px per Figma
   &__description {
     @include jfcl.body_standard_mobile;
     color: jfcl.$OFF_BLACK;
+
+    > .timeline-element__copy-paragraph,
+    > .timeline-element__section-heading,
+    > .timeline-element__bullet-list {
+      margin: 0 0 jfcl.$JF_SPACING_04;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__copy-paragraph {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$OFF_BLACK;
+  }
+
+  &__section-heading {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    color: jfcl.$OFF_BLACK;
+    text-transform: uppercase;
+  }
+
+  &__bullet-list {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$OFF_BLACK;
+    padding-left: 1.5em;
+    list-style: disc;
   }
 
   &__footnote {
