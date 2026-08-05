@@ -114,7 +114,6 @@ describe("buildAnswers", () => {
         {
           reg_year: 2020,
           apt_stat: "RS",
-          legal_rent: null,
           pref_rent: 1329.46,
           gets_vacancy_increase: false,
         },
