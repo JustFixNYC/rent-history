@@ -1,0 +1,303 @@
+{
+  "DEREGULATION_POSTHSTPA": {
+    "id": "3725590b-c846-4966-99cb-beb3fd26add6",
+    "key": {
+      "type": "DEREGULATION_POSTHSTPA",
+      "finding_year": 2019,
+      "subtype": null
+    },
+    "type": "DEREGULATION_POSTHSTPA",
+    "finding_year": 2019,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2019
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "DEREGULATION_TE": {
+    "id": "b75469e4-7373-4aec-b325-5dc7d869ea1b",
+    "key": {
+      "type": "DEREGULATION_TE",
+      "finding_year": 2019,
+      "subtype": null
+    },
+    "type": "DEREGULATION_TE",
+    "finding_year": 2019,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2019,
+          "apt_stat": "RS-TE",
+          "legal_rent": "EXEMPT"
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "HRVD": {
+    "id": "bb42310d-b07e-424a-b350-2d04930c2500",
+    "key": {
+      "type": "HRVD",
+      "finding_year": 1992,
+      "subtype": null
+    },
+    "type": "HRVD",
+    "finding_year": 1992,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 1991,
+          "apt_stat": "RS",
+          "legal_rent": 850.02,
+          "tenants": ["KEITH BANNER", "AUDREY JOHNSON"],
+          "tenancy_start": null
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "NONREGISTRATION_POSTHSTPA": {
+    "id": "428c9831-0d4a-4d7f-983d-99c325aa8f4e",
+    "key": {
+      "type": "NONREGISTRATION_POSTHSTPA",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "NONREGISTRATION_POSTHSTPA",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2019,
+          "apt_stat": "RS",
+          "legal_rent": 850.02,
+          "tenants": ["AUDREY JOHNSON"]
+        },
+        {
+          "reg_year": 2026
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "NONREGISTRATION_PREFRENT_POSTHSTPA": {
+    "id": "dde90431-f932-46d1-b775-d24afd4a4f05",
+    "key": {
+      "type": "NONREGISTRATION_PREFRENT_POSTHSTPA",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "NONREGISTRATION_PREFRENT_POSTHSTPA",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2019,
+          "apt_stat": "RS",
+          "legal_rent": 850.02,
+          "tenants": ["AUDREY JOHNSON"],
+          "pref_rent": 684.27
+        },
+        {
+          "reg_year": 2026
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "NONREGISTRATION_PREHSTPA": {
+    "id": "0945679f-ea95-42e0-bdf9-811390eec02f",
+    "key": {
+      "type": "NONREGISTRATION_PREHSTPA",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "NONREGISTRATION_PREHSTPA",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 1991,
+          "apt_stat": "RS",
+          "legal_rent": 850.02,
+          "tenants": ["AUDREY JOHNSON"],
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2026,
+          "gets_vacancy_increase": null
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "OVERCHARGE_LEGALRENT_POSTHSTPA": {
+    "id": "2ca0ee82-256a-43fc-8754-9dc2b5681398",
+    "key": {
+      "type": "OVERCHARGE_LEGALRENT_POSTHSTPA",
+      "finding_year": 2020,
+      "subtype": null
+    },
+    "type": "OVERCHARGE_LEGALRENT_POSTHSTPA",
+    "finding_year": 2020,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2019,
+          "apt_stat": "RS",
+          "legal_rent": 1350.06
+        },
+        {
+          "reg_year": 2020,
+          "apt_stat": "RS",
+          "legal_rent": 1506.54
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "OVERCHARGE_PREFRENTREMOVED_POSTHSTPA": {
+    "id": "add78444-a4c2-410f-beea-b5292338e347",
+    "key": {
+      "type": "OVERCHARGE_PREFRENTREMOVED_POSTHSTPA",
+      "finding_year": 2020,
+      "subtype": null
+    },
+    "type": "OVERCHARGE_PREFRENTREMOVED_POSTHSTPA",
+    "finding_year": 2020,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2019,
+          "apt_stat": "RS",
+          "legal_rent": 850.02,
+          "pref_rent": 684.27,
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2020,
+          "apt_stat": "RS",
+          "legal_rent": 920.98,
+          "pref_rent": null
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "OVERCHARGE_PREFRENT_POSTHSTPA": {
+    "id": "08eb5762-17a3-42b2-b166-6069889da34f",
+    "key": {
+      "type": "OVERCHARGE_PREFRENT_POSTHSTPA",
+      "finding_year": 2020,
+      "subtype": null
+    },
+    "type": "OVERCHARGE_PREFRENT_POSTHSTPA",
+    "finding_year": 2020,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2019,
+          "apt_stat": "RS",
+          "legal_rent": 1350.06,
+          "pref_rent": 1072.81
+        },
+        {
+          "reg_year": 2020,
+          "apt_stat": "RS",
+          "pref_rent": 1329.46
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "OVERCHARGE_PREHSTPA": {
+    "id": "033a6170-c551-45fc-8ca6-73a95b190cc5",
+    "key": {
+      "type": "OVERCHARGE_PREHSTPA",
+      "finding_year": 1992,
+      "subtype": null
+    },
+    "type": "OVERCHARGE_PREHSTPA",
+    "finding_year": 1992,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 1991,
+          "apt_stat": "RS",
+          "legal_rent": 1350.06,
+          "tenants": ["AUDREY JOHNSON"],
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 1992,
+          "apt_stat": "RS",
+          "legal_rent": 1665.26,
+          "gets_vacancy_increase": null
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "PREFRENT_421A": {
+    "id": "320727ab-b4e3-4194-a820-2c68fae228b0",
+    "key": {
+      "type": "PREFRENT_421A",
+      "finding_year": 1984,
+      "subtype": null
+    },
+    "type": "PREFRENT_421A",
+    "finding_year": 1984,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 1984,
+          "legal_rent": 2078.85,
+          "pref_rent": 1569.54,
+          "apt_stat": "RS"
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "PREFRENT_TE": {
+    "id": "74ba5490-d811-49db-b2fb-717da4bb19a0",
+    "key": {
+      "type": "PREFRENT_TE",
+      "finding_year": 1992,
+      "subtype": null
+    },
+    "type": "PREFRENT_TE",
+    "finding_year": 1992,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 1991,
+          "apt_stat": "RS-TE",
+          "legal_rent": "EXEMPT"
+        },
+        {
+          "reg_year": 1992,
+          "apt_stat": "RS",
+          "legal_rent": 850.02,
+          "pref_rent": 684.27
+        }
+      ]
+    },
+    "validated_at": null
+  }
+}

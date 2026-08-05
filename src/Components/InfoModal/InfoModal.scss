@@ -1,0 +1,32 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.info-modal {
+  background: jfcl.$WHITE;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(36, 35, 35, 0.12);
+  margin: auto;
+  max-width: 20rem;
+  padding: jfcl.$JF_SPACING_06;
+  width: calc(100% - 2rem);
+
+  &::backdrop {
+    background: rgba(36, 35, 35, 0.45);
+  }
+
+  &__title {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0 0 jfcl.$JF_SPACING_04;
+  }
+
+  &__body {
+    @include jfcl.body_standard_mobile;
+    margin: 0 0 jfcl.$JF_SPACING_05;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

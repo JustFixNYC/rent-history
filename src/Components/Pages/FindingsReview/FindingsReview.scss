@@ -1,0 +1,461 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.findings-review-page {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+  min-height: 100vh;
+}
+
+.findings-review-body {
+  margin: 0 auto;
+  max-width: 327px;
+  padding: 2rem 1.5rem;
+}
+
+.findings-review-intro {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_03;
+  margin-bottom: jfcl.$JF_SPACING_05;
+
+  // Figma 5314:3113 — 14px semibold eyebrow (e.g. "Year 2000")
+  &__eyebrow {
+    @include jfcl.small_text_bold_desktop;
+    color: jfcl.$OFF_BLACK;
+    margin: 0;
+  }
+
+  // Figma 5314:3113 — 24px semibold title
+  &__title {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  // Figma 5314:3113 — 18px body copy
+  &__description {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+}
+
+.finding-form-shell {
+  background: jfcl.$WHITE;
+  border-radius: 2px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_06;
+  padding: jfcl.$JF_SPACING_06 0;
+  width: 100%;
+
+  &--active {
+    border: 2px solid jfcl.$OFF_BLACK;
+  }
+
+  &--completed {
+    border: 1px solid jfcl.$GREY_200;
+  }
+
+  &__header {
+    align-items: flex-start;
+    display: flex;
+    gap: jfcl.$JF_SPACING_04;
+    padding: 0 jfcl.$JF_SPACING_06;
+  }
+
+  // Figma 5314:3540 — 18px semibold module prompt
+  &__title {
+    @include jfcl.body_standard_mobile;
+    flex: 1;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
+    width: 100%;
+  }
+
+  &__cta {
+    padding: 0 jfcl.$JF_SPACING_06;
+    width: 100%;
+  }
+}
+
+.step-connector {
+  align-items: center;
+  display: flex;
+  height: jfcl.$JF_SPACING_08;
+  justify-content: center;
+  width: jfcl.$JF_SPACING_08;
+
+  svg {
+    color: jfcl.$OFF_BLACK;
+    height: jfcl.$JF_SPACING_08;
+    width: jfcl.$JF_SPACING_08;
+  }
+}
+
+.finding-review-nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: jfcl.$JF_SPACING_05;
+
+  // Figma 5314:3211 — body-standard-link_mobile
+  &__back {
+    @include jfcl.body_standard_link_mobile;
+    align-items: center;
+    background: none;
+    border: 0;
+    color: jfcl.$OFF_BLACK;
+    cursor: pointer;
+    display: inline-flex;
+    gap: jfcl.$JF_SPACING_02;
+    padding: 0 jfcl.$JF_SPACING_03 0 0;
+
+    &:disabled {
+      color: jfcl.$GREY_600;
+      cursor: not-allowed;
+      text-decoration: none;
+    }
+  }
+
+  &__next {
+    min-width: 223px;
+  }
+}
+
+// Figma 5314:3554 — form-field currency input
+.findings-review-currency-field {
+  margin: 0;
+  width: 100%;
+
+  .jfcl-text-input__input {
+    @include jfcl.body_standard_mobile;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_600;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: jfcl.$OFF_BLACK;
+    height: 44px;
+    width: 100%;
+  }
+
+  &--readonly .jfcl-text-input__input:disabled {
+    background: jfcl.$GREY_50;
+    border-color: jfcl.$GREY_400;
+    color: jfcl.$GREY_600;
+    cursor: default;
+    opacity: 1;
+  }
+}
+
+// Figma 5314:3661 — Survey Question v2 stacked options
+.findings-review-yes-no-field {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  width: 100%;
+
+  .jfcl-input-header__label {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$OFF_BLACK;
+    font-weight: 600;
+    margin-bottom: jfcl.$JF_SPACING_03;
+    padding: 0;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+    width: 100%;
+  }
+
+  &__option {
+    display: flex;
+    margin: 0;
+    width: 100%;
+
+    .jfcl-select-button__label {
+      @include jfcl.body_standard_mobile;
+      border-radius: 4px;
+      box-sizing: border-box;
+      justify-content: flex-start;
+      min-height: 44px;
+      text-align: left;
+      width: 100%;
+    }
+  }
+}
+
+// Figma 5363:11693 / 5363:11724 — OCR apt_stat dropdown (94px left slot)
+.findings-review-apt-stat-field {
+  margin: 0;
+  width: 100%;
+
+  .jfcl-input-header__label {
+    @include jfcl.small_text_mobile;
+    color: jfcl.$OFF_BLACK;
+    font-weight: 500;
+    margin-bottom: jfcl.$JF_SPACING_03;
+    padding: 0;
+  }
+
+  .jfcl-dropdown__control {
+    @include jfcl.body_standard_mobile;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_600;
+    border-radius: 4px;
+    box-shadow: none;
+    min-height: 44px;
+  }
+
+  .jfcl-dropdown__value-container {
+    min-height: 42px;
+    padding: 0 9px;
+  }
+
+  .jfcl-dropdown__placeholder {
+    color: jfcl.$GREY_600;
+  }
+
+  &.findings-review-apt-stat-field--readonly .jfcl-dropdown.is-disabled {
+    .jfcl-dropdown__control {
+      background: jfcl.$GREY_50;
+      border-color: jfcl.$GREY_400;
+      cursor: default;
+      opacity: 1;
+    }
+
+    .jfcl-dropdown__single-value {
+      color: jfcl.$GREY_600;
+    }
+  }
+}
+
+// Figma 5314:3688 — year select, 44px height
+.findings-review-year-field {
+  margin: 0;
+  width: 100%;
+
+  .jfcl-dropdown__control {
+    @include jfcl.body_standard_mobile;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_600;
+    border-radius: 4px;
+    box-shadow: none;
+    min-height: 44px;
+  }
+
+  .jfcl-dropdown__value-container {
+    min-height: 42px;
+    padding: 0 jfcl.$JF_SPACING_03;
+  }
+
+  .jfcl-dropdown__placeholder {
+    color: jfcl.$GREY_600;
+  }
+}
+
+// Figma 5314:3118 — progressive reveal module stack
+.finding-module-stack {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+  width: 100%;
+}
+
+// Figma 5314:3584 → 5314:3642 — shared OCR confirm step
+.ocr-confirm-step {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+  width: 100%;
+
+  &__intro {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+    padding: 0 jfcl.$JF_SPACING_06;
+  }
+
+  &__row-block {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+    padding: 0 jfcl.$JF_SPACING_06;
+    width: 100%;
+  }
+
+  &__year-heading {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__values-row {
+    display: flex;
+    gap: jfcl.$JF_SPACING_03;
+    width: 100%;
+  }
+
+  &__values-left {
+    flex-shrink: 0;
+    min-width: 94px;
+    width: 94px;
+  }
+
+  &__values-right {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__divider {
+    background: jfcl.$GREY_200;
+    border: 0;
+    height: 1px;
+    margin: 0;
+    width: 100%;
+  }
+
+  &__cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+    width: 100%;
+  }
+
+  &__cta-primary,
+  &__cta-confirmed {
+    width: 100%;
+  }
+
+  &__cta-confirmed.jfcl-button {
+    border-color: jfcl.$OFF_WHITE_200;
+    width: 100%;
+  }
+
+  &__edit-link {
+    display: block;
+    padding: jfcl.$JF_SPACING_03 jfcl.$JF_SPACING_06;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+// Figma 5314:3674 / 5314:3701 — vacancy + tenancy step bodies (shared)
+.finding-step-copy {
+  @include jfcl.body_standard_mobile;
+  margin: 0;
+  padding: 0 jfcl.$JF_SPACING_06;
+}
+
+.vacancy-step,
+.tenancy-step {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+  width: 100%;
+}
+
+// Figma 5360:457 — multi-tenant tenancy step stacked chips
+.tenancy-step__tenant-list {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_03;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vacancy-step__yes-no-sr-label {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+// Figma 5314:3721 (confirmed) / 5314:3711 (explained_away) — result Info Box
+.finding-result-panel {
+  margin-top: jfcl.$JF_SPACING_05;
+  width: 100%;
+
+  &__info-box.jfcl-info-box {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  &__title {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0 0 jfcl.$JF_SPACING_03;
+  }
+
+  &__body {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &--confirmed &__info-box.jfcl-info-box {
+    background: jfcl.$PURPLE_100;
+    border-color: jfcl.$PURPLE_200;
+  }
+
+  &--explained-away &__info-box.jfcl-info-box {
+    background: jfcl.$OFF_WHITE_200;
+    border-color: jfcl.$GREY_200;
+  }
+
+  &--in-modal {
+    margin-top: 0;
+  }
+}
+
+// Figma 5482:2850 / 5482:2904 — non-dismissible result modal
+.finding-result-modal {
+  background: jfcl.$WHITE;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(36, 35, 35, 0.12);
+  margin: auto;
+  max-width: 28rem;
+  padding: jfcl.$JF_SPACING_06;
+  width: calc(100% - 2rem);
+
+  &::backdrop {
+    background: rgba(36, 35, 35, 0.45);
+  }
+
+  &__actions {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: jfcl.$JF_SPACING_05;
+  }
+
+  &__back {
+    @include jfcl.body_standard_link_mobile;
+    align-items: center;
+    background: none;
+    border: 0;
+    color: jfcl.$OFF_BLACK;
+    cursor: pointer;
+    display: inline-flex;
+    gap: jfcl.$JF_SPACING_02;
+    padding: 0 jfcl.$JF_SPACING_03 0 0;
+  }
+
+  &__next {
+    min-width: 223px;
+  }
+}

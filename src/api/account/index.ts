@@ -20,6 +20,14 @@ export {
 } from "./errors";
 export type {
   RhAnalysisPage,
+  RhFinding,
+  RhFindingAnswerRowRequest,
+  RhFindingData,
+  RhFindingKey,
+  RhFindingResult,
+  RhFindingRow,
+  RhFindingStatusEnum,
+  RhFindingsStateResponse,
   RhHistoryAddressResponse,
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
@@ -38,12 +46,19 @@ export type {
   RhOtpTokenResponse,
   RhPageSummary,
   RhPagesReadinessResponse,
+  RhQueueDelta,
+  RhReviewQueue,
+  RhRunAnalysisRequestRequest,
+  RhRunAnalysisResponse,
   ReportPdfLocale,
   RhProfile,
   RhReadinessAxis,
   RhScanPresignRequest,
   RhScanPresignResponse,
   RhScanPresignUrlEntry,
+  RhValidateFindingAnswersRequest,
+  RhValidateFindingRequestRequest,
+  RhValidateFindingResponse,
 } from "./types";
 export {
   downloadScans,
@@ -65,6 +80,11 @@ export {
   useRhHistoryAddress,
 } from "./hooks/confirmAddress";
 export {
+  useRhFindingsState,
+  useRunRhAnalysis,
+  useValidateRhFinding,
+} from "./hooks/findingsReview";
+export {
   combineRhHistoryPages,
   confirmRhHistoryAddress,
   createRhHistory,
@@ -72,10 +92,13 @@ export {
   deleteRhHistoryPages,
   downloadRhHistoryReportPdf,
   emailRhHistoryReportPdf,
+  getRhFindingsState,
   getRhHistoryAddress,
   getRhHistoryAnalysisPages,
   getRhHistoryPagesReadiness,
+  postRhHistoryRunAnalysis,
   postRhHistoryScanPresign,
   startRhLogin,
+  validateRhFinding,
   verifyRhOtp,
 } from "./api";

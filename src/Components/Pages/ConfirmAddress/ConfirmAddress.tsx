@@ -296,9 +296,9 @@ export const ConfirmAddress: React.FC = () => {
         <div className="postscan-progress">
           <p>
             {addressFlowState === "enterAddress" ? (
-              <Trans>Step 4: Enter address</Trans>
+              <Trans>Step 3: Enter address</Trans>
             ) : (
-              <Trans>Step 4: Confirm address</Trans>
+              <Trans>Step 3: Confirm address</Trans>
             )}
           </p>
           <div className="postscan-progress__bar">

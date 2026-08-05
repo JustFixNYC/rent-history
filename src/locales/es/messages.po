@@ -13,11 +13,31 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:157
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:126
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
+#~ msgstr "No se encontró ninguna infracción"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:112
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
+#~ msgstr "Posible infracción encontrada"
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:237
+#: src/Components/Pages/LoginPage/LoginPage.tsx:239
 msgid "(123) 456-7890"
 msgstr ""
 
@@ -29,15 +49,20 @@ msgstr ""
 msgid "(optional)"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:312
+#. placeholder {0}: points.length.toLocaleString()
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:332
+msgid "{0} buildings"
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:311
 msgid "{end}"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:309
+#: src/Components/Pages/Scanner/Scanner.tsx:308
 msgid "{start}"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:306
+#: src/Components/Pages/Scanner/Scanner.tsx:305
 msgid "{start}–{end}"
 msgstr ""
 
@@ -49,19 +74,34 @@ msgstr ""
 #~ msgid "228 Atlantic Avenue"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:144
+#: src/Components/Pages/LoginPage/LoginPage.tsx:146
 msgid "A new code has been sent."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:48
+#: src/Components/Pages/Landing/Landing.tsx:53
 msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:292
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:20
+msgid "findings.PREFRENT_421A.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:41
+msgid "findings.PREFRENT_421A.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description"
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:291
 msgid "A scan image failed to download. Use Restart scanning to try again."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:33
+#: src/Components/Pages/Landing/Landing.tsx:38
 msgid "About this site"
 msgstr ""
 
@@ -78,6 +118,14 @@ msgstr ""
 msgid "Additional recipients"
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:394
+msgid "Address"
+msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:83
+msgid "Analysis has already been run for this rent history."
+msgstr ""
+
 #: src/Components/EditableTable/EditableTable.tsx:496
 msgid "Analyze my rent history"
 msgstr ""
@@ -86,10 +134,53 @@ msgstr ""
 msgid "Analyze your rent history to identify potential violations and overcharges."
 msgstr ""
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
+#~ msgid "and ask you to confirm a few things,"
+#~ msgstr ""
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:439
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:505
 msgid "Apartment address"
 msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:16
+msgid "findings.HRVD.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:19
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:18
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
+msgid "Apt Stat"
+msgstr "Estado del apt."
 
 #. placeholder {0}: confirmedAddress.unitNumber.trim()
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:366
@@ -102,16 +193,32 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:587
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:75
+#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:39
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:116
-#: src/Components/Pages/LoginPage/LoginPage.tsx:257
-#: src/Components/Pages/LoginPage/LoginPage.tsx:327
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:102
+#: src/Components/Pages/LoginPage/LoginPage.tsx:259
+#: src/Components/Pages/LoginPage/LoginPage.tsx:329
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:156
 msgid "Back"
 msgstr "Volver"
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:408
+msgid "BBL"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
+msgid "findings.HRVD.intro.description"
+msgstr ""
 
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:102
 #~ msgid "Brooklyn, New York 11201"
 #~ msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:383
+msgid "Building details"
+msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:47
 msgid "By"
@@ -121,12 +228,21 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:143
+#: src/Components/InfoModal/InfoModal.tsx:52
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:386
+msgid "Close"
+msgstr ""
+
+#: src/Components/Pages/LoginPage/LoginPage.tsx:145
 msgid "Code request received. Delivery may take a moment."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:97
+#: src/Components/Pages/LoginPage/LoginPage.tsx:99
 msgid "Code sent. Enter it below to continue."
+msgstr ""
+
+#: src/Components/InfoModal/InfoModal.tsx:49
+msgid "Coming soon"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:24
@@ -138,29 +254,63 @@ msgstr ""
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:275
+#: src/Components/Pages/Scanner/Scanner.tsx:274
 msgid "Could not load scan images from storage."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:302
+#: src/Components/Pages/Scanner/Scanner.tsx:301
 msgid "Cover page"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:66
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:88
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:114
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:136
 msgid "Current monthly rent"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:60
+msgid "Did tenants in the earlier year appear in the later year?"
+msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:75
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:305
+#: src/Components/Pages/LoginPage/LoginPage.tsx:307
 msgid "Didn’t receive a code?"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:14
 msgid "Disclaimer"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:63
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
+msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:89
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
+msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:183
@@ -170,6 +320,10 @@ msgstr ""
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:13
 #~ msgid "Dynamsoft"
 #~ msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
+msgid "Edit"
+msgstr "Editar"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:377
 msgid "Edit address"
@@ -196,11 +350,15 @@ msgstr ""
 msgid "Enter an address to get started"
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:312
+msgid "Enter an NYC address"
+msgstr ""
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:423
 msgid "Enter the address for this<0/>rent history"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:276
+#: src/Components/Pages/LoginPage/LoginPage.tsx:278
 msgid "Enter verification code"
 msgstr "Ingresa el código de verificación"
 
@@ -209,7 +367,7 @@ msgstr "Ingresa el código de verificación"
 msgid "Enter your address"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:210
+#: src/Components/Pages/LoginPage/LoginPage.tsx:212
 msgid "Enter your phone number"
 msgstr "Ingresa tu número de teléfono"
 
@@ -225,7 +383,64 @@ msgstr ""
 msgid "Find out if you’ve been overcharged on rent"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:527
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:67
+msgid "Finding result navigation"
+msgstr "Navegación del resultado del hallazgo"
+
+#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:29
+msgid "Finding review navigation"
+msgstr "Navegación de revisión de hallazgos"
+
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:23
+#~ msgid "Findings review"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:28
+msgid "findings.PREFRENT_421A.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
+msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
+msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
+msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
+msgid "findings.HRVD.ocr.heading"
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:526
 msgid "Flatten any folds in the pages and lay them on a flat surface"
 msgstr ""
 
@@ -239,6 +454,7 @@ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:450
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:516
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr ""
 
@@ -246,7 +462,25 @@ msgstr ""
 msgid "Get started"
 msgstr "Comenzar"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:540
+#: src/Components/GlossaryLink/GlossaryLink.tsx:22
+msgid "Glossary"
+msgstr "Glosario"
+
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:29
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:56
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:72
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:113
+msgid "High rent vacancy destabilization"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:28
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:55
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:71
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:112
+msgid "high rent vacancy destabilization."
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:539
 msgid "Hold your phone level with the pages and make sure the entire page is within frame"
 msgstr ""
 
@@ -266,21 +500,36 @@ msgstr ""
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:45
+#: src/Components/Pages/Landing/Landing.tsx:50
 #: src/Components/Pages/PageLayout/Footer.tsx:49
 msgid "JustFix"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:546
+#: src/Components/Pages/Scanner/Scanner.tsx:545
 msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:36
+#: src/Components/Pages/Landing/Landing.tsx:41
 msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:59
-#: src/Components/Pages/LoginPage/LoginPage.tsx:223
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:14
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:16
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:21
+msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
+msgstr "Gran aumento de alquiler"
+
+#: src/Components/Pages/Landing/Landing.tsx:64
+#: src/Components/Pages/LoginPage/LoginPage.tsx:225
 msgid "Learn more"
 msgstr ""
 
@@ -288,21 +537,70 @@ msgstr ""
 msgid "Legal and feedback"
 msgstr ""
 
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:44
+msgid "Legal Regulated Rent"
+msgstr "Alquiler regulado legal"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:42
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.heading"
+msgstr ""
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:189
 msgid "Loading address…"
 msgstr ""
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:70
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:68
+msgid "Loading findings…"
+msgstr "Cargando hallazgos…"
+
 #: src/Components/EmblaCarousel/BlobImage.tsx:30
 msgid "Loading image..."
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:321
+msgid "Loading map data…"
 msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:25
 msgid "Loading scan previews…"
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:400
+msgid "Location"
+msgstr ""
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:76
 msgid "Log out"
 msgstr ""
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:93
+msgid "longevity bonus"
+msgstr "bono por antigüedad"
+
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:94
+msgid "Longevity bonus"
+msgstr "Bono por antigüedad"
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:84
+msgid "Look at"
+msgstr "Mire"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:63
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
+msgstr "Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como inquilino(s) en <2/>?"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:103
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
+msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino en su documento de historial de alquiler?"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:113
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
+msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes nombres aparece en su documento de historial de alquiler?"
 
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:101
 msgid "Manually enter your rent history"
@@ -311,6 +609,10 @@ msgstr ""
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:353
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:398
 msgid "Map image"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:287
+msgid "Map is not configured. Set VITE_MAPBOX_ACCESS_TOKEN."
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:347
@@ -327,20 +629,69 @@ msgstr "Menú"
 msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:499
+#: src/Components/Pages/FindingsReview/FindingResultModal.tsx:31
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
+#: src/Components/Pages/Scanner/Scanner.tsx:498
 msgid "Next"
+msgstr "Siguiente"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:50
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
+msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
+msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:44
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.heading"
 msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:39
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.vacancy.heading"
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:99
+#~ msgid "Next, we will walk through each potential violation"
+#~ msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:99
+msgid "Next, we will walk through each potential violation to check if there is a way they may or may not be explained."
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:114
+msgid "Next, your report will provide more details"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
+msgid "No"
+msgstr "No"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:185
 msgid "No pages were saved from the scanner. Use Restart scanning to try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:252
+#: src/Components/Pages/Scanner/Scanner.tsx:251
 msgid "No processed pages were returned. Use Restart scanning to try again."
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:153
 msgid "No rent history session was found. Complete the upload flow first, then return to this page."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/resultCopy.tsx:17
+msgid "findings.result.no_violation.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/resultCopy.tsx:23
+msgid "findings.result.dismissed.title"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:21
@@ -351,7 +702,7 @@ msgstr ""
 #~ msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:314
+#: src/Components/Pages/Scanner/Scanner.tsx:313
 msgid "Page"
 msgstr ""
 
@@ -360,11 +711,11 @@ msgstr ""
 msgid "Page {0} scan image"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:229
+#: src/Components/Pages/LoginPage/LoginPage.tsx:231
 msgid "Phone number (required)"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:537
+#: src/Components/Pages/Scanner/Scanner.tsx:536
 msgid "Place the pages against a dark background"
 msgstr ""
 
@@ -372,7 +723,7 @@ msgstr ""
 msgid "Please confirm your phone number and try again."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:241
+#: src/Components/Pages/LoginPage/LoginPage.tsx:243
 msgid "Please enter a valid 10-digit phone number."
 msgstr ""
 
@@ -386,7 +737,7 @@ msgstr ""
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:35
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:44
 msgid "Please enter a valid rent amount."
 msgstr ""
 
@@ -398,7 +749,7 @@ msgstr ""
 msgid "Please enter your email address."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:31
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:40
 msgid "Please enter your monthly rent."
 msgstr ""
 
@@ -406,11 +757,34 @@ msgstr ""
 msgid "Please sign in to generate your report."
 msgstr ""
 
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:300
+msgid "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/resultCopy.tsx:11
+msgid "findings.result.potential_violation.title"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:63
+msgid "Preferential Rent"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:15
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
+msgid "findings.PREFRENT_421A.intro.title"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Footer.tsx:29
 msgid "Privacy policy"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:476
+#: src/Components/Pages/Scanner/Scanner.tsx:475
 msgid "Processing document scan…"
 msgstr ""
 
@@ -439,20 +813,32 @@ msgstr "Historial de Alquiler NYC"
 msgid "Rent history report"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:316
+#: src/Components/Pages/Scanner/Scanner.tsx:315
 msgid "Rent history scan: {caption}"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:297
+msgid "Rent-stabilized buildings in NYC"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:414
+msgid "Rent-stabilized units"
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:166
 msgid "Report"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:311
+#: src/Components/Pages/LoginPage/LoginPage.tsx:313
 msgid "Resend"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:484
-#: src/Components/Pages/Scanner/Scanner.tsx:504
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:420
+msgid "Residential units"
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:483
+#: src/Components/Pages/Scanner/Scanner.tsx:503
 msgid "Restart scanning"
 msgstr ""
 
@@ -484,7 +870,7 @@ msgstr ""
 #~ msgid "Scan your rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:439
+#: src/Components/Pages/Scanner/Scanner.tsx:438
 msgid "Scan your rent history document"
 msgstr ""
 
@@ -500,23 +886,46 @@ msgstr ""
 #~ msgid "ScanBot Demo"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:494
+#: src/Components/Pages/Scanner/Scanner.tsx:493
 msgid "Scanning complete"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:469
+#: src/Components/Pages/Scanner/Scanner.tsx:468
 msgid "Scanning in progress..."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:260
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:311
+msgid "Search for a building"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/fields/AptStatField.tsx:78
+msgid "Select Apt Stat"
+msgstr "Seleccionar estado del apt."
+
+#: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:36
+msgid "Select Year"
+msgstr "Seleccionar año"
+
+#: src/Components/Pages/LoginPage/LoginPage.tsx:262
 msgid "Send verification code"
 msgstr "Enviar código de verificación"
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:105
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:47
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:55
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.no_violation.body"
+msgstr ""
+
+#: src/Components/Pages/LoginPage/LoginPage.tsx:107
 msgid "Something went wrong while sending your verification code."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:129
+#: src/Components/Pages/LoginPage/LoginPage.tsx:131
 msgid "Something went wrong while verifying your code."
 msgstr ""
 
@@ -525,11 +934,15 @@ msgstr ""
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:106
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:97
 msgid "Start analysis"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:459
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:146
+msgid "Start review"
+msgstr ""
+
+#: src/Components/Pages/Scanner/Scanner.tsx:458
 msgid "Start scanning"
 msgstr ""
 
@@ -537,25 +950,53 @@ msgstr ""
 msgid "Started Feb 3, 2026"
 msgstr ""
 
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
+msgid "Starting analysis…"
+msgstr ""
+
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:68
 msgid "Step 1: Upload"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:301
-msgid "Step 4: Confirm address"
+msgid "Step 3: Confirm address"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:299
-msgid "Step 4: Enter address"
+msgid "Step 3: Enter address"
+msgstr ""
+
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:301
+#~ msgid "Step 4: Confirm address"
+#~ msgstr ""
+
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:299
+#~ msgid "Step 4: Enter address"
+#~ msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:104
+msgid "Step 4: Provide your rent"
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:56
-msgid "Step 5: Provide your rent"
+#~ msgid "Step 5: Provide your rent"
+#~ msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:61
+msgid "Step 5: What we found"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:532
+#: src/Components/Pages/FindingsReview/FindingReviewNav.tsx:24
+msgid "Submit"
+msgstr "Enviar"
+
+#: src/Components/Pages/Scanner/Scanner.tsx:531
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:53
+msgid "Tenant names"
+msgstr "Nombres de inquilinos"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:32
 msgid "Terms of use"
@@ -565,25 +1006,117 @@ msgstr ""
 msgid "That code is incorrect. Try again."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:68
+msgid "findings.HRVD.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:51
+msgid "findings.HRVD.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:57
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:70
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:155
+msgid "findings.OVERCHARGE_PREHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:42
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:79
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:66
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.no_vacancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:53
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Footer.tsx:17
 msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:22
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:24
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:142
+msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
+msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:128
+msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
+msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en {year1}, y los bonos permitidos podrían no explicar completamente el salto."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
+msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si este aumento puede explicarse mediante bonos permitidos."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:33
+msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.no_pref_rent_label"
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
+msgid "This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data)."
 msgstr ""
 
 #: src/Components/Pages/Report/ReportPDF.tsx:18
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:329
+#: src/Components/Pages/Scanner/Scanner.tsx:328
 msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:228
+#: src/Components/Pages/Scanner/Scanner.tsx:227
 msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:523
+#: src/Components/Pages/Scanner/Scanner.tsx:522
 msgid "Tips for getting a high quality scan"
 msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:105
+#~ msgid "to check if there is a way they may or may not be explained."
+#~ msgstr ""
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:85
+msgid "to confirm the information below matches."
+msgstr "para confirmar que la información a continuación coincide."
 
 #: src/api/account/errors.ts:169
 msgid "Too many invalid attempts. Request a new code."
@@ -593,8 +1126,20 @@ msgstr ""
 msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:151
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:73
+msgid "Unable to load findings state."
+msgstr "No se pudo cargar el estado de los hallazgos."
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:76
+msgid "Unable to load findings."
+msgstr ""
+
+#: src/Components/Pages/LoginPage/LoginPage.tsx:153
 msgid "Unable to resend code right now. Please try again."
+msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:91
+msgid "Unable to start analysis. Please try again."
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:217
@@ -607,11 +1152,16 @@ msgstr ""
 msgid "Unit number"
 msgstr ""
 
+#. placeholder {0}: currentFinding.type
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:88
+msgid "Unsupported finding type: {0}"
+msgstr "Tipo de hallazgo no compatible: {0}"
+
 #: src/Components/Pages/Home/Home.tsx:12
 #~ msgid "Upload your rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:442
+#: src/Components/Pages/Scanner/Scanner.tsx:441
 msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 msgstr ""
 
@@ -619,16 +1169,36 @@ msgstr ""
 #~ msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 #~ msgstr ""
 
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:47
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:53
+msgid "vacancy bonus"
+msgstr "bono por vacancia"
+
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:48
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:54
+msgid "Vacancy bonus"
+msgstr "Bono por vacancia"
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
+msgid "Values confirmed"
+msgstr "Valores confirmados"
+
 #. placeholder {0}: index + 1
-#: src/Components/Pages/LoginPage/LoginPage.tsx:300
+#: src/Components/Pages/LoginPage/LoginPage.tsx:302
 msgid "Verification digit {0}"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:330
+#: src/Components/Pages/LoginPage/LoginPage.tsx:332
 msgid "Verify"
 msgstr ""
 
+#: src/Components/Pages/Landing/Landing.tsx:31
+msgid "View map of rent-stabilized buildings"
+msgstr ""
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:25
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:146
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
 msgstr ""
 
@@ -636,8 +1206,12 @@ msgstr ""
 msgid "View scanned document"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:69
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
 msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
+msgstr ""
+
+#: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:261
+msgid "We could not find a building ID for that address. Try another search."
 msgstr ""
 
 #: src/api/account/errors.ts:175
@@ -653,15 +1227,19 @@ msgstr ""
 msgid "We could not generate your report PDF. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:429
+#: src/Components/Pages/Scanner/Scanner.tsx:428
 msgid "We couldn't combine your pages. Please try again."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:96
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:108
+msgid "We have not found any potential violations in your apartment's rent history."
+msgstr ""
+
+#: src/Components/Pages/LoginPage/LoginPage.tsx:98
 msgid "We requested your code. Delivery may take a moment."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:279
+#: src/Components/Pages/LoginPage/LoginPage.tsx:281
 msgid "We sent a code to"
 msgstr ""
 
@@ -673,7 +1251,7 @@ msgstr ""
 #~ msgid "We'll text you a code to verify and save your progress."
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:215
+#: src/Components/Pages/LoginPage/LoginPage.tsx:217
 msgid "We’ll text you a code to verify and save your progress."
 msgstr ""
 
@@ -681,8 +1259,138 @@ msgstr ""
 msgid "We'll use publicly available information about the building and apartment to support your rent history analysis."
 msgstr ""
 
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:93
+msgid "We've found potential violations in your apartment's rent history."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:59
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:50
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:69
+msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.yes_no_legend"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:60
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:123
+msgid "Why this is important"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:9
+msgid "findings.PREFRENT_421A.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
+msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
+msgstr "Año {findingYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:9
+msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:13
+msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:12
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
+msgid "findings.HRVD.intro.eyebrow"
+msgstr ""
+
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
+msgid "Yes"
+msgstr "Sí"
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:68
+msgid "Yes, this matches my document"
+msgstr "Sí, coincide con mi documento"
+
 #: src/Components/Pages/Report/ReportEmailForm.tsx:84
 msgid "You can add up to 10 additional recipients."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:49
+msgid "findings.PREFRENT_421A.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:57
+msgid "findings.PREFRENT_421A.result.dismissed.body"
+msgstr ""
+
+#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:126
+msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:81
+msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:80
+msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
+msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:108
+msgid "findings.NONREGISTRATION_PREHSTPA.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:93
+msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.no.body"
 msgstr ""
 
 #: src/api/account/errors.ts:171
@@ -692,6 +1400,14 @@ msgstr ""
 #: src/Components/Pages/Report/ReportEmailForm.tsx:190
 msgid "Your email (required)"
 msgstr ""
+
+#: src/Components/DocumentLink/DocumentLink.tsx:28
+msgid "your rent history"
+msgstr "su historial de alquiler"
+
+#: src/Components/DocumentLink/DocumentLink.tsx:33
+msgid "Your rent history"
+msgstr "Su historial de alquiler"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:51
 msgid "Your rent history report(s)"
@@ -709,12 +1425,16 @@ msgstr ""
 msgid "Your scanned pages"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:412
+#: src/Components/Pages/Scanner/Scanner.tsx:411
 msgid "Your session is missing a rent history record."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:451
+#: src/Components/Pages/Scanner/Scanner.tsx:450
 msgid "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
+msgstr ""
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:63
+msgid "Your session is missing a rent history record. Please sign in again."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:175
