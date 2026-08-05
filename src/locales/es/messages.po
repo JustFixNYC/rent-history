@@ -55,7 +55,7 @@ msgid "{0} buildings"
 msgstr ""
 
 #. placeholder {0}: history.apartment
-#: src/Components/Pages/AccountPage/AccountPage.tsx:79
+#: src/Components/Pages/AccountPage/AccountPage.tsx:83
 msgid "{address}, Apt {0}"
 msgstr ""
 
@@ -69,10 +69,6 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:305
 msgid "{start}–{end}"
-msgstr ""
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:205
-msgid "+ Scan a new rent history"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:71
@@ -242,8 +238,8 @@ msgstr ""
 msgid "By"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:235
-#: src/Components/Pages/AccountPage/AccountPage.tsx:257
+#: src/Components/Pages/AccountPage/AccountPage.tsx:242
+#: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:572
 msgid "Cancel"
 msgstr ""
@@ -275,11 +271,11 @@ msgstr ""
 msgid "Coming soon."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:169
+#: src/Components/Pages/AccountPage/AccountPage.tsx:174
 msgid "Completed"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:177
+#: src/Components/Pages/AccountPage/AccountPage.tsx:191
 msgid "Completed {completedOn}"
 msgstr ""
 
@@ -305,8 +301,8 @@ msgstr ""
 msgid "Current monthly rent"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:187
-#: src/Components/Pages/AccountPage/AccountPage.tsx:240
+#: src/Components/Pages/AccountPage/AccountPage.tsx:182
+#: src/Components/Pages/AccountPage/AccountPage.tsx:236
 msgid "Delete"
 msgstr ""
 
@@ -448,14 +444,14 @@ msgid "findings.PREFRENT_421A.ocr.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
-msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
-msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
-
-#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
 msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
+msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31
@@ -547,7 +543,7 @@ msgstr ""
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:171
+#: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
 msgstr ""
 
@@ -622,7 +618,7 @@ msgstr ""
 msgid "Loading scan previews…"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:135
+#: src/Components/Pages/AccountPage/AccountPage.tsx:147
 msgid "Loading your rent histories…"
 msgstr ""
 
@@ -630,12 +626,12 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:213
-#: src/Components/Pages/AccountPage/AccountPage.tsx:262
+#: src/Components/Pages/AccountPage/AccountPage.tsx:214
+#: src/Components/Pages/AccountPage/AccountPage.tsx:258
 msgid "Log out"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:250
+#: src/Components/Pages/AccountPage/AccountPage.tsx:251
 msgid "Log out?"
 msgstr ""
 
@@ -774,7 +770,7 @@ msgstr ""
 msgid "Page {0} scan image"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:220
+#: src/Components/Pages/AccountPage/AccountPage.tsx:221
 msgid "Permanently delete this rent history?"
 msgstr ""
 
@@ -910,12 +906,8 @@ msgstr ""
 msgid "Restart scanning"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:157
+#: src/Components/Pages/AccountPage/AccountPage.tsx:165
 msgid "Resume"
-msgstr ""
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:156
-msgid "Resume on your mobile device"
 msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:34
@@ -932,6 +924,10 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:110
 msgid "Save page"
+msgstr ""
+
+#: src/Components/Pages/AccountPage/AccountPage.tsx:139
+msgid "Scan a new rent history"
 msgstr ""
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
@@ -1022,7 +1018,7 @@ msgstr ""
 msgid "Start scanning"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:179
+#: src/Components/Pages/AccountPage/AccountPage.tsx:193
 msgid "Started {startedOn}"
 msgstr ""
 
@@ -1182,11 +1178,11 @@ msgstr ""
 msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:223
+#: src/Components/Pages/AccountPage/AccountPage.tsx:224
 msgid "This rent history, completed on {deleteDate}, will be permanently deleted. This can't be undone."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:228
+#: src/Components/Pages/AccountPage/AccountPage.tsx:229
 msgid "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
 msgstr ""
 
@@ -1245,7 +1241,7 @@ msgstr ""
 msgid "Unsupported finding type: {0}"
 msgstr "Tipo de hallazgo no compatible: {0}"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:77
+#: src/Components/Pages/AccountPage/AccountPage.tsx:81
 msgid "Untitled rent history"
 msgstr ""
 
@@ -1288,14 +1284,10 @@ msgstr ""
 msgid "View map of rent-stabilized buildings"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:154
+#: src/Components/Pages/AccountPage/AccountPage.tsx:164
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:146
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
-msgstr ""
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:153
-msgid "View report on your mobile device"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
@@ -1327,7 +1319,7 @@ msgstr ""
 msgid "We couldn't combine your pages. Please try again."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:139
+#: src/Components/Pages/AccountPage/AccountPage.tsx:151
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr ""
 
@@ -1393,14 +1385,14 @@ msgid "findings.PREFRENT_421A.intro.eyebrow"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
-msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
-msgstr "Año {findingYear}"
-
-#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
 msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
+msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
+msgstr "Año {findingYear}"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:9
@@ -1444,7 +1436,7 @@ msgstr "Sí, coincide con mi documento"
 msgid "You can add up to 10 additional recipients."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:145
+#: src/Components/Pages/AccountPage/AccountPage.tsx:157
 msgid "You don't have any rent histories yet."
 msgstr ""
 
@@ -1458,7 +1450,7 @@ msgstr ""
 msgid "findings.PREFRENT_421A.result.dismissed.body"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:252
+#: src/Components/Pages/AccountPage/AccountPage.tsx:253
 msgid "You'll need to enter your phone number to access your reports again."
 msgstr ""
 
@@ -1517,7 +1509,7 @@ msgstr "su historial de alquiler"
 msgid "Your rent history"
 msgstr "Su historial de alquiler"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:130
+#: src/Components/Pages/AccountPage/AccountPage.tsx:134
 msgid "Your rent history report(s)"
 msgstr ""
 
