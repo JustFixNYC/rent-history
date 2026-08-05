@@ -22,7 +22,6 @@ export function createInitialFormState(
     row0AptStat: row0?.apt_stat ?? "",
     row1AptStat: row1?.apt_stat ?? "",
     row0LegalRent: row0?.legal_rent != null ? String(row0.legal_rent) : "",
-    row1LegalRent: row1?.legal_rent != null ? String(row1.legal_rent) : "",
     row0PrefRent: row0?.pref_rent != null ? String(row0.pref_rent) : "",
     row1PrefRent: row1?.pref_rent != null ? String(row1.pref_rent) : "",
     getsVacancyIncrease: row1?.gets_vacancy_increase ?? null,
