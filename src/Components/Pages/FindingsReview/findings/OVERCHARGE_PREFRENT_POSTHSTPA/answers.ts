@@ -7,7 +7,6 @@ export type PrefrentPosthstpaFormState = {
   row0AptStat: string;
   row1AptStat: string;
   row0LegalRent: string;
-  row1LegalRent: string;
   row0PrefRent: string;
   row1PrefRent: string;
   getsVacancyIncrease: boolean | null;
