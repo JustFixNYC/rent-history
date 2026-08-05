@@ -47,7 +47,6 @@ export function buildAnswers(
       {
         reg_year: row1.reg_year,
         apt_stat: formState.row1AptStat,
-        legal_rent: buildRentAnswer(formState.row1LegalRent),
         pref_rent: buildRentAnswer(formState.row1PrefRent),
         gets_vacancy_increase: formState.getsVacancyIncrease,
       },
