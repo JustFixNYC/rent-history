@@ -14,7 +14,6 @@ export const PATCHABLE_KEYS = {
   row0: ["apt_stat", "legal_rent", "pref_rent"] as const,
   row1: [
     "apt_stat",
-    "legal_rent",
     "pref_rent",
     "gets_vacancy_increase",
   ] as const,
