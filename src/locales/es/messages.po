@@ -294,7 +294,6 @@ msgstr ""
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:114
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:148
 msgid "Back"
 msgstr "Volver"
 
@@ -389,7 +388,6 @@ msgid "Confirm address"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:252
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:95
 msgid "Continue"
 msgstr "Continuar"
 
@@ -941,6 +939,7 @@ msgstr ""
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:152
 msgid "Next"
 msgstr "Siguiente"
@@ -1097,7 +1096,7 @@ msgstr ""
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:50
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:51
 msgid "Please enter a valid rent amount."
 msgstr ""
 
@@ -1109,7 +1108,7 @@ msgstr ""
 msgid "Please enter your email address."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:46
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:47
 msgid "Please enter your monthly rent."
 msgstr ""
 
@@ -1279,7 +1278,7 @@ msgid "Save page"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:254
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:95
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
 msgid "Saving…"
 msgstr ""
 
@@ -1684,7 +1683,7 @@ msgstr ""
 msgid "This tool was created by JustFix, in collaboration with leading rent history experts."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:110
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:111
 msgid "This will help in our analysis of your rent history TK"
 msgstr ""
 
@@ -1769,7 +1768,7 @@ msgstr ""
 msgid "Unable to restart scanning. Please try again."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:89
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:90
 msgid "Unable to save your rent. Please try again."
 msgstr ""
 
@@ -1979,7 +1978,7 @@ msgstr ""
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:105
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:106
 msgid "What is the total monthly rent for your entire apartment?"
 msgstr ""
 
@@ -2193,7 +2192,7 @@ msgstr ""
 #~ msgid "Your session is missing a rent history record. Go back to login and try again."
 #~ msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:69
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:70
 msgid "Your session is missing a rent history record. Please sign in again."
 msgstr ""
 

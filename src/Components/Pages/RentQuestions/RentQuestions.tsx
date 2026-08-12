@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
-import { Button, Icon, TextInput } from "@justfixnyc/component-library";
+import { TextInput } from "@justfixnyc/component-library";
 
 import {
   isAccountApiError,
@@ -17,6 +17,7 @@ import {
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
+import { FlowNav } from "../../FlowNav/FlowNav";
 import {
   readRentQuestionsState,
   writeRentQuestionsState,
@@ -92,15 +93,15 @@ export const RentQuestions: React.FC = () => {
     }
   });
 
-  const primaryLabel = isSavingRent ? _(msg`Saving…`) : _(msg`Continue`);
+  const primaryLabel = isSavingRent ? _(msg`Saving…`) : _(msg`Next`);
 
   return (
     <div id="rent-questions-page">
-      <section className="postscan-body">
+      <section className="rent-questions">
         <AnalysisFlowProgress stepId="rent-questions" />
 
-        <article className="postscan-card">
-          <form className="postscan-card__content" onSubmit={saveAndContinue}>
+        <article className="rent-questions__card">
+          <form className="rent-questions__form" onSubmit={saveAndContinue}>
             <h2>
               <Trans>
                 What is the total monthly rent for your entire apartment?
@@ -112,9 +113,8 @@ export const RentQuestions: React.FC = () => {
               </Trans>
             </p>
             <TextInput
-              id="postscan-current-rent-input"
+              id="rent-questions-current-rent-input"
               labelText=""
-              className="postscan-rent-input"
               value={form.watch("monthlyRent")}
               onChange={(event) =>
                 form.setValue("monthlyRent", event.target.value, {
@@ -130,30 +130,20 @@ export const RentQuestions: React.FC = () => {
               invalidText={form.formState.errors.monthlyRent?.message}
             />
             {submitError ? (
-              <p className="postscan-field-error" role="alert">
+              <p className="rent-questions__error" role="alert">
                 {submitError}
               </p>
             ) : null}
           </form>
         </article>
 
-        <div className="postscan-actions">
-          <button
-            type="button"
-            className="postscan-link-btn"
-            onClick={() => navigate(`/${i18n.locale}/confirm-address`)}
-            disabled={isSavingRent}
-          >
-            <Icon icon="chevronLeft" />
-            <Trans>Back</Trans>
-          </button>
-          <Button
-            className="postscan-primary-btn"
-            labelText={primaryLabel}
-            onClick={saveAndContinue}
-            disabled={isSavingRent}
-          />
-        </div>
+        <FlowNav
+          onBack={() => navigate(`/${i18n.locale}/confirm-address`)}
+          onNext={saveAndContinue}
+          isNextLoading={isSavingRent}
+          backDisabled={isSavingRent}
+          nextLabel={primaryLabel}
+        />
       </section>
     </div>
   );
