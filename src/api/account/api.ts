@@ -26,7 +26,9 @@ import type {
   RhHistoryReportPdfCreateResponse,
   RhScanReviewResponse,
   RhLoginStartResponse,
+  RhMagicLinkVerifyResponse,
   RhOtpTokenResponse,
+  RhSendMagicLinkSmsResponse,
   RhRunAnalysisResponse,
   RhScanPresignRequest,
   RhScanPresignResponse,
@@ -94,6 +96,45 @@ export const verifyRhOtp = (
       },
     })
   ) as Promise<RhOtpTokenResponse>;
+};
+
+/** `POST /rh/login/send-magic-link-sms` — OAuth2 bearer; issue + SMS a resume link. */
+export const sendRhMagicLinkSms = ({
+  accessToken,
+  historyId,
+  locale,
+}: {
+  accessToken: string;
+  historyId: string;
+  locale: string;
+}): Promise<RhSendMagicLinkSmsResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/login/send-magic-link-sms", {
+      headers: bearerHeaders(accessToken),
+      body: {
+        history_id: historyId,
+        locale,
+        origin: window.location.hostname,
+      },
+    })
+  ) as Promise<RhSendMagicLinkSmsResponse>;
+
+/** `POST /rh/verify-magic-link` — exchange resume token for OAuth session. */
+export const verifyRhMagicLink = (
+  token: string
+): Promise<RhMagicLinkVerifyResponse> => {
+  const clientId = getRhOauthClientId();
+  const clientSecret = getRhOauthClientSecret();
+  return unwrapAccountResponse(
+    getAccountClient().POST("/rh/verify-magic-link", {
+      body: {
+        token,
+        client_id: clientId,
+        grant_type: "password",
+        ...(clientSecret ? { client_secret: clientSecret } : {}),
+      },
+    })
+  ) as Promise<RhMagicLinkVerifyResponse>;
 };
 
 /** `GET /rh/histories` — OAuth2 bearer; list all owned histories. */
