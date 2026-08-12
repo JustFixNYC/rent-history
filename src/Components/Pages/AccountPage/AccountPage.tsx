@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import {
   useDeleteRhHistory,
   useRhHistories,
+  useSendRhMagicLinkSms,
+  isAccountApiError,
   type RhHistoryList,
 } from "../../../api/account";
 import {
@@ -24,6 +26,15 @@ import "./AccountPage.scss";
 
 const isCompletedHistory = (history: RhHistoryList): boolean =>
   history.last_step_reached === "REPORT_GENERATION";
+
+type MagicLinkSmsUiState =
+  | { kind: "idle" }
+  | { kind: "pending" }
+  | { kind: "sent" }
+  | { kind: "pending_sms"; message?: string }
+  | { kind: "error"; message: string };
+
+const initialMagicLinkSmsState = (): MagicLinkSmsUiState => ({ kind: "idle" });
 
 /**
  * In-progress cards first (newest started first), then completed cards
@@ -60,10 +71,14 @@ const AccountPage: React.FC = () => {
     accessToken,
   });
   const deleteHistory = useDeleteRhHistory();
+  const sendMagicLinkSms = useSendRhMagicLinkSms();
 
   const [historyPendingDelete, setHistoryPendingDelete] =
     useState<RhHistoryList | null>(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [magicLinkSmsByHistoryId, setMagicLinkSmsByHistoryId] = useState<
+    Record<string, MagicLinkSmsUiState>
+  >({});
 
   const sortedHistories = useMemo(
     () => sortHistories(histories ?? []),
@@ -118,6 +133,78 @@ const AccountPage: React.FC = () => {
     navigate(`/${locale}/login`);
   };
 
+  const onSendMagicLinkTest = (history: RhHistoryList) => {
+    if (!accessToken) return;
+
+    setMagicLinkSmsByHistoryId((current) => ({
+      ...current,
+      [history.id]: { kind: "pending" },
+    }));
+
+    sendMagicLinkSms.mutate(
+      { accessToken, historyId: history.id, locale },
+      {
+        onSuccess: (response) => {
+          if (response.sms.status === "sent") {
+            setMagicLinkSmsByHistoryId((current) => ({
+              ...current,
+              [history.id]: { kind: "sent" },
+            }));
+            return;
+          }
+          setMagicLinkSmsByHistoryId((current) => ({
+            ...current,
+            [history.id]: {
+              kind: "pending_sms",
+              message: response.sms.message,
+            },
+          }));
+        },
+        onError: (error) => {
+          setMagicLinkSmsByHistoryId((current) => ({
+            ...current,
+            [history.id]: {
+              kind: "error",
+              message: isAccountApiError(error)
+                ? error.message
+                : _(msg`Unable to send resume link right now.`),
+            },
+          }));
+        },
+      }
+    );
+  };
+
+  const renderMagicLinkSmsStatus = (historyId: string) => {
+    const state =
+      magicLinkSmsByHistoryId[historyId] ?? initialMagicLinkSmsState();
+
+    switch (state.kind) {
+      case "sent":
+        return (
+          <p className="account-page__magic-link-status account-page__magic-link-status--success">
+            <Trans>Check your phone for a resume link.</Trans>
+          </p>
+        );
+      case "pending_sms":
+        return (
+          <p className="account-page__magic-link-status">
+            {state.message ?? (
+              <Trans>SMS delivery is pending. Check your phone shortly.</Trans>
+            )}
+          </p>
+        );
+      case "error":
+        return (
+          <p className="account-page__magic-link-status account-page__magic-link-status--error">
+            {state.message}
+          </p>
+        );
+      default:
+        return null;
+    }
+  };
+
   const deleteDate = historyPendingDelete
     ? formatDate(
         isCompletedHistory(historyPendingDelete)
@@ -165,6 +252,10 @@ const AccountPage: React.FC = () => {
                   : _(msg`Resume`);
                 const startedOn = formatDate(history.created_at);
                 const completedOn = formatDate(history.updated_at);
+                const magicLinkState =
+                  magicLinkSmsByHistoryId[history.id] ??
+                  initialMagicLinkSmsState();
+                const isMagicLinkPending = magicLinkState.kind === "pending";
 
                 return (
                   <li key={history.id} className="account-page__card">
@@ -201,6 +292,16 @@ const AccountPage: React.FC = () => {
                       size="small"
                       onClick={() => onCardAction(history)}
                     />
+                    {/* TEMP: remove before prod magic-link flow triggers replace this test UI */}
+                    <Button
+                      className="account-page__magic-link-test"
+                      labelText={_(msg`Send resume link (test)`)}
+                      variant="tertiary"
+                      size="small"
+                      disabled={isMagicLinkPending}
+                      onClick={() => onSendMagicLinkTest(history)}
+                    />
+                    {renderMagicLinkSmsStatus(history.id)}
                   </li>
                 );
               })}

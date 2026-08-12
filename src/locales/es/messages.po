@@ -66,7 +66,7 @@ msgid "{0} buildings"
 msgstr ""
 
 #. placeholder {0}: history.apartment
-#: src/Components/Pages/AccountPage/AccountPage.tsx:83
+#: src/Components/Pages/AccountPage/AccountPage.tsx:98
 msgid "{address}, Apt {0}"
 msgstr ""
 
@@ -334,14 +334,18 @@ msgstr ""
 msgid "Camera access"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:242
-#: src/Components/Pages/AccountPage/AccountPage.tsx:263
+#: src/Components/Pages/AccountPage/AccountPage.tsx:343
+#: src/Components/Pages/AccountPage/AccountPage.tsx:364
 #: src/Components/Pages/Scanner/Scanner.tsx:715
 msgid "Cancel"
 msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:65
 msgid "Change <0>Camera</0> to <1>Allow.</1>"
+msgstr ""
+
+#: src/Components/Pages/AccountPage/AccountPage.tsx:186
+msgid "Check your phone for a resume link."
 msgstr ""
 
 #: src/Components/ConfirmModal/ConfirmModal.tsx:76
@@ -371,11 +375,11 @@ msgstr ""
 msgid "Coming soon."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:174
+#: src/Components/Pages/AccountPage/AccountPage.tsx:265
 msgid "Completed"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:191
+#: src/Components/Pages/AccountPage/AccountPage.tsx:282
 msgid "Completed {completedOn}"
 msgstr ""
 
@@ -407,8 +411,8 @@ msgstr ""
 msgid "Currently Rent Stabilized"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:182
-#: src/Components/Pages/AccountPage/AccountPage.tsx:236
+#: src/Components/Pages/AccountPage/AccountPage.tsx:273
+#: src/Components/Pages/AccountPage/AccountPage.tsx:337
 msgid "Delete"
 msgstr ""
 
@@ -655,6 +659,10 @@ msgstr ""
 msgid "Glossary"
 msgstr "Glosario"
 
+#: src/Components/Pages/ResumePage/ResumePage.tsx:89
+msgid "Go to login"
+msgstr ""
+
 #: src/Components/TimelineElement/TimelineElement.tsx:106
 msgid "Hide supporting evidence"
 msgstr ""
@@ -732,7 +740,7 @@ msgstr ""
 msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:176
+#: src/Components/Pages/AccountPage/AccountPage.tsx:267
 msgid "In progress"
 msgstr ""
 
@@ -825,7 +833,7 @@ msgstr ""
 msgid "Loading scanner…"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:147
+#: src/Components/Pages/AccountPage/AccountPage.tsx:234
 msgid "Loading your rent histories…"
 msgstr ""
 
@@ -841,12 +849,12 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:214
-#: src/Components/Pages/AccountPage/AccountPage.tsx:258
+#: src/Components/Pages/AccountPage/AccountPage.tsx:315
+#: src/Components/Pages/AccountPage/AccountPage.tsx:359
 msgid "Log out"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:251
+#: src/Components/Pages/AccountPage/AccountPage.tsx:352
 msgid "Log out?"
 msgstr ""
 
@@ -1051,7 +1059,7 @@ msgstr ""
 msgid "Page(s) successfully scanned."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:221
+#: src/Components/Pages/AccountPage/AccountPage.tsx:322
 msgid "Permanently delete this rent history?"
 msgstr ""
 
@@ -1236,7 +1244,7 @@ msgstr ""
 #~ msgid "Restart scanning"
 #~ msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:165
+#: src/Components/Pages/AccountPage/AccountPage.tsx:252
 msgid "Resume"
 msgstr ""
 
@@ -1286,7 +1294,7 @@ msgstr ""
 msgid "Scan"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:139
+#: src/Components/Pages/AccountPage/AccountPage.tsx:226
 msgid "Scan a new rent history"
 msgstr ""
 
@@ -1364,12 +1372,20 @@ msgstr "Seleccionar estado del apt."
 msgid "Select Year"
 msgstr "Seleccionar año"
 
+#: src/Components/Pages/AccountPage/AccountPage.tsx:298
+msgid "Send resume link (test)"
+msgstr ""
+
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:78
 msgid "Send verification code"
 msgstr "Enviar código de verificación"
 
 #: src/Components/TimelineElement/TimelineElement.tsx:107
 msgid "Show supporting evidence"
+msgstr ""
+
+#: src/Components/Pages/ResumePage/ResumePage.tsx:74
+msgid "Signing you in…"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1386,12 +1402,20 @@ msgstr ""
 msgid "Site navigation"
 msgstr ""
 
+#: src/Components/Pages/AccountPage/AccountPage.tsx:193
+msgid "SMS delivery is pending. Check your phone shortly."
+msgstr ""
+
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:171
 msgid "Something missing?"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:102
 msgid "Something went wrong while sending your verification code."
+msgstr ""
+
+#: src/Components/Pages/ResumePage/ResumePage.tsx:63
+msgid "Something went wrong while signing you in. Please try again."
 msgstr ""
 
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:127
@@ -1416,7 +1440,7 @@ msgstr ""
 msgid "Start scanning"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:193
+#: src/Components/Pages/AccountPage/AccountPage.tsx:284
 msgid "Started {startedOn}"
 msgstr ""
 
@@ -1667,16 +1691,28 @@ msgstr ""
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 msgstr ""
 
+#: src/api/account/errors.ts:187
+msgid "This link has expired."
+msgstr ""
+
+#: src/api/account/errors.ts:189
+msgid "This link is invalid or already used."
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:389
 #~ msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 #~ msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:224
+#: src/Components/Pages/AccountPage/AccountPage.tsx:325
 msgid "This rent history, completed on {deleteDate}, will be permanently deleted. This can't be undone."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:229
+#: src/Components/Pages/AccountPage/AccountPage.tsx:330
 msgid "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
+msgstr ""
+
+#: src/Components/Pages/ResumePage/ResumePage.tsx:41
+msgid "This resume link is missing required information."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:173
@@ -1768,8 +1804,16 @@ msgstr ""
 msgid "Unable to restart scanning. Please try again."
 msgstr ""
 
+#: src/Components/Pages/ResumePage/ResumePage.tsx:85
+msgid "Unable to resume"
+msgstr ""
+
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:90
 msgid "Unable to save your rent. Please try again."
+msgstr ""
+
+#: src/Components/Pages/AccountPage/AccountPage.tsx:170
+msgid "Unable to send resume link right now."
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:104
@@ -1795,7 +1839,7 @@ msgstr ""
 msgid "Unsupported finding type: {0}"
 msgstr "Tipo de hallazgo no compatible: {0}"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:81
+#: src/Components/Pages/AccountPage/AccountPage.tsx:96
 msgid "Untitled rent history"
 msgstr ""
 
@@ -1847,7 +1891,7 @@ msgstr ""
 #~ msgid "View map of rent-stabilized buildings"
 #~ msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:164
+#: src/Components/Pages/AccountPage/AccountPage.tsx:251
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:140
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
@@ -1894,7 +1938,7 @@ msgstr ""
 #~ msgid "We couldn't combine your pages. Please try again."
 #~ msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:151
+#: src/Components/Pages/AccountPage/AccountPage.tsx:238
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr ""
 
@@ -2065,7 +2109,7 @@ msgstr "Sí, coincide con mi documento"
 msgid "You can add up to 10 additional recipients."
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:157
+#: src/Components/Pages/AccountPage/AccountPage.tsx:244
 msgid "You don't have any rent histories yet."
 msgstr ""
 
@@ -2093,7 +2137,7 @@ msgstr ""
 msgid "findings.PREFRENT_421A.result.no_violation.body"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:253
+#: src/Components/Pages/AccountPage/AccountPage.tsx:354
 msgid "You'll need to enter your phone number to access your reports again."
 msgstr ""
 
@@ -2160,7 +2204,7 @@ msgstr "su historial de alquiler"
 msgid "Your rent history"
 msgstr "Su historial de alquiler"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:134
+#: src/Components/Pages/AccountPage/AccountPage.tsx:221
 msgid "Your rent history report(s)"
 msgstr ""
 

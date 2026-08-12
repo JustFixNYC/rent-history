@@ -10,8 +10,10 @@ import {
   confirmRhHistoryAddress,
   setRhHistoryCurrentRent,
   postRhHistoryRunAnalysis,
+  sendRhMagicLinkSms,
   startRhLogin,
   validateRhFinding,
+  verifyRhMagicLink,
   verifyRhOtp,
 } from "./api";
 const jsonResponse = (body: unknown, init: ResponseInit): Response =>
@@ -102,6 +104,95 @@ describe("verifyRhOtp", () => {
     await verifyRhOtp("15554443333", "123456");
     const request = getMockedFetchRequest(fetchSpy);
     expect(await request.text()).toContain('"client_secret":"top-secret"');
+  });
+});
+
+describe("verifyRhMagicLink", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("posts to verify-magic-link with oauth client fields", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+    vi.stubEnv("VITE_RH_OAUTH_CLIENT_ID", "client-id-123");
+    vi.stubEnv("VITE_RH_OAUTH_CLIENT_SECRET", "");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          access_token: "access",
+          refresh_token: "refresh",
+          token_type: "Bearer",
+          expires_in: 300,
+          scope: "read write",
+          history_id: "hist-1",
+          last_step_reached: "ADDRESS_CONFIRMATION",
+          profile: {
+            id: 1,
+            phone_number: "15554443333",
+          },
+        },
+        { status: 200 }
+      )
+    );
+
+    await verifyRhMagicLink("opaque-token");
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe("https://auth.example.org/rh/verify-magic-link");
+    expect(request.method).toBe("POST");
+    expect(await request.text()).toBe(
+      JSON.stringify({
+        token: "opaque-token",
+        client_id: "client-id-123",
+        grant_type: "password",
+      })
+    );
+  });
+});
+
+describe("sendRhMagicLinkSms", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("posts to send-magic-link-sms with bearer auth and origin", async () => {
+    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse(
+        {
+          history_id: "hist-1",
+          last_step_reached: "ADDRESS_CONFIRMATION",
+          expires_in: 86400,
+          url: "https://example.org/en/resume?token=abc",
+          sms: { status: "sent" },
+        },
+        { status: 200 }
+      )
+    );
+
+    await sendRhMagicLinkSms({
+      accessToken: "access-token",
+      historyId: "hist-1",
+      locale: "en",
+    });
+
+    const request = getMockedFetchRequest(fetchSpy);
+    expect(request.url).toBe(
+      "https://auth.example.org/rh/login/send-magic-link-sms"
+    );
+    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
+    expect(await request.text()).toBe(
+      JSON.stringify({
+        history_id: "hist-1",
+        locale: "en",
+        origin: window.location.hostname,
+      })
+    );
   });
 });
 

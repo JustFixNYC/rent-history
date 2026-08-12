@@ -46,11 +46,13 @@
         "type": "object"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `analysis_already_run` - Analysis already run\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied\n* `rh_page_not_found` - RH page not found",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `magic_link_expired` - Magic link expired\n* `magic_link_invalid` - Magic link invalid\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `analysis_already_run` - Analysis already run\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied\n* `rh_page_not_found` - RH page not found",
         "enum": [
           "otp_expired",
           "otp_invalid",
           "otp_locked",
+          "magic_link_expired",
+          "magic_link_invalid",
           "profile_not_found",
           "history_not_found",
           "rh_profile_not_found",
@@ -1021,6 +1023,75 @@
         ],
         "type": "object"
       },
+      "RhMagicLinkVerifyRequestRequest": {
+        "properties": {
+          "client_id": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "client_secret": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "grant_type": {
+            "default": "password",
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "token": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id",
+          "token"
+        ],
+        "type": "object"
+      },
+      "RhMagicLinkVerifyResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "last_step_reached": {
+            "$ref": "#/components/schemas/LastStepReachedEnum"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/RhProfile"
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "access_token",
+          "expires_in",
+          "history_id",
+          "last_step_reached",
+          "profile",
+          "refresh_token",
+          "scope",
+          "token_type"
+        ],
+        "type": "object"
+      },
       "RhOtpDelivery": {
         "properties": {
           "message": {
@@ -1523,6 +1594,56 @@
           "ready"
         ],
         "type": "string"
+      },
+      "RhSendMagicLinkSmsRequestRequest": {
+        "properties": {
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "locale": {
+            "default": "en",
+            "maxLength": 16,
+            "type": "string"
+          },
+          "origin": {
+            "maxLength": 253,
+            "type": "string"
+          }
+        },
+        "required": [
+          "history_id"
+        ],
+        "type": "object"
+      },
+      "RhSendMagicLinkSmsResponse": {
+        "properties": {
+          "expires_in": {
+            "type": "integer"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "last_step_reached": {
+            "$ref": "#/components/schemas/LastStepReachedEnum"
+          },
+          "sms": {
+            "$ref": "#/components/schemas/RhOtpDelivery"
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expires_in",
+          "history_id",
+          "last_step_reached",
+          "sms",
+          "url"
+        ],
+        "type": "object"
       },
       "RhStandardizedTableRow": {
         "description": "One element of RhPage.data[]. Declares OpenAPI field types and validates request rows.",
@@ -2961,6 +3082,71 @@
         ]
       }
     },
+    "/rh/login/send-magic-link-sms": {
+      "post": {
+        "description": "Internal issuer for history-scoped resume links: creates a single-use magic link for the given RhHistory and sends it to the profile phone number. Authenticate with OAuth bearer (resource owner) or the static `RH_API_TOKEN` bearer for server-side triggers. No step gate \u2014 any owned history qualifies.",
+        "operationId": "login_send_magic_link_sms_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhSendMagicLinkSmsRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhSendMagicLinkSmsResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Issue a magic link and send it via SMS",
+        "tags": [
+          "OTP"
+        ]
+      }
+    },
     "/rh/login/start": {
       "post": {
         "description": "Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `REPORT_GENERATION`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.",
@@ -3042,6 +3228,58 @@
         "summary": "Fetch the resource owner's profile",
         "tags": [
           "Profile"
+        ]
+      }
+    },
+    "/rh/verify-magic-link": {
+      "post": {
+        "description": "Validates a previously issued magic link token and (if successful) issues an OAuth2 access token and refresh token tied to the provided OAuth Application (`client_id` / `client_secret`). Returns resume metadata (`history_id`, `last_step_reached`) for the linked RhHistory.",
+        "operationId": "verify_magic_link_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhMagicLinkVerifyRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhMagicLinkVerifyResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid input, expired or invalid magic link, or unauthorized client."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid client credentials."
+          }
+        },
+        "summary": "Exchange a magic link token for OAuth tokens",
+        "tags": [
+          "OTP"
         ]
       }
     },
