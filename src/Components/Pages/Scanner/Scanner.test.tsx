@@ -150,6 +150,7 @@ vi.mock("./scanner-overlay", async () => {
 
 const readyScanReviewPage = {
   id: 1,
+  extraction_status: "complete" as const,
   needs_retake: false,
   s3_key: `1/${testHistoryId}/page1.jpg`,
   start_year: 2020,
@@ -235,6 +236,7 @@ vi.mock("../../../api/account/api", async () => {
           pages: [
             {
               id: 1,
+              extraction_status: "complete" as const,
               needs_retake: false,
               s3_key: `1/${testHistoryId}/page1.jpg`,
               start_year: 2020,
@@ -596,6 +598,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
           pages: [
             {
               id: 7,
+              extraction_status: "needs_retake" as const,
               needs_retake: true,
               s3_key: `1/${testHistoryId}/page-retake.jpg`,
               start_year: 2018,
@@ -1225,6 +1228,7 @@ describe("Scanner launch failure handling", () => {
           pages: [
             {
               id: 7,
+              extraction_status: "needs_retake" as const,
               needs_retake: true,
               s3_key: `1/${testHistoryId}/page-retake.jpg`,
               start_year: 2018,

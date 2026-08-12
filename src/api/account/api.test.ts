@@ -314,6 +314,7 @@ describe("getRhHistoryScanReview", () => {
           pages: [
             {
               id: 42,
+              extraction_status: "complete",
               needs_retake: false,
               s3_key: "1/uuid/page1.jpg",
               start_year: 2020,
@@ -381,6 +382,7 @@ describe("getRhHistoryScanReview", () => {
           pages: [
             {
               id: 7,
+              extraction_status: "complete",
               needs_retake: false,
               s3_key: "1/uuid/page1.jpg",
             },
