@@ -116,7 +116,9 @@ export function useRhLoginFlow() {
       setRhAuthSession(otpSession);
       setVerifiedProfile(otpSession.profile);
       clearRhHistoryId();
-      navigate(`/${i18n.locale}/${hasViewableReport ? "account" : "scanner"}`);
+      navigate(
+        `/${i18n.locale}/${hasViewableReport ? "account" : "confirm-address"}`
+      );
     } catch (error) {
       if (isAccountApiError(error)) {
         setVerificationError(otpVerificationMessage(error, _));

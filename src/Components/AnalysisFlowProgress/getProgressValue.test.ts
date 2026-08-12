@@ -88,12 +88,16 @@ describe("getAnalysisFlowProgress", () => {
 
   it("maps step ids to indexes for all configured steps", () => {
     expect(ANALYSIS_FLOW_STEPS).toHaveLength(7);
-    expect(getAnalysisFlowProgress("scanner")).toEqual({
+    expect(getAnalysisFlowProgress("confirm-address")).toEqual({
       value: 14,
       max: 100,
     });
+    expect(getAnalysisFlowProgress("scanner")).toEqual({
+      value: 43,
+      max: 100,
+    });
     expect(getAnalysisFlowProgress("scan-review")).toEqual({
-      value: 29,
+      value: 57,
       max: 100,
     });
   });
