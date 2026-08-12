@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
@@ -20,11 +20,7 @@ type GeoSearchDropdownSelection = {
 };
 import { useNavigate } from "react-router-dom";
 
-import {
-  useConfirmRhHistoryAddress,
-  useRhHistoryAddress,
-} from "../../../api/account";
-import { searchGeosearch } from "../../../api/thirdParty/geosearch";
+import { useConfirmRhHistoryAddress } from "../../../api/account";
 import {
   getRhAuthSession,
   getRhHistoryId,
@@ -87,122 +83,22 @@ export const ConfirmAddress: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
   const persistedState = readConfirmAddressState();
-  const [flowState, setFlowState] = useState<ConfirmAddressState | null>(
-    persistedState
+  const [flowState, setFlowState] = useState<ConfirmAddressState>(
+    () => persistedState ?? buildEnterAddressState("")
   );
   const [addressError, setAddressError] = useState<string | null>(null);
-  const auth = getRhAuthSession();
-  const historyId = getRhHistoryId();
-  const historyAddressQuery = useRhHistoryAddress({
-    accessToken: auth?.accessToken,
-    historyId: historyId ?? undefined,
-    enabled: !persistedState,
-  });
   const confirmAddressMutation = useConfirmRhHistoryAddress();
   const savingAddress = confirmAddressMutation.isPending;
-
-  useEffect(() => {
-    if (persistedState) return;
-
-    if (!auth?.accessToken || !historyId) {
-      setFlowState(buildEnterAddressState(""));
-      return;
-    }
-
-    if (historyAddressQuery.isPending) {
-      return;
-    }
-
-    if (historyAddressQuery.isError) {
-      setFlowState(buildEnterAddressState(""));
-      return;
-    }
-
-    const addressData = historyAddressQuery.data;
-    if (!addressData) {
-      return;
-    }
-
-    let cancelled = false;
-
-    const bootstrapFromAddress = async () => {
-      const unitNumber = (addressData.apartment ?? "").trim();
-      const streetLine = (addressData.address ?? "").trim();
-
-      if (!streetLine) {
-        if (!cancelled) {
-          setFlowState(buildEnterAddressState(unitNumber));
-        }
-        return;
-      }
-
-      try {
-        const feature = await searchGeosearch(streetLine);
-        if (cancelled) return;
-
-        if (feature) {
-          const mapped = geosearchFeatureToAddressState(
-            feature,
-            buildEnterAddressState(unitNumber).confirmedAddress
-          );
-          if (mapped.bbl) {
-            setFlowState({
-              addressFlowState: "confirmExtracted",
-              confirmedAddress: mapped,
-              draftAddress: { ...mapped, unitNumber },
-            });
-            return;
-          }
-        }
-
-        setFlowState(buildEnterAddressState(unitNumber));
-      } catch {
-        if (!cancelled) {
-          setFlowState(buildEnterAddressState(""));
-        }
-      }
-    };
-
-    void bootstrapFromAddress();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [
-    persistedState,
-    auth?.accessToken,
-    historyId,
-    historyAddressQuery.isPending,
-    historyAddressQuery.isError,
-    historyAddressQuery.data,
-  ]);
-
-  const isBootstrapping =
-    !persistedState &&
-    (historyAddressQuery.isPending ||
-      (Boolean(auth?.accessToken && historyId) && !flowState));
-
-  if (isBootstrapping || !flowState) {
-    return (
-      <div id="confirm-address-page">
-        <section className="postscan-body">
-          <AnalysisFlowProgress stepId="confirm-address" />
-          <p>
-            <Trans>Loading address…</Trans>
-          </p>
-        </section>
-      </div>
-    );
-  }
 
   const { addressFlowState, confirmedAddress, draftAddress } = flowState;
 
   const setAddressFlowState = (next: AddressFlowState) =>
-    setFlowState((prev) => (prev ? { ...prev, addressFlowState: next } : prev));
+    setFlowState((prev) => ({ ...prev, addressFlowState: next }));
   const setDraftAddress = (updater: (prev: AddressState) => AddressState) =>
-    setFlowState((prev) =>
-      prev ? { ...prev, draftAddress: updater(prev.draftAddress) } : prev
-    );
+    setFlowState((prev) => ({
+      ...prev,
+      draftAddress: updater(prev.draftAddress),
+    }));
 
   const persistState = (nextState: ConfirmAddressState) => {
     writeConfirmAddressState(nextState);

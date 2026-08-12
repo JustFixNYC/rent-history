@@ -28,7 +28,6 @@ export type {
   RhFindingRow,
   RhFindingStatusEnum,
   RhFindingsStateResponse,
-  RhHistoryAddressResponse,
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
@@ -76,10 +75,7 @@ export { useStartRhLogin, useVerifyRhOtp } from "./hooks/login";
 export { useCreateRhHistory } from "./hooks/history";
 export { useHistoryAnalysisPages } from "./hooks/analysisPages";
 export { useDeleteRhHistory, useRhHistories } from "./hooks/histories";
-export {
-  useConfirmRhHistoryAddress,
-  useRhHistoryAddress,
-} from "./hooks/confirmAddress";
+export { useConfirmRhHistoryAddress } from "./hooks/confirmAddress";
 export {
   useRhFindingsState,
   useRunRhAnalysis,
@@ -98,7 +94,6 @@ export {
   downloadRhHistoryReportPdf,
   emailRhHistoryReportPdf,
   getRhFindingsState,
-  getRhHistoryAddress,
   getRhHistoryAnalysisPages,
   getRhHistoryScanReview,
   postRhHistoryRunAnalysis,

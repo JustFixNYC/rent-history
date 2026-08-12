@@ -222,8 +222,8 @@ msgstr ""
 msgid "Answer a few questions"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:430
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:496
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:326
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:392
 msgid "Apartment address"
 msgstr ""
 
@@ -282,8 +282,8 @@ msgid "Apt Stat"
 msgstr "Estado del apt."
 
 #. placeholder {0}: confirmedAddress.unitNumber.trim()
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:357
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:402
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:253
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:298
 msgid "Apt. {0}"
 msgstr ""
 
@@ -292,7 +292,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/FlowNav/FlowNav.tsx:33
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:578
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:474
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:135
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
@@ -340,7 +340,7 @@ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:563
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:459
 #: src/Components/Pages/Scanner/Scanner.tsx:715
 msgid "Cancel"
 msgstr ""
@@ -392,7 +392,7 @@ msgstr ""
 msgid "Confirm address"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:582
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:478
 msgid "Continue"
 msgstr "Continuar"
 
@@ -487,7 +487,7 @@ msgstr ""
 msgid "Edit"
 msgstr "Editar"
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:368
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:264
 msgid "Edit address"
 msgstr ""
 
@@ -495,7 +495,7 @@ msgstr ""
 #~ msgid "edit the address"
 #~ msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:488
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:384
 msgid "Edit the address for this<0/>rent history"
 msgstr ""
 
@@ -507,8 +507,8 @@ msgstr ""
 msgid "Email your report to yourself"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:248
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:275
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:144
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:171
 msgid "Enter an address to get started"
 msgstr ""
 
@@ -516,7 +516,7 @@ msgstr ""
 msgid "Enter an NYC address"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:414
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:310
 msgid "Enter the address for this<0/>rent history"
 msgstr ""
 
@@ -524,8 +524,8 @@ msgstr ""
 msgid "Enter verification code"
 msgstr "Ingresa el código de verificación"
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:436
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:502
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:332
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:398
 msgid "Enter your address"
 msgstr ""
 
@@ -636,8 +636,8 @@ msgstr ""
 msgid "Generate report"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:441
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:507
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:337
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:403
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr ""
@@ -727,7 +727,7 @@ msgstr ""
 #~ msgid "If this address does not match the address on the rent history document,"
 #~ msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:326
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:222
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr ""
 
@@ -809,8 +809,8 @@ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.heading"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:191
-msgid "Loading address…"
-msgstr ""
+#~ msgid "Loading address…"
+#~ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:64
 #: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:77
@@ -903,8 +903,8 @@ msgstr ""
 #~ msgid "Manually enter your rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:344
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:389
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:240
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:285
 msgid "Map image"
 msgstr ""
 
@@ -912,8 +912,8 @@ msgstr ""
 msgid "Map is not configured. Set VITE_MAPBOX_ACCESS_TOKEN."
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:338
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:383
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:234
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:279
 msgid "Map showing location of the entered address."
 msgstr ""
 
@@ -1277,7 +1277,7 @@ msgstr ""
 #~ msgid "Review your scanned pages before continuing. Full scan review UI will appear here."
 #~ msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:551
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:447
 msgid "Save address"
 msgstr ""
 
@@ -1770,13 +1770,13 @@ msgstr ""
 msgid "Unable to start analysis. Please try again."
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:219
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:239
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:115
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:135
 msgid "Unable to update address right now. Please try again."
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:467
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:528
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:363
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:424
 msgid "Unit number"
 msgstr ""
 
@@ -1852,7 +1852,7 @@ msgstr ""
 #~ msgid "View report on your mobile device"
 #~ msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:307
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:203
 msgid "View scanned document"
 msgstr ""
 
@@ -1945,7 +1945,7 @@ msgstr ""
 msgid "We’ll text you a code to verify and save your progress."
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:421
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:317
 msgid "We'll use publicly available information about the building and apartment to support your rent history analysis."
 msgstr ""
 
