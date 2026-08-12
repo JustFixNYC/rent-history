@@ -18,14 +18,14 @@ describe("AnalysisFlowProgress", () => {
   it("renders Step N label and progress for a mid-flow step", () => {
     render(
       <I18nProvider i18n={i18n}>
-        <AnalysisFlowProgress stepId="confirm-address" />
+        <AnalysisFlowProgress stepId="scanner" />
       </I18nProvider>
     );
 
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /Step 3: Confirm address/i,
+        name: /Step 3: Scan/i,
       })
     ).toBeInTheDocument();
     expect(screen.getByRole("progressbar")).toHaveAttribute(
@@ -34,7 +34,7 @@ describe("AnalysisFlowProgress", () => {
     );
     expect(screen.getByTestId("analysis-flow-progress")).toHaveAttribute(
       "data-step-id",
-      "confirm-address"
+      "scanner"
     );
   });
 
@@ -54,19 +54,22 @@ describe("AnalysisFlowProgress", () => {
     );
   });
 
-  it("uses scan-review as step 2", () => {
+  it("uses confirm-address as step 1", () => {
     render(
       <I18nProvider i18n={i18n}>
-        <AnalysisFlowProgress stepId="scan-review" />
+        <AnalysisFlowProgress stepId="confirm-address" />
       </I18nProvider>
     );
 
     expect(
-      screen.getByRole("heading", { level: 1, name: /Step 2: Review Scan/i })
+      screen.getByRole("heading", {
+        level: 1,
+        name: /Step 1: Confirm address/i,
+      })
     ).toBeInTheDocument();
     expect(screen.getByRole("progressbar")).toHaveAttribute(
       "aria-valuenow",
-      "29"
+      "14"
     );
   });
 });

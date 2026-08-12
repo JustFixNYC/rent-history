@@ -1,37 +1,41 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 
-.postscan-body {
-  min-height: 648px;
-  padding: 2rem 1.5rem;
+#rent-questions-page {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+  min-height: 100vh;
 }
 
-.postscan-card {
-  background: jfcl.$WHITE;
-  border: 1px solid jfcl.$GREY_200;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
+.rent-questions {
+  min-height: 648px;
+  padding: jfcl.$JF_SPACING_07 jfcl.$JF_SPACING_06;
 
-  &__content {
+  &__card {
+    background: jfcl.$WHITE;
+    border: 1px solid jfcl.$GREY_200;
+    border-radius: 4px;
+    margin-bottom: jfcl.$JF_SPACING_06;
+    padding: jfcl.$JF_SPACING_06;
+
+    h2 {
+      @include jfcl.body_large_desktop;
+      margin: 0;
+    }
+
+    p {
+      @include jfcl.body_standard_mobile;
+      margin: 0;
+    }
+  }
+
+  &__form {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: jfcl.$JF_SPACING_03;
   }
 
-  h2 {
-    @include jfcl.body_large_desktop;
-    margin: 0;
-  }
-
-  p {
-    @include jfcl.body_standard_mobile;
-    margin: 0;
-  }
-
-  .jfcl-text-input {
+  &__error {
+    color: jfcl.$RED;
     margin: 0;
   }
 }

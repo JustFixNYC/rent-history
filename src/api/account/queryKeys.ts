@@ -9,8 +9,6 @@ export const accountQueryKeys = {
     [...accountRoot, "scan-review-bootstrap", historyId] as const,
   analysisPages: (historyId: string) =>
     [...accountRoot, "analysis-pages", historyId] as const,
-  address: (historyId: string) =>
-    [...accountRoot, "address", historyId] as const,
   findingsState: (historyId: string) =>
     [...accountRoot, "findings-state", historyId] as const,
   profile: () => [...accountRoot, "profile"] as const,

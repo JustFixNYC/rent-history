@@ -60,9 +60,6 @@ export type RhAnalysisPage = Omit<
   end_year: number | null;
 };
 
-/** `GET /rh/history/address` response. */
-export type RhHistoryAddressResponse = Schemas["RhHistoryAddressResponse"];
-
 /** `POST /rh/history/report-pdf` request body. */
 export type RhHistoryReportPdfCreateRequest =
   Schemas["RhHistoryReportPdfCreateRequestRequest"];
