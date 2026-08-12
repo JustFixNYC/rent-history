@@ -5,11 +5,7 @@ import {
   setRhSessionStepState,
 } from "../../../session/rhSessionStorage";
 
-export type AddressFlowState =
-  | "confirmExtracted"
-  | "editAddress"
-  | "enterAddress"
-  | "confirmUpdated";
+export type AddressFlowState = "enterAddress" | "confirmUpdated";
 
 export type AddressState = {
   streetAddress: string;
@@ -29,10 +25,21 @@ export const emptyAddressState = (): AddressState => ({
   bin: null,
 });
 
+/** Fingerprint of the address last successfully confirmed on the server. */
+export const addressCommitKey = (address: AddressState): string =>
+  JSON.stringify({
+    street: address.streetAddress.trim(),
+    unit: address.unitNumber.trim(),
+    bbl: address.bbl,
+    bin: address.bin,
+  });
+
 export type ConfirmAddressState = {
   addressFlowState: AddressFlowState;
   confirmedAddress: AddressState;
   draftAddress: AddressState;
+  /** Set after a successful confirm-address (or rebuilt on resume). */
+  serverConfirmedKey: string | null;
 };
 
 const addressStateSchema = z.object({
@@ -45,14 +52,10 @@ const addressStateSchema = z.object({
 });
 
 const confirmAddressStateSchema = z.object({
-  addressFlowState: z.enum([
-    "confirmExtracted",
-    "editAddress",
-    "enterAddress",
-    "confirmUpdated",
-  ]),
+  addressFlowState: z.enum(["enterAddress", "confirmUpdated"]),
   confirmedAddress: addressStateSchema,
   draftAddress: addressStateSchema,
+  serverConfirmedKey: z.string().nullable().default(null),
 });
 
 export const CONFIRM_ADDRESS_STEP_STATE_KEY = "confirmAddress";
