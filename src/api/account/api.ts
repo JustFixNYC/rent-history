@@ -96,7 +96,7 @@ export const verifyRhOtp = (
   ) as Promise<RhOtpTokenResponse>;
 };
 
-/** `GET /rh/histories` — OAuth2 bearer; list histories at SCAN_REVIEW or later. */
+/** `GET /rh/histories` — OAuth2 bearer; list all owned histories. */
 export const listRhHistories = (
   accessToken: string
 ): Promise<RhHistoryList[]> =>
