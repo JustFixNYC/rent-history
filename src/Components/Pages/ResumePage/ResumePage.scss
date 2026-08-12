@@ -1,0 +1,36 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../PageLayout/layoutVars" as layout;
+
+.resume-page {
+  background: jfcl.$OFF_WHITE_100;
+  box-sizing: border-box;
+  padding: jfcl.$JF_SPACING_07 jfcl.$JF_SPACING_06;
+
+  @include layout.desktop {
+    padding: jfcl.$JF_SPACING_10 jfcl.$JF_SPACING_06 jfcl.$JF_SPACING_11;
+  }
+
+  &__inner {
+    margin: 0 auto;
+    max-width: 640px;
+    text-align: center;
+  }
+
+  &__title {
+    @include jfcl.body_large_mobile;
+    margin: 0 0 jfcl.$JF_SPACING_05;
+
+    @include layout.desktop {
+      @include jfcl.h3_desktop;
+    }
+  }
+
+  &__status {
+    @include jfcl.body_standard_mobile;
+    margin: 0 0 jfcl.$JF_SPACING_06;
+  }
+
+  &__login-link {
+    @include jfcl.body_standard_link_desktop;
+  }
+}
