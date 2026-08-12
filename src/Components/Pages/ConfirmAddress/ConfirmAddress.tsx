@@ -3,6 +3,30 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Button, GeoSearchDropdown, Icon } from "@justfixnyc/component-library";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+
+import {
+  confirmRhHistoryAddress,
+  type RhHistoryList,
+} from "../../../api/account";
+import { accountQueryKeys } from "../../../api/account/queryKeys";
+import {
+  getRhAuthSession,
+  getRhHistoryId,
+} from "../../../session/rhSessionStorage";
+import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
+import {
+  addressCommitKey,
+  AddressState,
+  ConfirmAddressState,
+  emptyAddressState,
+  readConfirmAddressState,
+  writeConfirmAddressState,
+} from "./confirmAddressState";
+import { ensureHistoryIdForConfirm } from "./ensureHistoryIdForConfirm";
+import { geosearchFeatureToAddressState } from "./geosearchAddress";
+import "./ConfirmAddress.scss";
 
 type GeoSearchDropdownSelection = {
   feature: {
@@ -18,24 +42,6 @@ type GeoSearchDropdownSelection = {
   };
   option: { label: string };
 };
-import { useNavigate } from "react-router-dom";
-
-import { useConfirmRhHistoryAddress } from "../../../api/account";
-import {
-  getRhAuthSession,
-  getRhHistoryId,
-} from "../../../session/rhSessionStorage";
-import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
-import {
-  AddressFlowState,
-  AddressState,
-  ConfirmAddressState,
-  emptyAddressState,
-  readConfirmAddressState,
-  writeConfirmAddressState,
-} from "./confirmAddressState";
-import { geosearchFeatureToAddressState } from "./geosearchAddress";
-import "./ConfirmAddress.scss";
 
 const getAddressStateFromSelection = (
   selection: GeoSearchDropdownSelection | null,
@@ -76,24 +82,61 @@ const buildEnterAddressState = (unitNumber: string): ConfirmAddressState => {
     addressFlowState: "enterAddress",
     confirmedAddress: { ...empty, unitNumber },
     draftAddress: { ...empty, unitNumber },
+    serverConfirmedKey: null,
   };
+};
+
+const addressStateFromHistoryList = (history: RhHistoryList): AddressState => ({
+  streetAddress: history.address ?? "",
+  unitNumber: history.apartment ?? "",
+  cityStateZip: "",
+  longLat: null,
+  bbl: null,
+  bin: null,
+});
+
+const resolveInitialConfirmAddressState = (
+  histories: RhHistoryList[] | undefined
+): ConfirmAddressState => {
+  const persisted = readConfirmAddressState();
+  if (persisted) return persisted;
+
+  const historyId = getRhHistoryId();
+  if (historyId && histories) {
+    const history = histories.find((item) => item.id === historyId);
+    if (history?.address) {
+      const address = addressStateFromHistoryList(history);
+      return {
+        addressFlowState: "confirmUpdated",
+        confirmedAddress: address,
+        draftAddress: address,
+        serverConfirmedKey: addressCommitKey(address),
+      };
+    }
+  }
+
+  return buildEnterAddressState("");
 };
 
 export const ConfirmAddress: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
-  const persistedState = readConfirmAddressState();
-  const [flowState, setFlowState] = useState<ConfirmAddressState>(
-    () => persistedState ?? buildEnterAddressState("")
+  const queryClient = useQueryClient();
+  const [flowState, setFlowState] = useState<ConfirmAddressState>(() =>
+    resolveInitialConfirmAddressState(
+      queryClient.getQueryData<RhHistoryList[]>(accountQueryKeys.histories())
+    )
   );
   const [addressError, setAddressError] = useState<string | null>(null);
-  const confirmAddressMutation = useConfirmRhHistoryAddress();
-  const savingAddress = confirmAddressMutation.isPending;
+  const [isCommitting, setIsCommitting] = useState(false);
 
-  const { addressFlowState, confirmedAddress, draftAddress } = flowState;
+  const {
+    addressFlowState,
+    confirmedAddress,
+    draftAddress,
+    serverConfirmedKey,
+  } = flowState;
 
-  const setAddressFlowState = (next: AddressFlowState) =>
-    setFlowState((prev) => ({ ...prev, addressFlowState: next }));
   const setDraftAddress = (updater: (prev: AddressState) => AddressState) =>
     setFlowState((prev) => ({
       ...prev,
@@ -105,169 +148,122 @@ export const ConfirmAddress: React.FC = () => {
     setFlowState(nextState);
   };
 
-  const submitAddressUpdate = async (
-    address: AddressState
-  ): Promise<boolean> => {
-    const auth = getRhAuthSession();
-    const historyId = getRhHistoryId();
-    if (!auth || !historyId || !address.bbl) {
-      setAddressError(
-        _(msg`Unable to update address right now. Please try again.`)
-      );
-      return false;
-    }
-    try {
-      await confirmAddressMutation.mutateAsync({
-        accessToken: auth.accessToken,
-        body: {
-          history_id: historyId,
-          apartment: address.unitNumber || null,
-          address: [address.streetAddress, address.cityStateZip]
-            .filter(Boolean)
-            .join(", "),
-          bbl: address.bbl,
-          bin: address.bin,
-        },
-      });
-      return true;
-    } catch {
-      setAddressError(
-        _(msg`Unable to update address right now. Please try again.`)
-      );
-      return false;
-    }
-  };
-
-  const onContinue = async () => {
-    if (addressFlowState === "enterAddress") {
-      if (!draftAddress.streetAddress.trim()) {
-        setAddressError(_(msg`Enter an address to get started`));
-        return;
-      }
-      const nextConfirmed = {
-        ...draftAddress,
-        streetAddress: draftAddress.streetAddress.trim(),
-        unitNumber: draftAddress.unitNumber.trim(),
-      };
-      const updated = await submitAddressUpdate(nextConfirmed);
-      if (!updated) return;
-      const nextState = {
+  const onBack = () => {
+    setAddressError(null);
+    if (addressFlowState === "confirmUpdated") {
+      const nextState: ConfirmAddressState = {
         ...flowState,
-        addressFlowState: "confirmUpdated" as const,
-        confirmedAddress: nextConfirmed,
+        addressFlowState: "enterAddress",
+        draftAddress: { ...confirmedAddress },
       };
       persistState(nextState);
-      navigate(`/${i18n.locale}/rent-questions`);
       return;
     }
-
-    const updated = await submitAddressUpdate(confirmedAddress);
-    if (!updated) return;
-    navigate(`/${i18n.locale}/rent-questions`);
+    navigate(`/${i18n.locale}/account`);
   };
 
-  const onSaveAddress = async () => {
+  const onContinue = () => {
     if (!draftAddress.streetAddress.trim()) {
       setAddressError(_(msg`Enter an address to get started`));
       return;
     }
+    if (!draftAddress.bbl) {
+      setAddressError(
+        _(msg`Select an address from the suggestions to continue`)
+      );
+      return;
+    }
+
     const nextConfirmed = {
       ...draftAddress,
       streetAddress: draftAddress.streetAddress.trim(),
       unitNumber: draftAddress.unitNumber.trim(),
     };
-    const updated = await submitAddressUpdate(nextConfirmed);
-    if (!updated) return;
-    const nextState = {
+    const nextState: ConfirmAddressState = {
       ...flowState,
-      addressFlowState: "confirmUpdated" as const,
+      addressFlowState: "confirmUpdated",
       confirmedAddress: nextConfirmed,
+      draftAddress: nextConfirmed,
     };
+    setAddressError(null);
     persistState(nextState);
   };
 
+  const onNext = async () => {
+    if (isCommitting) return;
+
+    const auth = getRhAuthSession();
+    if (!auth) {
+      setAddressError(
+        _(msg`Unable to update address right now. Please try again.`)
+      );
+      return;
+    }
+
+    const commitKey = addressCommitKey(confirmedAddress);
+    const historyId = getRhHistoryId();
+    if (historyId && serverConfirmedKey === commitKey) {
+      navigate(`/${i18n.locale}/rent-questions`);
+      return;
+    }
+
+    if (!confirmedAddress.bbl) {
+      setAddressError(
+        _(msg`Select an address from the suggestions to continue`)
+      );
+      return;
+    }
+
+    setIsCommitting(true);
+    setAddressError(null);
+    try {
+      const ensuredHistoryId = await ensureHistoryIdForConfirm(
+        auth.accessToken
+      );
+      await confirmRhHistoryAddress(auth.accessToken, {
+        history_id: ensuredHistoryId,
+        apartment: confirmedAddress.unitNumber || null,
+        address: [confirmedAddress.streetAddress, confirmedAddress.cityStateZip]
+          .filter(Boolean)
+          .join(", "),
+        bbl: confirmedAddress.bbl,
+        bin: confirmedAddress.bin,
+      });
+      const nextState: ConfirmAddressState = {
+        ...flowState,
+        serverConfirmedKey: commitKey,
+      };
+      persistState(nextState);
+      navigate(`/${i18n.locale}/rent-questions`);
+    } catch {
+      setAddressError(
+        _(msg`Unable to update address right now. Please try again.`)
+      );
+    } finally {
+      setIsCommitting(false);
+    }
+  };
+
   const mapImageUrl = buildMapImageURL(confirmedAddress);
+  const primaryLabel =
+    addressFlowState === "enterAddress"
+      ? _(msg`Continue`)
+      : isCommitting
+      ? _(msg`Saving…`)
+      : _(msg`Next`);
 
   return (
     <div id="confirm-address-page">
       <section className="postscan-body">
         <AnalysisFlowProgress stepId="confirm-address" />
 
-        {addressFlowState === "editAddress" && (
-          <button
-            type="button"
-            className="postscan-view-doc-toggle"
-            onClick={() => undefined}
-          >
-            <span className="postscan-view-doc-toggle__icon" aria-hidden />
-            <Trans>View scanned document</Trans>
-          </button>
-        )}
-
         <article
           className={`postscan-card ${
-            addressFlowState === "confirmExtracted" ||
             addressFlowState === "confirmUpdated"
               ? "postscan-card--confirm"
               : ""
           }`}
         >
-          {addressFlowState === "confirmExtracted" && (
-            <>
-              <div className="postscan-info-box">
-                <span className="postscan-info-box__icon" aria-hidden>
-                  i
-                </span>
-                <p>
-                  <Trans>
-                    If this address does not match the address on your rent
-                    history, please edit the address.
-                  </Trans>
-                </p>
-              </div>
-              <div className="postscan-map-address-container">
-                <div className="img-wrapper">
-                  {mapImageUrl ? (
-                    <img
-                      className="img-wrapper__img"
-                      src={mapImageUrl}
-                      alt={_(msg`Map showing location of the entered address.`)}
-                      width="425"
-                      height="285"
-                    />
-                  ) : (
-                    <div className="postscan-map-placeholder">
-                      <Trans>Map image</Trans>
-                    </div>
-                  )}
-                </div>
-                <div className="address-container">
-                  <h3 className="address-part-1">
-                    {confirmedAddress.streetAddress}
-                  </h3>
-                  <div className="address-part-2">
-                    {confirmedAddress.cityStateZip}
-                  </div>
-                  {confirmedAddress.unitNumber.trim() && (
-                    <div className="address-part-2">
-                      <Trans>Apt. {confirmedAddress.unitNumber.trim()}</Trans>
-                    </div>
-                  )}
-                  <button
-                    type="button"
-                    className="postscan-inline-link"
-                    onClick={() => {
-                      setAddressFlowState("editAddress");
-                      setAddressError(null);
-                    }}
-                  >
-                    <Trans>Edit address</Trans>
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-
           {addressFlowState === "confirmUpdated" && (
             <>
               <div className="postscan-map-address-container">
@@ -300,6 +296,11 @@ export const ConfirmAddress: React.FC = () => {
                   )}
                 </div>
               </div>
+              {addressError && (
+                <p className="postscan-field-note" role="alert">
+                  {addressError}
+                </p>
+              )}
             </>
           )}
 
@@ -341,6 +342,9 @@ export const ConfirmAddress: React.FC = () => {
                     setDraftAddress((prev) => ({
                       ...prev,
                       streetAddress: value,
+                      bbl: null,
+                      bin: null,
+                      longLat: null,
                     }));
                     if (addressError) setAddressError(null);
                     return value;
@@ -377,110 +381,29 @@ export const ConfirmAddress: React.FC = () => {
               </div>
             </div>
           )}
-
-          {addressFlowState === "editAddress" && (
-            <div className="postscan-card__content postscan-address-module">
-              <h2>
-                <Trans>
-                  Edit the address for this
-                  <br />
-                  rent history
-                </Trans>
-              </h2>
-              <div className="postscan-form-field">
-                <label htmlFor="postscan-edit-address-input">
-                  <Trans>Apartment address</Trans>
-                </label>
-                <GeoSearchDropdown
-                  id="postscan-edit-address-input"
-                  className="postscan-geosearch"
-                  labelText=""
-                  placeholder={_(msg`Enter your address`)}
-                  initialAddress={draftAddress.streetAddress}
-                  invalid={Boolean(addressError)}
-                  invalidText={addressError ?? undefined}
-                  serviceUnavailableText={_(
-                    msg`Geosearch is temporarily unavailable. Try again in a moment.`
-                  )}
-                  onInputChange={(value: string, meta: { action?: string }) => {
-                    if (!isTypingInputAction(meta)) return value;
-                    setDraftAddress((prev) => ({
-                      ...prev,
-                      streetAddress: value,
-                    }));
-                    if (addressError) setAddressError(null);
-                    return value;
-                  }}
-                  onSelect={(selection: GeoSearchDropdownSelection | null) => {
-                    setDraftAddress((prev) =>
-                      getAddressStateFromSelection(selection, prev)
-                    );
-                    if (addressError) setAddressError(null);
-                  }}
-                />
-              </div>
-              <div className="postscan-form-field">
-                <label htmlFor="postscan-edit-unit-input">
-                  <Trans>Unit number</Trans>
-                </label>
-                <div className="postscan-address-input">
-                  <input
-                    id="postscan-edit-unit-input"
-                    value={draftAddress.unitNumber}
-                    onChange={(event) =>
-                      setDraftAddress((prev) => ({
-                        ...prev,
-                        unitNumber: event.target.value,
-                      }))
-                    }
-                  />
-                </div>
-              </div>
-              {addressError && (
-                <p className="postscan-field-note" role="alert">
-                  {addressError}
-                </p>
-              )}
-              <div className="postscan-edit-actions">
-                <Button
-                  className="postscan-edit-actions__save"
-                  labelText={_(msg`Save address`)}
-                  onClick={onSaveAddress}
-                  disabled={savingAddress}
-                />
-                <button
-                  type="button"
-                  className="postscan-inline-link"
-                  onClick={() => {
-                    setAddressFlowState("confirmExtracted");
-                    setAddressError(null);
-                  }}
-                >
-                  <Trans>Cancel</Trans>
-                </button>
-              </div>
-            </div>
-          )}
         </article>
 
-        {addressFlowState !== "editAddress" && (
-          <div className="postscan-actions">
-            <button
-              type="button"
-              className="postscan-link-btn"
-              onClick={() => navigate(`/${i18n.locale}/scanner`)}
-            >
-              <Icon icon="chevronLeft" />
-              <Trans>Back</Trans>
-            </button>
-            <Button
-              className="postscan-primary-btn"
-              labelText={_(msg`Continue`)}
-              onClick={onContinue}
-              disabled={savingAddress}
-            />
-          </div>
-        )}
+        <div className="postscan-actions">
+          <button
+            type="button"
+            className="postscan-link-btn"
+            onClick={onBack}
+            disabled={isCommitting}
+          >
+            <Icon icon="chevronLeft" />
+            <Trans>Back</Trans>
+          </button>
+          <Button
+            className="postscan-primary-btn"
+            labelText={primaryLabel}
+            onClick={
+              addressFlowState === "enterAddress"
+                ? onContinue
+                : () => void onNext()
+            }
+            disabled={isCommitting}
+          />
+        </div>
       </section>
     </div>
   );
