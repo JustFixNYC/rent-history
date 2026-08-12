@@ -2,7 +2,8 @@ import { useState } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { Button, GeoSearchDropdown, Icon } from "@justfixnyc/component-library";
+import { GeoSearchDropdown, TextInput } from "@justfixnyc/component-library";
+import classNames from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +17,7 @@ import {
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
+import { FlowNav } from "../../FlowNav/FlowNav";
 import {
   addressCommitKey,
   AddressState,
@@ -252,52 +254,53 @@ export const ConfirmAddress: React.FC = () => {
       ? _(msg`Saving…`)
       : _(msg`Next`);
 
+  const onPrimaryAction =
+    addressFlowState === "enterAddress" ? onContinue : () => void onNext();
+
   return (
     <div id="confirm-address-page">
-      <section className="postscan-body">
+      <section className="confirm-address">
         <AnalysisFlowProgress stepId="confirm-address" />
 
         <article
-          className={`postscan-card ${
-            addressFlowState === "confirmUpdated"
-              ? "postscan-card--confirm"
-              : ""
-          }`}
+          className={classNames("confirm-address__card", {
+            "confirm-address__card--preview":
+              addressFlowState === "confirmUpdated",
+          })}
         >
           {addressFlowState === "confirmUpdated" && (
             <>
-              <div className="postscan-map-address-container">
-                <div className="img-wrapper">
+              <div className="confirm-address__map-preview">
+                <div className="confirm-address__map-image">
                   {mapImageUrl ? (
                     <img
-                      className="img-wrapper__img"
                       src={mapImageUrl}
                       alt={_(msg`Map showing location of the entered address.`)}
                       width="425"
                       height="285"
                     />
                   ) : (
-                    <div className="postscan-map-placeholder">
+                    <div className="confirm-address__map-placeholder">
                       <Trans>Map image</Trans>
                     </div>
                   )}
                 </div>
-                <div className="address-container">
-                  <h3 className="address-part-1">
+                <div className="confirm-address__address">
+                  <h3 className="confirm-address__address-street">
                     {confirmedAddress.streetAddress}
                   </h3>
-                  <div className="address-part-2">
+                  <div className="confirm-address__address-detail">
                     {confirmedAddress.cityStateZip}
                   </div>
                   {confirmedAddress.unitNumber.trim() && (
-                    <div className="address-part-2">
+                    <div className="confirm-address__address-detail">
                       <Trans>Apt. {confirmedAddress.unitNumber.trim()}</Trans>
                     </div>
                   )}
                 </div>
               </div>
               {addressError && (
-                <p className="postscan-field-note" role="alert">
+                <p className="confirm-address__error" role="alert">
                   {addressError}
                 </p>
               )}
@@ -305,8 +308,8 @@ export const ConfirmAddress: React.FC = () => {
           )}
 
           {addressFlowState === "enterAddress" && (
-            <div className="postscan-card__content postscan-address-module">
-              <div className="postscan-address-module__intro">
+            <div className="confirm-address__form">
+              <div className="confirm-address__intro">
                 <h2>
                   <Trans>
                     Enter the address for this
@@ -322,14 +325,11 @@ export const ConfirmAddress: React.FC = () => {
                   </Trans>
                 </p>
               </div>
-              <div className="postscan-form-field">
-                <label htmlFor="postscan-address-input">
-                  <Trans>Apartment address</Trans>
-                </label>
+              <div className="confirm-address__field">
                 <GeoSearchDropdown
-                  id="postscan-address-input"
-                  className="postscan-geosearch"
-                  labelText=""
+                  id="confirm-address-input"
+                  className="confirm-address__geosearch"
+                  labelText={_(msg`Apartment address`)}
                   placeholder={_(msg`Enter your address`)}
                   initialAddress={draftAddress.streetAddress}
                   invalid={Boolean(addressError)}
@@ -356,54 +356,29 @@ export const ConfirmAddress: React.FC = () => {
                     if (addressError) setAddressError(null);
                   }}
                 />
-                {addressError && (
-                  <p className="postscan-field-note" role="alert">
-                    {addressError}
-                  </p>
-                )}
               </div>
-              <div className="postscan-form-field">
-                <label htmlFor="postscan-unit-input">
-                  <Trans>Unit number</Trans>
-                </label>
-                <div className="postscan-address-input">
-                  <input
-                    id="postscan-unit-input"
-                    value={draftAddress.unitNumber}
-                    onChange={(event) =>
-                      setDraftAddress((prev) => ({
-                        ...prev,
-                        unitNumber: event.target.value,
-                      }))
-                    }
-                  />
-                </div>
-              </div>
+              <TextInput
+                id="confirm-address-unit-input"
+                labelText={_(msg`Unit number`)}
+                value={draftAddress.unitNumber}
+                onChange={(event) =>
+                  setDraftAddress((prev) => ({
+                    ...prev,
+                    unitNumber: event.target.value,
+                  }))
+                }
+              />
             </div>
           )}
         </article>
 
-        <div className="postscan-actions">
-          <button
-            type="button"
-            className="postscan-link-btn"
-            onClick={onBack}
-            disabled={isCommitting}
-          >
-            <Icon icon="chevronLeft" />
-            <Trans>Back</Trans>
-          </button>
-          <Button
-            className="postscan-primary-btn"
-            labelText={primaryLabel}
-            onClick={
-              addressFlowState === "enterAddress"
-                ? onContinue
-                : () => void onNext()
-            }
-            disabled={isCommitting}
-          />
-        </div>
+        <FlowNav
+          onBack={onBack}
+          onNext={onPrimaryAction}
+          isNextLoading={isCommitting}
+          backDisabled={isCommitting}
+          nextLabel={primaryLabel}
+        />
       </section>
     </div>
   );
