@@ -87,7 +87,7 @@ const renderRentQuestions = () => {
 const fillAndSubmitRent = async (rentValue = "2500") => {
   const input = screen.getByLabelText(/Current monthly rent/i);
   fireEvent.change(input, { target: { value: rentValue } });
-  fireEvent.click(screen.getByRole("button", { name: /Continue/i }));
+  fireEvent.click(screen.getByRole("button", { name: /Next/i }));
 };
 
 describe("RentQuestions", () => {
