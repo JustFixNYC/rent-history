@@ -155,14 +155,10 @@ describe("ConfirmAddress", () => {
       id: TEST_HISTORY_ID,
     });
     vi.mocked(accountApi.confirmRhHistoryAddress).mockResolvedValue({
-      address: "123 Main St, Manhattan New York 10001",
-      apartment: "4B",
-      bbl: "1001234567",
-      bin: "1000001",
-      unitsres: 10,
-      unitstotal: 12,
-      is_nycha: false,
-      is_subsidized: false,
+      bbl_units: 12,
+      bin_units: 10,
+      is_421a_nycdb: false,
+      is_j51_nycdb: false,
     });
   });
 
