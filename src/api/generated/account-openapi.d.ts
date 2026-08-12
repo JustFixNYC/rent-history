@@ -44,26 +44,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/address": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get scan-extracted address for a RhHistory
-         * @description Returns `apartment` and `address` stored on the RhHistory after combine-pages (from scanned rent history pages). Used to bootstrap address confirmation in the rent-history app.
-         */
-        get: operations["history_address_retrieve"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/rh/history/analysis-pages": {
         parameters: {
             query?: never;
@@ -135,7 +115,7 @@ export interface paths {
         put?: never;
         /**
          * Set current monthly rent on a RhHistory
-         * @description Persists `current_rent` on an owned RhHistory. Does not change `last_step_reached`.
+         * @description Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to APARTMENT_INFO.
          */
         post: operations["history_current_rent_create"];
         delete?: never;
@@ -235,13 +215,17 @@ export interface paths {
         put?: never;
         /**
          * Create an RhPage (lambda-only)
-         * @description Lambda-callable endpoint to record a scanned page. Authenticates via the static `RH_API_TOKEN` bearer rather than OAuth, since it is invoked from server-side AWS Lambda. The history must belong to the given profile.
+         * @description Lambda-callable endpoint to record a scanned page (early or terminal write). Authenticates via the static `RH_API_TOKEN` bearer rather than OAuth. Idempotent on `s3_key`: if a page with that key already exists (e.g. lambda retry after an early write), updates that row and returns 200 instead of creating a duplicate.
          */
         post: operations["history_page_create"];
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /**
+         * Update an RhPage by s3_key (lambda-only)
+         * @description Lambda-callable endpoint to finish or refresh a scanned page after the early create write. Looks up the page by `s3_key` (not page id) so the extract pipeline can PATCH the same row after mid-pipeline create and on retries without round-tripping ids.
+         */
+        patch: operations["history_page_partial_update"];
         trace?: never;
     };
     "/rh/history/report-email": {
@@ -481,20 +465,30 @@ export interface components {
          *     * `report_pdf_not_found` - Report PDF not found
          *     * `email_send_failed` - Email send failed
          *     * `s3_key_access_denied` - S3 key access denied
+         *     * `rh_page_not_found` - RH page not found
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found";
         /**
-         * @description * `DOCUMENT_SCAN` - Document Scan
-         *     * `SCAN_REVIEW` - Scan Review
-         *     * `ADDRESS_CONFIRMATION` - Address Confirmation
+         * @description * `processing` - Processing
+         *     * `complete` - Complete
+         *     * `no_table` - No table
+         *     * `needs_retake` - Needs retake
+         *     * `error` - Error
+         * @enum {string}
+         */
+        ExtractionStatusEnum: "processing" | "complete" | "no_table" | "needs_retake" | "error";
+        /**
+         * @description * `ADDRESS_CONFIRMATION` - Address Confirmation
          *     * `APARTMENT_INFO` - Apartment Info
+         *     * `DOCUMENT_SCAN` - Document Scan
+         *     * `SCAN_REVIEW` - Scan Review
          *     * `FINDINGS_OVERVIEW` - Findings Overview
          *     * `FINDINGS_REVIEW` - Findings Review
          *     * `REPORT_GENERATION` - Report Generation
          * @enum {string}
          */
-        LastStepReachedEnum: "DOCUMENT_SCAN" | "SCAN_REVIEW" | "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
+        LastStepReachedEnum: "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "DOCUMENT_SCAN" | "SCAN_REVIEW" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
         /** @enum {unknown} */
         NullEnum: null;
         /**
@@ -518,6 +512,26 @@ export interface components {
             refresh_token: string;
             scope: string;
             token_type: string;
+        };
+        /** @description PATCH /rh/history/page — lookup by s3_key; all other fields optional. */
+        PatchedRhPageUpdateRequestRequest: {
+            address?: string | null;
+            apartment?: string | null;
+            carry_over_fields?: components["schemas"]["CarryOverFieldsRequest"] | null;
+            data?: components["schemas"]["RhStandardizedTableRowRequest"][];
+            end_year?: number | null;
+            error?: string | null;
+            extra_info?: string | null;
+            extraction_status?: components["schemas"]["ExtractionStatusEnum"];
+            gemini_usage_calls?: unknown;
+            /** Format: uuid */
+            history_id?: string;
+            is_coverpage?: boolean | null;
+            model_id?: string | null;
+            profile_id?: number;
+            quality_issue_reason?: string | null;
+            s3_key?: string;
+            start_year?: number | null;
         };
         /**
          * @description * `succeeded` - Succeeded
@@ -546,7 +560,7 @@ export interface components {
              * @description The last registration year of the rent history covered by this page.
              */
             end_year?: number | null;
-            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
+            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
             s3_key: string;
             /**
              * Format: int64
@@ -645,11 +659,6 @@ export interface components {
             findings_current: components["schemas"]["RhFinding"][];
             review_queue: components["schemas"]["RhReviewQueue"];
         };
-        /** @description Scan-extracted location fields from RhHistory (GET /rh/history/address). */
-        RhHistoryAddressResponse: {
-            address: string | null;
-            apartment: string | null;
-        };
         RhHistoryCombinePagesOkResponse: {
             status: string;
         };
@@ -699,10 +708,10 @@ export interface components {
             /**
              * @description The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.
              *
-             *     * `DOCUMENT_SCAN` - Document Scan
-             *     * `SCAN_REVIEW` - Scan Review
              *     * `ADDRESS_CONFIRMATION` - Address Confirmation
              *     * `APARTMENT_INFO` - Apartment Info
+             *     * `DOCUMENT_SCAN` - Document Scan
+             *     * `SCAN_REVIEW` - Scan Review
              *     * `FINDINGS_OVERVIEW` - Findings Overview
              *     * `FINDINGS_REVIEW` - Findings Review
              *     * `REPORT_GENERATION` - Report Generation
@@ -811,6 +820,16 @@ export interface components {
             error?: string | null;
             /** @description Extra information about the apartment of building from the section below the table on the last page of the rent history document. */
             extra_info?: string | null;
+            /**
+             * @description Scan extraction lifecycle: processing (early stub, still extracting), complete (finished with table data), no_table (finished without a registration table), needs_retake (finished but should be re-scanned), or error (pipeline failed; see error field).
+             *
+             *     * `processing` - Processing
+             *     * `complete` - Complete
+             *     * `no_table` - No table
+             *     * `needs_retake` - Needs retake
+             *     * `error` - Error
+             */
+            extraction_status: components["schemas"]["ExtractionStatusEnum"];
             /** @description The number of times the Gemini API was called for the image extraction pipeline for  this page. Used to track usage and billing. */
             gemini_usage_calls?: unknown;
             /**
@@ -825,11 +844,10 @@ export interface components {
             readonly keep: boolean | null;
             /** @description The ID of the model used for the image extraction pipeline for this page. Used to track usage and billing. */
             model_id?: string | null;
-            /** @description Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data. */
-            needs_retake: boolean;
+            readonly needs_retake: boolean;
             /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
             quality_issue_reason?: string | null;
-            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
+            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
             s3_key: string;
             /**
              * Format: int64
@@ -847,12 +865,12 @@ export interface components {
             end_year?: number | null;
             error?: string | null;
             extra_info?: string | null;
+            extraction_status: components["schemas"]["ExtractionStatusEnum"];
             gemini_usage_calls?: unknown;
             /** Format: uuid */
             history_id: string;
             is_coverpage?: boolean | null;
             model_id?: string | null;
-            needs_retake: boolean;
             profile_id: number;
             quality_issue_reason?: string | null;
             s3_key: string;
@@ -867,14 +885,23 @@ export interface components {
             end_year?: number | null;
             /** @description Error message from the scan image extraction pipeline for this page. */
             error?: string | null;
+            /**
+             * @description Scan extraction lifecycle: processing (early stub, still extracting), complete (finished with table data), no_table (finished without a registration table), needs_retake (finished but should be re-scanned), or error (pipeline failed; see error field).
+             *
+             *     * `processing` - Processing
+             *     * `complete` - Complete
+             *     * `no_table` - No table
+             *     * `needs_retake` - Needs retake
+             *     * `error` - Error
+             */
+            extraction_status: components["schemas"]["ExtractionStatusEnum"];
             readonly id: number;
             /** @description Whether the page is the cover page of RH without table data */
             is_coverpage?: boolean | null;
-            /** @description Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data. */
-            needs_retake: boolean;
+            readonly needs_retake: boolean;
             /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
             quality_issue_reason?: string | null;
-            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. */
+            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
             s3_key: string;
             /**
              * Format: int64
@@ -945,7 +972,7 @@ export interface components {
             /** Format: double */
             actual_rent_paid?: number | null;
             actual_rent_paid_text?: string | null;
-            apt_stat: string;
+            apt_stat?: string | null;
             filing_date?: string | null;
             lease_began?: string | null;
             lease_ends?: string | null;
@@ -965,7 +992,7 @@ export interface components {
             /** Format: double */
             actual_rent_paid?: number | null;
             actual_rent_paid_text?: string | null;
-            apt_stat: string;
+            apt_stat?: string | null;
             filing_date?: string | null;
             lease_began?: string | null;
             lease_ends?: string | null;
@@ -1078,51 +1105,6 @@ export interface operations {
                 content?: never;
             };
             /** @description No RhProfile for the resource owner. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
-    history_address_retrieve: {
-        parameters: {
-            query: {
-                /** @description UUID of the RhHistory whose address fields should be returned. */
-                history_id: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhHistoryAddressResponse"];
-                };
-            };
-            /** @description Missing or invalid history_id. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Missing or invalid access token. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description RhProfile or RhHistory not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -1528,6 +1510,14 @@ export interface operations {
             };
         };
         responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhPage"];
+                };
+            };
             201: {
                 headers: {
                     [name: string]: unknown;
@@ -1553,6 +1543,54 @@ export interface operations {
                 content?: never;
             };
             /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_page_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedRhPageUpdateRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhPage"];
+                };
+            };
+            /** @description Validation error or history/profile mismatch. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid bearer token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhPage not found for s3_key. */
             404: {
                 headers: {
                     [name: string]: unknown;

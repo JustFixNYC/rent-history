@@ -5,13 +5,11 @@ import {
 } from "./client";
 import {
   accountApiErrorFromResponse,
-  accountApiUnexpectedShapeError,
   accountReportEmailErrorFromResponse,
 } from "./errors";
 import type {
   RhAnalysisPage,
   RhFindingsStateResponse,
-  RhHistoryAddressResponse,
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
@@ -235,37 +233,6 @@ export const getRhHistoryAnalysisPages = (
       params: { query: { history_id: historyId } },
     })
   ).then((body) => body.pages as RhAnalysisPage[]);
-
-/**
- * `GET /rh/history/address` — OAuth2 bearer.
- * Returns scan-extracted apartment and address from combine-pages.
- */
-export const getRhHistoryAddress = async (
-  accessToken: string,
-  historyId: string
-): Promise<RhHistoryAddressResponse> => {
-  const data = await unwrapAccountResponse(
-    getAccountClient().GET("/rh/history/address", {
-      headers: bearerHeaders(accessToken),
-      params: { query: { history_id: historyId } },
-    })
-  );
-
-  if (
-    typeof data !== "object" ||
-    data === null ||
-    !("apartment" in data) ||
-    !("address" in data)
-  ) {
-    throw accountApiUnexpectedShapeError(
-      200,
-      "Unexpected history address response shape.",
-      data
-    );
-  }
-
-  return data;
-};
 
 /**
  * `POST /rh/history/scan-presign` — OAuth2 bearer; batch presigned PUT/GET URLs for scan keys.
