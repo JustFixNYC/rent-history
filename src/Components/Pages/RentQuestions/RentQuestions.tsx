@@ -12,7 +12,6 @@ import {
   isAccountApiError,
   setRhHistoryCurrentRent,
 } from "../../../api/account";
-import { useRunRhAnalysis } from "../../../api/account/hooks/findingsReview";
 import {
   getRhAuthSession,
   getRhHistoryId,
@@ -35,8 +34,7 @@ export const RentQuestions: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
   const currentState = readRentQuestionsState();
-  const runAnalysis = useRunRhAnalysis();
-  const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSavingRent, setIsSavingRent] = useState(false);
 
   const form = useForm<RentQuestionsForm>({
@@ -58,7 +56,7 @@ export const RentQuestions: React.FC = () => {
   });
 
   const saveAndContinue = form.handleSubmit(async (values) => {
-    setAnalysisError(null);
+    setSubmitError(null);
     writeRentQuestionsState({
       monthlyRent: values.monthlyRent,
     });
@@ -66,7 +64,7 @@ export const RentQuestions: React.FC = () => {
     const session = getRhAuthSession();
     const historyId = getRhHistoryId();
     if (!session?.accessToken || !historyId) {
-      setAnalysisError(
+      setSubmitError(
         _(
           msg`Your session is missing a rent history record. Please sign in again.`
         )
@@ -82,35 +80,19 @@ export const RentQuestions: React.FC = () => {
         history_id: historyId,
         current_rent: currentRent,
       });
-      await runAnalysis.mutateAsync({
-        accessToken: session.accessToken,
-        historyId,
-      });
-      navigate(`/${i18n.locale}/findings-overview`);
+      navigate(`/${i18n.locale}/scanner`);
     } catch (error) {
-      if (
-        isAccountApiError(error) &&
-        error.errorCode === "analysis_already_run"
-      ) {
-        setAnalysisError(
-          _(msg`Analysis has already been run for this rent history.`)
-        );
-        return;
-      }
       if (isAccountApiError(error)) {
-        setAnalysisError(error.message);
+        setSubmitError(error.message);
         return;
       }
-      setAnalysisError(_(msg`Unable to start analysis. Please try again.`));
+      setSubmitError(_(msg`Unable to save your rent. Please try again.`));
     } finally {
       setIsSavingRent(false);
     }
   });
 
-  const isSaving = isSavingRent || runAnalysis.isPending;
-  const primaryLabel = isSaving
-    ? _(msg`Starting analysis…`)
-    : _(msg`Start analysis`);
+  const primaryLabel = isSavingRent ? _(msg`Saving…`) : _(msg`Continue`);
 
   return (
     <div id="rent-questions-page">
@@ -147,9 +129,9 @@ export const RentQuestions: React.FC = () => {
               invalid={Boolean(form.formState.errors.monthlyRent)}
               invalidText={form.formState.errors.monthlyRent?.message}
             />
-            {analysisError ? (
+            {submitError ? (
               <p className="postscan-field-error" role="alert">
-                {analysisError}
+                {submitError}
               </p>
             ) : null}
           </form>
@@ -160,7 +142,7 @@ export const RentQuestions: React.FC = () => {
             type="button"
             className="postscan-link-btn"
             onClick={() => navigate(`/${i18n.locale}/confirm-address`)}
-            disabled={isSaving}
+            disabled={isSavingRent}
           >
             <Icon icon="chevronLeft" />
             <Trans>Back</Trans>
@@ -169,7 +151,7 @@ export const RentQuestions: React.FC = () => {
             className="postscan-primary-btn"
             labelText={primaryLabel}
             onClick={saveAndContinue}
-            disabled={isSaving}
+            disabled={isSavingRent}
           />
         </div>
       </section>
