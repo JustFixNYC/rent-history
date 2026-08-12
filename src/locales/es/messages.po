@@ -388,7 +388,7 @@ msgstr ""
 #~ msgid "Completed Feb 1, 2026"
 #~ msgstr ""
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:27
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:25
 msgid "Confirm address"
 msgstr ""
 
@@ -1269,7 +1269,7 @@ msgstr ""
 msgid "Review and edit your rent history"
 msgstr ""
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:24
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:34
 msgid "Review Scan"
 msgstr ""
 
@@ -1285,7 +1285,7 @@ msgstr ""
 msgid "Save page"
 msgstr ""
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:23
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:33
 msgid "Scan"
 msgstr ""
 
@@ -1392,7 +1392,7 @@ msgstr ""
 msgid "Something went wrong while sending your verification code."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:125
+#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:127
 msgid "Something went wrong while verifying your code."
 msgstr ""
 
@@ -1758,7 +1758,7 @@ msgstr ""
 msgid "Unable to re-scan pages. Please try again."
 msgstr ""
 
-#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:146
+#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:148
 msgid "Unable to resend code right now. Please try again."
 msgstr ""
 
@@ -2143,7 +2143,7 @@ msgstr ""
 msgid "Your email (required)"
 msgstr ""
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:32
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:30
 msgid "Your rent amount"
 msgstr ""
 

@@ -90,7 +90,7 @@ const AccountPage: React.FC = () => {
       return;
     }
     clearRhFlowSession();
-    navigate(`/${locale}/scanner`);
+    navigate(`/${locale}/confirm-address`);
   };
 
   const onCardAction = (history: RhHistoryList) => {

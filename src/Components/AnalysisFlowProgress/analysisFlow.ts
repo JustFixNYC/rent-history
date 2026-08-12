@@ -2,10 +2,10 @@ import { msg } from "@lingui/core/macro";
 import type { MessageDescriptor } from "@lingui/core";
 
 export const ANALYSIS_FLOW_STEP_IDS = [
-  "scanner",
-  "scan-review",
   "confirm-address",
   "rent-questions",
+  "scanner",
+  "scan-review",
   "findings-overview",
   "findings-review",
   "report",
@@ -20,8 +20,6 @@ export type AnalysisFlowStep = {
 };
 
 export const ANALYSIS_FLOW_STEPS: readonly AnalysisFlowStep[] = [
-  { stepId: "scanner", title: msg`Scan`, showStepNumber: true },
-  { stepId: "scan-review", title: msg`Review Scan`, showStepNumber: true },
   {
     stepId: "confirm-address",
     title: msg`Confirm address`,
@@ -32,6 +30,8 @@ export const ANALYSIS_FLOW_STEPS: readonly AnalysisFlowStep[] = [
     title: msg`Your rent amount`,
     showStepNumber: true,
   },
+  { stepId: "scanner", title: msg`Scan`, showStepNumber: true },
+  { stepId: "scan-review", title: msg`Review Scan`, showStepNumber: true },
   {
     stepId: "findings-overview",
     title: msg`What we found`,

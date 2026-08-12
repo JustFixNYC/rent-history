@@ -388,7 +388,7 @@ msgstr "Completed {completedOn}"
 #~ msgid "Completed Feb 1, 2026"
 #~ msgstr "Completed Feb 1, 2026"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:27
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:25
 msgid "Confirm address"
 msgstr "Confirm address"
 
@@ -1269,7 +1269,7 @@ msgstr "Review"
 msgid "Review and edit your rent history"
 msgstr "Review and edit your rent history"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:24
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:34
 msgid "Review Scan"
 msgstr "Review Scan"
 
@@ -1285,7 +1285,7 @@ msgstr "Save address"
 msgid "Save page"
 msgstr "Save page"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:23
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:33
 msgid "Scan"
 msgstr "Scan"
 
@@ -1392,7 +1392,7 @@ msgstr "Something missing?"
 msgid "Something went wrong while sending your verification code."
 msgstr "Something went wrong while sending your verification code."
 
-#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:125
+#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:127
 msgid "Something went wrong while verifying your code."
 msgstr "Something went wrong while verifying your code."
 
@@ -1758,7 +1758,7 @@ msgstr "Unable to open the scanner. Please try again."
 msgid "Unable to re-scan pages. Please try again."
 msgstr "Unable to re-scan pages. Please try again."
 
-#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:146
+#: src/Components/Pages/LoginPage/useRhLoginFlow.ts:148
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
@@ -2143,7 +2143,7 @@ msgstr "Your code expired. Request a new code."
 msgid "Your email (required)"
 msgstr "Your email (required)"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:32
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:30
 msgid "Your rent amount"
 msgstr "Your rent amount"
 
