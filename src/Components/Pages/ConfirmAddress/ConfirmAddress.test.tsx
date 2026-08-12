@@ -136,7 +136,7 @@ const renderConfirmAddress = () => {
 };
 
 const selectAddressAndContinue = () => {
-  fireEvent.click(screen.getByTestId("postscan-address-input-select"));
+  fireEvent.click(screen.getByTestId("confirm-address-input-select"));
   fireEvent.change(screen.getByLabelText(/Unit number/i), {
     target: { value: "4B" },
   });
@@ -257,7 +257,7 @@ describe("ConfirmAddress", () => {
       target: { value: "5A" },
     });
     // Re-select so BBL validation still passes after unit edit.
-    fireEvent.click(screen.getByTestId("postscan-address-input-select"));
+    fireEvent.click(screen.getByTestId("confirm-address-input-select"));
     fireEvent.click(screen.getByRole("button", { name: /Continue/i }));
     fireEvent.click(screen.getByRole("button", { name: /Next/i }));
 
