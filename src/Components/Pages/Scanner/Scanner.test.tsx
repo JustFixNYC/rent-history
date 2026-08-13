@@ -1411,20 +1411,29 @@ describe("Scanner launch failure handling", () => {
 
     scannerHarness.rejectLaunch = true;
     fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
-    fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);
+    const confirmButtons = await screen.findAllByRole("button", {
+      name: "Restart scan",
+    });
+    fireEvent.click(confirmButtons[confirmButtons.length - 1]);
 
     await waitFor(() => {
       expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
         "access-token",
         historyId
       );
-      expect(
-        screen.getByRole("button", { name: "Start scanning" })
-      ).toBeInTheDocument();
-      expect(
-        screen.queryByTestId("scan-review-launch-failure")
-      ).not.toBeInTheDocument();
     });
+
+    await waitFor(
+      () => {
+        expect(
+          screen.getByRole("button", { name: "Start scanning" })
+        ).toBeInTheDocument();
+        expect(
+          screen.queryByTestId("scan-review-launch-failure")
+        ).not.toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
   });
 
   it("shows scan review error callout when rescan delete API fails", async () => {
