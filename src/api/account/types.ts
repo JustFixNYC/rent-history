@@ -185,6 +185,12 @@ export type RhFindingsStateResponse = Schemas["RhFindingsStateResponse"];
 export type RhScanPipelineStatusResponse =
   Schemas["RhScanPipelineStatusResponse"];
 
+/** `POST /rh/history/finalize-scan` request body. */
+export type RhFinalizeScanRequest = Schemas["RhFinalizeScanRequestRequest"];
+
+/** `POST /rh/history/finalize-scan` response. */
+export type RhFinalizeScanResponse = Schemas["RhFinalizeScanResponse"];
+
 /** One item from `GET /rh/histories`. */
 export type RhHistoryList = Schemas["RhHistoryList"];
 

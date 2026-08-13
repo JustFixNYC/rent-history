@@ -3,17 +3,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icon } from "@justfixnyc/component-library";
 
 import "./Scanner.scss";
 import {
   accountQueryKeys,
-  combineRhHistoryPages,
   deleteAllRhScannedPages,
   deleteRhScannedPages,
-  getRhHistoryAnalysisPages,
+  finalizeRhHistoryScan,
   isAccountApiError,
 } from "../../../api/account";
 import { uploadScan } from "../../../api/account/scanPresign";
@@ -21,15 +20,17 @@ import { mapPagesWithImageUrls } from "../../RentHistoryPageCard/pageCardUtils";
 import {
   clearRhSessionPages,
   getRhAuthSession,
-  setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
+import type { CompilingScanReviewLocationState } from "../../../hooks/useScanPipelineStatus";
+import { historyResumePath } from "../../../utils/historyResumePath";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
 import { ScanReviewScreen } from "./ScanReviewScreen";
 import { ScannerInProgressScreen } from "./ScannerInProgressScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
+import { SkipOrRescanModal } from "./SkipOrRescanModal";
 import { clearScannerStepState, writeScannerStepState } from "./scannerState";
 import { isScanReviewClean } from "./scanReviewUtils";
 import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
@@ -44,6 +45,7 @@ import {
   SAVE_BUTTON_CLASS,
 } from "./scanner-overlay";
 import { useScannerBootstrapRestore } from "./hooks/useScannerBootstrapRestore";
+import { useScanPipelineBootstrap } from "./hooks/useScanPipelineBootstrap";
 import type { LaunchResult, ScannerPhase } from "./scannerTypes";
 import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
 import { useScanReview } from "./hooks/useScanReview";
@@ -54,7 +56,13 @@ export type { ScannerPhase };
 const Scanner: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
+
+  const locationState =
+    location.state as CompilingScanReviewLocationState | null;
+  const postCompileReturn = Boolean(locationState?.postCompileReturn);
+  const scanPipelineFailures = locationState?.scanPipelineFailures ?? [];
 
   const [scanner, setScanner] = useState<DocumentScanner>();
   const [showScannerGuide, setShowScannerGuide] = useState(false);
@@ -70,9 +78,18 @@ const Scanner: React.FC = () => {
     setExpectedPageCount,
     restoreStatus,
   } = useScannerBootstrapRestore({ accessToken, historyId });
+
+  const postCompilePipeline = useScanPipelineBootstrap({
+    accessToken,
+    historyId: historyId ?? undefined,
+    enabled: postCompileReturn && Boolean(historyId),
+  });
+
   const [flowError, setFlowError] = useState<string | null>(null);
   const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
+  const [isSkipOrRescanModalOpen, setIsSkipOrRescanModalOpen] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
+  const [isPostCompileRescanning, setIsPostCompileRescanning] = useState(false);
   const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
   const [showLaunchFailure, setShowLaunchFailure] = useState(false);
   const [failedUploadCount, setFailedUploadCount] = useState(0);
@@ -102,13 +119,42 @@ const Scanner: React.FC = () => {
     }
   };
 
-  const persistScannerStep = (nextPhase: ScannerPhase, count: number) => {
-    if (nextPhase === "scan-review" && count > 0) {
-      writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
-    } else {
-      clearScannerStepState();
-    }
+  const persistScanReviewStep = (count: number) => {
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
   };
+
+  const finalizeScanSession = useCallback(
+    async (count: number, options?: { navigate?: boolean }) => {
+      const context = requireRhScanContext(historyIdRef.current);
+      if (!context) return false;
+
+      const { token, historyId: activeHistoryId } = context;
+
+      try {
+        await finalizeRhHistoryScan(token, {
+          history_id: activeHistoryId,
+          expected_page_count: count,
+        });
+        clearScannerStepState();
+        void queryClient.invalidateQueries({
+          queryKey: accountQueryKeys.scanPipelineStatus(activeHistoryId),
+        });
+        if (options?.navigate !== false) {
+          navigate(`/${i18n.locale}/compiling`, { replace: true });
+        }
+        return true;
+      } catch (error) {
+        setFlowError(
+          flowErrorFromApi(
+            error,
+            _(msg`Unable to finalize scan. Please try again.`)
+          )
+        );
+        return false;
+      }
+    },
+    [_, i18n.locale, navigate, queryClient]
+  );
 
   const scanReviewQuery = useScanReview({
     accessToken,
@@ -244,13 +290,6 @@ const Scanner: React.FC = () => {
         disposeDocumentScanner(instance);
         scannerRef.current = undefined;
       }
-      const count = expectedPageCountRef.current;
-      if (count > 0) {
-        writeScannerStepState({
-          phase: "scan-review",
-          expectedPageCount: count,
-        });
-      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -267,6 +306,33 @@ const Scanner: React.FC = () => {
     const interval = window.setInterval(syncFromViewState, 120);
     return () => {
       window.clearInterval(interval);
+    };
+  }, [phase]);
+
+  useEffect(() => {
+    const tryBestEffortFinalize = () => {
+      if (phase !== "scanning") return;
+      const count = expectedPageCountRef.current;
+      if (count <= 0) return;
+      const context = requireRhScanContext(historyIdRef.current);
+      if (!context) return;
+      void finalizeRhHistoryScan(context.token, {
+        history_id: context.historyId,
+        expected_page_count: count,
+      }).catch(() => {});
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        tryBestEffortFinalize();
+      }
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("pagehide", tryBestEffortFinalize);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("pagehide", tryBestEffortFinalize);
     };
   }, [phase]);
 
@@ -320,9 +386,13 @@ const Scanner: React.FC = () => {
 
   const handleScanReviewLaunchFailure = useCallback(
     (activeHistoryId: string) => {
+      const count = expectedPageCountRef.current;
       setPhase("scan-review");
       setShowLaunchFailure(true);
       setAwaitingRescanSuccess(false);
+      if (count > 0) {
+        persistScanReviewStep(count);
+      }
       invalidateScanReviewQueries(activeHistoryId);
     },
     [invalidateScanReviewQueries, setPhase]
@@ -334,58 +404,68 @@ const Scanner: React.FC = () => {
     );
   }, [_]);
 
-  const launchScanner = useCallback(async (): Promise<LaunchResult> => {
-    const activeScanner = scannerRef.current ?? scanner;
-    if (!historyId || !getRhScanKeyPrefix(historyId) || !activeScanner) {
-      return { ok: false, reason: "not_ready" };
-    }
-
-    setShowLaunchFailure(false);
-    failedUploadCountRef.current = 0;
-    setPhase("scanning");
-    clearRhSessionPages();
-
-    const formatContinuousScanDoneLabel = (count: number): string =>
-      `${_(msg`Finish scanning`)} (${count})`;
-    const labelPatchInterval = window.setInterval(
-      () => patchContinuousScanDoneLabels(formatContinuousScanDoneLabel),
-      100
-    );
-
-    isLaunchActiveRef.current = true;
-    try {
-      await activeScanner.launch();
-      if (!isMountedRef.current) return { ok: true };
-      setShowScannerGuide(false);
-      const count = expectedPageCountRef.current;
-      if (count === 0) {
-        clearScannerStepState();
-        setPhase("pre-scan");
-        setFailedUploadCount(0);
-        failedUploadCountRef.current = 0;
-        setShowLaunchFailure(false);
-        return { ok: true };
+  const launchScanner = useCallback(
+    async (options?: { fromScanReview?: boolean }): Promise<LaunchResult> => {
+      const activeScanner = scannerRef.current ?? scanner;
+      if (!historyId || !getRhScanKeyPrefix(historyId) || !activeScanner) {
+        return { ok: false, reason: "not_ready" };
       }
-      setPhase("scan-review");
-      setFailedUploadCount(failedUploadCountRef.current);
-      persistScannerStep("scan-review", count);
+
       setShowLaunchFailure(false);
-      return { ok: true };
-    } catch (error) {
-      if (!isMountedRef.current) {
+      failedUploadCountRef.current = 0;
+      setPhase("scanning");
+      clearRhSessionPages();
+
+      const formatContinuousScanDoneLabel = (count: number): string =>
+        `${_(msg`Finish scanning`)} (${count})`;
+      const labelPatchInterval = window.setInterval(
+        () => patchContinuousScanDoneLabels(formatContinuousScanDoneLabel),
+        100
+      );
+
+      isLaunchActiveRef.current = true;
+      try {
+        await activeScanner.launch();
+        if (!isMountedRef.current) return { ok: true };
+        setShowScannerGuide(false);
+        const count = expectedPageCountRef.current;
+        if (count === 0) {
+          clearScannerStepState();
+          setPhase("pre-scan");
+          setFailedUploadCount(0);
+          failedUploadCountRef.current = 0;
+          setShowLaunchFailure(false);
+          return { ok: true };
+        }
+        setFailedUploadCount(failedUploadCountRef.current);
+        setShowLaunchFailure(false);
+        const finalized = await finalizeScanSession(count);
+        if (!finalized && isMountedRef.current) {
+          if (options?.fromScanReview) {
+            setPhase("scan-review");
+            persistScanReviewStep(count);
+          } else {
+            setPhase("pre-scan");
+          }
+        }
+        return { ok: true };
+      } catch (error) {
+        if (!isMountedRef.current) {
+          return { ok: false, reason: "launch_failed", error };
+        }
+        setShowScannerGuide(false);
+        if (isCameraPermissionError(error)) {
+          return { ok: false, reason: "permission_denied", error };
+        }
+        console.error("Scanner launch failed:", error);
         return { ok: false, reason: "launch_failed", error };
+      } finally {
+        isLaunchActiveRef.current = false;
+        window.clearInterval(labelPatchInterval);
       }
-      setShowScannerGuide(false);
-      if (isCameraPermissionError(error)) {
-        return { ok: false, reason: "permission_denied", error };
-      }
-      console.error("Scanner launch failed:", error);
-      return { ok: false, reason: "launch_failed", error };
-    } finally {
-      isLaunchActiveRef.current = false;
-      window.clearInterval(labelPatchInterval);
-    }
-  }, [_, historyId, scanner, setPhase]);
+    },
+    [_, finalizeScanSession, historyId, scanner, setPhase]
+  );
 
   const handleLaunchResult = (
     result: LaunchResult,
@@ -528,7 +608,7 @@ const Scanner: React.FC = () => {
       setExpectedPageCount((count) => count - pageIds.length);
       clearPageImages();
       setAwaitingRescanSuccess(true);
-      const result = await launchScanner();
+      const result = await launchScanner({ fromScanReview: true });
       if (!result.ok) {
         handleLaunchResult(result, activeHistoryId, { fromScanReview: true });
       }
@@ -550,36 +630,72 @@ const Scanner: React.FC = () => {
     setShowLaunchFailure(false);
     setAwaitingRescanSuccess(false);
     clearPageImages();
-    const result = await launchScanner();
+    const result = await launchScanner({ fromScanReview: true });
     if (!result.ok) {
       handleLaunchResult(result, context.historyId, { fromScanReview: true });
     }
   };
 
   const handleNext = async () => {
+    const count = Math.max(expectedPageCountRef.current, expectedPageCount);
+    if (count <= 0) return;
+
+    setFlowError(null);
+    const finalized = await finalizeScanSession(count);
+    if (!finalized) {
+      setPhase("scan-review");
+      persistScanReviewStep(count);
+    }
+  };
+
+  const handlePostCompileSkip = () => {
+    const lastStep = postCompilePipeline.data?.last_step_reached;
+    if (!lastStep) return;
+    setIsSkipOrRescanModalOpen(false);
+    navigate(historyResumePath(i18n.locale, lastStep));
+  };
+
+  const handlePostCompileRescan = async () => {
     const context = requireRhScanContext(historyId);
     if (!context) return;
 
     const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
+    setIsPostCompileRescanning(true);
     try {
-      await combineRhHistoryPages(token, activeHistoryId);
-      const analysisPages = await getRhHistoryAnalysisPages(
-        token,
-        activeHistoryId
-      );
-      queryClient.setQueryData(
-        accountQueryKeys.analysisPages(activeHistoryId),
-        analysisPages
-      );
-      setRhSessionAnalysisPages(analysisPages);
-      navigate(`/${i18n.locale}/confirm-address`);
+      await deleteAllRhScannedPages(token, activeHistoryId);
+      clearScannerStepState();
+      setExpectedPageCount(0);
+      setFailedUploadCount(0);
+      failedUploadCountRef.current = 0;
+      clearPageImages();
+      setIsSkipOrRescanModalOpen(false);
+      const result = await launchScanner();
+      if (!result.ok) {
+        if (result.reason === "permission_denied") {
+          setPhase("camera-access");
+        } else {
+          setStartScanError(
+            _(msg`Unable to open the scanner. Please try again.`)
+          );
+        }
+      }
     } catch (error) {
       setFlowError(
-        flowErrorFromApi(error, _(msg`Unable to continue. Please try again.`))
+        flowErrorFromApi(
+          error,
+          _(msg`Unable to restart scanning. Please try again.`)
+        )
       );
+    } finally {
+      setIsPostCompileRescanning(false);
     }
+  };
+
+  const closeSkipOrRescanModal = () => {
+    if (isPostCompileRescanning) return;
+    setIsSkipOrRescanModalOpen(false);
   };
 
   const scanReviewData = scanReviewQuery.data;
@@ -639,9 +755,13 @@ const Scanner: React.FC = () => {
 
       {phase === "pre-scan" && restoreStatus === "done" && (
         <PreScanScreen
+          variant={postCompileReturn ? "postCompileReturn" : "default"}
           onBack={handlePreScanBack}
           onStartScanning={() => {
             void handleStartScanning();
+          }}
+          onSkipOrRescan={() => {
+            setIsSkipOrRescanModalOpen(true);
           }}
           startDisabled={startDisabled}
           historyCreatePhase={historyCreatePhase}
@@ -678,6 +798,7 @@ const Scanner: React.FC = () => {
           isLoading={isScanReviewLoading}
           showRescanSuccess={showRescanSuccess}
           showLaunchFailure={showLaunchFailure}
+          pipelineFailures={scanPipelineFailures}
           failedUploadCount={failedUploadCount}
           reviewError={reviewError}
           onRescanPages={(pageIds) => {
@@ -718,6 +839,17 @@ const Scanner: React.FC = () => {
           disabled: isRestarting,
         }}
         onClose={closeRestartModal}
+      />
+
+      <SkipOrRescanModal
+        isOpen={isSkipOrRescanModalOpen}
+        onClose={closeSkipOrRescanModal}
+        onSkip={handlePostCompileSkip}
+        onRescan={() => {
+          void handlePostCompileRescan();
+        }}
+        skipDisabled={!postCompilePipeline.data?.last_step_reached}
+        rescanDisabled={isPostCompileRescanning}
       />
     </div>
   );

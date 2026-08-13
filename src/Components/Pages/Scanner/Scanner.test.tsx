@@ -196,7 +196,9 @@ const mockBootstrapReady = (
 
 const waitForScanReviewReady = async () => {
   await waitFor(() => {
-    expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+    const nextButton = screen.getByRole("button", { name: "Next" });
+    expect(nextButton).toBeInTheDocument();
+    expect(nextButton).not.toBeDisabled();
   });
 };
 
@@ -257,6 +259,14 @@ vi.mock("../../../api/account/api", async () => {
       early_validation: null,
       user_message_key: null,
     }),
+    finalizeRhHistoryScan: vi.fn().mockResolvedValue({
+      status: "ok",
+      expected_page_count: 1,
+      uploads_observed_count: 1,
+      pages_landed_count: 1,
+      pages_terminal_count: 1,
+      scan_pipeline_status: "awaiting_uploads",
+    }),
     getRhHistoryAnalysisPages: vi.fn().mockResolvedValue([
       {
         s3_key: `1/${testHistoryId}/page1.jpg`,
@@ -289,13 +299,20 @@ const createTestQueryClient = () =>
     },
   });
 
-const renderScanner = (options?: { strictMode?: boolean }) => {
+const renderScanner = (options?: {
+  strictMode?: boolean;
+  initialEntries?: string[];
+  initialIndex?: number;
+}) => {
   i18n.load("en", {});
   i18n.activate("en");
   const queryClient = createTestQueryClient();
   const tree = (
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/en/scanner"]}>
+      <MemoryRouter
+        initialEntries={options?.initialEntries ?? ["/en/scanner"]}
+        initialIndex={options?.initialIndex}
+      >
         <I18nProvider i18n={i18n}>
           <Scanner />
         </I18nProvider>
@@ -316,11 +333,37 @@ const advanceToScanComplete = async () => {
   await clickStartScanning();
 
   await waitFor(() => {
-    const nextButton = screen.getByRole("button", { name: "Next" });
-    expect(nextButton).not.toBeDisabled();
+    expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
+      "access-token",
+      {
+        history_id: historyId,
+        expected_page_count: 1,
+      }
+    );
+    expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+      replace: true,
+    });
   });
+};
 
-  return screen.getByRole("button", { name: "Next" });
+const advanceToScanReview = async (options?: {
+  skipDefaultMock?: boolean;
+  allowDisabledNext?: boolean;
+}) => {
+  writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
+  if (!options?.skipDefaultMock) {
+    mockBootstrapReady();
+  }
+  renderScanner();
+  if (options?.allowDisabledNext) {
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Restart scan" })
+      ).toBeInTheDocument();
+    });
+  } else {
+    await waitForScanReviewReady();
+  }
 };
 
 describe("Scanner zero-page completion", () => {
@@ -363,7 +406,7 @@ describe("Scanner zero-page completion", () => {
   });
 });
 
-describe("Scanner Next button", () => {
+describe("Scanner happy path finalize", () => {
   beforeEach(() => {
     cleanup();
     window.sessionStorage.clear();
@@ -378,49 +421,67 @@ describe("Scanner Next button", () => {
     clearRhAuthSession();
   });
 
-  it("calls combine-pages and navigates to /confirm-address on success", async () => {
-    vi.mocked(accountApi.combineRhHistoryPages).mockResolvedValue({
-      status: "ok",
-    });
-
+  it("calls finalize-scan and navigates to /compiling after Dynamsoft exit", async () => {
     renderScanner();
-    const nextButton = await advanceToScanComplete();
-    fireEvent.click(nextButton);
+    await advanceToScanComplete();
+    expect(readScannerStepState()).toBeNull();
+    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalledWith(
+      "access-token",
+      historyId,
+      1,
+      undefined
+    );
+  });
+});
+
+describe("Scanner scan-review finalize", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("calls finalize-scan and navigates to /compiling when Next is clicked on scan-review", async () => {
+    await advanceToScanReview();
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     await waitFor(() => {
-      expect(accountApi.combineRhHistoryPages).toHaveBeenCalledWith(
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        historyId
-      );
-      expect(accountApi.getRhHistoryAnalysisPages).toHaveBeenCalledWith(
-        "access-token",
-        historyId
-      );
-      expect(getRhSessionAnalysisPages()).toEqual([
         {
-          s3_key: `1/${testHistoryId}/page1.jpg`,
-          start_year: 2020,
-          end_year: 2021,
-        },
-      ]);
-      expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
+          history_id: historyId,
+          expected_page_count: 1,
+        }
+      );
+      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+        replace: true,
+      });
     });
   });
 
-  it("shows backend error message and stays on scanner when combine-pages fails", async () => {
-    vi.mocked(accountApi.combineRhHistoryPages).mockRejectedValue(
+  it("shows backend error message and stays on scan-review when finalize-scan fails", async () => {
+    vi.mocked(accountApi.finalizeRhHistoryScan).mockRejectedValue(
       new AccountApiError(400, {
-        error: "reg_year sequence is not contiguous",
+        error: "expected_page_count is below stored page count",
         error_code: "validation_error",
       })
     );
 
-    renderScanner();
-    const nextButton = await advanceToScanComplete();
-    fireEvent.click(nextButton);
+    await advanceToScanReview();
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
-    await screen.findByText("reg_year sequence is not contiguous");
-    expect(navigateMock).not.toHaveBeenCalled();
+    await screen.findByText("expected_page_count is below stored page count");
+    expect(navigateMock).not.toHaveBeenCalledWith(
+      "/en/compiling",
+      expect.anything()
+    );
   });
 });
 
@@ -568,6 +629,14 @@ describe("Scanner expectedPageCount lifecycle", () => {
     setRhAuthSession(tokenPayload);
     setRhHistoryId(historyId);
     mockBootstrapNoRestorablePages();
+    vi.mocked(accountApi.finalizeRhHistoryScan).mockResolvedValue({
+      status: "ok",
+      expected_page_count: 1,
+      uploads_observed_count: 1,
+      pages_landed_count: 1,
+      pages_terminal_count: 1,
+      scan_pipeline_status: "awaiting_uploads",
+    });
   });
 
   afterEach(() => {
@@ -576,7 +645,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
     clearRhAuthSession();
   });
 
-  it("passes incremented upload count to scan-review after a scan", async () => {
+  it("passes incremented upload count to finalize-scan after a scan", async () => {
     renderScanner();
     await advanceToScanComplete();
 
@@ -586,11 +655,12 @@ describe("Scanner expectedPageCount lifecycle", () => {
         expect.any(Blob),
         { retries: 1 }
       );
-      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        historyId,
-        1,
-        undefined
+        {
+          history_id: historyId,
+          expected_page_count: 1,
+        }
       );
     });
   });
@@ -598,13 +668,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
   it("decrements expectedPageCount when re-scanning retake pages", async () => {
     vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(
       async (_token, _hid, _count, opts) => {
-        if (opts?.acceptPartial) {
-          throw new AccountApiError(400, {
-            error: "no pages",
-            error_code: "validation_error",
-          });
-        }
-        return {
+        const response = {
           ...readyScanReviewResponse,
           pages: [
             {
@@ -618,14 +682,14 @@ describe("Scanner expectedPageCount lifecycle", () => {
             },
           ],
         };
+        if (opts?.acceptPartial) {
+          return response;
+        }
+        return response;
       }
     );
 
-    renderScanner();
-    await advanceToScanComplete();
-
-    const initialPollCount = vi.mocked(accountApi.getRhHistoryScanReview).mock
-      .calls.length;
+    await advanceToScanReview({ skipDefaultMock: true });
 
     fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
 
@@ -635,27 +699,18 @@ describe("Scanner expectedPageCount lifecycle", () => {
         historyId,
         [7]
       );
-    });
-
-    await waitFor(() => {
-      expect(
-        vi.mocked(accountApi.getRhHistoryScanReview).mock.calls.length
-      ).toBeGreaterThan(initialPollCount);
-      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        historyId,
-        1,
-        undefined
+        {
+          history_id: historyId,
+          expected_page_count: 1,
+        }
       );
     });
   });
 
   it("resets expectedPageCount when restarting the scan", async () => {
-    renderScanner();
-    await advanceToScanComplete();
-
-    const initialPollCount = vi.mocked(accountApi.getRhHistoryScanReview).mock
-      .calls.length;
+    await advanceToScanReview();
 
     fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
     fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);
@@ -665,14 +720,12 @@ describe("Scanner expectedPageCount lifecycle", () => {
         "access-token",
         historyId
       );
-      expect(
-        vi.mocked(accountApi.getRhHistoryScanReview).mock.calls.length
-      ).toBeGreaterThan(initialPollCount);
-      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        historyId,
-        1,
-        undefined
+        {
+          history_id: historyId,
+          expected_page_count: 1,
+        }
       );
     });
   });
@@ -686,6 +739,14 @@ describe("Scanner upload failures", () => {
     setRhHistoryId(historyId);
     mockBootstrapNoRestorablePages();
     vi.mocked(uploadScan).mockResolvedValue(undefined);
+    vi.mocked(accountApi.finalizeRhHistoryScan).mockResolvedValue({
+      status: "ok",
+      expected_page_count: 1,
+      uploads_observed_count: 1,
+      pages_landed_count: 1,
+      pages_terminal_count: 1,
+      scan_pipeline_status: "awaiting_uploads",
+    });
   });
 
   afterEach(() => {
@@ -723,7 +784,7 @@ describe("Scanner upload failures", () => {
     );
   });
 
-  it("shows upload failure callout when some uploads fail but at least one page is saved", async () => {
+  it("finalizes with successful upload count when some uploads fail on happy path", async () => {
     scannerHarness.autoScanCount = 2;
     vi.mocked(uploadScan)
       .mockResolvedValueOnce(undefined)
@@ -734,80 +795,43 @@ describe("Scanner upload failures", () => {
 
     await waitFor(() => {
       expect(uploadScan).toHaveBeenCalledTimes(2);
-      expect(
-        screen.getByTestId("scan-review-upload-failure")
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: "re-scan the missing page" })
-      ).toBeInTheDocument();
-    });
-
-    expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
-      "access-token",
-      historyId,
-      1,
-      undefined
-    );
-  });
-
-  it("clears upload failure callout after add-more with successful upload", async () => {
-    scannerHarness.autoScanCount = 2;
-    vi.mocked(uploadScan)
-      .mockResolvedValueOnce(undefined)
-      .mockRejectedValueOnce(new Error("upload failed"));
-
-    renderScanner();
-    await clickStartScanning();
-
-    await waitFor(() => {
-      expect(
-        screen.getByTestId("scan-review-upload-failure")
-      ).toBeInTheDocument();
-    });
-
-    scannerHarness.autoScanCount = 1;
-    vi.mocked(uploadScan).mockResolvedValue(undefined);
-    fireEvent.click(
-      screen.getByRole("button", { name: "re-scan the missing page" })
-    );
-
-    await waitFor(() => {
-      expect(
-        screen.queryByTestId("scan-review-upload-failure")
-      ).not.toBeInTheDocument();
-    });
-  });
-
-  it("clears upload failure callout on restart", async () => {
-    scannerHarness.autoScanCount = 2;
-    vi.mocked(uploadScan)
-      .mockResolvedValueOnce(undefined)
-      .mockRejectedValueOnce(new Error("upload failed"));
-
-    renderScanner();
-    await clickStartScanning();
-
-    await waitFor(() => {
-      expect(
-        screen.getByTestId("scan-review-upload-failure")
-      ).toBeInTheDocument();
-    });
-
-    scannerHarness.autoScanCount = 1;
-    vi.mocked(uploadScan).mockResolvedValue(undefined);
-    fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
-    fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);
-
-    await waitFor(() => {
-      expect(
-        screen.queryByTestId("scan-review-upload-failure")
-      ).not.toBeInTheDocument();
-      expect(accountApi.getRhHistoryScanReview).toHaveBeenCalledWith(
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        historyId,
-        1,
-        undefined
+        {
+          history_id: historyId,
+          expected_page_count: 1,
+        }
       );
+      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+        replace: true,
+      });
+    });
+
+    expect(
+      screen.queryByTestId("scan-review-upload-failure")
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows upload failure callout when add-more finalize fails on scan-review", async () => {
+    await advanceToScanReview();
+
+    scannerHarness.autoScanCount = 2;
+    vi.mocked(uploadScan)
+      .mockResolvedValueOnce(undefined)
+      .mockRejectedValueOnce(new Error("upload failed"));
+    vi.mocked(accountApi.finalizeRhHistoryScan).mockRejectedValueOnce(
+      new AccountApiError(400, {
+        error: "finalize failed",
+        error_code: "validation_error",
+      })
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "add a page" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-upload-failure")
+      ).toBeInTheDocument();
     });
   });
 });
@@ -830,21 +854,21 @@ describe("Scanner scan-review callouts", () => {
   it("disables Next when missing_year_ranges is non-empty", async () => {
     vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(
       async (_token, _hid, _count, opts) => {
-        if (opts?.acceptPartial) {
-          throw new AccountApiError(400, {
-            error: "no pages",
-            error_code: "validation_error",
-          });
-        }
-        return {
+        const response = {
           ...readyScanReviewResponse,
           missing_year_ranges: ["2015-2016"],
         };
+        if (opts?.acceptPartial) {
+          return response;
+        }
+        return response;
       }
     );
 
-    renderScanner();
-    await clickStartScanning();
+    await advanceToScanReview({
+      skipDefaultMock: true,
+      allowDisabledNext: true,
+    });
 
     await waitFor(() => {
       expect(
@@ -864,10 +888,11 @@ describe("Scanner scan-review callouts", () => {
         if (opts?.acceptPartial) {
           acceptPartialCalls += 1;
           if (acceptPartialCalls === 1) {
-            throw new AccountApiError(400, {
-              error: "no pages",
-              error_code: "validation_error",
-            });
+            return {
+              status: "pending",
+              db_count: 0,
+              expected_page_count: 1,
+            };
           }
           return {
             ...readyScanReviewResponse,
@@ -882,10 +907,12 @@ describe("Scanner scan-review callouts", () => {
       }
     );
 
-    renderScanner();
-    await clickStartScanning();
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
 
-    await screen.findByTestId("scan-review-loading");
+    renderScanner();
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-loading")).toBeInTheDocument();
+    });
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(181_000);
@@ -992,40 +1019,23 @@ describe("Scanner phase persistence", () => {
     ).toBeUndefined();
   });
 
-  it("keeps scan-review session after Next so remount restores review", async () => {
+  it("clears scan-review session after successful finalize from scan-review", async () => {
     mockBootstrapNoRestorablePages();
-    vi.mocked(accountApi.combineRhHistoryPages).mockResolvedValue({
-      status: "ok",
-    });
-
-    renderScanner();
-    const nextButton = await advanceToScanComplete();
-    fireEvent.click(nextButton);
+    await advanceToScanReview();
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
+      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+        replace: true,
+      });
     });
-    expect(readScannerStepState()).toEqual({
-      historyId,
-      phase: "scan-review",
-      expectedPageCount: 1,
-    });
-
-    cleanup();
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
-    mockBootstrapReady();
-    renderScanner();
-    await waitForScanReviewReady();
-    expect(
-      screen.queryByRole("button", { name: "Start scanning" })
-    ).not.toBeInTheDocument();
+    expect(readScannerStepState()).toBeNull();
   });
 
   it("clears scanner step state when restart is confirmed", async () => {
     mockBootstrapNoRestorablePages();
 
-    renderScanner();
-    await advanceToScanComplete();
+    await advanceToScanReview();
 
     fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
     fireEvent.click(screen.getAllByRole("button", { name: "Restart scan" })[1]);
@@ -1117,7 +1127,7 @@ describe("Scanner unmount cleanup", () => {
     clearRhAuthSession();
   });
 
-  it("disposes and stops continuous scanning when unmounting during active scan with pages", async () => {
+  it("does not persist scan-review when unmounting during active scan with pages", async () => {
     scannerHarness.hangLaunch = true;
     const view = renderScanner();
     await clickStartScanning();
@@ -1140,11 +1150,7 @@ describe("Scanner unmount cleanup", () => {
       scannerHarness.lastInstance?.stopContinuousScanning
     ).toHaveBeenCalled();
     expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
-    expect(readScannerStepState()).toEqual({
-      historyId,
-      phase: "scan-review",
-      expectedPageCount: 1,
-    });
+    expect(readScannerStepState()).toBeNull();
   });
 
   it("disposes without persisting step state when unmounting during active scan with no pages", async () => {
@@ -1185,7 +1191,7 @@ describe("Scanner unmount cleanup", () => {
     });
   });
 
-  it("restores scan-review after unmounting mid-scan with pages", async () => {
+  it("does not restore scan-review after unmounting mid-scan with pages", async () => {
     scannerHarness.hangLaunch = true;
 
     const first = renderScanner();
@@ -1201,18 +1207,11 @@ describe("Scanner unmount cleanup", () => {
 
     first.unmount();
 
-    expect(readScannerStepState()).toEqual({
-      historyId,
-      phase: "scan-review",
-      expectedPageCount: 1,
-    });
+    expect(readScannerStepState()).toBeNull();
 
-    mockBootstrapReady();
+    mockBootstrapNoRestorablePages();
     renderScanner();
-    await waitForScanReviewReady();
-    expect(
-      screen.queryByRole("button", { name: "Start scanning" })
-    ).not.toBeInTheDocument();
+    await screen.findByRole("button", { name: "Start scanning" });
   });
 
   it("disposes when unmounting from pre-scan", async () => {
@@ -1228,13 +1227,7 @@ describe("Scanner launch failure handling", () => {
   const mockRetakeScanReview = () => {
     vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(
       async (_token, _hid, _count, opts) => {
-        if (opts?.acceptPartial) {
-          throw new AccountApiError(400, {
-            error: "no pages",
-            error_code: "validation_error",
-          });
-        }
-        return {
+        const response = {
           ...readyScanReviewResponse,
           pages: [
             {
@@ -1248,6 +1241,10 @@ describe("Scanner launch failure handling", () => {
             },
           ],
         };
+        if (opts?.acceptPartial) {
+          return response;
+        }
+        return response;
       }
     );
   };
@@ -1260,6 +1257,14 @@ describe("Scanner launch failure handling", () => {
     mockBootstrapNoRestorablePages();
     scannerHarness.rejectLaunch = false;
     scannerHarness.rejectLaunchError = null;
+    vi.mocked(accountApi.finalizeRhHistoryScan).mockResolvedValue({
+      status: "ok",
+      expected_page_count: 1,
+      uploads_observed_count: 1,
+      pages_landed_count: 1,
+      pages_terminal_count: 1,
+      scan_pipeline_status: "awaiting_uploads",
+    });
   });
 
   afterEach(() => {
@@ -1274,8 +1279,7 @@ describe("Scanner launch failure handling", () => {
 
   it("shows launch failure InfoBox on scan-review when rescan launch rejects", async () => {
     mockRetakeScanReview();
-    renderScanner();
-    await advanceToScanComplete();
+    await advanceToScanReview({ skipDefaultMock: true });
 
     scannerHarness.rejectLaunch = true;
     fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
@@ -1294,8 +1298,7 @@ describe("Scanner launch failure handling", () => {
   });
 
   it("shows launch failure InfoBox when add-more launch rejects from scan-review", async () => {
-    renderScanner();
-    await advanceToScanComplete();
+    await advanceToScanReview();
 
     scannerHarness.rejectLaunch = true;
     fireEvent.click(screen.getByRole("button", { name: "add a page" }));
@@ -1363,8 +1366,7 @@ describe("Scanner launch failure handling", () => {
   });
 
   it("shows launch failure on scan-review when relaunch hits not_ready", async () => {
-    renderScanner();
-    await advanceToScanComplete();
+    await advanceToScanReview();
 
     vi.spyOn(rhScanKeyPrefix, "getRhScanKeyPrefix").mockReturnValueOnce(null);
     fireEvent.click(screen.getByRole("button", { name: "add a page" }));
@@ -1379,8 +1381,7 @@ describe("Scanner launch failure handling", () => {
 
   it("routes rescan permission errors to camera-access without launch failure InfoBox", async () => {
     mockRetakeScanReview();
-    renderScanner();
-    await advanceToScanComplete();
+    await advanceToScanReview({ skipDefaultMock: true });
 
     scannerHarness.rejectLaunch = true;
     scannerHarness.rejectLaunchError = new DOMException(
@@ -1401,13 +1402,12 @@ describe("Scanner launch failure handling", () => {
     fireEvent.click(screen.getByRole("button", { name: "Start scanning" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalled();
     });
   });
 
   it("returns to pre-scan without launch failure InfoBox when restart launch rejects", async () => {
-    renderScanner();
-    await advanceToScanComplete();
+    await advanceToScanReview();
 
     scannerHarness.rejectLaunch = true;
     fireEvent.click(screen.getByRole("button", { name: "Restart scan" }));
@@ -1436,8 +1436,7 @@ describe("Scanner launch failure handling", () => {
       })
     );
 
-    renderScanner();
-    await advanceToScanComplete();
+    await advanceToScanReview({ skipDefaultMock: true });
 
     fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
 
@@ -1449,6 +1448,74 @@ describe("Scanner launch failure handling", () => {
       expect(
         screen.queryByTestId("scan-review-launch-failure")
       ).not.toBeInTheDocument();
+    });
+  });
+});
+
+describe("Scanner postCompileReturn mode", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    mockBootstrapNoRestorablePages();
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      last_step_reached: "FINDINGS_OVERVIEW",
+      scan_pipeline_status: "complete",
+      expected_page_count: 3,
+      pages_landed_count: 3,
+      pages_terminal_count: 3,
+      processing_complete: true,
+      uploads_observed_count: 3,
+      early_validation: null,
+      user_message_key: null,
+    });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("opens SkipOrRescanModal and navigates via historyResumePath on Skip", async () => {
+    renderScanner({
+      initialEntries: [
+        {
+          pathname: "/en/scanner",
+          state: { postCompileReturn: true },
+        },
+      ],
+    });
+
+    await screen.findByRole("button", { name: "Skip or Re-scan" });
+    fireEvent.click(screen.getByRole("button", { name: "Skip or Re-scan" }));
+    fireEvent.click(screen.getByRole("button", { name: "Skip" }));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/findings-overview");
+    });
+  });
+
+  it("calls delete-all-scanned-pages when Re-scan is chosen", async () => {
+    renderScanner({
+      initialEntries: [
+        {
+          pathname: "/en/scanner",
+          state: { postCompileReturn: true },
+        },
+      ],
+    });
+
+    await screen.findByRole("button", { name: "Skip or Re-scan" });
+    fireEvent.click(screen.getByRole("button", { name: "Skip or Re-scan" }));
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan" }));
+
+    await waitFor(() => {
+      expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId
+      );
     });
   });
 });

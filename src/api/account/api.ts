@@ -10,6 +10,8 @@ import {
 import type {
   RhAnalysisPage,
   RhFindingsStateResponse,
+  RhFinalizeScanRequest,
+  RhFinalizeScanResponse,
   RhScanPipelineStatusResponse,
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
@@ -275,6 +277,21 @@ export const getRhHistoryScanPipelineStatus = (
       params: { query: { history_id: historyId } },
     })
   ) as Promise<RhScanPipelineStatusResponse>;
+
+/**
+ * `POST /rh/history/finalize-scan` — OAuth2 bearer.
+ * Sets expected_page_count, moves last_step_reached to COMPILING, and runs pipeline catch-up.
+ */
+export const finalizeRhHistoryScan = (
+  accessToken: string,
+  body: RhFinalizeScanRequest
+): Promise<RhFinalizeScanResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/finalize-scan", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  ) as Promise<RhFinalizeScanResponse>;
 
 /**
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.

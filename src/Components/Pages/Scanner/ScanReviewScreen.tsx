@@ -12,12 +12,14 @@ import { FlowNav } from "../../FlowNav";
 import {
   ScanReviewAddMoreCallout,
   ScanReviewLaunchFailureInfo,
+  ScanReviewPipelineFailuresInfo,
   ScanReviewRescanSuccessInfo,
   ScanReviewTopCallout,
   ScanReviewUploadFailureInfo,
 } from "./ScanReviewCallouts";
 import { RentHistoryPageCard } from "../../RentHistoryPageCard/RentHistoryPageCard";
 import type { ScanReviewPage } from "../../RentHistoryPageCard/pageCardUtils";
+import type { ScanCoverageFailure } from "../../../hooks/useScanPipelineStatus";
 import { ScanReviewRetakeGroup } from "./ScanReviewRetakeGroup";
 
 import "./ScanReviewScreen.scss";
@@ -29,6 +31,7 @@ export type ScanReviewScreenProps = {
   isLoading: boolean;
   showRescanSuccess?: boolean;
   showLaunchFailure?: boolean;
+  pipelineFailures?: ScanCoverageFailure[];
   failedUploadCount?: number;
   reviewError?: string | null;
   onRescanPages: (ids: number[]) => void;
@@ -45,6 +48,7 @@ export const ScanReviewScreen = ({
   isLoading,
   showRescanSuccess = false,
   showLaunchFailure = false,
+  pipelineFailures = [],
   failedUploadCount = 0,
   reviewError = null,
   onRescanPages,
@@ -67,6 +71,7 @@ export const ScanReviewScreen = ({
       <div className="scan-review-screen__content">
         {showRescanSuccess && <ScanReviewRescanSuccessInfo />}
         {showLaunchFailure && <ScanReviewLaunchFailureInfo />}
+        <ScanReviewPipelineFailuresInfo failures={pipelineFailures} />
         {failedUploadCount > 0 && (
           <ScanReviewUploadFailureInfo
             failedUploadCount={failedUploadCount}
