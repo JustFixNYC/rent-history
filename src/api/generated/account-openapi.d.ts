@@ -115,7 +115,7 @@ export interface paths {
         put?: never;
         /**
          * Set current monthly rent on a RhHistory
-         * @description Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to APARTMENT_INFO.
+         * @description Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to DOCUMENT_SCAN.
          */
         post: operations["history_current_rent_create"];
         delete?: never;
@@ -178,6 +178,26 @@ export interface paths {
          * @description Deletes specific RhPage records by id for the given RhHistory belonging to the authenticated user. Also performs best-effort deletion of each page's `s3_key` object in `RH_SCAN_BUCKET`.
          */
         post: operations["history_delete_scanned_pages_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/history/finalize-scan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Finalize a scan session
+         * @description Sets expected_page_count and scan_finalized_at, moves last_step_reached to COMPILING, resets prior analysis artifacts on re-finalize, and runs maybe_advance_scan_pipeline catch-up in the same request.
+         */
+        post: operations["history_finalize_scan_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -263,7 +283,7 @@ export interface paths {
         put?: never;
         /**
          * Generate and store a rent history report PDF
-         * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.
+         * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata (does not change `last_step_reached`).
          */
         post: operations["history_report_pdf_create"];
         delete?: never;
@@ -286,6 +306,26 @@ export interface paths {
          * @description Runs mock analysis on existing data_current (from combine-pages), populates findings_initial and findings_current, and returns the review queue.
          */
         post: operations["history_run_analysis_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/history/scan-pipeline-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Poll scan pipeline status for a RhHistory
+         * @description Returns pipeline phase, page counts, early validation snapshot, and last_step_reached for the compiling waiting screen.
+         */
+        get: operations["history_scan_pipeline_status_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -383,7 +423,7 @@ export interface paths {
         put?: never;
         /**
          * Start RH login (upsert profile and request OTP)
-         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `REPORT_GENERATION`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.
+         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `REPORT`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.
          */
         post: operations["login_start_create"];
         delete?: never;
@@ -524,13 +564,14 @@ export interface components {
          * @description * `ADDRESS_CONFIRMATION` - Address Confirmation
          *     * `APARTMENT_INFO` - Apartment Info
          *     * `DOCUMENT_SCAN` - Document Scan
+         *     * `COMPILING` - Compiling
          *     * `SCAN_REVIEW` - Scan Review
          *     * `FINDINGS_OVERVIEW` - Findings Overview
          *     * `FINDINGS_REVIEW` - Findings Review
-         *     * `REPORT_GENERATION` - Report Generation
+         *     * `REPORT` - Report
          * @enum {string}
          */
-        LastStepReachedEnum: "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "DOCUMENT_SCAN" | "SCAN_REVIEW" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
+        LastStepReachedEnum: "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "DOCUMENT_SCAN" | "COMPILING" | "SCAN_REVIEW" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT";
         /** @enum {unknown} */
         NullEnum: null;
         /**
@@ -634,6 +675,29 @@ export interface components {
             s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
             s3_deleted_keys?: number;
         };
+        RhFinalizeScanRequestRequest: {
+            /** @default false */
+            accept_partial: boolean;
+            expected_page_count: number;
+            /** Format: uuid */
+            history_id: string;
+            /** @default en */
+            locale: string;
+            origin?: string;
+        };
+        RhFinalizeScanResponse: {
+            expected_page_count: number;
+            pages_landed_count: number;
+            pages_terminal_count: number;
+            scan_pipeline_status: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            status: components["schemas"]["RhFinalizeScanResponseStatusEnum"];
+            uploads_observed_count: number;
+        };
+        /**
+         * @description * `ok` - ok
+         * @enum {string}
+         */
+        RhFinalizeScanResponseStatusEnum: "ok";
         /**
          * @description MVP finding wire object (7 core keys + optional ``result``).
          *
@@ -753,10 +817,11 @@ export interface components {
              *     * `ADDRESS_CONFIRMATION` - Address Confirmation
              *     * `APARTMENT_INFO` - Apartment Info
              *     * `DOCUMENT_SCAN` - Document Scan
+             *     * `COMPILING` - Compiling
              *     * `SCAN_REVIEW` - Scan Review
              *     * `FINDINGS_OVERVIEW` - Findings Overview
              *     * `FINDINGS_REVIEW` - Findings Review
-             *     * `REPORT_GENERATION` - Report Generation
+             *     * `REPORT` - Report
              */
             readonly last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
             /** Format: date-time */
@@ -999,6 +1064,17 @@ export interface components {
             findings_current: components["schemas"]["RhFinding"][];
             review_queue: components["schemas"]["RhReviewQueue"];
         };
+        RhScanPipelineStatusResponse: {
+            early_validation: unknown;
+            expected_page_count: number | null;
+            last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
+            pages_landed_count: number;
+            pages_terminal_count: number;
+            processing_complete: boolean;
+            scan_pipeline_status: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            uploads_observed_count: number;
+            user_message_key: string | null;
+        };
         /** @description POST /rh/history/scan-presign body. */
         RhScanPresignRequestRequest: {
             keys: string[];
@@ -1106,6 +1182,17 @@ export interface components {
          * @enum {string}
          */
         S3CleanupStatusEnum: "deleted" | "failed";
+        /**
+         * @description * `awaiting_uploads` - Awaiting uploads
+         *     * `stubs_ready` - Stubs ready
+         *     * `needs_rescan` - Needs rescan
+         *     * `processing_terminal` - Processing terminal
+         *     * `running_analysis` - Running analysis
+         *     * `complete` - Complete
+         *     * `failed` - Failed
+         * @enum {string}
+         */
+        ScanPipelineStatusEnum: "awaiting_uploads" | "stubs_ready" | "needs_rescan" | "processing_terminal" | "running_analysis" | "complete" | "failed";
         /**
          * @description * `desktop` - desktop
          *     * `mobile` - mobile
@@ -1526,6 +1613,54 @@ export interface operations {
             };
         };
     };
+    history_finalize_scan_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhFinalizeScanRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhFinalizeScanResponse"];
+                };
+            };
+            /** @description Validation error or expected_page_count below page count. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
     history_findings_state_retrieve: {
         parameters: {
             query: {
@@ -1908,6 +2043,53 @@ export interface operations {
             };
             /** @description Analysis has already been run for this history. */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_scan_pipeline_status_retrieve: {
+        parameters: {
+            query: {
+                /** @description UUID of the RhHistory to poll. */
+                history_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhScanPipelineStatusResponse"];
+                };
+            };
+            /** @description Missing or invalid history_id. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

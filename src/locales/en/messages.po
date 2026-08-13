@@ -66,7 +66,7 @@ msgid "{0} buildings"
 msgstr "{0} buildings"
 
 #. placeholder {0}: history.apartment
-#: src/Components/Pages/AccountPage/AccountPage.tsx:98
+#: src/Components/Pages/AccountPage/AccountPage.tsx:83
 msgid "{address}, Apt {0}"
 msgstr "{address}, Apt {0}"
 
@@ -189,7 +189,7 @@ msgstr "All scanned pages will be cleared and you'll need to scan all pages agai
 msgid "timeline.copy.missing_reg_destab_list.bonuses"
 msgstr "Allowable bonuses and/or IAIs that reached the high rent vacancy destabilization threshold."
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:43
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:49
 msgid "Analysis complete"
 msgstr "Analysis complete"
 
@@ -334,8 +334,8 @@ msgstr "By"
 msgid "Camera access"
 msgstr "Camera access"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:343
-#: src/Components/Pages/AccountPage/AccountPage.tsx:364
+#: src/Components/Pages/AccountPage/AccountPage.tsx:242
+#: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/Scanner/Scanner.tsx:715
 msgid "Cancel"
 msgstr "Cancel"
@@ -345,8 +345,8 @@ msgid "Change <0>Camera</0> to <1>Allow.</1>"
 msgstr "Change <0>Camera</0> to <1>Allow.</1>"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:186
-msgid "Check your phone for a resume link."
-msgstr "Check your phone for a resume link."
+#~ msgid "Check your phone for a resume link."
+#~ msgstr "Check your phone for a resume link."
 
 #: src/Components/ConfirmModal/ConfirmModal.tsx:76
 #: src/Components/InfoModal/InfoModal.tsx:60
@@ -375,11 +375,15 @@ msgstr "Coming soon"
 msgid "Coming soon."
 msgstr "Coming soon."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:265
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:37
+msgid "Compiling your rent history"
+msgstr "Compiling your rent history"
+
+#: src/Components/Pages/AccountPage/AccountPage.tsx:174
 msgid "Completed"
 msgstr "Completed"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:282
+#: src/Components/Pages/AccountPage/AccountPage.tsx:191
 msgid "Completed {completedOn}"
 msgstr "Completed {completedOn}"
 
@@ -387,7 +391,7 @@ msgstr "Completed {completedOn}"
 #~ msgid "Completed Feb 1, 2026"
 #~ msgstr "Completed Feb 1, 2026"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:25
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:26
 msgid "Confirm address"
 msgstr "Confirm address"
 
@@ -411,8 +415,8 @@ msgstr "Current monthly rent"
 msgid "Currently Rent Stabilized"
 msgstr "Currently Rent Stabilized"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:273
-#: src/Components/Pages/AccountPage/AccountPage.tsx:337
+#: src/Components/Pages/AccountPage/AccountPage.tsx:182
+#: src/Components/Pages/AccountPage/AccountPage.tsx:236
 msgid "Delete"
 msgstr "Delete"
 
@@ -740,7 +744,7 @@ msgstr "If this proves true, there is a chance your apartment was unlawfully or 
 msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
 msgstr "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:267
+#: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
 msgstr "In progress"
 
@@ -833,7 +837,7 @@ msgstr "Loading scan previews…"
 msgid "Loading scanner…"
 msgstr "Loading scanner…"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:234
+#: src/Components/Pages/AccountPage/AccountPage.tsx:147
 msgid "Loading your rent histories…"
 msgstr "Loading your rent histories…"
 
@@ -849,12 +853,12 @@ msgstr "Location"
 msgid "Log in"
 msgstr "Log in"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:315
-#: src/Components/Pages/AccountPage/AccountPage.tsx:359
+#: src/Components/Pages/AccountPage/AccountPage.tsx:214
+#: src/Components/Pages/AccountPage/AccountPage.tsx:258
 msgid "Log out"
 msgstr "Log out"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:352
+#: src/Components/Pages/AccountPage/AccountPage.tsx:251
 msgid "Log out?"
 msgstr "Log out?"
 
@@ -1059,7 +1063,7 @@ msgstr "Page scan preview"
 msgid "Page(s) successfully scanned."
 msgstr "Page(s) successfully scanned."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:322
+#: src/Components/Pages/AccountPage/AccountPage.tsx:221
 msgid "Permanently delete this rent history?"
 msgstr "Permanently delete this rent history?"
 
@@ -1244,7 +1248,7 @@ msgstr "Restart scan"
 #~ msgid "Restart scanning"
 #~ msgstr "Restart scanning"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:252
+#: src/Components/Pages/AccountPage/AccountPage.tsx:165
 msgid "Resume"
 msgstr "Resume"
 
@@ -1261,7 +1265,7 @@ msgstr "Retry"
 msgid "Return to this page and tap <0>Start scanning</0>, below."
 msgstr "Return to this page and tap <0>Start scanning</0>, below."
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:40
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:46
 msgid "Review"
 msgstr "Review"
 
@@ -1269,7 +1273,7 @@ msgstr "Review"
 msgid "Review and edit your rent history"
 msgstr "Review and edit your rent history"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:34
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:40
 msgid "Review Scan"
 msgstr "Review Scan"
 
@@ -1290,11 +1294,11 @@ msgstr "Save page"
 msgid "Saving…"
 msgstr "Saving…"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:33
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:34
 msgid "Scan"
 msgstr "Scan"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:226
+#: src/Components/Pages/AccountPage/AccountPage.tsx:139
 msgid "Scan a new rent history"
 msgstr "Scan a new rent history"
 
@@ -1373,8 +1377,8 @@ msgid "Select Year"
 msgstr "Select Year"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:298
-msgid "Send resume link (test)"
-msgstr "Send resume link (test)"
+#~ msgid "Send resume link (test)"
+#~ msgstr "Send resume link (test)"
 
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:78
 msgid "Send verification code"
@@ -1403,8 +1407,8 @@ msgid "Site navigation"
 msgstr "Site navigation"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:193
-msgid "SMS delivery is pending. Check your phone shortly."
-msgstr "SMS delivery is pending. Check your phone shortly."
+#~ msgid "SMS delivery is pending. Check your phone shortly."
+#~ msgstr "SMS delivery is pending. Check your phone shortly."
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:171
 msgid "Something missing?"
@@ -1440,7 +1444,7 @@ msgstr "Start review"
 msgid "Start scanning"
 msgstr "Start scanning"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:284
+#: src/Components/Pages/AccountPage/AccountPage.tsx:193
 msgid "Started {startedOn}"
 msgstr "Started {startedOn}"
 
@@ -1703,11 +1707,11 @@ msgstr "This link is invalid or already used."
 #~ msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 #~ msgstr "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:325
+#: src/Components/Pages/AccountPage/AccountPage.tsx:224
 msgid "This rent history, completed on {deleteDate}, will be permanently deleted. This can't be undone."
 msgstr "This rent history, completed on {deleteDate}, will be permanently deleted. This can't be undone."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:330
+#: src/Components/Pages/AccountPage/AccountPage.tsx:229
 msgid "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
 msgstr "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
 
@@ -1813,8 +1817,8 @@ msgid "Unable to save your rent. Please try again."
 msgstr "Unable to save your rent. Please try again."
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:170
-msgid "Unable to send resume link right now."
-msgstr "Unable to send resume link right now."
+#~ msgid "Unable to send resume link right now."
+#~ msgstr "Unable to send resume link right now."
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:104
 #~ msgid "Unable to start analysis. Please try again."
@@ -1839,7 +1843,7 @@ msgstr "Unless there is proof of legal destabilization during the years of missi
 msgid "Unsupported finding type: {0}"
 msgstr "Unsupported finding type: {0}"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:96
+#: src/Components/Pages/AccountPage/AccountPage.tsx:81
 msgid "Untitled rent history"
 msgstr "Untitled rent history"
 
@@ -1891,7 +1895,7 @@ msgstr "Verify"
 #~ msgid "View map of rent-stabilized buildings"
 #~ msgstr "View map of rent-stabilized buildings"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:251
+#: src/Components/Pages/AccountPage/AccountPage.tsx:164
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:140
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
@@ -1938,7 +1942,7 @@ msgstr "We could not generate your report PDF. Please try again."
 #~ msgid "We couldn't combine your pages. Please try again."
 #~ msgstr "We couldn't combine your pages. Please try again."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:238
+#: src/Components/Pages/AccountPage/AccountPage.tsx:151
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr "We couldn't load your rent histories. Please try again later."
 
@@ -2030,7 +2034,7 @@ msgstr "What is the total monthly rent for your entire apartment?"
 msgid "What this means for you"
 msgstr "What this means for you"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:37
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:43
 msgid "What we found"
 msgstr "What we found"
 
@@ -2109,7 +2113,7 @@ msgstr "Yes, this matches my document"
 msgid "You can add up to 10 additional recipients."
 msgstr "You can add up to 10 additional recipients."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:244
+#: src/Components/Pages/AccountPage/AccountPage.tsx:157
 msgid "You don't have any rent histories yet."
 msgstr "You don't have any rent histories yet."
 
@@ -2137,7 +2141,7 @@ msgstr "You reported that a preferential rent was not charged during the first y
 msgid "findings.PREFRENT_421A.result.no_violation.body"
 msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:354
+#: src/Components/Pages/AccountPage/AccountPage.tsx:253
 msgid "You'll need to enter your phone number to access your reports again."
 msgstr "You'll need to enter your phone number to access your reports again."
 
@@ -2192,7 +2196,7 @@ msgstr "Your code expired. Request a new code."
 msgid "Your email (required)"
 msgstr "Your email (required)"
 
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:30
+#: src/Components/AnalysisFlowProgress/analysisFlow.ts:31
 msgid "Your rent amount"
 msgstr "Your rent amount"
 
@@ -2204,7 +2208,7 @@ msgstr "your rent history"
 msgid "Your rent history"
 msgstr "Your rent history"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:221
+#: src/Components/Pages/AccountPage/AccountPage.tsx:134
 msgid "Your rent history report(s)"
 msgstr "Your rent history report(s)"
 

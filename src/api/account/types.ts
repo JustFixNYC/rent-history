@@ -181,6 +181,10 @@ export type RhFindingAnswerRowRequest = Schemas["RhFindingAnswerRowRequest"];
 /** `GET /rh/history/findings-state` response. */
 export type RhFindingsStateResponse = Schemas["RhFindingsStateResponse"];
 
+/** `GET /rh/history/scan-pipeline-status` response. */
+export type RhScanPipelineStatusResponse =
+  Schemas["RhScanPipelineStatusResponse"];
+
 /** One item from `GET /rh/histories`. */
 export type RhHistoryList = Schemas["RhHistoryList"];
 

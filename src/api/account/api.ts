@@ -10,6 +10,7 @@ import {
 import type {
   RhAnalysisPage,
   RhFindingsStateResponse,
+  RhScanPipelineStatusResponse,
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
@@ -259,6 +260,21 @@ export const getRhHistoryScanReview = (
       },
     })
   ) as Promise<RhScanReviewResponse>;
+
+/**
+ * `GET /rh/history/scan-pipeline-status` — OAuth2 bearer.
+ * Returns pipeline phase and last_step_reached for the compiling waiting screen.
+ */
+export const getRhHistoryScanPipelineStatus = (
+  accessToken: string,
+  historyId: string
+): Promise<RhScanPipelineStatusResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().GET("/rh/history/scan-pipeline-status", {
+      headers: bearerHeaders(accessToken),
+      params: { query: { history_id: historyId } },
+    })
+  ) as Promise<RhScanPipelineStatusResponse>;
 
 /**
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.

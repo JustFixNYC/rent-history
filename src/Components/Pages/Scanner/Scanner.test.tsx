@@ -246,6 +246,17 @@ vi.mock("../../../api/account/api", async () => {
           ],
         };
       }),
+    getRhHistoryScanPipelineStatus: vi.fn().mockResolvedValue({
+      last_step_reached: "DOCUMENT_SCAN",
+      scan_pipeline_status: "complete",
+      expected_page_count: 1,
+      pages_landed_count: 1,
+      pages_terminal_count: 1,
+      processing_complete: true,
+      uploads_observed_count: 1,
+      early_validation: null,
+      user_message_key: null,
+    }),
     getRhHistoryAnalysisPages: vi.fn().mockResolvedValue([
       {
         s3_key: `1/${testHistoryId}/page1.jpg`,

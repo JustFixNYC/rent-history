@@ -10,10 +10,11 @@ const RESUME_SUBPATH_BY_STEP: Partial<Record<LastStepReached, string>> = {
   ADDRESS_CONFIRMATION: "confirm-address",
   APARTMENT_INFO: "scanner",
   DOCUMENT_SCAN: "scanner",
+  COMPILING: "compiling",
   SCAN_REVIEW: "scanner",
   FINDINGS_OVERVIEW: "findings-overview",
   FINDINGS_REVIEW: "findings-review",
-  REPORT_GENERATION: "report",
+  REPORT: "report",
 };
 
 /** Fallback for histories with no (or an earlier) recorded step. */

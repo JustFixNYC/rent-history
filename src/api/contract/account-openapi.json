@@ -92,15 +92,16 @@
         "type": "string"
       },
       "LastStepReachedEnum": {
-        "description": "* `ADDRESS_CONFIRMATION` - Address Confirmation\n* `APARTMENT_INFO` - Apartment Info\n* `DOCUMENT_SCAN` - Document Scan\n* `SCAN_REVIEW` - Scan Review\n* `FINDINGS_OVERVIEW` - Findings Overview\n* `FINDINGS_REVIEW` - Findings Review\n* `REPORT_GENERATION` - Report Generation",
+        "description": "* `ADDRESS_CONFIRMATION` - Address Confirmation\n* `APARTMENT_INFO` - Apartment Info\n* `DOCUMENT_SCAN` - Document Scan\n* `COMPILING` - Compiling\n* `SCAN_REVIEW` - Scan Review\n* `FINDINGS_OVERVIEW` - Findings Overview\n* `FINDINGS_REVIEW` - Findings Review\n* `REPORT` - Report",
         "enum": [
           "ADDRESS_CONFIRMATION",
           "APARTMENT_INFO",
           "DOCUMENT_SCAN",
+          "COMPILING",
           "SCAN_REVIEW",
           "FINDINGS_OVERVIEW",
           "FINDINGS_REVIEW",
-          "REPORT_GENERATION"
+          "REPORT"
         ],
         "type": "string"
       },
@@ -405,6 +406,82 @@
           "s3_cleanup_status"
         ],
         "type": "object"
+      },
+      "RhFinalizeScanRequestRequest": {
+        "properties": {
+          "accept_partial": {
+            "default": false,
+            "type": "boolean"
+          },
+          "expected_page_count": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "locale": {
+            "default": "en",
+            "maxLength": 16,
+            "type": "string"
+          },
+          "origin": {
+            "maxLength": 253,
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_page_count",
+          "history_id"
+        ],
+        "type": "object"
+      },
+      "RhFinalizeScanResponse": {
+        "properties": {
+          "expected_page_count": {
+            "type": "integer"
+          },
+          "pages_landed_count": {
+            "type": "integer"
+          },
+          "pages_terminal_count": {
+            "type": "integer"
+          },
+          "scan_pipeline_status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ScanPipelineStatusEnum"
+              },
+              {
+                "$ref": "#/components/schemas/NullEnum"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/RhFinalizeScanResponseStatusEnum"
+          },
+          "uploads_observed_count": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expected_page_count",
+          "pages_landed_count",
+          "pages_terminal_count",
+          "scan_pipeline_status",
+          "status",
+          "uploads_observed_count"
+        ],
+        "type": "object"
+      },
+      "RhFinalizeScanResponseStatusEnum": {
+        "description": "* `ok` - ok",
+        "enum": [
+          "ok"
+        ],
+        "type": "string"
       },
       "RhFinding": {
         "description": "MVP finding wire object (7 core keys + optional ``result``).\n\nNever exposes ``form``. Unknown top-level keys are rejected.",
@@ -767,7 +844,7 @@
             "type": "string"
           },
           "last_step_reached": {
-            "description": "The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.\n\n* `ADDRESS_CONFIRMATION` - Address Confirmation\n* `APARTMENT_INFO` - Apartment Info\n* `DOCUMENT_SCAN` - Document Scan\n* `SCAN_REVIEW` - Scan Review\n* `FINDINGS_OVERVIEW` - Findings Overview\n* `FINDINGS_REVIEW` - Findings Review\n* `REPORT_GENERATION` - Report Generation",
+            "description": "The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.\n\n* `ADDRESS_CONFIRMATION` - Address Confirmation\n* `APARTMENT_INFO` - Apartment Info\n* `DOCUMENT_SCAN` - Document Scan\n* `COMPILING` - Compiling\n* `SCAN_REVIEW` - Scan Review\n* `FINDINGS_OVERVIEW` - Findings Overview\n* `FINDINGS_REVIEW` - Findings Review\n* `REPORT` - Report",
             "nullable": true,
             "oneOf": [
               {
@@ -1495,6 +1572,67 @@
         ],
         "type": "object"
       },
+      "RhScanPipelineStatusResponse": {
+        "properties": {
+          "early_validation": {
+            "nullable": true
+          },
+          "expected_page_count": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "last_step_reached": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LastStepReachedEnum"
+              },
+              {
+                "$ref": "#/components/schemas/NullEnum"
+              }
+            ]
+          },
+          "pages_landed_count": {
+            "type": "integer"
+          },
+          "pages_terminal_count": {
+            "type": "integer"
+          },
+          "processing_complete": {
+            "type": "boolean"
+          },
+          "scan_pipeline_status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ScanPipelineStatusEnum"
+              },
+              {
+                "$ref": "#/components/schemas/NullEnum"
+              }
+            ]
+          },
+          "uploads_observed_count": {
+            "type": "integer"
+          },
+          "user_message_key": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "early_validation",
+          "expected_page_count",
+          "last_step_reached",
+          "pages_landed_count",
+          "pages_terminal_count",
+          "processing_complete",
+          "scan_pipeline_status",
+          "uploads_observed_count",
+          "user_message_key"
+        ],
+        "type": "object"
+      },
       "RhScanPresignRequestRequest": {
         "description": "POST /rh/history/scan-presign body.",
         "properties": {
@@ -1844,6 +1982,19 @@
         ],
         "type": "string"
       },
+      "ScanPipelineStatusEnum": {
+        "description": "* `awaiting_uploads` - Awaiting uploads\n* `stubs_ready` - Stubs ready\n* `needs_rescan` - Needs rescan\n* `processing_terminal` - Processing terminal\n* `running_analysis` - Running analysis\n* `complete` - Complete\n* `failed` - Failed",
+        "enum": [
+          "awaiting_uploads",
+          "stubs_ready",
+          "needs_rescan",
+          "processing_terminal",
+          "running_analysis",
+          "complete",
+          "failed"
+        ],
+        "type": "string"
+      },
       "SourceEnum": {
         "description": "* `desktop` - desktop\n* `mobile` - mobile",
         "enum": [
@@ -2160,7 +2311,7 @@
     },
     "/rh/history/current-rent": {
       "post": {
-        "description": "Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to APARTMENT_INFO.",
+        "description": "Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to DOCUMENT_SCAN.",
         "operationId": "history_current_rent_create",
         "requestBody": {
           "content": {
@@ -2373,6 +2524,68 @@
           }
         ],
         "summary": "Delete selected scanned RhPages for a RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/finalize-scan": {
+      "post": {
+        "description": "Sets expected_page_count and scan_finalized_at, moves last_step_reached to COMPILING, resets prior analysis artifacts on re-finalize, and runs maybe_advance_scan_pipeline catch-up in the same request.",
+        "operationId": "history_finalize_scan_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhFinalizeScanRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhFinalizeScanResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error or expected_page_count below page count."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Finalize a scan session",
         "tags": [
           "Rent History"
         ]
@@ -2712,7 +2925,7 @@
         ]
       },
       "post": {
-        "description": "Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.",
+        "description": "Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata (does not change `last_step_reached`).",
         "operationId": "history_report_pdf_create",
         "requestBody": {
           "content": {
@@ -2852,6 +3065,70 @@
           }
         ],
         "summary": "Run findings analysis on combined history data",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/scan-pipeline-status": {
+      "get": {
+        "description": "Returns pipeline phase, page counts, early validation snapshot, and last_step_reached for the compiling waiting screen.",
+        "operationId": "history_scan_pipeline_status_retrieve",
+        "parameters": [
+          {
+            "description": "UUID of the RhHistory to poll.",
+            "in": "query",
+            "name": "history_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhScanPipelineStatusResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Missing or invalid history_id."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Poll scan pipeline status for a RhHistory",
         "tags": [
           "Rent History"
         ]
@@ -3149,7 +3426,7 @@
     },
     "/rh/login/start": {
       "post": {
-        "description": "Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `REPORT_GENERATION`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.",
+        "description": "Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `REPORT`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.",
         "operationId": "login_start_create",
         "requestBody": {
           "content": {
