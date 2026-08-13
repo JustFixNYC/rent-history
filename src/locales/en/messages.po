@@ -209,6 +209,10 @@ msgstr "Analyze my rent history"
 #~ msgid "Analyze your rent history to identify potential violations and overcharges."
 #~ msgstr "Analyze your rent history to identify potential violations and overcharges."
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:37
+msgid "Analyzing rent history"
+msgstr "Analyzing rent history"
+
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
 #~ msgid "and ask you to confirm a few things,"
 #~ msgstr "and ask you to confirm a few things,"
@@ -348,6 +352,10 @@ msgstr "Change <0>Camera</0> to <1>Allow.</1>"
 #~ msgid "Check your phone for a resume link."
 #~ msgstr "Check your phone for a resume link."
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:28
+msgid "Checking scan quality"
+msgstr "Checking scan quality"
+
 #: src/Components/ConfirmModal/ConfirmModal.tsx:76
 #: src/Components/InfoModal/InfoModal.tsx:60
 #: src/Components/Pages/PageLayout/Header.tsx:56
@@ -374,6 +382,10 @@ msgstr "Coming soon"
 #: src/Components/Pages/AboutPage/AboutPage.tsx:10
 msgid "Coming soon."
 msgstr "Coming soon."
+
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:147
+msgid "Compiling progress"
+msgstr "Compiling progress"
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:37
 msgid "Compiling your rent history"
@@ -542,6 +554,10 @@ msgstr "Enter your phone number below to log in."
 #: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:41
 msgid "timeline.copy.missing_reg_destab_list.tax"
 msgstr "Expiration of your building's participation in <0/> like j51 and 421a."
+
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:33
+msgid "Extracting data"
+msgstr "Extracting data"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:39
 msgid "Feedback form"
@@ -947,6 +963,7 @@ msgstr "Needs re-scan"
 msgid "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
 msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:181
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:255
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
@@ -1124,6 +1141,10 @@ msgstr "Please enter your email address."
 msgid "Please enter your monthly rent."
 msgstr "Please enter your monthly rent."
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:127
+msgid "Please refresh the page or try again in a moment."
+msgstr "Please refresh the page or try again in a moment."
+
 #: src/Components/Pages/Report/Report.tsx:145
 msgid "Please sign in to generate your report."
 msgstr "Please sign in to generate your report."
@@ -1237,6 +1258,10 @@ msgstr "Resend"
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:420
 msgid "Residential units"
 msgstr "Residential units"
+
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:180
+msgid "Restart"
+msgstr "Restart"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:709
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:150
@@ -1362,6 +1387,10 @@ msgstr "Scanning in process"
 msgid "Search for a building"
 msgstr "Search for a building"
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:138
+msgid "Securely compiling your rent history"
+msgstr "Securely compiling your rent history"
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:174
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:214
 msgid "Select an address from the suggestions to continue"
@@ -1413,6 +1442,10 @@ msgstr "Site navigation"
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:171
 msgid "Something missing?"
 msgstr "Something missing?"
+
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:112
+msgid "Something went wrong while processing your scans. Please try scanning again or contact support if this keeps happening."
+msgstr "Something went wrong while processing your scans. Please try scanning again or contact support if this keeps happening."
 
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:102
 msgid "Something went wrong while sending your verification code."
@@ -1703,6 +1736,10 @@ msgstr "This link has expired."
 msgid "This link is invalid or already used."
 msgstr "This link is invalid or already used."
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:141
+msgid "This may take up to 30 seconds."
+msgstr "This may take up to 30 seconds."
+
 #: src/Components/Pages/Scanner/Scanner.tsx:389
 #~ msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
 #~ msgstr "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
@@ -1761,6 +1798,10 @@ msgstr "To reach the threshold, the landlord would have needed to document <0/>.
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:108
+msgid "Unable to compile your rent history"
+msgstr "Unable to compile your rent history"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:580
 msgid "Unable to continue. Please try again."
 msgstr "Unable to continue. Please try again."
@@ -1768,6 +1809,10 @@ msgstr "Unable to continue. Please try again."
 #: src/Components/Pages/Scanner/hooks/useScannerHistoryCreate.ts:67
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
+
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:123
+msgid "Unable to load compile status"
+msgstr "Unable to load compile status"
 
 #: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:82
 msgid "Unable to load findings state."
@@ -1966,6 +2011,10 @@ msgstr "We have not found any potential violations in your apartment's rent hist
 #~ msgid "We requested your code. Delivery may take a moment."
 #~ msgstr "We requested your code. Delivery may take a moment."
 
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:29
+msgid "We review your scans to make sure every page is clear and complete before analysis."
+msgstr "We review your scans to make sure every page is clear and complete before analysis."
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:281
 #~ msgid "We sent a code to"
 #~ msgstr "We sent a code to"
@@ -1989,6 +2038,10 @@ msgstr "We’ll analyze it for signs of overcharges and illegal deregulations an
 #: src/Components/Pages/Landing/Landing.tsx:96
 msgid "We’ll ask you a few questions and run an analysis of your rent history. If anything looks suspicious, we’ll ask some simple follow-up questions to help understand if there are any overcharges or violations."
 msgstr "We’ll ask you a few questions and run an analysis of your rent history. If anything looks suspicious, we’ll ask some simple follow-up questions to help understand if there are any overcharges or violations."
+
+#: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:170
+msgid "We'll send you a text when your results are ready, in case you close this page."
+msgstr "We'll send you a text when your results are ready, in case you close this page."
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:266
 #~ msgid "We'll text you a code to verify and save your progress."
