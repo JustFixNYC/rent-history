@@ -28,6 +28,7 @@ import { ConfirmAddress } from "./Components/Pages/ConfirmAddress/ConfirmAddress
 import Report from "./Components/Pages/Report/Report";
 import FindingsReviewPage from "./Components/Pages/FindingsReview/FindingsReviewPage";
 import FindingsOverviewPage from "./Components/Pages/FindingsOverview/FindingsOverviewPage";
+import AboutPage from "./Components/Pages/AboutPage/AboutPage";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -48,6 +49,7 @@ const createAppRouter = () =>
         {/* Routes with locale prefix */}
         <Route path="/:locale" element={<PageLayout />}>
           <Route index element={<Landing />} />
+          <Route path="about" element={<AboutPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
@@ -73,6 +75,7 @@ const createAppRouter = () =>
         {/* Catch-all route for paths without locale - will redirect */}
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Landing />} />
+          <Route path="about" element={<AboutPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />

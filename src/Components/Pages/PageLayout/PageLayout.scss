@@ -1,9 +1,35 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 @use "./Header.scss";
 @use "./Footer.scss";
+@use "./SidebarNav.scss";
 @use "../shared/preflowBlocks.scss";
 
-#pref-low-page {
+#grid {
+  display: flex;
+  height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+#main {
+  background-color: jfcl.$OFF_WHITE_200;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  #content {
+    min-height: 0;
+    width: 100%;
+  }
+}
+
+#page {
   background: jfcl.$OFF_WHITE_100;
   color: jfcl.$OFF_BLACK;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }

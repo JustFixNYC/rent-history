@@ -12,4 +12,5 @@ export const accountQueryKeys = {
   findingsState: (historyId: string) =>
     [...accountRoot, "findings-state", historyId] as const,
   profile: () => [...accountRoot, "profile"] as const,
+  histories: () => [...accountRoot, "histories"] as const,
 };

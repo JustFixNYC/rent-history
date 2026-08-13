@@ -1,1 +1,106 @@
-/* Account hub styles; shared `preflow-*` rules load via PageLayout. */
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../PageLayout/layoutVars" as layout;
+
+.account-page {
+  background: jfcl.$OFF_WHITE_100;
+  box-sizing: border-box;
+  padding: jfcl.$JF_SPACING_07 jfcl.$JF_SPACING_06;
+
+  @include layout.desktop {
+    padding: jfcl.$JF_SPACING_10 jfcl.$JF_SPACING_06 jfcl.$JF_SPACING_11;
+  }
+
+  &__inner {
+    margin: 0 auto;
+    max-width: 884px;
+  }
+
+  &__title {
+    @include jfcl.body_large_mobile;
+    margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.h3_desktop;
+    }
+  }
+
+  &__scan-new.jfcl-button {
+    padding: jfcl.$JF_SPACING_05 jfcl.$JF_SPACING_06;
+    width: 100%;
+    margin: 1rem 0 1.5rem;
+
+    @include layout.desktop {
+      margin: 2rem 0;
+    }
+  }
+
+  &__status {
+    @include jfcl.body_standard_mobile;
+    margin: 0 0 jfcl.$JF_SPACING_06;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0 0 jfcl.$JF_SPACING_06;
+    padding: 0;
+    gap: 1rem;
+
+    @include layout.desktop {
+      gap: 2rem;
+    }
+  }
+
+  &__card {
+    background: jfcl.$WHITE;
+    border: 1px solid jfcl.$OFF_BLACK;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  &__card-top {
+    display: flex;
+    justify-content: space-between;
+
+    .jfcl-pill {
+      @include jfcl.small_text_mobile;
+      padding: 0 0.5rem;
+    }
+    .jfcl-link-styled-button {
+      @include jfcl.small_text_link_mobile;
+    }
+  }
+
+  &__card-content {
+    &__address {
+      @include jfcl.body_large_mobile;
+      font-weight: 600;
+      margin: 0 0 0.25rem 0;
+
+      @include layout.desktop {
+        @include jfcl.body_standard_desktop;
+      }
+    }
+
+    &__date {
+      @include jfcl.small_text_desktop;
+      color: jfcl.$GREY_700;
+      margin: 0;
+    }
+  }
+
+  &__card-cta.jfcl-button {
+    @include jfcl.small_text_mobile;
+  }
+
+  &__logout {
+    @include jfcl.body_standard_link_desktop;
+    display: block;
+    margin: jfcl.$JF_SPACING_06 auto 0;
+  }
+}

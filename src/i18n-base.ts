@@ -15,6 +15,9 @@ export const languageNames: LocaleLanguages = {
   es: "Español",
 };
 
+/** Supported locales in stable display order. */
+export const supportedLocales = Object.keys(languageNames) as SupportedLocale[];
+
 /**
  * The fallback default locale to use if we don't support the
  * browser's preferred locale.

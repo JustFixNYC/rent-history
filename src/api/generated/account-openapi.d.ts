@@ -13,7 +13,7 @@ export interface paths {
         };
         /**
          * List the resource owner's rent histories
-         * @description Returns the authenticated user's RhHistories ordered by `created_at` descending. The list endpoint uses a slim serializer; fetch details via the page endpoints.
+         * @description Returns the authenticated user's RhHistories that have reached at least SCAN_REVIEW, ordered by `created_at` descending. The list endpoint uses a slim serializer; fetch details via the page endpoints.
          */
         get: operations["histories_list"];
         put?: never;
@@ -118,6 +118,26 @@ export interface paths {
          * @description Updates address, apartment, bbl, and bin on an existing RhHistory, queries NYCDB for building unit counts and active program flags, sets last_step_reached to ADDRESS_CONFIRMATION, and returns the resolved values.
          */
         post: operations["history_confirm_address_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/history/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Delete a RhHistory for the resource owner
+         * @description Deletes the given RhHistory and cascades related RhPage rows. Performs best-effort cleanup of versioned S3 objects under the scan prefix `<profile_id>/<history_id>/` and the report PDF when present.
+         */
+        post: operations["history_delete_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -610,6 +630,10 @@ export interface components {
              */
             readonly id: string;
         };
+        RhHistoryDeleteResponse: {
+            s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
+            s3_deleted_versions?: number;
+        };
         /** @description Request body or query with a single RhHistory UUID. */
         RhHistoryIdRequestRequest: {
             /** Format: uuid */
@@ -622,6 +646,11 @@ export interface components {
             readonly apartment: string | null;
             /** Format: date-time */
             readonly created_at: string;
+            /**
+             * Format: uuid
+             * @description ID for a rent history record.
+             */
+            readonly id: string;
             /**
              * @description The last step reached by the user in the rent history analysis process, where they will return to when resuming in-progress analysis.
              *
@@ -1185,6 +1214,52 @@ export interface operations {
             };
             /** @description NYCDB is not configured or unavailable. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_delete_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistoryIdRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistoryDeleteResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
