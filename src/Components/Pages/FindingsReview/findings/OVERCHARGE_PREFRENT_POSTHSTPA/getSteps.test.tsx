@@ -98,7 +98,6 @@ describe("buildAnswers", () => {
       row0AptStat: "RS",
       row1AptStat: "RS",
       row0LegalRent: "1350.06",
-      row1LegalRent: "",
       row0PrefRent: "1072.81",
       row1PrefRent: "1329.46",
       getsVacancyIncrease: false,
@@ -115,7 +114,6 @@ describe("buildAnswers", () => {
         {
           reg_year: 2020,
           apt_stat: "RS",
-          legal_rent: null,
           pref_rent: 1329.46,
           gets_vacancy_increase: false,
         },

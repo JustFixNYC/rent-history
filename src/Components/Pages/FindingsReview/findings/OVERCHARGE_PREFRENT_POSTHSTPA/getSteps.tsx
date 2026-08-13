@@ -35,7 +35,7 @@ const STANDARD_OCR_ROWS = [
     dataRowIndex: ROW_INDEX.row1,
     formRowIndex: 1,
     left: "apt_stat" as const,
-    right: ["legal_rent" as const, "pref_rent" as const],
+    right: ["pref_rent" as const],
   },
 ];
 

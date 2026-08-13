@@ -71,10 +71,6 @@ msgstr "{start}"
 msgid "{start}–{end}"
 msgstr "{start}–{end}"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:205
-#~ msgid "+ Scan a new rent history"
-#~ msgstr "+ Scan a new rent history"
-
 #: src/Components/Pages/AccountPage/AccountPage.tsx:71
 #~ msgid "+ Start a new analysis"
 #~ msgstr "+ Start a new analysis"
@@ -571,10 +567,6 @@ msgstr "I don’t have my rent history"
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr "If this address does not match the address on your rent history, please edit the address."
 
-#: src/Components/Pages/Landing/Landing.tsx:35
-msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
-msgstr "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
-
 #: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
 msgstr "In progress"
@@ -949,10 +941,6 @@ msgstr "Restart scanning"
 #: src/Components/Pages/AccountPage/AccountPage.tsx:165
 msgid "Resume"
 msgstr "Resume"
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:156
-#~ msgid "Resume on your mobile device"
-#~ msgstr "Resume on your mobile device"
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:34
 msgid "Retry"
@@ -1349,10 +1337,6 @@ msgstr "Verify"
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
 msgstr "View report"
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:153
-#~ msgid "View report on your mobile device"
-#~ msgstr "View report on your mobile device"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
 msgid "View scanned document"
