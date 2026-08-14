@@ -98,25 +98,6 @@
     @include jfcl.small_text_mobile;
   }
 
-  &__magic-link-test.jfcl-button {
-    @include jfcl.small_text_mobile;
-    align-self: flex-start;
-  }
-
-  &__magic-link-status {
-    @include jfcl.small_text_desktop;
-    color: jfcl.$GREY_700;
-    margin: 0;
-
-    &--success {
-      color: jfcl.$GREEN;
-    }
-
-    &--error {
-      color: jfcl.$RED;
-    }
-  }
-
   &__logout {
     @include jfcl.body_standard_link_desktop;
     display: block;

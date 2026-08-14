@@ -10,6 +10,9 @@ import {
 import type {
   RhAnalysisPage,
   RhFindingsStateResponse,
+  RhFinalizeScanRequest,
+  RhFinalizeScanResponse,
+  RhScanPipelineStatusResponse,
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
@@ -259,6 +262,36 @@ export const getRhHistoryScanReview = (
       },
     })
   ) as Promise<RhScanReviewResponse>;
+
+/**
+ * `GET /rh/history/scan-pipeline-status` — OAuth2 bearer.
+ * Returns pipeline phase and last_step_reached for the compiling waiting screen.
+ */
+export const getRhHistoryScanPipelineStatus = (
+  accessToken: string,
+  historyId: string
+): Promise<RhScanPipelineStatusResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().GET("/rh/history/scan-pipeline-status", {
+      headers: bearerHeaders(accessToken),
+      params: { query: { history_id: historyId } },
+    })
+  ) as Promise<RhScanPipelineStatusResponse>;
+
+/**
+ * `POST /rh/history/finalize-scan` — OAuth2 bearer.
+ * Sets expected_page_count, moves last_step_reached to COMPILING, and runs pipeline catch-up.
+ */
+export const finalizeRhHistoryScan = (
+  accessToken: string,
+  body: RhFinalizeScanRequest
+): Promise<RhFinalizeScanResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/finalize-scan", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  ) as Promise<RhFinalizeScanResponse>;
 
 /**
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.

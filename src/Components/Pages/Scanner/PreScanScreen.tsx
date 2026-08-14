@@ -13,9 +13,14 @@ const SCAN_TIPS = [
   msg`When your camera recognizes the page, it will take a photo automatically.`,
 ] as const;
 
+export type PreScanScreenVariant = "default" | "postCompileReturn";
+
 export type PreScanScreenProps = {
   onBack: () => void;
   onStartScanning: () => void;
+  /** When `postCompileReturn`, opens Skip/Re-scan modal instead of launching scanner. */
+  onSkipOrRescan?: () => void;
+  variant?: PreScanScreenVariant;
   startDisabled?: boolean;
   historyCreatePhase?: "idle" | "creating" | "ready" | "error";
   historyCreateError?: string | null;
@@ -26,6 +31,8 @@ export type PreScanScreenProps = {
 export const PreScanScreen = ({
   onBack,
   onStartScanning,
+  onSkipOrRescan,
+  variant = "default",
   startDisabled = false,
   historyCreatePhase = "ready",
   historyCreateError = null,
@@ -39,6 +46,11 @@ export const PreScanScreen = ({
     scannerInitStatus === "ready" &&
     !startDisabled &&
     !historyCreateError;
+
+  const isPostCompileReturn = variant === "postCompileReturn";
+  const handleNext = isPostCompileReturn
+    ? onSkipOrRescan ?? onStartScanning
+    : onStartScanning;
 
   return (
     <div className="scanner-pre-scan">
@@ -102,10 +114,12 @@ export const PreScanScreen = ({
 
       <FlowNav
         onBack={onBack}
-        onNext={onStartScanning}
+        onNext={handleNext}
         backDisabled={historyCreatePhase === "creating"}
         nextDisabled={!canStart}
-        nextLabel={_(msg`Start scanning`)}
+        nextLabel={
+          isPostCompileReturn ? _(msg`Skip or Re-scan`) : _(msg`Start scanning`)
+        }
       />
     </div>
   );

@@ -181,6 +181,16 @@ export type RhFindingAnswerRowRequest = Schemas["RhFindingAnswerRowRequest"];
 /** `GET /rh/history/findings-state` response. */
 export type RhFindingsStateResponse = Schemas["RhFindingsStateResponse"];
 
+/** `GET /rh/history/scan-pipeline-status` response. */
+export type RhScanPipelineStatusResponse =
+  Schemas["RhScanPipelineStatusResponse"];
+
+/** `POST /rh/history/finalize-scan` request body. */
+export type RhFinalizeScanRequest = Schemas["RhFinalizeScanRequestRequest"];
+
+/** `POST /rh/history/finalize-scan` response. */
+export type RhFinalizeScanResponse = Schemas["RhFinalizeScanResponse"];
+
 /** One item from `GET /rh/histories`. */
 export type RhHistoryList = Schemas["RhHistoryList"];
 

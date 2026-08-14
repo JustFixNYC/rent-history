@@ -8,6 +8,8 @@ import {
 } from "../../../session/rhSessionStorage";
 
 // Persisted phases only — scanning and camera-access are transient.
+// scan-review is persisted only for needs_rescan recovery or launch failure
+// (not on the happy path; finalize-scan → /compiling instead).
 export type PersistedScannerPhase = "pre-scan" | "scan-review";
 
 export type ScannerStepState = {

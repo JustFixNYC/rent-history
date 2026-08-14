@@ -11,6 +11,8 @@ import {
 
 import "./ScanReviewScreen.scss";
 
+import type { ScanCoverageFailure } from "../../../hooks/useScanPipelineStatus";
+
 export const ScanReviewRescanSuccessInfo = () => (
   <InfoBox
     color="blue"
@@ -41,6 +43,31 @@ export const ScanReviewLaunchFailureInfo = () => (
     <Trans>Unable to open the scanner. Please try again.</Trans>
   </InfoBox>
 );
+
+export type ScanReviewPipelineFailuresInfoProps = {
+  failures: ScanCoverageFailure[];
+};
+
+export const ScanReviewPipelineFailuresInfo = ({
+  failures,
+}: ScanReviewPipelineFailuresInfoProps) => {
+  if (failures.length === 0) return null;
+
+  return (
+    <CalloutBox
+      className="scan-review-callout scan-review-callout--error"
+      title={<Trans>Scan quality issues</Trans>}
+      headingLevel={3}
+      data-testid="scan-review-pipeline-failures"
+    >
+      <ul className="scan-review-callout__failure-list">
+        {failures.map((failure) => (
+          <li key={failure.code}>{failure.message}</li>
+        ))}
+      </ul>
+    </CalloutBox>
+  );
+};
 
 export type ScanReviewUploadFailureInfoProps = {
   failedUploadCount: number;
