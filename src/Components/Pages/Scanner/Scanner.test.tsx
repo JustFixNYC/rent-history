@@ -9,7 +9,7 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, type MemoryRouterProps } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import Scanner from "./Scanner";
@@ -291,6 +291,13 @@ const tokenPayload = {
 
 const historyId = testHistoryId;
 
+const finalizeScanRequest = (expectedPageCount: number) => ({
+  history_id: historyId,
+  expected_page_count: expectedPageCount,
+  accept_partial: false,
+  locale: "en",
+});
+
 const createTestQueryClient = () =>
   new QueryClient({
     defaultOptions: {
@@ -301,7 +308,7 @@ const createTestQueryClient = () =>
 
 const renderScanner = (options?: {
   strictMode?: boolean;
-  initialEntries?: string[];
+  initialEntries?: MemoryRouterProps["initialEntries"];
   initialIndex?: number;
 }) => {
   i18n.load("en", {});
@@ -335,10 +342,7 @@ const advanceToScanComplete = async () => {
   await waitFor(() => {
     expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
       "access-token",
-      {
-        history_id: historyId,
-        expected_page_count: 1,
-      }
+      finalizeScanRequest(1)
     );
     expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
       replace: true,
@@ -455,10 +459,7 @@ describe("Scanner scan-review finalize", () => {
     await waitFor(() => {
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        {
-          history_id: historyId,
-          expected_page_count: 1,
-        }
+        finalizeScanRequest(1)
       );
       expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
         replace: true,
@@ -657,10 +658,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
       );
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        {
-          history_id: historyId,
-          expected_page_count: 1,
-        }
+        finalizeScanRequest(1)
       );
     });
   });
@@ -701,10 +699,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
       );
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        {
-          history_id: historyId,
-          expected_page_count: 1,
-        }
+        finalizeScanRequest(1)
       );
     });
   });
@@ -722,10 +717,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
       );
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        {
-          history_id: historyId,
-          expected_page_count: 1,
-        }
+        finalizeScanRequest(1)
       );
     });
   });
@@ -797,10 +789,7 @@ describe("Scanner upload failures", () => {
       expect(uploadScan).toHaveBeenCalledTimes(2);
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        {
-          history_id: historyId,
-          expected_page_count: 1,
-        }
+        finalizeScanRequest(1)
       );
       expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
         replace: true,

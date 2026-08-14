@@ -134,6 +134,8 @@ const Scanner: React.FC = () => {
         await finalizeRhHistoryScan(token, {
           history_id: activeHistoryId,
           expected_page_count: count,
+          accept_partial: false,
+          locale: i18n.locale,
         });
         clearScannerStepState();
         void queryClient.invalidateQueries({
@@ -319,6 +321,8 @@ const Scanner: React.FC = () => {
       void finalizeRhHistoryScan(context.token, {
         history_id: context.historyId,
         expected_page_count: count,
+        accept_partial: false,
+        locale: i18n.locale,
       }).catch(() => {});
     };
 
@@ -334,7 +338,7 @@ const Scanner: React.FC = () => {
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("pagehide", tryBestEffortFinalize);
     };
-  }, [phase]);
+  }, [phase, i18n.locale]);
 
   useEffect(() => {
     if (phase !== "camera-access") {

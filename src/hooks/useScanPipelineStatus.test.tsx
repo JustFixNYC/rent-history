@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
+import { NavigationType } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as accountApi from "../api/account/api";
@@ -16,7 +17,7 @@ const accessToken = "access-token";
 
 const { navigateMock, navigationTypeMock } = vi.hoisted(() => ({
   navigateMock: vi.fn(),
-  navigationTypeMock: vi.fn(() => "PUSH" as const),
+  navigationTypeMock: vi.fn((): NavigationType => NavigationType.Push),
 }));
 
 vi.mock("react-router-dom", async () => {
@@ -85,25 +86,37 @@ describe("parseEarlyValidationFailures", () => {
 
 describe("FlowNav visibility helpers", () => {
   it("shows FlowNav only on POP when complete", () => {
-    expect(shouldShowCompilingFlowNav("POP", "complete")).toBe(true);
-    expect(shouldShowCompilingFlowNav("PUSH", "complete")).toBe(false);
-    expect(shouldShowCompilingFlowNav("POP", "running_analysis")).toBe(false);
+    expect(shouldShowCompilingFlowNav(NavigationType.Pop, "complete")).toBe(
+      true
+    );
+    expect(shouldShowCompilingFlowNav(NavigationType.Push, "complete")).toBe(
+      false
+    );
+    expect(
+      shouldShowCompilingFlowNav(NavigationType.Pop, "running_analysis")
+    ).toBe(false);
   });
 
   it("auto-navigates on complete for forward visits only", () => {
-    expect(shouldAutoNavigateOnComplete("PUSH", "complete")).toBe(true);
-    expect(shouldAutoNavigateOnComplete("REPLACE", "complete")).toBe(true);
-    expect(shouldAutoNavigateOnComplete("POP", "complete")).toBe(false);
-    expect(shouldAutoNavigateOnComplete("PUSH", "running_analysis")).toBe(
+    expect(shouldAutoNavigateOnComplete(NavigationType.Push, "complete")).toBe(
+      true
+    );
+    expect(
+      shouldAutoNavigateOnComplete(NavigationType.Replace, "complete")
+    ).toBe(true);
+    expect(shouldAutoNavigateOnComplete(NavigationType.Pop, "complete")).toBe(
       false
     );
+    expect(
+      shouldAutoNavigateOnComplete(NavigationType.Push, "running_analysis")
+    ).toBe(false);
   });
 });
 
 describe("useScanPipelineStatus", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    navigationTypeMock.mockReturnValue("PUSH");
+    navigationTypeMock.mockReturnValue(NavigationType.Push);
   });
 
   afterEach(() => {
@@ -192,7 +205,7 @@ describe("useScanPipelineStatus", () => {
   });
 
   it("does not auto-navigate on complete when user returned via back", async () => {
-    navigationTypeMock.mockReturnValue("POP");
+    navigationTypeMock.mockReturnValue(NavigationType.Pop);
 
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       scan_pipeline_status: "complete",

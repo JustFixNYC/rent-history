@@ -8,7 +8,7 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, NavigationType } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as accountApi from "../../../api/account/api";
@@ -21,7 +21,7 @@ const TEST_HISTORY_ID = "test-history-id";
 
 const { navigateMock, navigationTypeMock } = vi.hoisted(() => ({
   navigateMock: vi.fn(),
-  navigationTypeMock: vi.fn(() => "PUSH" as const),
+  navigationTypeMock: vi.fn((): NavigationType => NavigationType.Push),
 }));
 
 vi.mock("react-router-dom", async () => {
@@ -133,7 +133,7 @@ const renderCompilingWaitingPage = (initialEntry = "/en/compiling") => {
 describe("CompilingWaitingPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    navigationTypeMock.mockReturnValue("PUSH");
+    navigationTypeMock.mockReturnValue(NavigationType.Push);
     vi.mocked(rhSessionStorage.getRhAuthSession).mockReturnValue(
       mockAuthSession
     );
@@ -190,7 +190,7 @@ describe("CompilingWaitingPage", () => {
   });
 
   it("shows FlowNav on POP when pipeline is complete", async () => {
-    navigationTypeMock.mockReturnValue("POP");
+    navigationTypeMock.mockReturnValue(NavigationType.Pop);
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       completeResponse
     );
@@ -203,7 +203,7 @@ describe("CompilingWaitingPage", () => {
   });
 
   it("navigates via historyResumePath when user taps Next on return visit", async () => {
-    navigationTypeMock.mockReturnValue("POP");
+    navigationTypeMock.mockReturnValue(NavigationType.Pop);
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       ...completeResponse,
       last_step_reached: "REPORT",
@@ -217,7 +217,7 @@ describe("CompilingWaitingPage", () => {
   });
 
   it("navigates to scanner return mode when user taps Restart", async () => {
-    navigationTypeMock.mockReturnValue("POP");
+    navigationTypeMock.mockReturnValue(NavigationType.Pop);
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       completeResponse
     );

@@ -11,7 +11,7 @@ import {
 
 import "./ScanReviewScreen.scss";
 
-import type { ScanCoverageFailure } from "../../../../hooks/useScanPipelineStatus";
+import type { ScanCoverageFailure } from "../../../hooks/useScanPipelineStatus";
 
 export const ScanReviewRescanSuccessInfo = () => (
   <InfoBox
