@@ -88,8 +88,12 @@ msgid "A new code has been sent."
 msgstr "A new code has been sent."
 
 #: src/Components/Pages/Landing/Landing.tsx:53
-msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
-msgstr "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
+#~ msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
+#~ msgstr "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
+
+#: src/Components/Pages/Landing/Landing.tsx:194
+msgid "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
+msgstr "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:20
@@ -115,7 +119,7 @@ msgstr "A scan image failed to download. Use Restart scanning to try again."
 msgid "About"
 msgstr "About"
 
-#: src/Components/Pages/Landing/Landing.tsx:38
+#: src/Components/Pages/Landing/Landing.tsx:150
 msgid "About this site"
 msgstr "About this site"
 
@@ -145,12 +149,16 @@ msgid "Analyze my rent history"
 msgstr "Analyze my rent history"
 
 #: src/Components/Pages/Landing/Landing.tsx:19
-msgid "Analyze your rent history to identify potential violations and overcharges."
-msgstr "Analyze your rent history to identify potential violations and overcharges."
+#~ msgid "Analyze your rent history to identify potential violations and overcharges."
+#~ msgstr "Analyze your rent history to identify potential violations and overcharges."
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
 #~ msgid "and ask you to confirm a few things,"
 #~ msgstr "and ask you to confirm a few things,"
+
+#: src/Components/Pages/Landing/Landing.tsx:93
+msgid "Answer a few questions"
+msgstr "Answer a few questions"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:439
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:505
@@ -352,6 +360,10 @@ msgstr "dismissed finding result copy TK"
 msgid "findings.HRVD.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
+#: src/Components/Pages/Landing/Landing.tsx:122
+msgid "Don’t have your rent history?"
+msgstr "Don’t have your rent history?"
+
 #: src/Components/Pages/Report/Report.tsx:183
 msgid "Download report"
 msgstr "Download report"
@@ -422,7 +434,7 @@ msgstr "Find out if you've been overcharged"
 #~ msgid "Find out if you've been overcharged on rent"
 #~ msgstr "Find out if you've been overcharged on rent"
 
-#: src/Components/Pages/Landing/Landing.tsx:16
+#: src/Components/Pages/Landing/Landing.tsx:35
 msgid "Find out if you’ve been overcharged on rent"
 msgstr "Find out if you’ve been overcharged on rent"
 
@@ -501,9 +513,13 @@ msgstr "Generate report"
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr "Geosearch is temporarily unavailable. Try again in a moment."
 
-#: src/Components/Pages/Landing/Landing.tsx:25
+#: src/Components/Pages/Landing/Landing.tsx:56
 msgid "Get started"
 msgstr "Get started"
+
+#: src/Components/Pages/Landing/Landing.tsx:109
+msgid "Get your report"
+msgstr "Get your report"
 
 #: src/Components/GlossaryLink/GlossaryLink.tsx:22
 msgid "Glossary"
@@ -531,9 +547,17 @@ msgstr "Hold your phone level with the pages and make sure the entire page is wi
 #~ msgid "Housing Justice for All"
 #~ msgstr "Housing Justice for All"
 
+#: src/Components/Pages/Landing/Landing.tsx:72
+msgid "How it works"
+msgstr "How it works"
+
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:76
 msgid "How would you like to provide your rent history information?"
 msgstr "How would you like to provide your rent history information?"
+
+#: src/Components/Pages/Landing/Landing.tsx:63
+msgid "I don’t have my rent history"
+msgstr "I don’t have my rent history"
 
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:105
 #~ msgid "If this address does not match the address on the rent history document,"
@@ -543,11 +567,15 @@ msgstr "How would you like to provide your rent history information?"
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr "If this address does not match the address on your rent history, please edit the address."
 
+#: src/Components/Pages/Landing/Landing.tsx:39
+msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
+msgstr "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
 msgstr "In progress"
 
-#: src/Components/Pages/Landing/Landing.tsx:50
+#: src/Components/Pages/Landing/Landing.tsx:180
 #: src/Components/Pages/PageLayout/Footer.tsx:49
 msgid "JustFix"
 msgstr "JustFix"
@@ -557,8 +585,8 @@ msgid "Keep your phone steady in position and wait for the scanner to automatica
 msgstr "Keep your phone steady in position and wait for the scanner to automatically take the photo"
 
 #: src/Components/Pages/Landing/Landing.tsx:41
-msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
-msgstr "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
+#~ msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
+#~ msgstr "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
 
 #: src/Components/Pages/PageLayout/SidebarNav.tsx:52
 msgid "Language"
@@ -579,7 +607,7 @@ msgstr "Large increase in preferential rent"
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Large rent increase"
 
-#: src/Components/Pages/Landing/Landing.tsx:64
+#: src/Components/Pages/Landing/Landing.tsx:167
 #: src/Components/Pages/LoginPage/LoginPage.tsx:225
 msgid "Learn more"
 msgstr "Learn more"
@@ -687,6 +715,10 @@ msgstr "Menu"
 #: src/Components/Pages/Scanner/Scanner.tsx:196
 msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
 msgstr "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
+
+#: src/Components/Pages/Landing/Landing.tsx:153
+msgid "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
+msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
 
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:31
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
@@ -855,6 +887,10 @@ msgstr "Processing document scan…"
 msgid "Re-scan page"
 msgstr "Re-scan page"
 
+#: src/Components/Pages/Landing/Landing.tsx:136
+msgid "Receive your rent history by mail. Take the first step to learning about your stabilized status and whether you’re paying too much rent."
+msgstr "Receive your rent history by mail. Take the first step to learning about your stabilized status and whether you’re paying too much rent."
+
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:89
 msgid "Recommended"
 msgstr "Recommended"
@@ -945,6 +981,10 @@ msgstr "Scan your rent history document"
 #: src/Components/Pages/HistoryPage/HistoryPage.tsx:86
 msgid "Scan your rent history documents"
 msgstr "Scan your rent history documents"
+
+#: src/Components/Pages/Landing/Landing.tsx:79
+msgid "Scan your rent history with your phone"
+msgstr "Scan your rent history with your phone"
 
 #: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
 #~ msgid "ScanBot"
@@ -1066,6 +1106,10 @@ msgstr "Step 5: What we found"
 msgid "Submit"
 msgstr "Submit"
 
+#: src/Components/Pages/Landing/Landing.tsx:131
+msgid "Submit request"
+msgstr "Submit request"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:531
 msgid "Take photos in a well lit location and enable your camera flash"
 msgstr "Take photos in a well lit location and enable your camera flash"
@@ -1186,6 +1230,10 @@ msgstr "This rent history, completed on {deleteDate}, will be permanently delete
 msgid "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
 msgstr "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
 
+#: src/Components/Pages/Landing/Landing.tsx:173
+msgid "This tool was created by JustFix, in collaboration with leading rent history experts."
+msgstr "This tool was created by JustFix, in collaboration with leading rent history experts."
+
 #: src/Components/Pages/Scanner/Scanner.tsx:227
 msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 msgstr "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
@@ -1249,6 +1297,10 @@ msgstr "Untitled rent history"
 #~ msgid "Upload your rent history"
 #~ msgstr "Upload your rent history"
 
+#: src/Components/Pages/Landing/Landing.tsx:82
+msgid "Use our built-in scanner to photograph each page. No app download needed."
+msgstr "Use our built-in scanner to photograph each page. No app download needed."
+
 #: src/Components/Pages/Scanner/Scanner.tsx:441
 msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
 msgstr "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
@@ -1281,8 +1333,8 @@ msgid "Verify"
 msgstr "Verify"
 
 #: src/Components/Pages/Landing/Landing.tsx:31
-msgid "View map of rent-stabilized buildings"
-msgstr "View map of rent-stabilized buildings"
+#~ msgid "View map of rent-stabilized buildings"
+#~ msgstr "View map of rent-stabilized buildings"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:164
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:146
@@ -1293,6 +1345,10 @@ msgstr "View report"
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
 msgid "View scanned document"
 msgstr "View scanned document"
+
+#: src/Components/Pages/Landing/Landing.tsx:189
+msgid "Visit JustFix"
+msgstr "Visit JustFix"
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
 msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
@@ -1323,6 +1379,10 @@ msgstr "We couldn't combine your pages. Please try again."
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr "We couldn't load your rent histories. Please try again later."
 
+#: src/Components/Pages/Landing/Landing.tsx:112
+msgid "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
+msgstr "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
+
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:108
 msgid "We have not found any potential violations in your apartment's rent history."
 msgstr "We have not found any potential violations in your apartment's rent history."
@@ -1338,6 +1398,14 @@ msgstr "We sent a code to"
 #: src/Components/Pages/Report/ReportEmailForm.tsx:178
 msgid "We will generate your report PDF and email it to you. You can optionally send copies to other people you trust."
 msgstr "We will generate your report PDF and email it to you. You can optionally send copies to other people you trust."
+
+#: src/Components/Pages/Landing/Landing.tsx:45
+msgid "We’ll analyze it for signs of overcharges and illegal deregulations and tell you what it could mean for you."
+msgstr "We’ll analyze it for signs of overcharges and illegal deregulations and tell you what it could mean for you."
+
+#: src/Components/Pages/Landing/Landing.tsx:96
+msgid "We’ll ask you a few questions and run an analysis of your rent history. If anything looks suspicious, we’ll ask some simple follow-up questions to help understand if there are any overcharges or violations."
+msgstr "We’ll ask you a few questions and run an analysis of your rent history. If anything looks suspicious, we’ll ask some simple follow-up questions to help understand if there are any overcharges or violations."
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:266
 #~ msgid "We'll text you a code to verify and save your progress."

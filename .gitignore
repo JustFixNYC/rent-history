@@ -34,3 +34,4 @@ lambda/*/*.zip
 auth-rh-api-schema.json
 
 .venv*/
+.nvmrc
