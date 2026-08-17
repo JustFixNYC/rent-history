@@ -1212,6 +1212,92 @@ describe("Scanner unmount cleanup", () => {
   });
 });
 
+describe("Scanner tab hide during active scan", () => {
+  const originalVisibilityState = document.visibilityState;
+
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    scannerHarness.hangLaunch = true;
+    scannerHarness.lastInstance = null;
+    mockBootstrapNoRestorablePages();
+  });
+
+  afterEach(() => {
+    scannerHarness.hangLaunch = false;
+    scannerHarness.releaseLaunch();
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      value: originalVisibilityState,
+    });
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  const startActiveScanWithPage = async () => {
+    renderScanner();
+    await clickStartScanning();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-in-progress")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      await scannerHarness.simulateDocumentScan();
+    });
+  };
+
+  it("does not finalize on visibilitychange while Dynamsoft launch is active", async () => {
+    await startActiveScanWithPage();
+
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      value: "hidden",
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+
+    expect(accountApi.finalizeRhHistoryScan).not.toHaveBeenCalled();
+  });
+
+  it("does not finalize on pagehide while Dynamsoft launch is active", async () => {
+    await startActiveScanWithPage();
+
+    window.dispatchEvent(new Event("pagehide"));
+
+    expect(accountApi.finalizeRhHistoryScan).not.toHaveBeenCalled();
+  });
+
+  it("finalizes once on normal Dynamsoft exit after tab hide events", async () => {
+    await startActiveScanWithPage();
+
+    Object.defineProperty(document, "visibilityState", {
+      configurable: true,
+      value: "hidden",
+    });
+    document.dispatchEvent(new Event("visibilitychange"));
+    window.dispatchEvent(new Event("pagehide"));
+    expect(accountApi.finalizeRhHistoryScan).not.toHaveBeenCalled();
+
+    await act(async () => {
+      scannerHarness.releaseLaunch();
+    });
+
+    await waitFor(() => {
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledTimes(1);
+      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
+        "access-token",
+        finalizeScanRequest(1)
+      );
+      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+        replace: true,
+      });
+    });
+  });
+});
+
 describe("Scanner launch failure handling", () => {
   const mockRetakeScanReview = () => {
     vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(

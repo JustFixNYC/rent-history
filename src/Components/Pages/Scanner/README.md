@@ -38,7 +38,7 @@ On return visits, `useScannerBootstrapRestore` reads persisted step state (scope
 
 1. **Dynamsoft** — `DocumentScanner` (continuous scanning, auto-crop, frame verification). Configured in `Scanner.tsx` on mount; disposed on unmount.
 2. **`onDocumentScanned`** — corrected JPEG blob uploaded via presigned S3 URL (`uploadScan` in `api/account/scanPresign.ts`). Key shape: `{profileId}/{historyId}/{uuid}.jpg`.
-3. **Finalize** — on Dynamsoft exit with `count > 0`, `POST /rh/history/finalize-scan` then navigate to `/{locale}/compiling`. Best-effort duplicate finalize on `visibilitychange` / `pagehide`.
+3. **Finalize** — on Dynamsoft exit with `count > 0` only, `POST /rh/history/finalize-scan` then navigate to `/{locale}/compiling`.
 4. **Rescan review** — when compiling poll returns `needs_rescan`, FE navigates to scan-review with failure callouts. Poll `GET …/scan-review` until ready (`useScanReview`).
 5. **Review UI** — presigned download URLs for thumbnails (`useScanReviewPageImages` → `usePresignedPageImageUrls`).
 
@@ -87,7 +87,7 @@ Written when entering scan-review from `needs_rescan`, launch failure during res
 
 `readScannerStepState()` returns `null` when stored `historyId` does not match the active session. `expectedPageCount` tracks client upload count; scan-review poll uses it so the backend knows how many S3 objects to wait for.
 
-Transient phases (`scanning`, `camera-access`) are not persisted. Unmount during active scan does not flush to scan-review; best-effort finalize runs on tab hide instead.
+Transient phases (`scanning`, `camera-access`) are not persisted. Unmount or tab hide during active scan does not flush to scan-review and does not finalize; abandoned sessions may be auto-finalized server-side after an idle threshold.
 
 `clearScannerStepState()` runs when restarting, re-scanning selected pages, successful finalize, or bootstrap finds no pages.
 

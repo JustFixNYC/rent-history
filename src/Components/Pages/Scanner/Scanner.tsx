@@ -312,35 +312,6 @@ const Scanner: React.FC = () => {
   }, [phase]);
 
   useEffect(() => {
-    const tryBestEffortFinalize = () => {
-      if (phase !== "scanning") return;
-      const count = expectedPageCountRef.current;
-      if (count <= 0) return;
-      const context = requireRhScanContext(historyIdRef.current);
-      if (!context) return;
-      void finalizeRhHistoryScan(context.token, {
-        history_id: context.historyId,
-        expected_page_count: count,
-        accept_partial: false,
-        locale: i18n.locale,
-      }).catch(() => {});
-    };
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        tryBestEffortFinalize();
-      }
-    };
-
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    window.addEventListener("pagehide", tryBestEffortFinalize);
-    return () => {
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      window.removeEventListener("pagehide", tryBestEffortFinalize);
-    };
-  }, [phase, i18n.locale]);
-
-  useEffect(() => {
     if (phase !== "camera-access") {
       return;
     }
