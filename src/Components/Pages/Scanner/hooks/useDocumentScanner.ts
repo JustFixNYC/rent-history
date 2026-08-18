@@ -18,7 +18,7 @@ export type ScannerInitStatus = "idle" | "pending" | "ready" | "error";
 export type UseDocumentScannerOptions = {
   enabled: boolean;
   historyId: string | null | undefined;
-  expectedPageCountRef: React.RefObject<number>;
+  expectedPageCountRef: React.MutableRefObject<number>;
   setExpectedPageCount: React.Dispatch<React.SetStateAction<number>>;
   failedUploadCountRef: React.MutableRefObject<number>;
 };
@@ -52,7 +52,6 @@ export function useDocumentScanner({
 }: UseDocumentScannerOptions): UseDocumentScannerResult {
   const { _ } = useLingui();
 
-  const [scanner, setScanner] = useState<DocumentScanner>();
   const [scannerInitStatus, setScannerInitStatus] =
     useState<ScannerInitStatus>("idle");
   const [scannerInitError, setScannerInitError] = useState<string | null>(null);
@@ -78,7 +77,6 @@ export function useDocumentScanner({
     if (instance) {
       disposeDocumentScanner(instance);
       scannerRef.current = undefined;
-      setScanner(undefined);
     }
   }, [disposeDocumentScanner]);
 
@@ -190,7 +188,6 @@ export function useDocumentScanner({
       }
 
       scannerRef.current = documentScanner;
-      setScanner(documentScanner);
       setScannerInitStatus("ready");
       return documentScanner;
     })().finally(() => {
@@ -223,7 +220,6 @@ export function useDocumentScanner({
       if (cancelled && instance) {
         disposeDocumentScanner(instance);
         scannerRef.current = undefined;
-        setScanner(undefined);
       }
     });
 
@@ -273,7 +269,7 @@ export function useDocumentScanner({
         if (!isMountedRef.current) return { ok: true };
 
         options.onShowGuideChange?.(false);
-        const count = expectedPageCountRef.current;
+        const count = expectedPageCountRef.current ?? 0;
         if (count === 0) {
           options.onZeroPages?.();
           return { ok: true };

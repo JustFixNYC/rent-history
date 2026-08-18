@@ -25,7 +25,7 @@ import type { CompilingScanReviewLocationState } from "../../../hooks/useScanPip
 import { historyResumePath } from "../../../utils/historyResumePath";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
-import { ScanReviewScreen } from "./ScanReviewScreen";
+import { ScanReviewScreen } from "../ScanReviewPage/ScanReviewScreen";
 import { ScannerInProgressScreen } from "./ScannerInProgressScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
 import { SkipOrRescanModal } from "./SkipOrRescanModal";
