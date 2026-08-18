@@ -17,7 +17,6 @@ import { AccountApiError } from "../../../api/account";
 import * as accountApi from "../../../api/account/api";
 import {
   clearRhAuthSession,
-  getRhHistoryId,
   setRhAuthSession,
   setRhHistoryId,
 } from "../../../session/rhSessionStorage";
