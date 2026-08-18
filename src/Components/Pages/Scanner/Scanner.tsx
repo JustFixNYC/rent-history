@@ -29,8 +29,11 @@ import { ScanReviewScreen } from "../ScanReviewPage/ScanReviewScreen";
 import { ScannerInProgressScreen } from "./ScannerInProgressScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
 import { SkipOrRescanModal } from "./SkipOrRescanModal";
-import { clearScannerStepState, writeScannerStepState } from "./scannerState";
-import { isScanReviewClean } from "./scanReviewUtils";
+import {
+  clearScannerStepState,
+  writeScannerStepState,
+} from "../ScanReviewPage/scanReviewState";
+import { isScanReviewClean } from "../ScanReviewPage/scanReviewUtils";
 import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
 import { getRhScanKeyPrefix } from "../../../utils/rhScanKeyPrefix";
 import {
@@ -43,8 +46,8 @@ import { useScannerBootstrapRestore } from "./hooks/useScannerBootstrapRestore";
 import { useScanPipelineBootstrap } from "./hooks/useScanPipelineBootstrap";
 import type { LaunchResult, ScannerPhase } from "./scannerTypes";
 import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
-import { useScanReview } from "./hooks/useScanReview";
-import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
+import { useScanReview } from "../ScanReviewPage/hooks/useScanReview";
+import { useScanReviewPageImages } from "../ScanReviewPage/hooks/useScanReviewPageImages";
 import { useDocumentScanner } from "./hooks/useDocumentScanner";
 
 export type { ScannerPhase };
@@ -162,7 +165,7 @@ const Scanner: React.FC = () => {
   const { urlsByKey: pageImageUrls, clear: clearPageImages } =
     useScanReviewPageImages({
       readyPages,
-      phase,
+      enabled: phase === "scan-review",
       onError: setFlowError,
     });
 

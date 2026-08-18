@@ -3,13 +3,13 @@ import { useLingui } from "@lingui/react";
 import { useNavigate } from "react-router-dom";
 
 import { useScanPipelineBootstrap } from "./useScanPipelineBootstrap";
-import { useScanReviewBootstrap } from "./useScanReviewBootstrap";
+import { useScanReviewBootstrap } from "../../ScanReviewPage/hooks/useScanReviewBootstrap";
 import { getRhHistoryId } from "../../../../session/rhSessionStorage";
 import {
   clearScannerStepState,
   readScannerStepState,
   writeScannerStepState,
-} from "../scannerState";
+} from "../../ScanReviewPage/scanReviewState";
 import type { ScannerPhase } from "../scannerTypes";
 import type { RhScanPipelineStatusResponse } from "../../../../api/account";
 

@@ -33,7 +33,7 @@ import {
   readScannerStepState,
   SCANNER_STEP_STATE_KEY,
   writeScannerStepState,
-} from "./scannerState";
+} from "../ScanReviewPage/scanReviewState";
 import * as rhScanKeyPrefix from "../../../utils/rhScanKeyPrefix";
 
 const { navigateMock, testHistoryId, scannerHarness } = vi.hoisted(() => ({

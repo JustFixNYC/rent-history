@@ -5,7 +5,7 @@ import {
   readScannerStepState,
   SCANNER_STEP_STATE_KEY,
   writeScannerStepState,
-} from "./scannerState";
+} from "../ScanReviewPage/scanReviewState";
 import {
   getRhSessionStepState,
   readRhSessionDocument,
