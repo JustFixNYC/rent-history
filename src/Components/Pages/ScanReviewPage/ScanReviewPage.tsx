@@ -4,6 +4,7 @@ import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { Button, CalloutBox } from "@justfixnyc/component-library";
 
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
@@ -37,6 +38,8 @@ import { useScanReviewBootstrapRestore } from "./hooks/useScanReviewBootstrapRes
 import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
 import { ScanReviewScreen } from "./ScanReviewScreen";
 
+import "./ScanReviewScreen.scss";
+
 const ScanReviewPage = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
@@ -49,8 +52,13 @@ const ScanReviewPage = () => {
   const accessToken = getRhAuthSession()?.accessToken;
   const historyId = getRhHistoryId();
 
-  const { expectedPageCount, setExpectedPageCount, restoreStatus } =
-    useScanReviewBootstrapRestore({ accessToken, historyId });
+  const {
+    expectedPageCount,
+    setExpectedPageCount,
+    restoreStatus,
+    pipelineBootstrapFailed,
+    retryPipelineBootstrap,
+  } = useScanReviewBootstrapRestore({ accessToken, historyId });
   const [flowError, setFlowError] = useState<string | null>(
     () => locationState?.reviewError ?? null
   );
@@ -233,6 +241,10 @@ const ScanReviewPage = () => {
       ? scanReviewQuery.error.message
       : null;
   const reviewError = flowError ?? scanReviewFetchError;
+  const showBootstrapError =
+    restoreStatus === "pending" &&
+    Boolean(historyId) &&
+    pipelineBootstrapFailed;
   const isScanReviewLoading =
     restoreStatus === "pending" ||
     expectedPageCount <= 0 ||
@@ -257,28 +269,50 @@ const ScanReviewPage = () => {
         <AnalysisFlowProgress stepId="scan-review" />
       </div>
 
-      <ScanReviewScreen
-        pages={scanReviewPages}
-        missingYearRanges={missingYearRanges}
-        processingComplete={processingComplete}
-        isLoading={isScanReviewLoading}
-        showRescanSuccess={showRescanSuccess}
-        showLaunchFailure={showLaunchFailure}
-        pipelineFailures={scanPipelineFailures}
-        failedUploadCount={failedUploadCount}
-        reviewError={reviewError}
-        onRescanPages={(pageIds) => {
-          void handleRescanPages(pageIds);
-        }}
-        onRestart={() => {
-          setIsRestartModalOpen(true);
-        }}
-        onNext={() => {
-          void handleNext();
-        }}
-        onAddMore={handleAddMore}
-        nextDisabled={nextDisabled}
-      />
+      {showBootstrapError ? (
+        <div
+          className="scan-review-page__bootstrap-error"
+          data-testid="scan-review-bootstrap-error"
+        >
+          <CalloutBox
+            className="scan-review-page__bootstrap-error-callout"
+            title={<Trans>Unable to load compile status</Trans>}
+            headingLevel={2}
+          >
+            <p>
+              <Trans>Please try again in a moment.</Trans>
+            </p>
+            <Button
+              labelText={_(msg`Try again`)}
+              variant="primary"
+              onClick={retryPipelineBootstrap}
+            />
+          </CalloutBox>
+        </div>
+      ) : (
+        <ScanReviewScreen
+          pages={scanReviewPages}
+          missingYearRanges={missingYearRanges}
+          processingComplete={processingComplete}
+          isLoading={isScanReviewLoading}
+          showRescanSuccess={showRescanSuccess}
+          showLaunchFailure={showLaunchFailure}
+          pipelineFailures={scanPipelineFailures}
+          failedUploadCount={failedUploadCount}
+          reviewError={reviewError}
+          onRescanPages={(pageIds) => {
+            void handleRescanPages(pageIds);
+          }}
+          onRestart={() => {
+            setIsRestartModalOpen(true);
+          }}
+          onNext={() => {
+            void handleNext();
+          }}
+          onAddMore={handleAddMore}
+          nextDisabled={nextDisabled}
+        />
+      )}
 
       <ConfirmModal
         isOpen={isRestartModalOpen}

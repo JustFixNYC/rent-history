@@ -1,5 +1,27 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 
+.scan-review-page {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+  min-height: 100%;
+}
+
+.scan-review-page__progress {
+  padding: 2rem 1.5rem 0;
+}
+
+.scan-review-page__bootstrap-error {
+  margin: 0 auto;
+  max-width: 327px;
+  padding: 2rem 1.5rem;
+}
+
+.scan-review-page__bootstrap-error-callout.jfcl-callout-box {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_04;
+}
+
 .scan-review-screen {
   background: jfcl.$OFF_WHITE_100;
   color: jfcl.$OFF_BLACK;

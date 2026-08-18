@@ -33,7 +33,7 @@ saved scan-review session ──► redirect to /scan-review (no Dynamsoft init)
 Compiling POP + Restart ──► pre-scan (postCompileReturn) ──Skip or Re-scan──► SkipOrRescanModal
 ```
 
-On return visits, `useScannerBootstrapRestore` reads persisted step state (scoped to active `historyId`), redirects saved `scan-review` sessions to `/scan-review`, checks scan-pipeline status (redirect to `/compiling` when non-terminal), and restores pre-scan otherwise.
+On return visits, `useScannerBootstrapRestore` reads persisted step state (scoped to active `historyId`), redirects saved `scan-review` sessions to `/scan-review`, checks scan-pipeline status (redirect to `/compiling` when non-terminal), and restores pre-scan otherwise. If `GET /rh/history/scan-pipeline-status` fails during bootstrap, phase restore is blocked until the user retries successfully — the page shows an error callout with **Try again** instead of falling through to pre-scan or scan-review redirect.
 
 ---
 
@@ -94,12 +94,13 @@ Transient phases (`scanning`, `camera-access`) are not persisted. Unmount or tab
 
 ## Tests
 
-| File                                        | Coverage                                                       |
-| ------------------------------------------- | -------------------------------------------------------------- |
-| `Scanner.test.tsx`                          | Capture, finalize, overlay, capture-intent, bootstrap redirect |
-| `PreScanScreen` / `SkipOrRescanModal`       | Post-compile return mode and modal actions                     |
-| `scannerFlowUtils.test.ts`                  | Context guard, error mapping                                   |
-| `scanner-overlay.test.ts`                   | DOM visibility helpers, label patching                         |
-| `../ScanReviewPage/ScanReviewPage.test.tsx` | Scan-review finalize, callouts, bootstrap restore              |
+| File                                        | Coverage                                                                                 |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `Scanner.test.tsx`                          | Capture, finalize, overlay, capture-intent, bootstrap redirect, pipeline bootstrap error |
+| `hooks/useScannerBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry, `shouldBootstrapCompiling`               |
+| `PreScanScreen` / `SkipOrRescanModal`       | Post-compile return mode and modal actions                                               |
+| `scannerFlowUtils.test.ts`                  | Context guard, error mapping                                                             |
+| `scanner-overlay.test.ts`                   | DOM visibility helpers, label patching                                                   |
+| `../ScanReviewPage/ScanReviewPage.test.tsx` | Scan-review finalize, callouts, bootstrap restore                                        |
 
 Route registration: `src/App.tsx` (`path="scanner"`). Route protection: `App.route-protection.test.tsx`.

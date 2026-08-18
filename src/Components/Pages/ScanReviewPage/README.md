@@ -26,7 +26,7 @@ capture failure from /scanner ──► /scan-review (launch/upload failure stat
 
 ## Review pipeline
 
-1. **Bootstrap** — `useScanReviewBootstrapRestore` reads session step state (scoped to active `historyId`), checks scan-pipeline status, and/or fetches restorable pages from the backend. Redirects to `/scanner` when nothing to restore.
+1. **Bootstrap** — `useScanReviewBootstrapRestore` reads session step state (scoped to active `historyId`), checks scan-pipeline status, and/or fetches restorable pages from the backend. Redirects to `/scanner` when nothing to restore. Pipeline fetch failure blocks scan-review restore until **Try again** succeeds (error callout; no review UI flash).
 2. **Poll** — `useScanReview` polls `GET …/scan-review` until ready or accept-partial timeout.
 3. **Thumbnails** — presigned download URLs via `useScanReviewPageImages`.
 4. **Finalize** — `POST /rh/history/finalize-scan` on **Next**, then navigate to `/{locale}/compiling`.
@@ -80,10 +80,11 @@ Written when entering scan-review from `needs_rescan`, launch failure during res
 
 ## Tests
 
-| File                                    | Coverage                                                                        |
-| --------------------------------------- | ------------------------------------------------------------------------------- |
-| `ScanReviewPage.test.tsx`               | Finalize, callouts, bootstrap restore, rescan/restart, launch/upload failure UI |
-| `hooks/useScanReviewBootstrap.test.tsx` | Bootstrap fetch behavior                                                        |
-| `hooks/useScanReview.test.tsx`          | Poll and accept-partial timeout                                                 |
+| File                                           | Coverage                                                                                                  |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `ScanReviewPage.test.tsx`                      | Finalize, callouts, bootstrap restore, rescan/restart, launch/upload failure UI, pipeline bootstrap error |
+| `hooks/useScanReviewBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                                                            |
+| `hooks/useScanReviewBootstrap.test.tsx`        | Bootstrap fetch behavior                                                                                  |
+| `hooks/useScanReview.test.tsx`                 | Poll and accept-partial timeout                                                                           |
 
 Route registration: `src/App.tsx` (`path="scan-review"`). Route protection: `App.route-protection.test.tsx`.

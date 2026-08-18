@@ -1222,3 +1222,85 @@ describe("Scanner postCompileReturn mode", () => {
     });
   });
 });
+
+describe("Scanner pipeline bootstrap error", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    mockBootstrapNoRestorablePages();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("shows bootstrap error and blocks pre-scan when pipeline fetch fails", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockRejectedValue(
+      new Error("network error")
+    );
+
+    renderScanner();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-bootstrap-error")).toBeInTheDocument();
+      expect(
+        screen.getByText("Unable to load compile status")
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByRole("button", { name: "Start scanning" })
+    ).not.toBeInTheDocument();
+    expect(navigateMock).not.toHaveBeenCalledWith("/en/scan-review");
+  });
+
+  it("does not redirect to scan-review when pipeline fails with saved session", async () => {
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockRejectedValue(
+      new Error("network error")
+    );
+
+    renderScanner();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-bootstrap-error")).toBeInTheDocument();
+    });
+    expect(navigateMock).not.toHaveBeenCalledWith("/en/scan-review");
+  });
+
+  it("retries pipeline bootstrap and shows pre-scan on success", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus)
+      .mockRejectedValueOnce(new Error("network error"))
+      .mockResolvedValueOnce({
+        last_step_reached: "DOCUMENT_SCAN",
+        scan_pipeline_status: "complete",
+        expected_page_count: 1,
+        pages_landed_count: 1,
+        pages_terminal_count: 1,
+        processing_complete: true,
+        uploads_observed_count: 1,
+        early_validation: null,
+        user_message_key: null,
+      });
+
+    renderScanner();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scanner-bootstrap-error")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Try again" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Start scanning" })
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByTestId("scanner-bootstrap-error")
+    ).not.toBeInTheDocument();
+  });
+});

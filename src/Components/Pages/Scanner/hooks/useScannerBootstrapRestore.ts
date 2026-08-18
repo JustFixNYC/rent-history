@@ -28,6 +28,9 @@ export type UseScannerBootstrapRestoreResult = {
   restoreStatus: "pending" | "done";
   setRestoreStatus: React.Dispatch<React.SetStateAction<"pending" | "done">>;
   deferScannerInit: boolean;
+  pipelineBootstrapFailed: boolean;
+  pipelineBootstrapLoading: boolean;
+  retryPipelineBootstrap: () => void;
 };
 
 const NON_TERMINAL_PIPELINE_STATUSES = new Set([
@@ -80,15 +83,20 @@ export function useScannerBootstrapRestore({
     enabled: restoreStatus === "pending" && Boolean(historyId),
   });
 
-  const pipelineChecked =
-    !historyId || pipelineBootstrap.isSuccess || pipelineBootstrap.isError;
+  const pipelineGatePassed = !historyId || pipelineBootstrap.isSuccess;
+  const pipelineBootstrapFailed =
+    Boolean(historyId) && pipelineBootstrap.isError;
+  const pipelineBootstrapLoading =
+    Boolean(historyId) &&
+    restoreStatus === "pending" &&
+    pipelineBootstrap.isLoading;
 
   const redirectToCompiling =
     pipelineBootstrap.data != null &&
     shouldBootstrapCompiling(pipelineBootstrap.data);
 
   useEffect(() => {
-    if (restoreStatus !== "pending" || !pipelineChecked) return;
+    if (restoreStatus !== "pending" || !pipelineGatePassed) return;
 
     if (redirectToCompiling) {
       clearScannerStepState();
@@ -108,7 +116,7 @@ export function useScannerBootstrapRestore({
   }, [
     i18n.locale,
     navigate,
-    pipelineChecked,
+    pipelineGatePassed,
     redirectToCompiling,
     restoreStatus,
     savedScanReview,
@@ -122,5 +130,10 @@ export function useScannerBootstrapRestore({
     restoreStatus,
     setRestoreStatus,
     deferScannerInit,
+    pipelineBootstrapFailed,
+    pipelineBootstrapLoading,
+    retryPipelineBootstrap: () => {
+      void pipelineBootstrap.refetch();
+    },
   };
 }

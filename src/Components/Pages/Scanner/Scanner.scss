@@ -38,6 +38,18 @@
   padding: 2rem;
 }
 
+.scanner-page__bootstrap-error {
+  margin: 0 auto;
+  max-width: 327px;
+  padding: 2rem 1.5rem;
+}
+
+.scanner-page__bootstrap-error-callout.jfcl-callout-box {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_04;
+}
+
 .scanner-scan-guide {
   position: fixed;
   inset: 0;

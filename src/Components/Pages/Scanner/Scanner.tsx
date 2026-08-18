@@ -3,7 +3,8 @@ import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { Icon } from "@justfixnyc/component-library";
+import { CalloutBox, Button, Icon } from "@justfixnyc/component-library";
+import { Trans } from "@lingui/react/macro";
 
 import "./Scanner.scss";
 import {
@@ -71,6 +72,9 @@ const Scanner: React.FC = () => {
     setExpectedPageCount,
     restoreStatus,
     deferScannerInit,
+    pipelineBootstrapFailed,
+    pipelineBootstrapLoading,
+    retryPipelineBootstrap,
   } = useScannerBootstrapRestore({ accessToken, historyId, captureIntent });
 
   const postCompilePipeline = useScanPipelineBootstrap({
@@ -477,16 +481,23 @@ const Scanner: React.FC = () => {
     setIsSkipOrRescanModalOpen(false);
   };
 
+  const showBootstrapError =
+    restoreStatus === "pending" &&
+    Boolean(historyId) &&
+    pipelineBootstrapFailed;
   const showRestoreLoading =
     restoreStatus === "pending" &&
     !captureIntent &&
-    phase === "pre-scan" &&
-    Boolean(historyId);
+    Boolean(historyId) &&
+    pipelineBootstrapLoading &&
+    !pipelineBootstrapFailed;
   const isScannerReady = scannerInitStatus === "ready";
   const preScanError = scannerInitError ?? startScanError ?? flowError;
   const startDisabled =
     !canStartScan || !isScannerReady || isCheckingCameraAccess;
-  const showPreScan = phase === "pre-scan" && restoreStatus === "done";
+  const showPreScan =
+    phase === "pre-scan" && restoreStatus === "done" && !showBootstrapError;
+  const showCapturePhases = !showBootstrapError;
 
   return (
     <div
@@ -505,6 +516,28 @@ const Scanner: React.FC = () => {
           data-testid="scanner-restore-loading"
         >
           <Icon icon="spinner" aria-hidden="true" />
+        </div>
+      )}
+
+      {showBootstrapError && (
+        <div
+          className="scanner-page__bootstrap-error"
+          data-testid="scanner-bootstrap-error"
+        >
+          <CalloutBox
+            className="scanner-page__bootstrap-error-callout"
+            title={<Trans>Unable to load compile status</Trans>}
+            headingLevel={2}
+          >
+            <p>
+              <Trans>Please try again in a moment.</Trans>
+            </p>
+            <Button
+              labelText={_(msg`Try again`)}
+              variant="primary"
+              onClick={retryPipelineBootstrap}
+            />
+          </CalloutBox>
         </div>
       )}
 
@@ -528,7 +561,7 @@ const Scanner: React.FC = () => {
         />
       )}
 
-      {phase === "camera-access" && (
+      {showCapturePhases && phase === "camera-access" && (
         <CameraAccessScreen
           onBack={handleCameraAccessBack}
           onStartScanning={() => {
@@ -540,7 +573,7 @@ const Scanner: React.FC = () => {
         />
       )}
 
-      {phase === "scanning" && (
+      {showCapturePhases && phase === "scanning" && (
         <>
           <ScannerInProgressScreen />
           <ScannerOverlay visible={showScannerGuide} />

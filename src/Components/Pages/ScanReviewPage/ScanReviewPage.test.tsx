@@ -702,3 +702,73 @@ describe("ScanReviewPage launch failure callouts", () => {
     });
   });
 });
+
+describe("ScanReviewPage pipeline bootstrap error", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    mockBootstrapReady();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("shows bootstrap error and blocks review UI when pipeline fetch fails", async () => {
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockRejectedValue(
+      new Error("network error")
+    );
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-bootstrap-error")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Unable to load compile status")
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByRole("button", { name: "Next" })
+    ).not.toBeInTheDocument();
+    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalled();
+  });
+
+  it("retries pipeline bootstrap and restores scan-review on success", async () => {
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus)
+      .mockRejectedValueOnce(new Error("network error"))
+      .mockResolvedValueOnce({
+        last_step_reached: "DOCUMENT_SCAN",
+        scan_pipeline_status: "complete",
+        expected_page_count: 1,
+        pages_landed_count: 1,
+        pages_terminal_count: 1,
+        processing_complete: true,
+        uploads_observed_count: 1,
+        early_validation: null,
+        user_message_key: null,
+      });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-bootstrap-error")
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Try again" }));
+
+    await waitForScanReviewReady();
+    expect(
+      screen.queryByTestId("scan-review-bootstrap-error")
+    ).not.toBeInTheDocument();
+  });
+});

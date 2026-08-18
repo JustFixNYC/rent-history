@@ -21,6 +21,9 @@ export type UseScanReviewBootstrapRestoreResult = {
   expectedPageCount: number;
   setExpectedPageCount: React.Dispatch<React.SetStateAction<number>>;
   restoreStatus: "pending" | "done";
+  pipelineBootstrapFailed: boolean;
+  pipelineBootstrapLoading: boolean;
+  retryPipelineBootstrap: () => void;
 };
 
 export function useScanReviewBootstrapRestore({
@@ -44,8 +47,13 @@ export function useScanReviewBootstrapRestore({
     enabled: restoreStatus === "pending" && Boolean(historyId),
   });
 
-  const pipelineChecked =
-    !historyId || pipelineBootstrap.isSuccess || pipelineBootstrap.isError;
+  const pipelineGatePassed = !historyId || pipelineBootstrap.isSuccess;
+  const pipelineBootstrapFailed =
+    Boolean(historyId) && pipelineBootstrap.isError;
+  const pipelineBootstrapLoading =
+    Boolean(historyId) &&
+    restoreStatus === "pending" &&
+    pipelineBootstrap.isLoading;
 
   const redirectToCompiling =
     pipelineBootstrap.data != null &&
@@ -59,13 +67,13 @@ export function useScanReviewBootstrapRestore({
     historyId: historyId ?? undefined,
     enabled:
       restoreStatus === "pending" &&
-      pipelineChecked &&
+      pipelineGatePassed &&
       !redirectToCompiling &&
       !hasSavedCount,
   });
 
   useEffect(() => {
-    if (restoreStatus !== "pending" || !pipelineChecked) return;
+    if (restoreStatus !== "pending" || !pipelineGatePassed) return;
 
     if (redirectToCompiling) {
       clearScannerStepState();
@@ -75,7 +83,7 @@ export function useScanReviewBootstrapRestore({
   }, [
     i18n.locale,
     navigate,
-    pipelineChecked,
+    pipelineGatePassed,
     redirectToCompiling,
     restoreStatus,
   ]);
@@ -83,7 +91,7 @@ export function useScanReviewBootstrapRestore({
   useEffect(() => {
     if (
       restoreStatus !== "pending" ||
-      !pipelineChecked ||
+      !pipelineGatePassed ||
       redirectToCompiling
     ) {
       return;
@@ -136,7 +144,7 @@ export function useScanReviewBootstrapRestore({
     hasSavedCount,
     i18n.locale,
     navigate,
-    pipelineChecked,
+    pipelineGatePassed,
     redirectToCompiling,
     restoreStatus,
     savedStep,
@@ -149,5 +157,10 @@ export function useScanReviewBootstrapRestore({
     expectedPageCount,
     setExpectedPageCount,
     restoreStatus,
+    pipelineBootstrapFailed,
+    pipelineBootstrapLoading,
+    retryPipelineBootstrap: () => {
+      void pipelineBootstrap.refetch();
+    },
   };
 }
