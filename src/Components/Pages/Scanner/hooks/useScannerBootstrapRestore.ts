@@ -8,6 +8,7 @@ import {
   clearScannerStepState,
   readScannerStepState,
 } from "../../ScanReviewPage/scanReviewState";
+import type { ScannerCaptureIntent } from "../scannerLocationState";
 import type { ScannerPhase } from "../scannerTypes";
 import type { RhScanPipelineStatusResponse } from "../../../../api/account";
 
@@ -16,6 +17,7 @@ export type { ScannerPhase };
 export type UseScannerBootstrapRestoreParams = {
   accessToken: string | undefined;
   historyId: string | null;
+  captureIntent?: ScannerCaptureIntent;
 };
 
 export type UseScannerBootstrapRestoreResult = {
@@ -25,6 +27,7 @@ export type UseScannerBootstrapRestoreResult = {
   setExpectedPageCount: React.Dispatch<React.SetStateAction<number>>;
   restoreStatus: "pending" | "done";
   setRestoreStatus: React.Dispatch<React.SetStateAction<"pending" | "done">>;
+  deferScannerInit: boolean;
 };
 
 const NON_TERMINAL_PIPELINE_STATUSES = new Set([
@@ -48,17 +51,28 @@ export function shouldBootstrapCompiling(
 export function useScannerBootstrapRestore({
   accessToken,
   historyId,
+  captureIntent,
 }: UseScannerBootstrapRestoreParams): UseScannerBootstrapRestoreResult {
   const navigate = useNavigate();
   const { i18n } = useLingui();
   const savedStep = readScannerStepState();
-  const savedScanReview = savedStep?.phase === "scan-review";
+  const savedScanReview = savedStep?.phase === "scan-review" && !captureIntent;
 
-  const [phase, setPhase] = useState<ScannerPhase>("pre-scan");
-  const [expectedPageCount, setExpectedPageCount] = useState(0);
+  const [phase, setPhase] = useState<ScannerPhase>(() =>
+    captureIntent ? "scanning" : "pre-scan"
+  );
+  const [expectedPageCount, setExpectedPageCount] = useState(() => {
+    if (!captureIntent) return 0;
+    if (captureIntent.mode === "restart") return 0;
+    return savedStep?.expectedPageCount ?? 0;
+  });
   const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
     savedScanReview || getRhHistoryId() ? "pending" : "done"
   );
+  const [redirectedScanReview, setRedirectedScanReview] = useState(false);
+
+  const deferScannerInit =
+    redirectedScanReview || (savedScanReview && restoreStatus === "pending");
 
   const pipelineBootstrap = useScanPipelineBootstrap({
     accessToken,
@@ -84,6 +98,7 @@ export function useScannerBootstrapRestore({
     }
 
     if (savedScanReview) {
+      setRedirectedScanReview(true);
       navigate(`/${i18n.locale}/scan-review`);
       setRestoreStatus("done");
       return;
@@ -106,5 +121,6 @@ export function useScannerBootstrapRestore({
     setExpectedPageCount,
     restoreStatus,
     setRestoreStatus,
+    deferScannerInit,
   };
 }

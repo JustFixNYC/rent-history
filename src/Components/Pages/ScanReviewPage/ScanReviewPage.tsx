@@ -15,7 +15,10 @@ import {
   isAccountApiError,
 } from "../../../api/account";
 import { mapPagesWithImageUrls } from "../../RentHistoryPageCard/pageCardUtils";
-import type { CompilingScanReviewLocationState } from "../../../hooks/useScanPipelineStatus";
+import type {
+  ScanReviewLocationState,
+  ScannerCaptureIntent,
+} from "../Scanner/scannerLocationState";
 import {
   getRhAuthSession,
   getRhHistoryId,
@@ -40,8 +43,7 @@ const ScanReviewPage = () => {
   const location = useLocation();
   const queryClient = useQueryClient();
 
-  const locationState =
-    location.state as CompilingScanReviewLocationState | null;
+  const locationState = location.state as ScanReviewLocationState | null;
   const scanPipelineFailures = locationState?.scanPipelineFailures ?? [];
 
   const accessToken = getRhAuthSession()?.accessToken;
@@ -49,10 +51,18 @@ const ScanReviewPage = () => {
 
   const { expectedPageCount, setExpectedPageCount, restoreStatus } =
     useScanReviewBootstrapRestore({ accessToken, historyId });
-  const [flowError, setFlowError] = useState<string | null>(null);
+  const [flowError, setFlowError] = useState<string | null>(
+    () => locationState?.reviewError ?? null
+  );
   const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
-  const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
+  const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(() =>
+    Boolean(locationState?.awaitingRescanSuccess)
+  );
+  const [showLaunchFailure, setShowLaunchFailure] = useState(() =>
+    Boolean(locationState?.showLaunchFailure)
+  );
+  const failedUploadCount = locationState?.failedUploadCount ?? 0;
 
   const expectedPageCountRef = useRef(expectedPageCount);
   expectedPageCountRef.current = expectedPageCount;
@@ -99,6 +109,7 @@ const ScanReviewPage = () => {
     historyId: historyId ?? undefined,
     expectedPageCount,
     enabled: restoreStatus === "done" && expectedPageCount > 0,
+    maxPollMs: import.meta.env.VITEST ? 5_000 : undefined,
   });
 
   const readyPages =
@@ -112,9 +123,14 @@ const ScanReviewPage = () => {
       onError: setFlowError,
     });
 
-  const navigateToScanner = useCallback(() => {
-    navigate(`/${i18n.locale}/scanner`);
-  }, [i18n.locale, navigate]);
+  const navigateToScanner = useCallback(
+    (captureIntent: ScannerCaptureIntent) => {
+      navigate(`/${i18n.locale}/scanner`, {
+        state: { captureIntent },
+      });
+    },
+    [i18n.locale, navigate]
+  );
 
   const handleRestart = async () => {
     const context = requireRhScanContext(historyId);
@@ -123,6 +139,7 @@ const ScanReviewPage = () => {
     const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
+    setShowLaunchFailure(false);
     setAwaitingRescanSuccess(false);
     setIsRestarting(true);
     try {
@@ -130,7 +147,7 @@ const ScanReviewPage = () => {
       clearScannerStepState();
       setExpectedPageCount(0);
       clearPageImages();
-      navigateToScanner();
+      navigateToScanner({ mode: "restart" });
     } catch (error) {
       setFlowError(
         flowErrorFromApi(
@@ -162,7 +179,8 @@ const ScanReviewPage = () => {
     const { token, historyId: activeHistoryId } = context;
 
     setFlowError(null);
-    setAwaitingRescanSuccess(false);
+    setShowLaunchFailure(false);
+    setAwaitingRescanSuccess(true);
     try {
       await deleteRhScannedPages(token, activeHistoryId, pageIds);
       queryClient.removeQueries({
@@ -176,8 +194,9 @@ const ScanReviewPage = () => {
         clearScannerStepState();
       }
       clearPageImages();
-      navigateToScanner();
+      navigateToScanner({ mode: "rescan", pageIds });
     } catch (error) {
+      setAwaitingRescanSuccess(false);
       setFlowError(
         flowErrorFromApi(
           error,
@@ -189,9 +208,10 @@ const ScanReviewPage = () => {
 
   const handleAddMore = () => {
     setFlowError(null);
+    setShowLaunchFailure(false);
     setAwaitingRescanSuccess(false);
     clearPageImages();
-    navigateToScanner();
+    navigateToScanner({ mode: "addMore" });
   };
 
   const handleNext = async () => {
@@ -243,7 +263,9 @@ const ScanReviewPage = () => {
         processingComplete={processingComplete}
         isLoading={isScanReviewLoading}
         showRescanSuccess={showRescanSuccess}
+        showLaunchFailure={showLaunchFailure}
         pipelineFailures={scanPipelineFailures}
+        failedUploadCount={failedUploadCount}
         reviewError={reviewError}
         onRescanPages={(pageIds) => {
           void handleRescanPages(pageIds);

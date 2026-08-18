@@ -180,8 +180,7 @@ msgstr "Additional recipients"
 msgid "Address"
 msgstr "Address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:647
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:265
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:287
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
 
@@ -341,8 +340,7 @@ msgstr "Camera access"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
-#: src/Components/Pages/Scanner/Scanner.tsx:659
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:277
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:299
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -1203,8 +1201,7 @@ msgstr "Processing your scanned pages…"
 msgid "Re-scan"
 msgstr "Re-scan"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:645
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:263
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:285
 msgid "Re-scan all pages?"
 msgstr "Re-scan all pages?"
 
@@ -1270,8 +1267,7 @@ msgstr "Residential units"
 msgid "Restart"
 msgstr "Restart"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:653
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:271
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:293
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:155
 msgid "Restart scan"
 msgstr "Restart scan"
@@ -1379,7 +1375,7 @@ msgstr "Scan your rent history with your phone"
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:251
+#: src/Components/Pages/Scanner/Scanner.tsx:214
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr "Scanner is still loading. Please wait a moment and try again."
 
@@ -1834,8 +1830,8 @@ msgstr "Unable to compile your rent history"
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:144
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:88
+#: src/Components/Pages/Scanner/Scanner.tsx:150
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:98
 msgid "Unable to finalize scan. Please try again."
 msgstr "Unable to finalize scan. Please try again."
 
@@ -1863,16 +1859,17 @@ msgstr "Unable to load scan review"
 msgid "Unable to load the scanner. Please refresh the page and try again."
 msgstr "Unable to load the scanner. Please refresh the page and try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:315
-#: src/Components/Pages/Scanner/Scanner.tsx:343
-#: src/Components/Pages/Scanner/Scanner.tsx:386
-#: src/Components/Pages/Scanner/Scanner.tsx:501
+#: src/Components/Pages/Scanner/Scanner.tsx:258
+#: src/Components/Pages/Scanner/Scanner.tsx:275
+#: src/Components/Pages/Scanner/Scanner.tsx:283
+#: src/Components/Pages/Scanner/Scanner.tsx:323
+#: src/Components/Pages/Scanner/Scanner.tsx:336
+#: src/Components/Pages/Scanner/Scanner.tsx:364
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:43
 msgid "Unable to open the scanner. Please try again."
 msgstr "Unable to open the scanner. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:440
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:184
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:203
 msgid "Unable to re-scan pages. Please try again."
 msgstr "Unable to re-scan pages. Please try again."
 
@@ -1880,9 +1877,8 @@ msgstr "Unable to re-scan pages. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:394
-#: src/Components/Pages/Scanner/Scanner.tsx:509
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:138
+#: src/Components/Pages/Scanner/Scanner.tsx:467
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:155
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 
