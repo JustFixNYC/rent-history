@@ -180,7 +180,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:799
+#: src/Components/Pages/Scanner/Scanner.tsx:644
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr ""
 
@@ -340,7 +340,7 @@ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
-#: src/Components/Pages/Scanner/Scanner.tsx:811
+#: src/Components/Pages/Scanner/Scanner.tsx:656
 msgid "Cancel"
 msgstr ""
 
@@ -587,7 +587,7 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgid "Findings review"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:395
+#: src/Components/Pages/Scanner/hooks/useDocumentScanner.ts:264
 msgid "Finish scanning"
 msgstr ""
 
@@ -1201,11 +1201,11 @@ msgstr ""
 msgid "Re-scan"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:797
+#: src/Components/Pages/Scanner/Scanner.tsx:642
 msgid "Re-scan all pages?"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:209
+#: src/Components/Pages/Scanner/hooks/useDocumentScanner.ts:120
 msgid "Re-scan page"
 msgstr ""
 
@@ -1267,7 +1267,7 @@ msgstr ""
 msgid "Restart"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:805
+#: src/Components/Pages/Scanner/Scanner.tsx:650
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:155
 msgid "Restart scan"
 msgstr ""
@@ -1314,7 +1314,7 @@ msgstr ""
 #~ msgid "Save address"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:213
+#: src/Components/Pages/Scanner/hooks/useDocumentScanner.ts:124
 msgid "Save page"
 msgstr ""
 
@@ -1375,7 +1375,7 @@ msgstr ""
 #~ msgid "ScanBot Demo"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:378
+#: src/Components/Pages/Scanner/Scanner.tsx:248
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr ""
 
@@ -1830,7 +1830,7 @@ msgstr ""
 msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:152
+#: src/Components/Pages/Scanner/Scanner.tsx:141
 msgid "Unable to finalize scan. Please try again."
 msgstr ""
 
@@ -1854,19 +1854,19 @@ msgstr ""
 msgid "Unable to load scan review"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:270
+#: src/Components/Pages/Scanner/hooks/useDocumentScanner.ts:180
 msgid "Unable to load the scanner. Please refresh the page and try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:469
-#: src/Components/Pages/Scanner/Scanner.tsx:497
-#: src/Components/Pages/Scanner/Scanner.tsx:540
-#: src/Components/Pages/Scanner/Scanner.tsx:655
+#: src/Components/Pages/Scanner/Scanner.tsx:312
+#: src/Components/Pages/Scanner/Scanner.tsx:340
+#: src/Components/Pages/Scanner/Scanner.tsx:383
+#: src/Components/Pages/Scanner/Scanner.tsx:498
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:43
 msgid "Unable to open the scanner. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:594
+#: src/Components/Pages/Scanner/Scanner.tsx:437
 msgid "Unable to re-scan pages. Please try again."
 msgstr ""
 
@@ -1874,8 +1874,8 @@ msgstr ""
 msgid "Unable to resend code right now. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:548
-#: src/Components/Pages/Scanner/Scanner.tsx:663
+#: src/Components/Pages/Scanner/Scanner.tsx:391
+#: src/Components/Pages/Scanner/Scanner.tsx:506
 msgid "Unable to restart scanning. Please try again."
 msgstr ""
 

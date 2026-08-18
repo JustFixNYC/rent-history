@@ -1160,7 +1160,7 @@ describe("Scanner unmount cleanup", () => {
     expect(readScannerStepState()).toBeNull();
   });
 
-  it("disposes without clearing step state when unmounting from scan-review", async () => {
+  it("does not initialize Dynamsoft when unmounting from scan-review without capture", async () => {
     writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
     mockBootstrapReady({
       ...readyScanReviewResponse,
@@ -1172,7 +1172,7 @@ describe("Scanner unmount cleanup", () => {
     await waitForScanReviewReady();
     view.unmount();
 
-    expect(scannerHarness.lastInstance?.dispose).toHaveBeenCalled();
+    expect(scannerHarness.lastInstance).toBeNull();
     expect(readScannerStepState()).toEqual({
       historyId,
       phase: "scan-review",
