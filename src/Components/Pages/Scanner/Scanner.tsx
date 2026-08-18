@@ -1,7 +1,5 @@
-import { DocumentScanner } from "dynamsoft-document-scanner";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLingui } from "@lingui/react";
-import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,45 +9,41 @@ import "./Scanner.scss";
 import {
   accountQueryKeys,
   deleteAllRhScannedPages,
-  deleteRhScannedPages,
   finalizeRhHistoryScan,
-  isAccountApiError,
 } from "../../../api/account";
-import { uploadScan } from "../../../api/account/scanPresign";
-import { mapPagesWithImageUrls } from "../../RentHistoryPageCard/pageCardUtils";
 import {
   clearRhSessionPages,
   getRhAuthSession,
 } from "../../../session/rhSessionStorage";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
-import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
-import type { CompilingScanReviewLocationState } from "../../../hooks/useScanPipelineStatus";
 import { historyResumePath } from "../../../utils/historyResumePath";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
-import { ScanReviewScreen } from "./ScanReviewScreen";
 import { ScannerInProgressScreen } from "./ScannerInProgressScreen";
 import { ScannerOverlay } from "./ScannerOverlay";
 import { SkipOrRescanModal } from "./SkipOrRescanModal";
-import { clearScannerStepState, writeScannerStepState } from "./scannerState";
-import { isScanReviewClean } from "./scanReviewUtils";
+import {
+  clearScannerStepState,
+  writeScannerStepState,
+} from "../ScanReviewPage/scanReviewState";
 import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
 import { getRhScanKeyPrefix } from "../../../utils/rhScanKeyPrefix";
 import {
   isCameraPermissionError,
   isDynamsoftScannerLiveViewVisible,
   isRetakeOrSavePreviewVisible,
-  patchContinuousScanDoneLabels,
   probeCameraAccess,
-  RETAKE_BUTTON_CLASS,
-  SAVE_BUTTON_CLASS,
 } from "./scanner-overlay";
 import { useScannerBootstrapRestore } from "./hooks/useScannerBootstrapRestore";
 import { useScanPipelineBootstrap } from "./hooks/useScanPipelineBootstrap";
 import type { LaunchResult, ScannerPhase } from "./scannerTypes";
+import type {
+  ScannerCaptureIntent,
+  ScannerLocationState,
+  ScanReviewLocationState,
+} from "./scannerLocationState";
 import { useScannerHistoryCreate } from "./hooks/useScannerHistoryCreate";
-import { useScanReview } from "./hooks/useScanReview";
-import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
+import { useDocumentScanner } from "./hooks/useDocumentScanner";
 
 export type { ScannerPhase };
 
@@ -59,12 +53,11 @@ const Scanner: React.FC = () => {
   const location = useLocation();
   const queryClient = useQueryClient();
 
-  const locationState =
-    location.state as CompilingScanReviewLocationState | null;
+  const locationState = location.state as ScannerLocationState | null;
+  const captureIntent = locationState?.captureIntent;
   const postCompileReturn = Boolean(locationState?.postCompileReturn);
   const scanPipelineFailures = locationState?.scanPipelineFailures ?? [];
 
-  const [scanner, setScanner] = useState<DocumentScanner>();
   const [showScannerGuide, setShowScannerGuide] = useState(false);
   const [cameraAccessGranted, setCameraAccessGranted] = useState(false);
   const [isCheckingCameraAccess, setIsCheckingCameraAccess] = useState(false);
@@ -77,7 +70,8 @@ const Scanner: React.FC = () => {
     expectedPageCount,
     setExpectedPageCount,
     restoreStatus,
-  } = useScannerBootstrapRestore({ accessToken, historyId });
+    deferScannerInit,
+  } = useScannerBootstrapRestore({ accessToken, historyId, captureIntent });
 
   const postCompilePipeline = useScanPipelineBootstrap({
     accessToken,
@@ -86,47 +80,54 @@ const Scanner: React.FC = () => {
   });
 
   const [flowError, setFlowError] = useState<string | null>(null);
-  const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
   const [isSkipOrRescanModalOpen, setIsSkipOrRescanModalOpen] = useState(false);
-  const [isRestarting, setIsRestarting] = useState(false);
   const [isPostCompileRescanning, setIsPostCompileRescanning] = useState(false);
-  const [awaitingRescanSuccess, setAwaitingRescanSuccess] = useState(false);
-  const [showLaunchFailure, setShowLaunchFailure] = useState(false);
-  const [failedUploadCount, setFailedUploadCount] = useState(0);
-  const [scannerInitStatus, setScannerInitStatus] = useState<
-    "pending" | "ready" | "error"
-  >("pending");
-  const [scannerInitError, setScannerInitError] = useState<string | null>(null);
   const [startScanError, setStartScanError] = useState<string | null>(null);
 
   const historyIdRef = useRef(historyId);
   const expectedPageCountRef = useRef(expectedPageCount);
   const failedUploadCountRef = useRef(0);
-  const scannerRef = useRef<DocumentScanner>();
-  const isLaunchActiveRef = useRef(false);
-  const isMountedRef = useRef(true);
+  const captureIntentLaunchRef = useRef(false);
   historyIdRef.current = historyId;
   expectedPageCountRef.current = expectedPageCount;
 
-  const disposeDocumentScanner = (instance: DocumentScanner) => {
-    try {
-      if (isLaunchActiveRef.current) {
-        instance.stopContinuousScanning();
-      }
-      instance.dispose();
-    } catch (error) {
-      console.error("Failed to dispose document scanner:", error);
-    }
-  };
+  const scannerEnabled =
+    !deferScannerInit &&
+    (phase === "pre-scan" ||
+      phase === "camera-access" ||
+      phase === "scanning" ||
+      Boolean(captureIntent));
+
+  const { scannerInitStatus, scannerInitError, launchScanner } =
+    useDocumentScanner({
+      enabled: scannerEnabled,
+      historyId,
+      expectedPageCountRef,
+      setExpectedPageCount,
+      failedUploadCountRef,
+    });
 
   const persistScanReviewStep = (count: number) => {
     writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
   };
 
+  const navigateToScanReview = useCallback(
+    (options?: Partial<ScanReviewLocationState>) => {
+      navigate(`/${i18n.locale}/scan-review`, {
+        replace: true,
+        state: {
+          scanPipelineFailures,
+          ...options,
+        },
+      });
+    },
+    [i18n.locale, navigate, scanPipelineFailures]
+  );
+
   const finalizeScanSession = useCallback(
-    async (count: number, options?: { navigate?: boolean }) => {
+    async (count: number) => {
       const context = requireRhScanContext(historyIdRef.current);
-      if (!context) return false;
+      if (!context) return { ok: false as const, error: null };
 
       const { token, historyId: activeHistoryId } = context;
 
@@ -141,160 +142,18 @@ const Scanner: React.FC = () => {
         void queryClient.invalidateQueries({
           queryKey: accountQueryKeys.scanPipelineStatus(activeHistoryId),
         });
-        if (options?.navigate !== false) {
-          navigate(`/${i18n.locale}/compiling`, { replace: true });
-        }
-        return true;
+        navigate(`/${i18n.locale}/compiling`, { replace: true });
+        return { ok: true as const };
       } catch (error) {
-        setFlowError(
-          flowErrorFromApi(
-            error,
-            _(msg`Unable to finalize scan. Please try again.`)
-          )
+        const message = flowErrorFromApi(
+          error,
+          _(msg`Unable to finalize scan. Please try again.`)
         );
-        return false;
+        return { ok: false as const, error: message };
       }
     },
     [_, i18n.locale, navigate, queryClient]
   );
-
-  const scanReviewQuery = useScanReview({
-    accessToken,
-    historyId: historyId ?? undefined,
-    expectedPageCount,
-    enabled: phase === "scan-review",
-  });
-
-  const readyPages =
-    scanReviewQuery.data?.status === "ready"
-      ? scanReviewQuery.data.pages
-      : undefined;
-
-  const { urlsByKey: pageImageUrls, clear: clearPageImages } =
-    useScanReviewPageImages({
-      readyPages,
-      phase,
-      onError: setFlowError,
-    });
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    let cancelled = false;
-
-    const initScanner = async () => {
-      setScannerInitStatus("pending");
-      setScannerInitError(null);
-      await Promise.resolve();
-      const testInitDelay = import.meta.env.VITEST
-        ? (
-            globalThis as {
-              __scannerTestInitDelay?: Promise<void>;
-            }
-          ).__scannerTestInitDelay
-        : undefined;
-      if (testInitDelay) {
-        await testInitDelay;
-      }
-
-      let documentScanner: DocumentScanner;
-      try {
-        documentScanner = new DocumentScanner({
-          license: import.meta.env.VITE_DYNAMSOFT_LICENSE_KEY || "",
-          enableContinuousScanning: true,
-          showCorrectionView: false,
-          enableFrameVerification: true,
-          resultViewConfig: {
-            toolbarButtonsConfig: {
-              retake: {
-                label: _(msg`Re-scan page`),
-                className: RETAKE_BUTTON_CLASS,
-              },
-              done: {
-                label: _(msg`Save page`),
-                className: SAVE_BUTTON_CLASS,
-              },
-              share: {
-                isHidden: true,
-              },
-              correct: {
-                isHidden: true,
-              },
-              upload: {
-                isHidden: true,
-              },
-            },
-          },
-          scannerViewConfig: {
-            enableAutoCropMode: true,
-            enableSmartCaptureMode: true,
-            showSubfooter: false,
-            enableFrameVerification: true,
-            showPoweredByDynamsoft: false,
-          },
-          onDocumentScanned: async (result) => {
-            setShowScannerGuide(false);
-            const prefix = getRhScanKeyPrefix(historyIdRef.current ?? "");
-            if (!prefix) {
-              console.error(
-                "Missing OTP session or rent history id for scan upload."
-              );
-              return;
-            }
-            const jpgBlob = await result.correctedImageResult?.toBlob(
-              "image/jpeg"
-            );
-            if (!jpgBlob) {
-              console.error("no image from scan");
-              return;
-            }
-            const key = `${prefix}/${crypto.randomUUID()}.jpg`;
-            try {
-              await uploadScan(key, jpgBlob, { retries: 1 });
-              setExpectedPageCount((count) => {
-                const next = count + 1;
-                expectedPageCountRef.current = next;
-                return next;
-              });
-            } catch (error) {
-              console.error("Scan upload failed after retry:", error);
-              failedUploadCountRef.current += 1;
-            }
-          },
-        });
-      } catch (error) {
-        console.error("Error initializing document scanner:", error);
-        if (!cancelled) {
-          setScannerInitStatus("error");
-          setScannerInitError(
-            _(
-              msg`Unable to load the scanner. Please refresh the page and try again.`
-            )
-          );
-        }
-        return;
-      }
-
-      if (cancelled) {
-        disposeDocumentScanner(documentScanner);
-        return;
-      }
-      scannerRef.current = documentScanner;
-      setScanner(documentScanner);
-      setScannerInitStatus("ready");
-    };
-    void initScanner();
-
-    return () => {
-      isMountedRef.current = false;
-      cancelled = true;
-      const instance = scannerRef.current;
-      if (instance) {
-        disposeDocumentScanner(instance);
-        scannerRef.current = undefined;
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (phase !== "scanning") return;
@@ -350,132 +209,140 @@ const Scanner: React.FC = () => {
 
   const canStartScan = Boolean(historyId && getRhScanKeyPrefix(historyId));
 
-  const invalidateScanReviewQueries = useCallback(
-    (activeHistoryId: string) => {
-      void queryClient.invalidateQueries({
-        queryKey: ["account", "scan-review", activeHistoryId],
-      });
-    },
-    [queryClient]
-  );
-
-  const handleScanReviewLaunchFailure = useCallback(
-    (activeHistoryId: string) => {
-      const count = expectedPageCountRef.current;
-      setPhase("scan-review");
-      setShowLaunchFailure(true);
-      setAwaitingRescanSuccess(false);
-      if (count > 0) {
-        persistScanReviewStep(count);
-      }
-      invalidateScanReviewQueries(activeHistoryId);
-    },
-    [invalidateScanReviewQueries, setPhase]
-  );
-
   const handleLaunchNotReady = useCallback(() => {
-    setScannerInitError(
+    setStartScanError(
       _(msg`Scanner is still loading. Please wait a moment and try again.`)
     );
   }, [_]);
 
-  const launchScanner = useCallback(
-    async (options?: { fromScanReview?: boolean }): Promise<LaunchResult> => {
-      const activeScanner = scannerRef.current ?? scanner;
-      if (!historyId || !getRhScanKeyPrefix(historyId) || !activeScanner) {
-        return { ok: false, reason: "not_ready" };
-      }
-
-      setShowLaunchFailure(false);
-      failedUploadCountRef.current = 0;
-      setPhase("scanning");
-      clearRhSessionPages();
-
-      const formatContinuousScanDoneLabel = (count: number): string =>
-        `${_(msg`Finish scanning`)} (${count})`;
-      const labelPatchInterval = window.setInterval(
-        () => patchContinuousScanDoneLabels(formatContinuousScanDoneLabel),
-        100
-      );
-
-      isLaunchActiveRef.current = true;
-      try {
-        await activeScanner.launch();
-        if (!isMountedRef.current) return { ok: true };
-        setShowScannerGuide(false);
-        const count = expectedPageCountRef.current;
-        if (count === 0) {
+  const runLaunchScanner = useCallback(
+    async (options?: {
+      fromCaptureIntent?: boolean;
+      captureIntentMode?: ScannerCaptureIntent["mode"];
+    }): Promise<LaunchResult> => {
+      return launchScanner({
+        onBeforeLaunch: () => {
+          setStartScanError(null);
+          setPhase("scanning");
+          clearRhSessionPages();
+        },
+        onZeroPages: () => {
           clearScannerStepState();
           setPhase("pre-scan");
-          setFailedUploadCount(0);
           failedUploadCountRef.current = 0;
-          setShowLaunchFailure(false);
-          return { ok: true };
-        }
-        setFailedUploadCount(failedUploadCountRef.current);
-        setShowLaunchFailure(false);
-        const finalized = await finalizeScanSession(count);
-        if (!finalized && isMountedRef.current) {
-          if (options?.fromScanReview) {
-            setPhase("scan-review");
+        },
+        onLaunchSuccess: async (count) => {
+          const result = await finalizeScanSession(count);
+          if (!result.ok && count > 0) {
             persistScanReviewStep(count);
-          } else {
-            setPhase("pre-scan");
+            navigateToScanReview({
+              awaitingRescanSuccess:
+                options?.captureIntentMode === "rescan" ? true : undefined,
+              failedUploadCount: failedUploadCountRef.current,
+              reviewError: result.error,
+            });
           }
-        }
-        return { ok: true };
-      } catch (error) {
-        if (!isMountedRef.current) {
-          return { ok: false, reason: "launch_failed", error };
-        }
-        setShowScannerGuide(false);
-        if (isCameraPermissionError(error)) {
-          return { ok: false, reason: "permission_denied", error };
-        }
-        console.error("Scanner launch failed:", error);
-        return { ok: false, reason: "launch_failed", error };
-      } finally {
-        isLaunchActiveRef.current = false;
-        window.clearInterval(labelPatchInterval);
-      }
+        },
+        onShowGuideChange: setShowScannerGuide,
+        setFailedUploadCount: (count) => {
+          failedUploadCountRef.current = count;
+        },
+        onNotReady: () => {
+          if (options?.fromCaptureIntent) {
+            if (
+              options.captureIntentMode === "restart" ||
+              expectedPageCountRef.current === 0
+            ) {
+              setPhase("pre-scan");
+              setStartScanError(
+                _(msg`Unable to open the scanner. Please try again.`)
+              );
+              return;
+            }
+            navigateToScanReview({ showLaunchFailure: true });
+            return;
+          }
+          handleLaunchNotReady();
+        },
+        onLaunchFailed: () => {
+          if (options?.fromCaptureIntent) {
+            if (
+              options.captureIntentMode === "restart" ||
+              expectedPageCountRef.current === 0
+            ) {
+              setPhase("pre-scan");
+              setStartScanError(
+                _(msg`Unable to open the scanner. Please try again.`)
+              );
+              return;
+            }
+            navigateToScanReview({ showLaunchFailure: true });
+            return;
+          }
+          setStartScanError(
+            _(msg`Unable to open the scanner. Please try again.`)
+          );
+        },
+        onPermissionDenied: () => {
+          setPhase("camera-access");
+        },
+      });
     },
-    [_, finalizeScanSession, historyId, scanner, setPhase]
+    [
+      _,
+      finalizeScanSession,
+      handleLaunchNotReady,
+      launchScanner,
+      navigateToScanReview,
+      setPhase,
+    ]
   );
 
-  const handleLaunchResult = (
-    result: LaunchResult,
-    activeHistoryId: string,
-    options: { fromScanReview?: boolean } = {}
-  ) => {
-    if (result.ok) return;
+  const handleLaunchResult = useCallback(
+    (
+      result: LaunchResult,
+      options: {
+        fromCaptureIntent?: boolean;
+        captureIntentMode?: ScannerCaptureIntent["mode"];
+      } = {}
+    ) => {
+      if (result.ok) return;
 
-    if (result.reason === "permission_denied") {
-      setPhase("camera-access");
-      return;
-    }
-
-    if (result.reason === "not_ready") {
-      if (options.fromScanReview) {
-        handleScanReviewLaunchFailure(activeHistoryId);
-      } else {
-        handleLaunchNotReady();
+      if (result.reason === "permission_denied") {
+        setPhase("camera-access");
+        return;
       }
-      return;
-    }
 
-    if (options.fromScanReview) {
-      handleScanReviewLaunchFailure(activeHistoryId);
-    } else {
+      if (options.fromCaptureIntent) {
+        if (
+          options.captureIntentMode === "restart" ||
+          expectedPageCountRef.current === 0
+        ) {
+          setPhase("pre-scan");
+          setStartScanError(
+            _(msg`Unable to open the scanner. Please try again.`)
+          );
+          return;
+        }
+        navigateToScanReview({ showLaunchFailure: true });
+        return;
+      }
+
+      if (result.reason === "not_ready") {
+        handleLaunchNotReady();
+        return;
+      }
+
       setStartScanError(_(msg`Unable to open the scanner. Please try again.`));
-    }
-  };
+    },
+    [_, handleLaunchNotReady, navigateToScanReview, setPhase]
+  );
 
   const handleStartScanning = async () => {
     if (!canStartScan || scannerInitStatus !== "ready") return;
 
     setFlowError(null);
     setStartScanError(null);
-    setShowLaunchFailure(false);
     setIsCheckingCameraAccess(true);
     try {
       const granted = await probeCameraAccess();
@@ -484,9 +351,9 @@ const Scanner: React.FC = () => {
         setPhase("camera-access");
         return;
       }
-      const result = await launchScanner();
-      if (!result.ok && historyId) {
-        handleLaunchResult(result, historyId);
+      const result = await runLaunchScanner();
+      if (!result.ok) {
+        handleLaunchResult(result);
       }
     } catch (error) {
       console.error("Unable to start scanning:", error);
@@ -502,125 +369,70 @@ const Scanner: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!captureIntent || captureIntentLaunchRef.current) return;
+    if (restoreStatus !== "done") return;
+    if (!canStartScan || scannerInitStatus !== "ready") return;
+
+    captureIntentLaunchRef.current = true;
+
+    const autoLaunchFromIntent = async () => {
+      setIsCheckingCameraAccess(true);
+      try {
+        const granted = await probeCameraAccess();
+        setCameraAccessGranted(granted);
+        if (!granted) {
+          setPhase("camera-access");
+          return;
+        }
+        const result = await runLaunchScanner({
+          fromCaptureIntent: true,
+          captureIntentMode: captureIntent.mode,
+        });
+        if (!result.ok) {
+          handleLaunchResult(result, {
+            fromCaptureIntent: true,
+            captureIntentMode: captureIntent.mode,
+          });
+        }
+      } catch (error) {
+        console.error(
+          "Unable to auto-launch scanner from capture intent:",
+          error
+        );
+        if (isCameraPermissionError(error)) {
+          setPhase("camera-access");
+        } else {
+          navigateToScanReview({ showLaunchFailure: true });
+        }
+      } finally {
+        setIsCheckingCameraAccess(false);
+      }
+    };
+
+    void autoLaunchFromIntent();
+  }, [
+    canStartScan,
+    captureIntent,
+    handleLaunchResult,
+    navigateToScanReview,
+    restoreStatus,
+    runLaunchScanner,
+    scannerInitStatus,
+    setPhase,
+  ]);
+
   const handlePreScanBack = () => {
     navigate(`/${i18n.locale}/account`);
   };
 
   const handleCameraAccessBack = () => {
+    if (captureIntent) {
+      navigateToScanReview();
+      return;
+    }
     clearScannerStepState();
     setPhase("pre-scan");
-  };
-
-  const handleRestart = async () => {
-    const context = requireRhScanContext(historyId);
-    if (!context) return;
-
-    const { token, historyId: activeHistoryId } = context;
-
-    setFlowError(null);
-    setShowLaunchFailure(false);
-    setAwaitingRescanSuccess(false);
-    setIsRestarting(true);
-    try {
-      await deleteAllRhScannedPages(token, activeHistoryId);
-      clearScannerStepState();
-      setExpectedPageCount(0);
-      setFailedUploadCount(0);
-      failedUploadCountRef.current = 0;
-      clearPageImages();
-      const result = await launchScanner();
-      if (!result.ok) {
-        if (result.reason === "permission_denied") {
-          setPhase("camera-access");
-        } else if (result.reason === "not_ready") {
-          handleScanReviewLaunchFailure(activeHistoryId);
-        } else {
-          setPhase("pre-scan");
-          setStartScanError(
-            _(msg`Unable to open the scanner. Please try again.`)
-          );
-        }
-      }
-    } catch (error) {
-      setFlowError(
-        flowErrorFromApi(
-          error,
-          _(msg`Unable to restart scanning. Please try again.`)
-        )
-      );
-    } finally {
-      setIsRestarting(false);
-    }
-  };
-
-  const closeRestartModal = () => {
-    if (isRestarting) return;
-    setIsRestartModalOpen(false);
-  };
-
-  const onConfirmRestart = () => {
-    setIsRestartModalOpen(false);
-    void handleRestart();
-  };
-
-  const handleRescanPages = async (pageIds: number[]) => {
-    if (pageIds.length === 0) return;
-
-    const context = requireRhScanContext(historyId);
-    if (!context) return;
-
-    const { token, historyId: activeHistoryId } = context;
-
-    setFlowError(null);
-    setShowLaunchFailure(false);
-    setAwaitingRescanSuccess(false);
-    try {
-      await deleteRhScannedPages(token, activeHistoryId, pageIds);
-      queryClient.removeQueries({
-        queryKey: ["account", "scan-review", activeHistoryId],
-      });
-      clearScannerStepState();
-      setExpectedPageCount((count) => count - pageIds.length);
-      clearPageImages();
-      setAwaitingRescanSuccess(true);
-      const result = await launchScanner({ fromScanReview: true });
-      if (!result.ok) {
-        handleLaunchResult(result, activeHistoryId, { fromScanReview: true });
-      }
-    } catch (error) {
-      setFlowError(
-        flowErrorFromApi(
-          error,
-          _(msg`Unable to re-scan pages. Please try again.`)
-        )
-      );
-    }
-  };
-
-  const handleAddMore = async () => {
-    const context = requireRhScanContext(historyId);
-    if (!context) return;
-
-    setFlowError(null);
-    setShowLaunchFailure(false);
-    setAwaitingRescanSuccess(false);
-    clearPageImages();
-    const result = await launchScanner({ fromScanReview: true });
-    if (!result.ok) {
-      handleLaunchResult(result, context.historyId, { fromScanReview: true });
-    }
-  };
-
-  const handleNext = async () => {
-    const count = Math.max(expectedPageCountRef.current, expectedPageCount);
-    if (count <= 0) return;
-
-    setFlowError(null);
-    const finalized = await finalizeScanSession(count);
-    if (!finalized) {
-      setPhase("scan-review");
-      persistScanReviewStep(count);
-    }
   };
 
   const handlePostCompileSkip = () => {
@@ -642,19 +454,11 @@ const Scanner: React.FC = () => {
       await deleteAllRhScannedPages(token, activeHistoryId);
       clearScannerStepState();
       setExpectedPageCount(0);
-      setFailedUploadCount(0);
       failedUploadCountRef.current = 0;
-      clearPageImages();
       setIsSkipOrRescanModalOpen(false);
-      const result = await launchScanner();
+      const result = await runLaunchScanner();
       if (!result.ok) {
-        if (result.reason === "permission_denied") {
-          setPhase("camera-access");
-        } else {
-          setStartScanError(
-            _(msg`Unable to open the scanner. Please try again.`)
-          );
-        }
+        handleLaunchResult(result);
       }
     } catch (error) {
       setFlowError(
@@ -673,40 +477,16 @@ const Scanner: React.FC = () => {
     setIsSkipOrRescanModalOpen(false);
   };
 
-  const scanReviewData = scanReviewQuery.data;
-  const readyScanReview =
-    scanReviewData?.status === "ready" ? scanReviewData : null;
-  const scanReviewFetchError =
-    scanReviewQuery.isError && isAccountApiError(scanReviewQuery.error)
-      ? scanReviewQuery.error.message
-      : null;
-  const reviewError = flowError ?? scanReviewFetchError;
-  const isScanReviewLoading =
-    phase === "scan-review" &&
-    (restoreStatus === "pending" ||
-      scanReviewQuery.isLoading ||
-      scanReviewQuery.isFetching ||
-      scanReviewData?.status === "pending");
-  const scanReviewPages = readyScanReview
-    ? mapPagesWithImageUrls(readyScanReview.pages, pageImageUrls)
-    : [];
-  const missingYearRanges = readyScanReview?.missing_year_ranges ?? [];
-  const processingComplete = readyScanReview?.processing_complete ?? true;
-  const nextDisabled = missingYearRanges.length > 0;
-  const showRescanSuccess =
-    awaitingRescanSuccess &&
-    !isScanReviewLoading &&
-    processingComplete &&
-    isScanReviewClean(scanReviewPages, missingYearRanges);
-
   const showRestoreLoading =
-    restoreStatus === "pending" && phase === "pre-scan" && Boolean(historyId);
+    restoreStatus === "pending" &&
+    !captureIntent &&
+    phase === "pre-scan" &&
+    Boolean(historyId);
   const isScannerReady = scannerInitStatus === "ready";
-  const preScanError = scannerInitError ?? startScanError;
+  const preScanError = scannerInitError ?? startScanError ?? flowError;
   const startDisabled =
     !canStartScan || !isScannerReady || isCheckingCameraAccess;
-
-  const progressStepId = phase === "scan-review" ? "scan-review" : "scanner";
+  const showPreScan = phase === "pre-scan" && restoreStatus === "done";
 
   return (
     <div
@@ -716,7 +496,7 @@ const Scanner: React.FC = () => {
       }`}
     >
       <div className="scanner-page__progress">
-        <AnalysisFlowProgress stepId={progressStepId} />
+        <AnalysisFlowProgress stepId="scanner" />
       </div>
 
       {showRestoreLoading && (
@@ -728,7 +508,7 @@ const Scanner: React.FC = () => {
         </div>
       )}
 
-      {phase === "pre-scan" && restoreStatus === "done" && (
+      {showPreScan && (
         <PreScanScreen
           variant={postCompileReturn ? "postCompileReturn" : "default"}
           onBack={handlePreScanBack}
@@ -741,7 +521,9 @@ const Scanner: React.FC = () => {
           startDisabled={startDisabled}
           historyCreatePhase={historyCreatePhase}
           historyCreateError={historyCreateError}
-          scannerInitStatus={scannerInitStatus}
+          scannerInitStatus={
+            scannerInitStatus === "idle" ? "pending" : scannerInitStatus
+          }
           preScanError={preScanError}
         />
       )}
@@ -764,57 +546,6 @@ const Scanner: React.FC = () => {
           <ScannerOverlay visible={showScannerGuide} />
         </>
       )}
-
-      {phase === "scan-review" && (
-        <ScanReviewScreen
-          pages={scanReviewPages}
-          missingYearRanges={missingYearRanges}
-          processingComplete={processingComplete}
-          isLoading={isScanReviewLoading}
-          showRescanSuccess={showRescanSuccess}
-          showLaunchFailure={showLaunchFailure}
-          pipelineFailures={scanPipelineFailures}
-          failedUploadCount={failedUploadCount}
-          reviewError={reviewError}
-          onRescanPages={(pageIds) => {
-            void handleRescanPages(pageIds);
-          }}
-          onRestart={() => {
-            setIsRestartModalOpen(true);
-          }}
-          onNext={() => {
-            void handleNext();
-          }}
-          onAddMore={() => {
-            void handleAddMore();
-          }}
-          nextDisabled={nextDisabled}
-        />
-      )}
-
-      <ConfirmModal
-        isOpen={isRestartModalOpen}
-        title={<Trans>Re-scan all pages?</Trans>}
-        body={
-          <Trans>
-            All scanned pages will be cleared and you&apos;ll need to scan all
-            pages again.
-          </Trans>
-        }
-        confirmAction={{
-          labelText: _(msg`Restart scan`),
-          variant: "primary",
-          onClick: onConfirmRestart,
-          disabled: isRestarting,
-        }}
-        cancelAction={{
-          labelText: _(msg`Cancel`),
-          variant: "secondary",
-          onClick: closeRestartModal,
-          disabled: isRestarting,
-        }}
-        onClose={closeRestartModal}
-      />
 
       <SkipOrRescanModal
         isOpen={isSkipOrRescanModalOpen}

@@ -3,7 +3,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as accountApi from "../../../../api/account/api";
-import { useScanReviewBootstrap } from "./useScanReviewBootstrap";
+import { useScanReviewBootstrap } from "../../ScanReviewPage/hooks/useScanReviewBootstrap";
 
 vi.mock("../../../../api/account/api", async () => {
   const actual = await vi.importActual<

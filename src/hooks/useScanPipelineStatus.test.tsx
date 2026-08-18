@@ -4,7 +4,7 @@ import { NavigationType } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as accountApi from "../api/account/api";
-import * as scannerState from "../Components/Pages/Scanner/scannerState";
+import * as scannerState from "../Components/Pages/ScanReviewPage/scanReviewState";
 import {
   parseEarlyValidationFailures,
   shouldAutoNavigateOnComplete,
@@ -51,10 +51,10 @@ vi.mock("../api/account/api", async () => {
   };
 });
 
-vi.mock("../Components/Pages/Scanner/scannerState", async () => {
+vi.mock("../Components/Pages/ScanReviewPage/scanReviewState", async () => {
   const actual = await vi.importActual<
-    typeof import("../Components/Pages/Scanner/scannerState")
-  >("../Components/Pages/Scanner/scannerState");
+    typeof import("../Components/Pages/ScanReviewPage/scanReviewState")
+  >("../Components/Pages/ScanReviewPage/scanReviewState");
   return {
     ...actual,
     writeScannerStepState: vi.fn(),
@@ -268,7 +268,7 @@ describe("useScanPipelineStatus", () => {
       });
     });
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+    expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
       replace: true,
       state: {
         scanPipelineFailures: [

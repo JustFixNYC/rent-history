@@ -30,6 +30,7 @@ import AboutPage from "./Components/Pages/AboutPage/AboutPage";
 import DevPage from "./Components/Pages/DevPage/DevPage";
 import ResumePage from "./Components/Pages/ResumePage/ResumePage";
 import CompilingWaitingPage from "./Components/Pages/CompilingWaitingPage/CompilingWaitingPage";
+import ScanReviewPage from "./Components/Pages/ScanReviewPage/ScanReviewPage";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -57,6 +58,7 @@ const createAppRouter = () =>
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
             <Route path="scanner" element={<Scanner />} />
+            <Route path="scan-review" element={<ScanReviewPage />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
             <Route path="compiling" element={<CompilingWaitingPage />} />
@@ -84,6 +86,7 @@ const createAppRouter = () =>
           <Route element={<RequireOtpToken />}>
             <Route path="account" element={<AccountPage />} />
             <Route path="scanner" element={<Scanner />} />
+            <Route path="scan-review" element={<ScanReviewPage />} />
             <Route path="confirm-address" element={<ConfirmAddress />} />
             <Route path="rent-questions" element={<RentQuestions />} />
             <Route path="compiling" element={<CompilingWaitingPage />} />

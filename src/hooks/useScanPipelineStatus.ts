@@ -10,7 +10,7 @@ import { useLingui } from "@lingui/react";
 import { accountQueryKeys } from "../api/account/queryKeys";
 import { getRhHistoryScanPipelineStatus } from "../api/account/api";
 import type { RhScanPipelineStatusResponse } from "../api/account";
-import { writeScannerStepState } from "../Components/Pages/Scanner/scannerState";
+import { writeScannerStepState } from "../Components/Pages/ScanReviewPage/scanReviewState";
 import { historyResumePath } from "../utils/historyResumePath";
 
 import type { ScanPipelineStatus } from "../Components/Pages/CompilingWaitingPage/deriveCompilingMilestones";
@@ -120,7 +120,7 @@ export const useScanPipelineStatus = ({
         phase: "scan-review",
         expectedPageCount: resolveExpectedPageCount(data),
       });
-      navigate(`/${i18n.locale}/scanner`, {
+      navigate(`/${i18n.locale}/scan-review`, {
         replace: true,
         state: {
           scanPipelineFailures: parseEarlyValidationFailures(
