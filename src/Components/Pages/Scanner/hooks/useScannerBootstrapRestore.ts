@@ -3,12 +3,10 @@ import { useLingui } from "@lingui/react";
 import { useNavigate } from "react-router-dom";
 
 import { useScanPipelineBootstrap } from "./useScanPipelineBootstrap";
-import { useScanReviewBootstrap } from "../../ScanReviewPage/hooks/useScanReviewBootstrap";
 import { getRhHistoryId } from "../../../../session/rhSessionStorage";
 import {
   clearScannerStepState,
   readScannerStepState,
-  writeScannerStepState,
 } from "../../ScanReviewPage/scanReviewState";
 import type { ScannerPhase } from "../scannerTypes";
 import type { RhScanPipelineStatusResponse } from "../../../../api/account";
@@ -54,15 +52,12 @@ export function useScannerBootstrapRestore({
   const navigate = useNavigate();
   const { i18n } = useLingui();
   const savedStep = readScannerStepState();
+  const savedScanReview = savedStep?.phase === "scan-review";
 
-  const [phase, setPhase] = useState<ScannerPhase>(() =>
-    savedStep?.phase === "scan-review" ? "scan-review" : "pre-scan"
-  );
-  const [expectedPageCount, setExpectedPageCount] = useState(() =>
-    savedStep?.phase === "scan-review" ? savedStep.expectedPageCount : 0
-  );
+  const [phase, setPhase] = useState<ScannerPhase>("pre-scan");
+  const [expectedPageCount, setExpectedPageCount] = useState(0);
   const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
-    savedStep?.phase === "scan-review" || getRhHistoryId() ? "pending" : "done"
+    savedScanReview || getRhHistoryId() ? "pending" : "done"
   );
 
   const pipelineBootstrap = useScanPipelineBootstrap({
@@ -78,13 +73,6 @@ export function useScannerBootstrapRestore({
     pipelineBootstrap.data != null &&
     shouldBootstrapCompiling(pipelineBootstrap.data);
 
-  const scanReviewBootstrap = useScanReviewBootstrap({
-    accessToken,
-    historyId: historyId ?? undefined,
-    enabled:
-      restoreStatus === "pending" && pipelineChecked && !redirectToCompiling,
-  });
-
   useEffect(() => {
     if (restoreStatus !== "pending" || !pipelineChecked) return;
 
@@ -92,69 +80,23 @@ export function useScannerBootstrapRestore({
       clearScannerStepState();
       navigate(`/${i18n.locale}/compiling`);
       setRestoreStatus("done");
+      return;
     }
+
+    if (savedScanReview) {
+      navigate(`/${i18n.locale}/scan-review`);
+      setRestoreStatus("done");
+      return;
+    }
+
+    setRestoreStatus("done");
   }, [
     i18n.locale,
     navigate,
     pipelineChecked,
     redirectToCompiling,
     restoreStatus,
-  ]);
-
-  useEffect(() => {
-    if (
-      restoreStatus !== "pending" ||
-      !pipelineChecked ||
-      redirectToCompiling
-    ) {
-      return;
-    }
-    if (scanReviewBootstrap.isLoading) return;
-
-    const promoteToScanReview = (count: number) => {
-      if (count <= 0) {
-        resetToPreScan();
-        return;
-      }
-      setPhase("scan-review");
-      setExpectedPageCount(count);
-      writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
-      setRestoreStatus("done");
-    };
-
-    const resetToPreScan = () => {
-      setPhase("pre-scan");
-      setExpectedPageCount(0);
-      clearScannerStepState();
-      setRestoreStatus("done");
-    };
-
-    if (scanReviewBootstrap.isError) {
-      resetToPreScan();
-      return;
-    }
-
-    const data = scanReviewBootstrap.data;
-    if (!data) return;
-
-    if (data.status === "ready" && data.pages.length > 0) {
-      promoteToScanReview(data.db_count);
-      return;
-    }
-
-    if (data.status === "pending") {
-      promoteToScanReview(data.expected_page_count);
-      return;
-    }
-
-    resetToPreScan();
-  }, [
-    pipelineChecked,
-    redirectToCompiling,
-    restoreStatus,
-    scanReviewBootstrap.data,
-    scanReviewBootstrap.isError,
-    scanReviewBootstrap.isLoading,
+    savedScanReview,
   ]);
 
   return {

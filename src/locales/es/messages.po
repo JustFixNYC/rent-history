@@ -181,7 +181,7 @@ msgid "Address"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:647
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:266
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:265
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr ""
 
@@ -342,7 +342,7 @@ msgstr ""
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
 #: src/Components/Pages/Scanner/Scanner.tsx:659
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:278
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:277
 msgid "Cancel"
 msgstr ""
 
@@ -1204,7 +1204,7 @@ msgid "Re-scan"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:645
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:264
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:263
 msgid "Re-scan all pages?"
 msgstr ""
 
@@ -1271,7 +1271,7 @@ msgid "Restart"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:653
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:272
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:271
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:155
 msgid "Restart scan"
 msgstr ""
@@ -1835,7 +1835,7 @@ msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:144
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:90
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:88
 msgid "Unable to finalize scan. Please try again."
 msgstr ""
 
@@ -1872,7 +1872,7 @@ msgid "Unable to open the scanner. Please try again."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:440
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:186
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:184
 msgid "Unable to re-scan pages. Please try again."
 msgstr ""
 
@@ -1882,7 +1882,7 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:394
 #: src/Components/Pages/Scanner/Scanner.tsx:509
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:140
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:138
 msgid "Unable to restart scanning. Please try again."
 msgstr ""
 

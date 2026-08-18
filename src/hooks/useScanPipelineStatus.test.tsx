@@ -268,7 +268,7 @@ describe("useScanPipelineStatus", () => {
       });
     });
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+    expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
       replace: true,
       state: {
         scanPipelineFailures: [

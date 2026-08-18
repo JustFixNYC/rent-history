@@ -120,7 +120,7 @@ export const useScanPipelineStatus = ({
         phase: "scan-review",
         expectedPageCount: resolveExpectedPageCount(data),
       });
-      navigate(`/${i18n.locale}/scanner`, {
+      navigate(`/${i18n.locale}/scan-review`, {
         replace: true,
         state: {
           scanPipelineFailures: parseEarlyValidationFailures(

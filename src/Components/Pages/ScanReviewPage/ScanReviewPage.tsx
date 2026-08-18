@@ -22,7 +22,6 @@ import {
 } from "../../../session/rhSessionStorage";
 import {
   clearScannerStepState,
-  readScannerStepState,
   writeScannerStepState,
 } from "./scanReviewState";
 import { isScanReviewClean } from "./scanReviewUtils";
@@ -31,6 +30,7 @@ import {
   requireRhScanContext,
 } from "../Scanner/scannerFlowUtils";
 import { useScanReview } from "./hooks/useScanReview";
+import { useScanReviewBootstrapRestore } from "./hooks/useScanReviewBootstrapRestore";
 import { useScanReviewPageImages } from "./hooks/useScanReviewPageImages";
 import { ScanReviewScreen } from "./ScanReviewScreen";
 
@@ -47,10 +47,8 @@ const ScanReviewPage = () => {
   const accessToken = getRhAuthSession()?.accessToken;
   const historyId = getRhHistoryId();
 
-  const [expectedPageCount, setExpectedPageCount] = useState(() => {
-    const saved = readScannerStepState();
-    return saved?.expectedPageCount ?? 0;
-  });
+  const { expectedPageCount, setExpectedPageCount, restoreStatus } =
+    useScanReviewBootstrapRestore({ accessToken, historyId });
   const [flowError, setFlowError] = useState<string | null>(null);
   const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
@@ -100,7 +98,7 @@ const ScanReviewPage = () => {
     accessToken,
     historyId: historyId ?? undefined,
     expectedPageCount,
-    enabled: expectedPageCount > 0,
+    enabled: restoreStatus === "done" && expectedPageCount > 0,
   });
 
   const readyPages =
@@ -216,6 +214,7 @@ const ScanReviewPage = () => {
       : null;
   const reviewError = flowError ?? scanReviewFetchError;
   const isScanReviewLoading =
+    restoreStatus === "pending" ||
     expectedPageCount <= 0 ||
     scanReviewQuery.isLoading ||
     scanReviewQuery.isFetching ||
