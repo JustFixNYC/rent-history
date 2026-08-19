@@ -11,6 +11,7 @@ import { accountQueryKeys } from "../api/account/queryKeys";
 import { getRhHistoryScanPipelineStatus } from "../api/account/api";
 import type { RhScanPipelineStatusResponse } from "../api/account";
 import { writeScannerStepState } from "../Components/Pages/ScanReviewPage/scanReviewState";
+import type { ScanReviewLocationState } from "../Components/Pages/Scanner/scannerLocationState";
 import { historyResumePath } from "../utils/historyResumePath";
 
 import type { ScanPipelineStatus } from "../Components/Pages/CompilingWaitingPage/deriveCompilingMilestones";
@@ -26,11 +27,6 @@ const POLL_INTERVAL_MS = 1500;
 export type ScanCoverageFailure = {
   code: string;
   message: string;
-};
-
-export type CompilingScanReviewLocationState = {
-  scanPipelineFailures?: ScanCoverageFailure[];
-  postCompileReturn?: boolean;
 };
 
 export type UseScanPipelineStatusParams = {
@@ -126,7 +122,8 @@ export const useScanPipelineStatus = ({
           scanPipelineFailures: parseEarlyValidationFailures(
             data.early_validation
           ),
-        } satisfies CompilingScanReviewLocationState,
+          earlyValidation: data.early_validation ?? null,
+        } satisfies ScanReviewLocationState,
       });
       return;
     }

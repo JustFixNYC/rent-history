@@ -237,6 +237,14 @@ describe("useScanPipelineStatus", () => {
   });
 
   it("navigates to scan-review with failures on needs_rescan", async () => {
+    const earlyValidation = {
+      passed: false,
+      failures: [{ code: "needs_retake", message: "Re-scan page 2" }],
+      document_total_pages: 3,
+      missing_page_numbers: [],
+      pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: 3 }],
+    };
+
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       scan_pipeline_status: "needs_rescan",
       expected_page_count: 3,
@@ -246,10 +254,7 @@ describe("useScanPipelineStatus", () => {
       processing_complete: false,
       user_message_key: null,
       last_step_reached: "SCAN_REVIEW",
-      early_validation: {
-        passed: false,
-        failures: [{ code: "needs_retake", message: "Re-scan page 2" }],
-      },
+      early_validation: earlyValidation,
     });
 
     renderHook(
@@ -274,6 +279,7 @@ describe("useScanPipelineStatus", () => {
         scanPipelineFailures: [
           { code: "needs_retake", message: "Re-scan page 2" },
         ],
+        earlyValidation,
       },
     });
   });

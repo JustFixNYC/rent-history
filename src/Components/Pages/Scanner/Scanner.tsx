@@ -39,7 +39,6 @@ import { useScannerBootstrapRestore } from "./hooks/useScannerBootstrapRestore";
 import { useScanPipelineBootstrap } from "./hooks/useScanPipelineBootstrap";
 import type { LaunchResult, ScannerPhase } from "./scannerTypes";
 import type {
-  ScannerCaptureIntent,
   ScannerLocationState,
   ScanReviewLocationState,
 } from "./scannerLocationState";
@@ -55,9 +54,9 @@ const Scanner: React.FC = () => {
   const queryClient = useQueryClient();
 
   const locationState = location.state as ScannerLocationState | null;
-  const captureIntent = locationState?.captureIntent;
   const postCompileReturn = Boolean(locationState?.postCompileReturn);
   const scanPipelineFailures = locationState?.scanPipelineFailures ?? [];
+  const initialExpectedPageCount = locationState?.expectedPageCount ?? 0;
 
   const [showScannerGuide, setShowScannerGuide] = useState(false);
   const [cameraAccessGranted, setCameraAccessGranted] = useState(false);
@@ -75,7 +74,11 @@ const Scanner: React.FC = () => {
     pipelineBootstrapFailed,
     pipelineBootstrapLoading,
     retryPipelineBootstrap,
-  } = useScannerBootstrapRestore({ accessToken, historyId, captureIntent });
+  } = useScannerBootstrapRestore({
+    accessToken,
+    historyId,
+    initialExpectedPageCount,
+  });
 
   const postCompilePipeline = useScanPipelineBootstrap({
     accessToken,
@@ -91,16 +94,12 @@ const Scanner: React.FC = () => {
   const historyIdRef = useRef(historyId);
   const expectedPageCountRef = useRef(expectedPageCount);
   const failedUploadCountRef = useRef(0);
-  const captureIntentLaunchRef = useRef(false);
   historyIdRef.current = historyId;
   expectedPageCountRef.current = expectedPageCount;
 
   const scannerEnabled =
     !deferScannerInit &&
-    (phase === "pre-scan" ||
-      phase === "camera-access" ||
-      phase === "scanning" ||
-      Boolean(captureIntent));
+    (phase === "pre-scan" || phase === "camera-access" || phase === "scanning");
 
   const { scannerInitStatus, scannerInitError, launchScanner } =
     useDocumentScanner({
@@ -219,116 +218,57 @@ const Scanner: React.FC = () => {
     );
   }, [_]);
 
-  const runLaunchScanner = useCallback(
-    async (options?: {
-      fromCaptureIntent?: boolean;
-      captureIntentMode?: ScannerCaptureIntent["mode"];
-    }): Promise<LaunchResult> => {
-      return launchScanner({
-        onBeforeLaunch: () => {
-          setStartScanError(null);
-          setPhase("scanning");
-          clearRhSessionPages();
-        },
-        onZeroPages: () => {
-          clearScannerStepState();
-          setPhase("pre-scan");
-          failedUploadCountRef.current = 0;
-        },
-        onLaunchSuccess: async (count) => {
-          const result = await finalizeScanSession(count);
-          if (!result.ok && count > 0) {
-            persistScanReviewStep(count);
-            navigateToScanReview({
-              awaitingRescanSuccess:
-                options?.captureIntentMode === "rescan" ? true : undefined,
-              failedUploadCount: failedUploadCountRef.current,
-              reviewError: result.error,
-            });
-          }
-        },
-        onShowGuideChange: setShowScannerGuide,
-        setFailedUploadCount: (count) => {
-          failedUploadCountRef.current = count;
-        },
-        onNotReady: () => {
-          if (options?.fromCaptureIntent) {
-            if (
-              options.captureIntentMode === "restart" ||
-              expectedPageCountRef.current === 0
-            ) {
-              setPhase("pre-scan");
-              setStartScanError(
-                _(msg`Unable to open the scanner. Please try again.`)
-              );
-              return;
-            }
-            navigateToScanReview({ showLaunchFailure: true });
-            return;
-          }
-          handleLaunchNotReady();
-        },
-        onLaunchFailed: () => {
-          if (options?.fromCaptureIntent) {
-            if (
-              options.captureIntentMode === "restart" ||
-              expectedPageCountRef.current === 0
-            ) {
-              setPhase("pre-scan");
-              setStartScanError(
-                _(msg`Unable to open the scanner. Please try again.`)
-              );
-              return;
-            }
-            navigateToScanReview({ showLaunchFailure: true });
-            return;
-          }
-          setStartScanError(
-            _(msg`Unable to open the scanner. Please try again.`)
-          );
-        },
-        onPermissionDenied: () => {
-          setPhase("camera-access");
-        },
-      });
-    },
-    [
-      _,
-      finalizeScanSession,
-      handleLaunchNotReady,
-      launchScanner,
-      navigateToScanReview,
-      setPhase,
-    ]
-  );
+  const runLaunchScanner = useCallback(async (): Promise<LaunchResult> => {
+    return launchScanner({
+      onBeforeLaunch: () => {
+        setStartScanError(null);
+        setPhase("scanning");
+        clearRhSessionPages();
+      },
+      onZeroPages: () => {
+        clearScannerStepState();
+        setPhase("pre-scan");
+        failedUploadCountRef.current = 0;
+      },
+      onLaunchSuccess: async (count) => {
+        const result = await finalizeScanSession(count);
+        if (!result.ok && count > 0) {
+          persistScanReviewStep(count);
+          navigateToScanReview({
+            failedUploadCount: failedUploadCountRef.current,
+            reviewError: result.error,
+          });
+        }
+      },
+      onShowGuideChange: setShowScannerGuide,
+      setFailedUploadCount: (count) => {
+        failedUploadCountRef.current = count;
+      },
+      onNotReady: handleLaunchNotReady,
+      onLaunchFailed: () => {
+        setStartScanError(
+          _(msg`Unable to open the scanner. Please try again.`)
+        );
+      },
+      onPermissionDenied: () => {
+        setPhase("camera-access");
+      },
+    });
+  }, [
+    _,
+    finalizeScanSession,
+    handleLaunchNotReady,
+    launchScanner,
+    navigateToScanReview,
+    setPhase,
+  ]);
 
   const handleLaunchResult = useCallback(
-    (
-      result: LaunchResult,
-      options: {
-        fromCaptureIntent?: boolean;
-        captureIntentMode?: ScannerCaptureIntent["mode"];
-      } = {}
-    ) => {
+    (result: LaunchResult) => {
       if (result.ok) return;
 
       if (result.reason === "permission_denied") {
         setPhase("camera-access");
-        return;
-      }
-
-      if (options.fromCaptureIntent) {
-        if (
-          options.captureIntentMode === "restart" ||
-          expectedPageCountRef.current === 0
-        ) {
-          setPhase("pre-scan");
-          setStartScanError(
-            _(msg`Unable to open the scanner. Please try again.`)
-          );
-          return;
-        }
-        navigateToScanReview({ showLaunchFailure: true });
         return;
       }
 
@@ -339,7 +279,7 @@ const Scanner: React.FC = () => {
 
       setStartScanError(_(msg`Unable to open the scanner. Please try again.`));
     },
-    [_, handleLaunchNotReady, navigateToScanReview, setPhase]
+    [_, handleLaunchNotReady, setPhase]
   );
 
   const handleStartScanning = async () => {
@@ -373,68 +313,11 @@ const Scanner: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (!captureIntent || captureIntentLaunchRef.current) return;
-    if (restoreStatus !== "done") return;
-    if (!canStartScan || scannerInitStatus !== "ready") return;
-
-    captureIntentLaunchRef.current = true;
-
-    const autoLaunchFromIntent = async () => {
-      setIsCheckingCameraAccess(true);
-      try {
-        const granted = await probeCameraAccess();
-        setCameraAccessGranted(granted);
-        if (!granted) {
-          setPhase("camera-access");
-          return;
-        }
-        const result = await runLaunchScanner({
-          fromCaptureIntent: true,
-          captureIntentMode: captureIntent.mode,
-        });
-        if (!result.ok) {
-          handleLaunchResult(result, {
-            fromCaptureIntent: true,
-            captureIntentMode: captureIntent.mode,
-          });
-        }
-      } catch (error) {
-        console.error(
-          "Unable to auto-launch scanner from capture intent:",
-          error
-        );
-        if (isCameraPermissionError(error)) {
-          setPhase("camera-access");
-        } else {
-          navigateToScanReview({ showLaunchFailure: true });
-        }
-      } finally {
-        setIsCheckingCameraAccess(false);
-      }
-    };
-
-    void autoLaunchFromIntent();
-  }, [
-    canStartScan,
-    captureIntent,
-    handleLaunchResult,
-    navigateToScanReview,
-    restoreStatus,
-    runLaunchScanner,
-    scannerInitStatus,
-    setPhase,
-  ]);
-
   const handlePreScanBack = () => {
     navigate(`/${i18n.locale}/account`);
   };
 
   const handleCameraAccessBack = () => {
-    if (captureIntent) {
-      navigateToScanReview();
-      return;
-    }
     clearScannerStepState();
     setPhase("pre-scan");
   };
@@ -487,7 +370,6 @@ const Scanner: React.FC = () => {
     pipelineBootstrapFailed;
   const showRestoreLoading =
     restoreStatus === "pending" &&
-    !captureIntent &&
     Boolean(historyId) &&
     pipelineBootstrapLoading &&
     !pipelineBootstrapFailed;

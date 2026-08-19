@@ -81,7 +81,7 @@ msgstr "{address}, Apt {0}"
 #~ msgid "{failedUploadCount, plural, one {page} other {pages}}"
 #~ msgstr "{failedUploadCount, plural, one {page} other {pages}}"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:72
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:85
 msgid "{pageCount, plural, one {Re-scan this page} other {Re-scan these pages}}"
 msgstr "{pageCount, plural, one {Re-scan this page} other {Re-scan these pages}}"
 
@@ -564,7 +564,7 @@ msgstr "Enter your phone number below to log in."
 msgid "Example page {pageNumber}"
 msgstr "Example page {pageNumber}"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:136
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:160
 msgid "Example rent history"
 msgstr "Example rent history"
 
@@ -871,7 +871,7 @@ msgstr "Loading map data…"
 msgid "Loading scan previews…"
 msgstr "Loading scan previews…"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:42
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:46
 msgid "Loading scan status…"
 msgstr "Loading scan status…"
 
@@ -1177,8 +1177,8 @@ msgstr "Please refresh the page or try again in a moment."
 msgid "Please sign in to generate your report."
 msgstr "Please sign in to generate your report."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:533
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:80
+#: src/Components/Pages/Scanner/Scanner.tsx:415
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:179
 msgid "Please try again in a moment."
 msgstr "Please try again in a moment."
 
@@ -1238,7 +1238,7 @@ msgstr "Re-scan"
 #~ msgid "Re-scan all pages?"
 #~ msgstr "Re-scan all pages?"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:116
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:139
 msgid "Re-scan document"
 msgstr "Re-scan document"
 
@@ -1292,7 +1292,7 @@ msgstr "Rent-stabilized units"
 msgid "Report"
 msgstr "Report"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:122
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:146
 msgid "Request your rent history"
 msgstr "Request your rent history"
 
@@ -1416,7 +1416,7 @@ msgstr "Scan your rent history with your phone"
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:218
+#: src/Components/Pages/Scanner/Scanner.tsx:217
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr "Scanner is still loading. Please wait a moment and try again."
 
@@ -1440,7 +1440,7 @@ msgstr "Search for a building"
 msgid "Securely compiling your rent history"
 msgstr "Securely compiling your rent history"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:109
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:123
 msgid "See an example"
 msgstr "See an example"
 
@@ -1863,8 +1863,8 @@ msgstr "To reach the threshold, the landlord would have needed to document <0/>.
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:536
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:83
+#: src/Components/Pages/Scanner/Scanner.tsx:418
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:182
 msgid "Try again"
 msgstr "Try again"
 
@@ -1880,13 +1880,13 @@ msgstr "Unable to compile your rent history"
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:154
+#: src/Components/Pages/Scanner/Scanner.tsx:153
 msgid "Unable to finalize scan. Please try again."
 msgstr "Unable to finalize scan. Please try again."
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:123
-#: src/Components/Pages/Scanner/Scanner.tsx:529
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:76
+#: src/Components/Pages/Scanner/Scanner.tsx:411
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:175
 msgid "Unable to load compile status"
 msgstr "Unable to load compile status"
 
@@ -1910,14 +1910,16 @@ msgstr "Unable to load scan previews."
 msgid "Unable to load the scanner. Please refresh the page and try again."
 msgstr "Unable to load the scanner. Please refresh the page and try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:262
-#: src/Components/Pages/Scanner/Scanner.tsx:279
-#: src/Components/Pages/Scanner/Scanner.tsx:287
-#: src/Components/Pages/Scanner/Scanner.tsx:327
-#: src/Components/Pages/Scanner/Scanner.tsx:340
-#: src/Components/Pages/Scanner/Scanner.tsx:368
+#: src/Components/Pages/Scanner/Scanner.tsx:250
+#: src/Components/Pages/Scanner/Scanner.tsx:280
+#: src/Components/Pages/Scanner/Scanner.tsx:308
 msgid "Unable to open the scanner. Please try again."
 msgstr "Unable to open the scanner. Please try again."
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:108
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:142
+msgid "Unable to prepare for re-scan. Please try again."
+msgstr "Unable to prepare for re-scan. Please try again."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:211
 #~ msgid "Unable to re-scan pages. Please try again."
@@ -1927,7 +1929,7 @@ msgstr "Unable to open the scanner. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:471
+#: src/Components/Pages/Scanner/Scanner.tsx:354
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 
@@ -2105,11 +2107,11 @@ msgstr "We sent a code to <0>{maskedPhone}</0>"
 msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr "We sent a new code to <0>{maskedPhone}</0>"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:60
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:64
 msgid "We weren't able to capture all of your rent history."
 msgstr "We weren't able to capture all of your rent history."
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:93
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:107
 msgid "We weren't able to read your document"
 msgstr "We weren't able to read your document"
 
@@ -2351,7 +2353,7 @@ msgstr "your rent history"
 msgid "Your rent history"
 msgstr "Your rent history"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:96
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:110
 msgid "Your rent history document should be a registration printout from the Division of Housing and Community Renewal (DHCR). If you don't have one, you can request it from DHCR before scanning again."
 msgstr "Your rent history document should be a registration printout from the Division of Housing and Community Renewal (DHCR). If you don't have one, you can request it from DHCR before scanning again."
 

@@ -1,7 +1,13 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { MemoryRouter, type MemoryRouterProps } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -73,6 +79,8 @@ vi.mock("../../../api/account/api", async () => {
     getRhHistoryScanPipelineStatus: vi
       .fn()
       .mockResolvedValue(defaultPipelineResponse),
+    deleteRhScannedPages: vi.fn().mockResolvedValue({ deleted_count: 1 }),
+    deleteAllRhScannedPages: vi.fn().mockResolvedValue({ deleted_count: 4 }),
   };
 });
 
@@ -241,6 +249,81 @@ describe("ScanReviewPage error states", () => {
     });
 
     expect(accountApi.getRhHistoryScanPipelineStatus).toHaveBeenCalled();
+  });
+});
+
+describe("ScanReviewPage rescan CTAs", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 4 });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
+      needsRescanPipelineResponse
+    );
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("deletes flagged pages then navigates to pre-scan without captureIntent", async () => {
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan these pages" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Re-scan these pages" })
+    );
+
+    await waitFor(() => {
+      expect(accountApi.deleteRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        [7]
+      );
+      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+        replace: true,
+        state: { expectedPageCount: 3 },
+      });
+    });
+  });
+
+  it("deletes all pages then navigates to pre-scan on total failure", async () => {
+    renderScanReview({
+      initialEntries: [
+        {
+          pathname: "/en/scan-review",
+          state: { showLaunchFailure: true },
+        },
+      ],
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan document" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan document" }));
+
+    await waitFor(() => {
+      expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId
+      );
+      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+        replace: true,
+        state: { expectedPageCount: 0 },
+      });
+    });
   });
 });
 

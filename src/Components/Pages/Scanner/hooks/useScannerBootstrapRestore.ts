@@ -8,7 +8,6 @@ import {
   clearScannerStepState,
   readScannerStepState,
 } from "../../ScanReviewPage/scanReviewState";
-import type { ScannerCaptureIntent } from "../scannerLocationState";
 import type { ScannerPhase } from "../scannerTypes";
 import type { RhScanPipelineStatusResponse } from "../../../../api/account";
 
@@ -17,7 +16,7 @@ export type { ScannerPhase };
 export type UseScannerBootstrapRestoreParams = {
   accessToken: string | undefined;
   historyId: string | null;
-  captureIntent?: ScannerCaptureIntent;
+  initialExpectedPageCount?: number;
 };
 
 export type UseScannerBootstrapRestoreResult = {
@@ -54,21 +53,17 @@ export function shouldBootstrapCompiling(
 export function useScannerBootstrapRestore({
   accessToken,
   historyId,
-  captureIntent,
+  initialExpectedPageCount = 0,
 }: UseScannerBootstrapRestoreParams): UseScannerBootstrapRestoreResult {
   const navigate = useNavigate();
   const { i18n } = useLingui();
   const savedStep = readScannerStepState();
-  const savedScanReview = savedStep?.phase === "scan-review" && !captureIntent;
+  const savedScanReview = savedStep?.phase === "scan-review";
 
-  const [phase, setPhase] = useState<ScannerPhase>(() =>
-    captureIntent ? "scanning" : "pre-scan"
+  const [phase, setPhase] = useState<ScannerPhase>("pre-scan");
+  const [expectedPageCount, setExpectedPageCount] = useState(
+    () => initialExpectedPageCount
   );
-  const [expectedPageCount, setExpectedPageCount] = useState(() => {
-    if (!captureIntent) return 0;
-    if (captureIntent.mode === "restart") return 0;
-    return savedStep?.expectedPageCount ?? 0;
-  });
   const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
     savedScanReview || getRhHistoryId() ? "pending" : "done"
   );

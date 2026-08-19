@@ -1,13 +1,19 @@
-import { useCallback, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { useCallback, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { useLingui } from "@lingui/react";
 
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { Button, CalloutBox } from "@justfixnyc/component-library";
 import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 
 import type { ScanReviewLocationState } from "../Scanner/scannerLocationState";
+import {
+  accountQueryKeys,
+  deleteAllRhScannedPages,
+  deleteRhScannedPages,
+} from "../../../api/account";
 import {
   getRhAuthSession,
   getRhHistoryId,
@@ -15,12 +21,27 @@ import {
 import { useScanReviewBootstrapRestore } from "./hooks/useScanReviewBootstrapRestore";
 import { ScanReviewErrorScreen } from "./ScanReviewErrorScreen";
 import { resolveScanReviewErrorState } from "./scanReviewErrorState";
+import { clearScannerStepState } from "./scanReviewState";
+import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
 
 import "./ScanReviewScreen.scss";
 
+function getDeletablePageIds(
+  earlyValidation: ScanReviewLocationState["earlyValidation"]
+): number[] {
+  if (!earlyValidation?.pages_needing_rescan) return [];
+  return earlyValidation.pages_needing_rescan
+    .map((page) => page.id)
+    .filter((id): id is number => id != null);
+}
+
 const ScanReviewPage = () => {
-  const { _ } = useLingui();
+  const { _, i18n } = useLingui();
   const location = useLocation();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [isRescanPending, setIsRescanPending] = useState(false);
+  const [rescanError, setRescanError] = useState<string | null>(null);
 
   const locationState = location.state as ScanReviewLocationState | null;
   const accessToken = getRhAuthSession()?.accessToken;
@@ -32,6 +53,8 @@ const ScanReviewPage = () => {
     pipelineBootstrapLoading,
     retryPipelineBootstrap,
     pipelineData,
+    expectedPageCount,
+    setExpectedPageCount,
   } = useScanReviewBootstrapRestore({ accessToken, historyId });
 
   const earlyValidation =
@@ -47,13 +70,89 @@ const ScanReviewPage = () => {
     pipelineBootstrapLoading ||
     (Boolean(historyId) && pipelineData == null && !pipelineBootstrapFailed);
 
-  const handlePartialRescan = useCallback(() => {
-    // Delete-before-navigate wiring lands in Task 6.
-  }, []);
+  const navigateToPreScan = useCallback(
+    (nextExpectedPageCount: number) => {
+      clearScannerStepState();
+      navigate(`/${i18n.locale}/scanner`, {
+        replace: true,
+        state: { expectedPageCount: nextExpectedPageCount },
+      });
+    },
+    [i18n.locale, navigate]
+  );
 
-  const handleTotalRescan = useCallback(() => {
-    // Delete-before-navigate wiring lands in Task 6.
-  }, []);
+  const handlePartialRescan = useCallback(async () => {
+    if (!accessToken || !historyId || !earlyValidation) return;
+
+    const pageIds = getDeletablePageIds(earlyValidation);
+    setRescanError(null);
+    setIsRescanPending(true);
+
+    try {
+      if (pageIds.length > 0) {
+        await deleteRhScannedPages(accessToken, historyId, pageIds);
+      }
+      const nextExpectedPageCount = Math.max(
+        0,
+        expectedPageCount - pageIds.length
+      );
+      setExpectedPageCount(nextExpectedPageCount);
+      void queryClient.invalidateQueries({
+        queryKey: accountQueryKeys.scanPipelineStatus(historyId),
+      });
+      navigateToPreScan(nextExpectedPageCount);
+    } catch (error) {
+      setRescanError(
+        flowErrorFromApi(
+          error,
+          _(msg`Unable to prepare for re-scan. Please try again.`)
+        )
+      );
+    } finally {
+      setIsRescanPending(false);
+    }
+  }, [
+    _,
+    accessToken,
+    earlyValidation,
+    expectedPageCount,
+    historyId,
+    navigateToPreScan,
+    queryClient,
+    setExpectedPageCount,
+  ]);
+
+  const handleTotalRescan = useCallback(async () => {
+    if (!accessToken || !historyId) return;
+
+    setRescanError(null);
+    setIsRescanPending(true);
+
+    try {
+      await deleteAllRhScannedPages(accessToken, historyId);
+      setExpectedPageCount(0);
+      void queryClient.invalidateQueries({
+        queryKey: accountQueryKeys.scanPipelineStatus(historyId),
+      });
+      navigateToPreScan(0);
+    } catch (error) {
+      setRescanError(
+        flowErrorFromApi(
+          error,
+          _(msg`Unable to prepare for re-scan. Please try again.`)
+        )
+      );
+    } finally {
+      setIsRescanPending(false);
+    }
+  }, [
+    _,
+    accessToken,
+    historyId,
+    navigateToPreScan,
+    queryClient,
+    setExpectedPageCount,
+  ]);
 
   const showBootstrapError =
     restoreStatus === "pending" &&
@@ -90,8 +189,14 @@ const ScanReviewPage = () => {
         <ScanReviewErrorScreen
           errorState={errorState}
           isLoading={isLoading}
-          onPartialRescan={handlePartialRescan}
-          onTotalRescan={handleTotalRescan}
+          isRescanPending={isRescanPending}
+          rescanError={rescanError}
+          onPartialRescan={() => {
+            void handlePartialRescan();
+          }}
+          onTotalRescan={() => {
+            void handleTotalRescan();
+          }}
         />
       )}
     </div>

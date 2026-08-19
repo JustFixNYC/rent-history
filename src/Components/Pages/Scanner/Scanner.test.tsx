@@ -34,40 +34,52 @@ import {
   writeScannerStepState,
 } from "../ScanReviewPage/scanReviewState";
 
-const { navigateMock, testHistoryId, scannerHarness } = vi.hoisted(() => ({
-  navigateMock: vi.fn(),
-  testHistoryId: "22222222-2222-4222-8222-222222222222",
-  scannerHarness: {
-    hangLaunch: false,
-    rejectLaunch: false,
-    rejectLaunchError: null as Error | null,
-    skipAutoScanOnLaunch: false,
-    autoScanCount: 1,
-    launchResolvers: [] as Array<() => void>,
-    lastInstance: null as {
-      launch: ReturnType<typeof vi.fn>;
-      dispose: ReturnType<typeof vi.fn>;
-      stopContinuousScanning: ReturnType<typeof vi.fn>;
-    } | null,
-    onDocumentScanned: null as
-      | ((result: {
-          correctedImageResult?: { toBlob: (type: string) => Promise<Blob> };
-        }) => void | Promise<void>)
-      | null,
-    releaseLaunch() {
-      const resolve = scannerHarness.launchResolvers.shift();
-      resolve?.();
+const { navigateMock, testHistoryId, scannerHarness, defaultPipelineResponse } =
+  vi.hoisted(() => ({
+    navigateMock: vi.fn(),
+    testHistoryId: "22222222-2222-4222-8222-222222222222",
+    defaultPipelineResponse: {
+      last_step_reached: "DOCUMENT_SCAN" as const,
+      scan_pipeline_status: "complete" as const,
+      expected_page_count: 1,
+      pages_landed_count: 1,
+      pages_terminal_count: 1,
+      processing_complete: true,
+      uploads_observed_count: 1,
+      early_validation: null,
+      user_message_key: null,
     },
-    async simulateDocumentScan() {
-      if (!scannerHarness.onDocumentScanned) return;
-      await scannerHarness.onDocumentScanned({
-        correctedImageResult: {
-          toBlob: async () => new Blob(),
-        },
-      });
+    scannerHarness: {
+      hangLaunch: false,
+      rejectLaunch: false,
+      rejectLaunchError: null as Error | null,
+      skipAutoScanOnLaunch: false,
+      autoScanCount: 1,
+      launchResolvers: [] as Array<() => void>,
+      lastInstance: null as {
+        launch: ReturnType<typeof vi.fn>;
+        dispose: ReturnType<typeof vi.fn>;
+        stopContinuousScanning: ReturnType<typeof vi.fn>;
+      } | null,
+      onDocumentScanned: null as
+        | ((result: {
+            correctedImageResult?: { toBlob: (type: string) => Promise<Blob> };
+          }) => void | Promise<void>)
+        | null,
+      releaseLaunch() {
+        const resolve = scannerHarness.launchResolvers.shift();
+        resolve?.();
+      },
+      async simulateDocumentScan() {
+        if (!scannerHarness.onDocumentScanned) return;
+        await scannerHarness.onDocumentScanned({
+          correctedImageResult: {
+            toBlob: async () => new Blob(),
+          },
+        });
+      },
     },
-  },
-}));
+  }));
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<typeof import("react-router-dom")>(
@@ -163,18 +175,6 @@ const readyScanReviewResponse = {
   processing_complete: true,
   missing_year_ranges: [] as string[],
   pages: [readyScanReviewPage],
-};
-
-const defaultPipelineResponse = {
-  last_step_reached: "DOCUMENT_SCAN" as const,
-  scan_pipeline_status: "complete" as const,
-  expected_page_count: 1,
-  pages_landed_count: 1,
-  pages_terminal_count: 1,
-  processing_complete: true,
-  uploads_observed_count: 1,
-  early_validation: null,
-  user_message_key: null,
 };
 
 const mockBootstrapNoRestorablePages = () => {
@@ -287,22 +287,6 @@ const renderScanner = (options?: {
   return render(options?.strictMode ? <StrictMode>{tree}</StrictMode> : tree);
 };
 
-const renderScannerWithCaptureIntent = (
-  captureIntent:
-    | { mode: "rescan"; pageIds: number[] }
-    | { mode: "addMore" }
-    | { mode: "restart" }
-) => {
-  return renderScanner({
-    initialEntries: [
-      {
-        pathname: "/en/scanner",
-        state: { captureIntent },
-      },
-    ],
-  });
-};
-
 const clickStartScanning = async () => {
   const startButton = await screen.findByRole("button", {
     name: "Start scanning",
@@ -355,7 +339,6 @@ describe("Scanner zero-page completion", () => {
     ).not.toBeInTheDocument();
     expect(screen.queryByTestId("scan-review-loading")).not.toBeInTheDocument();
     expect(readScannerStepState()).toBeNull();
-    expect(accountApi.getRhHistoryScanPipelineStatus).not.toHaveBeenCalled();
   });
 });
 
@@ -563,17 +546,6 @@ describe("Scanner expectedPageCount lifecycle", () => {
       );
     });
   });
-
-  it("auto-launches scanner and finalizes after rescan capture intent", async () => {
-    renderScannerWithCaptureIntent({ mode: "rescan", pageIds: [7] });
-
-    await waitFor(() => {
-      expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
-        "access-token",
-        finalizeScanRequest(1)
-      );
-    });
-  });
 });
 
 describe("Scanner upload failures", () => {
@@ -654,7 +626,7 @@ describe("Scanner upload failures", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("navigates to scan-review with failedUploadCount when add-more capture has upload failures", async () => {
+  it("navigates to scan-review with failedUploadCount when finalize fails after uploads", async () => {
     scannerHarness.autoScanCount = 2;
     vi.mocked(uploadScan)
       .mockResolvedValueOnce(undefined)
@@ -666,7 +638,8 @@ describe("Scanner upload failures", () => {
       })
     );
 
-    renderScannerWithCaptureIntent({ mode: "addMore" });
+    renderScanner();
+    await clickStartScanning();
 
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
@@ -744,7 +717,6 @@ describe("Scanner phase persistence", () => {
     await screen.findByRole("button", { name: "Start scanning" });
     expect(readScannerStepState()).toBeNull();
     expect(getRhSessionAnalysisPages()).toEqual([]);
-    expect(accountApi.getRhHistoryScanPipelineStatus).not.toHaveBeenCalled();
   });
 
   it("ignores scanner step state when stored historyId does not match active session", async () => {
@@ -998,32 +970,6 @@ describe("Scanner launch failure handling", () => {
     clearRhAuthSession();
   });
 
-  it("navigates to scan-review with showLaunchFailure when rescan launch rejects", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
-    scannerHarness.rejectLaunch = true;
-    renderScannerWithCaptureIntent({ mode: "rescan", pageIds: [7] });
-
-    await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
-        replace: true,
-        state: expect.objectContaining({ showLaunchFailure: true }),
-      });
-    });
-  });
-
-  it("navigates to scan-review with showLaunchFailure when add-more launch rejects", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
-    scannerHarness.rejectLaunch = true;
-    renderScannerWithCaptureIntent({ mode: "addMore" });
-
-    await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
-        replace: true,
-        state: expect.objectContaining({ showLaunchFailure: true }),
-      });
-    });
-  });
-
   it("shows init error on pre-scan when scanner fails to initialize", async () => {
     const { DocumentScanner } = await import("dynamsoft-document-scanner");
     vi.mocked(DocumentScanner).mockImplementationOnce(() => {
@@ -1078,14 +1024,15 @@ describe("Scanner launch failure handling", () => {
       .__scannerTestInitDelay;
   });
 
-  it("routes rescan permission errors to camera-access without launch failure InfoBox", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
+  it("routes permission errors to camera-access without launch failure InfoBox", async () => {
     scannerHarness.rejectLaunch = true;
     scannerHarness.rejectLaunchError = new DOMException(
       "Permission denied",
       "NotAllowedError"
     );
-    renderScannerWithCaptureIntent({ mode: "rescan", pageIds: [7] });
+    renderScanner();
+
+    await clickStartScanning();
 
     await waitFor(() => {
       expect(screen.getByText("Camera access")).toBeInTheDocument();
@@ -1103,9 +1050,11 @@ describe("Scanner launch failure handling", () => {
     });
   });
 
-  it("returns to pre-scan without launch failure InfoBox when restart launch rejects", async () => {
+  it("shows launch error on pre-scan when launch rejects", async () => {
     scannerHarness.rejectLaunch = true;
-    renderScannerWithCaptureIntent({ mode: "restart" });
+    renderScanner();
+
+    await clickStartScanning();
 
     await waitFor(() => {
       expect(

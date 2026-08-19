@@ -16,6 +16,8 @@ import "./ScanReviewScreen.scss";
 export type ScanReviewErrorScreenProps = {
   errorState: ScanReviewErrorState;
   isLoading?: boolean;
+  isRescanPending?: boolean;
+  rescanError?: string | null;
   onPartialRescan: () => void;
   onTotalRescan: () => void;
 };
@@ -23,6 +25,8 @@ export type ScanReviewErrorScreenProps = {
 export const ScanReviewErrorScreen = ({
   errorState,
   isLoading = false,
+  isRescanPending = false,
+  rescanError = null,
   onPartialRescan,
   onTotalRescan,
 }: ScanReviewErrorScreenProps) => {
@@ -65,6 +69,15 @@ export const ScanReviewErrorScreen = ({
             pages={errorState.pages}
             documentTotalPages={errorState.documentTotalPages}
           />
+          {rescanError ? (
+            <p
+              className="scan-review-error-screen__rescan-error"
+              role="alert"
+              data-testid="scan-review-rescan-error"
+            >
+              {rescanError}
+            </p>
+          ) : null}
           <Button
             className="scan-review-error-screen__cta"
             labelIcon="cameraRegular"
@@ -75,6 +88,7 @@ export const ScanReviewErrorScreen = ({
               })
             )}
             onClick={onPartialRescan}
+            disabled={isRescanPending}
           />
         </div>
       </div>
@@ -110,11 +124,21 @@ export const ScanReviewErrorScreen = ({
             </LinkStyledButton>
           </p>
           <div className="scan-review-error-screen__actions">
+            {rescanError ? (
+              <p
+                className="scan-review-error-screen__rescan-error"
+                role="alert"
+                data-testid="scan-review-rescan-error"
+              >
+                {rescanError}
+              </p>
+            ) : null}
             <Button
               className="scan-review-error-screen__cta"
               labelIcon="cameraRegular"
               labelText={_(msg`Re-scan document`)}
               onClick={onTotalRescan}
+              disabled={isRescanPending}
             />
             <Button
               className="scan-review-error-screen__cta scan-review-error-screen__cta--secondary"
