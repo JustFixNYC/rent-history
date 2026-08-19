@@ -68,6 +68,13 @@ const mockAuthSession: rhSessionStorage.RhSessionAuth = {
   },
 };
 
+const passedEarlyValidation = {
+  passed: true,
+  document_total_pages: null,
+  missing_page_numbers: [],
+  pages_needing_rescan: [],
+};
+
 const processingResponse = {
   scan_pipeline_status: "processing_terminal" as const,
   expected_page_count: 2,
@@ -77,7 +84,7 @@ const processingResponse = {
   processing_complete: false,
   user_message_key: "extracting_details",
   last_step_reached: "COMPILING" as const,
-  early_validation: { passed: true, failures: [] },
+  early_validation: passedEarlyValidation,
 };
 
 const completeResponse = {
@@ -89,7 +96,7 @@ const completeResponse = {
   processing_complete: true,
   user_message_key: null,
   last_step_reached: "FINDINGS_OVERVIEW" as const,
-  early_validation: { passed: true, failures: [] },
+  early_validation: passedEarlyValidation,
 };
 
 const failedResponse = {

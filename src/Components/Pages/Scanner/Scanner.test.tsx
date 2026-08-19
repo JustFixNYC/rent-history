@@ -158,25 +158,6 @@ vi.mock("./scanner-overlay", async () => {
   };
 });
 
-const readyScanReviewPage = {
-  id: 1,
-  extraction_status: "complete" as const,
-  needs_retake: false,
-  s3_key: `1/${testHistoryId}/page1.jpg`,
-  start_year: 2020,
-  end_year: 2021,
-  is_coverpage: false,
-};
-
-const readyScanReviewResponse = {
-  status: "ready" as const,
-  db_count: 1,
-  expected_page_count: 1,
-  processing_complete: true,
-  missing_year_ranges: [] as string[],
-  pages: [readyScanReviewPage],
-};
-
 const mockBootstrapNoRestorablePages = () => {
   vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
     ...defaultPipelineResponse,
@@ -668,9 +649,9 @@ describe("Scanner phase persistence", () => {
   it("redirects to scan-review from session without showing pre-scan", async () => {
     writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
     mockBootstrapReady({
-      ...readyScanReviewResponse,
-      db_count: 2,
       expected_page_count: 2,
+      pages_landed_count: 2,
+      pages_terminal_count: 2,
     });
 
     renderScanner();
@@ -803,9 +784,9 @@ describe("Scanner unmount cleanup", () => {
   it("does not initialize Dynamsoft when saved scan-review redirects away from scanner", async () => {
     writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
     mockBootstrapReady({
-      ...readyScanReviewResponse,
-      db_count: 2,
       expected_page_count: 2,
+      pages_landed_count: 2,
+      pages_terminal_count: 2,
     });
 
     const view = renderScanner();

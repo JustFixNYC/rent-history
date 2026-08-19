@@ -70,6 +70,13 @@ const createWrapper = () => {
   );
 };
 
+const passedEarlyValidation = {
+  passed: true,
+  document_total_pages: null,
+  missing_page_numbers: [],
+  pages_needing_rescan: [],
+};
+
 describe("parseEarlyValidationFailures", () => {
   it("extracts code/message pairs from early_validation", () => {
     expect(
@@ -185,7 +192,7 @@ describe("useScanPipelineStatus", () => {
       processing_complete: true,
       user_message_key: null,
       last_step_reached: "FINDINGS_OVERVIEW",
-      early_validation: { passed: true, failures: [] },
+      early_validation: passedEarlyValidation,
     });
 
     renderHook(
@@ -216,7 +223,7 @@ describe("useScanPipelineStatus", () => {
       processing_complete: true,
       user_message_key: null,
       last_step_reached: "REPORT",
-      early_validation: { passed: true, failures: [] },
+      early_validation: passedEarlyValidation,
     });
 
     const { result } = renderHook(
@@ -236,10 +243,9 @@ describe("useScanPipelineStatus", () => {
     expect(result.current.showFlowNav).toBe(true);
   });
 
-  it("navigates to scan-review with failures on needs_rescan", async () => {
+  it("navigates to scan-review with rescan metadata on needs_rescan", async () => {
     const earlyValidation = {
       passed: false,
-      failures: [{ code: "needs_retake", message: "Re-scan page 2" }],
       document_total_pages: 3,
       missing_page_numbers: [],
       pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: 3 }],
@@ -276,9 +282,7 @@ describe("useScanPipelineStatus", () => {
     expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
       replace: true,
       state: {
-        scanPipelineFailures: [
-          { code: "needs_retake", message: "Re-scan page 2" },
-        ],
+        scanPipelineFailures: [],
         earlyValidation,
       },
     });
