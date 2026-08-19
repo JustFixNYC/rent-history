@@ -4,7 +4,13 @@ import { startRhLogin, verifyRhOtp } from "../api";
 
 export const useStartRhLogin = () =>
   useMutation({
-    mutationFn: startRhLogin,
+    mutationFn: ({
+      phoneNumber,
+      source,
+    }: {
+      phoneNumber: string;
+      source: "desktop" | "mobile";
+    }) => startRhLogin(phoneNumber, source),
   });
 
 export const useVerifyRhOtp = () =>

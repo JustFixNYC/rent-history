@@ -169,19 +169,6 @@
         ],
         "type": "object"
       },
-      "PhoneNumberRequestRequest": {
-        "properties": {
-          "phone_number": {
-            "maxLength": 32,
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "required": [
-          "phone_number"
-        ],
-        "type": "object"
-      },
       "RelationEnum": {
         "description": "* `less` - less\n* `equal` - equal\n* `more` - more",
         "enum": [
@@ -856,9 +843,37 @@
         ],
         "type": "object"
       },
+      "RhLoginStartRequestRequest": {
+        "properties": {
+          "otp_domain": {
+            "maxLength": 253,
+            "type": "string"
+          },
+          "phone_number": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          },
+          "source": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceEnum"
+              }
+            ],
+            "default": "mobile"
+          }
+        },
+        "required": [
+          "phone_number"
+        ],
+        "type": "object"
+      },
       "RhLoginStartResponse": {
         "properties": {
           "created": {
+            "type": "boolean"
+          },
+          "has_viewable_report": {
             "type": "boolean"
           },
           "otp": {
@@ -870,6 +885,7 @@
         },
         "required": [
           "created",
+          "has_viewable_report",
           "otp",
           "profile"
         ],
@@ -890,10 +906,11 @@
         "type": "object"
       },
       "RhOtpDeliveryStatusEnum": {
-        "description": "* `sent` - sent\n* `pending` - pending",
+        "description": "* `sent` - sent\n* `pending` - pending\n* `skipped` - skipped",
         "enum": [
           "sent",
-          "pending"
+          "pending",
+          "skipped"
         ],
         "type": "string"
       },
@@ -1566,6 +1583,14 @@
         "enum": [
           "deleted",
           "failed"
+        ],
+        "type": "string"
+      },
+      "SourceEnum": {
+        "description": "* `desktop` - desktop\n* `mobile` - mobile",
+        "enum": [
+          "desktop",
+          "mobile"
         ],
         "type": "string"
       }
@@ -2676,13 +2701,13 @@
     },
     "/rh/login/start": {
       "post": {
-        "description": "Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).",
+        "description": "Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `SCAN_REVIEW`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.",
         "operationId": "login_start_create",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PhoneNumberRequestRequest"
+                "$ref": "#/components/schemas/RhLoginStartRequestRequest"
               }
             }
           },

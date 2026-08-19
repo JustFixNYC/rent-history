@@ -339,7 +339,7 @@ export interface paths {
         put?: never;
         /**
          * Start RH login (upsert profile and request OTP)
-         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, and `otp` delivery status (`sent` or `pending` with optional `message`). Phone numbers are normalized to E.164 (US).
+         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `SCAN_REVIEW`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.
          */
         post: operations["login_start_create"];
         delete?: never;
@@ -478,9 +478,6 @@ export interface components {
             refresh_token: string;
             scope: string;
             token_type: string;
-        };
-        PhoneNumberRequestRequest: {
-            phone_number: string;
         };
         /**
          * @description * `less` - less
@@ -720,8 +717,15 @@ export interface components {
             report_pdf_generated_at: string;
             report_pdf_locale: components["schemas"]["ReportPdfLocaleEnum"];
         };
+        RhLoginStartRequestRequest: {
+            otp_domain?: string;
+            phone_number: string;
+            /** @default mobile */
+            source: components["schemas"]["SourceEnum"];
+        };
         RhLoginStartResponse: {
             created: boolean;
+            has_viewable_report: boolean;
             otp: components["schemas"]["RhOtpDelivery"];
             profile: components["schemas"]["RhProfile"];
         };
@@ -732,9 +736,10 @@ export interface components {
         /**
          * @description * `sent` - sent
          *     * `pending` - pending
+         *     * `skipped` - skipped
          * @enum {string}
          */
-        RhOtpDeliveryStatusEnum: "sent" | "pending";
+        RhOtpDeliveryStatusEnum: "sent" | "pending" | "skipped";
         RhPage: {
             /** @description Address text from this page's scan extraction (same field shape as RhHistory.address; may be refined later via user Geosearch confirmation on the history). */
             address?: string | null;
@@ -948,6 +953,12 @@ export interface components {
          * @enum {string}
          */
         S3CleanupStatusEnum: "deleted" | "failed";
+        /**
+         * @description * `desktop` - desktop
+         *     * `mobile` - mobile
+         * @enum {string}
+         */
+        SourceEnum: "desktop" | "mobile";
     };
     responses: never;
     parameters: never;
@@ -1830,7 +1841,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["PhoneNumberRequestRequest"];
+                "application/json": components["schemas"]["RhLoginStartRequestRequest"];
             };
         };
         responses: {

@@ -1,0 +1,41 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.login-qr-lockup {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: jfcl.$JF_SPACING_05;
+  width: 100%;
+
+  &__qr {
+    align-items: center;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_50;
+    border-radius: 2px;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  &__details {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_02;
+    min-width: 0;
+  }
+
+  &__copy {
+    @include jfcl.small_text_desktop;
+    margin: 0;
+  }
+
+  // .inline-chip uses the uppercase eyebrow_mobile mixin; a URL should stay lowercase.
+  &__url {
+    text-transform: none;
+    padding: 0.5rem;
+    background: jfcl.$OFF_WHITE_100;
+    border: 1px solid jfcl.$GREY_50;
+  }
+}
