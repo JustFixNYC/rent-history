@@ -578,11 +578,17 @@ export interface components {
         ResultEnum: "no_violation" | "potential_violation" | "dismissed";
         /** @description Pages used in analysis (keep=True), for GET /rh/history/analysis-pages. */
         RhAnalysisPage: {
-            /** @description The last registration year of the rent history covered by this page. */
+            /**
+             * Format: int64
+             * @description The last registration year of the rent history covered by this page.
+             */
             end_year?: number | null;
             /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
             s3_key: string;
-            /** @description The first registration year of the rent history covered by this page. */
+            /**
+             * Format: int64
+             * @description The first registration year of the rent history covered by this page.
+             */
             start_year?: number | null;
         };
         RhAnalysisPagesResponse: {
@@ -873,7 +879,10 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
             readonly data: components["schemas"]["RhStandardizedTableRow"][];
-            /** @description The last registration year of the rent history covered by this page. */
+            /**
+             * Format: int64
+             * @description The last registration year of the rent history covered by this page.
+             */
             end_year?: number | null;
             /** @description Error message from the scan image extraction pipeline for this page. */
             error?: string | null;
@@ -908,7 +917,10 @@ export interface components {
             quality_issue_reason?: string | null;
             /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
             s3_key: string;
-            /** @description The first registration year of the rent history covered by this page. */
+            /**
+             * Format: int64
+             * @description The first registration year of the rent history covered by this page.
+             */
             start_year?: number | null;
             /** Format: date-time */
             readonly updated_at: string;

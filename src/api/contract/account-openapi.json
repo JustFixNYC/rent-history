@@ -299,8 +299,9 @@
         "properties": {
           "end_year": {
             "description": "The last registration year of the rent history covered by this page.",
-            "maximum": 2147483647,
-            "minimum": -2147483648,
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
             "nullable": true,
             "type": "integer"
           },
@@ -311,8 +312,9 @@
           },
           "start_year": {
             "description": "The first registration year of the rent history covered by this page.",
-            "maximum": 2147483647,
-            "minimum": -2147483648,
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
             "nullable": true,
             "type": "integer"
           }
@@ -1251,8 +1253,9 @@
           },
           "end_year": {
             "description": "The last registration year of the rent history covered by this page.",
-            "maximum": 2147483647,
-            "minimum": -2147483648,
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
             "nullable": true,
             "type": "integer"
           },
@@ -1322,8 +1325,9 @@
           },
           "start_year": {
             "description": "The first registration year of the rent history covered by this page.",
-            "maximum": 2147483647,
-            "minimum": -2147483648,
+            "format": "int64",
+            "maximum": 9223372036854775807,
+            "minimum": -9223372036854775808,
             "nullable": true,
             "type": "integer"
           },
