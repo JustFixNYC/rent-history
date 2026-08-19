@@ -59,8 +59,24 @@ export type RhDeleteAllScannedPagesResponse =
 export type RhDeleteScannedPagesResponse =
   Schemas["RhDeleteScannedPagesResponse"];
 
-/** `RhPageSummary` — pages list when scan-review returns 200 `ready`. */
-export type RhPageSummary = Schemas["RhPageSummary"];
+/** Legacy scan-review page summary until Task 5 removes thumbnail UI. */
+export type RhPageSummary = {
+  id: number;
+  extraction_status: string;
+  needs_retake: boolean;
+  quality_issue_reason?: string | null;
+  error?: string | null;
+  s3_key: string;
+  start_year?: number | null;
+  end_year?: number | null;
+  is_coverpage?: boolean | null;
+};
+
+/** Rescan target from pipeline-status `early_validation.pages_needing_rescan`. */
+export type RhPageRescanInfo = Schemas["RhPageRescanInfo"];
+
+/** Pipeline early coverage result on `GET /rh/history/scan-pipeline-status`. */
+export type RhEarlyValidation = Schemas["RhEarlyValidation"];
 
 /** `RhAnalysisPage` — pages kept for analysis after combine-pages. */
 export type RhAnalysisPage = Omit<
@@ -117,7 +133,7 @@ export type RhScanPresignResponse = Schemas["RhScanPresignResponse"];
 
 export type RhScanPresignUrlEntry = Schemas["RhScanPresignUrlEntry"];
 
-/** `GET /rh/history/scan-review` response (discriminated by `status`). */
+/** Legacy scan-review poll response until Task 5 removes polling hooks. */
 export type RhScanReviewResponse =
   | {
       status: "ready";

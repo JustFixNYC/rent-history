@@ -42,9 +42,25 @@ vi.mock("../../../../api/account/api", async () => {
   return {
     ...actual,
     getRhHistoryScanPipelineStatus: vi.fn(),
-    getRhHistoryScanReview: vi.fn(),
   };
 });
+
+const needsRescanPipelineResponse = {
+  last_step_reached: "COMPILING" as const,
+  scan_pipeline_status: "needs_rescan" as const,
+  expected_page_count: 2,
+  pages_landed_count: 2,
+  pages_terminal_count: 2,
+  processing_complete: true,
+  uploads_observed_count: 2,
+  early_validation: {
+    passed: false,
+    document_total_pages: 2,
+    missing_page_numbers: [],
+    pages_needing_rescan: [{ id: 1, page_number: 1, total_pages: 2 }],
+  },
+  user_message_key: null,
+};
 
 const terminalPipelineResponse = {
   last_step_reached: "DOCUMENT_SCAN" as const,
@@ -62,25 +78,6 @@ const nonTerminalPipelineResponse = {
   ...terminalPipelineResponse,
   last_step_reached: "COMPILING" as const,
   scan_pipeline_status: "running_analysis" as const,
-};
-
-const readyScanReviewResponse = {
-  status: "ready" as const,
-  db_count: 2,
-  expected_page_count: 2,
-  processing_complete: true,
-  missing_year_ranges: [] as string[],
-  pages: [
-    {
-      id: 1,
-      extraction_status: "complete" as const,
-      needs_retake: false,
-      s3_key: `1/${historyId}/page1.jpg`,
-      start_year: 2020,
-      end_year: 2021,
-      is_coverpage: false,
-    },
-  ],
 };
 
 const tokenPayload = {
@@ -130,31 +127,7 @@ describe("useScanReviewBootstrapRestore", () => {
       expect(navigateMock).toHaveBeenCalledWith("/en/compiling");
       expect(result.current.restoreStatus).toBe("done");
     });
-    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalled();
-  });
-
-  it("bootstraps scan-review when pipeline is terminal and pages are restorable", async () => {
-    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
-      terminalPipelineResponse
-    );
-    vi.mocked(accountApi.getRhHistoryScanReview).mockResolvedValue(
-      readyScanReviewResponse
-    );
-
-    const { result } = renderHook(
-      () =>
-        useScanReviewBootstrapRestore({
-          accessToken: "access-token",
-          historyId,
-        }),
-      { wrapper: createWrapper() }
-    );
-
-    await waitFor(() => {
-      expect(result.current.restoreStatus).toBe("done");
-      expect(result.current.expectedPageCount).toBe(2);
-    });
-    expect(accountApi.getRhHistoryScanReview).toHaveBeenCalled();
+    expect(accountApi.getRhHistoryScanPipelineStatus).toHaveBeenCalled();
   });
 
   it("blocks scan-review bootstrap on pipeline fetch error", async () => {
@@ -177,7 +150,52 @@ describe("useScanReviewBootstrapRestore", () => {
     });
 
     expect(result.current.restoreStatus).toBe("pending");
-    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalled();
+    expect(navigateMock).not.toHaveBeenCalled();
+  });
+
+  it("exposes pipeline data when status is needs_rescan", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
+      needsRescanPipelineResponse
+    );
+
+    const { result } = renderHook(
+      () =>
+        useScanReviewBootstrapRestore({
+          accessToken: "access-token",
+          historyId,
+        }),
+      { wrapper: createWrapper() }
+    );
+
+    await waitFor(() => {
+      expect(result.current.restoreStatus).toBe("done");
+      expect(result.current.pipelineData?.scan_pipeline_status).toBe(
+        "needs_rescan"
+      );
+      expect(result.current.expectedPageCount).toBe(2);
+    });
+    expect(accountApi.getRhHistoryScanPipelineStatus).toHaveBeenCalled();
+  });
+
+  it("keeps saved scan-review session when pipeline is terminal without needs_rescan", async () => {
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
+      terminalPipelineResponse
+    );
+
+    const { result } = renderHook(
+      () =>
+        useScanReviewBootstrapRestore({
+          accessToken: "access-token",
+          historyId,
+        }),
+      { wrapper: createWrapper() }
+    );
+
+    await waitFor(() => {
+      expect(result.current.restoreStatus).toBe("done");
+      expect(result.current.expectedPageCount).toBe(2);
+    });
     expect(navigateMock).not.toHaveBeenCalled();
   });
 
@@ -185,7 +203,7 @@ describe("useScanReviewBootstrapRestore", () => {
     writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus)
       .mockRejectedValueOnce(new Error("network error"))
-      .mockResolvedValueOnce(terminalPipelineResponse);
+      .mockResolvedValueOnce(needsRescanPipelineResponse);
 
     const { result } = renderHook(
       () =>
@@ -204,7 +222,9 @@ describe("useScanReviewBootstrapRestore", () => {
 
     await waitFor(() => {
       expect(result.current.restoreStatus).toBe("done");
-      expect(result.current.expectedPageCount).toBe(2);
+      expect(result.current.pipelineData?.scan_pipeline_status).toBe(
+        "needs_rescan"
+      );
       expect(result.current.pipelineBootstrapFailed).toBe(false);
     });
   });

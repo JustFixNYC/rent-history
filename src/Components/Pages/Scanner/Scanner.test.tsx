@@ -165,31 +165,35 @@ const readyScanReviewResponse = {
   pages: [readyScanReviewPage],
 };
 
+const defaultPipelineResponse = {
+  last_step_reached: "DOCUMENT_SCAN" as const,
+  scan_pipeline_status: "complete" as const,
+  expected_page_count: 1,
+  pages_landed_count: 1,
+  pages_terminal_count: 1,
+  processing_complete: true,
+  uploads_observed_count: 1,
+  early_validation: null,
+  user_message_key: null,
+};
+
 const mockBootstrapNoRestorablePages = () => {
-  vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(
-    async (_token, _hid, _count, opts) => {
-      if (opts?.acceptPartial) {
-        throw new AccountApiError(400, {
-          error: "no pages",
-          error_code: "validation_error",
-        });
-      }
-      return readyScanReviewResponse;
-    }
-  );
+  vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+    ...defaultPipelineResponse,
+    pages_landed_count: 0,
+    pages_terminal_count: 0,
+    processing_complete: false,
+    expected_page_count: 0,
+  });
 };
 
 const mockBootstrapReady = (
-  response: typeof readyScanReviewResponse = readyScanReviewResponse
+  overrides: Partial<typeof defaultPipelineResponse> = defaultPipelineResponse
 ) => {
-  vi.mocked(accountApi.getRhHistoryScanReview).mockImplementation(
-    async (_token, _hid, _count, opts) => {
-      if (opts?.acceptPartial) {
-        return response;
-      }
-      return response;
-    }
-  );
+  vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+    ...defaultPipelineResponse,
+    ...overrides,
+  });
 };
 
 vi.mock("../../../api/account/api", async () => {
@@ -210,45 +214,9 @@ vi.mock("../../../api/account/api", async () => {
       s3_cleanup_status: "ok",
       s3_deleted_keys: 1,
     }),
-    getRhHistoryScanReview: vi
+    getRhHistoryScanPipelineStatus: vi
       .fn()
-      .mockImplementation(async (_token, _hid, _count, opts) => {
-        if (opts?.acceptPartial) {
-          throw new AccountApiError(400, {
-            error: "no pages",
-            error_code: "validation_error",
-          });
-        }
-        return {
-          status: "ready",
-          db_count: 1,
-          expected_page_count: 1,
-          processing_complete: true,
-          missing_year_ranges: [],
-          pages: [
-            {
-              id: 1,
-              extraction_status: "complete" as const,
-              needs_retake: false,
-              s3_key: `1/${testHistoryId}/page1.jpg`,
-              start_year: 2020,
-              end_year: 2021,
-              is_coverpage: false,
-            },
-          ],
-        };
-      }),
-    getRhHistoryScanPipelineStatus: vi.fn().mockResolvedValue({
-      last_step_reached: "DOCUMENT_SCAN",
-      scan_pipeline_status: "complete",
-      expected_page_count: 1,
-      pages_landed_count: 1,
-      pages_terminal_count: 1,
-      processing_complete: true,
-      uploads_observed_count: 1,
-      early_validation: null,
-      user_message_key: null,
-    }),
+      .mockResolvedValue(defaultPipelineResponse),
     finalizeRhHistoryScan: vi.fn().mockResolvedValue({
       status: "ok",
       expected_page_count: 1,
@@ -387,12 +355,7 @@ describe("Scanner zero-page completion", () => {
     ).not.toBeInTheDocument();
     expect(screen.queryByTestId("scan-review-loading")).not.toBeInTheDocument();
     expect(readScannerStepState()).toBeNull();
-    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalledWith(
-      "access-token",
-      historyId,
-      0,
-      expect.anything()
-    );
+    expect(accountApi.getRhHistoryScanPipelineStatus).not.toHaveBeenCalled();
   });
 });
 
@@ -415,7 +378,7 @@ describe("Scanner happy path finalize", () => {
     renderScanner();
     await advanceToScanComplete();
     expect(readScannerStepState()).toBeNull();
-    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalledWith(
+    expect(accountApi.getRhHistoryScanPipelineStatus).not.toHaveBeenCalledWith(
       "access-token",
       historyId,
       1,
@@ -658,7 +621,7 @@ describe("Scanner upload failures", () => {
     expect(
       screen.queryByTestId("scan-review-upload-failure")
     ).not.toBeInTheDocument();
-    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalledWith(
+    expect(accountApi.getRhHistoryScanPipelineStatus).not.toHaveBeenCalledWith(
       "access-token",
       historyId,
       1,
@@ -756,7 +719,7 @@ describe("Scanner phase persistence", () => {
 
     await screen.findByRole("button", { name: "Start scanning" });
     expect(readScannerStepState()).toBeNull();
-    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalled();
+    expect(accountApi.getRhHistoryScanPipelineStatus).not.toHaveBeenCalled();
   });
 
   it("shows pre-scan after switching histories clears stale scanner step and pages", async () => {
@@ -781,7 +744,7 @@ describe("Scanner phase persistence", () => {
     await screen.findByRole("button", { name: "Start scanning" });
     expect(readScannerStepState()).toBeNull();
     expect(getRhSessionAnalysisPages()).toEqual([]);
-    expect(accountApi.getRhHistoryScanReview).not.toHaveBeenCalled();
+    expect(accountApi.getRhHistoryScanPipelineStatus).not.toHaveBeenCalled();
   });
 
   it("ignores scanner step state when stored historyId does not match active session", async () => {

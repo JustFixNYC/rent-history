@@ -352,26 +352,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/scan-review": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Scan review poll for a RhHistory
-         * @description DB-only poll comparing RhPage row count to client `expected_page_count`. HTTP 200 `status`: `pending` while fewer pages exist than expected (unless `accept_partial=true`), or `ready` after dedupe and gap detection. HTTP 400 when `accept_partial=true` and no pages exist yet.
-         */
-        get: operations["history_scan_review_retrieve"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/rh/history/validate-finding": {
         parameters: {
             query?: never;
@@ -611,10 +591,12 @@ export interface components {
             history_id?: string;
             is_coverpage?: boolean | null;
             model_id?: string | null;
+            page_number?: number | null;
             profile_id?: number;
             quality_issue_reason?: string | null;
             s3_key?: string;
             start_year?: number | null;
+            total_pages?: number | null;
         };
         /**
          * @description * `succeeded` - Succeeded
@@ -674,6 +656,12 @@ export interface components {
             deleted_pages: number;
             s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
             s3_deleted_keys?: number;
+        };
+        RhEarlyValidation: {
+            document_total_pages: number | null;
+            missing_page_numbers: number[];
+            pages_needing_rescan: components["schemas"]["RhPageRescanInfo"][];
+            passed: boolean;
         };
         RhFinalizeScanRequestRequest: {
             /** @default false */
@@ -996,43 +984,17 @@ export interface components {
             history_id: string;
             is_coverpage?: boolean | null;
             model_id?: string | null;
+            page_number?: number | null;
             profile_id: number;
             quality_issue_reason?: string | null;
             s3_key: string;
             start_year?: number | null;
+            total_pages?: number | null;
         };
-        /** @description Subset of RhPage fields returned by scan-review on HTTP 200 ready. */
-        RhPageSummary: {
-            /**
-             * Format: int64
-             * @description The last registration year of the rent history covered by this page.
-             */
-            end_year?: number | null;
-            /** @description Error message from the scan image extraction pipeline for this page. */
-            error?: string | null;
-            /**
-             * @description Scan extraction lifecycle: processing (early stub, still extracting), complete (finished with table data), no_table (finished without a registration table), needs_retake (finished but should be re-scanned), or error (pipeline failed; see error field).
-             *
-             *     * `processing` - Processing
-             *     * `complete` - Complete
-             *     * `no_table` - No table
-             *     * `needs_retake` - Needs retake
-             *     * `error` - Error
-             */
-            extraction_status: components["schemas"]["ExtractionStatusEnum"];
-            readonly id: number;
-            /** @description Whether the page is the cover page of RH without table data */
-            is_coverpage?: boolean | null;
-            readonly needs_retake: boolean;
-            /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
-            quality_issue_reason?: string | null;
-            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
-            s3_key: string;
-            /**
-             * Format: int64
-             * @description The first registration year of the rent history covered by this page.
-             */
-            start_year?: number | null;
+        RhPageRescanInfo: {
+            id: number | null;
+            page_number: number | null;
+            total_pages: number | null;
         };
         RhProfile: {
             readonly id: number;
@@ -1065,7 +1027,7 @@ export interface components {
             review_queue: components["schemas"]["RhReviewQueue"];
         };
         RhScanPipelineStatusResponse: {
-            early_validation: unknown;
+            early_validation: components["schemas"]["RhEarlyValidation"] | null;
             expected_page_count: number | null;
             last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
             pages_landed_count: number;
@@ -1089,20 +1051,6 @@ export interface components {
             /** Format: uri */
             url: string;
         };
-        RhScanReviewResponse: {
-            db_count: number;
-            expected_page_count: number;
-            missing_year_ranges?: string[];
-            pages?: components["schemas"]["RhPageSummary"][];
-            processing_complete?: boolean;
-            status: components["schemas"]["RhScanReviewResponseStatusEnum"];
-        };
-        /**
-         * @description * `pending` - pending
-         *     * `ready` - ready
-         * @enum {string}
-         */
-        RhScanReviewResponseStatusEnum: "pending" | "ready";
         RhSendMagicLinkSmsRequestRequest: {
             /** Format: uuid */
             history_id: string;
@@ -2156,58 +2104,6 @@ export interface operations {
             };
             /** @description Storage misconfiguration or presign generation failure. */
             503: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
-    history_scan_review_retrieve: {
-        parameters: {
-            query: {
-                /** @description When true, skip the pending gate and return ready with partial data. */
-                accept_partial?: boolean;
-                /** @description Number of pages the client uploaded (minimum 1); may exceed post-dedup survivor count. */
-                expected_page_count: number;
-                /** @description UUID of the RhHistory to check. */
-                history_id: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Scan review poll succeeded (pending or ready). */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhScanReviewResponse"];
-                };
-            };
-            /** @description Invalid query params or accept_partial with no processed pages. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Missing or invalid access token. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description RhProfile or RhHistory not found. */
-            404: {
                 headers: {
                     [name: string]: unknown;
                 };

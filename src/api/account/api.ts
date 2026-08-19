@@ -27,7 +27,6 @@ import type {
   RhHistoryReportEmailResponse,
   RhHistoryReportPdfCreateRequest,
   RhHistoryReportPdfCreateResponse,
-  RhScanReviewResponse,
   RhLoginStartResponse,
   RhMagicLinkVerifyResponse,
   RhOtpTokenResponse,
@@ -234,34 +233,6 @@ export const combineRhHistoryPages = (
       body: { history_id: historyId },
     })
   ) as Promise<RhHistoryCombinePagesResponse>;
-
-export type GetRhHistoryScanReviewOptions = {
-  acceptPartial?: boolean;
-};
-
-/**
- * `GET /rh/history/scan-review` — OAuth2 bearer.
- * HTTP 200 with `status`: `ready` | `pending`. Query validation and server
- * errors throw `AccountApiError`.
- */
-export const getRhHistoryScanReview = (
-  accessToken: string,
-  historyId: string,
-  expectedPageCount: number,
-  options?: GetRhHistoryScanReviewOptions
-): Promise<RhScanReviewResponse> =>
-  unwrapAccountResponse(
-    getAccountClient().GET("/rh/history/scan-review", {
-      headers: bearerHeaders(accessToken),
-      params: {
-        query: {
-          history_id: historyId,
-          expected_page_count: expectedPageCount,
-          ...(options?.acceptPartial ? { accept_partial: true } : {}),
-        },
-      },
-    })
-  ) as Promise<RhScanReviewResponse>;
 
 /**
  * `GET /rh/history/scan-pipeline-status` — OAuth2 bearer.

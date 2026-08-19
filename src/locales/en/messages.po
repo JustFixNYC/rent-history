@@ -55,10 +55,9 @@ msgstr "(123) 456-7890"
 msgid "(optional)"
 msgstr "(optional)"
 
-#. placeholder {0}: pages.length
 #: src/Components/Pages/ScanReviewPage/ScanReviewRetakeGroup.tsx:52
-msgid "{0, plural, one {Re-scan this page} other {Re-scan these pages}}"
-msgstr "{0, plural, one {Re-scan this page} other {Re-scan these pages}}"
+#~ msgid "{0, plural, one {Re-scan this page} other {Re-scan these pages}}"
+#~ msgstr "{0, plural, one {Re-scan this page} other {Re-scan these pages}}"
 
 #. placeholder {0}: points.length.toLocaleString()
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:332
@@ -75,12 +74,16 @@ msgstr "{address}, Apt {0}"
 #~ msgstr "{end}"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:83
-msgid "{failedUploadCount, plural, one {# page was not properly captured.} other {# pages were not properly captured.}}"
-msgstr "{failedUploadCount, plural, one {# page was not properly captured.} other {# pages were not properly captured.}}"
+#~ msgid "{failedUploadCount, plural, one {# page was not properly captured.} other {# pages were not properly captured.}}"
+#~ msgstr "{failedUploadCount, plural, one {# page was not properly captured.} other {# pages were not properly captured.}}"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:106
-msgid "{failedUploadCount, plural, one {page} other {pages}}"
-msgstr "{failedUploadCount, plural, one {page} other {pages}}"
+#~ msgid "{failedUploadCount, plural, one {page} other {pages}}"
+#~ msgstr "{failedUploadCount, plural, one {page} other {pages}}"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:72
+msgid "{pageCount, plural, one {Re-scan this page} other {Re-scan these pages}}"
+msgstr "{pageCount, plural, one {Re-scan this page} other {Re-scan these pages}}"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:369
 #~ msgid "{start}"
@@ -114,6 +117,10 @@ msgstr "421-a expiration"
 #: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:47
 msgid "timeline.copy.missing_reg_destab_list.rehab"
 msgstr "A <0/> was done to the building."
+
+#: src/Components/Pages/ScanReviewPage/RentHistoryExampleModalContent.tsx:13
+msgid "A DHCR rent registration printout is usually several pages long. Each page should show <0>Page N of M</0> in the bottom left corner, like the examples below."
+msgstr "A DHCR rent registration printout is usually several pages long. Each page should show <0>Page N of M</0> in the bottom left corner, like the examples below."
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:146
 #~ msgid "A new code has been sent."
@@ -160,8 +167,8 @@ msgid "Access completed or in-progress reports"
 msgstr "Access completed or in-progress reports"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:127
-msgid "Add missing pages"
-msgstr "Add missing pages"
+#~ msgid "Add missing pages"
+#~ msgstr "Add missing pages"
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:236
 msgid "Add recipients"
@@ -181,8 +188,8 @@ msgid "Address"
 msgstr "Address"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:321
-msgid "All scanned pages will be cleared and you'll need to scan all pages again."
-msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
+#~ msgid "All scanned pages will be cleared and you'll need to scan all pages again."
+#~ msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:35
@@ -212,6 +219,10 @@ msgstr "Analyze my rent history"
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:37
 msgid "Analyzing rent history"
 msgstr "Analyzing rent history"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:43
+msgid "and"
+msgstr "and"
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
 #~ msgid "and ask you to confirm a few things,"
@@ -319,8 +330,8 @@ msgid "findings.HRVD.intro.description"
 msgstr "Before HSTPA, the most common way to destabilize a unit was through <0/> We'll check whether this exemption from rent stabilization can be explained."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:84
-msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
-msgstr "Before we analyze your rent history, let's make sure we have all pages of your rent history."
+#~ msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
+#~ msgstr "Before we analyze your rent history, let's make sure we have all pages of your rent history."
 
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:102
 #~ msgid "Brooklyn, New York 11201"
@@ -340,7 +351,6 @@ msgstr "Camera access"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:242
 #: src/Components/Pages/AccountPage/AccountPage.tsx:263
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:333
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -550,6 +560,14 @@ msgstr "Enter your phone number"
 msgid "Enter your phone number below to log in."
 msgstr "Enter your phone number below to log in."
 
+#: src/Components/Pages/ScanReviewPage/RentHistoryExampleModalContent.tsx:29
+msgid "Example page {pageNumber}"
+msgstr "Example page {pageNumber}"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:136
+msgid "Example rent history"
+msgstr "Example rent history"
+
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:41
 msgid "timeline.copy.missing_reg_destab_list.tax"
@@ -574,6 +592,10 @@ msgstr "Find out if you've been overcharged"
 #: src/Components/Pages/Landing/Landing.tsx:35
 msgid "Find out if you’ve been overcharged on rent"
 msgstr "Find out if you’ve been overcharged on rent"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:65
+msgid "Find the page(s) in your document marked <0>{labelsPhrase}</0> at the bottom left corner and re-scan in full."
+msgstr "Find the page(s) in your document marked <0>{labelsPhrase}</0> at the bottom left corner and re-scan in full."
 
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:68
 msgid "Finding result navigation"
@@ -731,12 +753,12 @@ msgid "I don’t have my rent history"
 msgstr "I don’t have my rent history"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:90
-msgid "If any pages are missing, you can <0>add a page</0>."
-msgstr "If any pages are missing, you can <0>add a page</0>."
+#~ msgid "If any pages are missing, you can <0>add a page</0>."
+#~ msgstr "If any pages are missing, you can <0>add a page</0>."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:203
-msgid "If it seems like any pages are missing, you can add them now by scanning."
-msgstr "If it seems like any pages are missing, you can add them now by scanning."
+#~ msgid "If it seems like any pages are missing, you can add them now by scanning."
+#~ msgstr "If it seems like any pages are missing, you can add them now by scanning."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/implications/implications.tsx:18
@@ -849,6 +871,10 @@ msgstr "Loading map data…"
 msgid "Loading scan previews…"
 msgstr "Loading scan previews…"
 
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:42
+msgid "Loading scan status…"
+msgstr "Loading scan status…"
+
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:101
 msgid "Loading scanner…"
 msgstr "Loading scanner…"
@@ -944,8 +970,8 @@ msgid "Missing registration"
 msgstr "Missing registration"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:157
-msgid "Missing registration years"
-msgstr "Missing registration years"
+#~ msgid "Missing registration years"
+#~ msgstr "Missing registration years"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:257
 #~ msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
@@ -955,7 +981,7 @@ msgstr "Missing registration years"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewRetakeGroup.tsx:33
+#: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:52
 msgid "Needs re-scan"
 msgstr "Needs re-scan"
 
@@ -969,7 +995,6 @@ msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landl
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:198
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
-#: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:157
 msgid "Next"
 msgstr "Next"
 
@@ -1077,8 +1102,8 @@ msgid "Page scan preview"
 msgstr "Page scan preview"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:30
-msgid "Page(s) successfully scanned."
-msgstr "Page(s) successfully scanned."
+#~ msgid "Page(s) successfully scanned."
+#~ msgstr "Page(s) successfully scanned."
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:221
 msgid "Permanently delete this rent history?"
@@ -1097,10 +1122,13 @@ msgstr "Place each page on a flat surface and flatten any folds or curls as much
 #~ msgid "Place the pages against a dark background"
 #~ msgstr "Place the pages against a dark background"
 
-#. placeholder {0}: _( plural(failedUploadCount, { one: "page", other: "pages", }) )
+#: src/Components/Pages/ScanReviewPage/RentHistoryExampleModalContent.tsx:32
+msgid "Placeholder — example rent history image will appear here."
+msgstr "Placeholder — example rent history image will appear here."
+
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:98
-msgid "Please <0>re-scan the missing {0}</0>."
-msgstr "Please <0>re-scan the missing {0}</0>."
+#~ msgid "Please <0>re-scan the missing {0}</0>."
+#~ msgstr "Please <0>re-scan the missing {0}</0>."
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:71
 #~ msgid "Please <0>re-scan the missing pages</0>."
@@ -1150,7 +1178,7 @@ msgid "Please sign in to generate your report."
 msgstr "Please sign in to generate your report."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:533
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:283
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:80
 msgid "Please try again in a moment."
 msgstr "Please try again in a moment."
 
@@ -1199,16 +1227,20 @@ msgstr "Privacy policy"
 #~ msgstr "Processing document scan…"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:121
-msgid "Processing your scanned pages…"
-msgstr "Processing your scanned pages…"
+#~ msgid "Processing your scanned pages…"
+#~ msgstr "Processing your scanned pages…"
 
 #: src/Components/Pages/Scanner/SkipOrRescanModal/SkipOrRescanModal.tsx:43
 msgid "Re-scan"
 msgstr "Re-scan"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:319
-msgid "Re-scan all pages?"
-msgstr "Re-scan all pages?"
+#~ msgid "Re-scan all pages?"
+#~ msgstr "Re-scan all pages?"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:116
+msgid "Re-scan document"
+msgstr "Re-scan document"
 
 #: src/Components/Pages/Scanner/hooks/useDocumentScanner.ts:118
 msgid "Re-scan page"
@@ -1260,6 +1292,10 @@ msgstr "Rent-stabilized units"
 msgid "Report"
 msgstr "Report"
 
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:122
+msgid "Request your rent history"
+msgstr "Request your rent history"
+
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:102
 msgid "Resend"
 msgstr "Resend"
@@ -1274,8 +1310,8 @@ msgstr "Restart"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:327
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:155
-msgid "Restart scan"
-msgstr "Restart scan"
+#~ msgid "Restart scan"
+#~ msgstr "Restart scan"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:554
 #: src/Components/Pages/Scanner/Scanner.tsx:574
@@ -1341,16 +1377,16 @@ msgstr "Scan a new rent history"
 #~ msgstr "Scan QR code with your smartphone to use your camera to scan your rent history"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:59
-msgid "Scan quality issues"
-msgstr "Scan quality issues"
+#~ msgid "Scan quality issues"
+#~ msgstr "Scan quality issues"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:334
 #~ msgid "Scan review"
 #~ msgstr "Scan review"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:158
-msgid "Scan review navigation"
-msgstr "Scan review navigation"
+#~ msgid "Scan review navigation"
+#~ msgstr "Scan review navigation"
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:55
 msgid "Scan the QR code below to get started."
@@ -1403,6 +1439,10 @@ msgstr "Search for a building"
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:138
 msgid "Securely compiling your rent history"
 msgstr "Securely compiling your rent history"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:109
+msgid "See an example"
+msgstr "See an example"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:174
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:214
@@ -1465,8 +1505,8 @@ msgstr "Skip or re-scan?"
 #~ msgstr "SMS delivery is pending. Check your phone shortly."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:198
-msgid "Something missing?"
-msgstr "Something missing?"
+#~ msgid "Something missing?"
+#~ msgstr "Something missing?"
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:112
 msgid "Something went wrong while processing your scans. Please try scanning again or contact support if this keeps happening."
@@ -1551,8 +1591,8 @@ msgstr "Step {stepNumber}: {titleText}"
 #~ msgstr "Step 5: What we found"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:175
-msgid "Still processing pages"
-msgstr "Still processing pages"
+#~ msgid "Still processing pages"
+#~ msgstr "Still processing pages"
 
 #: src/Components/FlowNav/FlowNav.tsx:34
 msgid "Submit"
@@ -1824,7 +1864,7 @@ msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:536
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:286
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:83
 msgid "Try again"
 msgstr "Try again"
 
@@ -1841,13 +1881,12 @@ msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:154
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:106
 msgid "Unable to finalize scan. Please try again."
 msgstr "Unable to finalize scan. Please try again."
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:123
 #: src/Components/Pages/Scanner/Scanner.tsx:529
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:279
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:76
 msgid "Unable to load compile status"
 msgstr "Unable to load compile status"
 
@@ -1864,8 +1903,8 @@ msgid "Unable to load scan previews."
 msgstr "Unable to load scan previews."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:106
-msgid "Unable to load scan review"
-msgstr "Unable to load scan review"
+#~ msgid "Unable to load scan review"
+#~ msgstr "Unable to load scan review"
 
 #: src/Components/Pages/Scanner/hooks/useDocumentScanner.ts:178
 msgid "Unable to load the scanner. Please refresh the page and try again."
@@ -1877,20 +1916,18 @@ msgstr "Unable to load the scanner. Please refresh the page and try again."
 #: src/Components/Pages/Scanner/Scanner.tsx:327
 #: src/Components/Pages/Scanner/Scanner.tsx:340
 #: src/Components/Pages/Scanner/Scanner.tsx:368
-#: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:43
 msgid "Unable to open the scanner. Please try again."
 msgstr "Unable to open the scanner. Please try again."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:211
-msgid "Unable to re-scan pages. Please try again."
-msgstr "Unable to re-scan pages. Please try again."
+#~ msgid "Unable to re-scan pages. Please try again."
+#~ msgstr "Unable to re-scan pages. Please try again."
 
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:148
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:471
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:163
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 
@@ -2000,8 +2037,8 @@ msgid "Visit JustFix"
 msgstr "Visit JustFix"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:179
-msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
-msgstr "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
+#~ msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
+#~ msgstr "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
 #~ msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
@@ -2041,8 +2078,8 @@ msgid "We generate a detailed report that explains what we found and what it cou
 msgstr "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewRetakeGroup.tsx:39
-msgid "We had some trouble reading the scan of the following pages:"
-msgstr "We had some trouble reading the scan of the following pages:"
+#~ msgid "We had some trouble reading the scan of the following pages:"
+#~ msgstr "We had some trouble reading the scan of the following pages:"
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:102
 msgid "We have not found any potential violations in your apartment's rent history."
@@ -2067,6 +2104,14 @@ msgstr "We sent a code to <0>{maskedPhone}</0>"
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:66
 msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr "We sent a new code to <0>{maskedPhone}</0>"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:60
+msgid "We weren't able to capture all of your rent history."
+msgstr "We weren't able to capture all of your rent history."
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:93
+msgid "We weren't able to read your document"
+msgstr "We weren't able to read your document"
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:178
 msgid "We will generate your report PDF and email it to you. You can optionally send copies to other people you trust."
@@ -2306,6 +2351,10 @@ msgstr "your rent history"
 msgid "Your rent history"
 msgstr "Your rent history"
 
+#: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:96
+msgid "Your rent history document should be a registration printout from the Division of Housing and Community Renewal (DHCR). If you don't have one, you can request it from DHCR before scanning again."
+msgstr "Your rent history document should be a registration printout from the Division of Housing and Community Renewal (DHCR). If you don't have one, you can request it from DHCR before scanning again."
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:134
 msgid "Your rent history report(s)"
 msgstr "Your rent history report(s)"
@@ -2323,8 +2372,8 @@ msgid "Your scanned pages"
 msgstr "Your scanned pages"
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:162
-msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
-msgstr "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
+#~ msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
+#~ msgstr "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:472
 #~ msgid "Your session is missing a rent history record."

@@ -1,3 +1,4 @@
+import type { RhEarlyValidation } from "../../../api/account/types";
 import type { ScanCoverageFailure } from "../../../hooks/useScanPipelineStatus";
 
 export type ScannerCaptureIntent =
@@ -17,4 +18,5 @@ export type ScanReviewLocationState = {
   failedUploadCount?: number;
   reviewError?: string | null;
   scanPipelineFailures?: ScanCoverageFailure[];
+  earlyValidation?: RhEarlyValidation | null;
 };

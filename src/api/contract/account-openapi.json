@@ -242,6 +242,10 @@
             "nullable": true,
             "type": "string"
           },
+          "page_number": {
+            "nullable": true,
+            "type": "integer"
+          },
           "profile_id": {
             "type": "integer"
           },
@@ -256,6 +260,10 @@
             "type": "string"
           },
           "start_year": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "total_pages": {
             "nullable": true,
             "type": "integer"
           }
@@ -404,6 +412,36 @@
         "required": [
           "deleted_pages",
           "s3_cleanup_status"
+        ],
+        "type": "object"
+      },
+      "RhEarlyValidation": {
+        "properties": {
+          "document_total_pages": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "missing_page_numbers": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "pages_needing_rescan": {
+            "items": {
+              "$ref": "#/components/schemas/RhPageRescanInfo"
+            },
+            "type": "array"
+          },
+          "passed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "document_total_pages",
+          "missing_page_numbers",
+          "pages_needing_rescan",
+          "passed"
         ],
         "type": "object"
       },
@@ -1382,6 +1420,10 @@
             "nullable": true,
             "type": "string"
           },
+          "page_number": {
+            "nullable": true,
+            "type": "integer"
+          },
           "profile_id": {
             "type": "integer"
           },
@@ -1398,6 +1440,10 @@
           "start_year": {
             "nullable": true,
             "type": "integer"
+          },
+          "total_pages": {
+            "nullable": true,
+            "type": "integer"
           }
         },
         "required": [
@@ -1409,68 +1455,25 @@
         ],
         "type": "object"
       },
-      "RhPageSummary": {
-        "description": "Subset of RhPage fields returned by scan-review on HTTP 200 ready.",
+      "RhPageRescanInfo": {
         "properties": {
-          "end_year": {
-            "description": "The last registration year of the rent history covered by this page.",
-            "format": "int64",
-            "maximum": 9223372036854775807,
-            "minimum": -9223372036854775808,
-            "nullable": true,
-            "type": "integer"
-          },
-          "error": {
-            "description": "Error message from the scan image extraction pipeline for this page.",
-            "nullable": true,
-            "type": "string"
-          },
-          "extraction_status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ExtractionStatusEnum"
-              }
-            ],
-            "description": "Scan extraction lifecycle: processing (early stub, still extracting), complete (finished with table data), no_table (finished without a registration table), needs_retake (finished but should be re-scanned), or error (pipeline failed; see error field).\n\n* `processing` - Processing\n* `complete` - Complete\n* `no_table` - No table\n* `needs_retake` - Needs retake\n* `error` - Error"
-          },
           "id": {
-            "readOnly": true,
+            "nullable": true,
             "type": "integer"
           },
-          "is_coverpage": {
-            "description": "Whether the page is the cover page of RH without table data",
+          "page_number": {
             "nullable": true,
-            "type": "boolean"
+            "type": "integer"
           },
-          "needs_retake": {
-            "readOnly": true,
-            "type": "boolean"
-          },
-          "quality_issue_reason": {
-            "description": "The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call.",
-            "maxLength": 255,
-            "nullable": true,
-            "type": "string"
-          },
-          "s3_key": {
-            "description": "S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write.",
-            "maxLength": 512,
-            "type": "string"
-          },
-          "start_year": {
-            "description": "The first registration year of the rent history covered by this page.",
-            "format": "int64",
-            "maximum": 9223372036854775807,
-            "minimum": -9223372036854775808,
+          "total_pages": {
             "nullable": true,
             "type": "integer"
           }
         },
         "required": [
-          "extraction_status",
           "id",
-          "needs_retake",
-          "s3_key"
+          "page_number",
+          "total_pages"
         ],
         "type": "object"
       },
@@ -1575,6 +1578,11 @@
       "RhScanPipelineStatusResponse": {
         "properties": {
           "early_validation": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RhEarlyValidation"
+              }
+            ],
             "nullable": true
           },
           "expected_page_count": {
@@ -1690,48 +1698,6 @@
           "url"
         ],
         "type": "object"
-      },
-      "RhScanReviewResponse": {
-        "properties": {
-          "db_count": {
-            "type": "integer"
-          },
-          "expected_page_count": {
-            "type": "integer"
-          },
-          "missing_year_ranges": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "pages": {
-            "items": {
-              "$ref": "#/components/schemas/RhPageSummary"
-            },
-            "type": "array"
-          },
-          "processing_complete": {
-            "type": "boolean"
-          },
-          "status": {
-            "$ref": "#/components/schemas/RhScanReviewResponseStatusEnum"
-          }
-        },
-        "required": [
-          "db_count",
-          "expected_page_count",
-          "status"
-        ],
-        "type": "object"
-      },
-      "RhScanReviewResponseStatusEnum": {
-        "description": "* `pending` - pending\n* `ready` - ready",
-        "enum": [
-          "pending",
-          "ready"
-        ],
-        "type": "string"
       },
       "RhSendMagicLinkSmsRequestRequest": {
         "properties": {
@@ -3211,87 +3177,6 @@
           }
         ],
         "summary": "Batch presigned S3 URLs for scan upload or download",
-        "tags": [
-          "Rent History"
-        ]
-      }
-    },
-    "/rh/history/scan-review": {
-      "get": {
-        "description": "DB-only poll comparing RhPage row count to client `expected_page_count`. HTTP 200 `status`: `pending` while fewer pages exist than expected (unless `accept_partial=true`), or `ready` after dedupe and gap detection. HTTP 400 when `accept_partial=true` and no pages exist yet.",
-        "operationId": "history_scan_review_retrieve",
-        "parameters": [
-          {
-            "description": "When true, skip the pending gate and return ready with partial data.",
-            "in": "query",
-            "name": "accept_partial",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "description": "Number of pages the client uploaded (minimum 1); may exceed post-dedup survivor count.",
-            "in": "query",
-            "name": "expected_page_count",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "description": "UUID of the RhHistory to check.",
-            "in": "query",
-            "name": "history_id",
-            "required": true,
-            "schema": {
-              "format": "uuid",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhScanReviewResponse"
-                }
-              }
-            },
-            "description": "Scan review poll succeeded (pending or ready)."
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid query params or accept_partial with no processed pages."
-          },
-          "401": {
-            "description": "Missing or invalid access token."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "RhProfile or RhHistory not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "all"
-            ]
-          }
-        ],
-        "summary": "Scan review poll for a RhHistory",
         "tags": [
           "Rent History"
         ]

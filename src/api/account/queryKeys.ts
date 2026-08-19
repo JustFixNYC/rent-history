@@ -3,10 +3,6 @@ const accountRoot = ["account"] as const;
 
 export const accountQueryKeys = {
   all: accountRoot,
-  scanReview: (historyId: string, expectedPageCount: number) =>
-    [...accountRoot, "scan-review", historyId, expectedPageCount] as const,
-  scanReviewBootstrap: (historyId: string) =>
-    [...accountRoot, "scan-review-bootstrap", historyId] as const,
   scanPipelineBootstrap: (historyId: string) =>
     [...accountRoot, "scan-pipeline-bootstrap", historyId] as const,
   scanPipelineStatus: (historyId: string) =>

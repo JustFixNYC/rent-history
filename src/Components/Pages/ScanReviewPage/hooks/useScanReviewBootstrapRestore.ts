@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLingui } from "@lingui/react";
 import { useNavigate } from "react-router-dom";
 
+import type { RhScanPipelineStatusResponse } from "../../../../api/account";
 import { getRhHistoryId } from "../../../../session/rhSessionStorage";
 import {
   clearScannerStepState,
@@ -10,7 +11,6 @@ import {
 } from "../scanReviewState";
 import { useScanPipelineBootstrap } from "../../Scanner/hooks/useScanPipelineBootstrap";
 import { shouldBootstrapCompiling } from "../../Scanner/hooks/useScannerBootstrapRestore";
-import { useScanReviewBootstrap } from "./useScanReviewBootstrap";
 
 export type UseScanReviewBootstrapRestoreParams = {
   accessToken: string | undefined;
@@ -24,7 +24,13 @@ export type UseScanReviewBootstrapRestoreResult = {
   pipelineBootstrapFailed: boolean;
   pipelineBootstrapLoading: boolean;
   retryPipelineBootstrap: () => void;
+  pipelineData: RhScanPipelineStatusResponse | undefined;
 };
+
+function resolveExpectedPageCount(data: RhScanPipelineStatusResponse): number {
+  const count = data.expected_page_count ?? data.uploads_observed_count;
+  return count > 0 ? count : 0;
+}
 
 export function useScanReviewBootstrapRestore({
   accessToken,
@@ -59,81 +65,38 @@ export function useScanReviewBootstrapRestore({
     pipelineBootstrap.data != null &&
     shouldBootstrapCompiling(pipelineBootstrap.data);
 
-  const hasSavedCount =
+  const hasSavedScanReview =
     savedStep?.phase === "scan-review" && savedStep.expectedPageCount > 0;
-
-  const scanReviewBootstrap = useScanReviewBootstrap({
-    accessToken,
-    historyId: historyId ?? undefined,
-    enabled:
-      restoreStatus === "pending" &&
-      pipelineGatePassed &&
-      !redirectToCompiling &&
-      !hasSavedCount,
-  });
 
   useEffect(() => {
     if (restoreStatus !== "pending" || !pipelineGatePassed) return;
+
+    const data = pipelineBootstrap.data;
+    if (!data) return;
+
+    if (data.scan_pipeline_status === "needs_rescan") {
+      const count = resolveExpectedPageCount(data);
+      setExpectedPageCount(count);
+      if (count > 0) {
+        writeScannerStepState({
+          phase: "scan-review",
+          expectedPageCount: count,
+        });
+      }
+      setRestoreStatus("done");
+      return;
+    }
 
     if (redirectToCompiling) {
       clearScannerStepState();
       navigate(`/${i18n.locale}/compiling`);
       setRestoreStatus("done");
-    }
-  }, [
-    i18n.locale,
-    navigate,
-    pipelineGatePassed,
-    redirectToCompiling,
-    restoreStatus,
-  ]);
-
-  useEffect(() => {
-    if (
-      restoreStatus !== "pending" ||
-      !pipelineGatePassed ||
-      redirectToCompiling
-    ) {
       return;
     }
 
-    if (hasSavedCount) {
+    if (hasSavedScanReview) {
       setExpectedPageCount(savedStep!.expectedPageCount);
       setRestoreStatus("done");
-      return;
-    }
-
-    if (scanReviewBootstrap.isLoading) return;
-
-    const applyScanReviewCount = (count: number) => {
-      if (count <= 0) {
-        clearScannerStepState();
-        navigate(`/${i18n.locale}/scanner`);
-        setRestoreStatus("done");
-        return;
-      }
-      setExpectedPageCount(count);
-      writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
-      setRestoreStatus("done");
-    };
-
-    if (scanReviewBootstrap.isError) {
-      clearScannerStepState();
-      navigate(`/${i18n.locale}/scanner`);
-      setRestoreStatus("done");
-      return;
-    }
-
-    const data = scanReviewBootstrap.data;
-    if (!data) return;
-
-    if (data.status === "ready" && data.pages.length > 0) {
-      applyScanReviewCount(data.db_count);
-      return;
-    }
-
-    if (data.status === "pending") {
-      applyScanReviewCount(data.expected_page_count);
       return;
     }
 
@@ -141,16 +104,14 @@ export function useScanReviewBootstrapRestore({
     navigate(`/${i18n.locale}/scanner`);
     setRestoreStatus("done");
   }, [
-    hasSavedCount,
+    hasSavedScanReview,
     i18n.locale,
     navigate,
+    pipelineBootstrap.data,
     pipelineGatePassed,
     redirectToCompiling,
     restoreStatus,
     savedStep,
-    scanReviewBootstrap.data,
-    scanReviewBootstrap.isError,
-    scanReviewBootstrap.isLoading,
   ]);
 
   return {
@@ -162,5 +123,6 @@ export function useScanReviewBootstrapRestore({
     retryPipelineBootstrap: () => {
       void pipelineBootstrap.refetch();
     },
+    pipelineData: pipelineBootstrap.data,
   };
 }
