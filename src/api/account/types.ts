@@ -30,11 +30,6 @@ export type RhHistoryRecord = {
   id: string;
 };
 
-/** `POST /rh/history/combine-pages` success body. */
-export type RhHistoryCombinePagesResponse = {
-  status: "ok";
-};
-
 /** `POST /rh/history/confirm-address` request (OpenAPI `RhHistoryConfirmAddressRequestRequest`). */
 export type RhHistoryConfirmAddressRequest =
   Schemas["RhHistoryConfirmAddressRequestRequest"];
@@ -78,7 +73,7 @@ export type RhPageRescanInfo = Schemas["RhPageRescanInfo"];
 /** Pipeline early coverage result on `GET /rh/history/scan-pipeline-status`. */
 export type RhEarlyValidation = Schemas["RhEarlyValidation"];
 
-/** `RhAnalysisPage` — pages kept for analysis after combine-pages. */
+/** `RhAnalysisPage` — pages kept for analysis after scan pipeline combine. */
 export type RhAnalysisPage = Omit<
   Schemas["RhAnalysisPage"],
   "start_year" | "end_year"
@@ -172,13 +167,6 @@ export type RhReviewQueue = Schemas["RhReviewQueue"];
 
 /** Queue changes after reconcile / validate-finding. */
 export type RhQueueDelta = Schemas["RhQueueDelta"];
-
-/** `POST /rh/history/run-analysis` request body. */
-export type RhRunAnalysisRequestRequest =
-  Schemas["RhRunAnalysisRequestRequest"];
-
-/** `POST /rh/history/run-analysis` response. */
-export type RhRunAnalysisResponse = Schemas["RhRunAnalysisResponse"];
 
 /** `POST /rh/history/validate-finding` request body. */
 export type RhValidateFindingRequestRequest =

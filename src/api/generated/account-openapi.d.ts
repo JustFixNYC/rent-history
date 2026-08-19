@@ -64,26 +64,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/combine-pages": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Combine RhPages into RhHistory.data_initial
-         * @description Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial and data_current (deep copy; same row shape). Does not return the merged table.
-         */
-        post: operations["history_combine_pages_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/rh/history/confirm-address": {
         parameters: {
             query?: never;
@@ -286,26 +266,6 @@ export interface paths {
          * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata (does not change `last_step_reached`).
          */
         post: operations["history_report_pdf_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/rh/history/run-analysis": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Run findings analysis on combined history data
-         * @description Runs mock analysis on existing data_current (from combine-pages), populates findings_initial and findings_current, and returns the review queue.
-         */
-        post: operations["history_run_analysis_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -515,8 +475,6 @@ export interface components {
          *     * `unauthorized_client` - Unauthorized OAuth client
          *     * `nycdb_not_configured` - NYCDB not configured
          *     * `nycdb_query_failed` - NYCDB query failed
-         *     * `combine_pages_failed` - Combine pages failed
-         *     * `analysis_already_run` - Analysis already run
          *     * `finding_not_found` - Finding not found
          *     * `findings_not_initialized` - Findings not initialized
          *     * `storage_not_configured` - Storage not configured
@@ -530,7 +488,7 @@ export interface components {
          *     * `rh_page_not_found` - RH page not found
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "magic_link_expired" | "magic_link_invalid" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "magic_link_expired" | "magic_link_invalid" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found";
         /**
          * @description * `processing` - Processing
          *     * `complete` - Complete
@@ -620,17 +578,11 @@ export interface components {
         ResultEnum: "no_violation" | "potential_violation" | "dismissed";
         /** @description Pages used in analysis (keep=True), for GET /rh/history/analysis-pages. */
         RhAnalysisPage: {
-            /**
-             * Format: int64
-             * @description The last registration year of the rent history covered by this page.
-             */
+            /** @description The last registration year of the rent history covered by this page. */
             end_year?: number | null;
             /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
             s3_key: string;
-            /**
-             * Format: int64
-             * @description The first registration year of the rent history covered by this page.
-             */
+            /** @description The first registration year of the rent history covered by this page. */
             start_year?: number | null;
         };
         RhAnalysisPagesResponse: {
@@ -752,9 +704,6 @@ export interface components {
         RhFindingsStateResponse: {
             findings_current: components["schemas"]["RhFinding"][];
             review_queue: components["schemas"]["RhReviewQueue"];
-        };
-        RhHistoryCombinePagesOkResponse: {
-            status: string;
         };
         RhHistoryConfirmAddressRequestRequest: {
             address?: string | null;
@@ -924,10 +873,7 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
             readonly data: components["schemas"]["RhStandardizedTableRow"][];
-            /**
-             * Format: int64
-             * @description The last registration year of the rent history covered by this page.
-             */
+            /** @description The last registration year of the rent history covered by this page. */
             end_year?: number | null;
             /** @description Error message from the scan image extraction pipeline for this page. */
             error?: string | null;
@@ -953,7 +899,7 @@ export interface components {
             readonly id: number;
             /** @description Whether the page is the cover page of RH without table data */
             is_coverpage?: boolean | null;
-            /** @description True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until combine-pages runs. */
+            /** @description True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until scan pipeline milestone 2. */
             readonly keep: boolean | null;
             /** @description The ID of the model used for the image extraction pipeline for this page. Used to track usage and billing. */
             model_id?: string | null;
@@ -962,10 +908,7 @@ export interface components {
             quality_issue_reason?: string | null;
             /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
             s3_key: string;
-            /**
-             * Format: int64
-             * @description The first registration year of the rent history covered by this page.
-             */
+            /** @description The first registration year of the rent history covered by this page. */
             start_year?: number | null;
             /** Format: date-time */
             readonly updated_at: string;
@@ -1011,20 +954,6 @@ export interface components {
         /** @description Ordered finding ids for review navigation. */
         RhReviewQueue: {
             ordered_ids: string[];
-        };
-        /**
-         * @description POST run-analysis request body.
-         *
-         *     Alias of :class:`rh.serializers.RhHistoryIdRequestSerializer` (``history_id`` only).
-         */
-        RhRunAnalysisRequestRequest: {
-            /** Format: uuid */
-            history_id: string;
-        };
-        /** @description POST run-analysis response. */
-        RhRunAnalysisResponse: {
-            findings_current: components["schemas"]["RhFinding"][];
-            review_queue: components["schemas"]["RhReviewQueue"];
         };
         RhScanPipelineStatusResponse: {
             early_validation: components["schemas"]["RhEarlyValidation"] | null;
@@ -1247,55 +1176,6 @@ export interface operations {
                 };
             };
             /** @description Missing or invalid history_id. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Missing or invalid access token. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description RhProfile or RhHistory not found. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
-    history_combine_pages_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RhHistoryIdRequestRequest"];
-            };
-        };
-        responses: {
-            /** @description Combine completed and history updated. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhHistoryCombinePagesOkResponse"];
-                };
-            };
-            /** @description Validation failed (e.g. non-contiguous reg_year). */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1629,7 +1509,7 @@ export interface operations {
                     "application/json": components["schemas"]["RhFindingsStateResponse"];
                 };
             };
-            /** @description Validation failed, combine-pages not completed, or analysis not run. */
+            /** @description Validation failed, scan pipeline data not ready, or analysis not run. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1943,63 +1823,6 @@ export interface operations {
             };
         };
     };
-    history_run_analysis_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RhRunAnalysisRequestRequest"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhRunAnalysisResponse"];
-                };
-            };
-            /** @description Validation failed or combine-pages not completed. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Missing or invalid access token. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description RhProfile or RhHistory not found. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Analysis has already been run for this history. */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
     history_scan_pipeline_status_retrieve: {
         parameters: {
             query: {
@@ -2134,7 +1957,7 @@ export interface operations {
                     "application/json": components["schemas"]["RhValidateFindingResponse"];
                 };
             };
-            /** @description Validation failed, combine-pages not completed, or analysis not run. */
+            /** @description Validation failed, scan pipeline data not ready, or analysis not run. */
             400: {
                 headers: {
                     [name: string]: unknown;

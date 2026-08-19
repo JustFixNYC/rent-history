@@ -1,6 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-  combineRhHistoryPages,
   createRhHistory,
   deleteAllRhScannedPages,
   deleteRhScannedPages,
@@ -8,7 +7,6 @@ import {
   getRhHistoryAnalysisPages,
   confirmRhHistoryAddress,
   setRhHistoryCurrentRent,
-  postRhHistoryRunAnalysis,
   sendRhMagicLinkSms,
   startRhLogin,
   validateRhFinding,
@@ -318,34 +316,6 @@ describe("setRhHistoryCurrentRent", () => {
   });
 });
 
-describe("combineRhHistoryPages", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-    vi.unstubAllEnvs();
-  });
-
-  it("posts history_id with Bearer and JSON body to combine-pages", async () => {
-    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
-
-    const fetchSpy = vi
-      .spyOn(globalThis, "fetch")
-      .mockResolvedValue(jsonResponse({ status: "ok" }, { status: 200 }));
-
-    const hid = "22222222-2222-4222-8222-222222222222";
-    await combineRhHistoryPages("access-token", hid);
-
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const request = getMockedFetchRequest(fetchSpy);
-    expect(request.url).toBe(
-      "https://auth.example.org/rh/history/combine-pages"
-    );
-    expect(request.method).toBe("POST");
-    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
-    expect(request.headers.get("Content-Type")).toBe("application/json");
-    expect(await request.text()).toBe(JSON.stringify({ history_id: hid }));
-  });
-});
-
 describe("startRhLogin", () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -546,41 +516,6 @@ const sampleFinding = {
   validated_at: null,
   result: null,
 };
-
-describe("postRhHistoryRunAnalysis", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-    vi.unstubAllEnvs();
-  });
-
-  it("posts history_id with Bearer and JSON body to run-analysis", async () => {
-    vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
-
-    const responseBody = {
-      findings_current: [sampleFinding],
-      review_queue: { ordered_ids: [findingId] },
-    };
-
-    const fetchSpy = vi
-      .spyOn(globalThis, "fetch")
-      .mockResolvedValue(jsonResponse(responseBody, { status: 200 }));
-
-    const result = await postRhHistoryRunAnalysis("access-token", historyId);
-
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
-    const request = getMockedFetchRequest(fetchSpy);
-    expect(request.url).toBe(
-      "https://auth.example.org/rh/history/run-analysis"
-    );
-    expect(request.method).toBe("POST");
-    expect(request.headers.get("Authorization")).toBe("Bearer access-token");
-    expect(request.headers.get("Content-Type")).toBe("application/json");
-    expect(await request.text()).toBe(
-      JSON.stringify({ history_id: historyId })
-    );
-    expect(result).toEqual(responseBody);
-  });
-});
 
 describe("validateRhFinding", () => {
   afterEach(() => {

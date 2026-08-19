@@ -202,7 +202,6 @@ vi.mock("../../../api/account/api", async () => {
   >("../../../api/account/api");
   return {
     ...actual,
-    combineRhHistoryPages: vi.fn(),
     createRhHistory: vi.fn(),
     deleteAllRhScannedPages: vi.fn().mockResolvedValue({
       deleted_pages: 1,

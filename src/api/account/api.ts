@@ -13,7 +13,6 @@ import type {
   RhFinalizeScanRequest,
   RhFinalizeScanResponse,
   RhScanPipelineStatusResponse,
-  RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
   RhHistorySetCurrentRentRequest,
@@ -31,7 +30,6 @@ import type {
   RhMagicLinkVerifyResponse,
   RhOtpTokenResponse,
   RhSendMagicLinkSmsResponse,
-  RhRunAnalysisResponse,
   RhScanPresignRequest,
   RhScanPresignResponse,
   RhValidateFindingRequestRequest,
@@ -221,20 +219,6 @@ export const deleteRhScannedPages = (
   );
 
 /**
- * `POST /rh/history/combine-pages` — Merge pages into `data_initial` (success returns `{ status: "ok" }` only).
- */
-export const combineRhHistoryPages = (
-  accessToken: string,
-  historyId: string
-): Promise<RhHistoryCombinePagesResponse> =>
-  unwrapAccountResponse(
-    getAccountClient().POST("/rh/history/combine-pages", {
-      headers: bearerHeaders(accessToken),
-      body: { history_id: historyId },
-    })
-  ) as Promise<RhHistoryCombinePagesResponse>;
-
-/**
  * `GET /rh/history/scan-pipeline-status` — OAuth2 bearer.
  * Returns pipeline phase and last_step_reached for the compiling waiting screen.
  */
@@ -359,20 +343,6 @@ export const downloadRhHistoryReportPdf = async (
   void data;
   return response.blob();
 };
-
-/**
- * `POST /rh/history/run-analysis` — OAuth2 bearer; run analysis and return findings + queue.
- */
-export const postRhHistoryRunAnalysis = (
-  accessToken: string,
-  historyId: string
-): Promise<RhRunAnalysisResponse> =>
-  unwrapAccountResponse(
-    getAccountClient().POST("/rh/history/run-analysis", {
-      headers: bearerHeaders(accessToken),
-      body: { history_id: historyId },
-    })
-  );
 
 /**
  * `POST /rh/history/validate-finding` — OAuth2 bearer; validate one finding and return queue delta.

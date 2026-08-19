@@ -46,7 +46,7 @@
         "type": "object"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `magic_link_expired` - Magic link expired\n* `magic_link_invalid` - Magic link invalid\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `combine_pages_failed` - Combine pages failed\n* `analysis_already_run` - Analysis already run\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied\n* `rh_page_not_found` - RH page not found",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `magic_link_expired` - Magic link expired\n* `magic_link_invalid` - Magic link invalid\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied\n* `rh_page_not_found` - RH page not found",
         "enum": [
           "otp_expired",
           "otp_invalid",
@@ -64,8 +64,6 @@
           "unauthorized_client",
           "nycdb_not_configured",
           "nycdb_query_failed",
-          "combine_pages_failed",
-          "analysis_already_run",
           "finding_not_found",
           "findings_not_initialized",
           "storage_not_configured",
@@ -301,9 +299,8 @@
         "properties": {
           "end_year": {
             "description": "The last registration year of the rent history covered by this page.",
-            "format": "int64",
-            "maximum": 9223372036854775807,
-            "minimum": -9223372036854775808,
+            "maximum": 2147483647,
+            "minimum": -2147483648,
             "nullable": true,
             "type": "integer"
           },
@@ -314,9 +311,8 @@
           },
           "start_year": {
             "description": "The first registration year of the rent history covered by this page.",
-            "format": "int64",
-            "maximum": 9223372036854775807,
-            "minimum": -9223372036854775808,
+            "maximum": 2147483647,
+            "minimum": -2147483648,
             "nullable": true,
             "type": "integer"
           }
@@ -744,17 +740,6 @@
         "required": [
           "findings_current",
           "review_queue"
-        ],
-        "type": "object"
-      },
-      "RhHistoryCombinePagesOkResponse": {
-        "properties": {
-          "status": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "status"
         ],
         "type": "object"
       },
@@ -1266,9 +1251,8 @@
           },
           "end_year": {
             "description": "The last registration year of the rent history covered by this page.",
-            "format": "int64",
-            "maximum": 9223372036854775807,
-            "minimum": -9223372036854775808,
+            "maximum": 2147483647,
+            "minimum": -2147483648,
             "nullable": true,
             "type": "integer"
           },
@@ -1310,7 +1294,7 @@
             "type": "boolean"
           },
           "keep": {
-            "description": "True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until combine-pages runs.",
+            "description": "True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until scan pipeline milestone 2.",
             "nullable": true,
             "readOnly": true,
             "type": "boolean"
@@ -1338,9 +1322,8 @@
           },
           "start_year": {
             "description": "The first registration year of the rent history covered by this page.",
-            "format": "int64",
-            "maximum": 9223372036854775807,
-            "minimum": -9223372036854775808,
+            "maximum": 2147483647,
+            "minimum": -2147483648,
             "nullable": true,
             "type": "integer"
           },
@@ -1540,38 +1523,6 @@
         },
         "required": [
           "ordered_ids"
-        ],
-        "type": "object"
-      },
-      "RhRunAnalysisRequestRequest": {
-        "description": "POST run-analysis request body.\n\nAlias of :class:`rh.serializers.RhHistoryIdRequestSerializer` (``history_id`` only).",
-        "properties": {
-          "history_id": {
-            "format": "uuid",
-            "type": "string"
-          }
-        },
-        "required": [
-          "history_id"
-        ],
-        "type": "object"
-      },
-      "RhRunAnalysisResponse": {
-        "description": "POST run-analysis response.",
-        "properties": {
-          "findings_current": {
-            "items": {
-              "$ref": "#/components/schemas/RhFinding"
-            },
-            "type": "array"
-          },
-          "review_queue": {
-            "$ref": "#/components/schemas/RhReviewQueue"
-          }
-        },
-        "required": [
-          "findings_current",
-          "review_queue"
         ],
         "type": "object"
       },
@@ -2148,68 +2099,6 @@
         ]
       }
     },
-    "/rh/history/combine-pages": {
-      "post": {
-        "description": "Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial and data_current (deep copy; same row shape). Does not return the merged table.",
-        "operationId": "history_combine_pages_create",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RhHistoryIdRequestRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhHistoryCombinePagesOkResponse"
-                }
-              }
-            },
-            "description": "Combine completed and history updated."
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "Validation failed (e.g. non-contiguous reg_year)."
-          },
-          "401": {
-            "description": "Missing or invalid access token."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "RhProfile or RhHistory not found."
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "all"
-            ]
-          }
-        ],
-        "summary": "Combine RhPages into RhHistory.data_initial",
-        "tags": [
-          "Rent History"
-        ]
-      }
-    },
     "/rh/history/confirm-address": {
       "post": {
         "description": "Updates address, apartment, bbl, and bin on an existing RhHistory, queries NYCDB for building unit counts and active program flags, sets last_step_reached to ADDRESS_CONFIRMATION, and returns the resolved values.",
@@ -2592,7 +2481,7 @@
                 }
               }
             },
-            "description": "Validation failed, combine-pages not completed, or analysis not run."
+            "description": "Validation failed, scan pipeline data not ready, or analysis not run."
           },
           "401": {
             "description": "Missing or invalid access token."
@@ -2964,78 +2853,6 @@
         ]
       }
     },
-    "/rh/history/run-analysis": {
-      "post": {
-        "description": "Runs mock analysis on existing data_current (from combine-pages), populates findings_initial and findings_current, and returns the review queue.",
-        "operationId": "history_run_analysis_create",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RhRunAnalysisRequestRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhRunAnalysisResponse"
-                }
-              }
-            },
-            "description": ""
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "Validation failed or combine-pages not completed."
-          },
-          "401": {
-            "description": "Missing or invalid access token."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "RhProfile or RhHistory not found."
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "Analysis has already been run for this history."
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "all"
-            ]
-          }
-        ],
-        "summary": "Run findings analysis on combined history data",
-        "tags": [
-          "Rent History"
-        ]
-      }
-    },
     "/rh/history/scan-pipeline-status": {
       "get": {
         "description": "Returns pipeline phase, page counts, early validation snapshot, and last_step_reached for the compiling waiting screen.",
@@ -3215,7 +3032,7 @@
                 }
               }
             },
-            "description": "Validation failed, combine-pages not completed, or analysis not run."
+            "description": "Validation failed, scan pipeline data not ready, or analysis not run."
           },
           "401": {
             "description": "Missing or invalid access token."

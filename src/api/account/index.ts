@@ -32,7 +32,6 @@ export type {
   RhFinalizeScanRequest,
   RhFinalizeScanResponse,
   RhScanPipelineStatusResponse,
-  RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
   RhHistorySetCurrentRentRequest,
@@ -60,8 +59,6 @@ export type {
   RhScanReviewResponse,
   RhQueueDelta,
   RhReviewQueue,
-  RhRunAnalysisRequestRequest,
-  RhRunAnalysisResponse,
   ReportPdfLocale,
   RhProfile,
   RhScanPresignRequest,
@@ -91,11 +88,9 @@ export { useDeleteRhHistory, useRhHistories } from "./hooks/histories";
 export { useConfirmRhHistoryAddress } from "./hooks/confirmAddress";
 export {
   useRhFindingsState,
-  useRunRhAnalysis,
   useValidateRhFinding,
 } from "./hooks/findingsReview";
 export {
-  combineRhHistoryPages,
   confirmRhHistoryAddress,
   setRhHistoryCurrentRent,
   createRhHistory,
@@ -110,7 +105,6 @@ export {
   getRhFindingsState,
   getRhHistoryAnalysisPages,
   getRhHistoryScanPipelineStatus,
-  postRhHistoryRunAnalysis,
   postRhHistoryScanPresign,
   sendRhMagicLinkSms,
   startRhLogin,
