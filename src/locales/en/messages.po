@@ -145,7 +145,7 @@ msgstr "Additional recipients"
 msgid "Address"
 msgstr "Address"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:83
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:95
 msgid "Analysis has already been run for this rent history."
 msgstr "Analysis has already been run for this rent history."
 
@@ -231,7 +231,7 @@ msgstr "Apt. {0}"
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:114
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:156
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:172
 msgid "Back"
 msgstr "Back"
 
@@ -314,8 +314,7 @@ msgstr "Could not load scan images from storage."
 msgid "Cover page"
 msgstr "Cover page"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:114
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:136
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:152
 msgid "Current monthly rent"
 msgstr "Current monthly rent"
 
@@ -861,7 +860,7 @@ msgstr "Please enter a valid email address."
 msgid "Please enter a valid phone number."
 msgstr "Please enter a valid phone number."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:44
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:51
 msgid "Please enter a valid rent amount."
 msgstr "Please enter a valid rent amount."
 
@@ -873,7 +872,7 @@ msgstr "Please enter all 6 digits."
 msgid "Please enter your email address."
 msgstr "Please enter your email address."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:40
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:47
 msgid "Please enter your monthly rent."
 msgstr "Please enter your monthly rent."
 
@@ -1079,7 +1078,7 @@ msgstr "Something went wrong while verifying your code."
 msgid "Something went wrong. Please try again."
 msgstr "Something went wrong. Please try again."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:97
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:112
 msgid "Start analysis"
 msgstr "Start analysis"
 
@@ -1099,7 +1098,7 @@ msgstr "Started {startedOn}"
 #~ msgid "Started Feb 3, 2026"
 #~ msgstr "Started Feb 3, 2026"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:111
 msgid "Starting analysis…"
 msgstr "Starting analysis…"
 
@@ -1123,7 +1122,7 @@ msgstr "Step 3: Enter address"
 #~ msgid "Step 4: Enter address"
 #~ msgstr "Step 4: Enter address"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:104
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:119
 msgid "Step 4: Provide your rent"
 msgstr "Step 4: Provide your rent"
 
@@ -1267,6 +1266,10 @@ msgstr "This rent history, started on {deleteDate}, will be permanently deleted.
 msgid "This tool was created by JustFix, in collaboration with leading rent history experts."
 msgstr "This tool was created by JustFix, in collaboration with leading rent history experts."
 
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:134
+msgid "This will help in our analysis of your rent history TK"
+msgstr "This will help in our analysis of your rent history TK"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:227
 msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 msgstr "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
@@ -1303,7 +1306,7 @@ msgstr "Unable to load findings."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:91
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:103
 msgid "Unable to start analysis. Please try again."
 msgstr "Unable to start analysis. Please try again."
 
@@ -1387,8 +1390,8 @@ msgid "Visit JustFix"
 msgstr "Visit JustFix"
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
-msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
-msgstr "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
+#~ msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
+#~ msgstr "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:261
 msgid "We could not find a building ID for that address. Try another search."
@@ -1490,6 +1493,10 @@ msgstr "Were you living in this apartment in year {vacancyYear}?"
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:60
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
 msgstr "Were you living in this apartment in year {year0}?"
+
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:129
+msgid "What is the total monthly rent for your entire apartment?"
+msgstr "What is the total monthly rent for your entire apartment?"
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:123
 msgid "Why this is important"
@@ -1649,7 +1656,7 @@ msgstr "Your session is missing a rent history record."
 msgid "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
 msgstr "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:63
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:70
 msgid "Your session is missing a rent history record. Please sign in again."
 msgstr "Your session is missing a rent history record. Please sign in again."
 

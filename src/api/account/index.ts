@@ -32,6 +32,8 @@ export type {
   RhHistoryCombinePagesResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhHistorySetCurrentRentRequest,
+  RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
   RhHistoryList,
   RhHistoryPageDeleteResponse,
@@ -90,6 +92,7 @@ export {
 export {
   combineRhHistoryPages,
   confirmRhHistoryAddress,
+  setRhHistoryCurrentRent,
   createRhHistory,
   createRhHistoryReportPdf,
   deleteRhHistory,
