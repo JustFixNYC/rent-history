@@ -58,6 +58,8 @@ const needsRescanPipelineResponse = {
     document_total_pages: 2,
     missing_page_numbers: [],
     pages_needing_rescan: [{ id: 1, page_number: 1, total_pages: 2 }],
+    scanned_max_reg_year: 2020,
+    warnings: [],
   },
   user_message_key: null,
 };

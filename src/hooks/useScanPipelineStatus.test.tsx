@@ -75,6 +75,8 @@ const passedEarlyValidation = {
   document_total_pages: null,
   missing_page_numbers: [],
   pages_needing_rescan: [],
+  scanned_max_reg_year: 2020,
+  warnings: [],
 };
 
 describe("parseEarlyValidationFailures", () => {
@@ -249,6 +251,8 @@ describe("useScanPipelineStatus", () => {
       document_total_pages: 3,
       missing_page_numbers: [],
       pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: 3 }],
+      scanned_max_reg_year: 2020,
+      warnings: [],
     };
 
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
