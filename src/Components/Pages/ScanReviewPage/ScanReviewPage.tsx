@@ -21,7 +21,8 @@ import {
 import { useScanReviewBootstrapRestore } from "./hooks/useScanReviewBootstrapRestore";
 import { ScanReviewErrorScreen } from "./ScanReviewErrorScreen";
 import { ScanReviewTotalFailureScreen } from "./ScanReviewTotalFailureScreen";
-import { resolveScanReviewErrorState } from "./scanReviewErrorState";
+import { ScanReviewEntryScreen } from "./scanReviewModes";
+import { resolveScanReviewScreen } from "./scanReviewScreenState";
 import { clearScannerStepState } from "./scanReviewState";
 import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
 
@@ -61,8 +62,8 @@ const ScanReviewPage = () => {
   const earlyValidation =
     locationState?.earlyValidation ?? pipelineData?.early_validation ?? null;
 
-  const errorState = useMemo(
-    () => resolveScanReviewErrorState(locationState, earlyValidation),
+  const screenState = useMemo(
+    () => resolveScanReviewScreen(locationState, earlyValidation),
     [earlyValidation, locationState]
   );
 
@@ -178,7 +179,7 @@ const ScanReviewPage = () => {
       );
     }
 
-    if (errorState.mode === "E") {
+    if (screenState.screen === ScanReviewEntryScreen.totalFailure) {
       return (
         <ScanReviewTotalFailureScreen
           isRescanPending={isRescanPending}
@@ -190,10 +191,10 @@ const ScanReviewPage = () => {
       );
     }
 
-    if (errorState.mode === "D") {
+    if (screenState.screen === ScanReviewEntryScreen.partialPageErrors) {
       return (
         <ScanReviewErrorScreen
-          errorState={errorState}
+          screenState={screenState}
           isRescanPending={isRescanPending}
           rescanError={rescanError}
           onPartialRescan={() => {

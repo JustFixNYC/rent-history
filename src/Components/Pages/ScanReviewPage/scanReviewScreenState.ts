@@ -3,40 +3,42 @@ import type {
   RhPageRescanInfo,
 } from "../../../api/account/types";
 import type { ScanReviewLocationState } from "../Scanner/scannerLocationState";
+import { ScanReviewEntryScreen, ScanReviewMode } from "./scanReviewModes";
 
-export type ScanReviewMode = "A" | "B" | "C" | "D" | "E";
-
-export type ScanReviewModeAState = {
-  mode: "A";
+/** Entry screen: incremental flow, warning-only path. */
+export type ScanReviewWarningOnlyFlowState = {
+  screen: typeof ScanReviewEntryScreen.incrementalFlow;
+  flowMode: typeof ScanReviewMode.warningOnly;
   earlyValidation: RhEarlyValidation;
 };
 
-export type ScanReviewModeBState = {
-  mode: "B";
+/** Entry screen: incremental flow, errors + warning path. */
+export type ScanReviewErrorsAndWarningFlowState = {
+  screen: typeof ScanReviewEntryScreen.incrementalFlow;
+  flowMode: typeof ScanReviewMode.errorsAndWarning;
   earlyValidation: RhEarlyValidation;
 };
 
-export type ScanReviewModeCState = {
-  mode: "C";
-  earlyValidation: RhEarlyValidation;
-};
+export type ScanReviewIncrementalFlowState =
+  | ScanReviewWarningOnlyFlowState
+  | ScanReviewErrorsAndWarningFlowState;
 
-export type ScanReviewModeDState = {
-  mode: "D";
+/** Entry screen: partial page errors with Page N callout. */
+export type ScanReviewPartialPageErrorsState = {
+  screen: typeof ScanReviewEntryScreen.partialPageErrors;
   pages: RhPageRescanInfo[];
   documentTotalPages: number | null;
 };
 
-export type ScanReviewModeEState = {
-  mode: "E";
+/** Entry screen: unrecoverable total failure. */
+export type ScanReviewTotalFailureState = {
+  screen: typeof ScanReviewEntryScreen.totalFailure;
 };
 
-export type ScanReviewErrorState =
-  | ScanReviewModeAState
-  | ScanReviewModeBState
-  | ScanReviewModeCState
-  | ScanReviewModeDState
-  | ScanReviewModeEState;
+export type ScanReviewScreenState =
+  | ScanReviewIncrementalFlowState
+  | ScanReviewPartialPageErrorsState
+  | ScanReviewTotalFailureState;
 
 export function isNonPipelineScanReviewEntry(
   locationState: ScanReviewLocationState | null | undefined
@@ -97,47 +99,63 @@ function hasActionableRescanMetadata(
   );
 }
 
-export function resolveScanReviewErrorState(
+/**
+ * Resolves the scan-review **entry screen** from pipeline early_validation and
+ * router location state.
+ *
+ * Returns `incrementalFlow`, `partialPageErrors`, or `totalFailure` only.
+ * `warningYearMismatch` is a flow-local phase inside
+ * `ScanReviewFlow` after Continue — not resolved here (Task 6).
+ */
+export function resolveScanReviewScreen(
   locationState: ScanReviewLocationState | null | undefined,
   earlyValidation: RhEarlyValidation | null | undefined
-): ScanReviewErrorState {
+): ScanReviewScreenState {
   if (isNonPipelineScanReviewEntry(locationState)) {
-    return { mode: "E" };
+    return { screen: ScanReviewEntryScreen.totalFailure };
   }
 
   if (!earlyValidation) {
-    return { mode: "E" };
+    return { screen: ScanReviewEntryScreen.totalFailure };
   }
 
   const warningPresent = hasScanReviewWarning(earlyValidation);
 
   if (warningPresent && !isWarningStepEligible(earlyValidation)) {
-    return { mode: "E" };
+    return { screen: ScanReviewEntryScreen.totalFailure };
   }
 
   if (earlyValidation.passed) {
     if (warningPresent) {
-      return { mode: "A", earlyValidation };
+      return {
+        screen: ScanReviewEntryScreen.incrementalFlow,
+        flowMode: ScanReviewMode.warningOnly,
+        earlyValidation,
+      };
     }
-    return { mode: "E" };
+    return { screen: ScanReviewEntryScreen.totalFailure };
   }
 
   if (warningPresent) {
-    return { mode: "C", earlyValidation };
+    return {
+      screen: ScanReviewEntryScreen.incrementalFlow,
+      flowMode: ScanReviewMode.errorsAndWarning,
+      earlyValidation,
+    };
   }
 
   const labelablePages = getLabelableRescanPages(earlyValidation);
   if (labelablePages.length > 0) {
     return {
-      mode: "D",
+      screen: ScanReviewEntryScreen.partialPageErrors,
       pages: labelablePages,
       documentTotalPages: earlyValidation.document_total_pages,
     };
   }
 
   if (!hasActionableRescanMetadata(earlyValidation)) {
-    return { mode: "E" };
+    return { screen: ScanReviewEntryScreen.totalFailure };
   }
 
-  return { mode: "E" };
+  return { screen: ScanReviewEntryScreen.totalFailure };
 }

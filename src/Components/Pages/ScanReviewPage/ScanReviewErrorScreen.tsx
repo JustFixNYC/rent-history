@@ -4,12 +4,12 @@ import { Trans } from "@lingui/react/macro";
 import { Button, Icon } from "@justfixnyc/component-library";
 
 import { ScanReviewPageErrorCallout } from "./ScanReviewPageErrorCallout";
-import type { ScanReviewModeDState } from "./scanReviewErrorState";
+import type { ScanReviewPartialPageErrorsState } from "./scanReviewScreenState";
 
 import "./ScanReviewScreen.scss";
 
 export type ScanReviewErrorScreenProps = {
-  errorState: ScanReviewModeDState;
+  screenState: ScanReviewPartialPageErrorsState;
   isLoading?: boolean;
   isRescanPending?: boolean;
   rescanError?: string | null;
@@ -17,7 +17,7 @@ export type ScanReviewErrorScreenProps = {
 };
 
 export const ScanReviewErrorScreen = ({
-  errorState,
+  screenState,
   isLoading = false,
   isRescanPending = false,
   rescanError = null,
@@ -42,7 +42,7 @@ export const ScanReviewErrorScreen = ({
     );
   }
 
-  const pageCount = errorState.pages.length;
+  const pageCount = screenState.pages.length;
 
   return (
     <div
@@ -57,8 +57,8 @@ export const ScanReviewErrorScreen = ({
           </Trans>
         </h2>
         <ScanReviewPageErrorCallout
-          pages={errorState.pages}
-          documentTotalPages={errorState.documentTotalPages}
+          pages={screenState.pages}
+          documentTotalPages={screenState.documentTotalPages}
         />
         {rescanError ? (
           <p

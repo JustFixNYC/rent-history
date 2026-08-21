@@ -5,7 +5,7 @@ import { useLingui } from "@lingui/react";
 import { Pill } from "@justfixnyc/component-library";
 
 import type { RhPageRescanInfo } from "../../../api/account/types";
-import { formatPageRescanLabel } from "./scanReviewErrorState";
+import { formatPageRescanLabel } from "./scanReviewScreenState";
 
 import "./ScanReviewScreen.scss";
 
