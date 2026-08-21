@@ -167,6 +167,8 @@ describe("ScanReviewPage error states", () => {
       "data-step-id",
       "compiling"
     );
+    expect(screen.queryByTestId("scan-review-flow")).not.toBeInTheDocument();
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
   });
 
   it("shows single-page CTA when one page needs rescan", async () => {
@@ -424,6 +426,89 @@ describe("ScanReviewPage incremental flow", () => {
       "warningOnly"
     );
     expect(screen.getByRole("button", { name: "Continue" })).toBeDisabled();
+  });
+
+  it("renders errorsAndWarning incremental flow from pipeline early_validation", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: false,
+        document_total_pages: null,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: null }],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
+      "data-flow-mode",
+      "errorsAndWarning"
+    );
+    expect(
+      screen.getByText(/Some pages could not be read/)
+    ).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("scan-review-partial-error")
+    ).not.toBeInTheDocument();
+  });
+
+  it("navigates to compiling when warningOnly confirm matches scanned max", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        document_total_pages: null,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    vi.mocked(accountApi.confirmRhHistoryLastRegYear).mockResolvedValue({
+      matched: true,
+      declared_last_reg_year: 2003,
+      scanned_max_reg_year: 2003,
+      scan_pipeline_status: "complete",
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+    });
+
+    const combobox = screen.getByRole("combobox");
+    fireEvent.mouseDown(combobox);
+    fireEvent.click(screen.getByRole("option", { name: "2003" }));
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(() => {
+      expect(accountApi.confirmRhHistoryLastRegYear).toHaveBeenCalledWith(
+        "access-token",
+        {
+          history_id: historyId,
+          last_reg_year: 2003,
+        }
+      );
+      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+        replace: true,
+      });
+    });
   });
 
   it("navigates to pre-scan without deleting pages on incremental rescan", async () => {
