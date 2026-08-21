@@ -198,13 +198,13 @@ describe("ScanReviewFlow", () => {
     expect(stack).toHaveAttribute("data-revealed-count", "2");
   });
 
-  it("lists both page-error and trailing missing ranges for errorsAndWarning", async () => {
+  it("lists only trailing missing ranges when confirm returns both arrays", async () => {
     vi.mocked(accountApi.confirmRhHistoryLastRegYear).mockResolvedValue({
       matched: false,
       declared_last_reg_year: 2020,
       scanned_max_reg_year: 2003,
       missing_reg_year_ranges: ["2004-2020"],
-      page_error_reg_year_ranges: ["1990-1998"],
+      page_error_reg_year_ranges: [],
       scan_pipeline_status: "needs_rescan",
     });
 
@@ -223,8 +223,8 @@ describe("ScanReviewFlow", () => {
     });
 
     const callout = screen.getByTestId("scan-review-reg-year-error-callout");
-    expect(within(callout).getByText("1990-1998")).toBeInTheDocument();
-    expect(within(callout).getByText("2004-2020")).toBeInTheDocument();
+    expect(within(callout).queryByText("1990-1998")).not.toBeInTheDocument();
+    expect(within(callout).getByRole("listitem")).toHaveTextContent("2004-2020");
   });
 
   it("calls onIncrementalRescan from the mismatch callout CTA", async () => {
