@@ -36,20 +36,24 @@ capture failure from /scanner ──► /scan-review (launch/upload failure stat
 
 ## Module contents
 
-| File / folder                            | Role                                                              |
-| ---------------------------------------- | ----------------------------------------------------------------- |
-| `ScanReviewPage.tsx`                     | Orchestration: bootstrap, entry-screen routing, rescan handlers   |
-| `scanReviewModes.ts`                     | Semantic mode constants + mode reference table                    |
-| `scanReviewScreenState.ts`               | Entry-screen resolver (`resolveScanReviewScreen`) + label helpers |
-| `ScanReviewErrorScreen.tsx`              | `partialPageErrors` — Page N callout + partial rescan CTA         |
-| `ScanReviewTotalFailureScreen.tsx`       | `totalFailure` — re-scan all + DHCR request link                  |
-| `ScanReviewPageErrorCallout.tsx`         | Orange Page N / Page N of M callout (`partialPageErrors` only)    |
-| `scanReviewState.ts`                     | Session persistence for `scan-review` phase + `expectedPageCount` |
-| `hooks/useScanReviewBootstrapRestore.ts` | Restore on load; pipeline redirect; bootstrap fetch               |
+| File / folder                            | Role                                                               |
+| ---------------------------------------- | ------------------------------------------------------------------ |
+| `ScanReviewPage.tsx`                     | Orchestration: bootstrap, entry-screen routing, rescan handlers    |
+| `ScanReviewFlow.tsx`                     | `incrementalFlow` entry — year step, confirm API, mismatch callout |
+| `ScanReviewModuleStack.tsx`              | Progressive module stack (findings pattern)                        |
+| `ScanReviewLastRegYearStep.tsx`          | Step 1 year dropdown (`scanned_max_reg_year`…current year)         |
+| `ScanReviewRegYearErrorCallout.tsx`      | Orange reg_year range callout + incremental rescan CTA             |
+| `scanReviewModes.ts`                     | Semantic mode constants + mode reference table                     |
+| `scanReviewScreenState.ts`               | Entry-screen resolver (`resolveScanReviewScreen`) + label helpers  |
+| `ScanReviewErrorScreen.tsx`              | `partialPageErrors` — Page N callout + partial rescan CTA          |
+| `ScanReviewTotalFailureScreen.tsx`       | `totalFailure` — re-scan all + DHCR request link                   |
+| `ScanReviewPageErrorCallout.tsx`         | Orange Page N / Page N of M callout (`partialPageErrors` only)     |
+| `scanReviewState.ts`                     | Session persistence for `scan-review` phase + `expectedPageCount`  |
+| `hooks/useScanReviewBootstrapRestore.ts` | Restore on load; pipeline redirect; bootstrap fetch                |
 
 Shared with Scanner: `scannerLocationState.ts` (capture intent types), `scannerFlowUtils.ts` (auth guard, error mapping).
 
-`ScanReviewFlow.tsx` (Task 6) will handle `incrementalFlow` entry (`warningOnly`, `errorsAndWarning`) and flow-local `warningYearMismatch` after Continue.
+`ScanReviewFlow` handles `incrementalFlow` entry (`warningOnly`, `errorsAndWarning`) and flow-local `warningYearMismatch` after Continue.
 
 ---
 
@@ -71,12 +75,12 @@ Page-level routing uses **entry screens** from `scanReviewModes.ts`. See `SCAN_R
 
 ## Rescan CTA matrix
 
-| Semantic mode                      | Entry screen        | Server action before pre-scan                    | Pre-scan `expectedPageCount` |
-| ---------------------------------- | ------------------- | ------------------------------------------------ | ---------------------------- |
-| `partialPageErrors`                | `partialPageErrors` | Delete flagged page IDs (`DELETE …/pages`)       | Current count − deleted IDs  |
-| `totalFailure`                     | `totalFailure`      | Delete all pages (`DELETE …/pages/all`)          | `0`                          |
-| `warningOnly` / `errorsAndWarning` | `incrementalFlow`   | Task 6 — add pages via pre-scan (no full delete) | Task 6                       |
-| `warningYearMismatch`              | (flow-local)        | Task 6 — add pages for reg_year range            | Task 6                       |
+| Semantic mode                      | Entry screen        | Server action before pre-scan                 | Pre-scan `expectedPageCount` |
+| ---------------------------------- | ------------------- | --------------------------------------------- | ---------------------------- |
+| `partialPageErrors`                | `partialPageErrors` | Delete flagged page IDs (`DELETE …/pages`)    | Current count − deleted IDs  |
+| `totalFailure`                     | `totalFailure`      | Delete all pages (`DELETE …/pages/all`)       | `0`                          |
+| `warningOnly` / `errorsAndWarning` | `incrementalFlow`   | No delete — navigate to pre-scan to add pages | Current `expectedPageCount`  |
+| `warningYearMismatch`              | (flow-local)        | No delete — navigate to pre-scan to add pages | Current `expectedPageCount`  |
 
 Non-pipeline entry paths (`showLaunchFailure`, upload failures, etc.) route to `totalFailure` and use the total-failure rescan handler.
 
@@ -84,11 +88,12 @@ Non-pipeline entry paths (`showLaunchFailure`, upload failures, etc.) route to `
 
 ## Tests
 
-| File                                           | Coverage                                                                                  |
-| ---------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `ScanReviewPage.test.tsx`                      | Partial/total failure rendering, rescan CTAs, bootstrap restore, pipeline bootstrap error |
-| `scanReviewScreenState.test.ts`                | Entry-screen resolution, Page N label formatting                                          |
-| `hooks/useScanReviewBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                                            |
+| File                                           | Coverage                                                                    |
+| ---------------------------------------------- | --------------------------------------------------------------------------- |
+| `ScanReviewPage.test.tsx`                      | Partial/total/incremental failure rendering, rescan CTAs, bootstrap restore |
+| `ScanReviewFlow.test.tsx`                      | Year step, confirm match/mismatch, merged reg_year callout                  |
+| `scanReviewScreenState.test.ts`                | Entry-screen resolution, Page N label formatting                            |
+| `hooks/useScanReviewBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                              |
 
 `scanReviewState.ts` (key `"scanner"`) stores:
 

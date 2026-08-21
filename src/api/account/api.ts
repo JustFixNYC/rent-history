@@ -15,6 +15,8 @@ import type {
   RhScanPipelineStatusResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhConfirmLastRegYearRequest,
+  RhConfirmLastRegYearResponse,
   RhHistorySetCurrentRentRequest,
   RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
@@ -176,6 +178,18 @@ export const confirmRhHistoryAddress = (
 ): Promise<RhHistoryConfirmAddressResponse> =>
   unwrapAccountResponse(
     getAccountClient().POST("/rh/history/confirm-address", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
+
+/** `POST /rh/history/confirm-last-reg-year` — Persist declared last reg year; match advances pipeline. */
+export const confirmRhHistoryLastRegYear = (
+  accessToken: string,
+  body: RhConfirmLastRegYearRequest
+): Promise<RhConfirmLastRegYearResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/confirm-last-reg-year", {
       headers: bearerHeaders(accessToken),
       body,
     })

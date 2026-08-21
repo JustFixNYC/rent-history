@@ -34,6 +34,8 @@ export type {
   RhScanPipelineStatusResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhConfirmLastRegYearRequest,
+  RhConfirmLastRegYearResponse,
   RhHistorySetCurrentRentRequest,
   RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
@@ -86,12 +88,14 @@ export { useCreateRhHistory } from "./hooks/history";
 export { useHistoryAnalysisPages } from "./hooks/analysisPages";
 export { useDeleteRhHistory, useRhHistories } from "./hooks/histories";
 export { useConfirmRhHistoryAddress } from "./hooks/confirmAddress";
+export { useConfirmRhHistoryLastRegYear } from "./hooks/confirmLastRegYear";
 export {
   useRhFindingsState,
   useValidateRhFinding,
 } from "./hooks/findingsReview";
 export {
   confirmRhHistoryAddress,
+  confirmRhHistoryLastRegYear,
   setRhHistoryCurrentRent,
   createRhHistory,
   createRhHistoryReportPdf,

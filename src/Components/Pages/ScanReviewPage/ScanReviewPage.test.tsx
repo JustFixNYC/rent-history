@@ -83,6 +83,7 @@ vi.mock("../../../api/account/api", async () => {
       .mockResolvedValue(defaultPipelineResponse),
     deleteRhScannedPages: vi.fn().mockResolvedValue({ deleted_count: 1 }),
     deleteAllRhScannedPages: vi.fn().mockResolvedValue({ deleted_count: 4 }),
+    confirmRhHistoryLastRegYear: vi.fn(),
   };
 });
 
@@ -376,6 +377,107 @@ describe("ScanReviewPage rescan CTAs", () => {
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
         state: { expectedPageCount: 0 },
+      });
+    });
+  });
+});
+
+describe("ScanReviewPage incremental flow", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("renders warningOnly incremental flow from pipeline early_validation", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        document_total_pages: null,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
+      "data-flow-mode",
+      "warningOnly"
+    );
+    expect(screen.getByRole("button", { name: "Continue" })).toBeDisabled();
+  });
+
+  it("navigates to pre-scan without deleting pages on incremental rescan", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        document_total_pages: null,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    vi.mocked(accountApi.confirmRhHistoryLastRegYear).mockResolvedValue({
+      matched: false,
+      declared_last_reg_year: 2020,
+      scanned_max_reg_year: 2003,
+      missing_reg_year_ranges: ["2004-2020"],
+      page_error_reg_year_ranges: [],
+      scan_pipeline_status: "needs_rescan",
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+    });
+
+    const combobox = screen.getByRole("combobox");
+    fireEvent.mouseDown(combobox);
+    fireEvent.click(screen.getByRole("option", { name: "2020" }));
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan for these years" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Re-scan for these years" })
+    );
+
+    await waitFor(() => {
+      expect(accountApi.deleteRhScannedPages).not.toHaveBeenCalled();
+      expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
+      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+        replace: true,
+        state: { expectedPageCount: 4 },
       });
     });
   });

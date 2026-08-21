@@ -123,3 +123,154 @@
     margin: 0;
   }
 }
+
+.scan-review-flow {
+  color: jfcl.$OFF_BLACK;
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_06;
+  margin: 0 auto;
+  max-width: 327px;
+  padding: jfcl.$JF_SPACING_05 jfcl.$JF_SPACING_06;
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+  }
+
+  &__title {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__description {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__continue-error {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$RED;
+    margin: 0;
+  }
+
+  &__nav.flow-nav {
+    margin-top: jfcl.$JF_SPACING_04;
+  }
+}
+
+.scan-review-module-stack {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+  width: 100%;
+}
+
+.scan-review-flow,
+.scan-review-module-stack {
+  .finding-form-shell {
+    background: jfcl.$WHITE;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_06;
+    padding: jfcl.$JF_SPACING_06 0;
+    width: 100%;
+
+    &--active {
+      border: 2px solid jfcl.$OFF_BLACK;
+    }
+
+    &--completed {
+      border: 1px solid jfcl.$GREY_200;
+    }
+
+    &__header {
+      align-items: flex-start;
+      display: flex;
+      gap: jfcl.$JF_SPACING_04;
+      padding: 0 jfcl.$JF_SPACING_06;
+    }
+
+    &__title {
+      @include jfcl.body_standard_mobile;
+      flex: 1;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column;
+      gap: jfcl.$JF_SPACING_05;
+      padding: 0 jfcl.$JF_SPACING_06;
+      width: 100%;
+    }
+  }
+
+  .step-connector {
+    align-items: center;
+    display: flex;
+    height: jfcl.$JF_SPACING_08;
+    justify-content: center;
+    width: jfcl.$JF_SPACING_08;
+
+    svg {
+      color: jfcl.$OFF_BLACK;
+      height: jfcl.$JF_SPACING_08;
+      width: jfcl.$JF_SPACING_08;
+    }
+  }
+}
+
+.scan-review-reg-year-error-callout {
+  background: jfcl.$ORANGE_ALPHA;
+  border: 2px solid jfcl.$ORANGE;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_04;
+  padding: jfcl.$JF_SPACING_04;
+  width: 100%;
+
+  &__badge.jfcl-pill {
+    background: #ffcfb4;
+    border: 1px solid jfcl.$ORANGE;
+    border-radius: 26px;
+    color: jfcl.$OFF_BLACK;
+    font-size: 0.875rem;
+    letter-spacing: 0.42px;
+    line-height: 1.3;
+    padding: 0 jfcl.$JF_SPACING_03;
+    width: fit-content;
+  }
+
+  &__labels {
+    @include jfcl.body_standard_mobile;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_02;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__instruction {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__rescan-error {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$RED;
+    margin: 0;
+  }
+
+  &__cta.jfcl-button {
+    width: 100%;
+  }
+}

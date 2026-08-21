@@ -20,6 +20,7 @@ import {
 } from "../../../session/rhSessionStorage";
 import { useScanReviewBootstrapRestore } from "./hooks/useScanReviewBootstrapRestore";
 import { ScanReviewErrorScreen } from "./ScanReviewErrorScreen";
+import { ScanReviewFlow } from "./ScanReviewFlow";
 import { ScanReviewTotalFailureScreen } from "./ScanReviewTotalFailureScreen";
 import { ScanReviewEntryScreen } from "./scanReviewModes";
 import { resolveScanReviewScreen } from "./scanReviewScreenState";
@@ -156,6 +157,11 @@ const ScanReviewPage = () => {
     setExpectedPageCount,
   ]);
 
+  const handleIncrementalRescan = useCallback(() => {
+    setRescanError(null);
+    navigateToPreScan(expectedPageCount);
+  }, [expectedPageCount, navigateToPreScan]);
+
   const showBootstrapError =
     restoreStatus === "pending" &&
     Boolean(historyId) &&
@@ -204,11 +210,40 @@ const ScanReviewPage = () => {
       );
     }
 
+    if (screenState.screen === ScanReviewEntryScreen.incrementalFlow) {
+      if (!accessToken || !historyId) {
+        return (
+          <ScanReviewTotalFailureScreen
+            isRescanPending={isRescanPending}
+            rescanError={rescanError}
+            onTotalRescan={() => {
+              void handleTotalRescan();
+            }}
+          />
+        );
+      }
+
+      return (
+        <ScanReviewFlow
+          flowMode={screenState.flowMode}
+          earlyValidation={screenState.earlyValidation}
+          accessToken={accessToken}
+          historyId={historyId}
+          expectedPageCount={expectedPageCount}
+          isRescanPending={isRescanPending}
+          rescanError={rescanError}
+          onIncrementalRescan={handleIncrementalRescan}
+        />
+      );
+    }
+
     return (
-      <div
-        className="scan-review-error-screen"
-        data-testid="scan-review-incremental-deferred"
-        aria-live="polite"
+      <ScanReviewTotalFailureScreen
+        isRescanPending={isRescanPending}
+        rescanError={rescanError}
+        onTotalRescan={() => {
+          void handleTotalRescan();
+        }}
       />
     );
   };

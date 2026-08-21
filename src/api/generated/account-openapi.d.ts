@@ -84,6 +84,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/confirm-last-reg-year": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Confirm declared last registration year after stale-page warning
+         * @description Persists the user-declared last registration year for N-only footer scans. When the declared year matches the scanned maximum and coverage passes, re-advances the scan pipeline. Otherwise returns reg_year ranges for scan-review mismatch callouts without advancing the pipeline.
+         */
+        post: operations["history_confirm_last_reg_year_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/history/current-rent": {
         parameters: {
             query?: never;
@@ -604,6 +624,21 @@ export interface components {
             details?: unknown;
             error: string;
             error_code: components["schemas"]["ErrorCodeEnum"];
+        };
+        /** @description POST /rh/history/confirm-last-reg-year body. */
+        RhConfirmLastRegYearRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+            last_reg_year: number;
+        };
+        /** @description OpenAPI union for POST /rh/history/confirm-last-reg-year success payloads. */
+        RhConfirmLastRegYearResponse: {
+            declared_last_reg_year: number;
+            matched: boolean;
+            missing_reg_year_ranges?: string[];
+            page_error_reg_year_ranges?: string[];
+            scan_pipeline_status?: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            scanned_max_reg_year: number | null;
         };
         RhDeleteAllScannedPagesResponse: {
             deleted_pages: number;
@@ -1271,6 +1306,54 @@ export interface operations {
             };
             /** @description NYCDB is not configured or unavailable. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_confirm_last_reg_year_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhConfirmLastRegYearRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhConfirmLastRegYearResponse"];
+                };
+            };
+            /** @description Validation error, including last_reg_year below scanned_max_reg_year. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

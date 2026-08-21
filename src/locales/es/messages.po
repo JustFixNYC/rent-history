@@ -221,6 +221,7 @@ msgid "Analyzing rent history"
 msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:43
+#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:52
 msgid "and"
 msgstr ""
 
@@ -418,6 +419,7 @@ msgid "Confirm address"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:252
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:254
 msgid "Continue"
 msgstr "Continuar"
 
@@ -591,6 +593,10 @@ msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:35
 msgid "Find out if you’ve been overcharged on rent"
+msgstr ""
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:78
+msgid "Find the page(s) in your document covering <0>{rangesPhrase}</0> and re-scan in full."
 msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:65
@@ -832,6 +838,10 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Gran aumento de alquiler"
 
+#: src/Components/Pages/ScanReviewPage/ScanReviewLastRegYearStep.tsx:39
+msgid "Last registration year"
+msgstr ""
+
 #: src/Components/Pages/Landing/Landing.tsx:167
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
 msgid "Learn more"
@@ -872,7 +882,7 @@ msgid "Loading scan previews…"
 msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:38
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:175
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:181
 msgid "Loading scan status…"
 msgstr ""
 
@@ -983,6 +993,7 @@ msgid "Navigation"
 msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:52
+#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:65
 msgid "Needs re-scan"
 msgstr ""
 
@@ -1179,7 +1190,7 @@ msgid "Please sign in to generate your report."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:415
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:233
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:268
 msgid "Please try again in a moment."
 msgstr ""
 
@@ -1241,6 +1252,10 @@ msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:68
 msgid "Re-scan document"
+msgstr ""
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:95
+msgid "Re-scan for these years"
 msgstr ""
 
 #: src/Components/Pages/Scanner/hooks/useDocumentScanner.ts:118
@@ -1385,9 +1400,9 @@ msgstr ""
 #~ msgid "Scan review"
 #~ msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewScreen.tsx:158
-#~ msgid "Scan review navigation"
-#~ msgstr ""
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:255
+msgid "Scan review navigation"
+msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:55
 msgid "Scan the QR code below to get started."
@@ -1504,6 +1519,10 @@ msgstr ""
 #: src/Components/Pages/AccountPage/AccountPage.tsx:193
 #~ msgid "SMS delivery is pending. Check your phone shortly."
 #~ msgstr ""
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:200
+msgid "Some pages could not be read, and the last registration year we found is <0>{scannedMaxRegYear}</0>. Tell us the last year shown on your document so we can identify what to re-scan."
+msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:198
 #~ msgid "Something missing?"
@@ -1721,6 +1740,10 @@ msgstr ""
 msgid "timeline.copy.vacancy_longevity_bonus.vacancy_only"
 msgstr ""
 
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:194
+msgid "The last registration year we found on your document is <0>{scannedMaxRegYear}</0>. Tell us the last year shown so we can check whether anything is missing."
+msgstr ""
+
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/RentInYearParagraph.tsx:31
 msgid "timeline.copy.rent_in_year.legal"
@@ -1865,12 +1888,16 @@ msgid "Too many invalid attempts. Request a new code."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:418
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:236
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:271
 msgid "Try again"
 msgstr ""
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:108
 msgid "Unable to compile your rent history"
+msgstr ""
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:210
+msgid "Unable to confirm your last registration year. Please try again."
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:580
@@ -1887,7 +1914,7 @@ msgstr ""
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:123
 #: src/Components/Pages/Scanner/Scanner.tsx:411
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:229
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:264
 msgid "Unable to load compile status"
 msgstr ""
 
@@ -1917,8 +1944,8 @@ msgstr ""
 msgid "Unable to open the scanner. Please try again."
 msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:110
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:144
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:111
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:145
 msgid "Unable to prepare for re-scan. Please try again."
 msgstr ""
 
@@ -2088,6 +2115,10 @@ msgstr ""
 msgid "We have not found any potential violations in your apartment's rent history."
 msgstr ""
 
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:187
+msgid "We may be missing some of your rent history"
+msgstr ""
+
 #: src/Components/Pages/LoginPage/LoginPage.tsx:98
 #~ msgid "We requested your code. Delivery may take a moment."
 #~ msgstr ""
@@ -2106,6 +2137,10 @@ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:66
 msgid "We sent a new code to <0>{maskedPhone}</0>"
+msgstr ""
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:189
+msgid "We weren't able to capture all of your rent history"
 msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:55
@@ -2166,6 +2201,10 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:60
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
+msgstr ""
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewLastRegYearStep.tsx:32
+msgid "What is the last year of rent registration shown on your document?"
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:106

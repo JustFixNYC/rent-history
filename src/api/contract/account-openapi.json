@@ -364,6 +364,69 @@
         ],
         "type": "object"
       },
+      "RhConfirmLastRegYearRequestRequest": {
+        "description": "POST /rh/history/confirm-last-reg-year body.",
+        "properties": {
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "last_reg_year": {
+            "maximum": 2200,
+            "minimum": 1800,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "history_id",
+          "last_reg_year"
+        ],
+        "type": "object"
+      },
+      "RhConfirmLastRegYearResponse": {
+        "description": "OpenAPI union for POST /rh/history/confirm-last-reg-year success payloads.",
+        "properties": {
+          "declared_last_reg_year": {
+            "type": "integer"
+          },
+          "matched": {
+            "type": "boolean"
+          },
+          "missing_reg_year_ranges": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "page_error_reg_year_ranges": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "scan_pipeline_status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ScanPipelineStatusEnum"
+              },
+              {
+                "$ref": "#/components/schemas/NullEnum"
+              }
+            ]
+          },
+          "scanned_max_reg_year": {
+            "nullable": true,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "declared_last_reg_year",
+          "matched",
+          "scanned_max_reg_year"
+        ],
+        "type": "object"
+      },
       "RhDeleteAllScannedPagesResponse": {
         "properties": {
           "deleted_pages": {
@@ -2197,6 +2260,68 @@
           }
         ],
         "summary": "Confirm address and look up NYCDB building info",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/confirm-last-reg-year": {
+      "post": {
+        "description": "Persists the user-declared last registration year for N-only footer scans. When the declared year matches the scanned maximum and coverage passes, re-advances the scan pipeline. Otherwise returns reg_year ranges for scan-review mismatch callouts without advancing the pipeline.",
+        "operationId": "history_confirm_last_reg_year_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhConfirmLastRegYearRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhConfirmLastRegYearResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error, including last_reg_year below scanned_max_reg_year."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Confirm declared last registration year after stale-page warning",
         "tags": [
           "Rent History"
         ]

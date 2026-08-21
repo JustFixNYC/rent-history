@@ -38,6 +38,14 @@ export type RhHistoryConfirmAddressRequest =
 export type RhHistoryConfirmAddressResponse =
   Schemas["RhHistoryConfirmAddressResponse"];
 
+/** `POST /rh/history/confirm-last-reg-year` request. */
+export type RhConfirmLastRegYearRequest =
+  Schemas["RhConfirmLastRegYearRequestRequest"];
+
+/** `POST /rh/history/confirm-last-reg-year` response. */
+export type RhConfirmLastRegYearResponse =
+  Schemas["RhConfirmLastRegYearResponse"];
+
 /** `POST /rh/history/current-rent` request (OpenAPI `RhHistorySetCurrentRentRequestRequest`). */
 export type RhHistorySetCurrentRentRequest =
   Schemas["RhHistorySetCurrentRentRequestRequest"];
