@@ -1,0 +1,96 @@
+import { useState } from "react";
+import { useLingui } from "@lingui/react";
+import { Trans } from "@lingui/react/macro";
+import { msg } from "@lingui/core/macro";
+import { Button, LinkStyledButton } from "@justfixnyc/component-library";
+
+import { InfoModal } from "../../InfoModal/InfoModal";
+import { getDhcrRentHistoryRequestUrl } from "./scanReviewExternalLinks";
+import { RentHistoryExampleModalContent } from "./RentHistoryExampleModalContent";
+
+import "./ScanReviewScreen.scss";
+
+export type ScanReviewTotalFailureScreenProps = {
+  isRescanPending?: boolean;
+  rescanError?: string | null;
+  onTotalRescan: () => void;
+};
+
+export const ScanReviewTotalFailureScreen = ({
+  isRescanPending = false,
+  rescanError = null,
+  onTotalRescan,
+}: ScanReviewTotalFailureScreenProps) => {
+  const { _, i18n } = useLingui();
+  const [isExampleModalOpen, setIsExampleModalOpen] = useState(false);
+
+  return (
+    <>
+      <div
+        className="scan-review-error-screen"
+        data-testid="scan-review-total-error"
+        aria-live="polite"
+      >
+        <div className="scan-review-error-screen__content">
+          <h2 className="scan-review-error-screen__title">
+            <Trans>We weren&apos;t able to read your document</Trans>
+          </h2>
+          <p className="scan-review-error-screen__body">
+            <Trans>
+              Your scan may be unclear or you may have scanned the wrong
+              document. Please verify you are scanning a rent history
+              registration printout from the Division of Housing and Community
+              Renewal (DHCR).
+            </Trans>
+          </p>
+          <p className="scan-review-error-screen__example-link">
+            <LinkStyledButton
+              className="scan-review-error-screen__example-link-button"
+              onClick={() => setIsExampleModalOpen(true)}
+              aria-haspopup="dialog"
+            >
+              <Trans>See an example</Trans>
+            </LinkStyledButton>
+          </p>
+          <div className="scan-review-error-screen__actions">
+            {rescanError ? (
+              <p
+                className="scan-review-error-screen__rescan-error"
+                role="alert"
+                data-testid="scan-review-rescan-error"
+              >
+                {rescanError}
+              </p>
+            ) : null}
+            <Button
+              className="scan-review-error-screen__cta"
+              labelIcon="cameraRegular"
+              labelText={_(msg`Re-scan document`)}
+              onClick={onTotalRescan}
+              disabled={isRescanPending}
+            />
+            <Button
+              className="scan-review-error-screen__cta scan-review-error-screen__cta--secondary"
+              variant="secondary"
+              labelText={_(msg`Request your rent history`)}
+              onClick={() => {
+                window.open(
+                  getDhcrRentHistoryRequestUrl(i18n.locale),
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+              }}
+            />
+          </div>
+        </div>
+      </div>
+      <InfoModal
+        isOpen={isExampleModalOpen}
+        title={_(msg`Example rent history`)}
+        onClose={() => setIsExampleModalOpen(false)}
+      >
+        {isExampleModalOpen ? <RentHistoryExampleModalContent /> : null}
+      </InfoModal>
+    </>
+  );
+};

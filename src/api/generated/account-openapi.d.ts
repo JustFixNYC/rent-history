@@ -459,6 +459,11 @@ export interface components {
             sub_lines?: string[];
         };
         /**
+         * @description * `possible_missing_last_page` - possible_missing_last_page
+         * @enum {string}
+         */
+        CodeEnum: "possible_missing_last_page";
+        /**
          * @description * `otp_expired` - OTP expired
          *     * `otp_invalid` - OTP invalid
          *     * `otp_locked` - OTP locked
@@ -620,6 +625,12 @@ export interface components {
             missing_page_numbers: number[];
             pages_needing_rescan: components["schemas"]["RhPageRescanInfo"][];
             passed: boolean;
+            scanned_max_reg_year: number | null;
+            warnings: components["schemas"]["RhEarlyValidationWarning"][];
+        };
+        RhEarlyValidationWarning: {
+            code: components["schemas"]["CodeEnum"];
+            latest_reg_year: number;
         };
         RhFinalizeScanRequestRequest: {
             /** @default false */

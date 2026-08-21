@@ -46,6 +46,8 @@ const partialEarlyValidation = {
     { id: 7, page_number: 2, total_pages: 6 },
     { id: null, page_number: 5, total_pages: 6 },
   ],
+  scanned_max_reg_year: 2020,
+  warnings: [],
 };
 
 const needsRescanPipelineResponse = {
@@ -174,6 +176,8 @@ describe("ScanReviewPage error states", () => {
         document_total_pages: 1,
         missing_page_numbers: [],
         pages_needing_rescan: [{ id: 7, page_number: 1, total_pages: 1 }],
+        scanned_max_reg_year: 2020,
+        warnings: [],
       },
     });
 
@@ -184,6 +188,54 @@ describe("ScanReviewPage error states", () => {
         screen.getByRole("button", { name: "Re-scan this page" })
       ).toBeInTheDocument();
     });
+  });
+
+  it("shows total failure when scanned_max_reg_year is null with a warning", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        document_total_pages: 4,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: null,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+    });
+  });
+
+  it("shows Page N labels without of M for N-only pages", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        document_total_pages: null,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: null }],
+        scanned_max_reg_year: 2020,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-partial-error")
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getAllByText("Page 2").length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Page 2 of/)).not.toBeInTheDocument();
   });
 
   it("shows total failure for non-pipeline entry paths", async () => {
@@ -222,6 +274,8 @@ describe("ScanReviewPage error states", () => {
         document_total_pages: null,
         missing_page_numbers: [],
         pages_needing_rescan: [{ id: 7, page_number: null, total_pages: null }],
+        scanned_max_reg_year: null,
+        warnings: [],
       },
     });
 

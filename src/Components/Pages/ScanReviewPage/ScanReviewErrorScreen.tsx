@@ -1,25 +1,19 @@
-import { useState } from "react";
 import { plural } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { msg } from "@lingui/core/macro";
-import { Button, Icon, LinkStyledButton } from "@justfixnyc/component-library";
+import { Button, Icon } from "@justfixnyc/component-library";
 
-import { InfoModal } from "../../InfoModal/InfoModal";
-import { getDhcrRentHistoryRequestUrl } from "./scanReviewExternalLinks";
-import { RentHistoryExampleModalContent } from "./RentHistoryExampleModalContent";
 import { ScanReviewPageErrorCallout } from "./ScanReviewPageErrorCallout";
-import type { ScanReviewErrorState } from "./scanReviewErrorState";
+import type { ScanReviewModeDState } from "./scanReviewErrorState";
 
 import "./ScanReviewScreen.scss";
 
 export type ScanReviewErrorScreenProps = {
-  errorState: ScanReviewErrorState;
+  errorState: ScanReviewModeDState;
   isLoading?: boolean;
   isRescanPending?: boolean;
   rescanError?: string | null;
   onPartialRescan: () => void;
-  onTotalRescan: () => void;
 };
 
 export const ScanReviewErrorScreen = ({
@@ -28,10 +22,8 @@ export const ScanReviewErrorScreen = ({
   isRescanPending = false,
   rescanError = null,
   onPartialRescan,
-  onTotalRescan,
 }: ScanReviewErrorScreenProps) => {
-  const { _, i18n } = useLingui();
-  const [isExampleModalOpen, setIsExampleModalOpen] = useState(false);
+  const { _ } = useLingui();
 
   if (isLoading) {
     return (
@@ -50,118 +42,46 @@ export const ScanReviewErrorScreen = ({
     );
   }
 
-  if (errorState.kind === "partial") {
-    const pageCount = errorState.pages.length;
-
-    return (
-      <div
-        className="scan-review-error-screen"
-        data-testid="scan-review-partial-error"
-        aria-live="polite"
-      >
-        <div className="scan-review-error-screen__content">
-          <h2 className="scan-review-error-screen__title">
-            <Trans>
-              We weren&apos;t able to capture all of your rent history.
-            </Trans>
-          </h2>
-          <ScanReviewPageErrorCallout
-            pages={errorState.pages}
-            documentTotalPages={errorState.documentTotalPages}
-          />
-          {rescanError ? (
-            <p
-              className="scan-review-error-screen__rescan-error"
-              role="alert"
-              data-testid="scan-review-rescan-error"
-            >
-              {rescanError}
-            </p>
-          ) : null}
-          <Button
-            className="scan-review-error-screen__cta"
-            labelIcon="cameraRegular"
-            labelText={_(
-              plural(pageCount, {
-                one: "Re-scan this page",
-                other: "Re-scan these pages",
-              })
-            )}
-            onClick={onPartialRescan}
-            disabled={isRescanPending}
-          />
-        </div>
-      </div>
-    );
-  }
+  const pageCount = errorState.pages.length;
 
   return (
-    <>
-      <div
-        className="scan-review-error-screen"
-        data-testid="scan-review-total-error"
-        aria-live="polite"
-      >
-        <div className="scan-review-error-screen__content">
-          <h2 className="scan-review-error-screen__title">
-            <Trans>We weren&apos;t able to read your document</Trans>
-          </h2>
-          <p className="scan-review-error-screen__body">
-            <Trans>
-              Your rent history document should be a registration printout from
-              the Division of Housing and Community Renewal (DHCR). If you
-              don&apos;t have one, you can request it from DHCR before scanning
-              again.
-            </Trans>
+    <div
+      className="scan-review-error-screen"
+      data-testid="scan-review-partial-error"
+      aria-live="polite"
+    >
+      <div className="scan-review-error-screen__content">
+        <h2 className="scan-review-error-screen__title">
+          <Trans>
+            We weren&apos;t able to capture all of your rent history.
+          </Trans>
+        </h2>
+        <ScanReviewPageErrorCallout
+          pages={errorState.pages}
+          documentTotalPages={errorState.documentTotalPages}
+        />
+        {rescanError ? (
+          <p
+            className="scan-review-error-screen__rescan-error"
+            role="alert"
+            data-testid="scan-review-rescan-error"
+          >
+            {rescanError}
           </p>
-          <p className="scan-review-error-screen__example-link">
-            <LinkStyledButton
-              className="scan-review-error-screen__example-link-button"
-              onClick={() => setIsExampleModalOpen(true)}
-              aria-haspopup="dialog"
-            >
-              <Trans>See an example</Trans>
-            </LinkStyledButton>
-          </p>
-          <div className="scan-review-error-screen__actions">
-            {rescanError ? (
-              <p
-                className="scan-review-error-screen__rescan-error"
-                role="alert"
-                data-testid="scan-review-rescan-error"
-              >
-                {rescanError}
-              </p>
-            ) : null}
-            <Button
-              className="scan-review-error-screen__cta"
-              labelIcon="cameraRegular"
-              labelText={_(msg`Re-scan document`)}
-              onClick={onTotalRescan}
-              disabled={isRescanPending}
-            />
-            <Button
-              className="scan-review-error-screen__cta scan-review-error-screen__cta--secondary"
-              variant="secondary"
-              labelText={_(msg`Request your rent history`)}
-              onClick={() => {
-                window.open(
-                  getDhcrRentHistoryRequestUrl(i18n.locale),
-                  "_blank",
-                  "noopener,noreferrer"
-                );
-              }}
-            />
-          </div>
-        </div>
+        ) : null}
+        <Button
+          className="scan-review-error-screen__cta"
+          labelIcon="cameraRegular"
+          labelText={_(
+            plural(pageCount, {
+              one: "Re-scan this page",
+              other: "Re-scan these pages",
+            })
+          )}
+          onClick={onPartialRescan}
+          disabled={isRescanPending}
+        />
       </div>
-      <InfoModal
-        isOpen={isExampleModalOpen}
-        title={_(msg`Example rent history`)}
-        onClose={() => setIsExampleModalOpen(false)}
-      >
-        {isExampleModalOpen ? <RentHistoryExampleModalContent /> : null}
-      </InfoModal>
-    </>
+    </div>
   );
 };

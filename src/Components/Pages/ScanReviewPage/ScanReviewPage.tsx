@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useLingui } from "@lingui/react";
 
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
-import { Button, CalloutBox } from "@justfixnyc/component-library";
+import { Button, CalloutBox, Icon } from "@justfixnyc/component-library";
 import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 
@@ -20,6 +20,7 @@ import {
 } from "../../../session/rhSessionStorage";
 import { useScanReviewBootstrapRestore } from "./hooks/useScanReviewBootstrapRestore";
 import { ScanReviewErrorScreen } from "./ScanReviewErrorScreen";
+import { ScanReviewTotalFailureScreen } from "./ScanReviewTotalFailureScreen";
 import { resolveScanReviewErrorState } from "./scanReviewErrorState";
 import { clearScannerStepState } from "./scanReviewState";
 import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
@@ -159,6 +160,58 @@ const ScanReviewPage = () => {
     Boolean(historyId) &&
     pipelineBootstrapFailed;
 
+  const renderReviewContent = () => {
+    if (isLoading) {
+      return (
+        <div className="scan-review-error-screen" aria-live="polite">
+          <div
+            className="scan-review-error-screen__loading"
+            role="status"
+            data-testid="scan-review-loading"
+          >
+            <Icon icon="spinner" aria-hidden="true" />
+            <p className="scan-review-error-screen__loading-text">
+              <Trans>Loading scan status…</Trans>
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    if (errorState.mode === "E") {
+      return (
+        <ScanReviewTotalFailureScreen
+          isRescanPending={isRescanPending}
+          rescanError={rescanError}
+          onTotalRescan={() => {
+            void handleTotalRescan();
+          }}
+        />
+      );
+    }
+
+    if (errorState.mode === "D") {
+      return (
+        <ScanReviewErrorScreen
+          errorState={errorState}
+          isRescanPending={isRescanPending}
+          rescanError={rescanError}
+          onPartialRescan={() => {
+            void handlePartialRescan();
+          }}
+        />
+      );
+    }
+
+    return (
+      <div
+        className="scan-review-error-screen"
+        data-testid="scan-review-incremental-deferred"
+        aria-live="polite"
+      />
+    );
+  };
+
   return (
     <div id="scan-review-page" className="scan-review-page">
       <div className="scan-review-page__progress">
@@ -186,18 +239,7 @@ const ScanReviewPage = () => {
           </CalloutBox>
         </div>
       ) : (
-        <ScanReviewErrorScreen
-          errorState={errorState}
-          isLoading={isLoading}
-          isRescanPending={isRescanPending}
-          rescanError={rescanError}
-          onPartialRescan={() => {
-            void handlePartialRescan();
-          }}
-          onTotalRescan={() => {
-            void handleTotalRescan();
-          }}
-        />
+        renderReviewContent()
       )}
     </div>
   );

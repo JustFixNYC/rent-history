@@ -45,6 +45,13 @@
         },
         "type": "object"
       },
+      "CodeEnum": {
+        "description": "* `possible_missing_last_page` - possible_missing_last_page",
+        "enum": [
+          "possible_missing_last_page"
+        ],
+        "type": "string"
+      },
       "ErrorCodeEnum": {
         "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `magic_link_expired` - Magic link expired\n* `magic_link_invalid` - Magic link invalid\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied\n* `rh_page_not_found` - RH page not found",
         "enum": [
@@ -433,13 +440,40 @@
           },
           "passed": {
             "type": "boolean"
+          },
+          "scanned_max_reg_year": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/RhEarlyValidationWarning"
+            },
+            "type": "array"
           }
         },
         "required": [
           "document_total_pages",
           "missing_page_numbers",
           "pages_needing_rescan",
-          "passed"
+          "passed",
+          "scanned_max_reg_year",
+          "warnings"
+        ],
+        "type": "object"
+      },
+      "RhEarlyValidationWarning": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/CodeEnum"
+          },
+          "latest_reg_year": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "code",
+          "latest_reg_year"
         ],
         "type": "object"
       },
