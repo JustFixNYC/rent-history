@@ -399,6 +399,7 @@
             "type": "array"
           },
           "page_error_reg_year_ranges": {
+            "description": "Reg-year range labels (e.g. 1990-1995) for uploaded page hard failures, and/or Page N labels for missing page slots.",
             "items": {
               "type": "string"
             },
@@ -1629,6 +1630,10 @@
       },
       "RhScanPipelineStatusResponse": {
         "properties": {
+          "declared_last_reg_year": {
+            "nullable": true,
+            "type": "integer"
+          },
           "early_validation": {
             "allOf": [
               {
@@ -1681,6 +1686,7 @@
           }
         },
         "required": [
+          "declared_last_reg_year",
           "early_validation",
           "expected_page_count",
           "last_step_reached",

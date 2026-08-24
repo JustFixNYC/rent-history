@@ -636,6 +636,7 @@ export interface components {
             declared_last_reg_year: number;
             matched: boolean;
             missing_reg_year_ranges?: string[];
+            /** @description Reg-year range labels (e.g. 1990-1995) for uploaded page hard failures, and/or Page N labels for missing page slots. */
             page_error_reg_year_ranges?: string[];
             scan_pipeline_status?: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
             scanned_max_reg_year: number | null;
@@ -1014,6 +1015,7 @@ export interface components {
             ordered_ids: string[];
         };
         RhScanPipelineStatusResponse: {
+            declared_last_reg_year: number | null;
             early_validation: components["schemas"]["RhEarlyValidation"] | null;
             expected_page_count: number | null;
             last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
