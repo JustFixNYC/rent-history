@@ -224,7 +224,9 @@ describe("ScanReviewFlow", () => {
 
     const callout = screen.getByTestId("scan-review-reg-year-error-callout");
     expect(within(callout).queryByText("1990-1998")).not.toBeInTheDocument();
-    expect(within(callout).getByRole("listitem")).toHaveTextContent("2004-2020");
+    expect(within(callout).getByRole("listitem")).toHaveTextContent(
+      "2004-2020"
+    );
   });
 
   it("calls onIncrementalRescan from the mismatch callout CTA", async () => {

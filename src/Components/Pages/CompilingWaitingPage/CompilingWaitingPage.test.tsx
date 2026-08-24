@@ -78,6 +78,7 @@ const passedEarlyValidation = {
 };
 
 const processingResponse = {
+  declared_last_reg_year: null,
   scan_pipeline_status: "processing_terminal" as const,
   expected_page_count: 2,
   uploads_observed_count: 2,
@@ -90,6 +91,7 @@ const processingResponse = {
 };
 
 const completeResponse = {
+  declared_last_reg_year: null,
   scan_pipeline_status: "complete" as const,
   expected_page_count: 2,
   uploads_observed_count: 2,
@@ -102,6 +104,7 @@ const completeResponse = {
 };
 
 const failedResponse = {
+  declared_last_reg_year: null,
   scan_pipeline_status: "failed" as const,
   expected_page_count: 2,
   uploads_observed_count: 2,

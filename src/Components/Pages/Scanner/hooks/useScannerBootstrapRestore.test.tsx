@@ -49,6 +49,7 @@ vi.mock("../../../../api/account/api", async () => {
 });
 
 const terminalPipelineResponse = {
+  declared_last_reg_year: null,
   last_step_reached: "DOCUMENT_SCAN" as const,
   scan_pipeline_status: "complete" as const,
   expected_page_count: 1,

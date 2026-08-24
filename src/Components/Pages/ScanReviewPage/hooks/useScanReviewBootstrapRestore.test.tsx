@@ -46,6 +46,7 @@ vi.mock("../../../../api/account/api", async () => {
 });
 
 const needsRescanPipelineResponse = {
+  declared_last_reg_year: null,
   last_step_reached: "COMPILING" as const,
   scan_pipeline_status: "needs_rescan" as const,
   expected_page_count: 2,
@@ -65,6 +66,7 @@ const needsRescanPipelineResponse = {
 };
 
 const terminalPipelineResponse = {
+  declared_last_reg_year: null,
   last_step_reached: "DOCUMENT_SCAN" as const,
   scan_pipeline_status: "complete" as const,
   expected_page_count: 2,

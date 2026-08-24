@@ -39,6 +39,7 @@ const { navigateMock, testHistoryId, scannerHarness, defaultPipelineResponse } =
     navigateMock: vi.fn(),
     testHistoryId: "22222222-2222-4222-8222-222222222222",
     defaultPipelineResponse: {
+      declared_last_reg_year: null,
       last_step_reached: "DOCUMENT_SCAN" as const,
       scan_pipeline_status: "complete" as const,
       expected_page_count: 1,
@@ -1055,6 +1056,7 @@ describe("Scanner postCompileReturn mode", () => {
     setRhHistoryId(historyId);
     mockBootstrapNoRestorablePages();
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      declared_last_reg_year: null,
       last_step_reached: "FINDINGS_OVERVIEW",
       scan_pipeline_status: "complete",
       expected_page_count: 3,
@@ -1167,6 +1169,7 @@ describe("Scanner pipeline bootstrap error", () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus)
       .mockRejectedValueOnce(new Error("network error"))
       .mockResolvedValueOnce({
+        declared_last_reg_year: null,
         last_step_reached: "DOCUMENT_SCAN",
         scan_pipeline_status: "complete",
         expected_page_count: 1,

@@ -25,6 +25,7 @@ const { navigateMock, testHistoryId, defaultPipelineResponse } = vi.hoisted(
     navigateMock: vi.fn(),
     testHistoryId: "22222222-2222-4222-8222-222222222222",
     defaultPipelineResponse: {
+      declared_last_reg_year: null,
       last_step_reached: "DOCUMENT_SCAN" as const,
       scan_pipeline_status: "complete" as const,
       expected_page_count: 1,
@@ -51,6 +52,7 @@ const partialEarlyValidation = {
 };
 
 const needsRescanPipelineResponse = {
+  declared_last_reg_year: null,
   last_step_reached: "COMPILING" as const,
   scan_pipeline_status: "needs_rescan" as const,
   expected_page_count: 4,

@@ -148,6 +148,7 @@ describe("useScanPipelineStatus", () => {
 
   it("polls while pipeline is non-terminal", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      declared_last_reg_year: null,
       scan_pipeline_status: "awaiting_uploads",
       expected_page_count: 2,
       uploads_observed_count: 2,
@@ -186,6 +187,7 @@ describe("useScanPipelineStatus", () => {
 
   it("auto-navigates on complete for forward visits", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      declared_last_reg_year: null,
       scan_pipeline_status: "complete",
       expected_page_count: 2,
       uploads_observed_count: 2,
@@ -217,6 +219,7 @@ describe("useScanPipelineStatus", () => {
     navigationTypeMock.mockReturnValue(NavigationType.Pop);
 
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      declared_last_reg_year: null,
       scan_pipeline_status: "complete",
       expected_page_count: 2,
       uploads_observed_count: 2,
@@ -256,6 +259,7 @@ describe("useScanPipelineStatus", () => {
     };
 
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      declared_last_reg_year: null,
       scan_pipeline_status: "needs_rescan",
       expected_page_count: 3,
       uploads_observed_count: 3,
