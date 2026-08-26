@@ -21,10 +21,12 @@ export type ScannerStepStateInput = {
   phase: "scan-review";
 };
 
-const scannerStepStateSchema = z.object({
-  historyId: z.string(),
-  phase: z.literal("scan-review"),
-});
+const scannerStepStateSchema = z
+  .object({
+    historyId: z.string(),
+    phase: z.literal("scan-review"),
+  })
+  .strict();
 
 export const SCANNER_STEP_STATE_KEY = "scanner";
 
