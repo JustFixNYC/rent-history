@@ -1,5 +1,5 @@
 import { getRhAuthSession } from "../../session/rhSessionStorage";
-import { postRhHistoryScanPresign } from "./api";
+import { ackRhHistoryScanUpload, postRhHistoryScanPresign } from "./api";
 import { AccountApiError } from "./errors";
 import type { RhScanPresignUrlEntry } from "./types";
 
@@ -18,6 +18,9 @@ export class PresignApiError extends Error {
   }
 }
 
+const ACK_ATTEMPTS = 3;
+const ACK_BACKOFF_MS = [100, 200, 300];
+
 const getAccessToken = (): string => {
   const session = getRhAuthSession();
   if (!session?.accessToken) {
@@ -29,11 +32,17 @@ const getAccessToken = (): string => {
 const accountErrorToPresignError = (err: AccountApiError): PresignApiError =>
   new PresignApiError(err.message, err.status, err.body);
 
+const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 const PRESIGN_KEY_PATTERN = /^\d+\/[^/]+\/[^/]+$/;
 const JPEG_FILENAME_PATTERN = /\.jpe?g$/i;
 
+const normalizeUploadKey = (key: string): string =>
+  key.trim().replace(/^\/+/, "");
+
 const validateUploadKey = (key: string): void => {
-  const normalized = key.trim().replace(/^\/+/, "");
+  const normalized = normalizeUploadKey(key);
   if (!PRESIGN_KEY_PATTERN.test(normalized)) {
     throw new PresignApiError(
       "Upload key must match profile_id/history_id/filename.",
@@ -50,6 +59,19 @@ const validateUploadKey = (key: string): void => {
       { key }
     );
   }
+};
+
+const historyIdFromUploadKey = (key: string): string => {
+  const normalized = normalizeUploadKey(key);
+  const historyId = normalized.split("/")[1];
+  if (!historyId) {
+    throw new PresignApiError(
+      "Upload key must match profile_id/history_id/filename.",
+      400,
+      { key }
+    );
+  }
+  return historyId;
 };
 
 const validateUploadBody = (body: Blob): void => {
@@ -100,7 +122,40 @@ const presignedDownload = async (signedUrl: string): Promise<Response> => {
   return fetch(signedUrl, { method: "GET" });
 };
 
-export const uploadScan = async (
+const isRetriableAckError = (error: unknown): boolean => {
+  if (error instanceof AccountApiError) {
+    if (error.status >= 500) {
+      return true;
+    }
+    return error.status === 400 && error.errorCode === "presign_not_found";
+  }
+  return true;
+};
+
+const ackUploadWithRetry = async (
+  historyId: string,
+  s3Key: string
+): Promise<void> => {
+  for (let attempt = 0; attempt < ACK_ATTEMPTS; attempt++) {
+    try {
+      await ackRhHistoryScanUpload(getAccessToken(), {
+        history_id: historyId,
+        s3_key: s3Key,
+      });
+      return;
+    } catch (error) {
+      if (!isRetriableAckError(error) || attempt === ACK_ATTEMPTS - 1) {
+        if (error instanceof AccountApiError) {
+          throw accountErrorToPresignError(error);
+        }
+        throw error;
+      }
+      await sleep(ACK_BACKOFF_MS[attempt] ?? 300);
+    }
+  }
+};
+
+const uploadToS3WithRetry = async (
   key: string,
   body: Blob,
   options?: ScanPresignOptions
@@ -109,8 +164,6 @@ export const uploadScan = async (
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
-      validateUploadKey(key);
-      validateUploadBody(body);
       const urls = await fetchPresignedUrls("upload", [key]);
       const entry = urls[0];
       if (!entry?.url) {
@@ -130,6 +183,20 @@ export const uploadScan = async (
       }
     }
   }
+};
+
+export const uploadScan = async (
+  key: string,
+  body: Blob,
+  options?: ScanPresignOptions
+): Promise<void> => {
+  validateUploadKey(key);
+  validateUploadBody(body);
+  const normalizedKey = normalizeUploadKey(key);
+  const historyId = historyIdFromUploadKey(key);
+
+  await uploadToS3WithRetry(normalizedKey, body, options);
+  await ackUploadWithRetry(historyId, normalizedKey);
 };
 
 export const downloadScans = async (

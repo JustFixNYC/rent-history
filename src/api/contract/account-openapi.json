@@ -53,7 +53,7 @@
         "type": "string"
       },
       "ErrorCodeEnum": {
-        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `magic_link_expired` - Magic link expired\n* `magic_link_invalid` - Magic link invalid\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied\n* `rh_page_not_found` - RH page not found",
+        "description": "* `otp_expired` - OTP expired\n* `otp_invalid` - OTP invalid\n* `otp_locked` - OTP locked\n* `magic_link_expired` - Magic link expired\n* `magic_link_invalid` - Magic link invalid\n* `profile_not_found` - Profile not found\n* `history_not_found` - History not found\n* `rh_profile_not_found` - RH profile not found\n* `rh_history_not_found` - RH history not found\n* `history_profile_mismatch` - History does not belong to profile\n* `invalid_phone_number` - Invalid phone number\n* `validation_error` - Validation error\n* `invalid_client` - Invalid OAuth client\n* `unauthorized_client` - Unauthorized OAuth client\n* `nycdb_not_configured` - NYCDB not configured\n* `nycdb_query_failed` - NYCDB query failed\n* `finding_not_found` - Finding not found\n* `findings_not_initialized` - Findings not initialized\n* `storage_not_configured` - Storage not configured\n* `storage_read_failed` - Storage read failed\n* `storage_write_failed` - Storage write failed\n* `pages_sync_error` - Pages out of sync with scans\n* `pdf_generation_failed` - PDF generation failed\n* `report_pdf_not_found` - Report PDF not found\n* `email_send_failed` - Email send failed\n* `s3_key_access_denied` - S3 key access denied\n* `rh_page_not_found` - RH page not found\n* `presign_not_found` - Presign row not found for upload ack",
         "enum": [
           "otp_expired",
           "otp_invalid",
@@ -81,7 +81,8 @@
           "report_pdf_not_found",
           "email_send_failed",
           "s3_key_access_denied",
-          "rh_page_not_found"
+          "rh_page_not_found",
+          "presign_not_found"
         ],
         "type": "string"
       },
@@ -543,14 +544,6 @@
       },
       "RhFinalizeScanRequestRequest": {
         "properties": {
-          "accept_partial": {
-            "default": false,
-            "type": "boolean"
-          },
-          "expected_page_count": {
-            "minimum": 1,
-            "type": "integer"
-          },
           "history_id": {
             "format": "uuid",
             "type": "string"
@@ -566,7 +559,6 @@
           }
         },
         "required": [
-          "expected_page_count",
           "history_id"
         ],
         "type": "object"
@@ -1757,6 +1749,37 @@
         ],
         "type": "object"
       },
+      "RhScanUploadAckRequestRequest": {
+        "description": "POST /rh/history/scan-upload-ack body.",
+        "properties": {
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "s3_key": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "history_id",
+          "s3_key"
+        ],
+        "type": "object"
+      },
+      "RhScanUploadAckResponse": {
+        "description": "POST /rh/history/scan-upload-ack success payload.",
+        "properties": {
+          "uploads_observed_count": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "uploads_observed_count"
+        ],
+        "type": "object"
+      },
       "RhSendMagicLinkSmsRequestRequest": {
         "properties": {
           "history_id": {
@@ -2555,7 +2578,7 @@
     },
     "/rh/history/finalize-scan": {
       "post": {
-        "description": "Sets expected_page_count and scan_finalized_at, moves last_step_reached to COMPILING, resets prior analysis artifacts on re-finalize, and runs maybe_advance_scan_pipeline catch-up in the same request.",
+        "description": "Derives expected_page_count from successful upload acks, sets scan_finalized_at, moves last_step_reached to COMPILING, resets prior analysis artifacts on re-finalize, and runs maybe_advance_scan_pipeline catch-up in the same request.",
         "operationId": "history_finalize_scan_create",
         "requestBody": {
           "content": {
@@ -2586,7 +2609,7 @@
                 }
               }
             },
-            "description": "Validation error or expected_page_count below page count."
+            "description": "Validation error or no successful uploads yet."
           },
           "401": {
             "description": "Missing or invalid access token."
@@ -3163,6 +3186,68 @@
           }
         ],
         "summary": "Batch presigned S3 URLs for scan upload or download",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/scan-upload-ack": {
+      "post": {
+        "description": "Records a successful S3 upload for a presigned scan key and returns the updated uploads_observed_count. Idempotent: duplicate acks for the same key return the current count unchanged.",
+        "operationId": "history_scan_upload_ack_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhScanUploadAckRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhScanUploadAckResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error or presign_not_found when no presign row exists."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Acknowledge a successful scan upload",
         "tags": [
           "Rent History"
         ]

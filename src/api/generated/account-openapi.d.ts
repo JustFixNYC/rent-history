@@ -195,7 +195,7 @@ export interface paths {
         put?: never;
         /**
          * Finalize a scan session
-         * @description Sets expected_page_count and scan_finalized_at, moves last_step_reached to COMPILING, resets prior analysis artifacts on re-finalize, and runs maybe_advance_scan_pipeline catch-up in the same request.
+         * @description Derives expected_page_count from successful upload acks, sets scan_finalized_at, moves last_step_reached to COMPILING, resets prior analysis artifacts on re-finalize, and runs maybe_advance_scan_pipeline catch-up in the same request.
          */
         post: operations["history_finalize_scan_create"];
         delete?: never;
@@ -326,6 +326,26 @@ export interface paths {
          * @description Returns presigned PUT (upload) or GET (download) URLs for scan image keys under `<profile_id>/<history_id>/filename`. Each key must belong to the authenticated user's profile and an owned RhHistory. Upload keys must use a `.jpg` or `.jpeg` filename. At most 20 keys per request.
          */
         post: operations["history_scan_presign_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/history/scan-upload-ack": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Acknowledge a successful scan upload
+         * @description Records a successful S3 upload for a presigned scan key and returns the updated uploads_observed_count. Idempotent: duplicate acks for the same key return the current count unchanged.
+         */
+        post: operations["history_scan_upload_ack_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -511,9 +531,10 @@ export interface components {
          *     * `email_send_failed` - Email send failed
          *     * `s3_key_access_denied` - S3 key access denied
          *     * `rh_page_not_found` - RH page not found
+         *     * `presign_not_found` - Presign row not found for upload ack
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "magic_link_expired" | "magic_link_invalid" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "magic_link_expired" | "magic_link_invalid" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found" | "presign_not_found";
         /**
          * @description * `processing` - Processing
          *     * `complete` - Complete
@@ -669,9 +690,6 @@ export interface components {
             latest_reg_year: number;
         };
         RhFinalizeScanRequestRequest: {
-            /** @default false */
-            accept_partial: boolean;
-            expected_page_count: number;
             /** Format: uuid */
             history_id: string;
             /** @default en */
@@ -1039,6 +1057,16 @@ export interface components {
             key: string;
             /** Format: uri */
             url: string;
+        };
+        /** @description POST /rh/history/scan-upload-ack body. */
+        RhScanUploadAckRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+            s3_key: string;
+        };
+        /** @description POST /rh/history/scan-upload-ack success payload. */
+        RhScanUploadAckResponse: {
+            uploads_observed_count: number;
         };
         RhSendMagicLinkSmsRequestRequest: {
             /** Format: uuid */
@@ -1570,7 +1598,7 @@ export interface operations {
                     "application/json": components["schemas"]["RhFinalizeScanResponse"];
                 };
             };
-            /** @description Validation error or expected_page_count below page count. */
+            /** @description Validation error or no successful uploads yet. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -2035,6 +2063,54 @@ export interface operations {
             };
             /** @description Storage misconfiguration or presign generation failure. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_scan_upload_ack_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhScanUploadAckRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhScanUploadAckResponse"];
+                };
+            };
+            /** @description Validation error or presign_not_found when no presign row exists. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

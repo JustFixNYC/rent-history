@@ -136,6 +136,12 @@ export type RhScanPresignResponse = Schemas["RhScanPresignResponse"];
 
 export type RhScanPresignUrlEntry = Schemas["RhScanPresignUrlEntry"];
 
+/** `POST /rh/history/scan-upload-ack` request body. */
+export type RhScanUploadAckRequest = Schemas["RhScanUploadAckRequestRequest"];
+
+/** `POST /rh/history/scan-upload-ack` success body. */
+export type RhScanUploadAckResponse = Schemas["RhScanUploadAckResponse"];
+
 /** Legacy scan-review poll response until Task 5 removes polling hooks. */
 export type RhScanReviewResponse =
   | {

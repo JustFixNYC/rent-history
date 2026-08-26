@@ -34,6 +34,8 @@ import type {
   RhSendMagicLinkSmsResponse,
   RhScanPresignRequest,
   RhScanPresignResponse,
+  RhScanUploadAckRequest,
+  RhScanUploadAckResponse,
   RhValidateFindingRequestRequest,
   RhValidateFindingResponse,
 } from "./types";
@@ -249,7 +251,7 @@ export const getRhHistoryScanPipelineStatus = (
 
 /**
  * `POST /rh/history/finalize-scan` — OAuth2 bearer.
- * Sets expected_page_count, moves last_step_reached to COMPILING, and runs pipeline catch-up.
+ * Derives expected_page_count from acked uploads, moves last_step_reached to COMPILING, and runs pipeline catch-up.
  */
 export const finalizeRhHistoryScan = (
   accessToken: string,
@@ -286,6 +288,21 @@ export const postRhHistoryScanPresign = (
 ): Promise<RhScanPresignResponse> =>
   unwrapAccountResponse(
     getAccountClient().POST("/rh/history/scan-presign", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
+
+/**
+ * `POST /rh/history/scan-upload-ack` — OAuth2 bearer.
+ * Records a successful S3 upload for a presigned scan key; idempotent per key.
+ */
+export const ackRhHistoryScanUpload = (
+  accessToken: string,
+  body: RhScanUploadAckRequest
+): Promise<RhScanUploadAckResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/scan-upload-ack", {
       headers: bearerHeaders(accessToken),
       body,
     })
