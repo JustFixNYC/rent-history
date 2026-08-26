@@ -8,7 +8,10 @@ import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { Button, Icon, TextInput } from "@justfixnyc/component-library";
 
-import { isAccountApiError } from "../../../api/account";
+import {
+  isAccountApiError,
+  setRhHistoryCurrentRent,
+} from "../../../api/account";
 import { useRunRhAnalysis } from "../../../api/account/hooks/findingsReview";
 import {
   getRhAuthSession,
@@ -24,12 +27,16 @@ type RentQuestionsForm = {
   monthlyRent: string;
 };
 
+const parseMonthlyRent = (raw: string): number =>
+  Number(raw.replace(/[$,\s]/g, ""));
+
 export const RentQuestions: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
   const currentState = readRentQuestionsState();
   const runAnalysis = useRunRhAnalysis();
   const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const [isSavingRent, setIsSavingRent] = useState(false);
 
   const form = useForm<RentQuestionsForm>({
     resolver: zodResolver(
@@ -66,9 +73,14 @@ export const RentQuestions: React.FC = () => {
       return;
     }
 
-    // TODO: save the rent value to the database
+    const currentRent = parseMonthlyRent(values.monthlyRent);
 
     try {
+      setIsSavingRent(true);
+      await setRhHistoryCurrentRent(session.accessToken, {
+        history_id: historyId,
+        current_rent: currentRent,
+      });
       await runAnalysis.mutateAsync({
         accessToken: session.accessToken,
         historyId,
@@ -89,10 +101,13 @@ export const RentQuestions: React.FC = () => {
         return;
       }
       setAnalysisError(_(msg`Unable to start analysis. Please try again.`));
+    } finally {
+      setIsSavingRent(false);
     }
   });
 
-  const primaryLabel = runAnalysis.isPending
+  const isSaving = isSavingRent || runAnalysis.isPending;
+  const primaryLabel = isSaving
     ? _(msg`Starting analysis…`)
     : _(msg`Start analysis`);
 
@@ -111,12 +126,13 @@ export const RentQuestions: React.FC = () => {
         <article className="postscan-card">
           <form className="postscan-card__content" onSubmit={saveAndContinue}>
             <h1>
-              <Trans>Current monthly rent</Trans>
+              <Trans>
+                What is the total monthly rent for your entire apartment?
+              </Trans>
             </h1>
             <p>
               <Trans>
-                We ask for your monthly rent so that we can calculate if you are
-                currently being overcharged.
+                This will help in our analysis of your rent history TK
               </Trans>
             </p>
             <TextInput
@@ -150,7 +166,7 @@ export const RentQuestions: React.FC = () => {
             type="button"
             className="postscan-link-btn"
             onClick={() => navigate(`/${i18n.locale}/confirm-address`)}
-            disabled={runAnalysis.isPending}
+            disabled={isSaving}
           >
             <Icon icon="chevronLeft" />
             <Trans>Back</Trans>
@@ -159,7 +175,7 @@ export const RentQuestions: React.FC = () => {
             className="postscan-primary-btn"
             labelText={primaryLabel}
             onClick={saveAndContinue}
-            disabled={runAnalysis.isPending}
+            disabled={isSaving}
           />
         </div>
       </section>

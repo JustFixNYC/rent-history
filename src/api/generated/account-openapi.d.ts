@@ -124,6 +124,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/current-rent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Set current monthly rent on a RhHistory
+         * @description Persists `current_rent` on an owned RhHistory. Does not change `last_step_reached`.
+         */
+        post: operations["history_current_rent_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/history/delete": {
         parameters: {
             query?: never;
@@ -717,6 +737,16 @@ export interface components {
             report_pdf_generated_at: string;
             report_pdf_locale: components["schemas"]["ReportPdfLocaleEnum"];
         };
+        RhHistorySetCurrentRentRequestRequest: {
+            /** Format: double */
+            current_rent: number;
+            /** Format: uuid */
+            history_id: string;
+        };
+        RhHistorySetCurrentRentResponse: {
+            /** Format: double */
+            current_rent: number;
+        };
         RhLoginStartRequestRequest: {
             otp_domain?: string;
             phone_number: string;
@@ -1225,6 +1255,52 @@ export interface operations {
             };
             /** @description NYCDB is not configured or unavailable. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_current_rent_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhHistorySetCurrentRentRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhHistorySetCurrentRentResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No RhProfile or matching RhHistory. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

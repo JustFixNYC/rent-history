@@ -48,6 +48,7 @@ const mockAuthSession: rhSessionStorage.RhSessionAuth = {
 };
 
 const mockMutateAsync = vi.fn();
+const mockSetRhHistoryCurrentRent = vi.fn();
 
 vi.mock("../../../session/rhSessionStorage", async () => {
   const actual = await vi.importActual<
@@ -63,6 +64,17 @@ vi.mock("../../../session/rhSessionStorage", async () => {
 });
 
 vi.mock("../../../api/account/hooks/findingsReview");
+
+vi.mock("../../../api/account", async () => {
+  const actual = await vi.importActual<typeof import("../../../api/account")>(
+    "../../../api/account"
+  );
+  return {
+    ...actual,
+    setRhHistoryCurrentRent: (...args: unknown[]) =>
+      mockSetRhHistoryCurrentRent(...args),
+  };
+});
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -87,9 +99,9 @@ const renderRentQuestions = () => {
   );
 };
 
-const fillAndSubmitRent = async () => {
+const fillAndSubmitRent = async (rentValue = "2500") => {
   const input = screen.getByLabelText(/Current monthly rent/i);
-  fireEvent.change(input, { target: { value: "2500" } });
+  fireEvent.change(input, { target: { value: rentValue } });
   fireEvent.click(screen.getByRole("button", { name: /Start analysis/i }));
 };
 
@@ -101,6 +113,8 @@ describe("RentQuestions", () => {
     vi.mocked(rhSessionStorage.getRhHistoryId).mockReturnValue(TEST_HISTORY_ID);
     navigateMock.mockReset();
     mockMutateAsync.mockReset();
+    mockSetRhHistoryCurrentRent.mockReset();
+    mockSetRhHistoryCurrentRent.mockResolvedValue({ current_rent: 2500 });
 
     vi.mocked(findingsReviewHooks.useRunRhAnalysis).mockReturnValue({
       mutateAsync: mockMutateAsync,
@@ -112,20 +126,36 @@ describe("RentQuestions", () => {
     cleanup();
   });
 
-  it("navigates to findings-overview after successful run-analysis", async () => {
-    mockMutateAsync.mockResolvedValue({
-      findings_current: [],
-      review_queue: { ordered_ids: [] },
+  it("saves rent before run-analysis and navigates to findings-overview", async () => {
+    const callOrder: string[] = [];
+    mockSetRhHistoryCurrentRent.mockImplementation(async () => {
+      callOrder.push("rent");
+      return { current_rent: 2500 };
+    });
+    mockMutateAsync.mockImplementation(async () => {
+      callOrder.push("analysis");
+      return {
+        findings_current: [],
+        review_queue: { ordered_ids: [] },
+      };
     });
 
     renderRentQuestions();
-    await fillAndSubmitRent();
+    await fillAndSubmitRent("$2,500");
 
     await waitFor(() => {
+      expect(mockSetRhHistoryCurrentRent).toHaveBeenCalledWith(
+        TEST_ACCESS_TOKEN,
+        {
+          history_id: TEST_HISTORY_ID,
+          current_rent: 2500,
+        }
+      );
       expect(mockMutateAsync).toHaveBeenCalledWith({
         accessToken: TEST_ACCESS_TOKEN,
         historyId: TEST_HISTORY_ID,
       });
+      expect(callOrder).toEqual(["rent", "analysis"]);
       expect(navigateMock).toHaveBeenCalledWith("/en/findings-overview");
     });
   });
@@ -146,6 +176,23 @@ describe("RentQuestions", () => {
         /Analysis has already been run for this rent history/i
       )
     ).toBeInTheDocument();
+    expect(mockSetRhHistoryCurrentRent).toHaveBeenCalled();
+    expect(navigateMock).not.toHaveBeenCalled();
+  });
+
+  it("shows error and stays on page when rent save fails", async () => {
+    mockSetRhHistoryCurrentRent.mockRejectedValue(
+      new AccountApiError(400, {
+        error: "Invalid rent amount.",
+        error_code: "validation_error",
+      })
+    );
+
+    renderRentQuestions();
+    await fillAndSubmitRent();
+
+    expect(await screen.findByText(/Invalid rent amount/i)).toBeInTheDocument();
+    expect(mockMutateAsync).not.toHaveBeenCalled();
     expect(navigateMock).not.toHaveBeenCalled();
   });
 });

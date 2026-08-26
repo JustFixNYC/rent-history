@@ -843,6 +843,35 @@
         ],
         "type": "object"
       },
+      "RhHistorySetCurrentRentRequestRequest": {
+        "properties": {
+          "current_rent": {
+            "format": "double",
+            "type": "number"
+          },
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "current_rent",
+          "history_id"
+        ],
+        "type": "object"
+      },
+      "RhHistorySetCurrentRentResponse": {
+        "properties": {
+          "current_rent": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "current_rent"
+        ],
+        "type": "object"
+      },
       "RhLoginStartRequestRequest": {
         "properties": {
           "otp_domain": {
@@ -1952,6 +1981,61 @@
           }
         ],
         "summary": "Confirm address and look up NYCDB building info",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/current-rent": {
+      "post": {
+        "description": "Persists `current_rent` on an owned RhHistory. Does not change `last_step_reached`.",
+        "operationId": "history_current_rent_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistorySetCurrentRentRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistorySetCurrentRentResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "No RhProfile or matching RhHistory."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Set current monthly rent on a RhHistory",
         "tags": [
           "Rent History"
         ]

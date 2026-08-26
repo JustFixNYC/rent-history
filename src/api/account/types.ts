@@ -32,6 +32,14 @@ export type RhHistoryConfirmAddressRequest =
 export type RhHistoryConfirmAddressResponse =
   Schemas["RhHistoryConfirmAddressResponse"];
 
+/** `POST /rh/history/current-rent` request (OpenAPI `RhHistorySetCurrentRentRequestRequest`). */
+export type RhHistorySetCurrentRentRequest =
+  Schemas["RhHistorySetCurrentRentRequestRequest"];
+
+/** `POST /rh/history/current-rent` response. */
+export type RhHistorySetCurrentRentResponse =
+  Schemas["RhHistorySetCurrentRentResponse"];
+
 export type RhHistoryPageDeleteResponse =
   Schemas["RhHistoryPageDeleteResponse"];
 
