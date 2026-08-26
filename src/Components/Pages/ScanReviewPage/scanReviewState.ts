@@ -15,18 +15,15 @@ export type PersistedScannerPhase = "pre-scan" | "scan-review";
 export type ScannerStepState = {
   historyId: string;
   phase: "scan-review";
-  expectedPageCount: number;
 };
 
 export type ScannerStepStateInput = {
   phase: "scan-review";
-  expectedPageCount: number;
 };
 
 const scannerStepStateSchema = z.object({
   historyId: z.string(),
   phase: z.literal("scan-review"),
-  expectedPageCount: z.number().int().min(1),
 });
 
 export const SCANNER_STEP_STATE_KEY = "scanner";

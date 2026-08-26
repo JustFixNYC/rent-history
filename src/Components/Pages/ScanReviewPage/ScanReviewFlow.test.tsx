@@ -90,7 +90,6 @@ const renderScanReviewFlow = (
             earlyValidation={warningOnlyEarlyValidation}
             accessToken="access-token"
             historyId={testHistoryId}
-            expectedPageCount={2}
             onIncrementalRescan={vi.fn()}
             {...props}
           />

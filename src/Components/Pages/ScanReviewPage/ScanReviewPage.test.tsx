@@ -136,7 +136,7 @@ describe("ScanReviewPage error states", () => {
     window.sessionStorage.clear();
     setRhAuthSession(tokenPayload);
     setRhHistoryId(historyId);
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 4 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       needsRescanPipelineResponse
     );
@@ -317,7 +317,7 @@ describe("ScanReviewPage rescan CTAs", () => {
     window.sessionStorage.clear();
     setRhAuthSession(tokenPayload);
     setRhHistoryId(historyId);
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 4 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       needsRescanPipelineResponse
     );
@@ -350,7 +350,6 @@ describe("ScanReviewPage rescan CTAs", () => {
       );
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
-        state: { expectedPageCount: 3 },
       });
     });
   });
@@ -380,7 +379,6 @@ describe("ScanReviewPage rescan CTAs", () => {
       );
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
-        state: { expectedPageCount: 0 },
       });
     });
   });
@@ -392,7 +390,7 @@ describe("ScanReviewPage incremental flow", () => {
     window.sessionStorage.clear();
     setRhAuthSession(tokenPayload);
     setRhHistoryId(historyId);
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
   });
 
   afterEach(() => {
@@ -564,7 +562,6 @@ describe("ScanReviewPage incremental flow", () => {
       expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
-        state: { expectedPageCount: 4 },
       });
     });
   });
@@ -576,7 +573,7 @@ describe("ScanReviewPage bootstrap error", () => {
     window.sessionStorage.clear();
     setRhAuthSession(tokenPayload);
     setRhHistoryId(historyId);
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
+    writeScannerStepState({ phase: "scan-review" });
   });
 
   afterEach(() => {
@@ -631,7 +628,7 @@ describe("ScanReviewPage non-pipeline failures", () => {
     window.sessionStorage.clear();
     setRhAuthSession(tokenPayload);
     setRhHistoryId(historyId);
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       defaultPipelineResponse
     );

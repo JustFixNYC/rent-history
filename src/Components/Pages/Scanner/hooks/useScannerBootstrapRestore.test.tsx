@@ -188,7 +188,7 @@ describe("useScannerBootstrapRestore", () => {
   });
 
   it("does not redirect to scan-review when pipeline fails with saved session", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockRejectedValue(
       new Error("network error")
     );
@@ -210,7 +210,7 @@ describe("useScannerBootstrapRestore", () => {
   });
 
   it("opens gate after retry succeeds", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus)
       .mockRejectedValueOnce(new Error("network error"))
       .mockResolvedValueOnce(terminalPipelineResponse);

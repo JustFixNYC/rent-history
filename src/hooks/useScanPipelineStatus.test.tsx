@@ -283,7 +283,6 @@ describe("useScanPipelineStatus", () => {
     await waitFor(() => {
       expect(scannerState.writeScannerStepState).toHaveBeenCalledWith({
         phase: "scan-review",
-        expectedPageCount: 3,
       });
     });
 

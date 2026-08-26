@@ -230,10 +230,8 @@ const tokenPayload = {
 
 const historyId = testHistoryId;
 
-const finalizeScanRequest = (expectedPageCount: number) => ({
+const finalizeScanRequest = () => ({
   history_id: historyId,
-  expected_page_count: expectedPageCount,
-  accept_partial: false,
   locale: "en",
 });
 
@@ -281,7 +279,7 @@ const advanceToScanComplete = async () => {
   await waitFor(() => {
     expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
       "access-token",
-      finalizeScanRequest(1)
+      finalizeScanRequest()
     );
     expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
       replace: true,
@@ -488,7 +486,7 @@ describe("Scanner overlay visibility", () => {
   }, 10_000);
 });
 
-describe("Scanner expectedPageCount lifecycle", () => {
+describe("Scanner finalize-scan lifecycle", () => {
   beforeEach(() => {
     cleanup();
     window.sessionStorage.clear();
@@ -511,7 +509,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
     clearRhAuthSession();
   });
 
-  it("passes incremented upload count to finalize-scan after a scan", async () => {
+  it("passes history_id and locale to finalize-scan after a scan", async () => {
     renderScanner();
     await advanceToScanComplete();
 
@@ -523,7 +521,7 @@ describe("Scanner expectedPageCount lifecycle", () => {
       );
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        finalizeScanRequest(1)
+        finalizeScanRequest()
       );
     });
   });
@@ -595,7 +593,7 @@ describe("Scanner upload failures", () => {
       expect(uploadScan).toHaveBeenCalledTimes(2);
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        finalizeScanRequest(1)
+        finalizeScanRequest()
       );
       expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
         replace: true,
@@ -648,7 +646,7 @@ describe("Scanner phase persistence", () => {
   });
 
   it("redirects to scan-review from session without showing pre-scan", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     mockBootstrapReady({
       expected_page_count: 2,
       pages_landed_count: 2,
@@ -681,7 +679,7 @@ describe("Scanner phase persistence", () => {
     const historyB = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
 
     setRhHistoryId(historyA);
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 3 });
+    writeScannerStepState({ phase: "scan-review" });
     setRhSessionAnalysisPages([
       {
         s3_key: `1/${historyA}/page1.jpg`,
@@ -708,7 +706,6 @@ describe("Scanner phase persistence", () => {
     setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
       historyId: historyA,
       phase: "scan-review",
-      expectedPageCount: 3,
     });
     mockBootstrapNoRestorablePages();
 
@@ -783,7 +780,7 @@ describe("Scanner unmount cleanup", () => {
   });
 
   it("does not initialize Dynamsoft when saved scan-review redirects away from scanner", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     mockBootstrapReady({
       expected_page_count: 2,
       pages_landed_count: 2,
@@ -800,7 +797,6 @@ describe("Scanner unmount cleanup", () => {
     expect(readScannerStepState()).toEqual({
       historyId,
       phase: "scan-review",
-      expectedPageCount: 2,
     });
   });
 
@@ -913,7 +909,7 @@ describe("Scanner tab hide during active scan", () => {
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledTimes(1);
       expect(accountApi.finalizeRhHistoryScan).toHaveBeenCalledWith(
         "access-token",
-        finalizeScanRequest(1)
+        finalizeScanRequest()
       );
       expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
         replace: true,
@@ -1152,7 +1148,7 @@ describe("Scanner pipeline bootstrap error", () => {
   });
 
   it("does not redirect to scan-review when pipeline fails with saved session", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockRejectedValue(
       new Error("network error")
     );

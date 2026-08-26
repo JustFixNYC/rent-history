@@ -56,19 +56,17 @@ const Scanner: React.FC = () => {
   const locationState = location.state as ScannerLocationState | null;
   const postCompileReturn = Boolean(locationState?.postCompileReturn);
   const scanPipelineFailures = locationState?.scanPipelineFailures ?? [];
-  const initialExpectedPageCount = locationState?.expectedPageCount ?? 0;
 
   const [showScannerGuide, setShowScannerGuide] = useState(false);
   const [cameraAccessGranted, setCameraAccessGranted] = useState(false);
   const [isCheckingCameraAccess, setIsCheckingCameraAccess] = useState(false);
+  const [scannedPageCount, setScannedPageCount] = useState(0);
   const { historyId, historyCreatePhase, historyCreateError } =
     useScannerHistoryCreate();
   const accessToken = getRhAuthSession()?.accessToken;
   const {
     phase,
     setPhase,
-    expectedPageCount,
-    setExpectedPageCount,
     restoreStatus,
     deferScannerInit,
     pipelineBootstrapFailed,
@@ -77,7 +75,6 @@ const Scanner: React.FC = () => {
   } = useScannerBootstrapRestore({
     accessToken,
     historyId,
-    initialExpectedPageCount,
   });
 
   const postCompilePipeline = useScanPipelineBootstrap({
@@ -92,10 +89,10 @@ const Scanner: React.FC = () => {
   const [startScanError, setStartScanError] = useState<string | null>(null);
 
   const historyIdRef = useRef(historyId);
-  const expectedPageCountRef = useRef(expectedPageCount);
+  const scannedPageCountRef = useRef(scannedPageCount);
   const failedUploadCountRef = useRef(0);
   historyIdRef.current = historyId;
-  expectedPageCountRef.current = expectedPageCount;
+  scannedPageCountRef.current = scannedPageCount;
 
   const scannerEnabled =
     !deferScannerInit &&
@@ -105,13 +102,13 @@ const Scanner: React.FC = () => {
     useDocumentScanner({
       enabled: scannerEnabled,
       historyId,
-      expectedPageCountRef,
-      setExpectedPageCount,
+      expectedPageCountRef: scannedPageCountRef,
+      setExpectedPageCount: setScannedPageCount,
       failedUploadCountRef,
     });
 
-  const persistScanReviewStep = (count: number) => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: count });
+  const persistScanReviewStep = () => {
+    writeScannerStepState({ phase: "scan-review" });
   };
 
   const navigateToScanReview = useCallback(
@@ -127,36 +124,31 @@ const Scanner: React.FC = () => {
     [i18n.locale, navigate, scanPipelineFailures]
   );
 
-  const finalizeScanSession = useCallback(
-    async (count: number) => {
-      const context = requireRhScanContext(historyIdRef.current);
-      if (!context) return { ok: false as const, error: null };
+  const finalizeScanSession = useCallback(async () => {
+    const context = requireRhScanContext(historyIdRef.current);
+    if (!context) return { ok: false as const, error: null };
 
-      const { token, historyId: activeHistoryId } = context;
+    const { token, historyId: activeHistoryId } = context;
 
-      try {
-        await finalizeRhHistoryScan(token, {
-          history_id: activeHistoryId,
-          expected_page_count: count,
-          accept_partial: false,
-          locale: i18n.locale,
-        });
-        clearScannerStepState();
-        void queryClient.invalidateQueries({
-          queryKey: accountQueryKeys.scanPipelineStatus(activeHistoryId),
-        });
-        navigate(`/${i18n.locale}/compiling`, { replace: true });
-        return { ok: true as const };
-      } catch (error) {
-        const message = flowErrorFromApi(
-          error,
-          _(msg`Unable to finalize scan. Please try again.`)
-        );
-        return { ok: false as const, error: message };
-      }
-    },
-    [_, i18n.locale, navigate, queryClient]
-  );
+    try {
+      await finalizeRhHistoryScan(token, {
+        history_id: activeHistoryId,
+        locale: i18n.locale,
+      });
+      clearScannerStepState();
+      void queryClient.invalidateQueries({
+        queryKey: accountQueryKeys.scanPipelineStatus(activeHistoryId),
+      });
+      navigate(`/${i18n.locale}/compiling`, { replace: true });
+      return { ok: true as const };
+    } catch (error) {
+      const message = flowErrorFromApi(
+        error,
+        _(msg`Unable to finalize scan. Please try again.`)
+      );
+      return { ok: false as const, error: message };
+    }
+  }, [_, i18n.locale, navigate, queryClient]);
 
   useEffect(() => {
     if (phase !== "scanning") return;
@@ -231,9 +223,9 @@ const Scanner: React.FC = () => {
         failedUploadCountRef.current = 0;
       },
       onLaunchSuccess: async (count) => {
-        const result = await finalizeScanSession(count);
+        const result = await finalizeScanSession();
         if (!result.ok && count > 0) {
-          persistScanReviewStep(count);
+          persistScanReviewStep();
           navigateToScanReview({
             failedUploadCount: failedUploadCountRef.current,
             reviewError: result.error,
@@ -340,7 +332,7 @@ const Scanner: React.FC = () => {
     try {
       await deleteAllRhScannedPages(token, activeHistoryId);
       clearScannerStepState();
-      setExpectedPageCount(0);
+      setScannedPageCount(0);
       failedUploadCountRef.current = 0;
       setIsSkipOrRescanModalOpen(false);
       const result = await runLaunchScanner();

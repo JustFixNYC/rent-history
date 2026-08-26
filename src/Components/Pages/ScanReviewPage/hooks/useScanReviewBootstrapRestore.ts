@@ -18,19 +18,12 @@ export type UseScanReviewBootstrapRestoreParams = {
 };
 
 export type UseScanReviewBootstrapRestoreResult = {
-  expectedPageCount: number;
-  setExpectedPageCount: React.Dispatch<React.SetStateAction<number>>;
   restoreStatus: "pending" | "done";
   pipelineBootstrapFailed: boolean;
   pipelineBootstrapLoading: boolean;
   retryPipelineBootstrap: () => void;
   pipelineData: RhScanPipelineStatusResponse | undefined;
 };
-
-function resolveExpectedPageCount(data: RhScanPipelineStatusResponse): number {
-  const count = data.expected_page_count ?? data.uploads_observed_count;
-  return count > 0 ? count : 0;
-}
 
 export function useScanReviewBootstrapRestore({
   accessToken,
@@ -40,9 +33,6 @@ export function useScanReviewBootstrapRestore({
   const { i18n } = useLingui();
   const savedStep = readScannerStepState();
 
-  const [expectedPageCount, setExpectedPageCount] = useState(
-    () => savedStep?.expectedPageCount ?? 0
-  );
   const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
     savedStep?.phase === "scan-review" || getRhHistoryId() ? "pending" : "done"
   );
@@ -65,8 +55,7 @@ export function useScanReviewBootstrapRestore({
     pipelineBootstrap.data != null &&
     shouldBootstrapCompiling(pipelineBootstrap.data);
 
-  const hasSavedScanReview =
-    savedStep?.phase === "scan-review" && savedStep.expectedPageCount > 0;
+  const hasSavedScanReview = savedStep?.phase === "scan-review";
 
   useEffect(() => {
     if (restoreStatus !== "pending" || !pipelineGatePassed) return;
@@ -75,14 +64,7 @@ export function useScanReviewBootstrapRestore({
     if (!data) return;
 
     if (data.scan_pipeline_status === "needs_rescan") {
-      const count = resolveExpectedPageCount(data);
-      setExpectedPageCount(count);
-      if (count > 0) {
-        writeScannerStepState({
-          phase: "scan-review",
-          expectedPageCount: count,
-        });
-      }
+      writeScannerStepState({ phase: "scan-review" });
       setRestoreStatus("done");
       return;
     }
@@ -95,7 +77,6 @@ export function useScanReviewBootstrapRestore({
     }
 
     if (hasSavedScanReview) {
-      setExpectedPageCount(savedStep!.expectedPageCount);
       setRestoreStatus("done");
       return;
     }
@@ -111,12 +92,9 @@ export function useScanReviewBootstrapRestore({
     pipelineGatePassed,
     redirectToCompiling,
     restoreStatus,
-    savedStep,
   ]);
 
   return {
-    expectedPageCount,
-    setExpectedPageCount,
     restoreStatus,
     pipelineBootstrapFailed,
     pipelineBootstrapLoading,

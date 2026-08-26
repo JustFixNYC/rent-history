@@ -56,8 +56,6 @@ const ScanReviewPage = () => {
     pipelineBootstrapLoading,
     retryPipelineBootstrap,
     pipelineData,
-    expectedPageCount,
-    setExpectedPageCount,
   } = useScanReviewBootstrapRestore({ accessToken, historyId });
 
   const earlyValidation =
@@ -73,16 +71,10 @@ const ScanReviewPage = () => {
     pipelineBootstrapLoading ||
     (Boolean(historyId) && pipelineData == null && !pipelineBootstrapFailed);
 
-  const navigateToPreScan = useCallback(
-    (nextExpectedPageCount: number) => {
-      clearScannerStepState();
-      navigate(`/${i18n.locale}/scanner`, {
-        replace: true,
-        state: { expectedPageCount: nextExpectedPageCount },
-      });
-    },
-    [i18n.locale, navigate]
-  );
+  const navigateToPreScan = useCallback(() => {
+    clearScannerStepState();
+    navigate(`/${i18n.locale}/scanner`, { replace: true });
+  }, [i18n.locale, navigate]);
 
   const handlePartialRescan = useCallback(async () => {
     if (!accessToken || !historyId || !earlyValidation) return;
@@ -95,15 +87,10 @@ const ScanReviewPage = () => {
       if (pageIds.length > 0) {
         await deleteRhScannedPages(accessToken, historyId, pageIds);
       }
-      const nextExpectedPageCount = Math.max(
-        0,
-        expectedPageCount - pageIds.length
-      );
-      setExpectedPageCount(nextExpectedPageCount);
       void queryClient.invalidateQueries({
         queryKey: accountQueryKeys.scanPipelineStatus(historyId),
       });
-      navigateToPreScan(nextExpectedPageCount);
+      navigateToPreScan();
     } catch (error) {
       setRescanError(
         flowErrorFromApi(
@@ -118,11 +105,9 @@ const ScanReviewPage = () => {
     _,
     accessToken,
     earlyValidation,
-    expectedPageCount,
     historyId,
     navigateToPreScan,
     queryClient,
-    setExpectedPageCount,
   ]);
 
   const handleTotalRescan = useCallback(async () => {
@@ -133,11 +118,10 @@ const ScanReviewPage = () => {
 
     try {
       await deleteAllRhScannedPages(accessToken, historyId);
-      setExpectedPageCount(0);
       void queryClient.invalidateQueries({
         queryKey: accountQueryKeys.scanPipelineStatus(historyId),
       });
-      navigateToPreScan(0);
+      navigateToPreScan();
     } catch (error) {
       setRescanError(
         flowErrorFromApi(
@@ -148,19 +132,12 @@ const ScanReviewPage = () => {
     } finally {
       setIsRescanPending(false);
     }
-  }, [
-    _,
-    accessToken,
-    historyId,
-    navigateToPreScan,
-    queryClient,
-    setExpectedPageCount,
-  ]);
+  }, [_, accessToken, historyId, navigateToPreScan, queryClient]);
 
   const handleIncrementalRescan = useCallback(() => {
     setRescanError(null);
-    navigateToPreScan(expectedPageCount);
-  }, [expectedPageCount, navigateToPreScan]);
+    navigateToPreScan();
+  }, [navigateToPreScan]);
 
   const showBootstrapError =
     restoreStatus === "pending" &&
@@ -229,7 +206,6 @@ const ScanReviewPage = () => {
           earlyValidation={screenState.earlyValidation}
           accessToken={accessToken}
           historyId={historyId}
-          expectedPageCount={expectedPageCount}
           isRescanPending={isRescanPending}
           rescanError={rescanError}
           onIncrementalRescan={handleIncrementalRescan}

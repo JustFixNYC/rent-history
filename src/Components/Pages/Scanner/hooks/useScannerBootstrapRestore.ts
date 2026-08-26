@@ -16,14 +16,11 @@ export type { ScannerPhase };
 export type UseScannerBootstrapRestoreParams = {
   accessToken: string | undefined;
   historyId: string | null;
-  initialExpectedPageCount?: number;
 };
 
 export type UseScannerBootstrapRestoreResult = {
   phase: ScannerPhase;
   setPhase: React.Dispatch<React.SetStateAction<ScannerPhase>>;
-  expectedPageCount: number;
-  setExpectedPageCount: React.Dispatch<React.SetStateAction<number>>;
   restoreStatus: "pending" | "done";
   setRestoreStatus: React.Dispatch<React.SetStateAction<"pending" | "done">>;
   deferScannerInit: boolean;
@@ -53,7 +50,6 @@ export function shouldBootstrapCompiling(
 export function useScannerBootstrapRestore({
   accessToken,
   historyId,
-  initialExpectedPageCount = 0,
 }: UseScannerBootstrapRestoreParams): UseScannerBootstrapRestoreResult {
   const navigate = useNavigate();
   const { i18n } = useLingui();
@@ -61,9 +57,6 @@ export function useScannerBootstrapRestore({
   const savedScanReview = savedStep?.phase === "scan-review";
 
   const [phase, setPhase] = useState<ScannerPhase>("pre-scan");
-  const [expectedPageCount, setExpectedPageCount] = useState(
-    () => initialExpectedPageCount
-  );
   const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
     savedScanReview || getRhHistoryId() ? "pending" : "done"
   );
@@ -120,8 +113,6 @@ export function useScannerBootstrapRestore({
   return {
     phase,
     setPhase,
-    expectedPageCount,
-    setExpectedPageCount,
     restoreStatus,
     setRestoreStatus,
     deferScannerInit,

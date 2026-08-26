@@ -67,11 +67,6 @@ export function shouldAutoNavigateOnComplete(
   );
 }
 
-function resolveExpectedPageCount(data: RhScanPipelineStatusResponse): number {
-  const count = data.expected_page_count ?? data.uploads_observed_count;
-  return count > 0 ? count : 1;
-}
-
 export const useScanPipelineStatus = ({
   accessToken,
   historyId,
@@ -112,10 +107,7 @@ export const useScanPipelineStatus = ({
 
     if (data.scan_pipeline_status === "needs_rescan") {
       hasHandledTerminalRef.current = true;
-      writeScannerStepState({
-        phase: "scan-review",
-        expectedPageCount: resolveExpectedPageCount(data),
-      });
+      writeScannerStepState({ phase: "scan-review" });
       navigate(`/${i18n.locale}/scan-review`, {
         replace: true,
         state: {

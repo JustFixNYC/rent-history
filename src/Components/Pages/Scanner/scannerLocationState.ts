@@ -4,8 +4,6 @@ import type { ScanCoverageFailure } from "../../../hooks/useScanPipelineStatus";
 export type ScannerLocationState = {
   postCompileReturn?: boolean;
   scanPipelineFailures?: ScanCoverageFailure[];
-  /** Remaining upload count after partial/total delete-before-navigate rescan. */
-  expectedPageCount?: number;
 };
 
 export type ScanReviewLocationState = {

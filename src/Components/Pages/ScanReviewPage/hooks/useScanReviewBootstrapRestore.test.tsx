@@ -135,7 +135,7 @@ describe("useScanReviewBootstrapRestore", () => {
   });
 
   it("blocks scan-review bootstrap on pipeline fetch error", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockRejectedValue(
       new Error("network error")
     );
@@ -176,13 +176,12 @@ describe("useScanReviewBootstrapRestore", () => {
       expect(result.current.pipelineData?.scan_pipeline_status).toBe(
         "needs_rescan"
       );
-      expect(result.current.expectedPageCount).toBe(2);
     });
     expect(accountApi.getRhHistoryScanPipelineStatus).toHaveBeenCalled();
   });
 
   it("keeps saved scan-review session when pipeline is terminal without needs_rescan", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       terminalPipelineResponse
     );
@@ -198,13 +197,12 @@ describe("useScanReviewBootstrapRestore", () => {
 
     await waitFor(() => {
       expect(result.current.restoreStatus).toBe("done");
-      expect(result.current.expectedPageCount).toBe(2);
     });
     expect(navigateMock).not.toHaveBeenCalled();
   });
 
   it("restores after retry succeeds", async () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus)
       .mockRejectedValueOnce(new Error("network error"))
       .mockResolvedValueOnce(needsRescanPipelineResponse);

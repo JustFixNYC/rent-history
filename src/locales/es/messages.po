@@ -419,7 +419,7 @@ msgid "Confirm address"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:252
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:254
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:252
 msgid "Continue"
 msgstr "Continuar"
 
@@ -882,7 +882,7 @@ msgid "Loading scan previews…"
 msgstr ""
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewErrorScreen.tsx:38
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:181
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:158
 msgid "Loading scan status…"
 msgstr ""
 
@@ -1189,8 +1189,8 @@ msgstr ""
 msgid "Please sign in to generate your report."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:415
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:268
+#: src/Components/Pages/Scanner/Scanner.tsx:407
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:244
 msgid "Please try again in a moment."
 msgstr ""
 
@@ -1400,7 +1400,7 @@ msgstr ""
 #~ msgid "Scan review"
 #~ msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:255
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:253
 msgid "Scan review navigation"
 msgstr ""
 
@@ -1432,7 +1432,7 @@ msgstr ""
 #~ msgid "ScanBot Demo"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:217
+#: src/Components/Pages/Scanner/Scanner.tsx:209
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr ""
 
@@ -1520,7 +1520,7 @@ msgstr ""
 #~ msgid "SMS delivery is pending. Check your phone shortly."
 #~ msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:200
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:198
 msgid "Some pages could not be read, and the last registration year we found is <0>{scannedMaxRegYear}</0>. Tell us the last year shown on your document so we can identify what to re-scan."
 msgstr ""
 
@@ -1740,7 +1740,7 @@ msgstr ""
 msgid "timeline.copy.vacancy_longevity_bonus.vacancy_only"
 msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:194
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:192
 msgid "The last registration year we found on your document is <0>{scannedMaxRegYear}</0>. Tell us the last year shown so we can check whether anything is missing."
 msgstr ""
 
@@ -1887,8 +1887,8 @@ msgstr ""
 msgid "Too many invalid attempts. Request a new code."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:418
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:271
+#: src/Components/Pages/Scanner/Scanner.tsx:410
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:247
 msgid "Try again"
 msgstr ""
 
@@ -1896,7 +1896,7 @@ msgstr ""
 msgid "Unable to compile your rent history"
 msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:210
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:208
 msgid "Unable to confirm your last registration year. Please try again."
 msgstr ""
 
@@ -1908,13 +1908,13 @@ msgstr ""
 msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:153
+#: src/Components/Pages/Scanner/Scanner.tsx:147
 msgid "Unable to finalize scan. Please try again."
 msgstr ""
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:123
-#: src/Components/Pages/Scanner/Scanner.tsx:411
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:264
+#: src/Components/Pages/Scanner/Scanner.tsx:403
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:240
 msgid "Unable to load compile status"
 msgstr ""
 
@@ -1938,14 +1938,14 @@ msgstr ""
 msgid "Unable to load the scanner. Please refresh the page and try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:250
-#: src/Components/Pages/Scanner/Scanner.tsx:280
-#: src/Components/Pages/Scanner/Scanner.tsx:308
+#: src/Components/Pages/Scanner/Scanner.tsx:242
+#: src/Components/Pages/Scanner/Scanner.tsx:272
+#: src/Components/Pages/Scanner/Scanner.tsx:300
 msgid "Unable to open the scanner. Please try again."
 msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:111
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:145
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:98
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:129
 msgid "Unable to prepare for re-scan. Please try again."
 msgstr ""
 
@@ -1957,7 +1957,7 @@ msgstr ""
 msgid "Unable to resend code right now. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:354
+#: src/Components/Pages/Scanner/Scanner.tsx:346
 msgid "Unable to restart scanning. Please try again."
 msgstr ""
 
@@ -2115,7 +2115,7 @@ msgstr ""
 msgid "We have not found any potential violations in your apartment's rent history."
 msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:187
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:185
 msgid "We may be missing some of your rent history"
 msgstr ""
 
@@ -2139,7 +2139,7 @@ msgstr ""
 msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr ""
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:189
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:187
 msgid "We weren't able to capture all of your rent history"
 msgstr ""
 

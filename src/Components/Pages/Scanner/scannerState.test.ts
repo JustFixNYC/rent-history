@@ -23,19 +23,19 @@ describe("scannerState", () => {
   });
 
   it("round-trips write and read", () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 2 });
+    writeScannerStepState({ phase: "scan-review" });
 
     expect(readScannerStepState()).toEqual({
       historyId,
       phase: "scan-review",
-      expectedPageCount: 2,
     });
   });
 
-  it("returns null for invalid stored shape", () => {
+  it("returns null for legacy shape with expectedPageCount", () => {
     setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
+      historyId,
       phase: "scan-review",
-      expectedPageCount: 0,
+      expectedPageCount: 2,
     });
 
     expect(readScannerStepState()).toBeNull();
@@ -43,8 +43,8 @@ describe("scannerState", () => {
 
   it("returns null for unknown phase values", () => {
     setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
+      historyId,
       phase: "scanning",
-      expectedPageCount: 2,
     });
 
     expect(readScannerStepState()).toBeNull();
@@ -53,7 +53,6 @@ describe("scannerState", () => {
   it("returns null for legacy shape missing historyId", () => {
     setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
       phase: "scan-review",
-      expectedPageCount: 2,
     });
 
     expect(readScannerStepState()).toBeNull();
@@ -63,14 +62,13 @@ describe("scannerState", () => {
     setRhSessionStepState(SCANNER_STEP_STATE_KEY, {
       historyId: "hist-other",
       phase: "scan-review",
-      expectedPageCount: 2,
     });
 
     expect(readScannerStepState()).toBeNull();
   });
 
   it("clearScannerStepState removes the step key", () => {
-    writeScannerStepState({ phase: "scan-review", expectedPageCount: 1 });
+    writeScannerStepState({ phase: "scan-review" });
     clearScannerStepState();
 
     expect(readScannerStepState()).toBeNull();

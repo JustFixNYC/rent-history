@@ -29,7 +29,6 @@ export type ScanReviewFlowProps = {
   earlyValidation: RhEarlyValidation;
   accessToken: string;
   historyId: string;
-  expectedPageCount: number;
   isRescanPending?: boolean;
   rescanError?: string | null;
   onIncrementalRescan: () => void;
@@ -49,7 +48,6 @@ export function ScanReviewFlow({
   earlyValidation,
   accessToken,
   historyId,
-  expectedPageCount: _expectedPageCount,
   isRescanPending = false,
   rescanError = null,
   onIncrementalRescan,
