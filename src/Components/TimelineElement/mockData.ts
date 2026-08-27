@@ -1,3 +1,4 @@
+import { timelineComposers } from "./copy/compose/registry";
 import type { TimelineFindingType, TimelineItem } from "./types";
 
 const PRESENT_YEAR = 2026;
@@ -217,3 +218,49 @@ export const mockTimelineElements: TimelineItem[] = [
 /** All finding types represented in mock data (for dev preview smoke checks). */
 export const mockTimelineFindingTypes: TimelineFindingType[] =
   mockTimelineElements.map((item) => item.type);
+
+/** Registry order — source of truth for every timeline finding type. */
+export const allTimelineFindingTypes = Object.keys(
+  timelineComposers
+) as TimelineFindingType[];
+
+const LONGEVITY_OPTIONAL_TYPES: TimelineFindingType[] = [
+  "destab__viol__prehstpa",
+  "destab__no_viol__prehstpa",
+  "increase__viol__prehstpa",
+  "increase__no_viol__prehstpa",
+  "nonreg__viol__prehstpa__new_tenant",
+  "nonreg__destab__prehstpa",
+];
+
+const PROGRAM_OPTIONAL_TYPES: TimelineFindingType[] = [
+  "destab__viol__posthstpa",
+  "nonreg__viol__prehstpa__new_tenant",
+  "nonreg__viol__posthstpa__new_tenant",
+  "nonreg__viol__posthstpa__same_tenant",
+];
+
+/** Clone mock item and ensure optional paragraphs render in the type catalog. */
+export function getCatalogMockTimelineItem(
+  type: TimelineFindingType
+): TimelineItem {
+  const base = mockTimelineElements.find((item) => item.type === type);
+  if (base == null) {
+    throw new Error(`No mock timeline item for type: ${type}`);
+  }
+
+  const data = { ...base.data };
+
+  if (
+    LONGEVITY_OPTIONAL_TYPES.includes(type) &&
+    data.longevity_amount == null
+  ) {
+    data.longevity_amount = 66;
+  }
+
+  if (PROGRAM_OPTIONAL_TYPES.includes(type) && data.program == null) {
+    data.program = "421a";
+  }
+
+  return { ...base, data };
+}

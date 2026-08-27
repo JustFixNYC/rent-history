@@ -23,4 +23,49 @@
   .timeline {
     margin: 0;
   }
+
+  .dev-page__type-nav {
+    margin: 0 0 jfcl.$JF_SPACING_05;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: jfcl.$JF_SPACING_03 jfcl.$JF_SPACING_05;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    a {
+      @include jfcl.body_standard_mobile;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+  }
+
+  .dev-page__type-entry {
+    scroll-margin-top: jfcl.$JF_SPACING_06;
+    margin-bottom: jfcl.$JF_SPACING_06;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .dev-page__type-label {
+    @include jfcl.body_standard_mobile;
+    margin: 0 0 jfcl.$JF_SPACING_03;
+    font-family: monospace;
+    font-size: 0.875rem;
+    font-weight: normal;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }

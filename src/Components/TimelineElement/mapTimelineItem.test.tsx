@@ -6,7 +6,11 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { timelineComposers } from "./copy/compose/registry";
 import { TimelineElement } from "./TimelineElement";
 import { mapTimelineItemToProps } from "./mapTimelineItem";
-import { mockTimelineElements } from "./mockData";
+import {
+  allTimelineFindingTypes,
+  getCatalogMockTimelineItem,
+  mockTimelineElements,
+} from "./mockData";
 import type { TimelineItem } from "./types";
 
 const baseItem = (
@@ -147,6 +151,18 @@ describe("mapTimelineItemToProps", () => {
 
   it("composes every mock timeline item without throwing", () => {
     for (const item of mockTimelineElements) {
+      expect(() => mapTimelineItemToProps(item)).not.toThrow();
+    }
+  });
+
+  it("allTimelineFindingTypes matches registry and catalog mocks compose", () => {
+    expect(allTimelineFindingTypes.sort()).toEqual(
+      Object.keys(timelineComposers).sort()
+    );
+
+    for (const type of allTimelineFindingTypes) {
+      const item = getCatalogMockTimelineItem(type);
+      expect(item.type).toBe(type);
       expect(() => mapTimelineItemToProps(item)).not.toThrow();
     }
   });
