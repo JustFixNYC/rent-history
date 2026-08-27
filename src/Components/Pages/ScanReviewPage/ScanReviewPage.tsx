@@ -206,6 +206,9 @@ const ScanReviewPage = () => {
           earlyValidation={screenState.earlyValidation}
           accessToken={accessToken}
           historyId={historyId}
+          declaredLastRegYear={pipelineData?.declared_last_reg_year ?? null}
+          skipLastRegYearStep={pipelineData?.skip_last_reg_year_step ?? false}
+          initialCalloutLabels={pipelineData?.rescan_callout_labels ?? null}
           isRescanPending={isRescanPending}
           rescanError={rescanError}
           onIncrementalRescan={handleIncrementalRescan}

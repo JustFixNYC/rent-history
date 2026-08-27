@@ -168,8 +168,7 @@ describe("ScanReviewFlow", () => {
       matched: false,
       declared_last_reg_year: 2020,
       scanned_max_reg_year: 2003,
-      missing_reg_year_ranges: ["2004-2020"],
-      page_error_reg_year_ranges: [],
+      rescan_callout_labels: ["2004-2020"],
       scan_pipeline_status: "needs_rescan",
     });
 
@@ -202,8 +201,7 @@ describe("ScanReviewFlow", () => {
       matched: false,
       declared_last_reg_year: 2020,
       scanned_max_reg_year: 2003,
-      missing_reg_year_ranges: ["2004-2020"],
-      page_error_reg_year_ranges: [],
+      rescan_callout_labels: ["2004-2020"],
       scan_pipeline_status: "needs_rescan",
     });
 
@@ -235,8 +233,7 @@ describe("ScanReviewFlow", () => {
       matched: false,
       declared_last_reg_year: 2020,
       scanned_max_reg_year: 2003,
-      missing_reg_year_ranges: ["2004-2020"],
-      page_error_reg_year_ranges: [],
+      rescan_callout_labels: ["2004-2020"],
       scan_pipeline_status: "needs_rescan",
     });
 
@@ -256,5 +253,56 @@ describe("ScanReviewFlow", () => {
     );
 
     expect(onIncrementalRescan).toHaveBeenCalledTimes(1);
+  });
+
+  it("skips year step and shows callout when skipLastRegYearStep is true", () => {
+    renderScanReviewFlow({
+      declaredLastRegYear: 2020,
+      skipLastRegYearStep: true,
+      initialCalloutLabels: ["2004-2020"],
+    });
+
+    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
+      "data-flow-mode",
+      "warningYearMismatch"
+    );
+    expect(
+      screen.getByText("We still need pages from your document")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("scan-review-reg-year-error-callout")
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Continue" })
+    ).not.toBeInTheDocument();
+
+    const callout = screen.getByTestId("scan-review-reg-year-error-callout");
+    expect(within(callout).getAllByText("2004-2020").length).toBeGreaterThan(0);
+
+    const stack = screen.getByTestId("scan-review-module-stack");
+    expect(stack).toHaveAttribute("data-revealed-count", "1");
+    expect(accountApi.confirmRhHistoryLastRegYear).not.toHaveBeenCalled();
+  });
+
+  it("shows trailing range and page labels for errorsAndWarning when declared is set", () => {
+    renderScanReviewFlow({
+      flowMode: ScanReviewMode.errorsAndWarning,
+      earlyValidation: errorsAndWarningEarlyValidation,
+      declaredLastRegYear: 2020,
+      skipLastRegYearStep: true,
+      initialCalloutLabels: ["Page 2", "2004-2020"],
+    });
+
+    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
+      "data-flow-mode",
+      "warningYearMismatch"
+    );
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
+
+    const callout = screen.getByTestId("scan-review-reg-year-error-callout");
+    expect(within(callout).getByText("Page 2")).toBeInTheDocument();
+    expect(within(callout).getByText("2004-2020")).toBeInTheDocument();
+    expect(accountApi.confirmRhHistoryLastRegYear).not.toHaveBeenCalled();
   });
 });

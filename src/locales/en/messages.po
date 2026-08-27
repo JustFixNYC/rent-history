@@ -220,8 +220,7 @@ msgstr "Analyze my rent history"
 msgid "Analyzing rent history"
 msgstr "Analyzing rent history"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:43
-#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:52
+#: src/Components/Pages/ScanReviewPage/ScanReviewRescanCallout.tsx:49
 msgid "and"
 msgstr "and"
 
@@ -419,7 +418,7 @@ msgid "Confirm address"
 msgstr "Confirm address"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:252
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:252
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:274
 msgid "Continue"
 msgstr "Continue"
 
@@ -595,11 +594,15 @@ msgstr "Find out if you've been overcharged"
 msgid "Find out if you’ve been overcharged on rent"
 msgstr "Find out if you’ve been overcharged on rent"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:78
-msgid "Find the page(s) in your document covering <0>{rangesPhrase}</0> and re-scan in full."
-msgstr "Find the page(s) in your document covering <0>{rangesPhrase}</0> and re-scan in full."
+#: src/Components/Pages/ScanReviewPage/ScanReviewRescanCallout.tsx:109
+msgid "Find the page(s) in your document covering <0>{labelsPhrase}</0> and re-scan in full."
+msgstr "Find the page(s) in your document covering <0>{labelsPhrase}</0> and re-scan in full."
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:65
+#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:78
+#~ msgid "Find the page(s) in your document covering <0>{rangesPhrase}</0> and re-scan in full."
+#~ msgstr "Find the page(s) in your document covering <0>{rangesPhrase}</0> and re-scan in full."
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewRescanCallout.tsx:114
 msgid "Find the page(s) in your document marked <0>{labelsPhrase}</0> at the bottom left corner and re-scan in full."
 msgstr "Find the page(s) in your document marked <0>{labelsPhrase}</0> at the bottom left corner and re-scan in full."
 
@@ -992,8 +995,7 @@ msgstr "Missing registration"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewPageErrorCallout.tsx:52
-#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:65
+#: src/Components/Pages/ScanReviewPage/ScanReviewRescanCallout.tsx:81
 msgid "Needs re-scan"
 msgstr "Needs re-scan"
 
@@ -1190,7 +1192,7 @@ msgid "Please sign in to generate your report."
 msgstr "Please sign in to generate your report."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:407
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:244
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:247
 msgid "Please try again in a moment."
 msgstr "Please try again in a moment."
 
@@ -1254,7 +1256,7 @@ msgstr "Re-scan"
 msgid "Re-scan document"
 msgstr "Re-scan document"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewRegYearErrorCallout.tsx:95
+#: src/Components/Pages/ScanReviewPage/ScanReviewRescanCallout.tsx:134
 msgid "Re-scan for these years"
 msgstr "Re-scan for these years"
 
@@ -1400,7 +1402,7 @@ msgstr "Scan a new rent history"
 #~ msgid "Scan review"
 #~ msgstr "Scan review"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:253
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:275
 msgid "Scan review navigation"
 msgstr "Scan review navigation"
 
@@ -1520,9 +1522,13 @@ msgstr "Skip or re-scan?"
 #~ msgid "SMS delivery is pending. Check your phone shortly."
 #~ msgstr "SMS delivery is pending. Check your phone shortly."
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:198
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:216
 msgid "Some pages could not be read, and the last registration year we found is <0>{scannedMaxRegYear}</0>. Tell us the last year shown on your document so we can identify what to re-scan."
 msgstr "Some pages could not be read, and the last registration year we found is <0>{scannedMaxRegYear}</0>. Tell us the last year shown on your document so we can identify what to re-scan."
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:202
+msgid "Some pages could not be read, and we still need pages through <0>{declaredLastRegYear}</0>. The last registration year we found is <1>{scannedMaxRegYear}</1>. Re-scan the pages listed below."
+msgstr "Some pages could not be read, and we still need pages through <0>{declaredLastRegYear}</0>. The last registration year we found is <1>{scannedMaxRegYear}</1>. Re-scan the pages listed below."
 
 #: src/Components/Pages/ScanReviewPage/ScanReviewCallouts.tsx:198
 #~ msgid "Something missing?"
@@ -1740,7 +1746,7 @@ msgstr "The landlord could have increased the rent by {vacancyFormatted} through
 msgid "timeline.copy.vacancy_longevity_bonus.vacancy_only"
 msgstr "The landlord could have increased the rent by {vacancyFormatted} through the use of a <0/>."
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:192
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:210
 msgid "The last registration year we found on your document is <0>{scannedMaxRegYear}</0>. Tell us the last year shown so we can check whether anything is missing."
 msgstr "The last registration year we found on your document is <0>{scannedMaxRegYear}</0>. Tell us the last year shown so we can check whether anything is missing."
 
@@ -1888,7 +1894,7 @@ msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
 #: src/Components/Pages/Scanner/Scanner.tsx:410
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:247
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:250
 msgid "Try again"
 msgstr "Try again"
 
@@ -1896,7 +1902,7 @@ msgstr "Try again"
 msgid "Unable to compile your rent history"
 msgstr "Unable to compile your rent history"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:208
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:226
 msgid "Unable to confirm your last registration year. Please try again."
 msgstr "Unable to confirm your last registration year. Please try again."
 
@@ -1914,7 +1920,7 @@ msgstr "Unable to finalize scan. Please try again."
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:123
 #: src/Components/Pages/Scanner/Scanner.tsx:403
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:240
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:243
 msgid "Unable to load compile status"
 msgstr "Unable to load compile status"
 
@@ -2115,7 +2121,7 @@ msgstr "We generate a detailed report that explains what we found and what it co
 msgid "We have not found any potential violations in your apartment's rent history."
 msgstr "We have not found any potential violations in your apartment's rent history."
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:185
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:188
 msgid "We may be missing some of your rent history"
 msgstr "We may be missing some of your rent history"
 
@@ -2139,7 +2145,12 @@ msgstr "We sent a code to <0>{maskedPhone}</0>"
 msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr "We sent a new code to <0>{maskedPhone}</0>"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:187
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:183
+msgid "We still need pages from your document"
+msgstr "We still need pages from your document"
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:185
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:190
 msgid "We weren't able to capture all of your rent history"
 msgstr "We weren't able to capture all of your rent history"
 
@@ -2325,6 +2336,10 @@ msgstr "You reported that a preferential rent was not charged during the first y
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:49
 msgid "findings.PREFRENT_421A.result.no_violation.body"
 msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
+
+#: src/Components/Pages/ScanReviewPage/ScanReviewFlow.tsx:195
+msgid "You told us your document goes through <0>{declaredLastRegYear}</0>, but the last registration year we found is still <1>{scannedMaxRegYear}</1>. Re-scan the pages covering the missing years below."
+msgstr "You told us your document goes through <0>{declaredLastRegYear}</0>, but the last registration year we found is still <1>{scannedMaxRegYear}</1>. Re-scan the pages covering the missing years below."
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:253
 msgid "You'll need to enter your phone number to access your reports again."

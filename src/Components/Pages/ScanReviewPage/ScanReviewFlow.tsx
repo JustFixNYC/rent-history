@@ -12,10 +12,7 @@ import { FlowNav } from "../../FlowNav";
 import { defaultYearMax } from "../FindingsReview/fields/validation";
 import { useProgressiveReveal } from "../FindingsReview/hooks/useProgressiveReveal";
 import { ScanReviewMode } from "./scanReviewModes";
-import {
-  mergeRegYearCalloutRanges,
-  ScanReviewRegYearErrorCallout,
-} from "./ScanReviewRegYearErrorCallout";
+import { ScanReviewRescanCallout } from "./ScanReviewRescanCallout";
 import { renderScanReviewLastRegYearStep } from "./ScanReviewLastRegYearStep";
 import { ScanReviewModuleStack } from "./ScanReviewModuleStack";
 import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
@@ -29,6 +26,9 @@ export type ScanReviewFlowProps = {
   earlyValidation: RhEarlyValidation;
   accessToken: string;
   historyId: string;
+  declaredLastRegYear?: number | null;
+  skipLastRegYearStep?: boolean;
+  initialCalloutLabels?: string[] | null;
   isRescanPending?: boolean;
   rescanError?: string | null;
   onIncrementalRescan: () => void;
@@ -48,6 +48,9 @@ export function ScanReviewFlow({
   earlyValidation,
   accessToken,
   historyId,
+  declaredLastRegYear = null,
+  skipLastRegYearStep = false,
+  initialCalloutLabels = null,
   isRescanPending = false,
   rescanError = null,
   onIncrementalRescan,
@@ -65,26 +68,33 @@ export function ScanReviewFlow({
   );
 
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const [mismatchRanges, setMismatchRanges] = useState<{
-    pageErrorRanges: string[];
-    missingRanges: string[];
-  } | null>(null);
-
-  const mergedMismatchRanges = useMemo(
-    () =>
-      mismatchRanges
-        ? mergeRegYearCalloutRanges(
-            mismatchRanges.pageErrorRanges,
-            mismatchRanges.missingRanges
-          )
-        : [],
-    [mismatchRanges]
+  const [calloutLabels, setCalloutLabels] = useState<string[] | null>(
+    () => initialCalloutLabels
   );
 
-  const isYearMismatchPhase = mismatchRanges != null;
+  const isYearMismatchPhase = calloutLabels != null;
 
-  const steps = useMemo(
-    () => [
+  const steps = useMemo(() => {
+    const calloutStep = {
+      id: "reg-year-mismatch",
+      render: () =>
+        isYearMismatchPhase ? (
+          <ScanReviewRescanCallout
+            labels={calloutLabels ?? []}
+            variant="year_coverage"
+            flowMode={flowMode}
+            isRescanPending={isRescanPending}
+            rescanError={rescanError}
+            onRescan={onIncrementalRescan}
+          />
+        ) : null,
+    };
+
+    if (skipLastRegYearStep) {
+      return [calloutStep];
+    }
+
+    return [
       {
         id: "last-reg-year",
         render: renderScanReviewLastRegYearStep({
@@ -94,40 +104,31 @@ export function ScanReviewFlow({
           years: yearOptions,
         }),
       },
-      {
-        id: "reg-year-mismatch",
-        render: () =>
-          isYearMismatchPhase ? (
-            <ScanReviewRegYearErrorCallout
-              regYearRanges={mergedMismatchRanges}
-              flowMode={flowMode}
-              isRescanPending={isRescanPending}
-              rescanError={rescanError}
-              onRescan={onIncrementalRescan}
-            />
-          ) : null,
-      },
-    ],
-    [
-      flowMode,
-      isRescanPending,
-      isYearMismatchPhase,
-      mergedMismatchRanges,
-      onIncrementalRescan,
-      rescanError,
-      selectedYear,
-      yearOptions,
-    ]
-  );
+      calloutStep,
+    ];
+  }, [
+    calloutLabels,
+    flowMode,
+    isRescanPending,
+    isYearMismatchPhase,
+    onIncrementalRescan,
+    rescanError,
+    selectedYear,
+    skipLastRegYearStep,
+    yearOptions,
+  ]);
 
   const isActiveStepComplete = useCallback(
     (stepIndex: number) => {
+      if (skipLastRegYearStep) {
+        return true;
+      }
       if (stepIndex === 0) {
         return selectedYear !== null;
       }
       return true;
     },
-    [selectedYear]
+    [selectedYear, skipLastRegYearStep]
   );
 
   const { revealedCount, activeStepIndex, goNext, goBack, canGoBack } =
@@ -170,37 +171,54 @@ export function ScanReviewFlow({
             return;
           }
 
-          setMismatchRanges({
-            pageErrorRanges: response.page_error_reg_year_ranges ?? [],
-            missingRanges: response.missing_reg_year_ranges ?? [],
-          });
+          setCalloutLabels(response.rescan_callout_labels ?? []);
           goNext();
         },
       }
     );
   };
 
-  const introTitle =
+  const introTitle = skipLastRegYearStep ? (
     flowMode === ScanReviewMode.warningOnly ? (
-      <Trans>We may be missing some of your rent history</Trans>
+      <Trans>We still need pages from your document</Trans>
     ) : (
       <Trans>We weren&apos;t able to capture all of your rent history</Trans>
-    );
+    )
+  ) : flowMode === ScanReviewMode.warningOnly ? (
+    <Trans>We may be missing some of your rent history</Trans>
+  ) : (
+    <Trans>We weren&apos;t able to capture all of your rent history</Trans>
+  );
 
-  const introDescription =
+  const introDescription = skipLastRegYearStep ? (
     flowMode === ScanReviewMode.warningOnly ? (
       <Trans>
-        The last registration year we found on your document is{" "}
-        <strong>{scannedMaxRegYear}</strong>. Tell us the last year shown so we
-        can check whether anything is missing.
+        You told us your document goes through{" "}
+        <strong>{declaredLastRegYear}</strong>, but the last registration year
+        we found is still <strong>{scannedMaxRegYear}</strong>. Re-scan the
+        pages covering the missing years below.
       </Trans>
     ) : (
       <Trans>
-        Some pages could not be read, and the last registration year we found is{" "}
-        <strong>{scannedMaxRegYear}</strong>. Tell us the last year shown on
-        your document so we can identify what to re-scan.
+        Some pages could not be read, and we still need pages through{" "}
+        <strong>{declaredLastRegYear}</strong>. The last registration year we
+        found is <strong>{scannedMaxRegYear}</strong>. Re-scan the pages listed
+        below.
       </Trans>
-    );
+    )
+  ) : flowMode === ScanReviewMode.warningOnly ? (
+    <Trans>
+      The last registration year we found on your document is{" "}
+      <strong>{scannedMaxRegYear}</strong>. Tell us the last year shown so we
+      can check whether anything is missing.
+    </Trans>
+  ) : (
+    <Trans>
+      Some pages could not be read, and the last registration year we found is{" "}
+      <strong>{scannedMaxRegYear}</strong>. Tell us the last year shown on your
+      document so we can identify what to re-scan.
+    </Trans>
+  );
 
   const continueError = confirmMutation.isError
     ? flowErrorFromApi(
@@ -209,11 +227,15 @@ export function ScanReviewFlow({
       )
     : null;
 
+  const effectiveFlowMode = skipLastRegYearStep
+    ? ScanReviewMode.warningYearMismatch
+    : flowMode;
+
   return (
     <div
       className="scan-review-flow"
       data-testid="scan-review-flow"
-      data-flow-mode={flowMode}
+      data-flow-mode={effectiveFlowMode}
       aria-live="polite"
     >
       <section

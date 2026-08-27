@@ -393,14 +393,8 @@
           "matched": {
             "type": "boolean"
           },
-          "missing_reg_year_ranges": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "page_error_reg_year_ranges": {
-            "description": "Reg-year range labels (e.g. 1990-1995) for uploaded page hard failures, and/or Page N labels for missing page slots.",
+          "rescan_callout_labels": {
+            "description": "Merged display labels for page errors, missing page slots, and trailing reg-year ranges when declared last reg year exceeds scanned max.",
             "items": {
               "type": "string"
             },
@@ -1538,6 +1532,10 @@
             "nullable": true,
             "type": "integer"
           },
+          "label": {
+            "nullable": true,
+            "type": "string"
+          },
           "page_number": {
             "nullable": true,
             "type": "integer"
@@ -1658,6 +1656,14 @@
           "processing_complete": {
             "type": "boolean"
           },
+          "rescan_callout_labels": {
+            "description": "Merged display labels for reg-year mismatch callout when declared last reg year exceeds scanned max (page errors, missing slots, trailing years).",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "type": "array"
+          },
           "scan_pipeline_status": {
             "nullable": true,
             "oneOf": [
@@ -1668,6 +1674,10 @@
                 "$ref": "#/components/schemas/NullEnum"
               }
             ]
+          },
+          "skip_last_reg_year_step": {
+            "description": "When true, the last-reg-year dropdown should be skipped and the callout shown immediately (declared year already exceeds scanned max).",
+            "type": "boolean"
           },
           "uploads_observed_count": {
             "type": "integer"

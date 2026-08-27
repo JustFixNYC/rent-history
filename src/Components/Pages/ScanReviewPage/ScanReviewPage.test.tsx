@@ -44,8 +44,8 @@ const partialEarlyValidation = {
   document_total_pages: 6,
   missing_page_numbers: [3, 5],
   pages_needing_rescan: [
-    { id: 7, page_number: 2, total_pages: 6 },
-    { id: null, page_number: 5, total_pages: 6 },
+    { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+    { id: null, page_number: 5, total_pages: 6, label: "Page 5 of 6" },
   ],
   scanned_max_reg_year: 2020,
   warnings: [],
@@ -180,7 +180,9 @@ describe("ScanReviewPage error states", () => {
         passed: false,
         document_total_pages: 1,
         missing_page_numbers: [],
-        pages_needing_rescan: [{ id: 7, page_number: 1, total_pages: 1 }],
+        pages_needing_rescan: [
+          { id: 7, page_number: 1, total_pages: 1, label: "Page 1 of 1" },
+        ],
         scanned_max_reg_year: 2020,
         warnings: [],
       },
@@ -225,7 +227,9 @@ describe("ScanReviewPage error states", () => {
         passed: false,
         document_total_pages: null,
         missing_page_numbers: [],
-        pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: null }],
+        pages_needing_rescan: [
+          { id: 7, page_number: 2, total_pages: null, label: "Page 2" },
+        ],
         scanned_max_reg_year: 2020,
         warnings: [],
       },
@@ -436,7 +440,9 @@ describe("ScanReviewPage incremental flow", () => {
         passed: false,
         document_total_pages: null,
         missing_page_numbers: [],
-        pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: null }],
+        pages_needing_rescan: [
+          { id: 7, page_number: 2, total_pages: null, label: "Page 2" },
+        ],
         scanned_max_reg_year: 2003,
         warnings: [
           { code: "possible_missing_last_page", latest_reg_year: 2003 },
@@ -531,8 +537,7 @@ describe("ScanReviewPage incremental flow", () => {
       matched: false,
       declared_last_reg_year: 2020,
       scanned_max_reg_year: 2003,
-      missing_reg_year_ranges: ["2004-2020"],
-      page_error_reg_year_ranges: [],
+      rescan_callout_labels: ["2004-2020"],
       scan_pipeline_status: "needs_rescan",
     });
 
@@ -564,6 +569,45 @@ describe("ScanReviewPage incremental flow", () => {
         replace: true,
       });
     });
+  });
+
+  it("skips year dropdown when pipeline has declared_last_reg_year set", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      declared_last_reg_year: 2020,
+      rescan_callout_labels: ["2004-2020"],
+      skip_last_reg_year_step: true,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        document_total_pages: null,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-reg-year-error-callout")
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
+      "data-flow-mode",
+      "warningYearMismatch"
+    );
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Continue" })
+    ).not.toBeInTheDocument();
+    const callout = screen.getByTestId("scan-review-reg-year-error-callout");
+    expect(callout).toHaveTextContent("2004-2020");
   });
 });
 

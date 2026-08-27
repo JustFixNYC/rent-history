@@ -3,8 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { RhEarlyValidation } from "../../../api/account/types";
 import { ScanReviewEntryScreen, ScanReviewMode } from "./scanReviewModes";
 import {
-  formatPageRescanLabel,
-  getLabelableRescanPages,
+  getLabelableRescanLabels,
   resolveScanReviewScreen,
 } from "./scanReviewScreenState";
 
@@ -17,29 +16,25 @@ const baseEarlyValidation: RhEarlyValidation = {
   warnings: [],
 };
 
-describe("formatPageRescanLabel", () => {
-  it("returns Page N of M when total pages are known", () => {
+describe("getLabelableRescanLabels", () => {
+  it("returns backend-provided labels", () => {
     expect(
-      formatPageRescanLabel({ id: 1, page_number: 2, total_pages: 6 }, null)
-    ).toBe("Page 2 of 6");
+      getLabelableRescanLabels({
+        ...baseEarlyValidation,
+        pages_needing_rescan: [
+          { id: 1, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+        ],
+      })
+    ).toEqual(["Page 2 of 6"]);
   });
 
-  it("returns Page N only when total pages are unavailable", () => {
+  it("skips pages without labels", () => {
     expect(
-      formatPageRescanLabel({ id: 1, page_number: 3, total_pages: null }, null)
-    ).toBe("Page 3");
-  });
-
-  it("falls back to document total pages when page total is missing", () => {
-    expect(
-      formatPageRescanLabel({ id: 1, page_number: 4, total_pages: null }, 8)
-    ).toBe("Page 4 of 8");
-  });
-
-  it("returns null when page number is missing", () => {
-    expect(
-      formatPageRescanLabel({ id: 1, page_number: null, total_pages: 6 }, 6)
-    ).toBeNull();
+      getLabelableRescanLabels({
+        ...baseEarlyValidation,
+        pages_needing_rescan: [{ id: 1, page_number: 2, total_pages: 6 }],
+      })
+    ).toEqual([]);
   });
 });
 
@@ -54,15 +49,14 @@ describe("resolveScanReviewScreen", () => {
     const earlyValidation: RhEarlyValidation = {
       ...baseEarlyValidation,
       pages_needing_rescan: [
-        { id: 7, page_number: 2, total_pages: 6 },
-        { id: 8, page_number: 5, total_pages: null },
+        { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+        { id: 8, page_number: 5, total_pages: null, label: "Page 5 of 6" },
       ],
     };
 
     expect(resolveScanReviewScreen(null, earlyValidation)).toEqual({
       screen: ScanReviewEntryScreen.partialPageErrors,
-      pages: earlyValidation.pages_needing_rescan,
-      documentTotalPages: 6,
+      labels: ["Page 2 of 6", "Page 5 of 6"],
     });
   });
 
@@ -70,20 +64,19 @@ describe("resolveScanReviewScreen", () => {
     const earlyValidation: RhEarlyValidation = {
       ...baseEarlyValidation,
       document_total_pages: null,
-      pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: null }],
+      pages_needing_rescan: [
+        { id: 7, page_number: 2, total_pages: null, label: "Page 2" },
+      ],
     };
 
     const result = resolveScanReviewScreen(null, earlyValidation);
     expect(result.screen).toBe(ScanReviewEntryScreen.partialPageErrors);
     if (result.screen === ScanReviewEntryScreen.partialPageErrors) {
-      expect(getLabelableRescanPages(earlyValidation)).toHaveLength(1);
-      expect(
-        formatPageRescanLabel(result.pages[0], result.documentTotalPages)
-      ).toBe("Page 2");
+      expect(result.labels).toEqual(["Page 2"]);
     }
   });
 
-  it("routes to totalFailure when pages lack readable page_number labels", () => {
+  it("routes to totalFailure when pages lack labels", () => {
     expect(
       resolveScanReviewScreen(null, {
         ...baseEarlyValidation,
@@ -124,7 +117,9 @@ describe("resolveScanReviewScreen", () => {
     const earlyValidation: RhEarlyValidation = {
       ...baseEarlyValidation,
       warnings: [{ code: "possible_missing_last_page", latest_reg_year: 2003 }],
-      pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: 6 }],
+      pages_needing_rescan: [
+        { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+      ],
     };
 
     expect(resolveScanReviewScreen(null, earlyValidation)).toEqual({

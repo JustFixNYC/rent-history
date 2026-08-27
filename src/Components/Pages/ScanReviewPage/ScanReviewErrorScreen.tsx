@@ -3,7 +3,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Button, Icon } from "@justfixnyc/component-library";
 
-import { ScanReviewPageErrorCallout } from "./ScanReviewPageErrorCallout";
+import { ScanReviewRescanCallout } from "./ScanReviewRescanCallout";
 import type { ScanReviewPartialPageErrorsState } from "./scanReviewScreenState";
 
 import "./ScanReviewScreen.scss";
@@ -42,7 +42,7 @@ export const ScanReviewErrorScreen = ({
     );
   }
 
-  const pageCount = screenState.pages.length;
+  const pageCount = screenState.labels.length;
 
   return (
     <div
@@ -56,9 +56,9 @@ export const ScanReviewErrorScreen = ({
             We weren&apos;t able to capture all of your rent history.
           </Trans>
         </h2>
-        <ScanReviewPageErrorCallout
-          pages={screenState.pages}
-          documentTotalPages={screenState.documentTotalPages}
+        <ScanReviewRescanCallout
+          labels={screenState.labels}
+          variant="page_marker"
         />
         {rescanError ? (
           <p

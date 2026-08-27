@@ -1,7 +1,4 @@
-import type {
-  RhEarlyValidation,
-  RhPageRescanInfo,
-} from "../../../api/account/types";
+import type { RhEarlyValidation } from "../../../api/account/types";
 import type { ScanReviewLocationState } from "../Scanner/scannerLocationState";
 import { ScanReviewEntryScreen, ScanReviewMode } from "./scanReviewModes";
 
@@ -26,8 +23,7 @@ export type ScanReviewIncrementalFlowState =
 /** Entry screen: partial page errors with Page N callout. */
 export type ScanReviewPartialPageErrorsState = {
   screen: typeof ScanReviewEntryScreen.partialPageErrors;
-  pages: RhPageRescanInfo[];
-  documentTotalPages: number | null;
+  labels: string[];
 };
 
 /** Entry screen: unrecoverable total failure. */
@@ -67,27 +63,11 @@ export function isWarningStepEligible(
   );
 }
 
-export function formatPageRescanLabel(
-  page: RhPageRescanInfo,
-  documentTotalPages: number | null
-): string | null {
-  const pageNumber = page.page_number;
-  if (pageNumber == null) return null;
-
-  const totalPages = page.total_pages ?? documentTotalPages;
-  if (totalPages != null) {
-    return `Page ${pageNumber} of ${totalPages}`;
-  }
-
-  return `Page ${pageNumber}`;
-}
-
-export function getLabelableRescanPages(
+export function getLabelableRescanLabels(
   earlyValidation: RhEarlyValidation
-): RhPageRescanInfo[] {
-  return earlyValidation.pages_needing_rescan.filter(
-    (page) =>
-      formatPageRescanLabel(page, earlyValidation.document_total_pages) != null
+): string[] {
+  return earlyValidation.pages_needing_rescan.flatMap((page) =>
+    page.label ? [page.label] : []
   );
 }
 
@@ -144,12 +124,11 @@ export function resolveScanReviewScreen(
     };
   }
 
-  const labelablePages = getLabelableRescanPages(earlyValidation);
-  if (labelablePages.length > 0) {
+  const labels = getLabelableRescanLabels(earlyValidation);
+  if (labels.length > 0) {
     return {
       screen: ScanReviewEntryScreen.partialPageErrors,
-      pages: labelablePages,
-      documentTotalPages: earlyValidation.document_total_pages,
+      labels,
     };
   }
 

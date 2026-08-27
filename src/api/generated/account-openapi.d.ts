@@ -656,9 +656,8 @@ export interface components {
         RhConfirmLastRegYearResponse: {
             declared_last_reg_year: number;
             matched: boolean;
-            missing_reg_year_ranges?: string[];
-            /** @description Reg-year range labels (e.g. 1990-1995) for uploaded page hard failures, and/or Page N labels for missing page slots. */
-            page_error_reg_year_ranges?: string[];
+            /** @description Merged display labels for page errors, missing page slots, and trailing reg-year ranges when declared last reg year exceeds scanned max. */
+            rescan_callout_labels?: string[];
             scan_pipeline_status?: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
             scanned_max_reg_year: number | null;
         };
@@ -1013,6 +1012,7 @@ export interface components {
         };
         RhPageRescanInfo: {
             id: number | null;
+            label?: string | null;
             page_number: number | null;
             total_pages: number | null;
         };
@@ -1040,7 +1040,11 @@ export interface components {
             pages_landed_count: number;
             pages_terminal_count: number;
             processing_complete: boolean;
+            /** @description Merged display labels for reg-year mismatch callout when declared last reg year exceeds scanned max (page errors, missing slots, trailing years). */
+            rescan_callout_labels?: string[] | null;
             scan_pipeline_status: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            /** @description When true, the last-reg-year dropdown should be skipped and the callout shown immediately (declared year already exceeds scanned max). */
+            skip_last_reg_year_step?: boolean;
             uploads_observed_count: number;
             user_message_key: string | null;
         };
