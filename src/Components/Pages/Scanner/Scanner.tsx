@@ -4,8 +4,6 @@ import { msg } from "@lingui/core/macro";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icon } from "@justfixnyc/component-library";
-import { Trans } from "@lingui/react/macro";
-
 import "./Scanner.scss";
 import {
   accountQueryKeys,
@@ -328,7 +326,7 @@ const Scanner: React.FC = () => {
     try {
       await deleteAllRhScannedPages(token, activeHistoryId);
       clearScannerStepState();
-      setScannedPageCount(0);
+      scannedPageCountRef.current = 0;
       failedUploadCountRef.current = 0;
       setIsSkipOrRescanModalOpen(false);
       const result = await runLaunchScanner();

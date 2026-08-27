@@ -17,7 +17,10 @@ import { useProgressiveReveal } from "../FindingsReview/hooks/useProgressiveReve
 import { ScanReviewFlowPhase, ScanReviewMode } from "./scanReviewModes";
 import { ScanReviewRescanCallout } from "./ScanReviewRescanCallout";
 import { ScanReviewLastRegYearStep } from "./ScanReviewLastRegYearStep";
-import { ScanReviewModuleStack } from "./ScanReviewModuleStack";
+import {
+  ScanReviewModuleStack,
+  type ScanReviewStepRenderContext,
+} from "./ScanReviewModuleStack";
 import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
 
 import "./ScanReviewScreen.scss";
@@ -96,7 +99,7 @@ export function ScanReviewFlow({
     return [
       {
         id: "last-reg-year",
-        render: ({ isPastStep }) => (
+        render: ({ isPastStep }: ScanReviewStepRenderContext) => (
           <ScanReviewLastRegYearStep
             stepNumber={1}
             selectedYear={selectedYear}
