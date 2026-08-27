@@ -38,6 +38,31 @@ msgstr ""
 #~ msgid "timeline.title.no_violation_destabilization_prehstpa"
 #~ msgstr "Apartment listed as exempt from rent stabilization. This appears to be explained by <0/>"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:6
+#~ msgid "timeline.title.violation_destab_prehstpa"
+#~ msgstr "Apartment listed as exempt from rent stabilization and may have been improperly destabilized."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:20
+#~ msgid "timeline.title.violation_destab_posthstpa"
+#~ msgstr "Apartment listed as exempt from rent stabilization without a specified reason."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:13
+#~ msgid "timeline.title.no_violation_destab_prehstpa"
+#~ msgstr "Apartment listed as exempt from rent stabilization. This appears to be explained by <0/>"
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:33
+#~ msgid "timeline.title.nonregistration_posthstpa_new_tenant"
+#~ msgstr "The apartment is missing registration from year {year} onward. This may indicate that your apartment is currently being treated as unofficially destabilized."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:149
+#~ msgid "timeline.title.a421_pref_viol"
+#~ msgstr "Preferential rent charged during the first year of this building's participation in the 421a tax program."
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr "."
@@ -90,6 +115,15 @@ msgstr "{failedUploadCount, plural, one {page} other {pages}}"
 #~ msgid "{start}–{end}"
 #~ msgstr "{start}–{end}"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:47
+msgid "timeline.copy.rgb_increase_footnote"
+msgstr "*percentage increases based on 1-year leases"
+
+#: src/Components/Pages/AccountPage/AccountPage.tsx:205
+#~ msgid "+ Scan a new rent history"
+#~ msgstr "+ Scan a new rent history"
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:71
 #~ msgid "+ Start a new analysis"
 #~ msgstr "+ Start a new analysis"
@@ -107,7 +141,12 @@ msgid "421-a expiration"
 msgstr "421-a expiration"
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:47
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:24
+msgid "timeline.copy.posthstpa_charge_justification.rehab"
+msgstr "A <0/> was done to the building."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:52
 msgid "timeline.copy.missing_reg_destab_list.rehab"
 msgstr "A <0/> was done to the building."
 
@@ -132,6 +171,11 @@ msgstr "A preferential rent appears to have been charged during the first year o
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:41
 msgid "findings.PREFRENT_421A.result.potential_violation.body"
 msgstr "A preferential rent appears to have been charged during the first year of this building's participation in the 421a tax program (year {year0}). Your report will include this with additional details."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:165
+msgid "timeline.copy.preferential_rent_required"
+msgstr "A preferential rent of {formattedPrefRent} was offered in year {previousYear}. Because the tenant did not change, the landlord was required to offer a preferential rent in the following year."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
@@ -181,7 +225,7 @@ msgid "All scanned pages will be cleared and you'll need to scan all pages again
 msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:35
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:39
 msgid "timeline.copy.missing_reg_destab_list.bonuses"
 msgstr "Allowable bonuses and/or IAIs that reached the high rent vacancy destabilization threshold."
 
@@ -245,18 +289,18 @@ msgstr "Apartment is missing registration from year {missingFromYear} onward. We
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/titles/titles.tsx:6
-msgid "timeline.title.violation_destab_prehstpa"
+msgid "timeline.title.destab_viol_prehstpa"
 msgstr "Apartment listed as exempt from rent stabilization and may have been improperly destabilized."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/titles/titles.tsx:20
-msgid "timeline.title.violation_destab_posthstpa"
+msgid "timeline.title.destab_viol_posthstpa"
 msgstr "Apartment listed as exempt from rent stabilization without a specified reason."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/titles/titles.tsx:13
-msgid "timeline.title.no_violation_destab_prehstpa"
-msgstr "Apartment listed as exempt from rent stabilization. This appears to be explained by <0/>"
+msgid "timeline.title.destab_no_viol_prehstpa"
+msgstr "Apartment listed as exempt from rent stabilization. This appears to be explained by <0/>."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:19
@@ -272,6 +316,26 @@ msgstr "Apartment missing registration"
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
 msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
 msgstr "Apartment missing registration"
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:60
+msgid "timeline.title.nonreg_viol_prehstpa_same_tenant"
+msgstr "Apartment missing registration from year {year} onward and your current rent appears to exceed the allowable amount, based on standard RGB increases."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:114
+msgid "timeline.title.nonreg_viol_posthstpa_same_tenant"
+msgstr "Apartment missing registration from year {year} onward and your current rent appears to exceed the allowable amount, based on standard RGB increases."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:73
+msgid "timeline.title.nonreg_no_viol_same_tenant"
+msgstr "Apartment missing registration from year {year} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:47
+msgid "timeline.title.nonreg_destab_prehstpa"
+msgstr "Apartment missing registration from year {year} onward. This appears to be explained by destabilization."
 
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
 msgid "Apt Stat"
@@ -305,9 +369,19 @@ msgstr "base rent"
 msgid "Base rent"
 msgstr "Base rent"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/RgbProjectionParagraph.tsx:19
+msgid "timeline.copy.rgb_projection"
+msgstr "Based on the <0/>, the rent could have reached {formattedAmount} in year {comparisonYear}."
+
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:408
 msgid "BBL"
 msgstr "BBL"
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/StillStabilizedSameTenantParagraph.tsx:11
+msgid "timeline.copy.still_stabilized_same_tenant"
+msgstr "Because you have been the tenant since year {findingYear}, your apartment should still be rent stabilized, even though your landlord has not been registering."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
@@ -467,6 +541,11 @@ msgstr "dismissed finding result copy TK"
 msgid "findings.HRVD.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:12
+msgid "timeline.copy.posthstpa_charge_justification.iai"
+msgstr "Documented <0/> at some point after year the missing registration began."
+
 #: src/Components/Pages/Landing/Landing.tsx:122
 msgid "Don’t have your rent history?"
 msgstr "Don’t have your rent history?"
@@ -534,7 +613,12 @@ msgid "Enter your phone number below to log in."
 msgstr "Enter your phone number below to log in."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:41
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:18
+msgid "timeline.copy.posthstpa_charge_justification.tax"
+msgstr "Expiration of your building's participation in <0/> like J51 and 421-a."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:46
 msgid "timeline.copy.missing_reg_destab_list.tax"
 msgstr "Expiration of your building's participation in <0/> like j51 and 421a."
 
@@ -623,6 +707,16 @@ msgstr "First, we checked for high rent vacancy destabilization in year {year}"
 #: src/Components/Pages/Scanner/Scanner.tsx:597
 #~ msgid "Flatten any folds in the pages and lay them on a flat surface"
 #~ msgstr "Flatten any folds in the pages and lay them on a flat surface"
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:247
+msgid "timeline.copy.iai_needed_for_rent"
+msgstr "For the landlord to charge {formattedRent} in year {year}, they would have needed to document <0/>."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IaiPermissionSameTenantParagraph.tsx:21
+msgid "timeline.copy.iai_permission_same_tenant"
+msgstr "For your landlord to charge {formattedCurrentRent}, they would have needed to document <0/> at some point between year {findingYear} and year {comparisonYear}. Since you were the tenant during this period, your landlord would have needed to ask your permission to make such improvements."
 
 #: src/Components/Pages/Report/Report.tsx:173
 msgid "Generate a PDF copy of your rent history report. Generating again replaces any report saved earlier in this session."
@@ -740,15 +834,50 @@ msgstr "If your apartment is rent stabilized, or has ever been rent stabilized, 
 msgid "In progress"
 msgstr "In progress"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:205
+msgid "timeline.copy.program_421a_rent"
+msgstr "In year {year}, the legal regulated rent was {formattedLegalRent}, and a preferential rent of {formattedPrefRent} was offered."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:88
+msgid "timeline.title.increase_no_viol_prehstpa"
+msgstr "Increase in legal regulated rent that appears to be within allowable limits."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:121
+msgid "timeline.title.increase_legal_viol_posthstpa"
+msgstr "Increase in legal regulated rent that does not appear to be explained by the standard RGB increase alone."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:135
+msgid "timeline.title.increase_pref_no_viol_posthstpa"
+msgstr "Increase in preferential rent that appears to be explained by a change in tenancy."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:128
+msgid "timeline.title.increase_pref_viol_posthstpa"
+msgstr "Increase in preferential rent that does not appear to be explained by the standard RGB increase alone."
+
 #: src/Components/GlossaryLink/glossaryTerms.tsx:41
 #: src/Components/GlossaryLink/glossaryTerms.tsx:42
 msgid "Individual Apartment Improvements (IAIs)"
 msgstr "Individual Apartment Improvements (IAIs)"
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:25
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:26
 msgid "timeline.copy.missing_reg_destab_intro"
 msgstr "It is also possible that the apartment was legally destabilized some time after year {year} through the use of one of the following:"
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:63
+msgid "timeline.implications.program_421a_pref"
+msgstr "It is illegal to offer a preferential rent during the first year of a building's participation in the 421a program, which means that your <0/> could be recalculated."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegExplainedByHrvdParagraph.tsx:20
+msgid "timeline.copy.landlord_stopped_registering"
+msgstr "It is likely that your landlord stopped registering your apartment after it met the high rent destabilization threshold."
 
 #: src/Components/TimelineElement/TimelineElement.tsx:95
 msgid "J51 expiration"
@@ -775,6 +904,11 @@ msgstr "Language"
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:14
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
 msgstr "Large increase in legal regulated rent"
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:81
+msgid "timeline.title.increase_viol_prehstpa"
+msgstr "Large increase in legal regulated rent that does not appear to be explained by allowable bonuses alone."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:16
@@ -1125,7 +1259,7 @@ msgid "Points show residential buildings with at least one rent-stabilized unit 
 msgstr "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:15
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:16
 msgid "timeline.copy.missing_reg_destab_heading"
 msgstr "Potential Destabilization during years of missing registration"
 
@@ -1143,6 +1277,11 @@ msgid "Preferential Rent"
 msgstr "Preferential Rent"
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:148
+msgid "timeline.title.pref_421a_viol"
+msgstr "Preferential rent charged during the first year of this building's participation in the 421a tax program."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.title"
 msgstr "Preferential rent not offered"
@@ -1151,6 +1290,11 @@ msgstr "Preferential rent not offered"
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
 msgid "findings.PREFRENT_421A.intro.title"
 msgstr "Preferential rent offered during initial year of this building's participation in 421a tax program."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:142
+msgid "timeline.title.revoke_pref_viol_posthstpa"
+msgstr "Preferential rent was not offered when it should have been."
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:84
 msgid "Preparing your rent history record…"
@@ -1393,6 +1537,14 @@ msgstr "Something went wrong while verifying your code."
 msgid "Something went wrong. Please try again."
 msgstr "Something went wrong. Please try again."
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:88
+msgid "standard RGB increases"
+msgstr "standard RGB increases"
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:89
+msgid "Standard RGB increases"
+msgstr "Standard RGB increases"
+
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:113
 msgid "Start analysis"
 msgstr "Start analysis"
@@ -1474,6 +1626,10 @@ msgstr "substantial rehabilitation"
 msgid "Substantial rehabilitation"
 msgstr "Substantial rehabilitation"
 
+#: src/Components/TimelineElement/TimelineElement.tsx:192
+msgid "Supporting evidence"
+msgstr "Supporting evidence"
+
 #: src/Components/Pages/Scanner/Scanner.tsx:602
 #~ msgid "Take photos in a well lit location and enable your camera flash"
 #~ msgstr "Take photos in a well lit location and enable your camera flash"
@@ -1511,8 +1667,23 @@ msgid "That code is incorrect. Try again."
 msgstr "That code is incorrect. Try again."
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegExplainedByHrvdParagraph.tsx:11
+msgid "timeline.copy.missing_reg_explained_by_hrvd"
+msgstr "The apartment is missing registration from {year} onward, and this appears to be explained by high rent vacancy destabilization."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegistrationFromYearParagraph.tsx:11
+msgid "timeline.copy.missing_registration_from_year"
+msgstr "The apartment is missing registration from year {year} onward."
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/titles/titles.tsx:33
-msgid "timeline.title.nonregistration_posthstpa_new_tenant"
+msgid "timeline.title.nonreg_viol_prehstpa_new_tenant"
+msgstr "The apartment is missing registration from year {year} onward. This may indicate that your apartment is currently being treated as unofficially destabilized."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:100
+msgid "timeline.title.nonreg_viol_posthstpa_new_tenant"
 msgstr "The apartment is missing registration from year {year} onward. This may indicate that your apartment is currently being treated as unofficially destabilized."
 
 #. js-lingui-explicit-id
@@ -1590,9 +1761,29 @@ msgid "timeline.copy.rent_in_year.legal"
 msgstr "The legal regulated rent in year {year} was {formattedAmount}."
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:79
+msgid "timeline.copy.rgb_increase"
+msgstr "The legal regulated rent in year {year} was {formattedRent}. The landlord was allowed to increase the rent by {formattedPercentage} based on the standard RGB increase."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:22
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
 msgstr "The legal regulated rent jumped {percentIncrease}% in one year. We'll check whether this increase can be explained."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:55
+msgid "timeline.copy.legal_rent_within_allowed"
+msgstr "The legal regulated rent of {formattedRent} in year {year} appears to be within what the landlord was allowed to charge."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:22
+msgid "timeline.copy.legal_rent_exceeds_allowed.rgb"
+msgstr "The legal regulated rent of {formattedRent} in year {year} is more than what the landlord was allowed to charge, and does not appear to be explained by the standard RGB increase alone."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:33
+msgid "timeline.copy.legal_rent_exceeds_allowed.bonus_only"
+msgstr "The legal regulated rent of {formattedRent} in year {year} is more than what the landlord was allowed to charge, and does not appear to be explained by vacancy bonus alone."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/HrvdThresholdParagraph.tsx:36
@@ -1615,6 +1806,21 @@ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.description"
 msgstr "The preferential rent jumped {percentIncrease}% in one year. We'll check whether this increase can be explained by a change in tenancy."
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:226
+msgid "timeline.copy.preferential_rent_explained_by_tenancy"
+msgstr "The preferential rent of {formattedPrefRent} in year {year} appears to be explained by a change in tenancy."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:133
+msgid "timeline.copy.preferential_tenancy_limit.within"
+msgstr "The preferential rent of {formattedPrefRent} in year {year} appears to be within the RGB limit ({formattedMaxRent})."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:143
+msgid "timeline.copy.preferential_tenancy_limit.exceeds"
+msgstr "The preferential rent of {formattedPrefRent} in year {year} is more than the RGB limit ({formattedMaxRent}), and does not appear to be explained by the standard RGB increase alone."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:142
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "The increase from ${rent0} in {year0} to ${rent1} in {year1} can be explained by allowable bonuses."
@@ -1630,6 +1836,21 @@ msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
 msgstr "The rent jumped {percentIncrease}% in one year. We'll check whether this increase can be explained by allowable bonuses."
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:98
+msgid "timeline.copy.tenant_change.changed"
+msgstr "The tenant in the apartment changed from the prior year."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:107
+msgid "timeline.copy.tenant_change.unchanged"
+msgstr "The tenant in the apartment did not change from the prior year."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:43
+msgid "timeline.implications.improper_overcharge"
+msgstr "There is a chance your rent may have been unlawfully or improperly raised, which means that you could be entitled to <0/> and your <1/> could be recalculated."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:33
 msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
 msgstr "There is no preferential rent in this year"
@@ -1643,6 +1864,11 @@ msgstr "There is no preferential rent in this year"
 #: src/Components/TimelineElement/copy/paragraphs/NoReasonProvidedParagraph.tsx:5
 msgid "timeline.copy.no_reason_provided"
 msgstr "There is no reason provided in the rent history document to explain this exemption."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:182
+msgid "timeline.copy.program_421a_participation"
+msgstr "This building began participation in the 421a program in year {programStartYear}."
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
 msgid "This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data)."
@@ -1771,6 +1997,11 @@ msgstr "Unable to update address right now. Please try again."
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:528
 msgid "Unit number"
 msgstr "Unit number"
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:35
+msgid "timeline.implications.posthstpa_missing_registration"
+msgstr "Unless there is proof of legal destabilization by way of substantial rehabilitation during the years of missing registration, your apartment may still be rent stabilized."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/implications/implications.tsx:28
@@ -1965,7 +2196,7 @@ msgstr "Were you living in this apartment in year {year0}?"
 msgid "What is the total monthly rent for your entire apartment?"
 msgstr "What is the total monthly rent for your entire apartment?"
 
-#: src/Components/TimelineElement/TimelineElement.tsx:196
+#: src/Components/TimelineElement/TimelineElement.tsx:214
 msgid "What this means for you"
 msgstr "What this means for you"
 
@@ -1987,7 +2218,12 @@ msgid "timeline.copy.allowed_raise.additions"
 msgstr "With these additions, the landlord was allowed to raise the rent in year {year} up to {formattedAmount}."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/AllowedRaiseUpToParagraph.tsx:32
+#: src/Components/TimelineElement/copy/paragraphs/AllowedRaiseUpToParagraph.tsx:33
+msgid "timeline.copy.allowed_raise.increases"
+msgstr "With these increases, the landlord was allowed to raise the rent in year {year} up to {formattedAmount}."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/AllowedRaiseUpToParagraph.tsx:43
 msgid "timeline.copy.allowed_raise.increase"
 msgstr "With this increase, the landlord was allowed to raise the rent in year {year} up to {formattedAmount}."
 
@@ -2053,9 +2289,19 @@ msgid "You don't have any rent histories yet."
 msgstr "You don't have any rent histories yet."
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:51
+msgid "timeline.implications.rgb_overcharge"
+msgstr "You may need to investigate further as to any alleged IAIs your landlord may have performed, because this would have been one of the only ways to have raised the rent beyond the standard RGB increase amount. If your landlord cannot prove how they legally increased your rent, there is a chance your rent may have been unlawfully or improperly raised, which means that you could be entitled to <0/> and your <1/> could be recalculated."
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/InvestigateIaiCostsParagraph.tsx:16
 msgid "timeline.copy.investigate_iai_costs"
 msgstr "You may need to investigate further as to any alleged IAIs your landlord may have performed. Your landlord would have to prove a total of {formattedAmount} in IAI costs."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaNonregInvestigateParagraph.tsx:5
+msgid "timeline.copy.posthstpa_nonreg_investigate"
+msgstr "You may need to investigate further as to any of the above."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/InvestigateRehabParagraph.tsx:5
@@ -2126,6 +2372,16 @@ msgstr "Your apartment is missing registration from year {missingFromYear} onwar
 #: src/api/account/errors.ts:171
 msgid "Your code expired. Request a new code."
 msgstr "Your code expired. Request a new code."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:25
+msgid "timeline.copy.current_rent_rgb_comparison.within"
+msgstr "Your current rent amount of {formattedCurrentRent} appears to be equal to or less than what your landlord may charge in year {comparisonYear}, based on <0/> ({formattedMaxRent})."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:36
+msgid "timeline.copy.current_rent_rgb_comparison.exceeds"
+msgstr "Your current rent amount of {formattedCurrentRent} appears to be more than what your landlord may charge in year {comparisonYear}, based on <0/>* ({formattedMaxRent})."
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:190
 msgid "Your email (required)"

@@ -200,6 +200,19 @@ $rail-gutter: 3.5rem; // 56px per Figma
     color: jfcl.$OFF_BLACK;
   }
 
+  &__evidence {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+  }
+
+  &__panel-heading {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0;
+    color: jfcl.$OFF_BLACK;
+  }
+
   &__implications {
     display: flex;
     flex-direction: column;
@@ -209,12 +222,6 @@ $rail-gutter: 3.5rem; // 56px per Figma
     border-radius: 4px;
     background-color: rgba(jfcl.$PURPLE_200, 0.3);
     color: jfcl.$OFF_BLACK;
-  }
-
-  &__implications-heading {
-    @include jfcl.body_standard_mobile;
-    font-weight: 600;
-    margin: 0;
   }
 
   &__implications-body {

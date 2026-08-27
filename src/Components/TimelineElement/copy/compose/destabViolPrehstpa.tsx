@@ -6,30 +6,31 @@ import { HrvdThresholdParagraph } from "../paragraphs/HrvdThresholdParagraph";
 import { IaiNeededParagraph } from "../paragraphs/IaiNeededParagraph";
 import { RentInYearParagraph } from "../paragraphs/RentInYearParagraph";
 import { VacancyLongevityBonusParagraph } from "../paragraphs/VacancyLongevityBonusParagraph";
-import { ViolationDestabPrehstpaTitle } from "../titles/titles";
-import type { TimelineContent } from "./types";
+import { DestabViolPrehstpaTitle } from "../titles/titles";
+import type { TimelineComposerContext, TimelineContent } from "./types";
 
-export function composeViolationDestabPrehstpa(
-  data: TimelineElementData
+export function composeDestabViolPrehstpa(
+  data: TimelineElementData,
+  context: TimelineComposerContext
 ): TimelineContent {
-  const currentYear = requireTimelineField(data.current_year, "current_year");
-  const currentRent = requireTimelineField(data.current_rent, "current_rent");
+  const findingYear = context.findingYear;
+  const legalRent = requireTimelineField(data.legal_rent, "legal_rent");
   const vacancyAmount = requireTimelineField(
     data.vacancy_amount,
     "vacancy_amount"
   );
   const maxRent = requireTimelineField(data.max_rent, "max_rent");
   const hrvdAmount = requireTimelineField(data.hrvd_amount, "hrvd_amount");
-  const raiseYear = currentYear + 1;
+  const raiseYear = findingYear + 1;
 
   return {
-    title: <ViolationDestabPrehstpaTitle />,
+    title: <DestabViolPrehstpaTitle />,
     description: (
       <>
         <RentInYearParagraph
           rentKind="legal"
-          year={currentYear}
-          amount={currentRent}
+          year={findingYear}
+          amount={legalRent}
         />
         <VacancyLongevityBonusParagraph
           vacancyAmount={vacancyAmount}

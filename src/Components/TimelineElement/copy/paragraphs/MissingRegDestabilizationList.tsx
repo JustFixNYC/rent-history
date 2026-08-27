@@ -8,6 +8,7 @@ import { SectionHeading } from "./SectionHeading";
 
 type MissingRegDestabilizationListProps = {
   year: number;
+  variant?: "prehstpa" | "posthstpa";
 };
 
 export const MissingRegDestabilizationHeading = () => (
@@ -29,14 +30,18 @@ export const MissingRegDestabilizationIntro = ({
   </div>
 );
 
-export const MissingRegDestabilizationList = () => (
+export const MissingRegDestabilizationList = ({
+  variant = "prehstpa",
+}: Pick<MissingRegDestabilizationListProps, "variant">) => (
   <ul className="timeline-element__bullet-list">
-    <li>
-      <Trans id="timeline.copy.missing_reg_destab_list.bonuses">
-        Allowable bonuses and/or IAIs that reached the high rent vacancy
-        destabilization threshold.
-      </Trans>
-    </li>
+    {variant === "prehstpa" ? (
+      <li>
+        <Trans id="timeline.copy.missing_reg_destab_list.bonuses">
+          Allowable bonuses and/or IAIs that reached the high rent vacancy
+          destabilization threshold.
+        </Trans>
+      </li>
+    ) : null}
     <li>
       <Trans id="timeline.copy.missing_reg_destab_list.tax">
         Expiration of your building&apos;s participation in{" "}

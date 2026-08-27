@@ -80,3 +80,13 @@ export const BaseRentLink = () => {
     <GlossaryLink term={_(msg`base rent`)} modalTitle={_(msg`Base rent`)} />
   );
 };
+
+export const StandardRgbIncreasesLink = () => {
+  const { _ } = useLingui();
+  return (
+    <GlossaryLink
+      term={_(msg`standard RGB increases`)}
+      modalTitle={_(msg`Standard RGB increases`)}
+    />
+  );
+};

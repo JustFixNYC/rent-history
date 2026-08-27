@@ -1,4 +1,3 @@
-import { requireTimelineField } from "../../format";
 import type { TimelineElementData } from "../../types";
 import { PosthstpaDestabImplications } from "../implications/implications";
 import { ExemptStartingYearParagraph } from "../paragraphs/ExemptStartingYearParagraph";
@@ -6,19 +5,18 @@ import { InvestigateRehabParagraph } from "../paragraphs/InvestigateRehabParagra
 import { NoReasonProvidedParagraph } from "../paragraphs/NoReasonProvidedParagraph";
 import { SubstantialRehabPossibleParagraph } from "../paragraphs/SubstantialRehabPossibleParagraph";
 import { TaxExemptionProgramsParagraph } from "../paragraphs/TaxExemptionProgramsParagraph";
-import { ViolationDestabPosthstpaTitle } from "../titles/titles";
-import type { TimelineContent } from "./types";
+import { DestabViolPosthstpaTitle } from "../titles/titles";
+import type { TimelineComposerContext, TimelineContent } from "./types";
 
-export function composeViolationDestabPosthstpa(
-  data: TimelineElementData
+export function composeDestabViolPosthstpa(
+  _data: TimelineElementData,
+  context: TimelineComposerContext
 ): TimelineContent {
-  const currentYear = requireTimelineField(data.current_year, "current_year");
-
   return {
-    title: <ViolationDestabPosthstpaTitle />,
+    title: <DestabViolPosthstpaTitle />,
     description: (
       <>
-        <ExemptStartingYearParagraph year={currentYear} />
+        <ExemptStartingYearParagraph year={context.findingYear} />
         <NoReasonProvidedParagraph />
         <SubstantialRehabPossibleParagraph />
         <TaxExemptionProgramsParagraph />

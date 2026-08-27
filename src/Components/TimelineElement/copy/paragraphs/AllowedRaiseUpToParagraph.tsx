@@ -5,8 +5,8 @@ import { formatTimelineCurrency } from "../../format";
 type AllowedRaiseUpToParagraphProps = {
   year: number;
   amount: number;
-  /** "increase" → "With this increase"; "additions" → "With these additions" */
-  lead: "increase" | "additions";
+  /** "increase" → singular; "additions" / "increases" → plural */
+  lead: "increase" | "additions" | "increases";
 };
 
 export const AllowedRaiseUpToParagraph = ({
@@ -21,6 +21,17 @@ export const AllowedRaiseUpToParagraph = ({
       <div className="timeline-element__copy-paragraph">
         <Trans id="timeline.copy.allowed_raise.additions">
           With these additions, the landlord was allowed to raise the rent in
+          year {year} up to {formattedAmount}.
+        </Trans>
+      </div>
+    );
+  }
+
+  if (lead === "increases") {
+    return (
+      <div className="timeline-element__copy-paragraph">
+        <Trans id="timeline.copy.allowed_raise.increases">
+          With these increases, the landlord was allowed to raise the rent in
           year {year} up to {formattedAmount}.
         </Trans>
       </div>
