@@ -11,7 +11,7 @@ import type { TimelineComposerContext, TimelineContent } from "./types";
 
 export function composeRevokePrefViolPosthstpa(
   data: TimelineElementData,
-  context: TimelineComposerContext
+  _context: TimelineComposerContext
 ): TimelineContent {
   const previousYear = requireTimelineField(
     data.previous_year,
