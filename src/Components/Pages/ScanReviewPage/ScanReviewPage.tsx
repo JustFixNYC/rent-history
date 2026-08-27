@@ -60,7 +60,7 @@ const ScanReviewPage = () => {
   } = useScanReviewBootstrapRestore({ accessToken, historyId });
 
   const earlyValidation =
-    locationState?.earlyValidation ?? pipelineData?.early_validation ?? null;
+    pipelineData?.early_validation ?? locationState?.earlyValidation ?? null;
 
   const screenState = useMemo(
     () => resolveScanReviewScreen(locationState, earlyValidation),

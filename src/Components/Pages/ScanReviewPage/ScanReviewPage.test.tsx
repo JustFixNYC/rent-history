@@ -295,23 +295,48 @@ describe("ScanReviewPage error states", () => {
     });
   });
 
-  it("uses early_validation from location state without requiring scan-review API", async () => {
+  it("prefers pipeline early_validation over stale location state for partial rescan", async () => {
+    const staleLocationValidation = {
+      ...partialEarlyValidation,
+      pages_needing_rescan: [
+        { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+      ],
+    };
+    const pipelineEarlyValidation = {
+      ...partialEarlyValidation,
+      pages_needing_rescan: [
+        { id: 8, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+      ],
+    };
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: pipelineEarlyValidation,
+    });
+
     renderScanReview({
       initialEntries: [
         {
           pathname: "/en/scan-review",
-          state: { earlyValidation: partialEarlyValidation },
+          state: { earlyValidation: staleLocationValidation },
         },
       ],
     });
 
     await waitFor(() => {
       expect(
-        screen.getByTestId("scan-review-partial-error")
+        screen.getByRole("button", { name: "Re-scan this page" })
       ).toBeInTheDocument();
     });
 
-    expect(accountApi.getRhHistoryScanPipelineStatus).toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
+
+    await waitFor(() => {
+      expect(accountApi.deleteRhScannedPages).toHaveBeenCalledWith(
+        "access-token",
+        historyId,
+        [8]
+      );
+    });
   });
 });
 
