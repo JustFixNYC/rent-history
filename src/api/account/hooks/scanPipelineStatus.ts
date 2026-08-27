@@ -7,21 +7,37 @@ import {
 } from "react-router-dom";
 import { useLingui } from "@lingui/react";
 
-import { accountQueryKeys } from "../api/account/queryKeys";
-import { getRhHistoryScanPipelineStatus } from "../api/account/api";
-import { writeScannerStepState } from "../Components/Pages/ScanReviewPage/scanReviewState";
-import type { ScanReviewLocationState } from "../Components/Pages/Scanner/scannerLocationState";
-import { historyResumePath } from "../utils/historyResumePath";
-
-import type { ScanPipelineStatus } from "../Components/Pages/CompilingWaitingPage/deriveCompilingMilestones";
-
-const TERMINAL_PIPELINE_STATUSES = new Set<NonNullable<ScanPipelineStatus>>([
-  "complete",
-  "needs_rescan",
-  "failed",
-]);
+import { getRhHistoryScanPipelineStatus } from "../api";
+import { accountQueryKeys } from "../queryKeys";
+import { writeScannerStepState } from "../../../Components/Pages/ScanReviewPage/scanReviewState";
+import type { ScanReviewLocationState } from "../../../Components/Pages/Scanner/scannerLocationState";
+import { historyResumePath } from "../../../utils/historyResumePath";
+import {
+  TERMINAL_PIPELINE_STATUSES,
+  type ScanPipelineStatus,
+} from "./scanPipelineUtils";
 
 const POLL_INTERVAL_MS = 1500;
+
+export type UseScanPipelineBootstrapParams = {
+  accessToken: string | undefined;
+  historyId: string | undefined;
+  /** True once historyId + token are known, before phase is finalized. */
+  enabled: boolean;
+};
+
+export const useScanPipelineBootstrap = ({
+  accessToken,
+  historyId,
+  enabled,
+}: UseScanPipelineBootstrapParams) =>
+  useQuery({
+    queryKey: accountQueryKeys.scanPipelineStatus(historyId ?? ""),
+    queryFn: () => getRhHistoryScanPipelineStatus(accessToken!, historyId!),
+    enabled: Boolean(enabled && accessToken && historyId),
+    staleTime: Infinity,
+    retry: false,
+  });
 
 export type UseScanPipelineStatusParams = {
   accessToken: string | undefined;

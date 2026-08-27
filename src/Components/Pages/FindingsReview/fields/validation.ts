@@ -94,13 +94,17 @@ export function buildYearOptions(
     }));
 }
 
-export function buildYearRangeOptions(
-  minYear: number,
-  maxYear: number
-): { value: string; label: string }[] {
+export function buildYearRange(minYear: number, maxYear: number): number[] {
   const years: number[] = [];
   for (let year = maxYear; year >= minYear; year -= 1) {
     years.push(year);
   }
-  return buildYearOptions(years);
+  return years;
+}
+
+export function buildYearRangeOptions(
+  minYear: number,
+  maxYear: number
+): { value: string; label: string }[] {
+  return buildYearOptions(buildYearRange(minYear, maxYear));
 }

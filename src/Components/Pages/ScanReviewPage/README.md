@@ -36,20 +36,20 @@ capture failure from /scanner ──► /scan-review (launch/upload failure stat
 
 ## Module contents
 
-| File / folder                            | Role                                                               |
-| ---------------------------------------- | ------------------------------------------------------------------ |
-| `ScanReviewPage.tsx`                     | Orchestration: bootstrap, entry-screen routing, rescan handlers    |
-| `ScanReviewFlow.tsx`                     | `incrementalFlow` entry — year step, confirm API, mismatch callout |
-| `ScanReviewModuleStack.tsx`              | Progressive module stack (findings pattern)                        |
-| `ScanReviewLastRegYearStep.tsx`          | Step 1 year dropdown (`scanned_max_reg_year`…current year)         |
-| `ScanReviewRegYearErrorCallout.tsx`      | Orange reg_year range callout + incremental rescan CTA             |
-| `scanReviewModes.ts`                     | Semantic mode constants + mode reference table                     |
-| `scanReviewScreenState.ts`               | Entry-screen resolver (`resolveScanReviewScreen`) + label helpers  |
-| `ScanReviewErrorScreen.tsx`              | `partialPageErrors` — Page N callout + partial rescan CTA          |
-| `ScanReviewTotalFailureScreen.tsx`       | `totalFailure` — re-scan all + DHCR request link                   |
-| `ScanReviewPageErrorCallout.tsx`         | Orange Page N / Page N of M callout (`partialPageErrors` only)     |
-| `scanReviewState.ts`                     | Session persistence for `scan-review` phase + `expectedPageCount`  |
-| `hooks/useScanReviewBootstrapRestore.ts` | Restore on load; pipeline redirect; bootstrap fetch                |
+| File / folder                                       | Role                                                               |
+| --------------------------------------------------- | ------------------------------------------------------------------ |
+| `ScanReviewPage.tsx`                                | Orchestration: bootstrap, entry-screen routing, rescan handlers    |
+| `ScanReviewFlow.tsx`                                | `incrementalFlow` entry — year step, confirm API, mismatch callout |
+| `ScanReviewModuleStack.tsx`                         | Progressive module stack (findings pattern)                        |
+| `ScanReviewLastRegYearStep.tsx`                     | Step 1 year dropdown (`scanned_max_reg_year`…current year)         |
+| `ScanReviewRegYearErrorCallout.tsx`                 | Orange reg_year range callout + incremental rescan CTA             |
+| `scanReviewModes.ts`                                | Semantic mode constants + mode reference table                     |
+| `scanReviewScreenState.ts`                          | Entry-screen resolver (`resolveScanReviewScreen`) + label helpers  |
+| `ScanReviewErrorScreen.tsx`                         | `partialPageErrors` — Page N callout + partial rescan CTA          |
+| `ScanReviewTotalFailureScreen.tsx`                  | `totalFailure` — re-scan all + DHCR request link                   |
+| `ScanReviewPageErrorCallout.tsx`                    | Orange Page N / Page N of M callout (`partialPageErrors` only)     |
+| `scanReviewState.ts`                                | Session persistence for `scan-review` phase + `expectedPageCount`  |
+| `api/account/hooks/scanPipelineBootstrapRestore.ts` | Restore on load; pipeline redirect; bootstrap fetch                |
 
 Shared with Scanner: `scannerLocationState.ts` (capture intent types), `scannerFlowUtils.ts` (auth guard, error mapping).
 
@@ -88,12 +88,12 @@ Non-pipeline entry paths (`showLaunchFailure`, upload failures, etc.) route to `
 
 ## Tests
 
-| File                                           | Coverage                                                                    |
-| ---------------------------------------------- | --------------------------------------------------------------------------- |
-| `ScanReviewPage.test.tsx`                      | Partial/total/incremental failure rendering, rescan CTAs, bootstrap restore |
-| `ScanReviewFlow.test.tsx`                      | Year step, confirm match/mismatch, merged reg_year callout                  |
-| `scanReviewScreenState.test.ts`                | Entry-screen resolution, Page N label formatting                            |
-| `hooks/useScanReviewBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                              |
+| File                                                      | Coverage                                                                    |
+| --------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `ScanReviewPage.test.tsx`                                 | Partial/total/incremental failure rendering, rescan CTAs, bootstrap restore |
+| `ScanReviewFlow.test.tsx`                                 | Year step, confirm match/mismatch, merged reg_year callout                  |
+| `scanReviewScreenState.test.ts`                           | Entry-screen resolution, Page N label formatting                            |
+| `api/account/hooks/scanPipelineBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                              |
 
 `scanReviewState.ts` (key `"scanner"`) stores:
 
@@ -120,11 +120,11 @@ Written when entering scan-review from `needs_rescan`, launch failure during res
 
 ## Tests
 
-| File                                           | Coverage                                                                                                  |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `ScanReviewPage.test.tsx`                      | Finalize, callouts, bootstrap restore, rescan/restart, launch/upload failure UI, pipeline bootstrap error |
-| `hooks/useScanReviewBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                                                            |
-| `hooks/useScanReviewBootstrap.test.tsx`        | Bootstrap fetch behavior                                                                                  |
-| `hooks/useScanReview.test.tsx`                 | Poll and accept-partial timeout                                                                           |
+| File                                                      | Coverage                                                                                                  |
+| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `ScanReviewPage.test.tsx`                                 | Finalize, callouts, bootstrap restore, rescan/restart, launch/upload failure UI, pipeline bootstrap error |
+| `api/account/hooks/scanPipelineBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                                                            |
+| `hooks/useScanReviewBootstrap.test.tsx`                   | Bootstrap fetch behavior                                                                                  |
+| `hooks/useScanReview.test.tsx`                            | Poll and accept-partial timeout                                                                           |
 
 Route registration: `src/App.tsx` (`path="scan-review"`). Route protection: `App.route-protection.test.tsx`.

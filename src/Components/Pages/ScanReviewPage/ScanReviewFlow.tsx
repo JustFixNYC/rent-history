@@ -9,9 +9,12 @@ import { useConfirmRhHistoryLastRegYear } from "../../../api/account/hooks/confi
 import { accountQueryKeys } from "../../../api/account/queryKeys";
 import type { RhEarlyValidation } from "../../../api/account/types";
 import { FlowNav } from "../../FlowNav";
-import { defaultYearMax } from "../FindingsReview/fields/validation";
+import {
+  buildYearRange,
+  defaultYearMax,
+} from "../FindingsReview/fields/validation";
 import { useProgressiveReveal } from "../FindingsReview/hooks/useProgressiveReveal";
-import { ScanReviewMode } from "./scanReviewModes";
+import { ScanReviewFlowPhase, ScanReviewMode } from "./scanReviewModes";
 import { ScanReviewRescanCallout } from "./ScanReviewRescanCallout";
 import { ScanReviewLastRegYearStep } from "./ScanReviewLastRegYearStep";
 import { ScanReviewModuleStack } from "./ScanReviewModuleStack";
@@ -34,15 +37,6 @@ export type ScanReviewFlowProps = {
   onIncrementalRescan: () => void;
 };
 
-function buildYearDropdownOptions(scannedMaxRegYear: number): number[] {
-  const currentYear = defaultYearMax();
-  const years: number[] = [];
-  for (let year = currentYear; year >= scannedMaxRegYear; year -= 1) {
-    years.push(year);
-  }
-  return years;
-}
-
 export function ScanReviewFlow({
   flowMode,
   earlyValidation,
@@ -63,16 +57,21 @@ export function ScanReviewFlow({
 
   const scannedMaxRegYear = earlyValidation.scanned_max_reg_year!;
   const yearOptions = useMemo(
-    () => buildYearDropdownOptions(scannedMaxRegYear),
+    () => buildYearRange(scannedMaxRegYear, defaultYearMax()),
     [scannedMaxRegYear]
   );
 
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const [calloutLabels, setCalloutLabels] = useState<string[] | null>(
-    () => initialCalloutLabels
+  const [flowPhase, setFlowPhase] = useState<ScanReviewFlowPhase>(() =>
+    skipLastRegYearStep && initialCalloutLabels != null
+      ? ScanReviewFlowPhase.yearMismatch
+      : ScanReviewFlowPhase.yearSelect
+  );
+  const [mismatchLabels, setMismatchLabels] = useState<string[]>(
+    () => initialCalloutLabels ?? []
   );
 
-  const isYearMismatchPhase = calloutLabels != null;
+  const isYearMismatchPhase = flowPhase === ScanReviewFlowPhase.yearMismatch;
 
   const steps = useMemo(() => {
     const calloutStep = {
@@ -80,7 +79,7 @@ export function ScanReviewFlow({
       render: () =>
         isYearMismatchPhase ? (
           <ScanReviewRescanCallout
-            labels={calloutLabels ?? []}
+            labels={mismatchLabels}
             variant="year_coverage"
             flowMode={flowMode}
             isRescanPending={isRescanPending}
@@ -110,10 +109,10 @@ export function ScanReviewFlow({
       calloutStep,
     ];
   }, [
-    calloutLabels,
     flowMode,
     isRescanPending,
     isYearMismatchPhase,
+    mismatchLabels,
     onIncrementalRescan,
     rescanError,
     selectedYear,
@@ -174,7 +173,8 @@ export function ScanReviewFlow({
             return;
           }
 
-          setCalloutLabels(response.rescan_callout_labels ?? []);
+          setMismatchLabels(response.rescan_callout_labels ?? []);
+          setFlowPhase(ScanReviewFlowPhase.yearMismatch);
           goNext();
         },
       }

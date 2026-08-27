@@ -884,7 +884,7 @@ msgstr "Loading map data…"
 msgid "Loading scan previews…"
 msgstr "Loading scan previews…"
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:144
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:145
 msgid "Loading scan status…"
 msgstr "Loading scan status…"
 
@@ -1190,8 +1190,7 @@ msgstr "Please refresh the page or try again in a moment."
 msgid "Please sign in to generate your report."
 msgstr "Please sign in to generate your report."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:400
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:233
+#: src/Components/scanFlow/BootstrapPipelineErrorCallout.tsx:33
 msgid "Please try again in a moment."
 msgstr "Please try again in a moment."
 
@@ -1433,7 +1432,7 @@ msgstr "Scan your rent history with your phone"
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:202
+#: src/Components/Pages/Scanner/Scanner.tsx:205
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr "Scanner is still loading. Please wait a moment and try again."
 
@@ -1892,8 +1891,7 @@ msgstr "To reach the threshold, the landlord would have needed to document <0/>.
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:403
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:236
+#: src/Components/scanFlow/BootstrapPipelineErrorCallout.tsx:36
 msgid "Try again"
 msgstr "Try again"
 
@@ -1913,13 +1911,12 @@ msgstr "Unable to confirm your last registration year. Please try again."
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:140
+#: src/Components/Pages/Scanner/Scanner.tsx:143
 msgid "Unable to finalize scan. Please try again."
 msgstr "Unable to finalize scan. Please try again."
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:123
-#: src/Components/Pages/Scanner/Scanner.tsx:396
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:229
+#: src/Components/scanFlow/BootstrapPipelineErrorCallout.tsx:29
 msgid "Unable to load compile status"
 msgstr "Unable to load compile status"
 
@@ -1943,13 +1940,13 @@ msgstr "Unable to load scan previews."
 msgid "Unable to load the scanner. Please refresh the page and try again."
 msgstr "Unable to load the scanner. Please refresh the page and try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:235
-#: src/Components/Pages/Scanner/Scanner.tsx:265
-#: src/Components/Pages/Scanner/Scanner.tsx:293
+#: src/Components/Pages/Scanner/Scanner.tsx:238
+#: src/Components/Pages/Scanner/Scanner.tsx:268
+#: src/Components/Pages/Scanner/Scanner.tsx:296
 msgid "Unable to open the scanner. Please try again."
 msgstr "Unable to open the scanner. Please try again."
 
-#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:96
+#: src/Components/Pages/ScanReviewPage/ScanReviewPage.tsx:97
 msgid "Unable to prepare for re-scan. Please try again."
 msgstr "Unable to prepare for re-scan. Please try again."
 
@@ -1961,7 +1958,7 @@ msgstr "Unable to prepare for re-scan. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:339
+#: src/Components/Pages/Scanner/Scanner.tsx:342
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 

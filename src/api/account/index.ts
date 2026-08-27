@@ -96,6 +96,20 @@ export {
   useValidateRhFinding,
 } from "./hooks/findingsReview";
 export {
+  useScanPipelineBootstrap,
+  useScanPipelineStatus,
+  shouldAutoNavigateOnComplete,
+  shouldShowCompilingFlowNav,
+} from "./hooks/scanPipelineStatus";
+export {
+  useScannerBootstrapRestore,
+  useScanReviewBootstrapRestore,
+} from "./hooks/scanPipelineBootstrapRestore";
+export {
+  shouldBootstrapCompiling,
+  type ScanPipelineStatus,
+} from "./hooks/scanPipelineUtils";
+export {
   confirmRhHistoryAddress,
   confirmRhHistoryLastRegYear,
   setRhHistoryCurrentRent,

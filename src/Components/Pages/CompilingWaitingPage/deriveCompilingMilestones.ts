@@ -1,7 +1,6 @@
-import type { RhScanPipelineStatusResponse } from "../../../api/account";
+import type { ScanPipelineStatus } from "../../../api/account/hooks/scanPipelineUtils";
 
-export type ScanPipelineStatus =
-  RhScanPipelineStatusResponse["scan_pipeline_status"];
+export type { ScanPipelineStatus };
 
 export type CompilingMilestoneState = "pending" | "in_progress" | "complete";
 

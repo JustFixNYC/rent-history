@@ -35,6 +35,15 @@ export const ScanReviewEntryScreen = {
 export type ScanReviewEntryScreen =
   (typeof ScanReviewEntryScreen)[keyof typeof ScanReviewEntryScreen];
 
+/** In-flow phases inside `ScanReviewFlow` (not entry routing). */
+export const ScanReviewFlowPhase = {
+  yearSelect: "yearSelect",
+  yearMismatch: "yearMismatch",
+} as const;
+
+export type ScanReviewFlowPhase =
+  (typeof ScanReviewFlowPhase)[keyof typeof ScanReviewFlowPhase];
+
 export type ScanReviewModeReferenceRow = {
   semanticMode: ScanReviewMode;
   entryOrFlow: "entry" | "flow";

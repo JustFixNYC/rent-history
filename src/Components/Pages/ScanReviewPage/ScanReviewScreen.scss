@@ -10,18 +10,6 @@
   padding: 2rem 1.5rem 0;
 }
 
-.scan-review-page__bootstrap-error {
-  margin: 0 auto;
-  max-width: 327px;
-  padding: 2rem 1.5rem;
-}
-
-.scan-review-page__bootstrap-error-callout.jfcl-callout-box {
-  display: flex;
-  flex-direction: column;
-  gap: jfcl.$JF_SPACING_04;
-}
-
 .scan-review-error-screen {
   background: jfcl.$OFF_WHITE_100;
   color: jfcl.$OFF_BLACK;

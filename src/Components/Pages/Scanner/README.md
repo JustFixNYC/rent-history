@@ -50,22 +50,22 @@ Dynamsoft renders inside shadow DOM. `scanner-overlay.ts` walks that tree to pro
 
 ## Module contents
 
-| File / folder                         | Role                                                                              |
-| ------------------------------------- | --------------------------------------------------------------------------------- |
-| `Scanner.tsx`                         | Phase state, capture lifecycle, finalize-scan, capture-intent auto-launch         |
-| `PreScanScreen.tsx`                   | Pre-scan copy and tips; `postCompileReturn` variant                               |
-| `SkipOrRescanModal/`                  | Skip vs full re-scan after returning from completed compiling page                |
-| `CameraAccessScreen.tsx`              | Camera permission recovery                                                        |
-| `ScannerInProgressScreen.tsx`         | Loading shell while Dynamsoft is active                                           |
-| `ScannerOverlay.tsx`                  | US-letter aspect-ratio guide portal over Dynamsoft live view                      |
-| `scannerLocationState.ts`             | `ScannerCaptureIntent` and location-state types for scanner ↔ scan-review handoff |
-| `scannerTypes.ts`                     | `ScannerPhase` union type (`pre-scan`, `camera-access`, `scanning`)               |
-| `scannerFlowUtils.ts`                 | Auth/history guard + API error mapping                                            |
-| `scanner-overlay.ts`                  | Dynamsoft DOM helpers (visibility, labels, camera probe)                          |
-| `hooks/useDocumentScanner.ts`         | Lazy Dynamsoft init, launch, dispose                                              |
-| `hooks/useScannerHistoryCreate.ts`    | Ensures `historyId` exists via `POST` create                                      |
-| `hooks/useScannerBootstrapRestore.ts` | Restore phase on load; redirect scan-review session; pipeline→compiling redirect  |
-| `hooks/useScanPipelineBootstrap.ts`   | One-shot pipeline status for post-compile return mode                             |
+| File / folder                                       | Role                                                                              |
+| --------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `Scanner.tsx`                                       | Phase state, capture lifecycle, finalize-scan, capture-intent auto-launch         |
+| `PreScanScreen.tsx`                                 | Pre-scan copy and tips; `postCompileReturn` variant                               |
+| `SkipOrRescanModal/`                                | Skip vs full re-scan after returning from completed compiling page                |
+| `CameraAccessScreen.tsx`                            | Camera permission recovery                                                        |
+| `ScannerInProgressScreen.tsx`                       | Loading shell while Dynamsoft is active                                           |
+| `ScannerOverlay.tsx`                                | US-letter aspect-ratio guide portal over Dynamsoft live view                      |
+| `scannerLocationState.ts`                           | `ScannerCaptureIntent` and location-state types for scanner ↔ scan-review handoff |
+| `scannerTypes.ts`                                   | `ScannerPhase` union type (`pre-scan`, `camera-access`, `scanning`)               |
+| `scannerFlowUtils.ts`                               | Auth/history guard + API error mapping                                            |
+| `scanner-overlay.ts`                                | Dynamsoft DOM helpers (visibility, labels, camera probe)                          |
+| `hooks/useDocumentScanner.ts`                       | Lazy Dynamsoft init, launch, dispose                                              |
+| `hooks/useScannerHistoryCreate.ts`                  | Ensures `historyId` exists via `POST` create                                      |
+| `api/account/hooks/scanPipelineBootstrapRestore.ts` | Restore phase on load; redirect scan-review session; pipeline→compiling redirect  |
+| `api/account/hooks/scanPipelineStatus.ts`           | One-shot pipeline status for post-compile return mode                             |
 
 Review UI, hooks, and session state live under [`ScanReviewPage/`](../ScanReviewPage/README.md).
 
@@ -94,13 +94,13 @@ Transient phases (`scanning`, `camera-access`) are not persisted. Unmount or tab
 
 ## Tests
 
-| File                                        | Coverage                                                                                 |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `Scanner.test.tsx`                          | Capture, finalize, overlay, capture-intent, bootstrap redirect, pipeline bootstrap error |
-| `hooks/useScannerBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry, `shouldBootstrapCompiling`               |
-| `PreScanScreen` / `SkipOrRescanModal`       | Post-compile return mode and modal actions                                               |
-| `scannerFlowUtils.test.ts`                  | Context guard, error mapping                                                             |
-| `scanner-overlay.test.ts`                   | DOM visibility helpers, label patching                                                   |
-| `../ScanReviewPage/ScanReviewPage.test.tsx` | Scan-review finalize, callouts, bootstrap restore                                        |
+| File                                                      | Coverage                                                                                 |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `Scanner.test.tsx`                                        | Capture, finalize, overlay, capture-intent, bootstrap redirect, pipeline bootstrap error |
+| `api/account/hooks/scanPipelineBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry, `shouldBootstrapCompiling`               |
+| `PreScanScreen` / `SkipOrRescanModal`                     | Post-compile return mode and modal actions                                               |
+| `scannerFlowUtils.test.ts`                                | Context guard, error mapping                                                             |
+| `scanner-overlay.test.ts`                                 | DOM visibility helpers, label patching                                                   |
+| `../ScanReviewPage/ScanReviewPage.test.tsx`               | Scan-review finalize, callouts, bootstrap restore                                        |
 
 Route registration: `src/App.tsx` (`path="scanner"`). Route protection: `App.route-protection.test.tsx`.

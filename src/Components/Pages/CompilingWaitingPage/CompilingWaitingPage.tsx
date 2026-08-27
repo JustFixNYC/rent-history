@@ -12,7 +12,7 @@ import {
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
 import { historyResumePath } from "../../../utils/historyResumePath";
-import { useScanPipelineStatus } from "../../../hooks/useScanPipelineStatus";
+import { useScanPipelineStatus } from "../../../api/account";
 
 import {
   deriveCompilingMilestones,

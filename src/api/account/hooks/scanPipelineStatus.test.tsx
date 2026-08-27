@@ -3,13 +3,13 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { NavigationType } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as accountApi from "../api/account/api";
-import * as scannerState from "../Components/Pages/ScanReviewPage/scanReviewState";
+import * as accountApi from "../api";
+import * as scannerState from "../../../Components/Pages/ScanReviewPage/scanReviewState";
 import {
   shouldAutoNavigateOnComplete,
   shouldShowCompilingFlowNav,
   useScanPipelineStatus,
-} from "./useScanPipelineStatus";
+} from "./scanPipelineStatus";
 
 const historyId = "22222222-2222-4222-8222-222222222222";
 const accessToken = "access-token";
@@ -40,25 +40,26 @@ vi.mock("@lingui/react", async () => {
   };
 });
 
-vi.mock("../api/account/api", async () => {
-  const actual = await vi.importActual<typeof import("../api/account/api")>(
-    "../api/account/api"
-  );
+vi.mock("../api", async () => {
+  const actual = await vi.importActual<typeof import("../api")>("../api");
   return {
     ...actual,
     getRhHistoryScanPipelineStatus: vi.fn(),
   };
 });
 
-vi.mock("../Components/Pages/ScanReviewPage/scanReviewState", async () => {
-  const actual = await vi.importActual<
-    typeof import("../Components/Pages/ScanReviewPage/scanReviewState")
-  >("../Components/Pages/ScanReviewPage/scanReviewState");
-  return {
-    ...actual,
-    writeScannerStepState: vi.fn(),
-  };
-});
+vi.mock(
+  "../../../Components/Pages/ScanReviewPage/scanReviewState",
+  async () => {
+    const actual = await vi.importActual<
+      typeof import("../../../Components/Pages/ScanReviewPage/scanReviewState")
+    >("../../../Components/Pages/ScanReviewPage/scanReviewState");
+    return {
+      ...actual,
+      writeScannerStepState: vi.fn(),
+    };
+  }
+);
 
 const createWrapper = () => {
   const queryClient = new QueryClient({

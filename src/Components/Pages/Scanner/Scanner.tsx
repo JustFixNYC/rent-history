@@ -3,7 +3,7 @@ import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { CalloutBox, Button, Icon } from "@justfixnyc/component-library";
+import { Icon } from "@justfixnyc/component-library";
 import { Trans } from "@lingui/react/macro";
 
 import "./Scanner.scss";
@@ -17,6 +17,7 @@ import {
   getRhAuthSession,
 } from "../../../session/rhSessionStorage";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
+import { BootstrapPipelineErrorCallout } from "../../scanFlow/BootstrapPipelineErrorCallout";
 import { historyResumePath } from "../../../utils/historyResumePath";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
@@ -35,8 +36,10 @@ import {
   isRetakeOrSavePreviewVisible,
   probeCameraAccess,
 } from "./scanner-overlay";
-import { useScannerBootstrapRestore } from "./hooks/useScannerBootstrapRestore";
-import { useScanPipelineBootstrap } from "./hooks/useScanPipelineBootstrap";
+import {
+  useScanPipelineBootstrap,
+  useScannerBootstrapRestore,
+} from "../../../api/account";
 import type { LaunchResult, ScannerPhase } from "./scannerTypes";
 import type {
   ScannerLocationState,
@@ -387,25 +390,10 @@ const Scanner: React.FC = () => {
       )}
 
       {showBootstrapError && (
-        <div
-          className="scanner-page__bootstrap-error"
-          data-testid="scanner-bootstrap-error"
-        >
-          <CalloutBox
-            className="scanner-page__bootstrap-error-callout"
-            title={<Trans>Unable to load compile status</Trans>}
-            headingLevel={2}
-          >
-            <p>
-              <Trans>Please try again in a moment.</Trans>
-            </p>
-            <Button
-              labelText={_(msg`Try again`)}
-              variant="primary"
-              onClick={retryPipelineBootstrap}
-            />
-          </CalloutBox>
-        </div>
+        <BootstrapPipelineErrorCallout
+          onRetry={retryPipelineBootstrap}
+          testId="scanner-bootstrap-error"
+        />
       )}
 
       {showPreScan && (

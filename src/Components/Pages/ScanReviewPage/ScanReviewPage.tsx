@@ -4,7 +4,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useLingui } from "@lingui/react";
 
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
-import { Button, CalloutBox, Icon } from "@justfixnyc/component-library";
+import { BootstrapPipelineErrorCallout } from "../../scanFlow/BootstrapPipelineErrorCallout";
+import { Icon } from "@justfixnyc/component-library";
 import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 
@@ -18,7 +19,7 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
-import { useScanReviewBootstrapRestore } from "./hooks/useScanReviewBootstrapRestore";
+import { useScanReviewBootstrapRestore } from "../../../api/account";
 import { ScanReviewErrorScreen } from "./ScanReviewErrorScreen";
 import { ScanReviewFlow } from "./ScanReviewFlow";
 import { ScanReviewTotalFailureScreen } from "./ScanReviewTotalFailureScreen";
@@ -220,25 +221,10 @@ const ScanReviewPage = () => {
       </div>
 
       {showBootstrapError ? (
-        <div
-          className="scan-review-page__bootstrap-error"
-          data-testid="scan-review-bootstrap-error"
-        >
-          <CalloutBox
-            className="scan-review-page__bootstrap-error-callout"
-            title={<Trans>Unable to load compile status</Trans>}
-            headingLevel={2}
-          >
-            <p>
-              <Trans>Please try again in a moment.</Trans>
-            </p>
-            <Button
-              labelText={_(msg`Try again`)}
-              variant="primary"
-              onClick={retryPipelineBootstrap}
-            />
-          </CalloutBox>
-        </div>
+        <BootstrapPipelineErrorCallout
+          onRetry={retryPipelineBootstrap}
+          testId="scan-review-bootstrap-error"
+        />
       ) : (
         renderReviewContent()
       )}
