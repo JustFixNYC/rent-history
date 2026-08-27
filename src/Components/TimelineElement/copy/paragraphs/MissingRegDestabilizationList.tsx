@@ -1,5 +1,7 @@
 import { Trans } from "@lingui/react/macro";
 
+import { showTaxExemptionProgramCopy } from "../../format";
+import type { TimelineTaxExemptionProgram } from "../../types";
 import {
   SubstantialRehabLink,
   TaxExemptionProgramsLink,
@@ -9,6 +11,7 @@ import { SectionHeading } from "./SectionHeading";
 type MissingRegDestabilizationListProps = {
   year: number;
   variant?: "prehstpa" | "posthstpa";
+  program?: TimelineTaxExemptionProgram | null;
 };
 
 export const MissingRegDestabilizationHeading = () => (
@@ -32,7 +35,8 @@ export const MissingRegDestabilizationIntro = ({
 
 export const MissingRegDestabilizationList = ({
   variant = "prehstpa",
-}: Pick<MissingRegDestabilizationListProps, "variant">) => (
+  program,
+}: Pick<MissingRegDestabilizationListProps, "variant" | "program">) => (
   <ul className="timeline-element__bullet-list">
     {variant === "prehstpa" ? (
       <li>
@@ -42,12 +46,14 @@ export const MissingRegDestabilizationList = ({
         </Trans>
       </li>
     ) : null}
-    <li>
-      <Trans id="timeline.copy.missing_reg_destab_list.tax">
-        Expiration of your building&apos;s participation in{" "}
-        <TaxExemptionProgramsLink /> like J51 and 421-a.
-      </Trans>
-    </li>
+    {showTaxExemptionProgramCopy(program) ? (
+      <li>
+        <Trans id="timeline.copy.missing_reg_destab_list.tax">
+          Expiration of your building&apos;s participation in{" "}
+          <TaxExemptionProgramsLink /> like J51 and 421-a.
+        </Trans>
+      </li>
+    ) : null}
     <li>
       <Trans id="timeline.copy.missing_reg_destab_list.rehab">
         A <SubstantialRehabLink /> was done to the building.

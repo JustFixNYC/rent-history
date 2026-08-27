@@ -35,7 +35,9 @@ export const mockTimelineElements: TimelineItem[] = [
     type: "destab__viol__posthstpa",
     year: 2021,
     pills: ["violation", "destabilized"],
-    data: {},
+    data: {
+      program: "421a",
+    },
   },
   {
     type: "nonreg__viol__prehstpa__new_tenant",
@@ -49,6 +51,7 @@ export const mockTimelineElements: TimelineItem[] = [
       max_rent: 1386,
       hrvd_amount: 2500,
       iai_amount: 11140,
+      program: "421a",
     },
   },
   {
@@ -116,7 +119,9 @@ export const mockTimelineElements: TimelineItem[] = [
     type: "nonreg__viol__posthstpa__new_tenant",
     year: 2021,
     pills: ["violation", "missing_registration"],
-    data: {},
+    data: {
+      program: "j51",
+    },
   },
   {
     type: "nonreg__viol__posthstpa__same_tenant",
@@ -126,6 +131,7 @@ export const mockTimelineElements: TimelineItem[] = [
       current_year: PRESENT_YEAR,
       current_rent: 3200,
       max_rent: 2500,
+      program: "421a",
     },
   },
   {
@@ -174,6 +180,37 @@ export const mockTimelineElements: TimelineItem[] = [
       legal_rent: 3000,
       pref_rent: 2500,
     },
+  },
+  {
+    type: "missing_reg",
+    year: 2000,
+    end_year: 2004,
+    pills: ["missing_registration"],
+    data: {},
+  },
+  {
+    type: "temp_exemption",
+    year: 2000,
+    pills: ["temporary_exemption"],
+    data: {},
+  },
+  {
+    type: "still_stab",
+    year: PRESENT_YEAR,
+    pills: ["currently_stabilized"],
+    data: {},
+  },
+  {
+    type: "destab__sub_rehab__posthstpa",
+    year: 2021,
+    pills: ["destabilized"],
+    data: {},
+  },
+  {
+    type: "no_finding",
+    year: PRESENT_YEAR,
+    pills: [],
+    data: {},
   },
 ];
 

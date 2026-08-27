@@ -16,7 +16,14 @@ export type TimelineFindingType =
   | "increase_pref__viol__posthstpa"
   | "increase_pref__no_viol__posthstpa"
   | "revoke_pref__viol__posthstpa"
-  | "pref_421a__viol";
+  | "pref_421a__viol"
+  | "missing_reg"
+  | "temp_exemption"
+  | "still_stab"
+  | "destab__sub_rehab__posthstpa"
+  | "no_finding";
+
+export type TimelineTaxExemptionProgram = "421a" | "j51";
 
 export type TimelineRentKind = "legal" | "preferential";
 
@@ -39,6 +46,7 @@ export type TimelineElementData = {
   hrvd_amount?: number;
   rgb_increase_percentage?: number;
   program_start_year?: number;
+  program?: TimelineTaxExemptionProgram | null;
 };
 
 export type TimelineItem = {

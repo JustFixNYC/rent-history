@@ -141,12 +141,12 @@ msgid "421-a expiration"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:24
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:34
 msgid "timeline.copy.posthstpa_charge_justification.rehab"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:52
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:58
 msgid "timeline.copy.missing_reg_destab_list.rehab"
 msgstr ""
 
@@ -185,6 +185,11 @@ msgstr ""
 #: src/Components/Pages/Scanner/Scanner.tsx:352
 #~ msgid "A scan image failed to download. Use Restart scanning to try again."
 #~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/SubstantialRehabExplainedParagraph.tsx:5
+msgid "timeline.copy.substantial_rehab_explained"
+msgstr ""
 
 #: src/Components/Pages/AboutPage/AboutPage.tsx:7
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:56
@@ -225,7 +230,7 @@ msgid "All scanned pages will be cleared and you'll need to scan all pages again
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:39
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:43
 msgid "timeline.copy.missing_reg_destab_list.bonuses"
 msgstr ""
 
@@ -542,7 +547,7 @@ msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:12
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:20
 msgid "timeline.copy.posthstpa_charge_justification.iai"
 msgstr ""
 
@@ -613,12 +618,12 @@ msgid "Enter your phone number below to log in."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:18
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:27
 msgid "timeline.copy.posthstpa_charge_justification.tax"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:46
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:51
 msgid "timeline.copy.missing_reg_destab_list.tax"
 msgstr ""
 
@@ -865,7 +870,7 @@ msgid "Individual Apartment Improvements (IAIs)"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:26
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:29
 msgid "timeline.copy.missing_reg_destab_intro"
 msgstr ""
 
@@ -1122,6 +1127,11 @@ msgstr ""
 msgid "No"
 msgstr "No"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:180
+msgid "timeline.title.no_finding"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:246
 #~ msgid "No pages were saved from the scanner. Use Restart scanning to try again."
 #~ msgstr ""
@@ -1259,7 +1269,7 @@ msgid "Points show residential buildings with at least one rent-stabilized unit 
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:16
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:19
 msgid "timeline.copy.missing_reg_destab_heading"
 msgstr ""
 
@@ -1667,6 +1677,11 @@ msgid "That code is incorrect. Try again."
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/compose/missingReg.tsx:15
+msgid "timeline.copy.missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/MissingRegExplainedByHrvdParagraph.tsx:11
 msgid "timeline.copy.missing_reg_explained_by_hrvd"
 msgstr ""
@@ -1687,8 +1702,28 @@ msgid "timeline.title.nonreg_viol_posthstpa_new_tenant"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:155
+msgid "timeline.title.missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/ExemptStartingYearParagraph.tsx:11
 msgid "timeline.copy.exempt_starting_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:173
+msgid "timeline.title.destab_sub_rehab_posthstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/compose/tempExemption.tsx:15
+msgid "timeline.copy.temp_exemption"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:161
+msgid "timeline.title.temp_exemption"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2335,6 +2370,11 @@ msgid "Your answers directly inform our assessment of any potential violations t
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:167
+msgid "timeline.title.still_stab"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
 msgstr ""
@@ -2401,6 +2441,11 @@ msgstr "Su historial de alquiler"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:134
 msgid "Your rent history report(s)"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/compose/stillStab.tsx:15
+msgid "timeline.copy.still_stab"
 msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:139

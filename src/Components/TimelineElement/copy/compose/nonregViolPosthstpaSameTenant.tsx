@@ -38,7 +38,7 @@ export function composeNonregViolPosthstpaSameTenant(
           maxRent={maxRent}
           outcome="exceeds"
         />
-        <PosthstpaChargeJustificationList />
+        <PosthstpaChargeJustificationList program={data.program} />
       </>
     ),
     footnote: <RgbIncreaseFootnote />,

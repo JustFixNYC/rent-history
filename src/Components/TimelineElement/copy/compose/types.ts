@@ -9,7 +9,7 @@ export type TimelineComposerContext = {
 
 export type TimelineContent = {
   title: ReactNode;
-  description: ReactNode;
+  description?: ReactNode;
   footnote?: ReactNode;
   whatThisMeans?: ReactNode;
 };

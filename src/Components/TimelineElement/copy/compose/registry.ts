@@ -1,5 +1,10 @@
 import type { TimelineFindingType } from "../../types";
+import { composeDestabSubRehabPosthstpa } from "./destabSubRehabPosthstpa";
+import { composeMissingReg } from "./missingReg";
+import { composeNoFinding } from "./noFinding";
 import { composePref421aViol } from "./pref421aViol";
+import { composeStillStab } from "./stillStab";
+import { composeTempExemption } from "./tempExemption";
 import { composeDestabNoViolPrehstpa } from "./destabNoViolPrehstpa";
 import { composeDestabViolPosthstpa } from "./destabViolPosthstpa";
 import { composeDestabViolPrehstpa } from "./destabViolPrehstpa";
@@ -35,4 +40,9 @@ export const timelineComposers: Record<TimelineFindingType, TimelineComposer> =
     increase_pref__no_viol__posthstpa: composeIncreasePrefNoViolPosthstpa,
     revoke_pref__viol__posthstpa: composeRevokePrefViolPosthstpa,
     pref_421a__viol: composePref421aViol,
+    missing_reg: composeMissingReg,
+    temp_exemption: composeTempExemption,
+    still_stab: composeStillStab,
+    destab__sub_rehab__posthstpa: composeDestabSubRehabPosthstpa,
+    no_finding: composeNoFinding,
   };

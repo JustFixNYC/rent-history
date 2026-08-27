@@ -49,7 +49,10 @@ export function composeNonregViolPrehstpaNewTenant(
         />
         <MissingRegDestabilizationHeading />
         <MissingRegDestabilizationIntro year={findingYear} />
-        <MissingRegDestabilizationList variant="prehstpa" />
+        <MissingRegDestabilizationList
+          variant="prehstpa"
+          program={data.program}
+        />
       </>
     ),
     whatThisMeans: <MissingRegistrationImplications />,

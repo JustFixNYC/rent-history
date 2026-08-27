@@ -10,7 +10,7 @@ import { NonregViolPosthstpaNewTenantTitle } from "../titles/titles";
 import type { TimelineComposerContext, TimelineContent } from "./types";
 
 export function composeNonregViolPosthstpaNewTenant(
-  _data: TimelineElementData,
+  data: TimelineElementData,
   context: TimelineComposerContext
 ): TimelineContent {
   const findingYear = context.findingYear;
@@ -21,7 +21,10 @@ export function composeNonregViolPosthstpaNewTenant(
       <>
         <MissingRegistrationFromYearParagraph year={findingYear} />
         <MissingRegDestabilizationIntro year={findingYear} />
-        <MissingRegDestabilizationList variant="posthstpa" />
+        <MissingRegDestabilizationList
+          variant="posthstpa"
+          program={data.program}
+        />
         <PosthstpaNonregInvestigateParagraph />
       </>
     ),

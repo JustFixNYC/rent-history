@@ -101,9 +101,48 @@ describe("mapTimelineItemToProps", () => {
       ...new Set(mockTimelineElements.map((item) => item.type)),
     ].sort();
 
-    expect(registryTypes).toHaveLength(16);
-    expect(mockTypes).toHaveLength(16);
+    expect(registryTypes).toHaveLength(21);
+    expect(mockTypes).toHaveLength(21);
     expect(registryTypes).toEqual(mockTypes);
+  });
+
+  it("maps no_finding to props without description (no toggle)", () => {
+    const props = mapTimelineItemToProps({
+      type: "no_finding",
+      year: 2026,
+      pills: [],
+      data: {},
+    });
+
+    expect(props.description).toBeUndefined();
+    expect(props.variant).toBe("secondary");
+
+    render(
+      <I18nProvider i18n={i18n}>
+        <TimelineElement {...props} />
+      </I18nProvider>
+    );
+
+    expect(
+      screen.queryByRole("button", { name: /supporting evidence|details/i })
+    ).not.toBeInTheDocument();
+  });
+
+  it("formats year range for missing_reg mock item", () => {
+    const item = mockTimelineElements.find(
+      (entry) => entry.type === "missing_reg"
+    );
+    expect(item).toBeTruthy();
+
+    const props = mapTimelineItemToProps(item!);
+
+    render(
+      <I18nProvider i18n={i18n}>
+        <TimelineElement {...props} />
+      </I18nProvider>
+    );
+
+    expect(screen.getByText("2000-2004")).toBeInTheDocument();
   });
 
   it("composes every mock timeline item without throwing", () => {
@@ -186,5 +225,98 @@ describe("TenantChangeParagraph variants", () => {
     );
 
     expect(container.textContent).toMatch(/changed from the prior year/);
+  });
+});
+
+describe("Tax exemption program copy", () => {
+  beforeEach(() => {
+    i18n.load("en", {});
+    i18n.activate("en");
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  const taxCopyPattern = /participation in tax exemption programs/i;
+
+  it("omits tax paragraph from destab__viol__posthstpa when program is unset", () => {
+    const props = mapTimelineItemToProps(
+      baseItem({
+        type: "destab__viol__posthstpa",
+        pills: ["violation", "destabilized"],
+        data: {},
+      })
+    );
+
+    const { container } = render(
+      <I18nProvider i18n={i18n}>
+        <TimelineElement {...props} defaultOpen />
+      </I18nProvider>
+    );
+
+    expect(container.textContent).not.toMatch(taxCopyPattern);
+  });
+
+  it("includes tax paragraph from destab__viol__posthstpa when program is 421a", () => {
+    const props = mapTimelineItemToProps(
+      baseItem({
+        type: "destab__viol__posthstpa",
+        pills: ["violation", "destabilized"],
+        data: { program: "421a" },
+      })
+    );
+
+    const { container } = render(
+      <I18nProvider i18n={i18n}>
+        <TimelineElement {...props} defaultOpen />
+      </I18nProvider>
+    );
+
+    expect(container.textContent).toMatch(taxCopyPattern);
+  });
+
+  it("gates MissingRegDestabilizationList tax bullet on program", async () => {
+    const { MissingRegDestabilizationList } = await import(
+      "./copy/paragraphs/MissingRegDestabilizationList"
+    );
+
+    const { rerender, container } = render(
+      <I18nProvider i18n={i18n}>
+        <MissingRegDestabilizationList variant="posthstpa" />
+      </I18nProvider>
+    );
+
+    expect(container.textContent).not.toMatch(taxCopyPattern);
+
+    rerender(
+      <I18nProvider i18n={i18n}>
+        <MissingRegDestabilizationList variant="posthstpa" program="j51" />
+      </I18nProvider>
+    );
+
+    expect(container.textContent).toMatch(taxCopyPattern);
+  });
+
+  it("gates PosthstpaChargeJustificationList tax bullet on program", async () => {
+    const { PosthstpaChargeJustificationList } = await import(
+      "./copy/paragraphs/PosthstpaChargeJustificationList"
+    );
+
+    const { rerender, container } = render(
+      <I18nProvider i18n={i18n}>
+        <PosthstpaChargeJustificationList />
+      </I18nProvider>
+    );
+
+    expect(container.textContent).not.toMatch(taxCopyPattern);
+
+    rerender(
+      <I18nProvider i18n={i18n}>
+        <PosthstpaChargeJustificationList program="421a" />
+      </I18nProvider>
+    );
+
+    expect(container.textContent).toMatch(taxCopyPattern);
   });
 });

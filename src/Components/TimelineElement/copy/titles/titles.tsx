@@ -150,3 +150,34 @@ export const Pref421aViolTitle = () => (
     participation in the 421a tax program.
   </Trans>
 );
+
+export const MissingRegTitle = () => (
+  <Trans id="timeline.title.missing_reg">
+    The apartment is missing registration.
+  </Trans>
+);
+
+export const TempExemptionTitle = () => (
+  <Trans id="timeline.title.temp_exemption">
+    The apartment was temporarily exempt from stabilization.
+  </Trans>
+);
+
+export const StillStabTitle = () => (
+  <Trans id="timeline.title.still_stab">
+    Your apartment appears to be currently registered as rent stabilized.
+  </Trans>
+);
+
+export const DestabSubRehabPosthstpaTitle = () => (
+  <Trans id="timeline.title.destab_sub_rehab_posthstpa">
+    The apartment was listed as exempt from rent stabilization. This appears to
+    be explained by substantial rehabilitation.
+  </Trans>
+);
+
+export const NoFindingTitle = () => (
+  <Trans id="timeline.title.no_finding">
+    No large rent increases or suspicious deregulations found.
+  </Trans>
+);

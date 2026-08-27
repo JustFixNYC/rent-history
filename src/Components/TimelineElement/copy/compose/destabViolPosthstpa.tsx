@@ -1,4 +1,5 @@
 import type { TimelineElementData } from "../../types";
+import { showTaxExemptionProgramCopy } from "../../format";
 import { PosthstpaDestabImplications } from "../implications/implications";
 import { ExemptStartingYearParagraph } from "../paragraphs/ExemptStartingYearParagraph";
 import { InvestigateRehabParagraph } from "../paragraphs/InvestigateRehabParagraph";
@@ -9,7 +10,7 @@ import { DestabViolPosthstpaTitle } from "../titles/titles";
 import type { TimelineComposerContext, TimelineContent } from "./types";
 
 export function composeDestabViolPosthstpa(
-  _data: TimelineElementData,
+  data: TimelineElementData,
   context: TimelineComposerContext
 ): TimelineContent {
   return {
@@ -19,7 +20,9 @@ export function composeDestabViolPosthstpa(
         <ExemptStartingYearParagraph year={context.findingYear} />
         <NoReasonProvidedParagraph />
         <SubstantialRehabPossibleParagraph />
-        <TaxExemptionProgramsParagraph />
+        {showTaxExemptionProgramCopy(data.program) ? (
+          <TaxExemptionProgramsParagraph />
+        ) : null}
         <InvestigateRehabParagraph />
       </>
     ),
