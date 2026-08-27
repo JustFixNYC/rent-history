@@ -13,7 +13,7 @@ import { defaultYearMax } from "../FindingsReview/fields/validation";
 import { useProgressiveReveal } from "../FindingsReview/hooks/useProgressiveReveal";
 import { ScanReviewMode } from "./scanReviewModes";
 import { ScanReviewRescanCallout } from "./ScanReviewRescanCallout";
-import { renderScanReviewLastRegYearStep } from "./ScanReviewLastRegYearStep";
+import { ScanReviewLastRegYearStep } from "./ScanReviewLastRegYearStep";
 import { ScanReviewModuleStack } from "./ScanReviewModuleStack";
 import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
 
@@ -97,12 +97,15 @@ export function ScanReviewFlow({
     return [
       {
         id: "last-reg-year",
-        render: renderScanReviewLastRegYearStep({
-          stepNumber: 1,
-          selectedYear,
-          onYearChange: setSelectedYear,
-          years: yearOptions,
-        }),
+        render: ({ isPastStep }) => (
+          <ScanReviewLastRegYearStep
+            stepNumber={1}
+            selectedYear={selectedYear}
+            onYearChange={setSelectedYear}
+            years={yearOptions}
+            isPastStep={isPastStep}
+          />
+        ),
       },
       calloutStep,
     ];

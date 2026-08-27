@@ -2,14 +2,14 @@
  * Scan-review mode vocabulary.
  *
  * Page-level routing uses {@link ScanReviewEntryScreen} only —
- * `warningYearMismatch` is a flow-local phase inside `ScanReviewFlow` (Task 6),
+ * `warningYearMismatch` is a flow-local phase inside `ScanReviewFlow`,
  * not an entry route.
  */
 
 export const ScanReviewMode = {
   /** passed=true, warning present, year step eligible */
   warningOnly: "warningOnly",
-  /** post-Continue declared year > scanned max (flow-local, Task 6) */
+  /** post-Continue declared year > scanned max (flow-local) */
   warningYearMismatch: "warningYearMismatch",
   /** passed=false + warning + year step */
   errorsAndWarning: "errorsAndWarning",

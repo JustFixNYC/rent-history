@@ -16,7 +16,7 @@ export const useScanPipelineBootstrap = ({
   enabled,
 }: UseScanPipelineBootstrapParams) =>
   useQuery({
-    queryKey: accountQueryKeys.scanPipelineBootstrap(historyId ?? ""),
+    queryKey: accountQueryKeys.scanPipelineStatus(historyId ?? ""),
     queryFn: () => getRhHistoryScanPipelineStatus(accessToken!, historyId!),
     enabled: Boolean(enabled && accessToken && historyId),
     staleTime: Infinity,

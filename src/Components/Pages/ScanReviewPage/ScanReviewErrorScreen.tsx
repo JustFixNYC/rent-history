@@ -1,7 +1,7 @@
 import { plural } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { Button, Icon } from "@justfixnyc/component-library";
+import { Button } from "@justfixnyc/component-library";
 
 import { ScanReviewRescanCallout } from "./ScanReviewRescanCallout";
 import type { ScanReviewPartialPageErrorsState } from "./scanReviewScreenState";
@@ -10,7 +10,6 @@ import "./ScanReviewScreen.scss";
 
 export type ScanReviewErrorScreenProps = {
   screenState: ScanReviewPartialPageErrorsState;
-  isLoading?: boolean;
   isRescanPending?: boolean;
   rescanError?: string | null;
   onPartialRescan: () => void;
@@ -18,29 +17,11 @@ export type ScanReviewErrorScreenProps = {
 
 export const ScanReviewErrorScreen = ({
   screenState,
-  isLoading = false,
   isRescanPending = false,
   rescanError = null,
   onPartialRescan,
 }: ScanReviewErrorScreenProps) => {
   const { _ } = useLingui();
-
-  if (isLoading) {
-    return (
-      <div className="scan-review-error-screen" aria-live="polite">
-        <div
-          className="scan-review-error-screen__loading"
-          role="status"
-          data-testid="scan-review-loading"
-        >
-          <Icon icon="spinner" aria-hidden="true" />
-          <p className="scan-review-error-screen__loading-text">
-            <Trans>Loading scan status…</Trans>
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   const pageCount = screenState.labels.length;
 

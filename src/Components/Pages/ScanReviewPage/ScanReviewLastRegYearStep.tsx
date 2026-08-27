@@ -5,7 +5,6 @@ import { Trans } from "@lingui/react/macro";
 import { StepNumberBadge } from "../../StepNumberBadge/StepNumberBadge";
 import { FindingFormShell } from "../FindingsReview/FindingFormShell";
 import { YearField } from "../FindingsReview/fields/YearField";
-import type { ScanReviewStepRenderContext } from "./ScanReviewModuleStack";
 
 export type ScanReviewLastRegYearStepProps = {
   stepNumber: number;
@@ -46,11 +45,3 @@ export const ScanReviewLastRegYearStep = ({
     />
   );
 };
-
-export function renderScanReviewLastRegYearStep(
-  props: Omit<ScanReviewLastRegYearStepProps, "isPastStep">
-): (ctx: ScanReviewStepRenderContext) => React.ReactNode {
-  return ({ isPastStep }) => (
-    <ScanReviewLastRegYearStep {...props} isPastStep={isPastStep} />
-  );
-}

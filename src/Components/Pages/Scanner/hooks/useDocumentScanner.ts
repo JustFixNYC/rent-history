@@ -19,7 +19,6 @@ export type UseDocumentScannerOptions = {
   enabled: boolean;
   historyId: string | null | undefined;
   expectedPageCountRef: React.MutableRefObject<number>;
-  setExpectedPageCount: React.Dispatch<React.SetStateAction<number>>;
   failedUploadCountRef: React.MutableRefObject<number>;
 };
 
@@ -47,7 +46,6 @@ export function useDocumentScanner({
   enabled,
   historyId,
   expectedPageCountRef,
-  setExpectedPageCount,
   failedUploadCountRef,
 }: UseDocumentScannerOptions): UseDocumentScannerResult {
   const { _ } = useLingui();
@@ -158,11 +156,7 @@ export function useDocumentScanner({
             const key = `${prefix}/${crypto.randomUUID()}.jpg`;
             try {
               await uploadScan(key, jpgBlob, { retries: 1 });
-              setExpectedPageCount((count) => {
-                const next = count + 1;
-                expectedPageCountRef.current = next;
-                return next;
-              });
+              expectedPageCountRef.current += 1;
             } catch (error) {
               console.error("Scan upload failed after retry:", error);
               failedUploadCountRef.current += 1;
@@ -202,7 +196,6 @@ export function useDocumentScanner({
     expectedPageCountRef,
     failedUploadCountRef,
     historyId,
-    setExpectedPageCount,
   ]);
 
   useEffect(() => {

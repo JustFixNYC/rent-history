@@ -76,63 +76,49 @@ const ScanReviewPage = () => {
     navigate(`/${i18n.locale}/scanner`, { replace: true });
   }, [i18n.locale, navigate]);
 
+  const prepareForRescan = useCallback(
+    async (deletePages: () => Promise<void>) => {
+      if (!accessToken || !historyId) return;
+
+      setRescanError(null);
+      setIsRescanPending(true);
+
+      try {
+        await deletePages();
+        void queryClient.invalidateQueries({
+          queryKey: accountQueryKeys.scanPipelineStatus(historyId),
+        });
+        navigateToPreScan();
+      } catch (error) {
+        setRescanError(
+          flowErrorFromApi(
+            error,
+            _(msg`Unable to prepare for re-scan. Please try again.`)
+          )
+        );
+      } finally {
+        setIsRescanPending(false);
+      }
+    },
+    [_, accessToken, historyId, navigateToPreScan, queryClient]
+  );
+
   const handlePartialRescan = useCallback(async () => {
-    if (!accessToken || !historyId || !earlyValidation) return;
+    if (!earlyValidation) return;
 
     const pageIds = getDeletablePageIds(earlyValidation);
-    setRescanError(null);
-    setIsRescanPending(true);
-
-    try {
+    await prepareForRescan(async () => {
       if (pageIds.length > 0) {
-        await deleteRhScannedPages(accessToken, historyId, pageIds);
+        await deleteRhScannedPages(accessToken!, historyId!, pageIds);
       }
-      void queryClient.invalidateQueries({
-        queryKey: accountQueryKeys.scanPipelineStatus(historyId),
-      });
-      navigateToPreScan();
-    } catch (error) {
-      setRescanError(
-        flowErrorFromApi(
-          error,
-          _(msg`Unable to prepare for re-scan. Please try again.`)
-        )
-      );
-    } finally {
-      setIsRescanPending(false);
-    }
-  }, [
-    _,
-    accessToken,
-    earlyValidation,
-    historyId,
-    navigateToPreScan,
-    queryClient,
-  ]);
+    });
+  }, [accessToken, earlyValidation, historyId, prepareForRescan]);
 
   const handleTotalRescan = useCallback(async () => {
-    if (!accessToken || !historyId) return;
-
-    setRescanError(null);
-    setIsRescanPending(true);
-
-    try {
-      await deleteAllRhScannedPages(accessToken, historyId);
-      void queryClient.invalidateQueries({
-        queryKey: accountQueryKeys.scanPipelineStatus(historyId),
-      });
-      navigateToPreScan();
-    } catch (error) {
-      setRescanError(
-        flowErrorFromApi(
-          error,
-          _(msg`Unable to prepare for re-scan. Please try again.`)
-        )
-      );
-    } finally {
-      setIsRescanPending(false);
-    }
-  }, [_, accessToken, historyId, navigateToPreScan, queryClient]);
+    await prepareForRescan(async () => {
+      await deleteAllRhScannedPages(accessToken!, historyId!);
+    });
+  }, [accessToken, historyId, prepareForRescan]);
 
   const handleIncrementalRescan = useCallback(() => {
     setRescanError(null);

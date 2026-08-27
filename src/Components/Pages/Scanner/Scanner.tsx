@@ -55,12 +55,11 @@ const Scanner: React.FC = () => {
 
   const locationState = location.state as ScannerLocationState | null;
   const postCompileReturn = Boolean(locationState?.postCompileReturn);
-  const scanPipelineFailures = locationState?.scanPipelineFailures ?? [];
 
   const [showScannerGuide, setShowScannerGuide] = useState(false);
   const [cameraAccessGranted, setCameraAccessGranted] = useState(false);
   const [isCheckingCameraAccess, setIsCheckingCameraAccess] = useState(false);
-  const [scannedPageCount, setScannedPageCount] = useState(0);
+  const scannedPageCountRef = useRef(0);
   const { historyId, historyCreatePhase, historyCreateError } =
     useScannerHistoryCreate();
   const accessToken = getRhAuthSession()?.accessToken;
@@ -89,10 +88,8 @@ const Scanner: React.FC = () => {
   const [startScanError, setStartScanError] = useState<string | null>(null);
 
   const historyIdRef = useRef(historyId);
-  const scannedPageCountRef = useRef(scannedPageCount);
   const failedUploadCountRef = useRef(0);
   historyIdRef.current = historyId;
-  scannedPageCountRef.current = scannedPageCount;
 
   const scannerEnabled =
     !deferScannerInit &&
@@ -103,7 +100,6 @@ const Scanner: React.FC = () => {
       enabled: scannerEnabled,
       historyId,
       expectedPageCountRef: scannedPageCountRef,
-      setExpectedPageCount: setScannedPageCount,
       failedUploadCountRef,
     });
 
@@ -115,13 +111,10 @@ const Scanner: React.FC = () => {
     (options?: Partial<ScanReviewLocationState>) => {
       navigate(`/${i18n.locale}/scan-review`, {
         replace: true,
-        state: {
-          scanPipelineFailures,
-          ...options,
-        },
+        state: options,
       });
     },
-    [i18n.locale, navigate, scanPipelineFailures]
+    [i18n.locale, navigate]
   );
 
   const finalizeScanSession = useCallback(async () => {

@@ -71,21 +71,13 @@ export function getLabelableRescanLabels(
   );
 }
 
-function hasActionableRescanMetadata(
-  earlyValidation: RhEarlyValidation
-): boolean {
-  return earlyValidation.pages_needing_rescan.some(
-    (page) => page.id != null || page.page_number != null
-  );
-}
-
 /**
  * Resolves the scan-review **entry screen** from pipeline early_validation and
  * router location state.
  *
  * Returns `incrementalFlow`, `partialPageErrors`, or `totalFailure` only.
- * `warningYearMismatch` is a flow-local phase inside
- * `ScanReviewFlow` after Continue — not resolved here (Task 6).
+ * `warningYearMismatch` is a flow-local phase inside `ScanReviewFlow` after
+ * Continue — not resolved here.
  */
 export function resolveScanReviewScreen(
   locationState: ScanReviewLocationState | null | undefined,
@@ -130,10 +122,6 @@ export function resolveScanReviewScreen(
       screen: ScanReviewEntryScreen.partialPageErrors,
       labels,
     };
-  }
-
-  if (!hasActionableRescanMetadata(earlyValidation)) {
-    return { screen: ScanReviewEntryScreen.totalFailure };
   }
 
   return { screen: ScanReviewEntryScreen.totalFailure };

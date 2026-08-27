@@ -23,31 +23,11 @@ const TERMINAL_PIPELINE_STATUSES = new Set<NonNullable<ScanPipelineStatus>>([
 
 const POLL_INTERVAL_MS = 1500;
 
-export type ScanCoverageFailure = {
-  code: string;
-  message: string;
-};
-
 export type UseScanPipelineStatusParams = {
   accessToken: string | undefined;
   historyId: string | undefined;
   enabled?: boolean;
 };
-
-export function parseEarlyValidationFailures(
-  earlyValidation: unknown
-): ScanCoverageFailure[] {
-  if (!earlyValidation || typeof earlyValidation !== "object") return [];
-  const failures = (earlyValidation as { failures?: unknown }).failures;
-  if (!Array.isArray(failures)) return [];
-
-  return failures.flatMap((entry) => {
-    if (!entry || typeof entry !== "object") return [];
-    const { code, message } = entry as { code?: unknown; message?: unknown };
-    if (typeof code !== "string" || typeof message !== "string") return [];
-    return [{ code, message }];
-  });
-}
 
 export function shouldShowCompilingFlowNav(
   navigationType: NavigationType,
@@ -110,9 +90,6 @@ export const useScanPipelineStatus = ({
       navigate(`/${i18n.locale}/scan-review`, {
         replace: true,
         state: {
-          scanPipelineFailures: parseEarlyValidationFailures(
-            data.early_validation
-          ),
           earlyValidation: data.early_validation ?? null,
         } satisfies ScanReviewLocationState,
       });

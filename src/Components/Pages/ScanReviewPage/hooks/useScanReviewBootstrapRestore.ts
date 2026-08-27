@@ -31,7 +31,7 @@ export function useScanReviewBootstrapRestore({
 }: UseScanReviewBootstrapRestoreParams): UseScanReviewBootstrapRestoreResult {
   const navigate = useNavigate();
   const { i18n } = useLingui();
-  const savedStep = readScannerStepState();
+  const [savedStep] = useState(() => readScannerStepState());
 
   const [restoreStatus, setRestoreStatus] = useState<"pending" | "done">(() =>
     savedStep?.phase === "scan-review" || getRhHistoryId() ? "pending" : "done"

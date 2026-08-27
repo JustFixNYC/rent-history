@@ -6,7 +6,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as accountApi from "../api/account/api";
 import * as scannerState from "../Components/Pages/ScanReviewPage/scanReviewState";
 import {
-  parseEarlyValidationFailures,
   shouldAutoNavigateOnComplete,
   shouldShowCompilingFlowNav,
   useScanPipelineStatus,
@@ -78,20 +77,6 @@ const passedEarlyValidation = {
   scanned_max_reg_year: 2020,
   warnings: [],
 };
-
-describe("parseEarlyValidationFailures", () => {
-  it("extracts code/message pairs from early_validation", () => {
-    expect(
-      parseEarlyValidationFailures({
-        passed: false,
-        failures: [
-          { code: "reg_year_gaps", message: "Missing years" },
-          { code: "invalid", message: 123 },
-        ],
-      })
-    ).toEqual([{ code: "reg_year_gaps", message: "Missing years" }]);
-  });
-});
 
 describe("FlowNav visibility helpers", () => {
   it("shows FlowNav only on POP when complete", () => {
@@ -289,7 +274,6 @@ describe("useScanPipelineStatus", () => {
     expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
       replace: true,
       state: {
-        scanPipelineFailures: [],
         earlyValidation,
       },
     });
