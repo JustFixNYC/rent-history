@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",
+    "test:agent": "./scripts/run_tests_for_agent.sh",
     "preview": "vite preview",
     "format": "prettier --write --ignore-unknown \"src/**/*\"",
     "format:check": "prettier --check --ignore-unknown \"src/**/*\"",
