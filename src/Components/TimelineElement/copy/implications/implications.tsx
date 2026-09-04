@@ -25,19 +25,20 @@ export const PosthstpaDestabImplications = () => (
 );
 
 export const MissingRegistrationImplications = () => (
-  <Trans id="timeline.implications.missing_registration">
-    Unless there is proof of legal destabilization during the years of missing
-    registration, your apartment may still be rent stabilized.
-  </Trans>
+  <>
+    <Trans id="timeline.implications.missing_registration">
+      Unless your landlord can prove legal destabilization during the years of
+      missing registration, your apartment may still be rent stabilized.
+    </Trans>
+    <p className="timeline-element__copy-paragraph">
+      <Trans id="timeline.implications.see_next_steps">
+        See next steps you can take below.
+      </Trans>
+    </p>
+  </>
 );
 
-export const PosthstpaMissingRegImplications = () => (
-  <Trans id="timeline.implications.posthstpa_missing_registration">
-    Unless there is proof of legal destabilization by way of substantial
-    rehabilitation during the years of missing registration, your apartment may
-    still be rent stabilized.
-  </Trans>
-);
+export const PosthstpaMissingRegImplications = MissingRegistrationImplications;
 
 export const ImproperOverchargeImplications = () => (
   <Trans id="timeline.implications.improper_overcharge">
@@ -48,15 +49,18 @@ export const ImproperOverchargeImplications = () => (
 );
 
 export const RgbOverchargeImplications = () => (
-  <Trans id="timeline.implications.rgb_overcharge">
-    You may need to investigate further as to any alleged IAIs your landlord may
-    have performed, because this would have been one of the only ways to have
-    raised the rent beyond the standard RGB increase amount. If your landlord
-    cannot prove how they legally increased your rent, there is a chance your
-    rent may have been unlawfully or improperly raised, which means that you
-    could be entitled to <OverchargeDamagesLink /> and your <BaseRentLink />{" "}
-    could be recalculated.
-  </Trans>
+  <>
+    <Trans id="timeline.implications.rgb_overcharge">
+      Unless your landlord can prove the rent increase was legal, you may have
+      been overcharged. If so, your <BaseRentLink /> could be recalculated and
+      you could even be entitled to <OverchargeDamagesLink />.
+    </Trans>
+    <p className="timeline-element__copy-paragraph">
+      <Trans id="timeline.implications.see_next_steps">
+        See next steps you can take below.
+      </Trans>
+    </p>
+  </>
 );
 
 export const Program421aPrefImplications = () => (

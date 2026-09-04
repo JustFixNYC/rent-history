@@ -45,27 +45,7 @@ export const mockTimelineElements: TimelineItem[] = [
     year: 2000,
     pills: ["violation", "missing_registration"],
     data: {
-      previous_year: 1999,
-      previous_rent: 1100,
-      vacancy_amount: 220,
-      longevity_amount: 66,
-      max_rent: 1386,
-      hrvd_amount: 2500,
-      iai_amount: 11140,
       program: "421a",
-    },
-  },
-  {
-    type: "nonreg__destab__prehstpa",
-    year: 2000,
-    pills: ["destabilized", "missing_registration"],
-    data: {
-      previous_year: 1999,
-      previous_rent: 1800,
-      vacancy_amount: 360,
-      longevity_amount: 180,
-      max_rent: 2550,
-      hrvd_amount: 2500,
     },
   },
   {
@@ -73,7 +53,9 @@ export const mockTimelineElements: TimelineItem[] = [
     year: 2000,
     pills: ["violation", "missing_registration"],
     data: {
+      previous_year: 1999,
       current_year: PRESENT_YEAR,
+      legal_rent: 1100,
       current_rent: 2800,
       max_rent: 2100,
     },
@@ -83,6 +65,7 @@ export const mockTimelineElements: TimelineItem[] = [
     year: 2000,
     pills: ["missing_registration", "currently_stabilized"],
     data: {
+      previous_year: 1999,
       current_year: PRESENT_YEAR,
       legal_rent: 1100,
       current_rent: 2000,
@@ -125,14 +108,28 @@ export const mockTimelineElements: TimelineItem[] = [
     },
   },
   {
-    type: "nonreg__viol__posthstpa__same_tenant",
+    type: "nonreg__viol__posthstpa__overcharge",
     year: 2021,
     pills: ["violation", "missing_registration"],
     data: {
+      previous_year: 2020,
       current_year: PRESENT_YEAR,
+      legal_rent: 1800,
       current_rent: 3200,
       max_rent: 2500,
       program: "421a",
+    },
+  },
+  {
+    type: "nonreg__no_viol__posthstpa",
+    year: 2021,
+    pills: ["missing_registration", "currently_stabilized"],
+    data: {
+      previous_year: 2020,
+      current_year: PRESENT_YEAR,
+      legal_rent: 1800,
+      current_rent: 2400,
+      max_rent: 2500,
     },
   },
   {
@@ -229,15 +226,13 @@ const LONGEVITY_OPTIONAL_TYPES: TimelineFindingType[] = [
   "destab__no_viol__prehstpa",
   "increase__viol__prehstpa",
   "increase__no_viol__prehstpa",
-  "nonreg__viol__prehstpa__new_tenant",
-  "nonreg__destab__prehstpa",
 ];
 
 const PROGRAM_OPTIONAL_TYPES: TimelineFindingType[] = [
   "destab__viol__posthstpa",
   "nonreg__viol__prehstpa__new_tenant",
   "nonreg__viol__posthstpa__new_tenant",
-  "nonreg__viol__posthstpa__same_tenant",
+  "nonreg__viol__posthstpa__overcharge",
 ];
 
 /** Clone mock item and ensure optional paragraphs render in the type catalog. */

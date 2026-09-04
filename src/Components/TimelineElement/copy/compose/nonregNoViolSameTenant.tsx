@@ -4,8 +4,10 @@ import {
   CurrentRentRgbComparisonParagraph,
   RgbIncreaseFootnote,
 } from "../paragraphs/CurrentRentRgbComparisonParagraph";
+import { NonregNoViolDetailsIntroParagraph } from "../paragraphs/NonregEvidenceIntroParagraph";
+import { LegalRentInLastRegYearParagraph } from "../paragraphs/LegalRentInLastRegYearParagraph";
 import { MissingRegistrationFromYearParagraph } from "../paragraphs/MissingRegistrationFromYearParagraph";
-import { RentInYearParagraph } from "../paragraphs/RentInYearParagraph";
+import { NonregNoViolSameTenantStabilizedParagraph } from "../paragraphs/NonregSameTenantOverchargeSteps";
 import { RgbProjectionParagraph } from "../paragraphs/RgbProjectionParagraph";
 import { NonregNoViolSameTenantTitle } from "../titles/titles";
 import type { TimelineComposerContext, TimelineContent } from "./types";
@@ -15,6 +17,7 @@ export function composeNonregNoViolSameTenant(
   context: TimelineComposerContext
 ): TimelineContent {
   const findingYear = context.findingYear;
+  const lastRegYear = requireTimelineField(data.previous_year, "previous_year");
   const comparisonYear = requireTimelineField(
     data.current_year,
     "current_year"
@@ -27,10 +30,10 @@ export function composeNonregNoViolSameTenant(
     title: <NonregNoViolSameTenantTitle year={findingYear} />,
     description: (
       <>
+        <NonregNoViolDetailsIntroParagraph />
         <MissingRegistrationFromYearParagraph year={findingYear} />
-        <RentInYearParagraph
-          rentKind="legal"
-          year={findingYear}
+        <LegalRentInLastRegYearParagraph
+          lastRegYear={lastRegYear}
           amount={legalRent}
         />
         <RgbProjectionParagraph
@@ -43,6 +46,7 @@ export function composeNonregNoViolSameTenant(
           maxRent={maxRent}
           outcome="within"
         />
+        <NonregNoViolSameTenantStabilizedParagraph />
       </>
     ),
     footnote: <RgbIncreaseFootnote />,

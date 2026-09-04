@@ -31,22 +31,9 @@ export const NonregViolPrehstpaNewTenantTitle = ({
   year,
 }: NonregViolPrehstpaNewTenantTitleProps) => (
   <Trans id="timeline.title.nonreg_viol_prehstpa_new_tenant">
-    The apartment is missing registration from year {year} onward. This may
-    indicate that your apartment is currently being treated as unofficially
-    destabilized.
-  </Trans>
-);
-
-type NonregDestabPrehstpaTitleProps = {
-  year: number;
-};
-
-export const NonregDestabPrehstpaTitle = ({
-  year,
-}: NonregDestabPrehstpaTitleProps) => (
-  <Trans id="timeline.title.nonreg_destab_prehstpa">
-    Apartment missing registration from year {year} onward. This appears to be
-    explained by destabilization.
+    Apartment missing registration from {year} onward. The information we
+    checked in your rent history does not seem to explain the missing
+    registration.
   </Trans>
 );
 
@@ -58,8 +45,10 @@ export const NonregViolPrehstpaSameTenantTitle = ({
   year,
 }: NonregViolPrehstpaSameTenantTitleProps) => (
   <Trans id="timeline.title.nonreg_viol_prehstpa_same_tenant">
-    Apartment missing registration from year {year} onward and your current rent
-    appears to exceed the allowable amount, based on standard RGB increases.
+    Apartment missing registration from {year} onward, and your current rent
+    amount may be more than what it should be. The information we checked in
+    your rent history does not seem to explain the missing registration or
+    current rent amount.
   </Trans>
 );
 
@@ -71,9 +60,8 @@ export const NonregNoViolSameTenantTitle = ({
   year,
 }: NonregNoViolSameTenantTitleProps) => (
   <Trans id="timeline.title.nonreg_no_viol_same_tenant">
-    Apartment missing registration from year {year} onward, but it appears that
-    you are still rent stabilized and your current rent appears to be in line
-    with standard RGB increases.
+    Apartment missing registration from {year} onward, and your current rent
+    amount suggests that your apartment is being treated as rent stabilized.
   </Trans>
 );
 
@@ -98,22 +86,39 @@ export const NonregViolPosthstpaNewTenantTitle = ({
   year,
 }: NonregViolPosthstpaNewTenantTitleProps) => (
   <Trans id="timeline.title.nonreg_viol_posthstpa_new_tenant">
-    The apartment is missing registration from year {year} onward. This may
-    indicate that your apartment is currently being treated as unofficially
-    destabilized.
+    Apartment missing registration from {year} onward. The information we
+    checked in your rent history does not seem to explain the missing
+    registration.
   </Trans>
 );
 
-type NonregViolPosthstpaSameTenantTitleProps = {
+type NonregViolPosthstpaOverchargeTitleProps = {
   year: number;
 };
 
-export const NonregViolPosthstpaSameTenantTitle = ({
+export const NonregViolPosthstpaOverchargeTitle = ({
   year,
-}: NonregViolPosthstpaSameTenantTitleProps) => (
-  <Trans id="timeline.title.nonreg_viol_posthstpa_same_tenant">
-    Apartment missing registration from year {year} onward and your current rent
-    appears to exceed the allowable amount, based on standard RGB increases.
+}: NonregViolPosthstpaOverchargeTitleProps) => (
+  <Trans id="timeline.title.nonreg_viol_posthstpa_overcharge">
+    Apartment is missing registration from {year} onward, and the rent amount
+    you reported may be more than what it should be. The information we checked
+    in your rent history does not seem to explain the missing registration or
+    current rent amount.
+  </Trans>
+);
+
+type NonregNoViolPosthstpaTitleProps = {
+  year: number;
+};
+
+export const NonregNoViolPosthstpaTitle = ({
+  year,
+}: NonregNoViolPosthstpaTitleProps) => (
+  <Trans id="timeline.title.nonreg_no_viol_posthstpa">
+    Apartment missing registration from year {year} onward. The most recent rent
+    amount you reported appears to be in line with standard increases, which
+    suggests that your apartment was being treated as rent stabilized during the
+    years of missing registration.
   </Trans>
 );
 

@@ -13,10 +13,10 @@ import { composeIncreaseNoViolPrehstpa } from "./increaseNoViolPrehstpa";
 import { composeIncreasePrefNoViolPosthstpa } from "./increasePrefNoViolPosthstpa";
 import { composeIncreasePrefViolPosthstpa } from "./increasePrefViolPosthstpa";
 import { composeIncreaseViolPrehstpa } from "./increaseViolPrehstpa";
-import { composeNonregDestabPrehstpa } from "./nonregDestabPrehstpa";
+import { composeNonregNoViolPosthstpa } from "./nonregNoViolPosthstpa";
 import { composeNonregNoViolSameTenant } from "./nonregNoViolSameTenant";
 import { composeNonregViolPosthstpaNewTenant } from "./nonregViolPosthstpaNewTenant";
-import { composeNonregViolPosthstpaSameTenant } from "./nonregViolPosthstpaSameTenant";
+import { composeNonregViolPosthstpaOvercharge } from "./nonregViolPosthstpaOvercharge";
 import { composeNonregViolPrehstpaNewTenant } from "./nonregViolPrehstpaNewTenant";
 import { composeNonregViolPrehstpaSameTenant } from "./nonregViolPrehstpaSameTenant";
 import { composeRevokePrefViolPosthstpa } from "./revokePrefViolPosthstpa";
@@ -28,13 +28,13 @@ export const timelineComposers: Record<TimelineFindingType, TimelineComposer> =
     destab__no_viol__prehstpa: composeDestabNoViolPrehstpa,
     destab__viol__posthstpa: composeDestabViolPosthstpa,
     nonreg__viol__prehstpa__new_tenant: composeNonregViolPrehstpaNewTenant,
-    nonreg__destab__prehstpa: composeNonregDestabPrehstpa,
     nonreg__viol__prehstpa__same_tenant: composeNonregViolPrehstpaSameTenant,
     nonreg__no_viol__same_tenant: composeNonregNoViolSameTenant,
     increase__viol__prehstpa: composeIncreaseViolPrehstpa,
     increase__no_viol__prehstpa: composeIncreaseNoViolPrehstpa,
     nonreg__viol__posthstpa__new_tenant: composeNonregViolPosthstpaNewTenant,
-    nonreg__viol__posthstpa__same_tenant: composeNonregViolPosthstpaSameTenant,
+    nonreg__viol__posthstpa__overcharge: composeNonregViolPosthstpaOvercharge,
+    nonreg__no_viol__posthstpa: composeNonregNoViolPosthstpa,
     increase_legal__viol__posthstpa: composeIncreaseLegalViolPosthstpa,
     increase_pref__viol__posthstpa: composeIncreasePrefViolPosthstpa,
     increase_pref__no_viol__posthstpa: composeIncreasePrefNoViolPosthstpa,

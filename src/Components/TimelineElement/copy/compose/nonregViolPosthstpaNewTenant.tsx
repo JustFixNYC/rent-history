@@ -1,11 +1,12 @@
 import type { TimelineElementData } from "../../types";
-import { PosthstpaMissingRegImplications } from "../implications/implications";
+import { MissingRegistrationImplications } from "../implications/implications";
 import {
-  MissingRegDestabilizationIntro,
+  MissingRegCouldIndicateDestabIntro,
   MissingRegDestabilizationList,
 } from "../paragraphs/MissingRegDestabilizationList";
+import { MissingRegNoReasonProvidedParagraph } from "../paragraphs/MissingRegNoReasonProvidedParagraph";
 import { MissingRegistrationFromYearParagraph } from "../paragraphs/MissingRegistrationFromYearParagraph";
-import { PosthstpaNonregInvestigateParagraph } from "../paragraphs/PosthstpaNonregInvestigateParagraph";
+import { NonregViolEvidenceIntroParagraph } from "../paragraphs/NonregEvidenceIntroParagraph";
 import { NonregViolPosthstpaNewTenantTitle } from "../titles/titles";
 import type { TimelineComposerContext, TimelineContent } from "./types";
 
@@ -19,15 +20,17 @@ export function composeNonregViolPosthstpaNewTenant(
     title: <NonregViolPosthstpaNewTenantTitle year={findingYear} />,
     description: (
       <>
+        <NonregViolEvidenceIntroParagraph />
         <MissingRegistrationFromYearParagraph year={findingYear} />
-        <MissingRegDestabilizationIntro year={findingYear} />
+        <MissingRegNoReasonProvidedParagraph />
+        <MissingRegCouldIndicateDestabIntro />
         <MissingRegDestabilizationList
           variant="posthstpa"
           program={data.program}
+          rehabAfterYear={findingYear}
         />
-        <PosthstpaNonregInvestigateParagraph />
       </>
     ),
-    whatThisMeans: <PosthstpaMissingRegImplications />,
+    whatThisMeans: <MissingRegistrationImplications />,
   };
 }

@@ -63,6 +63,31 @@ msgstr ""
 #~ msgid "timeline.title.a421_pref_viol"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:43
+#~ msgid "timeline.copy.missing_reg_destab_list.bonuses"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:114
+#~ msgid "timeline.title.nonreg_viol_posthstpa_same_tenant"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:47
+#~ msgid "timeline.title.nonreg_destab_prehstpa"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:35
+#~ msgid "timeline.implications.posthstpa_missing_registration"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaNonregInvestigateParagraph.tsx:5
+#~ msgid "timeline.copy.posthstpa_nonreg_investigate"
+#~ msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -128,6 +153,11 @@ msgstr ""
 #~ msgid "+ Start a new analysis"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:71
+msgid "timeline.copy.missing_reg_destab_list.hrvd"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Header.tsx:72
 msgid "<0>By</0> <1>JustFix</1>"
 msgstr ""
@@ -141,12 +171,22 @@ msgid "421-a expiration"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:86
+msgid "timeline.copy.missing_reg_destab_list.rehab_after_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:113
+msgid "timeline.copy.nonreg_overcharge_destab_list.rehab"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:34
 msgid "timeline.copy.posthstpa_charge_justification.rehab"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:58
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:91
 msgid "timeline.copy.missing_reg_destab_list.rehab"
 msgstr ""
 
@@ -229,11 +269,6 @@ msgstr ""
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr ""
 
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:43
-msgid "timeline.copy.missing_reg_destab_list.bonuses"
-msgstr ""
-
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:43
 msgid "Analysis complete"
 msgstr ""
@@ -275,6 +310,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:16
 msgid "findings.HRVD.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:102
+msgid "timeline.title.nonreg_viol_posthstpa_overcharge"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -323,23 +363,28 @@ msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:60
+#: src/Components/TimelineElement/copy/titles/titles.tsx:47
 msgid "timeline.title.nonreg_viol_prehstpa_same_tenant"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:114
-msgid "timeline.title.nonreg_viol_posthstpa_same_tenant"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:73
+#: src/Components/TimelineElement/copy/titles/titles.tsx:62
 msgid "timeline.title.nonreg_no_viol_same_tenant"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:47
-msgid "timeline.title.nonreg_destab_prehstpa"
+#: src/Components/TimelineElement/copy/titles/titles.tsx:33
+msgid "timeline.title.nonreg_viol_prehstpa_new_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:88
+msgid "timeline.title.nonreg_viol_posthstpa_new_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:117
+msgid "timeline.title.nonreg_no_viol_posthstpa"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
@@ -375,6 +420,11 @@ msgid "Base rent"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:19
+msgid "timeline.copy.reported_rent_rgb_projection"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/RgbProjectionParagraph.tsx:19
 msgid "timeline.copy.rgb_projection"
 msgstr ""
@@ -386,6 +436,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/StillStabilizedSameTenantParagraph.tsx:11
 msgid "timeline.copy.still_stabilized_same_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:40
+msgid "timeline.copy.still_stabilized_since_last_reg_year"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -618,13 +673,18 @@ msgid "Enter your phone number below to log in."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:27
-msgid "timeline.copy.posthstpa_charge_justification.tax"
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:78
+msgid "timeline.copy.missing_reg_destab_list.tax"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:51
-msgid "timeline.copy.missing_reg_destab_list.tax"
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:106
+msgid "timeline.copy.nonreg_overcharge_destab_list.tax"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:27
+msgid "timeline.copy.posthstpa_charge_justification.tax"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:39
@@ -840,27 +900,37 @@ msgid "In progress"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregEvidenceIntroParagraph.tsx:14
+msgid "timeline.copy.nonreg_no_viol_details_intro"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregEvidenceIntroParagraph.tsx:5
+msgid "timeline.copy.nonreg_viol_evidence_intro"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:205
 msgid "timeline.copy.program_421a_rent"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:88
+#: src/Components/TimelineElement/copy/titles/titles.tsx:76
 msgid "timeline.title.increase_no_viol_prehstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:121
+#: src/Components/TimelineElement/copy/titles/titles.tsx:126
 msgid "timeline.title.increase_legal_viol_posthstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:135
+#: src/Components/TimelineElement/copy/titles/titles.tsx:140
 msgid "timeline.title.increase_pref_no_viol_posthstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:128
+#: src/Components/TimelineElement/copy/titles/titles.tsx:133
 msgid "timeline.title.increase_pref_viol_posthstpa"
 msgstr ""
 
@@ -870,12 +940,17 @@ msgid "Individual Apartment Improvements (IAIs)"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:29
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:32
 msgid "timeline.copy.missing_reg_destab_intro"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/implications/implications.tsx:63
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:52
+msgid "timeline.copy.nonreg_overcharge_destab_intro"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:67
 msgid "timeline.implications.program_421a_pref"
 msgstr ""
 
@@ -911,7 +986,7 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:81
+#: src/Components/TimelineElement/copy/titles/titles.tsx:69
 msgid "timeline.title.increase_viol_prehstpa"
 msgstr ""
 
@@ -1128,7 +1203,7 @@ msgid "No"
 msgstr "No"
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:180
+#: src/Components/TimelineElement/copy/titles/titles.tsx:185
 msgid "timeline.title.no_finding"
 msgstr ""
 
@@ -1156,6 +1231,16 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/resultCopy.tsx:23
 msgid "findings.result.dismissed.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:59
+msgid "timeline.copy.iai_during_missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:16
+msgid "timeline.copy.iai_possible_same_tenant"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Header.tsx:48
@@ -1269,7 +1354,7 @@ msgid "Points show residential buildings with at least one rent-stabilized unit 
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:19
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:22
 msgid "timeline.copy.missing_reg_destab_heading"
 msgstr ""
 
@@ -1287,7 +1372,7 @@ msgid "Preferential Rent"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:148
+#: src/Components/TimelineElement/copy/titles/titles.tsx:153
 msgid "timeline.title.pref_421a_viol"
 msgstr ""
 
@@ -1302,7 +1387,7 @@ msgid "findings.PREFRENT_421A.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:142
+#: src/Components/TimelineElement/copy/titles/titles.tsx:147
 msgid "timeline.title.revoke_pref_viol_posthstpa"
 msgstr ""
 
@@ -1499,6 +1584,12 @@ msgstr ""
 msgid "Search for a building"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:34
+#: src/Components/TimelineElement/copy/implications/implications.tsx:59
+msgid "timeline.implications.see_next_steps"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/AptStatField.tsx:78
 msgid "Select Apt Stat"
 msgstr "Seleccionar estado del apt."
@@ -1692,17 +1783,7 @@ msgid "timeline.copy.missing_registration_from_year"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:33
-msgid "timeline.title.nonreg_viol_prehstpa_new_tenant"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:100
-msgid "timeline.title.nonreg_viol_posthstpa_new_tenant"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:155
+#: src/Components/TimelineElement/copy/titles/titles.tsx:160
 msgid "timeline.title.missing_reg"
 msgstr ""
 
@@ -1712,7 +1793,7 @@ msgid "timeline.copy.exempt_starting_year"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:173
+#: src/Components/TimelineElement/copy/titles/titles.tsx:178
 msgid "timeline.title.destab_sub_rehab_posthstpa"
 msgstr ""
 
@@ -1722,7 +1803,7 @@ msgid "timeline.copy.temp_exemption"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:161
+#: src/Components/TimelineElement/copy/titles/titles.tsx:166
 msgid "timeline.title.temp_exemption"
 msgstr ""
 
@@ -1821,6 +1902,16 @@ msgid "timeline.copy.legal_rent_exceeds_allowed.bonus_only"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/LegalRentInLastRegYearParagraph.tsx:19
+msgid "timeline.copy.legal_rent_in_last_reg_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/LegalRentLastRegYearParagraph.tsx:18
+msgid "timeline.copy.legal_rent_last_reg_year"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/HrvdThresholdParagraph.tsx:36
 msgid "timeline.copy.hrvd_threshold.not_met"
 msgstr ""
@@ -1828,6 +1919,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/HrvdThresholdParagraph.tsx:25
 msgid "timeline.copy.hrvd_threshold.met"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:41
+msgid "timeline.copy.missing_reg_could_indicate_destab"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1856,6 +1952,21 @@ msgid "timeline.copy.preferential_tenancy_limit.exceeds"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:76
+msgid "timeline.copy.nonreg_stabilized_despite_missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:43
+msgid "timeline.copy.reported_rent_rgb_comparison.within"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:54
+msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:142
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
@@ -1881,7 +1992,7 @@ msgid "timeline.copy.tenant_change.unchanged"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/implications/implications.tsx:43
+#: src/Components/TimelineElement/copy/implications/implications.tsx:44
 msgid "timeline.implications.improper_overcharge"
 msgstr ""
 
@@ -1893,6 +2004,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.no_pref_rent_label"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegNoReasonProvidedParagraph.tsx:5
+msgid "timeline.copy.missing_reg_no_reason_provided"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2034,13 +2150,13 @@ msgid "Unit number"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/implications/implications.tsx:35
-msgid "timeline.implications.posthstpa_missing_registration"
+#: src/Components/TimelineElement/copy/implications/implications.tsx:29
+msgid "timeline.implications.missing_registration"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/implications/implications.tsx:28
-msgid "timeline.implications.missing_registration"
+#: src/Components/TimelineElement/copy/implications/implications.tsx:53
+msgid "timeline.implications.rgb_overcharge"
 msgstr ""
 
 #. placeholder {0}: currentFinding.type
@@ -2324,18 +2440,8 @@ msgid "You don't have any rent histories yet."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/implications/implications.tsx:51
-msgid "timeline.implications.rgb_overcharge"
-msgstr ""
-
-#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/InvestigateIaiCostsParagraph.tsx:16
 msgid "timeline.copy.investigate_iai_costs"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/PosthstpaNonregInvestigateParagraph.tsx:5
-msgid "timeline.copy.posthstpa_nonreg_investigate"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2370,7 +2476,7 @@ msgid "Your answers directly inform our assessment of any potential violations t
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:167
+#: src/Components/TimelineElement/copy/titles/titles.tsx:172
 msgid "timeline.title.still_stab"
 msgstr ""
 
@@ -2423,8 +2529,18 @@ msgstr ""
 msgid "timeline.copy.current_rent_rgb_comparison.exceeds"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:69
+msgid "timeline.copy.nonreg_no_viol_same_tenant_stabilized"
+msgstr ""
+
 #: src/Components/Pages/Report/ReportEmailForm.tsx:190
 msgid "Your email (required)"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:25
+msgid "timeline.copy.iai_permission_required_same_tenant"
 msgstr ""
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:32
