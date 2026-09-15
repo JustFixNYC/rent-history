@@ -1,15 +1,46 @@
+import { useEffect, useState } from "react";
 import { ButtonStyledLink, Icon } from "@justfixnyc/component-library";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
+import { useLocation } from "react-router-dom";
 
 import { RequestForm } from "./RequestForm";
+import {
+  captureReferralFromSearchParams,
+  clearStoredReferral,
+  getStoredReferral,
+  type ReferralPartner,
+} from "./referralStorage";
 import "./RequestPage.scss";
 
 const RequestPage: React.FC = () => {
   const { i18n, _ } = useLingui();
+  const location = useLocation();
   const locale = i18n.locale;
   const landingPath = `/${locale}`;
+  const [referralPartner, setReferralPartner] =
+    useState<ReferralPartner | null>(() => getStoredReferral());
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void (async () => {
+      await captureReferralFromSearchParams(location.search);
+      if (!cancelled) {
+        setReferralPartner(getStoredReferral());
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [location.search]);
+
+  const handleReferralOptOut = () => {
+    clearStoredReferral();
+    setReferralPartner(null);
+  };
 
   return (
     <div id="request-page" className="request-page">
@@ -38,7 +69,10 @@ const RequestPage: React.FC = () => {
             </Trans>
           </p>
 
-          <RequestForm />
+          <RequestForm
+            referralPartner={referralPartner}
+            onReferralOptOut={handleReferralOptOut}
+          />
 
           <div className="request-page__or" aria-hidden="true">
             <span className="request-page__or-line" />

@@ -1,0 +1,23 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.partner-referral-callout {
+  width: 100%;
+
+  &__box.jfcl-callout-box {
+    background: jfcl.$PURPLE_100;
+    border-color: jfcl.$PURPLE_200;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+  }
+
+  &__body {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__opt-out {
+    align-self: flex-start;
+  }
+}

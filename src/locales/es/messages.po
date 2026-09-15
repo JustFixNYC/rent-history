@@ -212,7 +212,7 @@ msgstr ""
 msgid "Analyze my rent history"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:127
+#: src/Components/Pages/RequestPage/RequestPage.tsx:161
 msgid "Analyze your rent history"
 msgstr ""
 
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Analyzing rent history"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:116
+#: src/Components/Pages/RequestPage/RequestPage.tsx:150
 msgid "Analyzing your rent history can help you understand how your rent has changed over time and identify things that may need a closer look."
 msgstr ""
 
@@ -509,6 +509,10 @@ msgstr ""
 msgid "Don’t have your rent history?"
 msgstr ""
 
+#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:32
+msgid "Don't share my information with this partner"
+msgstr ""
+
 #: src/Components/Pages/Report/Report.tsx:187
 msgid "Download report"
 msgstr ""
@@ -722,7 +726,7 @@ msgstr "Glosario"
 msgid "Go to login"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:113
+#: src/Components/Pages/RequestPage/RequestPage.tsx:147
 msgid "Got your rent history?"
 msgstr ""
 
@@ -799,11 +803,11 @@ msgstr ""
 msgid "timeline.implications.improper_destabilization"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:100
+#: src/Components/Pages/RequestPage/RequestPage.tsx:134
 msgid "If your apartment has never been rent stabilized, you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:93
+#: src/Components/Pages/RequestPage/RequestPage.tsx:127
 msgid "If your apartment is currently rent stabilized, or has been at any point in the past, you should receive your Rent History in the mail in about a week."
 msgstr ""
 
@@ -1097,12 +1101,17 @@ msgstr ""
 msgid "findings.result.dismissed.title"
 msgstr ""
 
+#. placeholder {0}: partner.name
+#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:23
+msgid "Note: your information will also be shared with our partner organization {0}."
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Header.tsx:48
 msgid "Open menu"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:63
-#: src/Components/Pages/RequestPage/RequestPage.tsx:46
+#: src/Components/Pages/RequestPage/RequestPage.tsx:80
 msgid "Or"
 msgstr ""
 
@@ -1184,6 +1193,7 @@ msgstr ""
 
 #: src/api/account/errors.ts:145
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:58
+#: src/Components/Pages/RequestPage/requestFormSchema.ts:35
 msgid "Please enter a valid phone number."
 msgstr ""
 
@@ -1199,8 +1209,20 @@ msgstr ""
 msgid "Please enter your email address."
 msgstr ""
 
+#: src/Components/Pages/RequestPage/requestFormSchema.ts:19
+msgid "Please enter your first name."
+msgstr ""
+
+#: src/Components/Pages/RequestPage/requestFormSchema.ts:24
+msgid "Please enter your last name."
+msgstr ""
+
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:47
 msgid "Please enter your monthly rent."
+msgstr ""
+
+#: src/Components/Pages/RequestPage/requestFormSchema.ts:29
+msgid "Please enter your unit number."
 msgstr ""
 
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:127
@@ -1329,12 +1351,12 @@ msgstr ""
 msgid "Report"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:19
+#: src/Components/Pages/RequestPage/RequestPage.tsx:50
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:75
 msgid "Request your rent history"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:34
+#: src/Components/Pages/RequestPage/RequestPage.tsx:65
 msgid "Request your rent history from DHCR for free. We'll use your information to help you submit the request. Your landlord will not be notified that you've requested your rent history."
 msgstr ""
 
@@ -1692,11 +1714,11 @@ msgstr "Nombres de inquilinos"
 msgid "Terms of use"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:66
+#: src/Components/Pages/RequestPage/RequestPage.tsx:100
 msgid "Text <0>RENT HISTORY</0> to <1>(855) 610-2450</1>"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:55
+#: src/Components/Pages/RequestPage/RequestPage.tsx:89
 msgid "Text us to get your rent history document"
 msgstr ""
 
@@ -1855,7 +1877,7 @@ msgstr ""
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:60
+#: src/Components/Pages/RequestPage/RequestPage.tsx:94
 msgid "This is the same service as above, but accessible through text message."
 msgstr ""
 
@@ -2247,7 +2269,7 @@ msgstr ""
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:89
+#: src/Components/Pages/RequestPage/RequestPage.tsx:123
 msgid "What happens after you request your rent history?"
 msgstr ""
 
@@ -2453,7 +2475,7 @@ msgstr "Su historial de alquiler"
 msgid "Your rent history report(s)"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:22
+#: src/Components/Pages/RequestPage/RequestPage.tsx:53
 msgid "Your rent history shows how your apartment's rent has changed over time. It can help you determine if your apartment is still rent stabilized or should be."
 msgstr ""
 

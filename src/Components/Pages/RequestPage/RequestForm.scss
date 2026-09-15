@@ -1,5 +1,12 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 
+.request-form {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+  width: 100%;
+}
+
 .request-form__card {
   background: jfcl.$WHITE;
   border: 1px solid jfcl.$GREY_200;
