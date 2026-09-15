@@ -126,7 +126,7 @@ const createTestQueryClient = () =>
 
 let queryClient: QueryClient;
 
-const renderCompilingWaitingPage = (initialEntry = "/en/compiling") => {
+const renderCompilingWaitingPage = (initialEntry = "/en/analyze/compiling") => {
   i18n.load("en", {});
   i18n.activate("en");
   queryClient = createTestQueryClient();
@@ -194,9 +194,12 @@ describe("CompilingWaitingPage", () => {
     renderCompilingWaitingPage();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/findings-overview", {
-        replace: true,
-      });
+      expect(navigateMock).toHaveBeenCalledWith(
+        "/en/analyze/findings-overview",
+        {
+          replace: true,
+        }
+      );
     });
     expect(screen.queryByTestId("flow-nav")).not.toBeInTheDocument();
   });
@@ -225,7 +228,7 @@ describe("CompilingWaitingPage", () => {
 
     fireEvent.click(await screen.findByRole("button", { name: "Next" }));
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/report");
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/report");
   });
 
   it("navigates to scanner return mode when user taps Restart", async () => {
@@ -238,7 +241,7 @@ describe("CompilingWaitingPage", () => {
 
     fireEvent.click(await screen.findByRole("button", { name: "Restart" }));
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
       state: { postCompileReturn: true },
     });
   });

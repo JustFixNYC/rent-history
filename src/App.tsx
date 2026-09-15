@@ -31,6 +31,7 @@ import DevPage from "./Components/Pages/DevPage/DevPage";
 import ResumePage from "./Components/Pages/ResumePage/ResumePage";
 import CompilingWaitingPage from "./Components/Pages/CompilingWaitingPage/CompilingWaitingPage";
 import ScanReviewPage from "./Components/Pages/ScanReviewPage/ScanReviewPage";
+import { analyzeLoginPath } from "./routes/analyzeRoutes";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -40,9 +41,27 @@ const RequireOtpToken = () => {
   }
 
   const locale = parseLocaleFromPath(location.pathname);
-  const loginPath = locale ? `/${locale}/login` : "/login";
+  const loginPath = locale ? analyzeLoginPath(locale) : "/analyze/login";
   return <Navigate to={loginPath} replace />;
 };
+
+const analyzeRoutes = (
+  <>
+    <Route path="login" element={<LoginPage />} />
+    <Route path="resume" element={<ResumePage />} />
+    <Route element={<RequireOtpToken />}>
+      <Route path="account" element={<AccountPage />} />
+      <Route path="scanner" element={<Scanner />} />
+      <Route path="scan-review" element={<ScanReviewPage />} />
+      <Route path="confirm-address" element={<ConfirmAddress />} />
+      <Route path="rent-questions" element={<RentQuestions />} />
+      <Route path="compiling" element={<CompilingWaitingPage />} />
+      <Route path="findings-overview" element={<FindingsOverviewPage />} />
+      <Route path="report" element={<Report />} />
+      <Route path="findings-review" element={<FindingsReviewPage />} />
+    </Route>
+  </>
+);
 
 const createAppRouter = () =>
   createBrowserRouter(
@@ -53,24 +72,9 @@ const createAppRouter = () =>
           <Route index element={<Landing />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="dev" element={<DevPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="resume" element={<ResumePage />} />
-          <Route element={<RequireOtpToken />}>
-            <Route path="account" element={<AccountPage />} />
-            <Route path="scanner" element={<Scanner />} />
-            <Route path="scan-review" element={<ScanReviewPage />} />
-            <Route path="confirm-address" element={<ConfirmAddress />} />
-            <Route path="rent-questions" element={<RentQuestions />} />
-            <Route path="compiling" element={<CompilingWaitingPage />} />
-            <Route
-              path="findings-overview"
-              element={<FindingsOverviewPage />}
-            />
-            <Route path="report" element={<Report />} />
-            <Route path="findings-review" element={<FindingsReviewPage />} />
-          </Route>
+          <Route path="analyze">{analyzeRoutes}</Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
-          <Route path="terms_of_use" element={<TermsOfUse />} />
+          <Route path="terms-of-use" element={<TermsOfUse />} />
           <Route
             path="rent-stabilized-map"
             element={<RentStabilizedMapPage />}
@@ -81,24 +85,9 @@ const createAppRouter = () =>
           <Route index element={<Landing />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="dev" element={<DevPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="resume" element={<ResumePage />} />
-          <Route element={<RequireOtpToken />}>
-            <Route path="account" element={<AccountPage />} />
-            <Route path="scanner" element={<Scanner />} />
-            <Route path="scan-review" element={<ScanReviewPage />} />
-            <Route path="confirm-address" element={<ConfirmAddress />} />
-            <Route path="rent-questions" element={<RentQuestions />} />
-            <Route path="compiling" element={<CompilingWaitingPage />} />
-            <Route
-              path="findings-overview"
-              element={<FindingsOverviewPage />}
-            />
-            <Route path="findings-review" element={<FindingsReviewPage />} />
-            <Route path="report" element={<Report />} />
-          </Route>
+          <Route path="analyze">{analyzeRoutes}</Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
-          <Route path="terms_of_use" element={<TermsOfUse />} />
+          <Route path="terms-of-use" element={<TermsOfUse />} />
           <Route
             path="rent-stabilized-map"
             element={<RentStabilizedMapPage />}

@@ -11,6 +11,7 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { historyResumePath } from "../../../utils/historyResumePath";
 import { useScanPipelineStatus } from "../../../api/account";
 
@@ -83,7 +84,7 @@ const CompilingWaitingPage = () => {
   const showFailedCallout = status === "failed";
 
   const handleRestart = () => {
-    navigate(`/${i18n.locale}/scanner`, {
+    navigate(analyzePath(i18n.locale, "scanner"), {
       state: { postCompileReturn: true },
     });
   };

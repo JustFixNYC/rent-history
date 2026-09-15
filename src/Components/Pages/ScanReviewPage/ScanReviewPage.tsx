@@ -26,6 +26,7 @@ import { ScanReviewTotalFailureScreen } from "./ScanReviewTotalFailureScreen";
 import { ScanReviewEntryScreen } from "./scanReviewModes";
 import { resolveScanReviewScreen } from "./scanReviewScreenState";
 import { clearScannerStepState } from "./scanReviewState";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
 
 import "./ScanReviewScreen.scss";
@@ -74,7 +75,7 @@ const ScanReviewPage = () => {
 
   const navigateToPreScan = useCallback(() => {
     clearScannerStepState();
-    navigate(`/${i18n.locale}/scanner`, { replace: true });
+    navigate(analyzePath(i18n.locale, "scanner"), { replace: true });
   }, [i18n.locale, navigate]);
 
   const prepareForRescan = useCallback(

@@ -11,6 +11,7 @@ import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { useNavigate } from "react-router-dom";
 
+import { analyzePath } from "../../routes/analyzeRoutes";
 import "./EditableTable.scss";
 import {
   Lease,
@@ -494,7 +495,9 @@ export const EditableTable: React.FC = () => {
           <Button
             variant="primary"
             labelText={_(msg`Analyze my rent history`)}
-            onClick={() => navigate(`/${i18n.locale}/confirm-address`)}
+            onClick={() =>
+              navigate(analyzePath(i18n.locale, "confirm-address"))
+            }
           />
         </div>
       )}

@@ -195,9 +195,12 @@ describe("useScanPipelineStatus", () => {
     );
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/findings-overview", {
-        replace: true,
-      });
+      expect(navigateMock).toHaveBeenCalledWith(
+        "/en/analyze/findings-overview",
+        {
+          replace: true,
+        }
+      );
     });
   });
 
@@ -272,7 +275,7 @@ describe("useScanPipelineStatus", () => {
       });
     });
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scan-review", {
       replace: true,
       state: {
         earlyValidation,

@@ -120,7 +120,7 @@ const renderScanReview = (options?: {
   return render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter
-        initialEntries={options?.initialEntries ?? ["/en/scan-review"]}
+        initialEntries={options?.initialEntries ?? ["/en/analyze/scan-review"]}
       >
         <I18nProvider i18n={i18n}>
           <ScanReviewPage />
@@ -251,7 +251,7 @@ describe("ScanReviewPage error states", () => {
     renderScanReview({
       initialEntries: [
         {
-          pathname: "/en/scan-review",
+          pathname: "/en/analyze/scan-review",
           state: { showLaunchFailure: true },
         },
       ],
@@ -316,7 +316,7 @@ describe("ScanReviewPage error states", () => {
     renderScanReview({
       initialEntries: [
         {
-          pathname: "/en/scan-review",
+          pathname: "/en/analyze/scan-review",
           state: { earlyValidation: staleLocationValidation },
         },
       ],
@@ -377,7 +377,7 @@ describe("ScanReviewPage rescan CTAs", () => {
         historyId,
         [7]
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
         replace: true,
       });
     });
@@ -387,7 +387,7 @@ describe("ScanReviewPage rescan CTAs", () => {
     renderScanReview({
       initialEntries: [
         {
-          pathname: "/en/scan-review",
+          pathname: "/en/analyze/scan-review",
           state: { showLaunchFailure: true },
         },
       ],
@@ -406,7 +406,7 @@ describe("ScanReviewPage rescan CTAs", () => {
         "access-token",
         historyId
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
         replace: true,
       });
     });
@@ -536,7 +536,7 @@ describe("ScanReviewPage incremental flow", () => {
           last_reg_year: 2003,
         }
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling", {
         replace: true,
       });
     });
@@ -590,7 +590,7 @@ describe("ScanReviewPage incremental flow", () => {
     await waitFor(() => {
       expect(accountApi.deleteRhScannedPages).not.toHaveBeenCalled();
       expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
-      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
         replace: true,
       });
     });
@@ -717,7 +717,7 @@ describe("ScanReviewPage non-pipeline failures", () => {
     renderScanReview({
       initialEntries: [
         {
-          pathname: "/en/scan-review",
+          pathname: "/en/analyze/scan-review",
           state,
         },
       ],

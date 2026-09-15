@@ -21,6 +21,7 @@ import {
   ScanReviewModuleStack,
   type ScanReviewStepRenderContext,
 } from "./ScanReviewModuleStack";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
 
 import "./ScanReviewScreen.scss";
@@ -172,7 +173,7 @@ export function ScanReviewFlow({
             void queryClient.invalidateQueries({
               queryKey: accountQueryKeys.scanPipelineStatus(historyId),
             });
-            navigate(`/${i18n.locale}/compiling`, { replace: true });
+            navigate(analyzePath(i18n.locale, "compiling"), { replace: true });
             return;
           }
 

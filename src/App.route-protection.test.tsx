@@ -30,28 +30,28 @@ describe("post-OTP route protection", () => {
   });
 
   it.each([
-    "/en/account",
-    "/en/scanner",
-    "/en/scan-review",
-    "/en/confirm-address",
-    "/en/findings-overview",
-    "/en/findings-review",
+    "/en/analyze/account",
+    "/en/analyze/scanner",
+    "/en/analyze/scan-review",
+    "/en/analyze/confirm-address",
+    "/en/analyze/findings-overview",
+    "/en/analyze/findings-review",
   ])("redirects unauthenticated deep-link %s to login", async (path) => {
     window.history.pushState({}, "", path);
     render(<App />);
 
     await waitFor(() => {
-      expect(window.location.pathname).toBe("/en/login");
+      expect(window.location.pathname).toBe("/en/analyze/login");
     });
   });
 
   it("allows protected routes when otp session is valid", async () => {
     setRhAuthSession(tokenPayload);
-    window.history.pushState({}, "", "/en/scanner");
+    window.history.pushState({}, "", "/en/analyze/scanner");
     render(<App />);
 
     await waitFor(() => {
-      expect(window.location.pathname).toBe("/en/scanner");
+      expect(window.location.pathname).toBe("/en/analyze/scanner");
     });
   });
 
@@ -59,12 +59,12 @@ describe("post-OTP route protection", () => {
     window.history.pushState(
       {},
       "",
-      "/en/resume?token=test-token&history_id=hist-123"
+      "/en/analyze/resume?token=test-token&history_id=hist-123"
     );
     render(<App />);
 
     await waitFor(() => {
-      expect(window.location.pathname).toBe("/en/resume");
+      expect(window.location.pathname).toBe("/en/analyze/resume");
     });
   });
 });
