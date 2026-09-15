@@ -5,14 +5,88 @@
   flex-direction: column;
   gap: jfcl.$JF_SPACING_05;
   width: 100%;
-}
 
-.request-form__card {
-  background: jfcl.$WHITE;
-  border: 1px solid jfcl.$GREY_200;
-  border-radius: 2px;
-  box-sizing: border-box;
-  min-height: 12rem;
-  padding: 2rem;
-  width: 100%;
+  &__card {
+    background: jfcl.$WHITE;
+    border: 1px solid jfcl.$GREY_200;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
+  }
+
+  &__unit-field {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+  }
+
+  &__unit-helper {
+    @include jfcl.small_text_desktop;
+    color: jfcl.$GREY_600;
+    margin: 0;
+  }
+
+  &__field--submitted {
+    .jfcl-text-input__input {
+      background: jfcl.$GREY_50;
+      border-color: jfcl.$GREY_400;
+    }
+  }
+
+  &__error {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$RED;
+    margin: 0;
+  }
+
+  &__submit {
+    width: 100%;
+
+    &--success.jfcl-button {
+      background: jfcl.$OFF_WHITE_100;
+      border: 1px solid jfcl.$OFF_WHITE_200;
+      color: jfcl.$OFF_BLACK;
+    }
+  }
+
+  &__success {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
+  }
+
+  &__rs-callout.jfcl-callout-box {
+    background: jfcl.$PURPLE_100;
+    border: 1px solid jfcl.$PURPLE_200;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+  }
+
+  &__rs-callout-title {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__rs-callout-body {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__rs-callout-link,
+  &__submit-another {
+    align-self: flex-start;
+  }
 }

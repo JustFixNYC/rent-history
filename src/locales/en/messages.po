@@ -44,6 +44,7 @@ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:84
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:60
+#: src/Components/Pages/RequestPage/RequestForm.tsx:147
 msgid "(123) 456-7890"
 msgstr "(123) 456-7890"
 
@@ -562,8 +563,13 @@ msgid "Enter verification code"
 msgstr "Enter verification code"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:333
+#: src/Components/Pages/RequestPage/RequestForm.tsx:108
 msgid "Enter your address"
 msgstr "Enter your address"
+
+#: src/Components/Pages/RequestPage/RequestForm.tsx:134
+msgid "Enter your apartment or unit number."
+msgstr "Enter your apartment or unit number."
 
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:36
 msgid "Enter your phone number"
@@ -634,6 +640,10 @@ msgstr "Finding review navigation"
 msgid "Finish scanning"
 msgstr "Finish scanning"
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:75
+msgid "First name"
+msgstr "First name"
+
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:28
 msgid "findings.PREFRENT_421A.ocr.heading"
@@ -698,6 +708,7 @@ msgstr "Generate report"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:338
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
+#: src/Components/Pages/RequestPage/RequestForm.tsx:113
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr "Geosearch is temporarily unavailable. Try again in a moment."
 
@@ -725,6 +736,10 @@ msgstr "Glossary"
 #: src/Components/Pages/ResumePage/ResumePage.tsx:89
 msgid "Go to login"
 msgstr "Go to login"
+
+#: src/Components/Pages/RequestPage/RequestForm.tsx:176
+msgid "Good news, it looks like your building includes rent stabilized units."
+msgstr "Good news, it looks like your building includes rent stabilized units."
 
 #: src/Components/Pages/RequestPage/RequestPage.tsx:147
 msgid "Got your rent history?"
@@ -865,6 +880,10 @@ msgstr "Large increase in preferential rent"
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Large rent increase"
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:88
+msgid "Last name"
+msgstr "Last name"
+
 #: src/Components/Pages/ScanReviewPage/ScanReviewLastRegYearStep.tsx:38
 msgid "Last registration year"
 msgstr "Last registration year"
@@ -873,6 +892,10 @@ msgstr "Last registration year"
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
 msgid "Learn more"
 msgstr "Learn more"
+
+#: src/Components/Pages/RequestPage/RequestForm.tsx:193
+msgid "Learn what happens next"
+msgstr "Learn what happens next"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:26
 msgid "Legal and feedback"
@@ -1152,6 +1175,10 @@ msgstr "Page scan preview"
 msgid "Permanently delete this rent history?"
 msgstr "Permanently delete this rent history?"
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:144
+msgid "Phone number"
+msgstr "Phone number"
+
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:79
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:55
 msgid "Phone number (required)"
@@ -1194,6 +1221,7 @@ msgstr "Please enter a valid email address."
 #: src/api/account/errors.ts:145
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:58
 #: src/Components/Pages/RequestPage/requestFormSchema.ts:35
+#: src/Components/Pages/RequestPage/useRequestForm.ts:168
 msgid "Please enter a valid phone number."
 msgstr "Please enter a valid phone number."
 
@@ -1228,6 +1256,10 @@ msgstr "Please enter your unit number."
 #: src/Components/Pages/CompilingWaitingPage/CompilingWaitingPage.tsx:127
 msgid "Please refresh the page or try again in a moment."
 msgstr "Please refresh the page or try again in a moment."
+
+#: src/Components/Pages/RequestPage/useRequestForm.ts:44
+msgid "Please select an address from the list."
+msgstr "Please select an address from the list."
 
 #: src/Components/Pages/Report/Report.tsx:145
 msgid "Please sign in to generate your report."
@@ -1350,6 +1382,10 @@ msgstr "Rent-stabilized units"
 #: src/Components/Pages/Report/Report.tsx:170
 msgid "Report"
 msgstr "Report"
+
+#: src/Components/Pages/RequestPage/RequestForm.tsx:169
+msgid "Request Submitted"
+msgstr "Request Submitted"
 
 #: src/Components/Pages/RequestPage/RequestPage.tsx:50
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:75
@@ -1598,6 +1634,8 @@ msgstr "Something went wrong while verifying your code."
 
 #: src/Components/Pages/Report/Report.tsx:85
 #: src/Components/Pages/Report/ReportEmailForm.tsx:160
+#: src/Components/Pages/RequestPage/useRequestForm.ts:204
+#: src/Components/Pages/RequestPage/useRequestForm.ts:209
 msgid "Something went wrong. Please try again."
 msgstr "Something went wrong. Please try again."
 
@@ -1666,11 +1704,21 @@ msgstr "Step {stepNumber}: {titleText}"
 #~ msgid "Still processing pages"
 #~ msgstr "Still processing pages"
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:99
+#: src/Components/Pages/RequestPage/RequestForm.tsx:107
+msgid "Street address"
+msgstr "Street address"
+
 #: src/Components/FlowNav/FlowNav.tsx:34
 msgid "Submit"
 msgstr "Submit"
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:202
+msgid "Submit another request"
+msgstr "Submit another request"
+
 #: src/Components/Pages/Landing/Landing.tsx:131
+#: src/Components/Pages/RequestPage/RequestForm.tsx:210
 msgid "Submit request"
 msgstr "Submit request"
 
@@ -2043,6 +2091,10 @@ msgstr "Unable to save your rent. Please try again."
 msgid "Unable to update address right now. Please try again."
 msgstr "Unable to update address right now. Please try again."
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:127
+msgid "Unit"
+msgstr "Unit"
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:362
 msgid "Unit number"
 msgstr "Unit number"
@@ -2159,6 +2211,10 @@ msgstr "We could not generate your report PDF. Please try again."
 #: src/Components/Pages/AccountPage/AccountPage.tsx:151
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr "We couldn't load your rent histories. Please try again later."
+
+#: src/Components/Pages/RequestPage/useRequestForm.ts:196
+msgid "We couldn't send your request right now. Please try again."
+msgstr "We couldn't send your request right now. Please try again."
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:112
 msgid "We don't have any reports associated with this number. To get started, scan the QR code below with your phone."
@@ -2446,6 +2502,12 @@ msgstr "Your apartment is missing registration from year {missingFromYear} onwar
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:93
 msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.no.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward. This could indicate that your landlord is currently treating your apartment as not rent stabilized, or your apartment was legally destabilized at some point between year {missingFromYear} and year {findingYear}. Your report will include this with additional details."
+
+#. placeholder {0}: submitResponse.stabilized_units
+#. placeholder {1}: submitResponse.latest_year
+#: src/Components/Pages/RequestPage/RequestForm.tsx:182
+msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
+msgstr "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
 
 #: src/api/account/errors.ts:171
 msgid "Your code expired. Request a new code."

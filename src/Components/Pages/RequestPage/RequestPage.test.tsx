@@ -1,5 +1,6 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
@@ -10,6 +11,7 @@ import "./RequestPage.scss";
 
 vi.mock("../../../api/requester/api", () => ({
   getPartnerBySlug: vi.fn(),
+  sendRhRequest: vi.fn(),
 }));
 
 import { getPartnerBySlug } from "../../../api/requester/api";
@@ -17,14 +19,21 @@ import { REFERRAL_STORAGE_KEY } from "./referralStorage";
 
 const mockGetPartnerBySlug = vi.mocked(getPartnerBySlug);
 
-const renderRequestPage = (initialEntry = "/en/request") =>
-  render(
-    <I18nProvider i18n={i18n}>
-      <MemoryRouter initialEntries={[initialEntry]}>
-        <RequestPage />
-      </MemoryRouter>
-    </I18nProvider>
+const renderRequestPage = (initialEntry = "/en/request") => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
+
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <I18nProvider i18n={i18n}>
+        <MemoryRouter initialEntries={[initialEntry]}>
+          <RequestPage />
+        </MemoryRouter>
+      </I18nProvider>
+    </QueryClientProvider>
   );
+};
 
 describe("RequestPage", () => {
   beforeEach(() => {
@@ -50,7 +59,10 @@ describe("RequestPage", () => {
     expect(
       screen.getByText(/request your rent history from dhcr for free/i)
     ).toBeInTheDocument();
-    expect(screen.getByTestId("request-form-stub")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /submit request/i })
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
     const smsCta = screen
       .getByText(/text us to get your rent history document/i)
       .closest(".request-page__sms-cta");
