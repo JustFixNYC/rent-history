@@ -1,0 +1,11 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.request-form__card {
+  background: jfcl.$WHITE;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 2px;
+  box-sizing: border-box;
+  min-height: 12rem;
+  padding: 2rem;
+  width: 100%;
+}

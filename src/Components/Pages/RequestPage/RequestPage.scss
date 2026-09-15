@@ -1,0 +1,184 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../PageLayout/layoutVars" as layout;
+
+.request-page {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+}
+
+.request-page__hero {
+  background: jfcl.$PURPLE_100;
+  border-bottom: 1px solid jfcl.$OFF_BLACK;
+  box-sizing: border-box;
+  padding: 2rem 1.5rem;
+
+  @include layout.desktop {
+    padding: 3rem 14.375rem;
+  }
+}
+
+.request-page__hero-inner,
+.request-page__section-inner {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+
+  @include layout.desktop {
+    margin: 0 auto;
+    max-width: 46.125rem; // 738px content column
+  }
+}
+
+.request-page__title {
+  font-family: "Degular Display", Arial, Helvetica, sans-serif;
+  font-size: 2.25rem; // 36px
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin: 0;
+
+  @include layout.desktop {
+    font-size: 4rem; // 64px
+  }
+}
+
+.request-page__subtitle,
+.request-page__intro,
+.request-page__faq-body p,
+.request-page__analyze-cta-text p {
+  @include jfcl.body_large_mobile;
+  margin: 0;
+
+  @include layout.desktop {
+    @include jfcl.body_large_desktop;
+  }
+}
+
+.request-page__section {
+  border-bottom: 1px solid jfcl.$OFF_BLACK;
+  box-sizing: border-box;
+  padding: 2rem 1.5rem;
+
+  @include layout.desktop {
+    padding: 2rem 14.375rem;
+  }
+}
+
+.request-page__section-heading,
+.request-page__analyze-cta-heading {
+  @include jfcl.body_large_mobile;
+  font-weight: 600;
+  margin: 0;
+
+  @include layout.desktop {
+    @include jfcl.body_large_desktop;
+    font-weight: 600;
+  }
+}
+
+.request-page__faq {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.request-page__faq-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.request-page__or {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.request-page__or-line {
+  background: jfcl.$GREY_200;
+  flex: 1;
+  height: 1px;
+  max-width: 3.125rem;
+}
+
+.request-page__or-label {
+  @include jfcl.body_standard_desktop;
+  color: jfcl.$GREY_600;
+}
+
+.request-page__sms-cta {
+  background: jfcl.$OFF_WHITE_200;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.request-page__sms-cta-title {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+
+  p {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+      font-weight: 600;
+    }
+  }
+}
+
+.request-page__sms-cta-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 2.25rem;
+
+  @include layout.desktop {
+    padding-left: 3rem;
+  }
+}
+
+.request-page__sms-instruction {
+  margin: 0;
+}
+
+.request-page__emphasis {
+  font-weight: 600;
+}
+
+.request-page__analyze-cta {
+  background: jfcl.$PURPLE_100;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.request-page__analyze-cta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.request-page__analyze-button.jfcl-button-styled-link {
+  box-sizing: border-box;
+  width: 100%;
+
+  @include layout.desktop {
+    width: auto;
+  }
+}
