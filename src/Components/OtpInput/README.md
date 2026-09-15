@@ -1,8 +1,8 @@
 # OtpInput
 
-Reusable OTP (one-time password) field for SMS verification flows. Designed for reliable autofill on iOS Safari and Android Chrome, with a segmented 6-box visual that is **decoration only** — there is one real `<input>` underneath.
+Reusable OTP (one-time password) field for SMS verification flows. Built on [`input-otp`](https://github.com/guilhermerodz/input-otp) with a segmented 6-box visual that is **decoration only** — there is one real `<input>` underneath.
 
-**Intended use:** copy this folder into another React project. The component has no i18n or app-specific dependencies beyond `classnames` and its SCSS (currently uses JFCL design tokens).
+**Intended use:** copy this folder into another React project. The component has no i18n or app-specific dependencies beyond `classnames`, `input-otp`, and its SCSS (currently uses JFCL design tokens).
 
 ---
 
@@ -12,21 +12,23 @@ A common pattern renders six separate `<input maxLength={1}>` fields. That break
 
 `OtpInput` inverts this:
 
-- **One** transparent input spans the full field (`autoComplete="one-time-code"`, `inputMode="numeric"`, `pattern`, `required`, `name`).
-- Six `<span>` cells mirror `value[index]` for display (`aria-hidden`).
+- **One** transparent input spans the full field (`autoComplete="one-time-code"`, `inputMode="numeric"`, `required`, `name`).
+- Six `<span>` cells mirror slot characters for display (`aria-hidden`), with an active-cell outline and fake caret while focused.
 - Typing, paste, and OS autofill all update a single string — the same string your form submits.
 
 ---
 
 ## Module contents
 
-| File             | Role                                                      |
-| ---------------- | --------------------------------------------------------- |
-| `OtpInput.tsx`   | Presentational controlled input + visual cells            |
-| `useOtpInput.ts` | Optional local state + sanitized handlers                 |
-| `useWebOtp.ts`   | Optional Android WebOTP progressive enhancement           |
-| `OtpInput.scss`  | BEM layout (`.otp-input`, `__cells`, `__cell`, `__field`) |
-| `index.ts`       | Barrel exports                                            |
+| File             | Role                                                               |
+| ---------------- | ------------------------------------------------------------------ |
+| `OtpInput.tsx`   | `input-otp` wrapper + visual cells via render slots                |
+| `useOtpInput.ts` | Optional local state + sanitized handlers                          |
+| `useWebOtp.ts`   | Optional Android WebOTP progressive enhancement                    |
+| `OtpInput.scss`  | Self-contained BEM styles (cells, caret, overlay input, modifiers) |
+| `index.ts`       | Barrel exports                                                     |
+
+Also exported from `OtpInput.tsx`: `OTP_LENGTH` (6) and `sanitizeOtpValue`.
 
 ---
 
@@ -39,11 +41,7 @@ Controlled component. Parent owns `value` (e.g. react-hook-form `watch("code")`)
   id="verification-code"
   name="code"
   value={code}
-  onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-  onPaste={(e) => {
-    e.preventDefault();
-    setCode(e.clipboardData.getData("text"));
-  }}
+  onChange={setCode}
   aria-label="Verification code"
   invalid={hasError}
 />
@@ -51,7 +49,9 @@ Controlled component. Parent owns `value` (e.g. react-hook-form `watch("code")`)
 
 **Required props:** `id`, `name`, `value`, `onChange`, `aria-label` (parent supplies accessible name — no built-in copy).
 
-**Optional:** `length` (default 6), `onComplete`, `onKeyDown`, `onPaste`, `inputRef`, `disabled`, `invalid`, `autoFocus`, `aria-describedby`, `className`.
+**Optional:** `length` (default 6), `onComplete`, `onKeyDown`, `inputRef`, `disabled`, `invalid`, `autoFocus`, `aria-describedby`, `className`.
+
+`onChange` receives a sanitized string value (digits only, capped at `length`). Paste sanitization is handled internally via `input-otp`'s `pasteTransformer` — no `onPaste` prop needed.
 
 `onComplete` fires once when `value` reaches `length`. Wire it to form submission for auto-verify on paste, autofill, WebOTP, or typing the final digit (see `LoginVerificationStep.tsx`).
 
@@ -62,7 +62,7 @@ Controlled component. Parent owns `value` (e.g. react-hook-form `watch("code")`)
 Convenience hook when you do **not** already have form state. Sanitizes input to digits-only and caps at `length`.
 
 ```tsx
-const { value, setValue, inputRef, onChange, onKeyDown, onPaste, isComplete } =
+const { value, setValue, inputRef, onChange, onKeyDown, isComplete } =
   useOtpInput({ length: 6, onValueChange: (v) => form.setValue("code", v) });
 
 <OtpInput
@@ -71,7 +71,6 @@ const { value, setValue, inputRef, onChange, onKeyDown, onPaste, isComplete } =
   value={value}
   onChange={onChange}
   onKeyDown={onKeyDown}
-  onPaste={onPaste}
   inputRef={inputRef}
   aria-label="Verification code"
 />;
@@ -87,7 +86,7 @@ Use **either** `useOtpInput` local state **or** an external store (react-hook-fo
 
 ```tsx
 useWebOtp({
-  onCode: (code) => setCode(code.replace(/\D/g, "").slice(0, 6)),
+  onCode: (code) => setCode(sanitizeOtpValue(code)),
   enabled: isVerificationStepOpen,
 });
 ```
@@ -98,7 +97,7 @@ On mount (when `enabled` and `'OTPCredential' in window`), the hook calls:
 navigator.credentials.get({ otp: { transport: ["sms"] }, signal });
 ```
 
-The resolved credential’s `code` is passed to `onCode`. An `AbortController` cancels the request on unmount (e.g. navigation away or successful submit).
+The resolved credential's `code` is passed to `onCode`. An `AbortController` cancels the request on unmount (e.g. navigation away or successful submit).
 
 **Backend requirement for WebOTP (and iOS domain binding):** the SMS last line should include the site origin, e.g.
 
@@ -123,7 +122,7 @@ Without that format, autofill and WebOTP are unreliable even with correct fronte
 5. Ensure your SMS provider sends domain-bound messages (see above).
 6. Add `autoComplete="tel"` on the phone field in the prior step — helps the OS link phone entry to the OTP SMS.
 
-**Dependencies:** `react`, `classnames`. No router, no i18n library required inside the component.
+**Dependencies:** `react`, `classnames`, `input-otp`. No router, no i18n library required inside the component.
 
 ---
 

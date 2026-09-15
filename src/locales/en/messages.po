@@ -403,7 +403,7 @@ msgstr "Apt. {0}"
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:135
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:114
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:110
 msgid "Back"
 msgstr "Back"
 
@@ -567,7 +567,7 @@ msgstr "Did tenants in the earlier year appear in the later year?"
 #~ msgid "Didn't receive a code?"
 #~ msgstr "Didn't receive a code?"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:96
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:92
 msgid "Didn’t receive a code?"
 msgstr "Didn’t receive a code?"
 
@@ -1459,9 +1459,14 @@ msgstr "Rent-stabilized units"
 
 #: src/Components/Pages/Report/Report.tsx:170
 msgid "Report"
-msgstr "Report"
+msgstr "Report<<<<<<< HEAD"
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:102
+#: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:75
+#~ msgid "Request your rent history"
+#~ msgstr "Request your rent history"
+
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:98
 msgid "Resend"
 msgstr "Resend"
 
@@ -2249,7 +2254,7 @@ msgstr "Vacancy bonus"
 msgid "Values confirmed"
 msgstr "Values confirmed"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:92
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:88
 msgid "Verification code"
 msgstr "Verification code"
 
@@ -2257,7 +2262,7 @@ msgstr "Verification code"
 #~ msgid "Verification digit {0}"
 #~ msgstr "Verification digit {0}"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:117
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:113
 msgid "Verify"
 msgstr "Verify"
 

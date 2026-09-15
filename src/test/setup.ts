@@ -10,6 +10,11 @@ Object.defineProperty(window.Element.prototype, "scrollIntoView", {
   writable: true,
 });
 
+// input-otp uses elementFromPoint for focus/caret positioning in jsdom tests.
+if (!document.elementFromPoint) {
+  document.elementFromPoint = () => null;
+}
+
 if (!HTMLDialogElement.prototype.showModal) {
   HTMLDialogElement.prototype.showModal = function showModal(
     this: HTMLDialogElement

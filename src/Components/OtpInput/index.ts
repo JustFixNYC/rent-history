@@ -1,4 +1,9 @@
-export { OtpInput, type OtpInputProps } from "./OtpInput";
+export {
+  OtpInput,
+  OTP_LENGTH,
+  sanitizeOtpValue,
+  type OtpInputProps,
+} from "./OtpInput";
 export {
   useOtpInput,
   type UseOtpInputOptions,

@@ -78,15 +78,11 @@ export function LoginVerificationStep({
             value={verificationCode}
             autoFocus
             inputRef={otpInputRef}
-            onChange={(event) => onOtpChange(event.target.value)}
+            onChange={onOtpChange}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 otpFormRef.current?.requestSubmit();
               }
-            }}
-            onPaste={(event) => {
-              event.preventDefault();
-              onOtpChange(event.clipboardData.getData("text"));
             }}
             onComplete={handleOtpComplete}
             aria-label={_(msg`Verification code`)}

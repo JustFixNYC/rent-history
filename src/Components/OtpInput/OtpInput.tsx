@@ -1,17 +1,27 @@
 import classNames from "classnames";
-import { useEffect, useRef } from "react";
-import type { ChangeEvent, ClipboardEvent, KeyboardEvent, Ref } from "react";
+import { OTPInput, REGEXP_ONLY_DIGITS } from "input-otp";
+import {
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type KeyboardEvent,
+  type Ref,
+} from "react";
 
 import "./OtpInput.scss";
 
-const DEFAULT_LENGTH = 6;
+export const OTP_LENGTH = 6;
+
+export const sanitizeOtpValue = (
+  raw: string,
+  length: number = OTP_LENGTH
+): string => raw.replace(/\D/g, "").slice(0, length);
 
 export type OtpInputProps = {
   length?: number;
   value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
-  onPaste?: (event: ClipboardEvent<HTMLInputElement>) => void;
   inputRef?: Ref<HTMLInputElement>;
   onComplete?: (value: string) => void;
   disabled?: boolean;
@@ -24,12 +34,14 @@ export type OtpInputProps = {
   className?: string;
 };
 
+/**
+ * OTP field built on input-otp: decorative cells with a single real input.
+ */
 export function OtpInput({
-  length = DEFAULT_LENGTH,
+  length = OTP_LENGTH,
   value,
   onChange,
   onKeyDown,
-  onPaste,
   inputRef,
   onComplete,
   disabled = false,
@@ -55,41 +67,52 @@ export function OtpInput({
   }, [length, onComplete, value]);
 
   return (
-    <div
-      className={classNames("otp-input", className, {
+    <OTPInput
+      maxLength={length}
+      value={value}
+      onChange={onChange}
+      pattern={REGEXP_ONLY_DIGITS}
+      textAlign="center"
+      pasteTransformer={(pasted) => sanitizeOtpValue(pasted, length)}
+      containerClassName={classNames("otp-input", className, {
         "otp-input--invalid": invalid,
         "otp-input--disabled": disabled,
       })}
-    >
-      <div className="otp-input__cells" aria-hidden="true">
-        {Array.from({ length }, (_, index) => (
-          <span className="otp-input__cell" key={`otp-cell-${index}`}>
-            {value[index] ?? ""}
-          </span>
-        ))}
-      </div>
-      <input
-        ref={inputRef}
-        id={id}
-        name={name}
-        className="otp-input__field"
-        type="text"
-        inputMode="numeric"
-        autoComplete="one-time-code"
-        maxLength={length}
-        pattern={`\\d{${length}}`}
-        required
-        value={value}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        onPaste={onPaste}
-        disabled={disabled}
-        autoFocus={autoFocus}
-        aria-label={ariaLabel}
-        aria-describedby={ariaDescribedBy}
-        aria-invalid={invalid || undefined}
-      />
-    </div>
+      className="otp-input__field"
+      ref={inputRef}
+      id={id}
+      name={name}
+      disabled={disabled}
+      autoFocus={autoFocus}
+      autoComplete="one-time-code"
+      inputMode="numeric"
+      required
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
+      aria-invalid={invalid || undefined}
+      onKeyDown={onKeyDown}
+      render={({ slots }) => (
+        <div
+          className="otp-input__cells"
+          style={{ "--otp-length": length } as CSSProperties}
+          aria-hidden="true"
+        >
+          {slots.map((slot, index) => (
+            <span
+              key={`otp-cell-${index}`}
+              className={classNames("otp-input__cell", {
+                "otp-input__cell--active": slot.isActive,
+              })}
+            >
+              {slot.char}
+              {slot.hasFakeCaret && (
+                <span className="otp-input__caret" aria-hidden="true" />
+              )}
+            </span>
+          ))}
+        </div>
+      )}
+    />
   );
 }
 

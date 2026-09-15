@@ -403,7 +403,7 @@ msgstr ""
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:135
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:114
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:110
 msgid "Back"
 msgstr "Volver"
 
@@ -567,7 +567,7 @@ msgstr ""
 #~ msgid "Didn't receive a code?"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:96
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:92
 msgid "Didn’t receive a code?"
 msgstr ""
 
@@ -1459,9 +1459,14 @@ msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:170
 msgid "Report"
-msgstr ""
+msgstr "<<<<<<< HEAD"
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:102
+#: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:75
+#~ msgid "Request your rent history"
+#~ msgstr ""
+
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:98
 msgid "Resend"
 msgstr ""
 
@@ -2249,7 +2254,7 @@ msgstr "Bono por vacancia"
 msgid "Values confirmed"
 msgstr "Valores confirmados"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:92
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:88
 msgid "Verification code"
 msgstr ""
 
@@ -2257,7 +2262,7 @@ msgstr ""
 #~ msgid "Verification digit {0}"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:117
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:113
 msgid "Verify"
 msgstr ""
 
