@@ -35,10 +35,15 @@
     gap: 1rem 2.25rem;
     margin-top: 1.5rem;
 
-    a {
+    .jfcl-link {
+      @include jfcl.body_standard_desktop;
       color: jfcl.$OFF_BLACK;
-      font-size: 1.125rem;
       text-decoration: underline;
+      text-underline-position: from-font;
+
+      &:hover {
+        color: jfcl.$GREY_600;
+      }
     }
   }
 

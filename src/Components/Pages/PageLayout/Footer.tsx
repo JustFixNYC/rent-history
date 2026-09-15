@@ -2,7 +2,8 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useLocation } from "react-router-dom";
-import { LocaleLink, LocaleSwitcher } from "../../../i18n";
+import { LocaleSwitcher } from "../../../i18n";
+import { LocaleLink } from "../../RouterLinks";
 import { isAnalyzeRoute } from "../../../routes/analyzeRoutes";
 import "./Footer.scss";
 
