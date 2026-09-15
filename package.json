@@ -13,8 +13,7 @@
     "format:check": "prettier --check --ignore-unknown \"src/**/*\"",
     "extract": "lingui extract",
     "generate:api:account": "openapi-typescript src/api/contract/account-openapi.json -o src/api/generated/account-openapi.d.ts",
-    "generate:api:requester": "openapi-typescript src/api/contract/requester-openapi.json -o src/api/generated/requester-openapi.d.ts",
-    "generate:api": "yarn generate:api:account && yarn generate:api:requester",
+    "generate:api": "yarn generate:api:account",
     "export-rent-stab-map": "node scripts/export-rent-stabilized-map-json.mjs"
   },
   "dependencies": {

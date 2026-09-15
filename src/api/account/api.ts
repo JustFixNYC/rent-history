@@ -1,4 +1,3 @@
-import { getAuthProviderBaseUrl } from "../shared/env";
 import {
   bearerHeaders,
   createAccountClient,
@@ -8,8 +7,6 @@ import {
   accountApiErrorFromResponse,
   accountReportEmailErrorFromResponse,
 } from "./errors";
-
-export { getAuthProviderBaseUrl };
 import type {
   RhAnalysisPage,
   RhFindingsStateResponse,
@@ -42,6 +39,16 @@ import type {
   RhValidateFindingRequestRequest,
   RhValidateFindingResponse,
 } from "./types";
+
+export const getAuthProviderBaseUrl = (): string => {
+  const baseUrl = import.meta.env.VITE_AUTH_PROVIDER_BASE_URL as
+    | string
+    | undefined;
+  if (!baseUrl) {
+    throw new Error("VITE_AUTH_PROVIDER_BASE_URL is not configured.");
+  }
+  return baseUrl;
+};
 
 const getRhOauthClientId = (): string => {
   const clientId = import.meta.env.VITE_RH_OAUTH_CLIENT_ID as
