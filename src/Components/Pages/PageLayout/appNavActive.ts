@@ -16,19 +16,22 @@ const HOME_FLOW_PATHS = [
 export function getAppNavActiveStates(pathname: string): {
   isHomeActive: boolean;
   isAboutActive: boolean;
+  isRequestActive: boolean;
 } {
   const cleanedPathname = pathname.toLowerCase();
   const pathWithoutLocale = removeLocalePrefix(pathname).toLowerCase();
 
   const isAboutActive = cleanedPathname.includes("/about");
+  const isRequestActive = cleanedPathname.includes("/request");
 
   const isHomeActive =
     !isAboutActive &&
+    !isRequestActive &&
     (pathWithoutLocale === "/" ||
       pathWithoutLocale === "/en" ||
       pathWithoutLocale === "/es" ||
       pathname === "/" ||
       HOME_FLOW_PATHS.some((path) => cleanedPathname.includes(`/${path}`)));
 
-  return { isHomeActive, isAboutActive };
+  return { isHomeActive, isAboutActive, isRequestActive };
 }

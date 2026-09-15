@@ -18,7 +18,7 @@ const Landing: React.FC = () => {
 
   const loginPath = `/${locale}/login`;
   const aboutPath = `/${locale}/about`;
-  const rentHistoryRequestUrl = `https://app.justfix.org/${locale}/rh`;
+  const rentHistoryRequestPath = `/${locale}/request`;
   const justfixUrl = `https://www.justfix.org/${locale}`;
 
   const navigateWithin =
@@ -57,9 +57,8 @@ const Landing: React.FC = () => {
             />
             <ButtonStyledLink
               variant="secondary"
-              href={rentHistoryRequestUrl}
-              target="_blank"
-              rel="noreferrer"
+              href={rentHistoryRequestPath}
+              onClick={navigateWithin(rentHistoryRequestPath)}
               labelText={_(msg`I don’t have my rent history`)}
             />
           </div>
@@ -125,9 +124,8 @@ const Landing: React.FC = () => {
               <ButtonStyledLink
                 variant="primary"
                 size="small"
-                href={rentHistoryRequestUrl}
-                target="_blank"
-                rel="noreferrer"
+                href={rentHistoryRequestPath}
+                onClick={navigateWithin(rentHistoryRequestPath)}
                 labelText={_(msg`Submit request`)}
               />
             }

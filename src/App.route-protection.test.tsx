@@ -55,6 +55,15 @@ describe("post-OTP route protection", () => {
     });
   });
 
+  it("allows /request without authentication", async () => {
+    window.history.pushState({}, "", "/en/request");
+    render(<App />);
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe("/en/request");
+    });
+  });
+
   it("allows /resume without authentication", async () => {
     window.history.pushState(
       {},

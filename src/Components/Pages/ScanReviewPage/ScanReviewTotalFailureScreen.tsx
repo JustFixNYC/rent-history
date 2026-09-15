@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { msg } from "@lingui/core/macro";
 import { Button, LinkStyledButton } from "@justfixnyc/component-library";
 
 import { InfoModal } from "../../InfoModal/InfoModal";
-import { getDhcrRentHistoryRequestUrl } from "./scanReviewExternalLinks";
 import { RentHistoryExampleModalContent } from "./RentHistoryExampleModalContent";
 
 import "./ScanReviewScreen.scss";
@@ -22,6 +22,7 @@ export const ScanReviewTotalFailureScreen = ({
   onTotalRescan,
 }: ScanReviewTotalFailureScreenProps) => {
   const { _, i18n } = useLingui();
+  const navigate = useNavigate();
   const [isExampleModalOpen, setIsExampleModalOpen] = useState(false);
 
   return (
@@ -73,13 +74,7 @@ export const ScanReviewTotalFailureScreen = ({
               className="scan-review-error-screen__cta scan-review-error-screen__cta--secondary"
               variant="secondary"
               labelText={_(msg`Request your rent history`)}
-              onClick={() => {
-                window.open(
-                  getDhcrRentHistoryRequestUrl(i18n.locale),
-                  "_blank",
-                  "noopener,noreferrer"
-                );
-              }}
+              onClick={() => navigate(`/${i18n.locale}/request`)}
             />
           </div>
         </div>
