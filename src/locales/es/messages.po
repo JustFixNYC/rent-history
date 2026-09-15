@@ -130,7 +130,7 @@ msgstr ""
 #~ msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:195
+#: src/Components/Pages/Landing/Landing.tsx:183
 msgid "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:151
+#: src/Components/Pages/Landing/Landing.tsx:140
 msgid "About this site"
 msgstr ""
 
@@ -233,7 +233,7 @@ msgstr ""
 msgid "timeline.copy.tax_exemption_programs"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:94
+#: src/Components/Pages/Landing/Landing.tsx:83
 msgid "Answer a few questions"
 msgstr ""
 
@@ -341,11 +341,11 @@ msgstr ""
 msgid "Building details"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:94
+#: src/Components/Pages/PageLayout/Footer.tsx:95
 msgid "By"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:81
+#: src/Components/Pages/PageLayout/Footer.tsx:82
 msgid "By <0>JustFix</0>, a housing justice nonprofit"
 msgstr ""
 
@@ -501,7 +501,7 @@ msgstr ""
 msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:123
+#: src/Components/Pages/Landing/Landing.tsx:112
 msgid "Don’t have your rent history?"
 msgstr ""
 
@@ -582,7 +582,7 @@ msgstr ""
 msgid "Extracting data"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:65
+#: src/Components/Pages/PageLayout/Footer.tsx:66
 msgid "Feedback form"
 msgstr ""
 
@@ -594,7 +594,7 @@ msgstr ""
 #~ msgid "Find out if you've been overcharged on rent"
 #~ msgstr "Averigua si te han cobrado de más en el alquiler"
 
-#: src/Components/Pages/Landing/Landing.tsx:36
+#: src/Components/Pages/Landing/Landing.tsx:26
 msgid "Find out if you’ve been overcharged on rent"
 msgstr ""
 
@@ -701,12 +701,12 @@ msgstr ""
 #~ msgid "Get ready to scan your<0/>rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:57
+#: src/Components/Pages/Landing/Landing.tsx:46
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:43
 msgid "Get started"
 msgstr "Comenzar"
 
-#: src/Components/Pages/Landing/Landing.tsx:110
+#: src/Components/Pages/Landing/Landing.tsx:99
 msgid "Get your report"
 msgstr ""
 
@@ -749,7 +749,7 @@ msgstr ""
 #~ msgid "Housing Justice for All"
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:73
+#: src/Components/Pages/Landing/Landing.tsx:62
 msgid "How it works"
 msgstr ""
 
@@ -761,7 +761,7 @@ msgstr ""
 #~ msgid "How would you like to provide your rent history information?"
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:64
+#: src/Components/Pages/Landing/Landing.tsx:53
 msgid "I don’t have my rent history"
 msgstr ""
 
@@ -791,7 +791,7 @@ msgstr ""
 msgid "timeline.implications.improper_destabilization"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:40
+#: src/Components/Pages/Landing/Landing.tsx:30
 msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
 msgstr ""
 
@@ -813,8 +813,8 @@ msgstr ""
 msgid "J51 expiration"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:181
-#: src/Components/Pages/PageLayout/Footer.tsx:100
+#: src/Components/Pages/Landing/Landing.tsx:169
+#: src/Components/Pages/PageLayout/Footer.tsx:101
 msgid "JustFix"
 msgstr ""
 
@@ -830,7 +830,7 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:22
+#: src/Components/Pages/PageLayout/Footer.tsx:23
 msgid "Language:"
 msgstr ""
 
@@ -853,16 +853,16 @@ msgstr "Gran aumento de alquiler"
 msgid "Last registration year"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:168
+#: src/Components/Pages/Landing/Landing.tsx:156
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
 msgid "Learn more"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:52
+#: src/Components/Pages/PageLayout/Footer.tsx:53
 msgid "Legal and feedback"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:31
+#: src/Components/Pages/PageLayout/Footer.tsx:32
 msgid "Legal Disclaimer"
 msgstr ""
 
@@ -1010,7 +1010,7 @@ msgstr ""
 msgid "Needs re-scan"
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:154
+#: src/Components/Pages/Landing/Landing.tsx:143
 msgid "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
 msgstr ""
 
@@ -1242,7 +1242,7 @@ msgstr ""
 msgid "Preparing your rent history record…"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:55
+#: src/Components/Pages/PageLayout/Footer.tsx:56
 msgid "Privacy policy"
 msgstr ""
 
@@ -1278,7 +1278,7 @@ msgstr ""
 #~ msgid "Re-scan these pages"
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:137
+#: src/Components/Pages/Landing/Landing.tsx:126
 msgid "Receive your rent history by mail. Take the first step to learning about your stabilized status and whether you’re paying too much rent."
 msgstr ""
 
@@ -1294,7 +1294,7 @@ msgstr ""
 msgid "Rent History Analyzer"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:76
+#: src/Components/Pages/PageLayout/Footer.tsx:77
 #: src/Components/Pages/PageLayout/Header.tsx:34
 #: src/Components/Pages/PageLayout/SidebarNav.tsx:26
 msgid "Rent History NYC"
@@ -1346,7 +1346,7 @@ msgstr ""
 #~ msgid "Restart scanning"
 #~ msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:41
+#: src/Components/Pages/PageLayout/Footer.tsx:42
 msgid "Results are based on information found in your rent history and the answers you provide."
 msgstr ""
 
@@ -1436,7 +1436,7 @@ msgstr ""
 #~ msgid "Scan your rent history documents"
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:80
+#: src/Components/Pages/Landing/Landing.tsx:69
 msgid "Scan your rent history with your phone"
 msgstr ""
 
@@ -1569,7 +1569,7 @@ msgstr ""
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:74
+#: src/Components/Pages/PageLayout/Footer.tsx:75
 msgid "Stabilized NYC"
 msgstr ""
 
@@ -1642,7 +1642,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Enviar"
 
-#: src/Components/Pages/Landing/Landing.tsx:132
+#: src/Components/Pages/Landing/Landing.tsx:121
 msgid "Submit request"
 msgstr ""
 
@@ -1682,7 +1682,7 @@ msgstr ""
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
-#: src/Components/Pages/PageLayout/Footer.tsx:58
+#: src/Components/Pages/PageLayout/Footer.tsx:59
 msgid "Terms of use"
 msgstr ""
 
@@ -1750,7 +1750,7 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body"
 msgstr ""
 
-#: src/Components/Pages/PageLayout/Footer.tsx:34
+#: src/Components/Pages/PageLayout/Footer.tsx:35
 msgid "The information on this page is not legal advice and is not a substitute for advice from a lawyer."
 msgstr ""
 
@@ -1873,7 +1873,7 @@ msgstr ""
 msgid "This resume link is missing required information."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:174
+#: src/Components/Pages/Landing/Landing.tsx:162
 msgid "This tool was created by JustFix, in collaboration with leading rent history experts."
 msgstr ""
 
@@ -2029,7 +2029,7 @@ msgstr ""
 #~ msgid "Upload your rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:83
+#: src/Components/Pages/Landing/Landing.tsx:72
 msgid "Use our built-in scanner to photograph each page. No app download needed."
 msgstr ""
 
@@ -2087,7 +2087,7 @@ msgstr ""
 #~ msgid "View scanned document"
 #~ msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:190
+#: src/Components/Pages/Landing/Landing.tsx:178
 msgid "Visit JustFix"
 msgstr ""
 
@@ -2128,7 +2128,7 @@ msgstr ""
 msgid "We don't have any reports associated with this number. To get started, scan the QR code below with your phone."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:113
+#: src/Components/Pages/Landing/Landing.tsx:102
 msgid "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
 msgstr ""
 
@@ -2185,11 +2185,11 @@ msgstr ""
 msgid "We will generate your report PDF and email it to you. You can optionally send copies to other people you trust."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:46
+#: src/Components/Pages/Landing/Landing.tsx:36
 msgid "We’ll analyze it for signs of overcharges and illegal deregulations and tell you what it could mean for you."
 msgstr ""
 
-#: src/Components/Pages/Landing/Landing.tsx:97
+#: src/Components/Pages/Landing/Landing.tsx:86
 msgid "We’ll ask you a few questions and run an analysis of your rent history. If anything looks suspicious, we’ll ask some simple follow-up questions to help understand if there are any overcharges or violations."
 msgstr ""
 
