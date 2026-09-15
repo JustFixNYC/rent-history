@@ -39,3 +39,13 @@ jobs:
             echo "Account OpenAPI types drift detected. Run 'yarn generate:api:account' and commit src/api/generated/account-openapi.d.ts."
             exit 1
           )
+
+      - name: Regenerate requester OpenAPI types
+        run: yarn generate:api:requester
+
+      - name: Fail on requester generated types drift
+        run: |
+          git diff --exit-code src/api/generated/requester-openapi.d.ts || (
+            echo "Requester OpenAPI types drift detected. Run 'yarn generate:api:requester' and commit src/api/generated/requester-openapi.d.ts."
+            exit 1
+          )
