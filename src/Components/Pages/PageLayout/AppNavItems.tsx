@@ -4,6 +4,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import classNames from "classnames";
 import { NavLink, useLocation } from "react-router-dom";
+import { isRentHistoryRequestEnabled } from "../../../features/rentHistoryRequest";
 import { getAppNavActiveStates } from "./appNavActive";
 import "./AppNavItems.scss";
 
@@ -42,21 +43,23 @@ export const AppNavItems: React.FC<AppNavItemsProps> = ({
             <Trans>Find out if you&apos;ve been overcharged</Trans>
           </NavLink>
         </li>
-        <li
-          className={classNames("app-nav-items__item", {
-            "app-nav-items__item--active": isRequestActive,
-          })}
-        >
-          <NavLink
-            to={`/${i18n.locale}/request`}
-            className="app-nav-items__link"
-            aria-current={isRequestActive ? "page" : undefined}
-            onClick={onNavigate}
+        {isRentHistoryRequestEnabled() ? (
+          <li
+            className={classNames("app-nav-items__item", {
+              "app-nav-items__item--active": isRequestActive,
+            })}
           >
-            <Icon icon="mailboxOpenLetter" className="app-nav-items__icon" />
-            <Trans>Request your rent history</Trans>
-          </NavLink>
-        </li>
+            <NavLink
+              to={`/${i18n.locale}/request`}
+              className="app-nav-items__link"
+              aria-current={isRequestActive ? "page" : undefined}
+              onClick={onNavigate}
+            >
+              <Icon icon="mailboxOpenLetter" className="app-nav-items__icon" />
+              <Trans>Request your rent history</Trans>
+            </NavLink>
+          </li>
+        ) : null}
         <li
           className={classNames("app-nav-items__item", {
             "app-nav-items__item--active": isAboutActive,

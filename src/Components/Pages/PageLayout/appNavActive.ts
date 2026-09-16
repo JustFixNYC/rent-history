@@ -1,3 +1,4 @@
+import { isRentHistoryRequestEnabled } from "../../../features/rentHistoryRequest";
 import { removeLocalePrefix } from "../../../i18n";
 
 // This will be simplified once we have final site map and nest everything within "/history-analysis" or similar
@@ -22,7 +23,8 @@ export function getAppNavActiveStates(pathname: string): {
   const pathWithoutLocale = removeLocalePrefix(pathname).toLowerCase();
 
   const isAboutActive = cleanedPathname.includes("/about");
-  const isRequestActive = cleanedPathname.includes("/request");
+  const isRequestActive =
+    isRentHistoryRequestEnabled() && cleanedPathname.includes("/request");
 
   const isHomeActive =
     !isAboutActive &&

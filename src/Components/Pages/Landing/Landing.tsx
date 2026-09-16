@@ -8,6 +8,10 @@ import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 
+import {
+  getRentHistoryRequestHref,
+  isRentHistoryRequestExternal,
+} from "../../../features/rentHistoryRequest";
 import { StepNumberBadge } from "../../StepNumberBadge/StepNumberBadge";
 import "./Landing.scss";
 
@@ -18,7 +22,8 @@ const Landing: React.FC = () => {
 
   const loginPath = `/${locale}/login`;
   const aboutPath = `/${locale}/about`;
-  const rentHistoryRequestPath = `/${locale}/request`;
+  const rentHistoryRequestHref = getRentHistoryRequestHref(locale);
+  const rentHistoryRequestIsExternal = isRentHistoryRequestExternal();
   const justfixUrl = `https://www.justfix.org/${locale}`;
 
   const navigateWithin =
@@ -57,8 +62,10 @@ const Landing: React.FC = () => {
             />
             <ButtonStyledLink
               variant="secondary"
-              href={rentHistoryRequestPath}
-              onClick={navigateWithin(rentHistoryRequestPath)}
+              href={rentHistoryRequestHref}
+              {...(rentHistoryRequestIsExternal
+                ? { target: "_blank", rel: "noreferrer" }
+                : { onClick: navigateWithin(rentHistoryRequestHref) })}
               labelText={_(msg`I don’t have my rent history`)}
             />
           </div>
@@ -124,8 +131,10 @@ const Landing: React.FC = () => {
               <ButtonStyledLink
                 variant="primary"
                 size="small"
-                href={rentHistoryRequestPath}
-                onClick={navigateWithin(rentHistoryRequestPath)}
+                href={rentHistoryRequestHref}
+                {...(rentHistoryRequestIsExternal
+                  ? { target: "_blank", rel: "noreferrer" }
+                  : { onClick: navigateWithin(rentHistoryRequestHref) })}
                 labelText={_(msg`Submit request`)}
               />
             }

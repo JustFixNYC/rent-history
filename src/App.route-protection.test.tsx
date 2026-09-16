@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { afterEach, describe, expect, it, vi, beforeEach } from "vitest";
 import { render, waitFor, cleanup } from "@testing-library/react";
 import App from "./App";
 import {
@@ -27,6 +27,10 @@ describe("post-OTP route protection", () => {
     cleanup();
     window.sessionStorage.clear();
     clearRhAuthSession();
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it.each([
@@ -61,6 +65,16 @@ describe("post-OTP route protection", () => {
 
     await waitFor(() => {
       expect(window.location.pathname).toBe("/en/request");
+    });
+  });
+
+  it("redirects /request to landing when rent history request is disabled", async () => {
+    vi.stubEnv("VITE_ENABLE_RENT_HISTORY_REQUEST", "false");
+    window.history.pushState({}, "", "/en/request");
+    render(<App />);
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe("/en");
     });
   });
 
