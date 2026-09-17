@@ -1,0 +1,27 @@
+siteUrl: https://demo-rent-history.netlify.app
+locales: [en, es]
+
+publicRoutes:
+  - /
+  - /about
+  - /privacy_policy
+  - /terms-of-use
+  - /rent-stabilized-map
+  - /analyze/login
+
+sourceGlobs:
+  - src/**/*.{tsx,ts,json,po}
+  - src/data/*.json
+
+skipPatterns:
+  - images\.ctfassets\.net
+  - linkedin\.com
+  - x\.com
+  - googletagmanager\.com
+  - rollbar\.com
+  - netlify\.com
+  - mapbox\.com
+  - planninglabs\.nyc
+
+dynamicUrlSamples:
+  locale: en
