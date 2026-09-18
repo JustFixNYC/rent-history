@@ -212,7 +212,7 @@ export const RequestForm: React.FC<RequestFormProps> = ({
             className="request-form__submit"
             variant="primary"
             labelText={_(msg`Submit request`)}
-            disabled={isSubmitting}
+            loading={isSubmitting}
           />
         )}
       </form>
