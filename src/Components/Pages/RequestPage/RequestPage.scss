@@ -153,8 +153,8 @@
   flex-shrink: 0;
   width: 1.5rem;
 
-  .jfcl-icon {
-    height: 1.5rem;
+  svg {
+    height: 2rem;
     width: 1.5rem;
   }
 }
@@ -185,4 +185,8 @@
 
 .request-page__emphasis {
   font-weight: 600;
+}
+
+.request-page__analyze-cta .jfcl-button {
+  width: fit-content;
 }

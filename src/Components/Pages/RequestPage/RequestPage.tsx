@@ -150,6 +150,7 @@ const RequestPage: React.FC = () => {
             action={
               <ButtonStyledLink
                 variant="primary"
+                size="small"
                 href={landingPath}
                 labelText={_(msg`Analyze your rent history`)}
               />

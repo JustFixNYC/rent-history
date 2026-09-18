@@ -32,9 +32,9 @@
 
     .jfcl-text-input {
       margin-bottom: 0;
-      .jfcl-input-header__label {
-        margin-bottom: 0.25rem;
-      }
+    }
+    .jfcl-input-header__label {
+      margin-bottom: 0.25rem;
     }
 
     @include layout.desktop {
@@ -48,8 +48,8 @@
     gap: jfcl.$JF_SPACING_03;
   }
 
-  .request-form__geosearch .jfcl-dropdown__control {
-    height: 44px;
+  &__geosearch .jfcl-dropdown__control {
+    height: 2.75rem;
     border: 1px solid jfcl.$OFF_BLACK;
   }
 
@@ -67,14 +67,39 @@
     margin: 0;
   }
 
-  &__submit.jfcl-button {
-    align-self: stretch;
+  .jfcl-button.request-form__submit {
     width: 100%;
 
-    &--success.jfcl-button {
+    @include layout.desktop {
+      gap: jfcl.$JF_SPACING_05;
+    }
+
+    &--success {
+      @include jfcl.body_standard_mobile;
       background: jfcl.$OFF_WHITE_100;
       border: 1px solid jfcl.$OFF_WHITE_200;
+      border-radius: 6.25rem;
       color: jfcl.$OFF_BLACK;
+      cursor: default;
+      gap: 0.625rem;
+      min-height: 4.25rem;
+      padding: jfcl.$JF_SPACING_04 jfcl.$JF_SPACING_07;
+
+      @include layout.desktop {
+        @include jfcl.body_standard_desktop;
+      }
+
+      &:disabled {
+        background: jfcl.$OFF_WHITE_100;
+        border-color: jfcl.$OFF_WHITE_200;
+        color: jfcl.$OFF_BLACK;
+        opacity: 1;
+      }
+
+      .jfcl-button__icon {
+        height: jfcl.$JF_SPACING_05;
+        width: jfcl.$JF_SPACING_05;
+      }
     }
   }
 
@@ -90,6 +115,6 @@
   }
 
   &__submit-another {
-    align-self: flex-start;
+    align-self: center;
   }
 }
