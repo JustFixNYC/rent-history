@@ -46,8 +46,7 @@
 
 .request-page__subtitle,
 .request-page__intro,
-.request-page__faq-body p,
-.request-page__analyze-cta-text p {
+.request-page__faq-body p {
   @include jfcl.body_large_mobile;
   margin: 0;
 
@@ -64,17 +63,21 @@
   @include layout.desktop {
     padding: 2rem 14.375rem;
   }
+
+  &--faq {
+    @include layout.desktop {
+      padding-bottom: 3rem;
+      padding-top: 3rem;
+    }
+  }
 }
 
-.request-page__section-heading,
-.request-page__analyze-cta-heading {
-  @include jfcl.body_large_mobile;
-  font-weight: 600;
+.request-page__section-heading {
+  @include jfcl.h3_mobile;
   margin: 0;
 
   @include layout.desktop {
-    @include jfcl.body_large_desktop;
-    font-weight: 600;
+    @include jfcl.h3_desktop;
   }
 }
 
@@ -119,12 +122,20 @@
   gap: 1rem;
   padding: 1.5rem;
   width: 100%;
+
+  @include layout.desktop {
+    padding: 2rem;
+  }
 }
 
 .request-page__sms-cta-title {
   align-items: flex-start;
   display: flex;
   gap: 1rem;
+
+  @include layout.desktop {
+    gap: 1.5rem;
+  }
 
   p {
     @include jfcl.body_large_mobile;
@@ -138,6 +149,16 @@
   }
 }
 
+.request-page__sms-cta-icon {
+  flex-shrink: 0;
+  width: 1.5rem;
+
+  .jfcl-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
+
 .request-page__sms-cta-body {
   display: flex;
   flex-direction: column;
@@ -147,6 +168,15 @@
   @include layout.desktop {
     padding-left: 3rem;
   }
+
+  p {
+    @include jfcl.body_large_mobile;
+    margin: 0;
+
+    @include layout.desktop {
+      @include jfcl.body_large_desktop;
+    }
+  }
 }
 
 .request-page__sms-instruction {
@@ -155,30 +185,4 @@
 
 .request-page__emphasis {
   font-weight: 600;
-}
-
-.request-page__analyze-cta {
-  background: jfcl.$PURPLE_100;
-  border-radius: 4px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  width: 100%;
-}
-
-.request-page__analyze-cta-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.request-page__analyze-button.jfcl-button-styled-link {
-  box-sizing: border-box;
-  width: 100%;
-
-  @include layout.desktop {
-    width: auto;
-  }
 }

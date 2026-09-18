@@ -44,7 +44,7 @@ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:84
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:60
-#: src/Components/Pages/RequestPage/RequestForm.tsx:147
+#: src/Components/Pages/RequestPage/RequestForm.tsx:148
 msgid "(123) 456-7890"
 msgstr ""
 
@@ -213,7 +213,7 @@ msgstr ""
 msgid "Analyze my rent history"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:161
+#: src/Components/Pages/RequestPage/RequestPage.tsx:154
 msgid "Analyze your rent history"
 msgstr "Analiza tu historial de alquiler"
 
@@ -225,7 +225,7 @@ msgstr "Analiza tu historial de alquiler"
 msgid "Analyzing rent history"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:150
+#: src/Components/Pages/RequestPage/RequestPage.tsx:159
 msgid "Analyzing your rent history can help you understand how your rent has changed over time and identify things that may need a closer look."
 msgstr "Analizar tu historial de alquiler puede ayudarte a entender cómo ha cambiado tu renta con el tiempo e identificar cosas que pueden necesitar un análisis más detallado."
 
@@ -510,7 +510,7 @@ msgstr ""
 msgid "Don’t have your rent history?"
 msgstr "¿No tienes tu historial de alquiler?"
 
-#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:32
+#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:30
 msgid "Don't share my information with this partner"
 msgstr "No compartir mi información con este socio"
 
@@ -563,11 +563,11 @@ msgid "Enter verification code"
 msgstr "Ingresa el código de verificación"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:333
-#: src/Components/Pages/RequestPage/RequestForm.tsx:108
+#: src/Components/Pages/RequestPage/RequestForm.tsx:109
 msgid "Enter your address"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:134
+#: src/Components/Pages/RequestPage/RequestForm.tsx:135
 msgid "Enter your apartment or unit number."
 msgstr "Ingresa el número de tu apartamento o unidad."
 
@@ -640,7 +640,7 @@ msgstr "Navegación de revisión de hallazgos"
 msgid "Finish scanning"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:75
+#: src/Components/Pages/RequestPage/RequestForm.tsx:76
 msgid "First name"
 msgstr ""
 
@@ -708,7 +708,7 @@ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:338
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
-#: src/Components/Pages/RequestPage/RequestForm.tsx:113
+#: src/Components/Pages/RequestPage/RequestForm.tsx:114
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr ""
 
@@ -737,11 +737,11 @@ msgstr "Glosario"
 msgid "Go to login"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:176
+#: src/Components/Pages/RequestPage/RequestForm.tsx:180
 msgid "Good news, it looks like your building includes rent stabilized units."
 msgstr "Buenas noticias: parece que tu edificio incluye unidades de renta estabilizada."
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:147
+#: src/Components/Pages/RequestPage/RequestPage.tsx:149
 msgid "Got your rent history?"
 msgstr "¿Ya tienes tu historial de alquiler?"
 
@@ -818,11 +818,11 @@ msgstr ""
 msgid "timeline.implications.improper_destabilization"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:134
+#: src/Components/Pages/RequestPage/RequestPage.tsx:137
 msgid "If your apartment has never been rent stabilized, you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
 msgstr "Si tu apartamento nunca ha sido de renta estabilizada, no recibirás un historial de alquiler por correo. El DHCR solo tiene historiales de alquiler para apartamentos que hayan sido de renta estabilizada en algún momento."
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:127
+#: src/Components/Pages/RequestPage/RequestPage.tsx:130
 msgid "If your apartment is currently rent stabilized, or has been at any point in the past, you should receive your Rent History in the mail in about a week."
 msgstr "Si tu apartamento es actualmente de renta estabilizada, o lo ha sido en algún momento, deberías recibir tu historial de alquiler por correo en aproximadamente una semana."
 
@@ -880,7 +880,7 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Gran aumento de alquiler"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:88
+#: src/Components/Pages/RequestPage/RequestForm.tsx:89
 msgid "Last name"
 msgstr ""
 
@@ -893,7 +893,7 @@ msgstr ""
 msgid "Learn more"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:193
+#: src/Components/Pages/RequestPage/RequestForm.tsx:187
 msgid "Learn what happens next"
 msgstr "Conoce qué sucede a continuación"
 
@@ -1125,7 +1125,7 @@ msgid "findings.result.dismissed.title"
 msgstr ""
 
 #. placeholder {0}: partner.name
-#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:23
+#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:35
 msgid "Note: your information will also be shared with our partner organization {0}."
 msgstr "Nota: tu información también se compartirá con nuestra organización socia {0}."
 
@@ -1134,7 +1134,7 @@ msgid "Open menu"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:63
-#: src/Components/Pages/RequestPage/RequestPage.tsx:80
+#: src/Components/Pages/RequestPage/RequestPage.tsx:81
 msgid "Or"
 msgstr "O"
 
@@ -1175,7 +1175,7 @@ msgstr ""
 msgid "Permanently delete this rent history?"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:144
+#: src/Components/Pages/RequestPage/RequestForm.tsx:145
 msgid "Phone number"
 msgstr ""
 
@@ -1221,7 +1221,7 @@ msgstr ""
 #: src/api/account/errors.ts:145
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:58
 #: src/Components/Pages/RequestPage/requestFormSchema.ts:35
-#: src/Components/Pages/RequestPage/useRequestForm.ts:168
+#: src/Components/Pages/RequestPage/useRequestForm.ts:166
 msgid "Please enter a valid phone number."
 msgstr "Ingresa un número de teléfono válido."
 
@@ -1257,7 +1257,7 @@ msgstr "Ingresa el número de tu unidad."
 msgid "Please refresh the page or try again in a moment."
 msgstr ""
 
-#: src/Components/Pages/RequestPage/useRequestForm.ts:44
+#: src/Components/Pages/RequestPage/useRequestForm.ts:40
 msgid "Please select an address from the list."
 msgstr "Selecciona una dirección de la lista."
 
@@ -1383,18 +1383,18 @@ msgstr ""
 msgid "Report"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:169
+#: src/Components/Pages/RequestPage/RequestForm.tsx:170
 msgid "Request Submitted"
 msgstr "Solicitud enviada"
 
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:59
-#: src/Components/Pages/RequestPage/RequestPage.tsx:50
+#: src/Components/Pages/RequestPage/RequestPage.tsx:51
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:88
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:94
 msgid "Request your rent history"
 msgstr "Solicita tu historial de alquiler"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:65
+#: src/Components/Pages/RequestPage/RequestPage.tsx:66
 msgid "Request your rent history from DHCR for free. We'll use your information to help you submit the request. Your landlord will not be notified that you've requested your rent history."
 msgstr "Solicita tu historial de alquiler al DHCR gratis. Usaremos tu información para ayudarte a enviar la solicitud. Tu casero no será notificado de que solicitaste tu historial de alquiler."
 
@@ -1636,8 +1636,8 @@ msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:85
 #: src/Components/Pages/Report/ReportEmailForm.tsx:160
-#: src/Components/Pages/RequestPage/useRequestForm.ts:204
-#: src/Components/Pages/RequestPage/useRequestForm.ts:209
+#: src/Components/Pages/RequestPage/useRequestForm.ts:202
+#: src/Components/Pages/RequestPage/useRequestForm.ts:207
 msgid "Something went wrong. Please try again."
 msgstr ""
 
@@ -1706,8 +1706,8 @@ msgstr ""
 #~ msgid "Still processing pages"
 #~ msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:99
-#: src/Components/Pages/RequestPage/RequestForm.tsx:107
+#: src/Components/Pages/RequestPage/RequestForm.tsx:100
+#: src/Components/Pages/RequestPage/RequestForm.tsx:108
 msgid "Street address"
 msgstr ""
 
@@ -1715,12 +1715,12 @@ msgstr ""
 msgid "Submit"
 msgstr "Enviar"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:202
+#: src/Components/Pages/RequestPage/RequestForm.tsx:209
 msgid "Submit another request"
 msgstr "Enviar otra solicitud"
 
 #: src/Components/Pages/Landing/Landing.tsx:138
-#: src/Components/Pages/RequestPage/RequestForm.tsx:210
+#: src/Components/Pages/RequestPage/RequestForm.tsx:217
 msgid "Submit request"
 msgstr "Enviar solicitud"
 
@@ -1764,11 +1764,11 @@ msgstr "Nombres de inquilinos"
 msgid "Terms of use"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:100
+#: src/Components/Pages/RequestPage/RequestPage.tsx:103
 msgid "Text <0>RENT HISTORY</0> to <1>(855) 610-2450</1>"
 msgstr "Envía <0>RENT HISTORY</0> al <1>(855) 610-2450</1>"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:89
+#: src/Components/Pages/RequestPage/RequestPage.tsx:92
 msgid "Text us to get your rent history document"
 msgstr "Envíanos un mensaje de texto para obtener tu historial de alquiler"
 
@@ -1927,7 +1927,7 @@ msgstr ""
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:94
+#: src/Components/Pages/RequestPage/RequestPage.tsx:97
 msgid "This is the same service as above, but accessible through text message."
 msgstr "Este es el mismo servicio que el de arriba, pero accesible por mensaje de texto."
 
@@ -2093,7 +2093,7 @@ msgstr ""
 msgid "Unable to update address right now. Please try again."
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:127
+#: src/Components/Pages/RequestPage/RequestForm.tsx:128
 msgid "Unit"
 msgstr ""
 
@@ -2214,7 +2214,7 @@ msgstr ""
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr ""
 
-#: src/Components/Pages/RequestPage/useRequestForm.ts:196
+#: src/Components/Pages/RequestPage/useRequestForm.ts:194
 msgid "We couldn't send your request right now. Please try again."
 msgstr "No pudimos enviar tu solicitud en este momento. Inténtalo de nuevo."
 
@@ -2327,7 +2327,7 @@ msgstr ""
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:123
+#: src/Components/Pages/RequestPage/RequestPage.tsx:126
 msgid "What happens after you request your rent history?"
 msgstr "¿Qué sucede después de solicitar tu historial de alquiler?"
 
@@ -2505,11 +2505,15 @@ msgstr ""
 msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.no.body"
 msgstr ""
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:182
+#~ msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
+#~ msgstr "Tu edificio tenía {0} apartamentos registrados como de renta estabilizada en {1}, el año más reciente disponible en registros públicos."
+
 #. placeholder {0}: submitResponse.stabilized_units
 #. placeholder {1}: submitResponse.latest_year
-#: src/Components/Pages/RequestPage/RequestForm.tsx:182
-msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
-msgstr "Tu edificio tenía {0} apartamentos registrados como de renta estabilizada en {1}, el año más reciente disponible en registros públicos."
+#: src/Components/Pages/RequestPage/RequestForm.tsx:192
+msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available, according to property tax documents. While this data doesn't guarantee that your apartment is rent stabilized, it's a good sign that your apartment might have a rent history document available."
+msgstr ""
 
 #: src/api/account/errors.ts:171
 msgid "Your code expired. Request a new code."
@@ -2539,7 +2543,7 @@ msgstr "Su historial de alquiler"
 msgid "Your rent history report(s)"
 msgstr ""
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:53
+#: src/Components/Pages/RequestPage/RequestPage.tsx:54
 msgid "Your rent history shows how your apartment's rent has changed over time. It can help you determine if your apartment is still rent stabilized or should be."
 msgstr "Tu historial de alquiler muestra cómo ha cambiado la renta de tu apartamento con el tiempo. Puede ayudarte a determinar si tu apartamento sigue siendo de renta estabilizada o debería serlo."
 

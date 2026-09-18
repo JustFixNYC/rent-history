@@ -1,4 +1,5 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../PageLayout/layoutVars" as layout;
 
 .request-form {
   display: flex;
@@ -7,21 +8,38 @@
   width: 100%;
 
   &__card {
+    align-items: center;
     background: jfcl.$WHITE;
     border: 1px solid jfcl.$GREY_200;
     border-radius: 2px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: jfcl.$JF_SPACING_05;
+    gap: 1rem;
     padding: 2rem;
     width: 100%;
+
+    @include layout.desktop {
+      gap: 1.5rem;
+    }
   }
 
   &__fields {
+    align-self: stretch;
     display: flex;
     flex-direction: column;
-    gap: jfcl.$JF_SPACING_05;
+    gap: 1rem;
+
+    .jfcl-text-input {
+      margin-bottom: 0;
+      .jfcl-input-header__label {
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    @include layout.desktop {
+      gap: 1.5rem;
+    }
   }
 
   &__unit-field {
@@ -30,10 +48,9 @@
     gap: jfcl.$JF_SPACING_03;
   }
 
-  &__unit-helper {
-    @include jfcl.small_text_desktop;
-    color: jfcl.$GREY_600;
-    margin: 0;
+  .request-form__geosearch .jfcl-dropdown__control {
+    height: 44px;
+    border: 1px solid jfcl.$OFF_BLACK;
   }
 
   &__field--submitted {
@@ -45,11 +62,13 @@
 
   &__error {
     @include jfcl.body_standard_mobile;
+    align-self: stretch;
     color: jfcl.$RED;
     margin: 0;
   }
 
-  &__submit {
+  &__submit.jfcl-button {
+    align-self: stretch;
     width: 100%;
 
     &--success.jfcl-button {
@@ -60,32 +79,16 @@
   }
 
   &__success {
+    align-self: stretch;
     display: flex;
     flex-direction: column;
-    gap: jfcl.$JF_SPACING_05;
+    gap: jfcl.$JF_SPACING_04;
+
+    @include layout.desktop {
+      gap: jfcl.$JF_SPACING_05;
+    }
   }
 
-  &__rs-callout.jfcl-callout-box {
-    background: jfcl.$PURPLE_100;
-    border: 1px solid jfcl.$PURPLE_200;
-    border-radius: 2px;
-    display: flex;
-    flex-direction: column;
-    gap: jfcl.$JF_SPACING_03;
-  }
-
-  &__rs-callout-title {
-    @include jfcl.body_standard_mobile;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  &__rs-callout-body {
-    @include jfcl.body_standard_mobile;
-    margin: 0;
-  }
-
-  &__rs-callout-link,
   &__submit-another {
     align-self: flex-start;
   }

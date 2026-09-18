@@ -44,7 +44,7 @@ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:84
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:60
-#: src/Components/Pages/RequestPage/RequestForm.tsx:147
+#: src/Components/Pages/RequestPage/RequestForm.tsx:148
 msgid "(123) 456-7890"
 msgstr "(123) 456-7890"
 
@@ -213,7 +213,7 @@ msgstr "Analyze a new rent history"
 msgid "Analyze my rent history"
 msgstr "Analyze my rent history"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:161
+#: src/Components/Pages/RequestPage/RequestPage.tsx:154
 msgid "Analyze your rent history"
 msgstr "Analyze your rent history"
 
@@ -225,7 +225,7 @@ msgstr "Analyze your rent history"
 msgid "Analyzing rent history"
 msgstr "Analyzing rent history"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:150
+#: src/Components/Pages/RequestPage/RequestPage.tsx:159
 msgid "Analyzing your rent history can help you understand how your rent has changed over time and identify things that may need a closer look."
 msgstr "Analyzing your rent history can help you understand how your rent has changed over time and identify things that may need a closer look."
 
@@ -510,7 +510,7 @@ msgstr "dismissed finding result copy TK"
 msgid "Don’t have your rent history?"
 msgstr "Don’t have your rent history?"
 
-#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:32
+#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:30
 msgid "Don't share my information with this partner"
 msgstr "Don't share my information with this partner"
 
@@ -563,11 +563,11 @@ msgid "Enter verification code"
 msgstr "Enter verification code"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:333
-#: src/Components/Pages/RequestPage/RequestForm.tsx:108
+#: src/Components/Pages/RequestPage/RequestForm.tsx:109
 msgid "Enter your address"
 msgstr "Enter your address"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:134
+#: src/Components/Pages/RequestPage/RequestForm.tsx:135
 msgid "Enter your apartment or unit number."
 msgstr "Enter your apartment or unit number."
 
@@ -640,7 +640,7 @@ msgstr "Finding review navigation"
 msgid "Finish scanning"
 msgstr "Finish scanning"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:75
+#: src/Components/Pages/RequestPage/RequestForm.tsx:76
 msgid "First name"
 msgstr "First name"
 
@@ -708,7 +708,7 @@ msgstr "Generate report"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:338
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
-#: src/Components/Pages/RequestPage/RequestForm.tsx:113
+#: src/Components/Pages/RequestPage/RequestForm.tsx:114
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr "Geosearch is temporarily unavailable. Try again in a moment."
 
@@ -737,11 +737,11 @@ msgstr "Glossary"
 msgid "Go to login"
 msgstr "Go to login"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:176
+#: src/Components/Pages/RequestPage/RequestForm.tsx:180
 msgid "Good news, it looks like your building includes rent stabilized units."
 msgstr "Good news, it looks like your building includes rent stabilized units."
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:147
+#: src/Components/Pages/RequestPage/RequestPage.tsx:149
 msgid "Got your rent history?"
 msgstr "Got your rent history?"
 
@@ -818,11 +818,11 @@ msgstr "If there is no proof of a substantial rehabilitation or other reason for
 msgid "timeline.implications.improper_destabilization"
 msgstr "If this proves true, there is a chance your apartment was unlawfully or improperly destabilized, which means that your apartment could be returned to rent stabilization, and you may be entitled to <0/> and your <1/> could be recalculated."
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:134
+#: src/Components/Pages/RequestPage/RequestPage.tsx:137
 msgid "If your apartment has never been rent stabilized, you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
 msgstr "If your apartment has never been rent stabilized, you will not receive a rent history in the mail. The DHCR only has rent histories for apartments that were rent stabilized at some point in time."
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:127
+#: src/Components/Pages/RequestPage/RequestPage.tsx:130
 msgid "If your apartment is currently rent stabilized, or has been at any point in the past, you should receive your Rent History in the mail in about a week."
 msgstr "If your apartment is currently rent stabilized, or has been at any point in the past, you should receive your Rent History in the mail in about a week."
 
@@ -880,7 +880,7 @@ msgstr "Large increase in preferential rent"
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Large rent increase"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:88
+#: src/Components/Pages/RequestPage/RequestForm.tsx:89
 msgid "Last name"
 msgstr "Last name"
 
@@ -893,7 +893,7 @@ msgstr "Last registration year"
 msgid "Learn more"
 msgstr "Learn more"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:193
+#: src/Components/Pages/RequestPage/RequestForm.tsx:187
 msgid "Learn what happens next"
 msgstr "Learn what happens next"
 
@@ -1125,7 +1125,7 @@ msgid "findings.result.dismissed.title"
 msgstr "No violation found"
 
 #. placeholder {0}: partner.name
-#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:23
+#: src/Components/Pages/RequestPage/PartnerReferralCallout.tsx:35
 msgid "Note: your information will also be shared with our partner organization {0}."
 msgstr "Note: your information will also be shared with our partner organization {0}."
 
@@ -1134,7 +1134,7 @@ msgid "Open menu"
 msgstr "Open menu"
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:63
-#: src/Components/Pages/RequestPage/RequestPage.tsx:80
+#: src/Components/Pages/RequestPage/RequestPage.tsx:81
 msgid "Or"
 msgstr "Or"
 
@@ -1175,7 +1175,7 @@ msgstr "Page scan preview"
 msgid "Permanently delete this rent history?"
 msgstr "Permanently delete this rent history?"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:144
+#: src/Components/Pages/RequestPage/RequestForm.tsx:145
 msgid "Phone number"
 msgstr "Phone number"
 
@@ -1221,7 +1221,7 @@ msgstr "Please enter a valid email address."
 #: src/api/account/errors.ts:145
 #: src/Components/Pages/LoginPage/useRhLoginFlow.ts:58
 #: src/Components/Pages/RequestPage/requestFormSchema.ts:35
-#: src/Components/Pages/RequestPage/useRequestForm.ts:168
+#: src/Components/Pages/RequestPage/useRequestForm.ts:166
 msgid "Please enter a valid phone number."
 msgstr "Please enter a valid phone number."
 
@@ -1257,7 +1257,7 @@ msgstr "Please enter your unit number."
 msgid "Please refresh the page or try again in a moment."
 msgstr "Please refresh the page or try again in a moment."
 
-#: src/Components/Pages/RequestPage/useRequestForm.ts:44
+#: src/Components/Pages/RequestPage/useRequestForm.ts:40
 msgid "Please select an address from the list."
 msgstr "Please select an address from the list."
 
@@ -1383,18 +1383,18 @@ msgstr "Rent-stabilized units"
 msgid "Report"
 msgstr "Report"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:169
+#: src/Components/Pages/RequestPage/RequestForm.tsx:170
 msgid "Request Submitted"
 msgstr "Request Submitted"
 
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:59
-#: src/Components/Pages/RequestPage/RequestPage.tsx:50
+#: src/Components/Pages/RequestPage/RequestPage.tsx:51
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:88
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:94
 msgid "Request your rent history"
 msgstr "Request your rent history"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:65
+#: src/Components/Pages/RequestPage/RequestPage.tsx:66
 msgid "Request your rent history from DHCR for free. We'll use your information to help you submit the request. Your landlord will not be notified that you've requested your rent history."
 msgstr "Request your rent history from DHCR for free. We'll use your information to help you submit the request. Your landlord will not be notified that you've requested your rent history."
 
@@ -1636,8 +1636,8 @@ msgstr "Something went wrong while verifying your code."
 
 #: src/Components/Pages/Report/Report.tsx:85
 #: src/Components/Pages/Report/ReportEmailForm.tsx:160
-#: src/Components/Pages/RequestPage/useRequestForm.ts:204
-#: src/Components/Pages/RequestPage/useRequestForm.ts:209
+#: src/Components/Pages/RequestPage/useRequestForm.ts:202
+#: src/Components/Pages/RequestPage/useRequestForm.ts:207
 msgid "Something went wrong. Please try again."
 msgstr "Something went wrong. Please try again."
 
@@ -1706,8 +1706,8 @@ msgstr "Step {stepNumber}: {titleText}"
 #~ msgid "Still processing pages"
 #~ msgstr "Still processing pages"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:99
-#: src/Components/Pages/RequestPage/RequestForm.tsx:107
+#: src/Components/Pages/RequestPage/RequestForm.tsx:100
+#: src/Components/Pages/RequestPage/RequestForm.tsx:108
 msgid "Street address"
 msgstr "Street address"
 
@@ -1715,12 +1715,12 @@ msgstr "Street address"
 msgid "Submit"
 msgstr "Submit"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:202
+#: src/Components/Pages/RequestPage/RequestForm.tsx:209
 msgid "Submit another request"
 msgstr "Submit another request"
 
 #: src/Components/Pages/Landing/Landing.tsx:138
-#: src/Components/Pages/RequestPage/RequestForm.tsx:210
+#: src/Components/Pages/RequestPage/RequestForm.tsx:217
 msgid "Submit request"
 msgstr "Submit request"
 
@@ -1764,11 +1764,11 @@ msgstr "Tenant names"
 msgid "Terms of use"
 msgstr "Terms of use"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:100
+#: src/Components/Pages/RequestPage/RequestPage.tsx:103
 msgid "Text <0>RENT HISTORY</0> to <1>(855) 610-2450</1>"
 msgstr "Text <0>RENT HISTORY</0> to <1>(855) 610-2450</1>"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:89
+#: src/Components/Pages/RequestPage/RequestPage.tsx:92
 msgid "Text us to get your rent history document"
 msgstr "Text us to get your rent history document"
 
@@ -1927,7 +1927,7 @@ msgstr "This exemption could be illegal. One way that this could have happened l
 msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 msgstr "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:94
+#: src/Components/Pages/RequestPage/RequestPage.tsx:97
 msgid "This is the same service as above, but accessible through text message."
 msgstr "This is the same service as above, but accessible through text message."
 
@@ -2093,7 +2093,7 @@ msgstr "Unable to save your rent. Please try again."
 msgid "Unable to update address right now. Please try again."
 msgstr "Unable to update address right now. Please try again."
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:127
+#: src/Components/Pages/RequestPage/RequestForm.tsx:128
 msgid "Unit"
 msgstr "Unit"
 
@@ -2214,7 +2214,7 @@ msgstr "We could not generate your report PDF. Please try again."
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr "We couldn't load your rent histories. Please try again later."
 
-#: src/Components/Pages/RequestPage/useRequestForm.ts:196
+#: src/Components/Pages/RequestPage/useRequestForm.ts:194
 msgid "We couldn't send your request right now. Please try again."
 msgstr "We couldn't send your request right now. Please try again."
 
@@ -2327,7 +2327,7 @@ msgstr "Were you living in this apartment in year {vacancyYear}?"
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
 msgstr "Were you living in this apartment in year {year0}?"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:123
+#: src/Components/Pages/RequestPage/RequestPage.tsx:126
 msgid "What happens after you request your rent history?"
 msgstr "What happens after you request your rent history?"
 
@@ -2505,11 +2505,15 @@ msgstr "Your apartment is missing registration from year {missingFromYear} onwar
 msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.no.body"
 msgstr "Your apartment is missing registration from year {missingFromYear} onward. This could indicate that your landlord is currently treating your apartment as not rent stabilized, or your apartment was legally destabilized at some point between year {missingFromYear} and year {findingYear}. Your report will include this with additional details."
 
+#: src/Components/Pages/RequestPage/RequestForm.tsx:182
+#~ msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
+#~ msgstr "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
+
 #. placeholder {0}: submitResponse.stabilized_units
 #. placeholder {1}: submitResponse.latest_year
-#: src/Components/Pages/RequestPage/RequestForm.tsx:182
-msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
-msgstr "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available in public records."
+#: src/Components/Pages/RequestPage/RequestForm.tsx:192
+msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available, according to property tax documents. While this data doesn't guarantee that your apartment is rent stabilized, it's a good sign that your apartment might have a rent history document available."
+msgstr "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available, according to property tax documents. While this data doesn't guarantee that your apartment is rent stabilized, it's a good sign that your apartment might have a rent history document available."
 
 #: src/api/account/errors.ts:171
 msgid "Your code expired. Request a new code."
@@ -2539,7 +2543,7 @@ msgstr "Your rent history"
 msgid "Your rent history report(s)"
 msgstr "Your rent history report(s)"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:53
+#: src/Components/Pages/RequestPage/RequestPage.tsx:54
 msgid "Your rent history shows how your apartment's rent has changed over time. It can help you determine if your apartment is still rent stabilized or should be."
 msgstr "Your rent history shows how your apartment's rent has changed over time. It can help you determine if your apartment is still rent stabilized or should be."
 

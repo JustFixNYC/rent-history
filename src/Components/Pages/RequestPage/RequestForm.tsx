@@ -1,7 +1,7 @@
 import {
   Button,
-  CalloutBox,
   GeoSearchDropdown,
+  Icon,
   LinkStyledButton,
   TextInput,
 } from "@justfixnyc/component-library";
@@ -10,6 +10,7 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
+import { ContentBox } from "../../ContentBox/ContentBox";
 import { PartnerReferralCallout } from "./PartnerReferralCallout";
 import type { ReferralPartner } from "./referralStorage";
 import { useRequestForm } from "./useRequestForm";
@@ -101,20 +102,22 @@ export const RequestForm: React.FC<RequestFormProps> = ({
               disabled
             />
           ) : (
-            <GeoSearchDropdown
-              id="request-street-address"
-              className="request-form__geosearch"
-              labelText={_(msg`Street address`)}
-              placeholder={_(msg`Enter your address`)}
-              initialAddress={streetAddress}
-              invalid={Boolean(addressError)}
-              invalidText={addressError ?? undefined}
-              serviceUnavailableText={_(
-                msg`Geosearch is temporarily unavailable. Try again in a moment.`
-              )}
-              onInputChange={handleAddressInputChange}
-              onSelect={handleAddressSelect}
-            />
+            <div className="request-form__geosearch-container">
+              <GeoSearchDropdown
+                id="request-street-address"
+                className="request-form__geosearch"
+                labelText={_(msg`Street address`)}
+                placeholder={_(msg`Enter your address`)}
+                initialAddress={streetAddress}
+                invalid={Boolean(addressError)}
+                invalidText={addressError ?? undefined}
+                serviceUnavailableText={_(
+                  msg`Geosearch is temporarily unavailable. Try again in a moment.`,
+                )}
+                onInputChange={handleAddressInputChange}
+                onSelect={handleAddressSelect}
+              />
+            </div>
           )}
 
           <div className="request-form__unit-field">
@@ -129,11 +132,6 @@ export const RequestForm: React.FC<RequestFormProps> = ({
               invalid={Boolean(errors.apartmentNumber)}
               invalidText={errors.apartmentNumber?.message}
             />
-            {!submitted ? (
-              <p className="request-form__unit-helper">
-                <Trans>Enter your apartment or unit number.</Trans>
-              </p>
-            ) : null}
           </div>
 
           <TextInput
@@ -171,28 +169,34 @@ export const RequestForm: React.FC<RequestFormProps> = ({
             />
 
             {showRsCallout && submitResponse ? (
-              <CalloutBox className="request-form__rs-callout">
-                <p className="request-form__rs-callout-title">
+              <ContentBox
+                className="request-form__rs-callout"
+                variant="info"
+                titleIcon={<Icon icon="check" aria-hidden="true" />}
+                title={
                   <Trans>
                     Good news, it looks like your building includes rent
                     stabilized units.
                   </Trans>
-                </p>
-                <p className="request-form__rs-callout-body">
+                }
+                action={
+                  <LinkStyledButton onClick={scrollToFaq}>
+                    <Trans>Learn what happens next</Trans>
+                  </LinkStyledButton>
+                }
+              >
+                <p>
                   <Trans>
                     Your building had {submitResponse.stabilized_units}{" "}
                     apartments that were registered as rent stabilized in{" "}
-                    {submitResponse.latest_year}, the most recent year available
-                    in public records.
+                    {submitResponse.latest_year}, the most recent year
+                    available, according to property tax documents. While this
+                    data doesn&apos;t guarantee that your apartment is rent
+                    stabilized, it&apos;s a good sign that your apartment might
+                    have a rent history document available.
                   </Trans>
                 </p>
-                <LinkStyledButton
-                  className="request-form__rs-callout-link"
-                  onClick={scrollToFaq}
-                >
-                  <Trans>Learn what happens next</Trans>
-                </LinkStyledButton>
-              </CalloutBox>
+              </ContentBox>
             ) : null}
 
             <LinkStyledButton

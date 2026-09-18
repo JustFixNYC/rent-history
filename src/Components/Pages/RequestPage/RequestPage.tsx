@@ -5,6 +5,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useLocation } from "react-router-dom";
 
+import { ContentBox } from "../../ContentBox/ContentBox";
 import { RequestForm } from "./RequestForm";
 import {
   captureReferralFromSearchParams,
@@ -84,7 +85,9 @@ const RequestPage: React.FC = () => {
 
           <div className="request-page__sms-cta">
             <div className="request-page__sms-cta-title">
-              <Icon icon="mobileScreenButton" aria-hidden="true" />
+              <span className="request-page__sms-cta-icon" aria-hidden="true">
+                <Icon icon="mobileScreenButton" />
+              </span>
               <p>
                 <Trans>Text us to get your rent history document</Trans>
               </p>
@@ -110,7 +113,7 @@ const RequestPage: React.FC = () => {
       </section>
 
       <section
-        className="request-page__section"
+        className="request-page__section request-page__section--faq"
         id="request-faq"
         aria-labelledby="request-faq-heading"
       >
@@ -141,26 +144,25 @@ const RequestPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="request-page__analyze-cta">
-            <div className="request-page__analyze-cta-text">
-              <p className="request-page__analyze-cta-heading">
-                <Trans>Got your rent history?</Trans>
-              </p>
-              <p>
-                <Trans>
-                  Analyzing your rent history can help you understand how your
-                  rent has changed over time and identify things that may need a
-                  closer look.
-                </Trans>
-              </p>
-            </div>
-            <ButtonStyledLink
-              className="request-page__analyze-button"
-              variant="primary"
-              href={landingPath}
-              labelText={_(msg`Analyze your rent history`)}
-            />
-          </div>
+          <ContentBox
+            className="request-page__analyze-cta"
+            title={<Trans>Got your rent history?</Trans>}
+            action={
+              <ButtonStyledLink
+                variant="primary"
+                href={landingPath}
+                labelText={_(msg`Analyze your rent history`)}
+              />
+            }
+          >
+            <p>
+              <Trans>
+                Analyzing your rent history can help you understand how your
+                rent has changed over time and identify things that may need a
+                closer look.
+              </Trans>
+            </p>
+          </ContentBox>
         </div>
       </section>
     </div>

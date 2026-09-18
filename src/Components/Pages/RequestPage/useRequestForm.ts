@@ -1,3 +1,4 @@
+import type { GeoSearchDropdownSelection } from "@justfixnyc/component-library";
 import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,11 +20,6 @@ import {
   createRequestFormSchema,
   type RequestFormValues,
 } from "./requestFormSchema";
-
-type GeoSearchDropdownSelection = {
-  feature: GeosearchFeature;
-  option: { label: string };
-};
 
 const isTypingInputAction = (meta: { action?: string }) =>
   meta.action === "input-change";
@@ -88,8 +84,10 @@ export function useRequestForm() {
         return;
       }
 
-      selectedFeatureRef.current = selection.feature;
-      const payload = geosearchFeatureToRequestPayload(selection.feature);
+      selectedFeatureRef.current = selection.feature as GeosearchFeature;
+      const payload = geosearchFeatureToRequestPayload(
+        selection.feature as GeosearchFeature
+      );
       if (payload) {
         setStreetAddress(payload.address);
       } else {
