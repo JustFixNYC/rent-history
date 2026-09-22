@@ -1,0 +1,138 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../Pages/PageLayout/layoutVars" as layout;
+
+.content-box {
+  background: jfcl.$PURPLE_100;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &--prominent {
+    gap: jfcl.$JF_SPACING_05; // 16px
+    padding: 1.5rem; // 24px
+
+    @include layout.desktop {
+      padding: 2rem; // 32px
+    }
+  }
+
+  &--info {
+    border: 1px solid jfcl.$PURPLE_200;
+    gap: jfcl.$JF_SPACING_03; // 8px
+    padding: jfcl.$JF_SPACING_05; // 16px
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03; // 8px
+  }
+
+  &__header {
+    align-items: flex-start;
+    display: flex;
+    gap: jfcl.$JF_SPACING_04; // 12px
+  }
+
+  &__title-icon {
+    flex-shrink: 0;
+    padding-top: 0.1875rem; // 3px per Figma
+
+    .jfcl-icon {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__body {
+    p {
+      margin: 0;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05; // 16px
+
+    &--indented {
+      padding-left: 1.75rem; // 28px
+    }
+  }
+
+  &__action {
+    .jfcl-link-styled-button {
+      align-self: flex-start;
+    }
+  }
+
+  &__footer {
+    margin: 0;
+  }
+
+  // Prominent variant typography
+  &--prominent {
+    .content-box__title {
+      @include jfcl.body_large_mobile;
+      font-weight: 600;
+
+      @include layout.desktop {
+        @include jfcl.body_large_desktop;
+        font-weight: 600;
+      }
+    }
+
+    .content-box__body {
+      @include jfcl.body_large_mobile;
+
+      @include layout.desktop {
+        @include jfcl.body_large_desktop;
+      }
+    }
+
+    .content-box__action .jfcl-button-styled-link {
+      box-sizing: border-box;
+      width: 100%;
+
+      @include layout.desktop {
+        width: auto;
+      }
+    }
+
+    .content-box__footer {
+      @include jfcl.body_large_mobile;
+
+      @include layout.desktop {
+        @include jfcl.body_large_desktop;
+      }
+    }
+  }
+
+  // Info variant typography
+  &--info {
+    .content-box__title {
+      @include jfcl.body_standard_mobile;
+      flex: 1;
+      font-weight: 600;
+
+      @include layout.desktop {
+        @include jfcl.body_standard_desktop;
+        font-weight: 600;
+      }
+    }
+
+    .content-box__body {
+      @include jfcl.body_standard_mobile;
+
+      @include layout.desktop {
+        @include jfcl.body_standard_desktop;
+      }
+    }
+  }
+}

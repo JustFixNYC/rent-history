@@ -144,6 +144,7 @@ describe("ScanReviewPage error states", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
     window.sessionStorage.clear();
     clearRhAuthSession();
   });
@@ -273,6 +274,34 @@ describe("ScanReviewPage error states", () => {
     expect(
       screen.queryByTestId("scan-review-page-error-callout")
     ).not.toBeInTheDocument();
+  });
+
+  it("links request CTA to tenants2 when rent history request is disabled", async () => {
+    vi.stubEnv("VITE_ENABLE_RENT_HISTORY_REQUEST", "false");
+
+    renderScanReview({
+      initialEntries: [
+        {
+          pathname: "/en/scan-review",
+          state: { showLaunchFailure: true },
+        },
+      ],
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+    });
+
+    const requestLink = screen.getByRole("link", {
+      name: "Request your rent history",
+    });
+
+    expect(requestLink).toHaveAttribute(
+      "href",
+      "https://app.justfix.org/en/rh/splash"
+    );
+    expect(requestLink).toHaveAttribute("target", "_blank");
+    expect(requestLink).toHaveAttribute("rel", "noreferrer");
   });
 
   it("shows total failure when pages lack readable page_number labels", async () => {
