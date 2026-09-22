@@ -44,7 +44,7 @@ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:84
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:60
-#: src/Components/Pages/RequestPage/RequestForm.tsx:148
+#: src/Components/Pages/RequestPage/RequestForm.tsx:145
 msgid "(123) 456-7890"
 msgstr "(123) 456-7890"
 
@@ -213,7 +213,7 @@ msgstr "Analyze a new rent history"
 msgid "Analyze my rent history"
 msgstr "Analyze my rent history"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:154
+#: src/Components/Pages/RequestPage/RequestPage.tsx:155
 msgid "Analyze your rent history"
 msgstr "Analyze your rent history"
 
@@ -225,7 +225,7 @@ msgstr "Analyze your rent history"
 msgid "Analyzing rent history"
 msgstr "Analyzing rent history"
 
-#: src/Components/Pages/RequestPage/RequestPage.tsx:159
+#: src/Components/Pages/RequestPage/RequestPage.tsx:160
 msgid "Analyzing your rent history can help you understand how your rent has changed over time and identify things that may need a closer look."
 msgstr "Analyzing your rent history can help you understand how your rent has changed over time and identify things that may need a closer look."
 
@@ -563,13 +563,13 @@ msgid "Enter verification code"
 msgstr "Enter verification code"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:333
-#: src/Components/Pages/RequestPage/RequestForm.tsx:109
+#: src/Components/Pages/RequestPage/RequestForm.tsx:110
 msgid "Enter your address"
 msgstr "Enter your address"
 
 #: src/Components/Pages/RequestPage/RequestForm.tsx:135
-msgid "Enter your apartment or unit number."
-msgstr "Enter your apartment or unit number."
+#~ msgid "Enter your apartment or unit number."
+#~ msgstr "Enter your apartment or unit number."
 
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:36
 msgid "Enter your phone number"
@@ -708,7 +708,7 @@ msgstr "Generate report"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:338
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
-#: src/Components/Pages/RequestPage/RequestForm.tsx:114
+#: src/Components/Pages/RequestPage/RequestForm.tsx:115
 msgid "Geosearch is temporarily unavailable. Try again in a moment."
 msgstr "Geosearch is temporarily unavailable. Try again in a moment."
 
@@ -737,7 +737,7 @@ msgstr "Glossary"
 msgid "Go to login"
 msgstr "Go to login"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:180
+#: src/Components/Pages/RequestPage/RequestForm.tsx:177
 msgid "Good news, it looks like your building includes rent stabilized units."
 msgstr "Good news, it looks like your building includes rent stabilized units."
 
@@ -893,7 +893,7 @@ msgstr "Last registration year"
 msgid "Learn more"
 msgstr "Learn more"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:187
+#: src/Components/Pages/RequestPage/RequestForm.tsx:184
 msgid "Learn what happens next"
 msgstr "Learn what happens next"
 
@@ -1175,7 +1175,7 @@ msgstr "Page scan preview"
 msgid "Permanently delete this rent history?"
 msgstr "Permanently delete this rent history?"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:145
+#: src/Components/Pages/RequestPage/RequestForm.tsx:142
 msgid "Phone number"
 msgstr "Phone number"
 
@@ -1383,7 +1383,7 @@ msgstr "Rent-stabilized units"
 msgid "Report"
 msgstr "Report"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:170
+#: src/Components/Pages/RequestPage/RequestForm.tsx:167
 msgid "Request Submitted"
 msgstr "Request Submitted"
 
@@ -1707,7 +1707,7 @@ msgstr "Step {stepNumber}: {titleText}"
 #~ msgstr "Still processing pages"
 
 #: src/Components/Pages/RequestPage/RequestForm.tsx:100
-#: src/Components/Pages/RequestPage/RequestForm.tsx:108
+#: src/Components/Pages/RequestPage/RequestForm.tsx:109
 msgid "Street address"
 msgstr "Street address"
 
@@ -1715,12 +1715,12 @@ msgstr "Street address"
 msgid "Submit"
 msgstr "Submit"
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:209
+#: src/Components/Pages/RequestPage/RequestForm.tsx:206
 msgid "Submit another request"
 msgstr "Submit another request"
 
 #: src/Components/Pages/Landing/Landing.tsx:138
-#: src/Components/Pages/RequestPage/RequestForm.tsx:217
+#: src/Components/Pages/RequestPage/RequestForm.tsx:214
 msgid "Submit request"
 msgstr "Submit request"
 
@@ -2093,7 +2093,7 @@ msgstr "Unable to save your rent. Please try again."
 msgid "Unable to update address right now. Please try again."
 msgstr "Unable to update address right now. Please try again."
 
-#: src/Components/Pages/RequestPage/RequestForm.tsx:128
+#: src/Components/Pages/RequestPage/RequestForm.tsx:130
 msgid "Unit"
 msgstr "Unit"
 
@@ -2511,7 +2511,7 @@ msgstr "Your apartment is missing registration from year {missingFromYear} onwar
 
 #. placeholder {0}: submitResponse.stabilized_units
 #. placeholder {1}: submitResponse.latest_year
-#: src/Components/Pages/RequestPage/RequestForm.tsx:192
+#: src/Components/Pages/RequestPage/RequestForm.tsx:189
 msgid "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available, according to property tax documents. While this data doesn't guarantee that your apartment is rent stabilized, it's a good sign that your apartment might have a rent history document available."
 msgstr "Your building had {0} apartments that were registered as rent stabilized in {1}, the most recent year available, according to property tax documents. While this data doesn't guarantee that your apartment is rent stabilized, it's a good sign that your apartment might have a rent history document available."
 

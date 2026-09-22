@@ -112,7 +112,7 @@ export const RequestForm: React.FC<RequestFormProps> = ({
                 invalid={Boolean(addressError)}
                 invalidText={addressError ?? undefined}
                 serviceUnavailableText={_(
-                  msg`Geosearch is temporarily unavailable. Try again in a moment.`,
+                  msg`Geosearch is temporarily unavailable. Try again in a moment.`
                 )}
                 onInputChange={handleAddressInputChange}
                 onSelect={handleAddressSelect}
