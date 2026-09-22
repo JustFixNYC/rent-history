@@ -163,7 +163,7 @@ export const RequestForm: React.FC<RequestFormProps> = ({
               type="button"
               className="request-form__submit request-form__submit--success"
               variant="secondary"
-              labelIcon="check"
+              labelIcon="checkCircle"
               labelText={_(msg`Request Submitted`)}
               disabled
             />
