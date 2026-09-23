@@ -3,6 +3,12 @@ import { describe, expect, it } from "vitest";
 import { historyResumePath } from "./historyResumePath";
 
 describe("historyResumePath", () => {
+  it("maps APARTMENT_INFO to rent-questions route", () => {
+    expect(historyResumePath("en", "APARTMENT_INFO")).toBe(
+      "/en/analyze/rent-questions"
+    );
+  });
+
   it("maps COMPILING to the compiling route", () => {
     expect(historyResumePath("en", "COMPILING")).toBe("/en/analyze/compiling");
   });

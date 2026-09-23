@@ -9,7 +9,7 @@ type LastStepReached = NonNullable<RhHistoryList["last_step_reached"]>;
  */
 const RESUME_SUBPATH_BY_STEP: Partial<Record<LastStepReached, string>> = {
   ADDRESS_CONFIRMATION: "confirm-address",
-  APARTMENT_INFO: "scanner",
+  APARTMENT_INFO: "rent-questions",
   DOCUMENT_SCAN: "scanner",
   COMPILING: "compiling",
   SCAN_REVIEW: "scanner",

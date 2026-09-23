@@ -946,6 +946,13 @@
             "readOnly": true,
             "type": "string"
           },
+          "current_rent": {
+            "description": "User response for the total current monthly rent for the apartment.",
+            "format": "double",
+            "nullable": true,
+            "readOnly": true,
+            "type": "number"
+          },
           "id": {
             "description": "ID for a rent history record.",
             "format": "uuid",
@@ -965,6 +972,12 @@
             ],
             "readOnly": true
           },
+          "lives_in_apt": {
+            "description": "Whether the user currently lives in the apartment on this rent history.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "boolean"
+          },
           "updated_at": {
             "format": "date-time",
             "readOnly": true,
@@ -975,8 +988,10 @@
           "address",
           "apartment",
           "created_at",
+          "current_rent",
           "id",
           "last_step_reached",
+          "lives_in_apt",
           "updated_at"
         ],
         "type": "object"
@@ -1132,32 +1147,47 @@
         ],
         "type": "object"
       },
-      "RhHistorySetCurrentRentRequestRequest": {
+      "RhHistorySetApartmentInfoRequestRequest": {
         "properties": {
           "current_rent": {
             "format": "double",
+            "nullable": true,
             "type": "number"
           },
           "history_id": {
             "format": "uuid",
             "type": "string"
+          },
+          "lives_in_apt": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "history_id",
+          "lives_in_apt"
+        ],
+        "type": "object"
+      },
+      "RhHistorySetApartmentInfoResponse": {
+        "properties": {
+          "current_rent": {
+            "format": "double",
+            "nullable": true,
+            "type": "number"
+          },
+          "current_rent_date": {
+            "format": "date-time",
+            "nullable": true,
+            "type": "string"
+          },
+          "lives_in_apt": {
+            "type": "boolean"
           }
         },
         "required": [
           "current_rent",
-          "history_id"
-        ],
-        "type": "object"
-      },
-      "RhHistorySetCurrentRentResponse": {
-        "properties": {
-          "current_rent": {
-            "format": "double",
-            "type": "number"
-          }
-        },
-        "required": [
-          "current_rent"
+          "current_rent_date",
+          "lives_in_apt"
         ],
         "type": "object"
       },
@@ -2239,6 +2269,61 @@
         ]
       }
     },
+    "/rh/history/apartment-info": {
+      "post": {
+        "description": "Persists `lives_in_apt` and optionally `current_rent` on an owned RhHistory. When `lives_in_apt` is false, clears rent fields and sets `last_step_reached` to DOCUMENT_SCAN. When true with `current_rent`, sets `current_rent_date` and advances to DOCUMENT_SCAN. When true without `current_rent`, advances to APARTMENT_INFO.",
+        "operationId": "history_apartment_info_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhHistorySetApartmentInfoRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhHistorySetApartmentInfoResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "No RhProfile or matching RhHistory."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Set apartment info on a RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
     "/rh/history/confirm-address": {
       "post": {
         "description": "Updates address, apartment, bbl, and bin on an existing RhHistory, queries NYCDB for building unit counts and active program flags, sets last_step_reached to ADDRESS_CONFIRMATION, and returns the resolved values.",
@@ -2361,61 +2446,6 @@
           }
         ],
         "summary": "Confirm declared last registration year after stale-page warning",
-        "tags": [
-          "Rent History"
-        ]
-      }
-    },
-    "/rh/history/current-rent": {
-      "post": {
-        "description": "Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to DOCUMENT_SCAN.",
-        "operationId": "history_current_rent_create",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RhHistorySetCurrentRentRequestRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhHistorySetCurrentRentResponse"
-                }
-              }
-            },
-            "description": ""
-          },
-          "400": {
-            "description": "Validation error."
-          },
-          "401": {
-            "description": "Missing or invalid access token."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "No RhProfile or matching RhHistory."
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "all"
-            ]
-          }
-        ],
-        "summary": "Set current monthly rent on a RhHistory",
         "tags": [
           "Rent History"
         ]
