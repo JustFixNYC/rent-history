@@ -26,17 +26,13 @@ export const ReportedRentRgbProjectionParagraph = ({
 
 type ReportedRentRgbComparisonParagraphProps = {
   reportedYear: number;
-  reportedRent: number;
   outcome: "exceeds" | "within";
 };
 
 export const ReportedRentRgbComparisonParagraph = ({
   reportedYear,
-  reportedRent,
   outcome,
 }: ReportedRentRgbComparisonParagraphProps) => {
-  const formattedReportedRent = formatTimelineCurrency(reportedRent);
-
   if (outcome === "within") {
     return (
       <div className="timeline-element__copy-paragraph">

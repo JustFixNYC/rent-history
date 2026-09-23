@@ -44,7 +44,6 @@ export function composeNonregViolPosthstpaOvercharge(
         />
         <ReportedRentRgbComparisonParagraph
           reportedYear={reportedYear}
-          reportedRent={reportedRent}
           outcome="exceeds"
         />
         <IaiDuringMissingRegParagraph reportedRent={reportedRent} />

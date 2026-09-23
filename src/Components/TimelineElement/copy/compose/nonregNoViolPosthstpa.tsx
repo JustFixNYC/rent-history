@@ -39,7 +39,6 @@ export function composeNonregNoViolPosthstpa(
         />
         <ReportedRentRgbComparisonParagraph
           reportedYear={reportedYear}
-          reportedRent={reportedRent}
           outcome="within"
         />
         <NonregStabilizedDespiteMissingRegParagraph
