@@ -85,10 +85,6 @@ msgstr "{failedUploadCount, plural, one {page} other {pages}}"
 #~ msgid "{start}–{end}"
 #~ msgstr "{start}–{end}"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:205
-#~ msgid "+ Scan a new rent history"
-#~ msgstr "+ Scan a new rent history"
-
 #: src/Components/Pages/AccountPage/AccountPage.tsx:71
 #~ msgid "+ Start a new analysis"
 #~ msgstr "+ Start a new analysis"
@@ -1111,10 +1107,6 @@ msgstr "Restart scan"
 msgid "Resume"
 msgstr "Resume"
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:156
-#~ msgid "Resume on your mobile device"
-#~ msgstr "Resume on your mobile device"
-
 #: src/Components/DocumentLink/RentHistoryPagesModalContent.tsx:47
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:34
 msgid "Retry"
@@ -1598,10 +1590,6 @@ msgstr "Verify"
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:202
 msgid "View report"
 msgstr "View report"
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:153
-#~ msgid "View report on your mobile device"
-#~ msgstr "View report on your mobile device"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
 msgid "View scanned document"

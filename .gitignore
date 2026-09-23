@@ -32,5 +32,7 @@ lambda/*/*.zip
 **/test-textract/
 *.tsbuildinfo
 auth-rh-api-schema.json
+test-results/
 
 .venv*/
+.nvmrc

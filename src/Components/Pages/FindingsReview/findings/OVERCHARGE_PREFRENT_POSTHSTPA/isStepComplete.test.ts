@@ -7,7 +7,6 @@ const baseFormState: PrefrentPosthstpaFormState = {
   row0AptStat: "RS",
   row1AptStat: "RS",
   row0LegalRent: "1350.06",
-  row1LegalRent: "",
   row0PrefRent: "1072.81",
   row1PrefRent: "1329.46",
   getsVacancyIncrease: null,
