@@ -8,7 +8,7 @@ type LastStepReached = NonNullable<RhHistoryList["last_step_reached"]>;
  */
 const RESUME_SUBPATH_BY_STEP: Partial<Record<LastStepReached, string>> = {
   ADDRESS_CONFIRMATION: "confirm-address",
-  APARTMENT_INFO: "scanner",
+  APARTMENT_INFO: "rent-questions",
   DOCUMENT_SCAN: "scanner",
   SCAN_REVIEW: "scanner",
   FINDINGS_OVERVIEW: "findings-overview",
@@ -25,7 +25,7 @@ const DEFAULT_RESUME_SUBPATH = "confirm-address";
  */
 export function historyResumePath(
   locale: string,
-  lastStepReached: RhHistoryList["last_step_reached"]
+  lastStepReached: RhHistoryList["last_step_reached"],
 ): string {
   const subpath =
     (lastStepReached && RESUME_SUBPATH_BY_STEP[lastStepReached]) ??
