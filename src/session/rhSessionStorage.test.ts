@@ -13,12 +13,15 @@ import {
   getValidRhAccessToken,
   parseRhSessionDocumentJson,
   readRhSessionDocument,
+  removeRhSessionStepState,
   RH_SESSION_STORAGE_KEY,
   setRhAuthSession,
   setRhHistoryId,
   setRhSessionAnalysisPages,
   setRhSessionExtension,
+  setRhSessionFormDraft,
   setRhSessionStepState,
+  switchRhHistory,
 } from "./rhSessionStorage";
 
 const otpPayload = {
@@ -140,6 +143,19 @@ describe("rhSessionStorage", () => {
     expect(invalid).toBeNull();
   });
 
+  it("removeRhSessionStepState deletes a step entry", () => {
+    setRhSessionStepState("scanner", {
+      phase: "scan-review",
+      expectedPageCount: 2,
+    });
+    setRhSessionStepState("postScan", { completed: true });
+    removeRhSessionStepState("scanner");
+    expect(readRhSessionDocument()?.flow.steps.scanner).toBeUndefined();
+    expect(readRhSessionDocument()?.flow.steps.postScan).toEqual({
+      completed: true,
+    });
+  });
+
   it("clears pages with clearRhSessionPages", () => {
     setRhAuthSession(otpPayload, Date.now());
     setRhHistoryId("hist-1");
@@ -167,5 +183,29 @@ describe("rhSessionStorage", () => {
     clearRhHistoryId();
     expect(getRhAuthSession()).toBeNull();
     expect(getRhHistoryId()).toBeNull();
+  });
+
+  it("switchRhHistory sets historyId and clears flow slices", () => {
+    setRhAuthSession(otpPayload, Date.now());
+    setRhHistoryId("hist-a");
+    setRhSessionAnalysisPages([
+      { s3_key: "42/hist-a/page1.jpg", start_year: 2018, end_year: 2019 },
+    ]);
+    setRhSessionFormDraft({ rows: [1] });
+    setRhSessionExtension("featureA", { nested: { x: 1 } });
+    setRhSessionStepState("scanner", {
+      phase: "scan-review",
+      expectedPageCount: 2,
+    });
+
+    switchRhHistory("hist-b");
+
+    const doc = readRhSessionDocument();
+    expect(doc?.auth?.accessToken).toBe("access-token");
+    expect(getRhHistoryId()).toBe("hist-b");
+    expect(doc?.flow.pages).toEqual([]);
+    expect(doc?.flow.formDraft).toBeNull();
+    expect(doc?.flow.extensions).toEqual({});
+    expect(doc?.flow.steps).toEqual({});
   });
 });

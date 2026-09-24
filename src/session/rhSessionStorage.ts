@@ -212,15 +212,26 @@ export const clearRhHistoryId = (): void => {
   });
 };
 
+const resetRhFlowSession = (
+  draft: RhSessionDocument,
+  historyId: string | null
+): void => {
+  draft.flow.historyId = historyId;
+  draft.flow.pages = [];
+  draft.flow.formDraft = null;
+  draft.flow.extensions = {};
+  draft.flow.steps = {};
+};
+
 export const clearRhFlowSession = (): void => {
   patchRhSessionDocument((draft) => {
-    draft.flow = {
-      historyId: null,
-      pages: [],
-      formDraft: null,
-      extensions: {},
-      steps: {},
-    };
+    resetRhFlowSession(draft, null);
+  });
+};
+
+export const switchRhHistory = (historyId: string): void => {
+  patchRhSessionDocument((draft) => {
+    resetRhFlowSession(draft, historyId);
   });
 };
 
@@ -270,6 +281,14 @@ export function removeRhSessionExtension(extensionId: string): void {
 export function setRhSessionStepState(stepId: string, value: unknown): void {
   patchRhSessionDocument((draft) => {
     draft.flow.steps = { ...draft.flow.steps, [stepId]: value };
+  });
+}
+
+export function removeRhSessionStepState(stepId: string): void {
+  patchRhSessionDocument((draft) => {
+    const next = { ...draft.flow.steps };
+    delete next[stepId];
+    draft.flow.steps = next;
   });
 }
 

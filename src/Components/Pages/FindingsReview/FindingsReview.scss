@@ -99,36 +99,6 @@
   }
 }
 
-.finding-review-nav {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin-top: jfcl.$JF_SPACING_05;
-
-  // Figma 5314:3211 — body-standard-link_mobile
-  &__back {
-    @include jfcl.body_standard_link_mobile;
-    align-items: center;
-    background: none;
-    border: 0;
-    color: jfcl.$OFF_BLACK;
-    cursor: pointer;
-    display: inline-flex;
-    gap: jfcl.$JF_SPACING_02;
-    padding: 0 jfcl.$JF_SPACING_03 0 0;
-
-    &:disabled {
-      color: jfcl.$GREY_600;
-      cursor: not-allowed;
-      text-decoration: none;
-    }
-  }
-
-  &__next {
-    min-width: 223px;
-  }
-}
-
 // Figma 5314:3554 — form-field currency input
 .findings-review-currency-field {
   margin: 0;
@@ -436,26 +406,7 @@
     background: rgba(36, 35, 35, 0.45);
   }
 
-  &__actions {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
+  .flow-nav {
     margin-top: jfcl.$JF_SPACING_05;
-  }
-
-  &__back {
-    @include jfcl.body_standard_link_mobile;
-    align-items: center;
-    background: none;
-    border: 0;
-    color: jfcl.$OFF_BLACK;
-    cursor: pointer;
-    display: inline-flex;
-    gap: jfcl.$JF_SPACING_02;
-    padding: 0 jfcl.$JF_SPACING_03 0 0;
-  }
-
-  &__next {
-    min-width: 223px;
   }
 }

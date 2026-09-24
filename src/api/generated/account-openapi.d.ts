@@ -164,7 +164,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/delete-pages": {
+    "/rh/history/delete-all-scanned-pages": {
         parameters: {
             query?: never;
             header?: never;
@@ -174,10 +174,30 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Delete RhPage scan data for a given RhHistory
+         * Delete all scanned RhPages for a RhHistory
          * @description Deletes all RhPage records for the given RhHistory belonging to the authenticated user. Also performs best-effort cleanup of versioned S3 objects under `<profile_id>/<history_id>/` in `RH_SCAN_BUCKET`.
          */
-        post: operations["history_delete_pages_create"];
+        post: operations["history_delete_all_scanned_pages_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/history/delete-scanned-pages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Delete selected scanned RhPages for a RhHistory
+         * @description Deletes specific RhPage records by id for the given RhHistory belonging to the authenticated user. Also performs best-effort deletion of each page's `s3_key` object in `RH_SCAN_BUCKET`.
+         */
+        post: operations["history_delete_scanned_pages_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -218,26 +238,6 @@ export interface paths {
          * @description Lambda-callable endpoint to record a scanned page. Authenticates via the static `RH_API_TOKEN` bearer rather than OAuth, since it is invoked from server-side AWS Lambda. The history must belong to the given profile.
          */
         post: operations["history_page_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/rh/history/pages-readiness": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Scan upload and extraction readiness for a RhHistory
-         * @description Compares S3 object count under `<profile_id>/<history_id>/` and `RhPage` row count to client `num_pages`. Each axis returns `count`, `expected`, and `relation` (`less`, `equal`, `more`). HTTP 200 `status`: `ready` (both equal, includes `pages`), `pending` (still processing), or `excess` (more than `num_pages` on either axis). HTTP 400 is query validation only. HTTP 503 when DB count exceeds S3 count (invariant violation) or storage is misconfigured.
-         */
-        get: operations["history_pages_readiness_retrieve"];
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -322,6 +322,26 @@ export interface paths {
          * @description Returns presigned PUT (upload) or GET (download) URLs for scan image keys under `<profile_id>/<history_id>/filename`. Each key must belong to the authenticated user's profile and an owned RhHistory. Upload keys must use a `.jpg` or `.jpeg` filename. At most 20 keys per request.
          */
         post: operations["history_scan_presign_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/history/scan-review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Scan review poll for a RhHistory
+         * @description DB-only poll comparing RhPage row count to client `expected_page_count`. HTTP 200 `status`: `pending` while fewer pages exist than expected (unless `accept_partial=true`), or `ready` after dedupe and gap detection. HTTP 400 when `accept_partial=true` and no pages exist yet.
+         */
+        get: operations["history_scan_review_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -500,13 +520,6 @@ export interface components {
             token_type: string;
         };
         /**
-         * @description * `less` - less
-         *     * `equal` - equal
-         *     * `more` - more
-         * @enum {string}
-         */
-        RelationEnum: "less" | "equal" | "more";
-        /**
          * @description * `succeeded` - Succeeded
          *     * `failed` - Failed
          *     * `not_attempted` - Not attempted
@@ -549,6 +562,21 @@ export interface components {
             details?: unknown;
             error: string;
             error_code: components["schemas"]["ErrorCodeEnum"];
+        };
+        RhDeleteAllScannedPagesResponse: {
+            deleted_pages: number;
+            s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
+            s3_deleted_versions?: number;
+        };
+        RhDeleteScannedPagesRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+            page_ids: number[];
+        };
+        RhDeleteScannedPagesResponse: {
+            deleted_pages: number;
+            s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
+            s3_deleted_keys?: number;
         };
         /**
          * @description MVP finding wire object (7 core keys + optional ``result``).
@@ -682,11 +710,6 @@ export interface components {
             readonly last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
             /** Format: date-time */
             readonly updated_at: string;
-        };
-        RhHistoryPageDeleteResponse: {
-            deleted_pages: number;
-            s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
-            s3_deleted_versions?: number;
         };
         /** @description POST /rh/history/report-email body. */
         RhHistoryReportEmailCreateRequestRequest: {
@@ -835,7 +858,7 @@ export interface components {
             s3_key: string;
             start_year?: number | null;
         };
-        /** @description Subset of RhPage fields returned by pages-readiness on HTTP 200. */
+        /** @description Subset of RhPage fields returned by scan-review on HTTP 200 ready. */
         RhPageSummary: {
             /**
              * Format: int64
@@ -844,6 +867,7 @@ export interface components {
             end_year?: number | null;
             /** @description Error message from the scan image extraction pipeline for this page. */
             error?: string | null;
+            readonly id: number;
             /** @description Whether the page is the cover page of RH without table data */
             is_coverpage?: boolean | null;
             /** @description Whether this page needs to be re-scanned by the user. Determination is based on indicators of scan quality like page orientation, OCR confidence, and completeness of standardized data. */
@@ -858,19 +882,6 @@ export interface components {
              */
             start_year?: number | null;
         };
-        RhPagesReadinessResponse: {
-            database: components["schemas"]["RhReadinessAxis"];
-            pages?: components["schemas"]["RhPageSummary"][];
-            s3: components["schemas"]["RhReadinessAxis"];
-            status: components["schemas"]["RhPagesReadinessResponseStatusEnum"];
-        };
-        /**
-         * @description * `ready` - ready
-         *     * `pending` - pending
-         *     * `excess` - excess
-         * @enum {string}
-         */
-        RhPagesReadinessResponseStatusEnum: "ready" | "pending" | "excess";
         RhProfile: {
             readonly id: number;
             /** @description E.164 US number; must match AuthUser.username. */
@@ -882,11 +893,6 @@ export interface components {
             current_index_hint?: number | null;
             ordered_ids: string[];
             removed: string[];
-        };
-        RhReadinessAxis: {
-            count: number;
-            expected: number;
-            relation: components["schemas"]["RelationEnum"];
         };
         /** @description Ordered finding ids for review navigation. */
         RhReviewQueue: {
@@ -920,6 +926,20 @@ export interface components {
             /** Format: uri */
             url: string;
         };
+        RhScanReviewResponse: {
+            db_count: number;
+            expected_page_count: number;
+            missing_year_ranges?: string[];
+            pages?: components["schemas"]["RhPageSummary"][];
+            processing_complete?: boolean;
+            status: components["schemas"]["RhScanReviewResponseStatusEnum"];
+        };
+        /**
+         * @description * `pending` - pending
+         *     * `ready` - ready
+         * @enum {string}
+         */
+        RhScanReviewResponseStatusEnum: "pending" | "ready";
         /** @description One element of RhPage.data[]. Declares OpenAPI field types and validates request rows. */
         RhStandardizedTableRow: {
             /** Format: double */
@@ -1356,7 +1376,7 @@ export interface operations {
             };
         };
     };
-    history_delete_pages_create: {
+    history_delete_all_scanned_pages_create: {
         parameters: {
             query?: never;
             header?: never;
@@ -1374,10 +1394,56 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RhHistoryPageDeleteResponse"];
+                    "application/json": components["schemas"]["RhDeleteAllScannedPagesResponse"];
                 };
             };
             /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_delete_scanned_pages_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhDeleteScannedPagesRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhDeleteScannedPagesResponse"];
+                };
+            };
+            /** @description Validation error or unknown page_ids. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1488,63 +1554,6 @@ export interface operations {
             };
             /** @description RhProfile or RhHistory not found. */
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
-    history_pages_readiness_retrieve: {
-        parameters: {
-            query: {
-                /** @description UUID of the RhHistory to check. */
-                history_id: string;
-                /** @description Number of pages the client believes were scanned (minimum 1). */
-                num_pages: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Readiness check succeeded (ready, pending, or excess). */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhPagesReadinessResponse"];
-                };
-            };
-            /** @description Invalid history_id or num_pages. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Missing or invalid access token. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description RhProfile or RhHistory not found. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Storage misconfiguration, S3 failure, or DB count exceeds S3 count. */
-            503: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1851,6 +1860,58 @@ export interface operations {
             };
             /** @description Storage misconfiguration or presign generation failure. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_scan_review_retrieve: {
+        parameters: {
+            query: {
+                /** @description When true, skip the pending gate and return ready with partial data. */
+                accept_partial?: boolean;
+                /** @description Number of pages the client uploaded (minimum 1); may exceed post-dedup survivor count. */
+                expected_page_count: number;
+                /** @description UUID of the RhHistory to check. */
+                history_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Scan review poll succeeded (pending or ready). */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhScanReviewResponse"];
+                };
+            };
+            /** @description Invalid query params or accept_partial with no processed pages. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

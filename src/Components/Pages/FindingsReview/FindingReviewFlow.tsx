@@ -8,10 +8,10 @@ import { useValidateRhFinding } from "../../../api/account/hooks/findingsReview"
 import { accountQueryKeys } from "../../../api/account/queryKeys";
 import type { RhFindingsStateResponse } from "../../../api/account/types";
 
+import { FlowNav } from "../../FlowNav";
 import { FindingIntroPanel } from "./FindingIntroPanel";
 import { FindingModuleStack } from "./FindingModuleStack";
 import { FindingResultModal } from "./FindingResultModal";
-import { FindingReviewNav } from "./FindingReviewNav";
 import { useFindingSteps } from "./hooks/useFindingSteps";
 import { useOcrConfirmState } from "./hooks/useOcrConfirmState";
 import { useProgressiveReveal } from "./hooks/useProgressiveReveal";
@@ -212,12 +212,13 @@ export function FindingReviewFlow({
         activeStepIndex={activeStepIndex}
       />
       <div ref={stackEndRef} aria-hidden="true" />
-      <FindingReviewNav
+      <FlowNav
         onBack={handleBack}
         onNext={handleSubmit}
-        isValidating={validateMutation.isPending}
+        isNextLoading={validateMutation.isPending}
         backDisabled={!canGoBack && !showResultModal}
         nextDisabled={!allStepsComplete}
+        ariaLabel={_(msg`Finding review navigation`)}
       />
       {showResultModal && validatedFinding?.result && resultContent ? (
         <FindingResultModal

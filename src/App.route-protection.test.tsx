@@ -25,6 +25,7 @@ const tokenPayload = {
 describe("post-OTP route protection", () => {
   beforeEach(() => {
     cleanup();
+    window.sessionStorage.clear();
     clearRhAuthSession();
   });
 

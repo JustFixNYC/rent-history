@@ -15,7 +15,7 @@ import {
   clearRhFlowSession,
   clearRhSessionDocument,
   getRhAuthSession,
-  setRhHistoryId,
+  switchRhHistory,
 } from "../../../session/rhSessionStorage";
 import { historyResumePath } from "../../../utils/historyResumePath";
 import { useIsDesktop } from "../../../utils/useIsDesktop";
@@ -90,11 +90,11 @@ const AccountPage: React.FC = () => {
       return;
     }
     clearRhFlowSession();
-    navigate(`/${locale}/history`);
+    navigate(`/${locale}/scanner`);
   };
 
   const onCardAction = (history: RhHistoryList) => {
-    setRhHistoryId(history.id);
+    switchRhHistory(history.id);
     if (isCompletedHistory(history)) {
       navigate(`/${locale}/report`);
       return;

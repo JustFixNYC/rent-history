@@ -19,13 +19,14 @@ import type {
   RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
   RhHistoryList,
-  RhHistoryPageDeleteResponse,
+  RhDeleteAllScannedPagesResponse,
+  RhDeleteScannedPagesResponse,
   RhHistoryRecord,
   RhHistoryReportEmailRequest,
   RhHistoryReportEmailResponse,
   RhHistoryReportPdfCreateRequest,
   RhHistoryReportPdfCreateResponse,
-  RhPagesReadinessResponse,
+  RhScanReviewResponse,
   RhLoginStartResponse,
   RhOtpTokenResponse,
   RhRunAnalysisResponse,
@@ -153,15 +154,28 @@ export const setRhHistoryCurrentRent = (
     })
   );
 
-/** `POST /rh/history/delete-pages` — Delete all uploaded page scans for one history id. */
-export const deleteRhHistoryPages = (
+/** `POST /rh/history/delete-all-scanned-pages` — Delete all uploaded page scans for one history id. */
+export const deleteAllRhScannedPages = (
   accessToken: string,
   historyId: string
-): Promise<RhHistoryPageDeleteResponse> =>
+): Promise<RhDeleteAllScannedPagesResponse> =>
   unwrapAccountResponse(
-    getAccountClient().POST("/rh/history/delete-pages", {
+    getAccountClient().POST("/rh/history/delete-all-scanned-pages", {
       headers: bearerHeaders(accessToken),
       body: { history_id: historyId },
+    })
+  );
+
+/** `POST /rh/history/delete-scanned-pages` — Delete specific RhPage records by id. */
+export const deleteRhScannedPages = (
+  accessToken: string,
+  historyId: string,
+  pageIds: number[]
+): Promise<RhDeleteScannedPagesResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/delete-scanned-pages", {
+      headers: bearerHeaders(accessToken),
+      body: { history_id: historyId, page_ids: pageIds },
     })
   );
 
@@ -179,27 +193,33 @@ export const combineRhHistoryPages = (
     })
   ) as Promise<RhHistoryCombinePagesResponse>;
 
+export type GetRhHistoryScanReviewOptions = {
+  acceptPartial?: boolean;
+};
+
 /**
- * `GET /rh/history/pages-readiness` — OAuth2 bearer.
- * HTTP 200 with `status`: `ready` | `pending` | `excess`. Query validation and
- * server errors throw `AccountApiError`.
+ * `GET /rh/history/scan-review` — OAuth2 bearer.
+ * HTTP 200 with `status`: `ready` | `pending`. Query validation and server
+ * errors throw `AccountApiError`.
  */
-export const getRhHistoryPagesReadiness = (
+export const getRhHistoryScanReview = (
   accessToken: string,
   historyId: string,
-  numPages: number
-): Promise<RhPagesReadinessResponse> =>
+  expectedPageCount: number,
+  options?: GetRhHistoryScanReviewOptions
+): Promise<RhScanReviewResponse> =>
   unwrapAccountResponse(
-    getAccountClient().GET("/rh/history/pages-readiness", {
+    getAccountClient().GET("/rh/history/scan-review", {
       headers: bearerHeaders(accessToken),
       params: {
         query: {
           history_id: historyId,
-          num_pages: numPages,
+          expected_page_count: expectedPageCount,
+          ...(options?.acceptPartial ? { accept_partial: true } : {}),
         },
       },
     })
-  ) as Promise<RhPagesReadinessResponse>;
+  ) as Promise<RhScanReviewResponse>;
 
 /**
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.

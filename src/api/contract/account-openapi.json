@@ -169,15 +169,6 @@
         ],
         "type": "object"
       },
-      "RelationEnum": {
-        "description": "* `less` - less\n* `equal` - equal\n* `more` - more",
-        "enum": [
-          "less",
-          "equal",
-          "more"
-        ],
-        "type": "string"
-      },
       "ReportEmailStepStatusEnum": {
         "description": "* `succeeded` - Succeeded\n* `failed` - Failed\n* `not_attempted` - Not attempted",
         "enum": [
@@ -264,6 +255,62 @@
         "required": [
           "error",
           "error_code"
+        ],
+        "type": "object"
+      },
+      "RhDeleteAllScannedPagesResponse": {
+        "properties": {
+          "deleted_pages": {
+            "type": "integer"
+          },
+          "s3_cleanup_status": {
+            "$ref": "#/components/schemas/S3CleanupStatusEnum"
+          },
+          "s3_deleted_versions": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "deleted_pages",
+          "s3_cleanup_status"
+        ],
+        "type": "object"
+      },
+      "RhDeleteScannedPagesRequestRequest": {
+        "properties": {
+          "history_id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "page_ids": {
+            "items": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "history_id",
+          "page_ids"
+        ],
+        "type": "object"
+      },
+      "RhDeleteScannedPagesResponse": {
+        "properties": {
+          "deleted_pages": {
+            "type": "integer"
+          },
+          "s3_cleanup_status": {
+            "$ref": "#/components/schemas/S3CleanupStatusEnum"
+          },
+          "s3_deleted_keys": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "deleted_pages",
+          "s3_cleanup_status"
         ],
         "type": "object"
       },
@@ -671,24 +718,6 @@
           "id",
           "last_step_reached",
           "updated_at"
-        ],
-        "type": "object"
-      },
-      "RhHistoryPageDeleteResponse": {
-        "properties": {
-          "deleted_pages": {
-            "type": "integer"
-          },
-          "s3_cleanup_status": {
-            "$ref": "#/components/schemas/S3CleanupStatusEnum"
-          },
-          "s3_deleted_versions": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "deleted_pages",
-          "s3_cleanup_status"
         ],
         "type": "object"
       },
@@ -1152,7 +1181,7 @@
         "type": "object"
       },
       "RhPageSummary": {
-        "description": "Subset of RhPage fields returned by pages-readiness on HTTP 200.",
+        "description": "Subset of RhPage fields returned by scan-review on HTTP 200 ready.",
         "properties": {
           "end_year": {
             "description": "The last registration year of the rent history covered by this page.",
@@ -1166,6 +1195,10 @@
             "description": "Error message from the scan image extraction pipeline for this page.",
             "nullable": true,
             "type": "string"
+          },
+          "id": {
+            "readOnly": true,
+            "type": "integer"
           },
           "is_coverpage": {
             "description": "Whether the page is the cover page of RH without table data",
@@ -1197,44 +1230,11 @@
           }
         },
         "required": [
+          "id",
           "needs_retake",
           "s3_key"
         ],
         "type": "object"
-      },
-      "RhPagesReadinessResponse": {
-        "properties": {
-          "database": {
-            "$ref": "#/components/schemas/RhReadinessAxis"
-          },
-          "pages": {
-            "items": {
-              "$ref": "#/components/schemas/RhPageSummary"
-            },
-            "type": "array"
-          },
-          "s3": {
-            "$ref": "#/components/schemas/RhReadinessAxis"
-          },
-          "status": {
-            "$ref": "#/components/schemas/RhPagesReadinessResponseStatusEnum"
-          }
-        },
-        "required": [
-          "database",
-          "s3",
-          "status"
-        ],
-        "type": "object"
-      },
-      "RhPagesReadinessResponseStatusEnum": {
-        "description": "* `ready` - ready\n* `pending` - pending\n* `excess` - excess",
-        "enum": [
-          "ready",
-          "pending",
-          "excess"
-        ],
-        "type": "string"
       },
       "RhProfile": {
         "properties": {
@@ -1284,25 +1284,6 @@
           "added",
           "ordered_ids",
           "removed"
-        ],
-        "type": "object"
-      },
-      "RhReadinessAxis": {
-        "properties": {
-          "count": {
-            "type": "integer"
-          },
-          "expected": {
-            "type": "integer"
-          },
-          "relation": {
-            "$ref": "#/components/schemas/RelationEnum"
-          }
-        },
-        "required": [
-          "count",
-          "expected",
-          "relation"
         ],
         "type": "object"
       },
@@ -1410,6 +1391,48 @@
           "url"
         ],
         "type": "object"
+      },
+      "RhScanReviewResponse": {
+        "properties": {
+          "db_count": {
+            "type": "integer"
+          },
+          "expected_page_count": {
+            "type": "integer"
+          },
+          "missing_year_ranges": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "pages": {
+            "items": {
+              "$ref": "#/components/schemas/RhPageSummary"
+            },
+            "type": "array"
+          },
+          "processing_complete": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RhScanReviewResponseStatusEnum"
+          }
+        },
+        "required": [
+          "db_count",
+          "expected_page_count",
+          "status"
+        ],
+        "type": "object"
+      },
+      "RhScanReviewResponseStatusEnum": {
+        "description": "* `pending` - pending\n* `ready` - ready",
+        "enum": [
+          "pending",
+          "ready"
+        ],
+        "type": "string"
       },
       "RhStandardizedTableRow": {
         "description": "One element of RhPage.data[]. Declares OpenAPI field types and validates request rows.",
@@ -2096,10 +2119,10 @@
         ]
       }
     },
-    "/rh/history/delete-pages": {
+    "/rh/history/delete-all-scanned-pages": {
       "post": {
         "description": "Deletes all RhPage records for the given RhHistory belonging to the authenticated user. Also performs best-effort cleanup of versioned S3 objects under `<profile_id>/<history_id>/` in `RH_SCAN_BUCKET`.",
-        "operationId": "history_delete_pages_create",
+        "operationId": "history_delete_all_scanned_pages_create",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2115,7 +2138,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RhHistoryPageDeleteResponse"
+                  "$ref": "#/components/schemas/RhDeleteAllScannedPagesResponse"
                 }
               }
             },
@@ -2145,7 +2168,62 @@
             ]
           }
         ],
-        "summary": "Delete RhPage scan data for a given RhHistory",
+        "summary": "Delete all scanned RhPages for a RhHistory",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/delete-scanned-pages": {
+      "post": {
+        "description": "Deletes specific RhPage records by id for the given RhHistory belonging to the authenticated user. Also performs best-effort deletion of each page's `s3_key` object in `RH_SCAN_BUCKET`.",
+        "operationId": "history_delete_scanned_pages_create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RhDeleteScannedPagesRequestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhDeleteScannedPagesResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Validation error or unknown page_ids."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Delete selected scanned RhPages for a RhHistory",
         "tags": [
           "Rent History"
         ]
@@ -2270,82 +2348,6 @@
           }
         ],
         "summary": "Create an RhPage (lambda-only)",
-        "tags": [
-          "Rent History"
-        ]
-      }
-    },
-    "/rh/history/pages-readiness": {
-      "get": {
-        "description": "Compares S3 object count under `<profile_id>/<history_id>/` and `RhPage` row count to client `num_pages`. Each axis returns `count`, `expected`, and `relation` (`less`, `equal`, `more`). HTTP 200 `status`: `ready` (both equal, includes `pages`), `pending` (still processing), or `excess` (more than `num_pages` on either axis). HTTP 400 is query validation only. HTTP 503 when DB count exceeds S3 count (invariant violation) or storage is misconfigured.",
-        "operationId": "history_pages_readiness_retrieve",
-        "parameters": [
-          {
-            "description": "UUID of the RhHistory to check.",
-            "in": "query",
-            "name": "history_id",
-            "required": true,
-            "schema": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of pages the client believes were scanned (minimum 1).",
-            "in": "query",
-            "name": "num_pages",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhPagesReadinessResponse"
-                }
-              }
-            },
-            "description": "Readiness check succeeded (ready, pending, or excess)."
-          },
-          "400": {
-            "description": "Invalid history_id or num_pages."
-          },
-          "401": {
-            "description": "Missing or invalid access token."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "RhProfile or RhHistory not found."
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RhApiErrorResponse"
-                }
-              }
-            },
-            "description": "Storage misconfiguration, S3 failure, or DB count exceeds S3 count."
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "all"
-            ]
-          }
-        ],
-        "summary": "Scan upload and extraction readiness for a RhHistory",
         "tags": [
           "Rent History"
         ]
@@ -2716,6 +2718,87 @@
           }
         ],
         "summary": "Batch presigned S3 URLs for scan upload or download",
+        "tags": [
+          "Rent History"
+        ]
+      }
+    },
+    "/rh/history/scan-review": {
+      "get": {
+        "description": "DB-only poll comparing RhPage row count to client `expected_page_count`. HTTP 200 `status`: `pending` while fewer pages exist than expected (unless `accept_partial=true`), or `ready` after dedupe and gap detection. HTTP 400 when `accept_partial=true` and no pages exist yet.",
+        "operationId": "history_scan_review_retrieve",
+        "parameters": [
+          {
+            "description": "When true, skip the pending gate and return ready with partial data.",
+            "in": "query",
+            "name": "accept_partial",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Number of pages the client uploaded (minimum 1); may exceed post-dedup survivor count.",
+            "in": "query",
+            "name": "expected_page_count",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "UUID of the RhHistory to check.",
+            "in": "query",
+            "name": "history_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhScanReviewResponse"
+                }
+              }
+            },
+            "description": "Scan review poll succeeded (pending or ready)."
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid query params or accept_partial with no processed pages."
+          },
+          "401": {
+            "description": "Missing or invalid access token."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RhApiErrorResponse"
+                }
+              }
+            },
+            "description": "RhProfile or RhHistory not found."
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "all"
+            ]
+          }
+        ],
+        "summary": "Scan review poll for a RhHistory",
         "tags": [
           "Rent History"
         ]

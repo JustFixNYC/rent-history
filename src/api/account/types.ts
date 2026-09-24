@@ -40,13 +40,15 @@ export type RhHistorySetCurrentRentRequest =
 export type RhHistorySetCurrentRentResponse =
   Schemas["RhHistorySetCurrentRentResponse"];
 
-export type RhHistoryPageDeleteResponse =
-  Schemas["RhHistoryPageDeleteResponse"];
+/** `POST /rh/history/delete-all-scanned-pages` success body. */
+export type RhDeleteAllScannedPagesResponse =
+  Schemas["RhDeleteAllScannedPagesResponse"];
 
-/** Axis from `GET /rh/history/pages-readiness`. */
-export type RhReadinessAxis = Schemas["RhReadinessAxis"];
+/** `POST /rh/history/delete-scanned-pages` success body. */
+export type RhDeleteScannedPagesResponse =
+  Schemas["RhDeleteScannedPagesResponse"];
 
-/** `RhPageSummary` — pages list when readiness returns 200 `ready`. */
+/** `RhPageSummary` — pages list when scan-review returns 200 `ready`. */
 export type RhPageSummary = Schemas["RhPageSummary"];
 
 /** `RhAnalysisPage` — pages kept for analysis after combine-pages. */
@@ -107,23 +109,20 @@ export type RhScanPresignResponse = Schemas["RhScanPresignResponse"];
 
 export type RhScanPresignUrlEntry = Schemas["RhScanPresignUrlEntry"];
 
-/** `GET /rh/history/pages-readiness` response (discriminated by `status`). */
-export type RhPagesReadinessResponse =
+/** `GET /rh/history/scan-review` response (discriminated by `status`). */
+export type RhScanReviewResponse =
   | {
       status: "ready";
+      db_count: number;
+      expected_page_count: number;
+      processing_complete: boolean;
       pages: RhPageSummary[];
-      s3: RhReadinessAxis;
-      database: RhReadinessAxis;
+      missing_year_ranges?: string[];
     }
   | {
       status: "pending";
-      s3: RhReadinessAxis;
-      database: RhReadinessAxis;
-    }
-  | {
-      status: "excess";
-      s3: RhReadinessAxis;
-      database: RhReadinessAxis;
+      db_count: number;
+      expected_page_count: number;
     };
 
 /** MVP finding wire object (`findings_current` / validate-finding response). */

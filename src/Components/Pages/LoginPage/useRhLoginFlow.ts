@@ -21,7 +21,7 @@ import {
 } from "../../../session/rhSessionStorage";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import { useIsDesktop } from "../../../utils/useIsDesktop";
-import { formatPhone, setRhProfileCreated } from "../shared/flowSession";
+import { formatPhone } from "../shared/flowSession";
 
 export function useRhLoginFlow() {
   const { i18n, _ } = useLingui();
@@ -33,7 +33,7 @@ export function useRhLoginFlow() {
   const [showNoReportNotice, setShowNoReportNotice] = useState(false);
   const phoneFormRef = useRef<HTMLFormElement>(null);
   const otpFormRef = useRef<HTMLFormElement>(null);
-  const [profileCreated, setProfileCreated] = useState(false);
+  const [hasViewableReport, setHasViewableReport] = useState(false);
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const [verificationError, setVerificationError] = useState<string | null>(
     null
@@ -84,17 +84,15 @@ export function useRhLoginFlow() {
     setCodeResent(false);
     setShowNoReportNotice(false);
     try {
-      const { created, has_viewable_report } =
-        await startRhLoginMutation.mutateAsync({
-          phoneNumber: numericPhone,
-          source,
-        });
+      const { has_viewable_report } = await startRhLoginMutation.mutateAsync({
+        phoneNumber: numericPhone,
+        source,
+      });
       if (isDesktop && !has_viewable_report) {
         setShowNoReportNotice(true);
         return;
       }
-      setProfileCreated(created);
-      setRhProfileCreated(created);
+      setHasViewableReport(has_viewable_report);
       setIsVerificationStep(true);
     } catch (error) {
       if (isAccountApiError(error)) {
@@ -118,7 +116,7 @@ export function useRhLoginFlow() {
       setRhAuthSession(otpSession);
       setVerifiedProfile(otpSession.profile);
       clearRhHistoryId();
-      navigate(`/${i18n.locale}/${profileCreated ? "history" : "account"}`);
+      navigate(`/${i18n.locale}/${hasViewableReport ? "account" : "scanner"}`);
     } catch (error) {
       if (isAccountApiError(error)) {
         setVerificationError(otpVerificationMessage(error, _));

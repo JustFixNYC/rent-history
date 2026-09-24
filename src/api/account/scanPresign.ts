@@ -5,6 +5,8 @@ import type { RhScanPresignUrlEntry } from "./types";
 
 export type PresignedUrlEntry = RhScanPresignUrlEntry;
 
+export type ScanPresignOptions = { retries?: number };
+
 export class PresignApiError extends Error {
   constructor(
     message: string,
@@ -100,16 +102,34 @@ const presignedDownload = async (signedUrl: string): Promise<Response> => {
 
 export const uploadScan = async (
   key: string,
-  body: Blob
-): Promise<Response> => {
-  validateUploadKey(key);
-  validateUploadBody(body);
-  const urls = await fetchPresignedUrls("upload", [key]);
-  const entry = urls[0];
-  if (!entry?.url) {
-    throw new PresignApiError("Presign response missing URL for key.", 500);
+  body: Blob,
+  options?: ScanPresignOptions
+): Promise<void> => {
+  const maxAttempts = 1 + (options?.retries ?? 0);
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      validateUploadKey(key);
+      validateUploadBody(body);
+      const urls = await fetchPresignedUrls("upload", [key]);
+      const entry = urls[0];
+      if (!entry?.url) {
+        throw new PresignApiError("Presign response missing URL for key.", 500);
+      }
+      const response = await presignedUpload(entry.url, body);
+      if (!response.ok) {
+        throw new PresignApiError(
+          `S3 upload failed (HTTP ${response.status}).`,
+          response.status
+        );
+      }
+      return;
+    } catch (error) {
+      if (attempt === maxAttempts - 1) {
+        throw error;
+      }
+    }
   }
-  return presignedUpload(entry.url, body);
 };
 
 export const downloadScans = async (

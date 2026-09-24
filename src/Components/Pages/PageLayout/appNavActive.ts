@@ -5,7 +5,6 @@ import { removeLocalePrefix } from "../../../i18n";
 const HOME_FLOW_PATHS = [
   "login",
   "account",
-  "history",
   "scanner",
   "review",
   "confirm-address",

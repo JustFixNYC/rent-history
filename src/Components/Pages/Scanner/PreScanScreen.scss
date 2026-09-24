@@ -1,0 +1,88 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.scanner-pre-scan {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+  margin: 0 auto;
+  max-width: 327px;
+  min-height: 100%;
+  padding: jfcl.$JF_SPACING_05 jfcl.$JF_SPACING_06;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_06;
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
+  }
+
+  &__title {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__body {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__status,
+  &__error {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__error {
+    color: jfcl.$RED;
+  }
+}
+
+.scanner-tips-card {
+  background: jfcl.$WHITE;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+
+  &__header {
+    border-bottom: 1px solid jfcl.$GREY_200;
+    padding: jfcl.$JF_SPACING_05 jfcl.$JF_SPACING_06;
+  }
+
+  &__title {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__item {
+    align-items: flex-start;
+    border-bottom: 1px solid jfcl.$GREY_200;
+    display: flex;
+    gap: jfcl.$JF_SPACING_05;
+    padding: jfcl.$JF_SPACING_05 jfcl.$JF_SPACING_06;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    .jfcl-pill {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+  }
+
+  &__text {
+    @include jfcl.body_standard_mobile;
+    flex: 1;
+    margin: 0;
+  }
+}
