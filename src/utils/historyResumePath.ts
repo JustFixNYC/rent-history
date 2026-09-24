@@ -25,7 +25,7 @@ const DEFAULT_RESUME_SUBPATH = "confirm-address";
  */
 export function historyResumePath(
   locale: string,
-  lastStepReached: RhHistoryList["last_step_reached"],
+  lastStepReached: RhHistoryList["last_step_reached"]
 ): string {
   const subpath =
     (lastStepReached && RESUME_SUBPATH_BY_STEP[lastStepReached]) ??
