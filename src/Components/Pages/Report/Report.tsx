@@ -15,6 +15,7 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
+import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { buildReportPdfRequest } from "./ReportPDF";
 import {
   ReportEmailForm,
@@ -139,6 +140,7 @@ const Report: React.FC = () => {
   if (!accessToken) {
     return (
       <section id="report-page" className="preflow-section">
+        <AnalysisFlowProgress stepId="report" />
         <p className="report-page__error">
           <Trans>Please sign in to generate your report.</Trans>
         </p>
@@ -149,6 +151,7 @@ const Report: React.FC = () => {
   if (!historyId) {
     return (
       <section id="report-page" className="preflow-section">
+        <AnalysisFlowProgress stepId="report" />
         <p className="report-page__error">
           <Trans>
             No rent history session was found. Complete the upload flow first,
@@ -161,10 +164,11 @@ const Report: React.FC = () => {
 
   return (
     <section id="report-page" className="preflow-section">
+      <AnalysisFlowProgress stepId="report" />
       <article className="preflow-card">
-        <h1>
+        <h2>
           <Trans>Report</Trans>
-        </h1>
+        </h2>
         <p>
           <Trans>
             Generate a PDF copy of your rent history report. Generating again

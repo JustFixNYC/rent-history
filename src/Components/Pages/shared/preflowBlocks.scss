@@ -1,5 +1,7 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 
+// TODO: eventually everything should be moved out of old prototype legacy file
+
 .preflow-section {
   background: jfcl.$OFF_WHITE_100;
   padding: 2rem 1.5rem;
@@ -21,39 +23,13 @@
   margin: 0;
 }
 
-.preflow-progress {
-  margin-bottom: 1.5rem;
-
-  p {
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    margin: 0 0 0.5rem 0;
-  }
-
-  &__bar {
-    background: jfcl.$OFF_WHITE_100;
-    border: 1px solid jfcl.$OFF_BLACK;
-    border-radius: 999px;
-    height: 16px;
-    overflow: hidden;
-    width: 100%;
-
-    span {
-      background: jfcl.$OFF_BLACK;
-      display: block;
-      height: 100%;
-      width: 20%;
-    }
-  }
-}
-
 .preflow-card {
   background: jfcl.$WHITE;
   border: 1px solid jfcl.$GREY_NEW;
   padding: 1.5rem;
 
-  h1 {
+  h1,
+  h2 {
     font-size: 2rem;
     font-weight: 600;
     line-height: 1.2;

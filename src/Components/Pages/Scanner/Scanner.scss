@@ -6,6 +6,10 @@
   min-height: 100%;
 }
 
+.scanner-page__progress {
+  padding: 2rem 1.5rem 0;
+}
+
 .scanner-page--scanning {
   min-height: calc(100dvh - 8rem);
 }

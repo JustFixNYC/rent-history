@@ -29,7 +29,7 @@
     @include layout.mobile {
       padding: 1.5rem 2.25rem;
 
-      h1,
+      .header__brand-title,
       a {
         color: jfcl.$OFF_BLACK;
         font-family: "Degular Display";
