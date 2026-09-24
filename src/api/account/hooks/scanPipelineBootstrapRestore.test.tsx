@@ -77,9 +77,8 @@ const needsRescanPipelineResponse = {
   uploads_observed_count: 2,
   early_validation: {
     passed: false,
-    document_total_pages: 2,
     missing_page_numbers: [],
-    pages_needing_rescan: [{ id: 1, page_number: 1, total_pages: 2 }],
+    pages_needing_rescan: [{ id: 1, page_number: 1}],
     scanned_max_reg_year: 2020,
     warnings: [],
   },

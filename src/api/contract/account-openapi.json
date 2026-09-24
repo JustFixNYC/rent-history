@@ -268,10 +268,6 @@
           "start_year": {
             "nullable": true,
             "type": "integer"
-          },
-          "total_pages": {
-            "nullable": true,
-            "type": "integer"
           }
         },
         "type": "object"
@@ -481,10 +477,6 @@
       },
       "RhEarlyValidation": {
         "properties": {
-          "document_total_pages": {
-            "nullable": true,
-            "type": "integer"
-          },
           "missing_page_numbers": {
             "items": {
               "type": "integer"
@@ -512,7 +504,6 @@
           }
         },
         "required": [
-          "document_total_pages",
           "missing_page_numbers",
           "pages_needing_rescan",
           "passed",
@@ -1511,10 +1502,6 @@
           "start_year": {
             "nullable": true,
             "type": "integer"
-          },
-          "total_pages": {
-            "nullable": true,
-            "type": "integer"
           }
         },
         "required": [
@@ -1539,16 +1526,11 @@
           "page_number": {
             "nullable": true,
             "type": "integer"
-          },
-          "total_pages": {
-            "nullable": true,
-            "type": "integer"
           }
         },
         "required": [
           "id",
-          "page_number",
-          "total_pages"
+          "page_number"
         ],
         "type": "object"
       },

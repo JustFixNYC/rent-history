@@ -44,7 +44,6 @@ vi.mock("../../../api/account/api", async () => {
 
 const warningOnlyEarlyValidation: RhEarlyValidation = {
   passed: true,
-  document_total_pages: null,
   missing_page_numbers: [],
   pages_needing_rescan: [],
   scanned_max_reg_year: 2003,
@@ -53,13 +52,11 @@ const warningOnlyEarlyValidation: RhEarlyValidation = {
 
 const errorsAndWarningEarlyValidation: RhEarlyValidation = {
   passed: false,
-  document_total_pages: null,
   missing_page_numbers: [],
   pages_needing_rescan: [
     {
       id: 7,
       page_number: 2,
-      total_pages: null,
     },
   ],
   scanned_max_reg_year: 2003,

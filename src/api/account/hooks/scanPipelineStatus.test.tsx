@@ -72,7 +72,6 @@ const createWrapper = () => {
 
 const passedEarlyValidation = {
   passed: true,
-  document_total_pages: null,
   missing_page_numbers: [],
   pages_needing_rescan: [],
   scanned_max_reg_year: 2020,
@@ -237,9 +236,8 @@ describe("useScanPipelineStatus", () => {
   it("navigates to scan-review with rescan metadata on needs_rescan", async () => {
     const earlyValidation = {
       passed: false,
-      document_total_pages: 3,
       missing_page_numbers: [],
-      pages_needing_rescan: [{ id: 7, page_number: 2, total_pages: 3 }],
+      pages_needing_rescan: [{ id: 7, page_number: 2}],
       scanned_max_reg_year: 2020,
       warnings: [],
     };

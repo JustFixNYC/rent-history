@@ -41,11 +41,10 @@ const { navigateMock, testHistoryId, defaultPipelineResponse } = vi.hoisted(
 
 const partialEarlyValidation = {
   passed: false,
-  document_total_pages: 6,
   missing_page_numbers: [3, 5],
   pages_needing_rescan: [
-    { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
-    { id: null, page_number: 5, total_pages: 6, label: "Page 5 of 6" },
+    { id: 7, page_number: 2, label: "Page 2" },
+    { id: null, page_number: 5, label: "Page 5" },
   ],
   scanned_max_reg_year: 2020,
   warnings: [],
@@ -160,8 +159,8 @@ describe("ScanReviewPage error states", () => {
     expect(
       screen.getByText("We weren't able to capture all of your rent history.")
     ).toBeInTheDocument();
-    expect(screen.getByText("Page 2 of 6")).toBeInTheDocument();
-    expect(screen.getByText("Page 5 of 6")).toBeInTheDocument();
+    expect(screen.getByText("Page 2")).toBeInTheDocument();
+    expect(screen.getByText("Page 5")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Re-scan these pages" })
     ).toBeInTheDocument();
@@ -178,10 +177,9 @@ describe("ScanReviewPage error states", () => {
       ...needsRescanPipelineResponse,
       early_validation: {
         passed: false,
-        document_total_pages: 1,
         missing_page_numbers: [],
         pages_needing_rescan: [
-          { id: 7, page_number: 1, total_pages: 1, label: "Page 1 of 1" },
+          { id: 7, page_number: 1, label: "Page 1" },
         ],
         scanned_max_reg_year: 2020,
         warnings: [],
@@ -203,7 +201,6 @@ describe("ScanReviewPage error states", () => {
       scan_pipeline_status: "needs_rescan",
       early_validation: {
         passed: true,
-        document_total_pages: 4,
         missing_page_numbers: [],
         pages_needing_rescan: [],
         scanned_max_reg_year: null,
@@ -225,10 +222,9 @@ describe("ScanReviewPage error states", () => {
       ...needsRescanPipelineResponse,
       early_validation: {
         passed: false,
-        document_total_pages: null,
         missing_page_numbers: [],
         pages_needing_rescan: [
-          { id: 7, page_number: 2, total_pages: null, label: "Page 2" },
+          { id: 7, page_number: 2, label: "Page 2" },
         ],
         scanned_max_reg_year: 2020,
         warnings: [],
@@ -280,9 +276,8 @@ describe("ScanReviewPage error states", () => {
       ...needsRescanPipelineResponse,
       early_validation: {
         passed: false,
-        document_total_pages: null,
         missing_page_numbers: [],
-        pages_needing_rescan: [{ id: 7, page_number: null, total_pages: null }],
+        pages_needing_rescan: [{ id: 7, page_number: null}],
         scanned_max_reg_year: null,
         warnings: [],
       },
@@ -299,13 +294,13 @@ describe("ScanReviewPage error states", () => {
     const staleLocationValidation = {
       ...partialEarlyValidation,
       pages_needing_rescan: [
-        { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+        { id: 7, page_number: 2, label: "Page 2" },
       ],
     };
     const pipelineEarlyValidation = {
       ...partialEarlyValidation,
       pages_needing_rescan: [
-        { id: 8, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+        { id: 8, page_number: 2, label: "Page 2" },
       ],
     };
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
@@ -434,7 +429,6 @@ describe("ScanReviewPage incremental flow", () => {
       scan_pipeline_status: "needs_rescan",
       early_validation: {
         passed: true,
-        document_total_pages: null,
         missing_page_numbers: [],
         pages_needing_rescan: [],
         scanned_max_reg_year: 2003,
@@ -463,10 +457,9 @@ describe("ScanReviewPage incremental flow", () => {
       scan_pipeline_status: "needs_rescan",
       early_validation: {
         passed: false,
-        document_total_pages: null,
         missing_page_numbers: [],
         pages_needing_rescan: [
-          { id: 7, page_number: 2, total_pages: null, label: "Page 2" },
+          { id: 7, page_number: 2, label: "Page 2" },
         ],
         scanned_max_reg_year: 2003,
         warnings: [
@@ -500,7 +493,6 @@ describe("ScanReviewPage incremental flow", () => {
       scan_pipeline_status: "needs_rescan",
       early_validation: {
         passed: true,
-        document_total_pages: null,
         missing_page_numbers: [],
         pages_needing_rescan: [],
         scanned_max_reg_year: 2003,
@@ -548,7 +540,6 @@ describe("ScanReviewPage incremental flow", () => {
       scan_pipeline_status: "needs_rescan",
       early_validation: {
         passed: true,
-        document_total_pages: null,
         missing_page_numbers: [],
         pages_needing_rescan: [],
         scanned_max_reg_year: 2003,
@@ -605,7 +596,6 @@ describe("ScanReviewPage incremental flow", () => {
       scan_pipeline_status: "needs_rescan",
       early_validation: {
         passed: true,
-        document_total_pages: null,
         missing_page_numbers: [],
         pages_needing_rescan: [],
         scanned_max_reg_year: 2003,

@@ -9,7 +9,6 @@ import {
 
 const baseEarlyValidation: RhEarlyValidation = {
   passed: false,
-  document_total_pages: 6,
   missing_page_numbers: [],
   pages_needing_rescan: [],
   scanned_max_reg_year: 2020,
@@ -22,17 +21,17 @@ describe("getLabelableRescanLabels", () => {
       getLabelableRescanLabels({
         ...baseEarlyValidation,
         pages_needing_rescan: [
-          { id: 1, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+          { id: 1, page_number: 2, label: "Page 2" },
         ],
       })
-    ).toEqual(["Page 2 of 6"]);
+    ).toEqual(["Page 2"]);
   });
 
   it("skips pages without labels", () => {
     expect(
       getLabelableRescanLabels({
         ...baseEarlyValidation,
-        pages_needing_rescan: [{ id: 1, page_number: 2, total_pages: 6 }],
+        pages_needing_rescan: [{ id: 1, page_number: 2}],
       })
     ).toEqual([]);
   });
@@ -49,23 +48,22 @@ describe("resolveScanReviewScreen", () => {
     const earlyValidation: RhEarlyValidation = {
       ...baseEarlyValidation,
       pages_needing_rescan: [
-        { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
-        { id: 8, page_number: 5, total_pages: null, label: "Page 5 of 6" },
+        { id: 7, page_number: 2, label: "Page 2" },
+        { id: 8, page_number: 5, label: "Page 5" },
       ],
     };
 
     expect(resolveScanReviewScreen(null, earlyValidation)).toEqual({
       screen: ScanReviewEntryScreen.partialPageErrors,
-      labels: ["Page 2 of 6", "Page 5 of 6"],
+      labels: ["Page 2", "Page 5"],
     });
   });
 
   it("routes N-only labelable pages to partialPageErrors without of M suffix", () => {
     const earlyValidation: RhEarlyValidation = {
       ...baseEarlyValidation,
-      document_total_pages: null,
       pages_needing_rescan: [
-        { id: 7, page_number: 2, total_pages: null, label: "Page 2" },
+        { id: 7, page_number: 2, label: "Page 2" },
       ],
     };
 
@@ -80,8 +78,7 @@ describe("resolveScanReviewScreen", () => {
     expect(
       resolveScanReviewScreen(null, {
         ...baseEarlyValidation,
-        document_total_pages: null,
-        pages_needing_rescan: [{ id: 7, page_number: null, total_pages: null }],
+        pages_needing_rescan: [{ id: 7, page_number: null}],
       })
     ).toEqual({ screen: ScanReviewEntryScreen.totalFailure });
   });
@@ -118,7 +115,7 @@ describe("resolveScanReviewScreen", () => {
       ...baseEarlyValidation,
       warnings: [{ code: "possible_missing_last_page", latest_reg_year: 2003 }],
       pages_needing_rescan: [
-        { id: 7, page_number: 2, total_pages: 6, label: "Page 2 of 6" },
+        { id: 7, page_number: 2, label: "Page 2" },
       ],
     };
 

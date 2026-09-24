@@ -600,7 +600,6 @@ export interface components {
             quality_issue_reason?: string | null;
             s3_key?: string;
             start_year?: number | null;
-            total_pages?: number | null;
         };
         /**
          * @description * `succeeded` - Succeeded
@@ -677,7 +676,6 @@ export interface components {
             s3_deleted_keys?: number;
         };
         RhEarlyValidation: {
-            document_total_pages: number | null;
             missing_page_numbers: number[];
             pages_needing_rescan: components["schemas"]["RhPageRescanInfo"][];
             passed: boolean;
@@ -1008,13 +1006,11 @@ export interface components {
             quality_issue_reason?: string | null;
             s3_key: string;
             start_year?: number | null;
-            total_pages?: number | null;
         };
         RhPageRescanInfo: {
             id: number | null;
             label?: string | null;
             page_number: number | null;
-            total_pages: number | null;
         };
         RhProfile: {
             readonly id: number;

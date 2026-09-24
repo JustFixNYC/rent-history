@@ -36,11 +36,11 @@ describe("formatLabelsForInstruction", () => {
 
 describe("ScanReviewRescanCallout", () => {
   it("renders page marker variant", () => {
-    renderCallout({ labels: ["Page 2 of 6"], variant: "page_marker" });
+    renderCallout({ labels: ["Page 2"], variant: "page_marker" });
 
     const callout = screen.getByTestId("scan-review-page-error-callout");
     expect(callout).toBeInTheDocument();
-    expect(within(callout).getAllByText("Page 2 of 6").length).toBeGreaterThan(
+    expect(within(callout).getAllByText("Page 2").length).toBeGreaterThan(
       0
     );
     expect(
@@ -51,7 +51,7 @@ describe("ScanReviewRescanCallout", () => {
           )
         )
       )
-    ).toHaveTextContent("marked Page 2 of 6 at the bottom left corner");
+    ).toHaveTextContent("marked Page 2 at the bottom left corner");
     expect(
       screen.queryByRole("button", { name: "Re-scan for these years" })
     ).not.toBeInTheDocument();

@@ -70,7 +70,6 @@ const mockAuthSession: rhSessionStorage.RhSessionAuth = {
 
 const passedEarlyValidation = {
   passed: true,
-  document_total_pages: null,
   missing_page_numbers: [],
   pages_needing_rescan: [],
   scanned_max_reg_year: 2020,
