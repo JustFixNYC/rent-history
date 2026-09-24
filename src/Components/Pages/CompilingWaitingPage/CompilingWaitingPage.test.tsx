@@ -171,7 +171,7 @@ describe("CompilingWaitingPage", () => {
     expect(screen.queryByTestId("flow-nav")).not.toBeInTheDocument();
   });
 
-  it("shows error callout on failed status without auto-navigating", async () => {
+  it("shows unknown recovery screen on failed status without auto-navigating", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       failedResponse
     );
@@ -179,29 +179,31 @@ describe("CompilingWaitingPage", () => {
     renderCompilingWaitingPage();
 
     expect(
-      await screen.findByText("Unable to compile your rent history")
+      await screen.findByTestId("scan-review-recovery-unknown")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Come back later" })
     ).toBeInTheDocument();
     expect(navigateMock).not.toHaveBeenCalled();
     expect(screen.getByTestId("compiling-sms-callout")).toBeInTheDocument();
   });
 
-  it("hides FlowNav on forward visit even when complete", async () => {
+  it("navigates to account when user taps Come back later on failed status", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
-      completeResponse
+      failedResponse
     );
 
     renderCompilingWaitingPage();
 
-    await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/findings-overview", {
-        replace: true,
-      });
-    });
-    expect(screen.queryByTestId("flow-nav")).not.toBeInTheDocument();
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Come back later" })
+    );
+
+    expect(navigateMock).toHaveBeenCalledWith("/en/account");
   });
 
-  it("shows FlowNav on POP when pipeline is complete", async () => {
-    navigationTypeMock.mockReturnValue(NavigationType.Pop);
+  it("shows FlowNav when pipeline is complete without auto-navigating", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       completeResponse
     );
@@ -213,8 +215,7 @@ describe("CompilingWaitingPage", () => {
     expect(navigateMock).not.toHaveBeenCalled();
   });
 
-  it("navigates via historyResumePath when user taps Next on return visit", async () => {
-    navigationTypeMock.mockReturnValue(NavigationType.Pop);
+  it("navigates via historyResumePath when user taps Next on complete status", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       ...completeResponse,
       last_step_reached: "REPORT",
@@ -228,7 +229,6 @@ describe("CompilingWaitingPage", () => {
   });
 
   it("navigates to scanner return mode when user taps Restart", async () => {
-    navigationTypeMock.mockReturnValue(NavigationType.Pop);
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
       completeResponse
     );

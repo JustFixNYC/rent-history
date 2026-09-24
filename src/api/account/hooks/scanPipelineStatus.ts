@@ -1,21 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import {
-  useNavigate,
-  useNavigationType,
-  type NavigationType,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLingui } from "@lingui/react";
 
 import { getRhHistoryScanPipelineStatus } from "../api";
 import { accountQueryKeys } from "../queryKeys";
 import { writeScannerStepState } from "../../../Components/Pages/ScanReviewPage/scanReviewState";
 import type { ScanReviewLocationState } from "../../../Components/Pages/Scanner/scannerLocationState";
-import { historyResumePath } from "../../../utils/historyResumePath";
-import {
-  TERMINAL_PIPELINE_STATUSES,
-  type ScanPipelineStatus,
-} from "./scanPipelineUtils";
+import { TERMINAL_PIPELINE_STATUSES } from "./scanPipelineUtils";
 
 const POLL_INTERVAL_MS = 1500;
 
@@ -45,30 +37,12 @@ export type UseScanPipelineStatusParams = {
   enabled?: boolean;
 };
 
-export function shouldShowCompilingFlowNav(
-  navigationType: NavigationType,
-  scanPipelineStatus: ScanPipelineStatus | null | undefined
-): boolean {
-  return navigationType === "POP" && scanPipelineStatus === "complete";
-}
-
-export function shouldAutoNavigateOnComplete(
-  navigationType: NavigationType,
-  scanPipelineStatus: ScanPipelineStatus | null | undefined
-): boolean {
-  return (
-    (navigationType === "PUSH" || navigationType === "REPLACE") &&
-    scanPipelineStatus === "complete"
-  );
-}
-
 export const useScanPipelineStatus = ({
   accessToken,
   historyId,
   enabled = true,
 }: UseScanPipelineStatusParams) => {
   const navigate = useNavigate();
-  const navigationType = useNavigationType();
   const { i18n } = useLingui();
   const hasHandledTerminalRef = useRef(false);
 
@@ -88,9 +62,7 @@ export const useScanPipelineStatus = ({
   });
 
   const status = query.data?.scan_pipeline_status ?? null;
-  const isForwardVisit =
-    navigationType === "PUSH" || navigationType === "REPLACE";
-  const showFlowNav = shouldShowCompilingFlowNav(navigationType, status);
+  const showFlowNav = status === "complete";
 
   useEffect(() => {
     hasHandledTerminalRef.current = false;
@@ -111,21 +83,11 @@ export const useScanPipelineStatus = ({
       });
       return;
     }
-
-    if (
-      shouldAutoNavigateOnComplete(navigationType, data.scan_pipeline_status)
-    ) {
-      hasHandledTerminalRef.current = true;
-      navigate(historyResumePath(i18n.locale, data.last_step_reached), {
-        replace: true,
-      });
-    }
-  }, [i18n.locale, navigate, navigationType, query.data]);
+  }, [i18n.locale, navigate, query.data]);
 
   return {
     ...query,
     status,
-    isForwardVisit,
     showFlowNav,
   };
 };

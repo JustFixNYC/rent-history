@@ -98,8 +98,6 @@ export {
 export {
   useScanPipelineBootstrap,
   useScanPipelineStatus,
-  shouldAutoNavigateOnComplete,
-  shouldShowCompilingFlowNav,
 } from "./hooks/scanPipelineStatus";
 export {
   useScannerBootstrapRestore,

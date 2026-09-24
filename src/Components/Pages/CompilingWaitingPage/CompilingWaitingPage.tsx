@@ -13,6 +13,9 @@ import {
 } from "../../../session/rhSessionStorage";
 import { historyResumePath } from "../../../utils/historyResumePath";
 import { useScanPipelineStatus } from "../../../api/account";
+import { ScanReviewRecoveryScreen } from "../ScanReviewPage/ScanReviewRecoveryScreen";
+import { ScanReviewRecoveryVariant } from "../ScanReviewPage/scanReviewModes";
+import { getRecoveryScreenConfig } from "../ScanReviewPage/scanReviewScreenState";
 
 import {
   deriveCompilingMilestones,
@@ -21,6 +24,10 @@ import {
 } from "./deriveCompilingMilestones";
 
 import "./CompilingWaitingPage.scss";
+
+const UNKNOWN_RECOVERY_CONFIG = getRecoveryScreenConfig(
+  ScanReviewRecoveryVariant.unknown
+);
 
 const MILESTONE_ROWS = [
   {
@@ -80,7 +87,7 @@ const CompilingWaitingPage = () => {
 
   const milestones = deriveCompilingMilestones(status);
   const substepIndex = getCompilingSubstepIndex(milestones);
-  const showFailedCallout = status === "failed";
+  const showFailedRecovery = status === "failed";
 
   const handleRestart = () => {
     navigate(`/${i18n.locale}/scanner`, {
@@ -93,6 +100,10 @@ const CompilingWaitingPage = () => {
     navigate(historyResumePath(i18n.locale, data.last_step_reached));
   };
 
+  const handleComeBackLater = () => {
+    navigate(`/${i18n.locale}/account`);
+  };
+
   return (
     <div id="compiling-waiting-page" className="compiling-waiting-page">
       <section className="compiling-waiting-page__body">
@@ -102,22 +113,7 @@ const CompilingWaitingPage = () => {
           substepCount={3}
         />
 
-        {showFailedCallout ? (
-          <CalloutBox
-            className="compiling-waiting-page__error-callout"
-            title={<Trans>Unable to compile your rent history</Trans>}
-            headingLevel={2}
-          >
-            <p>
-              <Trans>
-                Something went wrong while processing your scans. Please try
-                scanning again or contact support if this keeps happening.
-              </Trans>
-            </p>
-          </CalloutBox>
-        ) : null}
-
-        {isError && !showFailedCallout ? (
+        {isError && !showFailedRecovery ? (
           <CalloutBox
             className="compiling-waiting-page__error-callout"
             title={<Trans>Unable to load compile status</Trans>}
@@ -156,6 +152,13 @@ const CompilingWaitingPage = () => {
             ))}
           </ul>
         </article>
+
+        {showFailedRecovery ? (
+          <ScanReviewRecoveryScreen
+            recoveryConfig={UNKNOWN_RECOVERY_CONFIG}
+            onPrimaryAction={handleComeBackLater}
+          />
+        ) : null}
 
         <aside
           className="compiling-waiting-page__sms-callout"

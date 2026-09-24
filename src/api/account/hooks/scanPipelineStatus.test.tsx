@@ -5,11 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as accountApi from "../api";
 import * as scannerState from "../../../Components/Pages/ScanReviewPage/scanReviewState";
-import {
-  shouldAutoNavigateOnComplete,
-  shouldShowCompilingFlowNav,
-  useScanPipelineStatus,
-} from "./scanPipelineStatus";
+import { useScanPipelineStatus } from "./scanPipelineStatus";
 
 const historyId = "22222222-2222-4222-8222-222222222222";
 const accessToken = "access-token";
@@ -78,35 +74,6 @@ const passedEarlyValidation = {
   warnings: [],
 };
 
-describe("FlowNav visibility helpers", () => {
-  it("shows FlowNav only on POP when complete", () => {
-    expect(shouldShowCompilingFlowNav(NavigationType.Pop, "complete")).toBe(
-      true
-    );
-    expect(shouldShowCompilingFlowNav(NavigationType.Push, "complete")).toBe(
-      false
-    );
-    expect(
-      shouldShowCompilingFlowNav(NavigationType.Pop, "running_analysis")
-    ).toBe(false);
-  });
-
-  it("auto-navigates on complete for forward visits only", () => {
-    expect(shouldAutoNavigateOnComplete(NavigationType.Push, "complete")).toBe(
-      true
-    );
-    expect(
-      shouldAutoNavigateOnComplete(NavigationType.Replace, "complete")
-    ).toBe(true);
-    expect(shouldAutoNavigateOnComplete(NavigationType.Pop, "complete")).toBe(
-      false
-    );
-    expect(
-      shouldAutoNavigateOnComplete(NavigationType.Push, "running_analysis")
-    ).toBe(false);
-  });
-});
-
 describe("useScanPipelineStatus", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -170,7 +137,7 @@ describe("useScanPipelineStatus", () => {
     );
   });
 
-  it("auto-navigates on complete for forward visits", async () => {
+  it("does not auto-navigate on complete", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       declared_last_reg_year: null,
       scan_pipeline_status: "complete",
@@ -184,7 +151,7 @@ describe("useScanPipelineStatus", () => {
       early_validation: passedEarlyValidation,
     });
 
-    renderHook(
+    const { result } = renderHook(
       () =>
         useScanPipelineStatus({
           accessToken,
@@ -194,13 +161,14 @@ describe("useScanPipelineStatus", () => {
     );
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/findings-overview", {
-        replace: true,
-      });
+      expect(result.current.isSuccess).toBe(true);
     });
+
+    expect(navigateMock).not.toHaveBeenCalled();
+    expect(result.current.showFlowNav).toBe(true);
   });
 
-  it("does not auto-navigate on complete when user returned via back", async () => {
+  it("shows FlowNav whenever pipeline is complete", async () => {
     navigationTypeMock.mockReturnValue(NavigationType.Pop);
 
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
@@ -226,11 +194,40 @@ describe("useScanPipelineStatus", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
+      expect(result.current.showFlowNav).toBe(true);
     });
 
     expect(navigateMock).not.toHaveBeenCalled();
-    expect(result.current.showFlowNav).toBe(true);
+  });
+
+  it("hides FlowNav while pipeline is still processing", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      declared_last_reg_year: null,
+      scan_pipeline_status: "running_analysis",
+      expected_page_count: 2,
+      uploads_observed_count: 2,
+      pages_landed_count: 2,
+      pages_terminal_count: 2,
+      processing_complete: false,
+      user_message_key: null,
+      last_step_reached: "COMPILING",
+      early_validation: passedEarlyValidation,
+    });
+
+    const { result } = renderHook(
+      () =>
+        useScanPipelineStatus({
+          accessToken,
+          historyId,
+        }),
+      { wrapper: createWrapper() }
+    );
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(result.current.showFlowNav).toBe(false);
   });
 
   it("navigates to scan-review with rescan metadata on needs_rescan", async () => {
