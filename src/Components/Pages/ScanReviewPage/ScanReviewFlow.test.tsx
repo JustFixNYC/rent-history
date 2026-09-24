@@ -50,7 +50,7 @@ const warningOnlyEarlyValidation: RhEarlyValidation = {
   warnings: [{ code: "possible_missing_last_page", latest_reg_year: 2003 }],
 };
 
-const errorsAndWarningEarlyValidation: RhEarlyValidation = {
+const skipPathEarlyValidation: RhEarlyValidation = {
   passed: false,
   missing_page_numbers: [],
   pages_needing_rescan: [
@@ -203,8 +203,8 @@ describe("ScanReviewFlow", () => {
     });
 
     renderScanReviewFlow({
-      flowMode: ScanReviewMode.errorsAndWarning,
-      earlyValidation: errorsAndWarningEarlyValidation,
+      flowMode: ScanReviewMode.warningOnly,
+      earlyValidation: skipPathEarlyValidation,
     });
 
     await selectLastRegYear(2020);
@@ -282,10 +282,10 @@ describe("ScanReviewFlow", () => {
     expect(accountApi.confirmRhHistoryLastRegYear).not.toHaveBeenCalled();
   });
 
-  it("shows trailing range and page labels for errorsAndWarning when declared is set", () => {
+  it("shows trailing range and page labels on skip path when declared is set", () => {
     renderScanReviewFlow({
-      flowMode: ScanReviewMode.errorsAndWarning,
-      earlyValidation: errorsAndWarningEarlyValidation,
+      flowMode: ScanReviewMode.warningOnly,
+      earlyValidation: skipPathEarlyValidation,
       declaredLastRegYear: 2020,
       skipLastRegYearStep: true,
       initialCalloutLabels: ["Page 2", "2004-2020"],

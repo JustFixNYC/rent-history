@@ -237,7 +237,7 @@ describe("useScanPipelineStatus", () => {
     const earlyValidation = {
       passed: false,
       missing_page_numbers: [],
-      pages_needing_rescan: [{ id: 7, page_number: 2}],
+      pages_needing_rescan: [{ id: 7, page_number: 2 }],
       scanned_max_reg_year: 2020,
       warnings: [],
     };

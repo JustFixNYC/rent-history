@@ -11,8 +11,6 @@ export const ScanReviewMode = {
   warningOnly: "warningOnly",
   /** post-Continue declared year > scanned max (flow-local) */
   warningYearMismatch: "warningYearMismatch",
-  /** passed=false + warning + year step */
-  errorsAndWarning: "errorsAndWarning",
   /** partial page errors, no warning */
   partialPageErrors: "partialPageErrors",
   /** unrecoverable total failure */
@@ -24,7 +22,13 @@ export type ScanReviewMode =
 
 /** Page-level entry screens returned by `resolveScanReviewScreen`. */
 export const ScanReviewEntryScreen = {
-  /** warningOnly or errorsAndWarning — routes to `ScanReviewFlow` */
+  /** hard failure / launch / upload / pipeline failed */
+  unknownError: "unknownError",
+  /** passed=false + warning + rescan signals, no year step */
+  combinedFullRescan: "combinedFullRescan",
+  /** all pages need rescan with no readable table signal */
+  allNeedsRescan: "allNeedsRescan",
+  /** warningOnly — routes to `ScanReviewFlow` */
   incrementalFlow: "incrementalFlow",
   /** routes to `ScanReviewErrorScreen` */
   partialPageErrors: "partialPageErrors",
@@ -34,6 +38,16 @@ export const ScanReviewEntryScreen = {
 
 export type ScanReviewEntryScreen =
   (typeof ScanReviewEntryScreen)[keyof typeof ScanReviewEntryScreen];
+
+/** Recovery screen variants for shared `ScanReviewRecoveryScreen`. */
+export const ScanReviewRecoveryVariant = {
+  combined: "combined",
+  allNeedsRescan: "allNeedsRescan",
+  unknown: "unknown",
+} as const;
+
+export type ScanReviewRecoveryVariant =
+  (typeof ScanReviewRecoveryVariant)[keyof typeof ScanReviewRecoveryVariant];
 
 /** In-flow phases inside `ScanReviewFlow` (not entry routing). */
 export const ScanReviewFlowPhase = {
@@ -45,7 +59,7 @@ export type ScanReviewFlowPhase =
   (typeof ScanReviewFlowPhase)[keyof typeof ScanReviewFlowPhase];
 
 export type ScanReviewModeReferenceRow = {
-  semanticMode: ScanReviewMode;
+  semanticMode: ScanReviewMode | ScanReviewRecoveryVariant;
   entryOrFlow: "entry" | "flow";
   entryScreen?: ScanReviewEntryScreen;
   conditionSummary: string;
@@ -53,6 +67,27 @@ export type ScanReviewModeReferenceRow = {
 
 /** Semantic mode ↔ routing reference for module docs. */
 export const SCAN_REVIEW_MODE_REFERENCE: ScanReviewModeReferenceRow[] = [
+  {
+    semanticMode: ScanReviewRecoveryVariant.unknown,
+    entryOrFlow: "entry",
+    entryScreen: ScanReviewEntryScreen.unknownError,
+    conditionSummary:
+      "Non-pipeline entry, scan_pipeline_status=failed, or unrecoverable errors",
+  },
+  {
+    semanticMode: ScanReviewRecoveryVariant.combined,
+    entryOrFlow: "entry",
+    entryScreen: ScanReviewEntryScreen.combinedFullRescan,
+    conditionSummary:
+      "passed=false + possible_missing_last_page + rescan signals + skip_last_reg_year_step=false",
+  },
+  {
+    semanticMode: ScanReviewRecoveryVariant.allNeedsRescan,
+    entryOrFlow: "entry",
+    entryScreen: ScanReviewEntryScreen.allNeedsRescan,
+    conditionSummary:
+      "All pages in pages_needing_rescan, scanned_max_reg_year null, no labelable pages",
+  },
   {
     semanticMode: ScanReviewMode.warningOnly,
     entryOrFlow: "entry",
@@ -67,12 +102,6 @@ export const SCAN_REVIEW_MODE_REFERENCE: ScanReviewModeReferenceRow[] = [
       "User Continue with declared year > scanned max (inside ScanReviewFlow)",
   },
   {
-    semanticMode: ScanReviewMode.errorsAndWarning,
-    entryOrFlow: "entry",
-    entryScreen: ScanReviewEntryScreen.incrementalFlow,
-    conditionSummary: "passed=false + warning + year step eligible",
-  },
-  {
     semanticMode: ScanReviewMode.partialPageErrors,
     entryOrFlow: "entry",
     entryScreen: ScanReviewEntryScreen.partialPageErrors,
@@ -84,6 +113,6 @@ export const SCAN_REVIEW_MODE_REFERENCE: ScanReviewModeReferenceRow[] = [
     entryOrFlow: "entry",
     entryScreen: ScanReviewEntryScreen.totalFailure,
     conditionSummary:
-      "Unrecoverable: non-pipeline entry, no labelable pages, or missing reg year signal",
+      "Unrecoverable: no labelable pages, empty actionable metadata, or warning ineligible",
   },
 ];

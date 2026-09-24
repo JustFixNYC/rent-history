@@ -78,7 +78,7 @@ const needsRescanPipelineResponse = {
   early_validation: {
     passed: false,
     missing_page_numbers: [],
-    pages_needing_rescan: [{ id: 1, page_number: 1}],
+    pages_needing_rescan: [{ id: 1, page_number: 1 }],
     scanned_max_reg_year: 2020,
     warnings: [],
   },

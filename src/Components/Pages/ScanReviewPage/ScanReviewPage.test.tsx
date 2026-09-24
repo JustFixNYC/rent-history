@@ -178,9 +178,7 @@ describe("ScanReviewPage error states", () => {
       early_validation: {
         passed: false,
         missing_page_numbers: [],
-        pages_needing_rescan: [
-          { id: 7, page_number: 1, label: "Page 1" },
-        ],
+        pages_needing_rescan: [{ id: 7, page_number: 1, label: "Page 1" }],
         scanned_max_reg_year: 2020,
         warnings: [],
       },
@@ -223,9 +221,7 @@ describe("ScanReviewPage error states", () => {
       early_validation: {
         passed: false,
         missing_page_numbers: [],
-        pages_needing_rescan: [
-          { id: 7, page_number: 2, label: "Page 2" },
-        ],
+        pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
         scanned_max_reg_year: 2020,
         warnings: [],
       },
@@ -277,7 +273,7 @@ describe("ScanReviewPage error states", () => {
       early_validation: {
         passed: false,
         missing_page_numbers: [],
-        pages_needing_rescan: [{ id: 7, page_number: null}],
+        pages_needing_rescan: [{ id: 7, page_number: null }],
         scanned_max_reg_year: null,
         warnings: [],
       },
@@ -293,15 +289,11 @@ describe("ScanReviewPage error states", () => {
   it("prefers pipeline early_validation over stale location state for partial rescan", async () => {
     const staleLocationValidation = {
       ...partialEarlyValidation,
-      pages_needing_rescan: [
-        { id: 7, page_number: 2, label: "Page 2" },
-      ],
+      pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
     };
     const pipelineEarlyValidation = {
       ...partialEarlyValidation,
-      pages_needing_rescan: [
-        { id: 8, page_number: 2, label: "Page 2" },
-      ],
+      pages_needing_rescan: [{ id: 8, page_number: 2, label: "Page 2" }],
     };
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       ...needsRescanPipelineResponse,
@@ -458,9 +450,7 @@ describe("ScanReviewPage incremental flow", () => {
       early_validation: {
         passed: false,
         missing_page_numbers: [],
-        pages_needing_rescan: [
-          { id: 7, page_number: 2, label: "Page 2" },
-        ],
+        pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
         scanned_max_reg_year: 2003,
         warnings: [
           { code: "possible_missing_last_page", latest_reg_year: 2003 },

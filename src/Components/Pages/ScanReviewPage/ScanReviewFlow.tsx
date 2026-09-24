@@ -26,9 +26,7 @@ import { flowErrorFromApi } from "../Scanner/scannerFlowUtils";
 import "./ScanReviewScreen.scss";
 
 export type ScanReviewFlowProps = {
-  flowMode:
-    | typeof ScanReviewMode.warningOnly
-    | typeof ScanReviewMode.errorsAndWarning;
+  flowMode: typeof ScanReviewMode.warningOnly;
   earlyValidation: RhEarlyValidation;
   accessToken: string;
   historyId: string;
@@ -185,44 +183,23 @@ export function ScanReviewFlow({
   };
 
   const introTitle = skipLastRegYearStep ? (
-    flowMode === ScanReviewMode.warningOnly ? (
-      <Trans>We still need pages from your document</Trans>
-    ) : (
-      <Trans>We weren&apos;t able to capture all of your rent history</Trans>
-    )
-  ) : flowMode === ScanReviewMode.warningOnly ? (
-    <Trans>We may be missing some of your rent history</Trans>
+    <Trans>We still need pages from your document</Trans>
   ) : (
-    <Trans>We weren&apos;t able to capture all of your rent history</Trans>
+    <Trans>We may be missing some of your rent history</Trans>
   );
 
   const introDescription = skipLastRegYearStep ? (
-    flowMode === ScanReviewMode.warningOnly ? (
-      <Trans>
-        You told us your document goes through{" "}
-        <strong>{declaredLastRegYear}</strong>, but the last registration year
-        we found is still <strong>{scannedMaxRegYear}</strong>. Re-scan the
-        pages covering the missing years below.
-      </Trans>
-    ) : (
-      <Trans>
-        Some pages could not be read, and we still need pages through{" "}
-        <strong>{declaredLastRegYear}</strong>. The last registration year we
-        found is <strong>{scannedMaxRegYear}</strong>. Re-scan the pages listed
-        below.
-      </Trans>
-    )
-  ) : flowMode === ScanReviewMode.warningOnly ? (
+    <Trans>
+      You told us your document goes through{" "}
+      <strong>{declaredLastRegYear}</strong>, but the last registration year we
+      found is still <strong>{scannedMaxRegYear}</strong>. Re-scan the pages
+      covering the missing years below.
+    </Trans>
+  ) : (
     <Trans>
       The last registration year we found on your document is{" "}
       <strong>{scannedMaxRegYear}</strong>. Tell us the last year shown so we
       can check whether anything is missing.
-    </Trans>
-  ) : (
-    <Trans>
-      Some pages could not be read, and the last registration year we found is{" "}
-      <strong>{scannedMaxRegYear}</strong>. Tell us the last year shown on your
-      document so we can identify what to re-scan.
     </Trans>
   );
 

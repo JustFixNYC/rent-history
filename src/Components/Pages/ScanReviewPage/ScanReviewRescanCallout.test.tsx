@@ -40,9 +40,7 @@ describe("ScanReviewRescanCallout", () => {
 
     const callout = screen.getByTestId("scan-review-page-error-callout");
     expect(callout).toBeInTheDocument();
-    expect(within(callout).getAllByText("Page 2").length).toBeGreaterThan(
-      0
-    );
+    expect(within(callout).getAllByText("Page 2").length).toBeGreaterThan(0);
     expect(
       within(callout).getByText((_content, element) =>
         Boolean(

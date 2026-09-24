@@ -13,9 +13,7 @@ export type ScanReviewRescanCalloutVariant = "page_marker" | "year_coverage";
 export type ScanReviewRescanCalloutProps = {
   labels: string[];
   variant: ScanReviewRescanCalloutVariant;
-  flowMode?:
-    | typeof ScanReviewMode.warningOnly
-    | typeof ScanReviewMode.errorsAndWarning;
+  flowMode?: typeof ScanReviewMode.warningOnly;
   isRescanPending?: boolean;
   rescanError?: string | null;
   onRescan?: () => void;
