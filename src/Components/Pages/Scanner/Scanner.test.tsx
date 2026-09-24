@@ -185,16 +185,6 @@ vi.mock("../../../api/account/api", async () => {
   return {
     ...actual,
     createRhHistory: vi.fn(),
-    deleteAllRhScannedPages: vi.fn().mockResolvedValue({
-      deleted_pages: 1,
-      s3_cleanup_status: "ok",
-      s3_deleted_versions: 1,
-    }),
-    deleteRhScannedPages: vi.fn().mockResolvedValue({
-      deleted_pages: 1,
-      s3_cleanup_status: "ok",
-      s3_deleted_keys: 1,
-    }),
     getRhHistoryScanPipelineStatus: vi
       .fn()
       .mockResolvedValue(defaultPipelineResponse),
@@ -1105,7 +1095,6 @@ describe("Scanner postCompileReturn mode", () => {
     fireEvent.click(screen.getByRole("button", { name: "Re-scan" }));
 
     await waitFor(() => {
-      expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
       expect(scannerHarness.lastInstance?.launch).toHaveBeenCalled();
     });
   });

@@ -8,7 +8,7 @@ Error and recovery review at `/:locale/scan-review`. Users land here when the co
 
 ## Route responsibilities
 
-`ScanReviewPage.tsx` orchestrates review UI and recovery actions. It does **not** initialize Dynamsoft — capture is delegated to `/scanner` via `ScannerCaptureIntent` location state.
+`ScanReviewPage.tsx` is a thin orchestrator: bootstrap restore, `resolveScanReviewScreen`, and a `switch` that renders the matching entry screen. It does **not** initialize Dynamsoft — capture is delegated to `/scanner` via `navigateToPreScan`.
 
 ```
 needs_rescan (compiling poll) ──► /scan-review
@@ -16,11 +16,11 @@ session restore (saved scan-review) ──► /scan-review
 capture failure from /scanner ──► /scan-review (launch/upload failure state)
 
 /scan-review ──Next──► finalize-scan ──► /compiling
-           ──add/rescan/restart──► /scanner (captureIntent) ──Done──► finalize-scan ──► /compiling
+           ──rescan/restart──► /scanner (pre-scan) ──Done──► finalize-scan ──► /compiling
            ──bootstrap failure──► /scanner (no restorable pages)
 ```
 
-`AnalysisFlowProgress` uses `stepId="scan-review"` (after compiling in the analysis flow).
+`AnalysisFlowProgress` uses `stepId="compiling"` (compiling step in the analysis flow).
 
 ---
 
@@ -30,80 +30,85 @@ capture failure from /scanner ──► /scan-review (launch/upload failure stat
 2. **Poll** — `useScanReview` polls `GET …/scan-review` until ready or accept-partial timeout.
 3. **Thumbnails** — presigned download URLs via `useScanReviewPageImages`.
 4. **Finalize** — `POST /rh/history/finalize-scan` on **Next**, then navigate to `/{locale}/compiling`.
-5. **Capture handoff** — rescan, add-more, and restart navigate to `/scanner` with `ScannerCaptureIntent` in location state; successful capture returns here or goes to `/compiling`.
+5. **Capture handoff** — all rescan CTAs call `navigateToPreScan` (clears step state, navigates to `/${locale}/scanner`). Successful capture returns here or goes to `/compiling`. Server dedupes on re-finalize; **no delete API calls**.
 
 ---
 
 ## Module contents
 
-| File / folder                                       | Role                                                               |
-| --------------------------------------------------- | ------------------------------------------------------------------ |
-| `ScanReviewPage.tsx`                                | Orchestration: bootstrap, entry-screen routing, rescan handlers    |
-| `ScanReviewFlow.tsx`                                | `incrementalFlow` entry — year step, confirm API, mismatch callout |
-| `ScanReviewModuleStack.tsx`                         | Progressive module stack (findings pattern)                        |
-| `ScanReviewLastRegYearStep.tsx`                     | Step 1 year dropdown (`scanned_max_reg_year`…current year)         |
-| `ScanReviewRegYearErrorCallout.tsx`                 | Orange reg_year range callout + incremental rescan CTA             |
-| `scanReviewModes.ts`                                | Semantic mode constants + mode reference table                     |
-| `scanReviewScreenState.ts`                          | Entry-screen resolver (`resolveScanReviewScreen`) + label helpers  |
-| `ScanReviewErrorScreen.tsx`                         | `partialPageErrors` — Page N callout + partial rescan CTA          |
-| `ScanReviewTotalFailureScreen.tsx`                  | `totalFailure` — re-scan all + DHCR request link                   |
-| `ScanReviewPageErrorCallout.tsx`                    | Orange Page N / Page N of M callout (`partialPageErrors` only)     |
-| `scanReviewState.ts`                                | Session persistence for `scan-review` phase + `expectedPageCount`  |
-| `api/account/hooks/scanPipelineBootstrapRestore.ts` | Restore on load; pipeline redirect; bootstrap fetch                |
+| File / folder                                       | Role                                                                  |
+| --------------------------------------------------- | --------------------------------------------------------------------- |
+| `ScanReviewPage.tsx`                                | Orchestration: bootstrap, resolver switch, rescan/navigation handlers |
+| `ScanReviewFlow.tsx`                                | `incrementalFlow` entry — year step, confirm API, mismatch callout    |
+| `ScanReviewModuleStack.tsx`                         | Progressive module stack (findings pattern)                           |
+| `ScanReviewLastRegYearStep.tsx`                     | Step 1 year dropdown (`scanned_max_reg_year`…current year)            |
+| `ScanReviewRescanCallout.tsx`                       | Orange reg_year / page callout + incremental rescan CTA               |
+| `scanReviewModes.ts`                                | Entry screens, recovery variants, mode reference table                |
+| `scanReviewScreenState.ts`                          | Entry-screen resolver (`resolveScanReviewScreen`) + label helpers     |
+| `ScanReviewRecoveryScreen.tsx`                      | Shared recovery shell (combined / all-needs / unknown variants)       |
+| `ScanReviewErrorScreen.tsx`                         | `partialPageErrors` — Page N or reg_year callout + partial rescan     |
+| `ScanReviewTotalFailureScreen.tsx`                  | `totalFailure` — re-scan all + DHCR request link                      |
+| `scanReviewState.ts`                                | Session persistence for `scan-review` phase + `expectedPageCount`     |
+| `api/account/hooks/scanPipelineBootstrapRestore.ts` | Restore on load; pipeline redirect; bootstrap fetch                   |
 
-Shared with Scanner: `scannerLocationState.ts` (capture intent types), `scannerFlowUtils.ts` (auth guard, error mapping).
+Shared with Scanner: `scannerLocationState.ts` (capture intent types), `scannerFlowUtils.ts` (`navigateToPreScan`, auth guard, error mapping).
 
-`ScanReviewFlow` handles `incrementalFlow` entry (`warningOnly`, `errorsAndWarning`) and flow-local `warningYearMismatch` after Continue.
-
----
-
-## Mode vocabulary
-
-Page-level routing uses **entry screens** from `scanReviewModes.ts`. See `SCAN_REVIEW_MODE_REFERENCE` for semantic mode conditions.
-
-| Semantic mode         | Entry vs flow                                      | Entry screen        |
-| --------------------- | -------------------------------------------------- | ------------------- |
-| `warningOnly`         | Entry                                              | `incrementalFlow`   |
-| `warningYearMismatch` | **Flow phase** (post-Continue in `ScanReviewFlow`) | —                   |
-| `errorsAndWarning`    | Entry                                              | `incrementalFlow`   |
-| `partialPageErrors`   | Entry                                              | `partialPageErrors` |
-| `totalFailure`        | Entry                                              | `totalFailure`      |
-
-`resolveScanReviewScreen` returns `incrementalFlow`, `partialPageErrors`, or `totalFailure` only. Incremental entry states include `flowMode: warningOnly | errorsAndWarning` for Task 6.
+`ScanReviewFlow` handles `incrementalFlow` entry (`warningOnly`) and flow-local `warningYearMismatch` after Continue.
 
 ---
 
-## Rescan CTA matrix
+## Entry screens and resolver priority
 
-| Semantic mode                      | Entry screen        | Server action before pre-scan                 | Pre-scan `expectedPageCount` |
-| ---------------------------------- | ------------------- | --------------------------------------------- | ---------------------------- |
-| `partialPageErrors`                | `partialPageErrors` | Delete flagged page IDs (`DELETE …/pages`)    | Current count − deleted IDs  |
-| `totalFailure`                     | `totalFailure`      | Delete all pages (`DELETE …/pages/all`)       | `0`                          |
-| `warningOnly` / `errorsAndWarning` | `incrementalFlow`   | No delete — navigate to pre-scan to add pages | Current `expectedPageCount`  |
-| `warningYearMismatch`              | (flow-local)        | No delete — navigate to pre-scan to add pages | Current `expectedPageCount`  |
+`resolveScanReviewScreen` returns one of six entry screens. Priority (first match wins):
 
-Non-pipeline entry paths (`showLaunchFailure`, upload failures, etc.) route to `totalFailure` and use the total-failure rescan handler.
+1. `unknownError` — non-pipeline location state, `scan_pipeline_status=failed`, or unrecoverable upload/launch failures
+2. `combinedFullRescan` — `passed=false` + `possible_missing_last_page` warning + rescan signals, year step skipped
+3. `allNeedsRescan` — all pages in `pages_needing_rescan`, `scanned_max_reg_year` null, no labelable pages
+4. `totalFailure` — unrecoverable: no labelable pages, empty actionable metadata, or warning ineligible for incremental flow
+5. `partialPageErrors` — partial errors with labelable `pages_needing_rescan`, no warning
+6. `incrementalFlow` — `passed=true`, warning present, year step eligible (`flowMode: warningOnly`)
+
+See `SCAN_REVIEW_MODE_REFERENCE` in `scanReviewModes.ts` for semantic mode conditions.
+
+| Entry screen         | Component                      | Recovery variant (if shared) |
+| -------------------- | ------------------------------ | ---------------------------- |
+| `unknownError`       | `ScanReviewRecoveryScreen`     | `unknown`                    |
+| `combinedFullRescan` | `ScanReviewRecoveryScreen`     | `combined`                   |
+| `allNeedsRescan`     | `ScanReviewRecoveryScreen`     | `allNeedsRescan`             |
+| `partialPageErrors`  | `ScanReviewErrorScreen`        | —                            |
+| `totalFailure`       | `ScanReviewTotalFailureScreen` | —                            |
+| `incrementalFlow`    | `ScanReviewFlow`               | —                            |
+
+`warningYearMismatch` is a **flow-local** phase inside `ScanReviewFlow` (post-Continue), not an entry route.
 
 ---
 
-## Tests
+## Re-scan invariant (no delete)
 
-| File                                                      | Coverage                                                                    |
-| --------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `ScanReviewPage.test.tsx`                                 | Partial/total/incremental failure rendering, rescan CTAs, bootstrap restore |
-| `ScanReviewFlow.test.tsx`                                 | Year step, confirm match/mismatch, merged reg_year callout                  |
-| `scanReviewScreenState.test.ts`                           | Entry-screen resolution, Page N label formatting                            |
-| `api/account/hooks/scanPipelineBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                              |
+All rescan CTAs navigate to pre-scan and relaunch Dynamsoft. The client does **not** call `DELETE …/pages` or `DELETE …/pages/all`. Server dedupe handles overlapping uploads on re-finalize.
+
+| Entry screen / flow phase                 | Pre-scan action                             | `expectedPageCount`     |
+| ----------------------------------------- | ------------------------------------------- | ----------------------- |
+| `partialPageErrors`                       | `navigateToPreScan` — re-scan flagged pages | Unchanged (server-side) |
+| `totalFailure`                            | `navigateToPreScan` — full re-scan          | Cleared via step state  |
+| `combinedFullRescan`                      | `navigateToPreScan` — full re-scan          | Cleared via step state  |
+| `allNeedsRescan`                          | `navigateToPreScan` — full re-scan          | Cleared via step state  |
+| `incrementalFlow` / `warningYearMismatch` | `navigateToPreScan` — add pages             | Unchanged               |
+| Post-compile Restart (`/scanner`)         | Launches Dynamsoft directly                 | Unchanged               |
+
+Non-pipeline entry paths (`showLaunchFailure`, upload failures, etc.) route to `unknownError` recovery ("Come back later" → `/account`).
+
+---
+
+## Session state
 
 `scanReviewState.ts` (key `"scanner"`) stores:
 
 ```ts
-{ historyId: string, phase: "scan-review", expectedPageCount: number }
+{ historyId: string, phase: "scan-review", expectedPageCount?: number }
 ```
 
-Written when entering scan-review from `needs_rescan`, launch failure during rescan, or explicit bootstrap. Cleared on successful finalize, restart, or when bootstrap finds no pages.
-
-`expectedPageCount` tracks client upload count; the scan-review poll uses it so the backend knows how many S3 objects to wait for.
+Written when entering scan-review from `needs_rescan`, launch failure during rescan, or explicit bootstrap. Cleared on successful finalize, `navigateToPreScan`, or when bootstrap finds no pages.
 
 ---
 
@@ -112,19 +117,33 @@ Written when entering scan-review from `needs_rescan`, launch failure during res
 - **`missing_year_ranges`** — gaps detected by OCR; **Next** stays disabled until filled.
 - **`processing_complete`** — when false, shows a warning callout; does not block **Next**.
 - **Pipeline failures** — from compiling poll `early_validation.failures` via router state.
-- **Upload / launch failures** — surfaced as info callouts from location state after failed capture.
-- **`needs_retake`** — poor-quality pages in `ScanReviewRetakeGroup`; re-scan deletes those records server-side, then navigates to `/scanner` with rescan intent.
-- **Restart** — confirms via `ConfirmModal`, deletes all scanned pages, navigates to `/scanner` with restart intent.
+- **Upload / launch failures** — surfaced via location state; non-pipeline paths use `unknownError` recovery.
+- **Compile success** — manual only: `CompilingWaitingPage` shows FlowNav **Next** + **Restart** when pipeline is `complete`; no auto-navigate.
 
 ---
 
 ## Tests
 
-| File                                                      | Coverage                                                                                                  |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `ScanReviewPage.test.tsx`                                 | Finalize, callouts, bootstrap restore, rescan/restart, launch/upload failure UI, pipeline bootstrap error |
-| `api/account/hooks/scanPipelineBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                                                            |
-| `hooks/useScanReviewBootstrap.test.tsx`                   | Bootstrap fetch behavior                                                                                  |
-| `hooks/useScanReview.test.tsx`                            | Poll and accept-partial timeout                                                                           |
+| File                                                      | Coverage                                                                                             |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `scanReviewScreenState.test.ts`                           | Resolver priority, all entry screens, label helpers, recovery config                                 |
+| `ScanReviewRecoveryScreen.test.tsx`                       | Recovery copy, primary/secondary CTAs, pending/error states                                          |
+| `ScanReviewPage.test.tsx`                                 | Entry routing, rescan navigation (no delete), bootstrap error, incremental/combined/recovery screens |
+| `ScanReviewFlow.test.tsx`                                 | Year step, confirm match/mismatch, reg_year callout, incremental rescan                              |
+| `ScanReviewRescanCallout.test.tsx`                        | Page marker and year coverage callout variants                                                       |
+| `api/account/hooks/scanPipelineBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry                                                       |
+| `Scanner.test.tsx`                                        | Post-compile re-scan without delete, finalize lifecycle, bootstrap                                   |
+| `CompilingWaitingPage.test.tsx`                           | Milestones, FlowNav on complete, failed → unknown recovery                                           |
+| `scanPipelineStatus.test.tsx`                             | Poll behavior, no auto-navigate on complete, `needs_rescan` redirect                                 |
 
 Route registration: `src/App.tsx` (`path="scan-review"`). Route protection: `App.route-protection.test.tsx`.
+
+---
+
+## Complexity budget (post-refactor)
+
+- Fewer scan-review mode symbols (`errorsAndWarning` removed; combined/all-needs/unknown are entry screens)
+- Zero `deleteRhScannedPages` / `deleteAllRhScannedPages` references under `Scanner/` and `ScanReviewPage/`
+- `useScanPipelineStatus` has one navigation side-effect (`needs_rescan` redirect only)
+- New UI surface area = 1 component file (`ScanReviewRecoveryScreen`) + resolver config objects
+- No new dependencies or global state

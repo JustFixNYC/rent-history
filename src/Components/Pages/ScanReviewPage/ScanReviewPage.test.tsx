@@ -82,8 +82,6 @@ vi.mock("../../../api/account/api", async () => {
     getRhHistoryScanPipelineStatus: vi
       .fn()
       .mockResolvedValue(defaultPipelineResponse),
-    deleteRhScannedPages: vi.fn().mockResolvedValue({ deleted_count: 1 }),
-    deleteAllRhScannedPages: vi.fn().mockResolvedValue({ deleted_count: 4 }),
     confirmRhHistoryLastRegYear: vi.fn(),
   };
 });
@@ -317,7 +315,6 @@ describe("ScanReviewPage error states", () => {
     fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
 
     await waitFor(() => {
-      expect(accountApi.deleteRhScannedPages).not.toHaveBeenCalled();
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
       });
@@ -357,7 +354,64 @@ describe("ScanReviewPage rescan CTAs", () => {
     );
 
     await waitFor(() => {
-      expect(accountApi.deleteRhScannedPages).not.toHaveBeenCalled();
+      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+        replace: true,
+      });
+    });
+  });
+
+  it("navigates to pre-scan on combined recovery rescan CTA", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan document" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan document" }));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+        replace: true,
+      });
+    });
+  });
+
+  it("navigates to pre-scan on total failure rescan CTA", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2020,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan document" }));
+
+    await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
       });
@@ -383,9 +437,43 @@ describe("ScanReviewPage rescan CTAs", () => {
     fireEvent.click(screen.getByRole("button", { name: "Come back later" }));
 
     await waitFor(() => {
-      expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
       expect(navigateMock).toHaveBeenCalledWith("/en/account");
     });
+  });
+
+  it("opens DHCR request link on all-needs-rescan secondary CTA", async () => {
+    const openSpy = vi.spyOn(window, "open").mockImplementation(() => null);
+
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: null }],
+        scanned_max_reg_year: null,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Request rent history" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Request rent history" })
+    );
+
+    expect(openSpy).toHaveBeenCalledWith(
+      "https://app.justfix.org/en/rh",
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    openSpy.mockRestore();
   });
 });
 
@@ -559,8 +647,6 @@ describe("ScanReviewPage incremental flow", () => {
     );
 
     await waitFor(() => {
-      expect(accountApi.deleteRhScannedPages).not.toHaveBeenCalled();
-      expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
       });
