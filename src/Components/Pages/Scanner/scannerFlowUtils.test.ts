@@ -1,8 +1,16 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { AccountApiError } from "../../../api/account";
 import { setRhAuthSession } from "../../../session/rhSessionStorage";
-import { flowErrorFromApi, requireRhScanContext } from "./scannerFlowUtils";
+import {
+  flowErrorFromApi,
+  navigateToPreScan,
+  requireRhScanContext,
+} from "./scannerFlowUtils";
+import {
+  readScannerStepState,
+  writeScannerStepState,
+} from "../ScanReviewPage/scanReviewState";
 
 const tokenPayload = {
   access_token: "test-token",
@@ -38,6 +46,30 @@ describe("requireRhScanContext", () => {
 
   it("returns null when session is missing", () => {
     expect(requireRhScanContext("history-1")).toBeNull();
+  });
+});
+
+describe("navigateToPreScan", () => {
+  beforeEach(() => {
+    window.sessionStorage.clear();
+  });
+
+  it("clears scanner step state and navigates to pre-scan", () => {
+    writeScannerStepState({ phase: "scan-review" });
+    const navigate = vi.fn();
+
+    navigateToPreScan(navigate, "en");
+
+    expect(readScannerStepState()).toBeNull();
+    expect(navigate).toHaveBeenCalledWith("/en/scanner", { replace: true });
+  });
+
+  it("honors replace=false when provided", () => {
+    const navigate = vi.fn();
+
+    navigateToPreScan(navigate, "en", { replace: false });
+
+    expect(navigate).toHaveBeenCalledWith("/en/scanner", { replace: false });
   });
 });
 

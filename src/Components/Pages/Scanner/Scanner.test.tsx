@@ -1090,7 +1090,7 @@ describe("Scanner postCompileReturn mode", () => {
     });
   });
 
-  it("calls delete-all-scanned-pages when Re-scan is chosen", async () => {
+  it("launches scanner without delete API when Re-scan is chosen", async () => {
     renderScanner({
       initialEntries: [
         {
@@ -1105,10 +1105,8 @@ describe("Scanner postCompileReturn mode", () => {
     fireEvent.click(screen.getByRole("button", { name: "Re-scan" }));
 
     await waitFor(() => {
-      expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
-        "access-token",
-        historyId
-      );
+      expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
+      expect(scannerHarness.lastInstance?.launch).toHaveBeenCalled();
     });
   });
 });

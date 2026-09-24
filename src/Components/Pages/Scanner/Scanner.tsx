@@ -5,11 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Icon } from "@justfixnyc/component-library";
 import "./Scanner.scss";
-import {
-  accountQueryKeys,
-  deleteAllRhScannedPages,
-  finalizeRhHistoryScan,
-} from "../../../api/account";
+import { accountQueryKeys, finalizeRhHistoryScan } from "../../../api/account";
 import {
   clearRhSessionPages,
   getRhAuthSession,
@@ -316,15 +312,11 @@ const Scanner: React.FC = () => {
   };
 
   const handlePostCompileRescan = async () => {
-    const context = requireRhScanContext(historyId);
-    if (!context) return;
-
-    const { token, historyId: activeHistoryId } = context;
+    if (!requireRhScanContext(historyId)) return;
 
     setFlowError(null);
     setIsPostCompileRescanning(true);
     try {
-      await deleteAllRhScannedPages(token, activeHistoryId);
       clearScannerStepState();
       scannedPageCountRef.current = 0;
       failedUploadCountRef.current = 0;
