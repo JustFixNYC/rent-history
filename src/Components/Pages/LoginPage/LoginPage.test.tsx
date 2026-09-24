@@ -441,7 +441,7 @@ describe("LoginPage post-verification navigation", () => {
     fireEvent.click(screen.getByRole("button", { name: "Verify" }));
   };
 
-  it("navigates to scanner when the user has no viewable report", async () => {
+  it("navigates to confirm-address when the user has no viewable report", async () => {
     vi.mocked(accountApi.startRhLogin).mockResolvedValue({
       created: true,
       has_viewable_report: false,
@@ -453,7 +453,7 @@ describe("LoginPage post-verification navigation", () => {
     await completeMobileLogin();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/scanner");
+      expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
     });
   });
 

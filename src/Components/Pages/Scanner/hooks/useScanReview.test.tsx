@@ -36,6 +36,7 @@ const readyResponse = {
   pages: [
     {
       id: 1,
+      extraction_status: "complete" as const,
       needs_retake: false,
       s3_key: `1/${historyId}/page1.jpg`,
       start_year: 2020,
