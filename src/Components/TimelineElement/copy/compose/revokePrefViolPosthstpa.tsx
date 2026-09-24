@@ -1,5 +1,4 @@
 import { requireTimelineField } from "../../format";
-import type { TimelineElementData } from "../../types";
 import { ImproperOverchargeImplications } from "../implications/implications";
 import {
   PreferentialRentRequiredParagraph,
@@ -7,12 +6,9 @@ import {
 } from "../paragraphs/IncreasePreferentialParagraphs";
 import { RentInYearParagraph } from "../paragraphs/RentInYearParagraph";
 import { RevokePrefViolPosthstpaTitle } from "../titles/titles";
-import type { TimelineComposerContext, TimelineContent } from "./types";
+import type { TimelineComposer } from "./types";
 
-export function composeRevokePrefViolPosthstpa(
-  data: TimelineElementData,
-  _context: TimelineComposerContext
-): TimelineContent {
+export const composeRevokePrefViolPosthstpa: TimelineComposer = (data) => {
   const previousYear = requireTimelineField(
     data.previous_year,
     "previous_year"
@@ -37,4 +33,4 @@ export function composeRevokePrefViolPosthstpa(
     ),
     whatThisMeans: <ImproperOverchargeImplications />,
   };
-}
+};

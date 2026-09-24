@@ -1,13 +1,9 @@
 import { Trans } from "@lingui/react/macro";
 
-import type { TimelineElementData } from "../../types";
 import { TempExemptionTitle } from "../titles/titles";
-import type { TimelineComposerContext, TimelineContent } from "./types";
+import type { TimelineComposer } from "./types";
 
-export function composeTempExemption(
-  _data: TimelineElementData,
-  _context: TimelineComposerContext
-): TimelineContent {
+export const composeTempExemption: TimelineComposer = () => {
   return {
     title: <TempExemptionTitle />,
     description: (
@@ -21,4 +17,4 @@ export function composeTempExemption(
       </div>
     ),
   };
-}
+};

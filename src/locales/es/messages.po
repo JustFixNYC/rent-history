@@ -1768,7 +1768,7 @@ msgid "That code is incorrect. Try again."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/compose/missingReg.tsx:15
+#: src/Components/TimelineElement/copy/compose/missingReg.tsx:11
 msgid "timeline.copy.missing_reg"
 msgstr ""
 
@@ -1798,7 +1798,7 @@ msgid "timeline.title.destab_sub_rehab_posthstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/compose/tempExemption.tsx:15
+#: src/Components/TimelineElement/copy/compose/tempExemption.tsx:11
 msgid "timeline.copy.temp_exemption"
 msgstr ""
 
@@ -1952,17 +1952,17 @@ msgid "timeline.copy.preferential_tenancy_limit.exceeds"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:76
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:72
 msgid "timeline.copy.nonreg_stabilized_despite_missing_reg"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:43
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:39
 msgid "timeline.copy.reported_rent_rgb_comparison.within"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:54
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:50
 msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr ""
 
@@ -2222,7 +2222,7 @@ msgstr ""
 msgid "View report"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:307
 msgid "View scanned document"
 msgstr ""
 
@@ -2560,7 +2560,7 @@ msgid "Your rent history report(s)"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/compose/stillStab.tsx:15
+#: src/Components/TimelineElement/copy/compose/stillStab.tsx:11
 msgid "timeline.copy.still_stab"
 msgstr ""
 

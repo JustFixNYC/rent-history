@@ -1,13 +1,9 @@
 import { Trans } from "@lingui/react/macro";
 
-import type { TimelineElementData } from "../../types";
 import { StillStabTitle } from "../titles/titles";
-import type { TimelineComposerContext, TimelineContent } from "./types";
+import type { TimelineComposer } from "./types";
 
-export function composeStillStab(
-  _data: TimelineElementData,
-  _context: TimelineComposerContext
-): TimelineContent {
+export const composeStillStab: TimelineComposer = () => {
   return {
     title: <StillStabTitle />,
     description: (
@@ -19,4 +15,4 @@ export function composeStillStab(
       </div>
     ),
   };
-}
+};

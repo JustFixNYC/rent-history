@@ -1768,7 +1768,7 @@ msgid "That code is incorrect. Try again."
 msgstr "That code is incorrect. Try again."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/compose/missingReg.tsx:15
+#: src/Components/TimelineElement/copy/compose/missingReg.tsx:11
 msgid "timeline.copy.missing_reg"
 msgstr "The apartment does not have a rent registration for this period. A missing registration does not necessarily mean that anything was done improperly. Understanding why an apartment was not registered during a particular period can help clarify its rent stabilization history."
 
@@ -1798,7 +1798,7 @@ msgid "timeline.title.destab_sub_rehab_posthstpa"
 msgstr "The apartment was listed as exempt from rent stabilization. This appears to be explained by substantial rehabilitation."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/compose/tempExemption.tsx:15
+#: src/Components/TimelineElement/copy/compose/tempExemption.tsx:11
 msgid "timeline.copy.temp_exemption"
 msgstr "The apartment was temporarily exempt from rent stabilization during this period. A temporary exemption means that the apartment was not registered as rent stabilized during this period, but does not mean that it was permanently removed from rent stabilization."
 
@@ -1952,17 +1952,17 @@ msgid "timeline.copy.preferential_tenancy_limit.exceeds"
 msgstr "The preferential rent of {formattedPrefRent} in year {year} is more than the RGB limit ({formattedMaxRent}), and does not appear to be explained by the standard RGB increase alone."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:76
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:72
 msgid "timeline.copy.nonreg_stabilized_despite_missing_reg"
 msgstr "The rent amount of {formattedReportedRent} in {reportedYear} suggests that the apartment was being treated as rent stabilized during the years of missing registration, even though the landlord has not been registering the apartment."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:43
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:39
 msgid "timeline.copy.reported_rent_rgb_comparison.within"
 msgstr "The rent amount you reported for {reportedYear}, appears to be equal to or less than what the rent could have reached in {reportedYear}, based on standard RGB increases*."
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:54
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:50
 msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr "The rent amount you reported for {reportedYear}, appears to be more than what the rent could have reached in {reportedYear}, based on standard RGB increases*."
 
@@ -2222,7 +2222,7 @@ msgstr "Verify"
 msgid "View report"
 msgstr "View report"
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:307
 msgid "View scanned document"
 msgstr "View scanned document"
 
@@ -2560,7 +2560,7 @@ msgid "Your rent history report(s)"
 msgstr "Your rent history report(s)"
 
 #. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/compose/stillStab.tsx:15
+#: src/Components/TimelineElement/copy/compose/stillStab.tsx:11
 msgid "timeline.copy.still_stab"
 msgstr "Your rent history shows that your apartment was registered as rent stabilized in the most recent year."
 
