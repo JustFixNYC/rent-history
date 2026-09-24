@@ -33,6 +33,61 @@ msgstr ""
 #~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
 #~ msgstr "Posible infracción encontrada"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:13
+#~ msgid "timeline.title.no_violation_destabilization_prehstpa"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:6
+#~ msgid "timeline.title.violation_destab_prehstpa"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:20
+#~ msgid "timeline.title.violation_destab_posthstpa"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:13
+#~ msgid "timeline.title.no_violation_destab_prehstpa"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:33
+#~ msgid "timeline.title.nonregistration_posthstpa_new_tenant"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:149
+#~ msgid "timeline.title.a421_pref_viol"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:43
+#~ msgid "timeline.copy.missing_reg_destab_list.bonuses"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:114
+#~ msgid "timeline.title.nonreg_viol_posthstpa_same_tenant"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:47
+#~ msgid "timeline.title.nonreg_destab_prehstpa"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:35
+#~ msgid "timeline.implications.posthstpa_missing_registration"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaNonregInvestigateParagraph.tsx:5
+#~ msgid "timeline.copy.posthstpa_nonreg_investigate"
+#~ msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -85,9 +140,23 @@ msgstr ""
 #~ msgid "{start}–{end}"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:47
+msgid "timeline.copy.rgb_increase_footnote"
+msgstr ""
+
+#: src/Components/Pages/AccountPage/AccountPage.tsx:205
+#~ msgid "+ Scan a new rent history"
+#~ msgstr ""
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:71
 #~ msgid "+ Start a new analysis"
 #~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:71
+msgid "timeline.copy.missing_reg_destab_list.hrvd"
+msgstr ""
 
 #: src/Components/Pages/PageLayout/Header.tsx:72
 msgid "<0>By</0> <1>JustFix</1>"
@@ -99,6 +168,26 @@ msgstr ""
 
 #: src/Components/TimelineElement/TimelineElement.tsx:97
 msgid "421-a expiration"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:86
+msgid "timeline.copy.missing_reg_destab_list.rehab_after_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:113
+msgid "timeline.copy.nonreg_overcharge_destab_list.rehab"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:34
+msgid "timeline.copy.posthstpa_charge_justification.rehab"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:91
+msgid "timeline.copy.missing_reg_destab_list.rehab"
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginPage.tsx:146
@@ -124,6 +213,11 @@ msgid "findings.PREFRENT_421A.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:165
+msgid "timeline.copy.preferential_rent_required"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description"
 msgstr ""
@@ -131,6 +225,11 @@ msgstr ""
 #: src/Components/Pages/Scanner/Scanner.tsx:352
 #~ msgid "A scan image failed to download. Use Restart scanning to try again."
 #~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/SubstantialRehabExplainedParagraph.tsx:5
+msgid "timeline.copy.substantial_rehab_explained"
+msgstr ""
 
 #: src/Components/Pages/AboutPage/AboutPage.tsx:7
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:56
@@ -194,6 +293,11 @@ msgstr ""
 #~ msgid "and ask you to confirm a few things,"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/TaxExemptionProgramsParagraph.tsx:7
+msgid "timeline.copy.tax_exemption_programs"
+msgstr ""
+
 #: src/Components/Pages/Landing/Landing.tsx:93
 msgid "Answer a few questions"
 msgstr ""
@@ -206,6 +310,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:16
 msgid "findings.HRVD.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:102
+msgid "timeline.title.nonreg_viol_posthstpa_overcharge"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -224,6 +333,21 @@ msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:6
+msgid "timeline.title.destab_viol_prehstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:20
+msgid "timeline.title.destab_viol_posthstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:13
+msgid "timeline.title.destab_no_viol_prehstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:19
 msgid "findings.NONREGISTRATION_PREHSTPA.intro.title"
 msgstr ""
@@ -236,6 +360,31 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
 msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:47
+msgid "timeline.title.nonreg_viol_prehstpa_same_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:62
+msgid "timeline.title.nonreg_no_viol_same_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:33
+msgid "timeline.title.nonreg_viol_prehstpa_new_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:88
+msgid "timeline.title.nonreg_viol_posthstpa_new_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:117
+msgid "timeline.title.nonreg_no_viol_posthstpa"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
@@ -262,8 +411,36 @@ msgstr ""
 msgid "Back"
 msgstr "Volver"
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:80
+msgid "base rent"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:80
+msgid "Base rent"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:19
+msgid "timeline.copy.reported_rent_rgb_projection"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/RgbProjectionParagraph.tsx:19
+msgid "timeline.copy.rgb_projection"
+msgstr ""
+
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:408
 msgid "BBL"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/StillStabilizedSameTenantParagraph.tsx:11
+msgid "timeline.copy.still_stabilized_same_tenant"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:40
+msgid "timeline.copy.still_stabilized_since_last_reg_year"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -424,6 +601,11 @@ msgstr ""
 msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:20
+msgid "timeline.copy.posthstpa_charge_justification.iai"
+msgstr ""
+
 #: src/Components/Pages/Landing/Landing.tsx:122
 msgid "Don’t have your rent history?"
 msgstr ""
@@ -488,6 +670,21 @@ msgstr "Ingresa tu número de teléfono"
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:72
 msgid "Enter your phone number below to log in."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:78
+msgid "timeline.copy.missing_reg_destab_list.tax"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:106
+msgid "timeline.copy.nonreg_overcharge_destab_list.tax"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:27
+msgid "timeline.copy.posthstpa_charge_justification.tax"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:39
@@ -567,9 +764,24 @@ msgstr ""
 msgid "findings.HRVD.ocr.heading"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/HrvdCheckSectionHeading.tsx:13
+msgid "timeline.copy.hrvd_check_heading"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:597
 #~ msgid "Flatten any folds in the pages and lay them on a flat surface"
 #~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:247
+msgid "timeline.copy.iai_needed_for_rent"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IaiPermissionSameTenantParagraph.tsx:21
+msgid "timeline.copy.iai_permission_same_tenant"
+msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:173
 msgid "Generate a PDF copy of your rent history report. Generating again replaces any report saved earlier in this session."
@@ -602,7 +814,7 @@ msgstr "Comenzar"
 msgid "Get your report"
 msgstr ""
 
-#: src/Components/GlossaryLink/GlossaryLink.tsx:22
+#: src/Components/GlossaryLink/GlossaryLink.tsx:25
 msgid "Glossary"
 msgstr "Glosario"
 
@@ -610,6 +822,11 @@ msgstr "Glosario"
 msgid "Hide supporting evidence"
 msgstr ""
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:31
+msgid "high rent vacancy destabilization"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:32
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:29
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:56
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:72
@@ -656,6 +873,11 @@ msgstr ""
 msgid "If it seems like any pages are missing, you can add them now by scanning."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:18
+msgid "timeline.implications.posthstpa_destab"
+msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:105
 #~ msgid "If this address does not match the address on the rent history document,"
 #~ msgstr ""
@@ -664,12 +886,77 @@ msgstr ""
 msgid "If this address does not match the address on your rent history, please edit the address."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:9
+msgid "timeline.implications.improper_destabilization"
+msgstr ""
+
 #: src/Components/Pages/Landing/Landing.tsx:39
 msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:176
 msgid "In progress"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregEvidenceIntroParagraph.tsx:14
+msgid "timeline.copy.nonreg_no_viol_details_intro"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregEvidenceIntroParagraph.tsx:5
+msgid "timeline.copy.nonreg_viol_evidence_intro"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:205
+msgid "timeline.copy.program_421a_rent"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:76
+msgid "timeline.title.increase_no_viol_prehstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:126
+msgid "timeline.title.increase_legal_viol_posthstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:140
+msgid "timeline.title.increase_pref_no_viol_posthstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:133
+msgid "timeline.title.increase_pref_viol_posthstpa"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:41
+#: src/Components/GlossaryLink/glossaryTerms.tsx:42
+msgid "Individual Apartment Improvements (IAIs)"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:32
+msgid "timeline.copy.missing_reg_destab_intro"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:52
+msgid "timeline.copy.nonreg_overcharge_destab_intro"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:67
+msgid "timeline.implications.program_421a_pref"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegExplainedByHrvdParagraph.tsx:20
+msgid "timeline.copy.landlord_stopped_registering"
 msgstr ""
 
 #: src/Components/TimelineElement/TimelineElement.tsx:95
@@ -696,6 +983,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:14
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:69
+msgid "timeline.title.increase_viol_prehstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -776,10 +1068,12 @@ msgstr ""
 msgid "Log out?"
 msgstr ""
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:21
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:93
 msgid "longevity bonus"
 msgstr "bono por antigüedad"
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:22
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:94
 msgid "Longevity bonus"
 msgstr "Bono por antigüedad"
@@ -908,6 +1202,11 @@ msgstr ""
 msgid "No"
 msgstr "No"
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:185
+msgid "timeline.title.no_finding"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:246
 #~ msgid "No pages were saved from the scanner. Use Restart scanning to try again."
 #~ msgstr ""
@@ -934,6 +1233,16 @@ msgstr ""
 msgid "findings.result.dismissed.title"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:59
+msgid "timeline.copy.iai_during_missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:16
+msgid "timeline.copy.iai_possible_same_tenant"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Header.tsx:48
 msgid "Open menu"
 msgstr ""
@@ -948,6 +1257,14 @@ msgstr ""
 
 #: src/Components/LoginQrLockup/LoginQrLockup.tsx:24
 msgid "Or, type this URL into your phone's browser:"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:71
+msgid "overcharge damages"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:72
+msgid "Overcharge damages"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:374
@@ -1036,6 +1353,11 @@ msgstr ""
 msgid "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:22
+msgid "timeline.copy.missing_reg_destab_heading"
+msgstr ""
+
 #: src/Components/TimelineElement/TimelineElement.tsx:85
 msgid "Potential Violation"
 msgstr ""
@@ -1050,6 +1372,11 @@ msgid "Preferential Rent"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:153
+msgid "timeline.title.pref_421a_viol"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:15
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.title"
 msgstr ""
@@ -1057,6 +1384,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
 msgid "findings.PREFRENT_421A.intro.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:147
+msgid "timeline.title.revoke_pref_viol_posthstpa"
 msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:84
@@ -1252,6 +1584,12 @@ msgstr ""
 msgid "Search for a building"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:34
+#: src/Components/TimelineElement/copy/implications/implications.tsx:59
+msgid "timeline.implications.see_next_steps"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/AptStatField.tsx:78
 msgid "Select Apt Stat"
 msgstr "Seleccionar estado del apt."
@@ -1298,6 +1636,14 @@ msgstr ""
 #: src/Components/Pages/Report/Report.tsx:85
 #: src/Components/Pages/Report/ReportEmailForm.tsx:160
 msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:88
+msgid "standard RGB increases"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:89
+msgid "Standard RGB increases"
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:113
@@ -1373,6 +1719,18 @@ msgstr "Enviar"
 msgid "Submit request"
 msgstr ""
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:51
+msgid "substantial rehabilitation"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:52
+msgid "Substantial rehabilitation"
+msgstr ""
+
+#: src/Components/TimelineElement/TimelineElement.tsx:192
+msgid "Supporting evidence"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:602
 #~ msgid "Take photos in a well lit location and enable your camera flash"
 #~ msgstr ""
@@ -1383,6 +1741,14 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:47
 msgid "Tap the <0>lock icon</0> next to the website address in your web browser."
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:61
+msgid "tax exemption programs"
+msgstr ""
+
+#: src/Components/GlossaryLink/glossaryTerms.tsx:62
+msgid "Tax exemption programs"
 msgstr ""
 
 #: src/Components/TimelineElement/TimelineElement.tsx:93
@@ -1402,6 +1768,46 @@ msgid "That code is incorrect. Try again."
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/compose/missingReg.tsx:11
+msgid "timeline.copy.missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegExplainedByHrvdParagraph.tsx:11
+msgid "timeline.copy.missing_reg_explained_by_hrvd"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegistrationFromYearParagraph.tsx:11
+msgid "timeline.copy.missing_registration_from_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:160
+msgid "timeline.title.missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ExemptStartingYearParagraph.tsx:11
+msgid "timeline.copy.exempt_starting_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:178
+msgid "timeline.title.destab_sub_rehab_posthstpa"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/compose/tempExemption.tsx:11
+msgid "timeline.copy.temp_exemption"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:166
+msgid "timeline.title.temp_exemption"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:68
 msgid "findings.HRVD.result.no_violation.body"
 msgstr ""
@@ -1409,6 +1815,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:51
 msgid "findings.HRVD.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ExemptionExplainedByHrvdParagraph.tsx:13
+msgid "timeline.copy.exemption_explained_by_hrvd"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1451,13 +1862,108 @@ msgid "The information on this website does not constitute legal advice and must
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/VacancyLongevityBonusParagraph.tsx:26
+msgid "timeline.copy.vacancy_longevity_bonus.with_longevity"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/VacancyLongevityBonusParagraph.tsx:37
+msgid "timeline.copy.vacancy_longevity_bonus.vacancy_only"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/RentInYearParagraph.tsx:31
+msgid "timeline.copy.rent_in_year.legal"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:79
+msgid "timeline.copy.rgb_increase"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:22
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:55
+msgid "timeline.copy.legal_rent_within_allowed"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:22
+msgid "timeline.copy.legal_rent_exceeds_allowed.rgb"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:33
+msgid "timeline.copy.legal_rent_exceeds_allowed.bonus_only"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/LegalRentInLastRegYearParagraph.tsx:19
+msgid "timeline.copy.legal_rent_in_last_reg_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/LegalRentLastRegYearParagraph.tsx:18
+msgid "timeline.copy.legal_rent_last_reg_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/HrvdThresholdParagraph.tsx:36
+msgid "timeline.copy.hrvd_threshold.not_met"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/HrvdThresholdParagraph.tsx:25
+msgid "timeline.copy.hrvd_threshold.met"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:41
+msgid "timeline.copy.missing_reg_could_indicate_destab"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/RentInYearParagraph.tsx:22
+msgid "timeline.copy.rent_in_year.preferential"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:24
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.description"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:226
+msgid "timeline.copy.preferential_rent_explained_by_tenancy"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:133
+msgid "timeline.copy.preferential_tenancy_limit.within"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:143
+msgid "timeline.copy.preferential_tenancy_limit.exceeds"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:72
+msgid "timeline.copy.nonreg_stabilized_despite_missing_reg"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:39
+msgid "timeline.copy.reported_rent_rgb_comparison.within"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/ReportedRentRgbParagraphs.tsx:50
+msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1476,6 +1982,21 @@ msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
 msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si este aumento puede explicarse mediante bonos permitidos."
 
 #. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:98
+msgid "timeline.copy.tenant_change.changed"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:107
+msgid "timeline.copy.tenant_change.unchanged"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:44
+msgid "timeline.implications.improper_overcharge"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:33
 msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
 msgstr ""
@@ -1485,8 +2006,28 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.no_pref_rent_label"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/MissingRegNoReasonProvidedParagraph.tsx:5
+msgid "timeline.copy.missing_reg_no_reason_provided"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NoReasonProvidedParagraph.tsx:5
+msgid "timeline.copy.no_reason_provided"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:182
+msgid "timeline.copy.program_421a_participation"
+msgstr ""
+
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
 msgid "This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data)."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/SubstantialRehabPossibleParagraph.tsx:7
+msgid "timeline.copy.substantial_rehab_possible"
 msgstr ""
 
 #: src/Components/Pages/Report/ReportPDF.tsx:18
@@ -1532,6 +2073,16 @@ msgstr ""
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:85
 msgid "to confirm the information below matches."
 msgstr "para confirmar que la información a continuación coincide."
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IaiNeededParagraph.tsx:16
+msgid "timeline.copy.iai_needed.also"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/IaiNeededParagraph.tsx:26
+msgid "timeline.copy.iai_needed.default"
+msgstr ""
 
 #: src/api/account/errors.ts:169
 msgid "Too many invalid attempts. Request a new code."
@@ -1598,6 +2149,16 @@ msgstr ""
 msgid "Unit number"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:29
+msgid "timeline.implications.missing_registration"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/implications/implications.tsx:53
+msgid "timeline.implications.rgb_overcharge"
+msgstr ""
+
 #. placeholder {0}: currentFinding.type
 #: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:97
 msgid "Unsupported finding type: {0}"
@@ -1623,11 +2184,13 @@ msgstr ""
 #~ msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
 #~ msgstr ""
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:11
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:47
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:53
 msgid "vacancy bonus"
 msgstr "bono por vacancia"
 
+#: src/Components/GlossaryLink/glossaryTerms.tsx:12
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:48
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:54
 msgid "Vacancy bonus"
@@ -1659,7 +2222,7 @@ msgstr ""
 msgid "View report"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:316
+#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:307
 msgid "View scanned document"
 msgstr ""
 
@@ -1784,7 +2347,7 @@ msgstr ""
 msgid "What is the total monthly rent for your entire apartment?"
 msgstr ""
 
-#: src/Components/TimelineElement/TimelineElement.tsx:196
+#: src/Components/TimelineElement/TimelineElement.tsx:214
 msgid "What this means for you"
 msgstr ""
 
@@ -1798,6 +2361,21 @@ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:117
 msgid "Why this is important"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/AllowedRaiseUpToParagraph.tsx:22
+msgid "timeline.copy.allowed_raise.additions"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/AllowedRaiseUpToParagraph.tsx:33
+msgid "timeline.copy.allowed_raise.increases"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/AllowedRaiseUpToParagraph.tsx:43
+msgid "timeline.copy.allowed_raise.increase"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1861,18 +2439,28 @@ msgstr ""
 msgid "You don't have any rent histories yet."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/InvestigateIaiCostsParagraph.tsx:16
+msgid "timeline.copy.investigate_iai_costs"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/InvestigateRehabParagraph.tsx:5
+msgid "timeline.copy.investigate_rehab"
+msgstr ""
+
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:34
 msgid "You must allow access to your device's camera to scan your document"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:49
-msgid "findings.PREFRENT_421A.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:57
+msgid "findings.PREFRENT_421A.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:57
-msgid "findings.PREFRENT_421A.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:49
+msgid "findings.PREFRENT_421A.result.no_violation.body"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:253
@@ -1885,6 +2473,11 @@ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:120
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/titles/titles.tsx:172
+msgid "timeline.title.still_stab"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1926,8 +2519,28 @@ msgstr ""
 msgid "Your code expired. Request a new code."
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:25
+msgid "timeline.copy.current_rent_rgb_comparison.within"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:36
+msgid "timeline.copy.current_rent_rgb_comparison.exceeds"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:69
+msgid "timeline.copy.nonreg_no_viol_same_tenant_stabilized"
+msgstr ""
+
 #: src/Components/Pages/Report/ReportEmailForm.tsx:190
 msgid "Your email (required)"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:25
+msgid "timeline.copy.iai_permission_required_same_tenant"
 msgstr ""
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:32
@@ -1944,6 +2557,11 @@ msgstr "Su historial de alquiler"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:134
 msgid "Your rent history report(s)"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/TimelineElement/copy/compose/stillStab.tsx:11
+msgid "timeline.copy.still_stab"
 msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:139

@@ -186,13 +186,31 @@ export const TimelineElement = ({
               className="timeline-element__panel"
               hidden={!isOpen}
             >
-              <div className="timeline-element__description">{description}</div>
-              {footnote != null ? (
-                <div className="timeline-element__footnote">{footnote}</div>
-              ) : null}
+              {variant === "primary" ? (
+                <div className="timeline-element__evidence">
+                  <p className="timeline-element__panel-heading">
+                    <Trans>Supporting evidence</Trans>
+                  </p>
+                  <div className="timeline-element__description">
+                    {description}
+                  </div>
+                  {footnote != null ? (
+                    <div className="timeline-element__footnote">{footnote}</div>
+                  ) : null}
+                </div>
+              ) : (
+                <>
+                  <div className="timeline-element__description">
+                    {description}
+                  </div>
+                  {footnote != null ? (
+                    <div className="timeline-element__footnote">{footnote}</div>
+                  ) : null}
+                </>
+              )}
               {showImplications ? (
                 <div className="timeline-element__implications">
-                  <p className="timeline-element__implications-heading">
+                  <p className="timeline-element__panel-heading">
                     <Trans>What this means for you</Trans>
                   </p>
                   <div className="timeline-element__implications-body">
