@@ -13,7 +13,7 @@ export const FindingIntroPanel = ({
 }: FindingIntroPanelProps) => (
   <section className="findings-review-intro" data-testid="finding-intro-panel">
     <p className="findings-review-intro__eyebrow">{eyebrow}</p>
-    <h1 className="findings-review-intro__title">{title}</h1>
+    <h2 className="findings-review-intro__title">{title}</h2>
     <p className="findings-review-intro__description">{description}</p>
   </section>
 );
