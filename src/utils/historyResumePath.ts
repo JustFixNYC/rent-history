@@ -11,7 +11,7 @@ const RESUME_SUBPATH_BY_STEP: Partial<Record<LastStepReached, string>> = {
   APARTMENT_INFO: "scanner",
   DOCUMENT_SCAN: "scanner",
   COMPILING: "compiling",
-  SCAN_REVIEW: "scanner",
+  SCAN_REVIEW: "scan-review",
   FINDINGS_OVERVIEW: "findings-overview",
   FINDINGS_REVIEW: "findings-review",
   REPORT: "report",

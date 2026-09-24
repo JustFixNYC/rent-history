@@ -9,8 +9,9 @@ import "./PreScanScreen.scss";
 
 const SCAN_TIPS = [
   msg`Place each page on a flat surface and flatten any folds or curls as much as possible.`,
-  msg`Make sure the room is well-lit and that the document is fully in frame.`,
+  msg`Make sure the room is well-lit and that the document is fully visible.`,
   msg`When your camera recognizes the page, it will take a photo automatically.`,
+  msg`Repeat for each page. Then tap "Done" to continue.`,
 ] as const;
 
 export type PreScanScreenVariant = "default" | "postCompileReturn";
@@ -66,10 +67,7 @@ export const PreScanScreen = ({
             </Trans>
           </p>
           <p className="scanner-pre-scan__body">
-            <Trans>
-              Next, you will review your scanned pages and answer a few
-              questions before we start your analysis.
-            </Trans>
+            <Trans>Not sure what a rent history document looks like?</Trans>
           </p>
         </div>
 

@@ -239,7 +239,7 @@ describe("ScanReviewPage error states", () => {
     expect(screen.queryByText(/Page 2 of/)).not.toBeInTheDocument();
   });
 
-  it("shows total failure for non-pipeline entry paths", async () => {
+  it("shows unknown recovery for non-pipeline entry paths", async () => {
     renderScanReview({
       initialEntries: [
         {
@@ -250,24 +250,21 @@ describe("ScanReviewPage error states", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+      expect(
+        screen.getByTestId("scan-review-recovery-unknown")
+      ).toBeInTheDocument();
     });
 
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
     expect(
-      screen.getByText("We weren't able to read your document")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Re-scan document" })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Request your rent history" })
+      screen.getByRole("button", { name: "Come back later" })
     ).toBeInTheDocument();
     expect(
       screen.queryByTestId("scan-review-page-error-callout")
     ).not.toBeInTheDocument();
   });
 
-  it("shows total failure when pages lack readable page_number labels", async () => {
+  it("shows all-needs-rescan recovery when pages lack readable page_number labels", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       ...needsRescanPipelineResponse,
       early_validation: {
@@ -282,7 +279,9 @@ describe("ScanReviewPage error states", () => {
     renderScanReview();
 
     await waitFor(() => {
-      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+      expect(
+        screen.getByTestId("scan-review-recovery-allNeedsRescan")
+      ).toBeInTheDocument();
     });
   });
 
@@ -318,11 +317,10 @@ describe("ScanReviewPage error states", () => {
     fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
 
     await waitFor(() => {
-      expect(accountApi.deleteRhScannedPages).toHaveBeenCalledWith(
-        "access-token",
-        historyId,
-        [8]
-      );
+      expect(accountApi.deleteRhScannedPages).not.toHaveBeenCalled();
+      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+        replace: true,
+      });
     });
   });
 });
@@ -345,7 +343,7 @@ describe("ScanReviewPage rescan CTAs", () => {
     clearRhAuthSession();
   });
 
-  it("deletes flagged pages then navigates to pre-scan without captureIntent", async () => {
+  it("navigates to pre-scan without deleting pages on partial rescan", async () => {
     renderScanReview();
 
     await waitFor(() => {
@@ -359,18 +357,14 @@ describe("ScanReviewPage rescan CTAs", () => {
     );
 
     await waitFor(() => {
-      expect(accountApi.deleteRhScannedPages).toHaveBeenCalledWith(
-        "access-token",
-        historyId,
-        [7]
-      );
+      expect(accountApi.deleteRhScannedPages).not.toHaveBeenCalled();
       expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
         replace: true,
       });
     });
   });
 
-  it("deletes all pages then navigates to pre-scan on total failure", async () => {
+  it("navigates to account on unknown recovery come-back-later CTA", async () => {
     renderScanReview({
       initialEntries: [
         {
@@ -382,20 +376,15 @@ describe("ScanReviewPage rescan CTAs", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole("button", { name: "Re-scan document" })
+        screen.getByRole("button", { name: "Come back later" })
       ).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Re-scan document" }));
+    fireEvent.click(screen.getByRole("button", { name: "Come back later" }));
 
     await waitFor(() => {
-      expect(accountApi.deleteAllRhScannedPages).toHaveBeenCalledWith(
-        "access-token",
-        historyId
-      );
-      expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
-        replace: true,
-      });
+      expect(accountApi.deleteAllRhScannedPages).not.toHaveBeenCalled();
+      expect(navigateMock).toHaveBeenCalledWith("/en/account");
     });
   });
 });
@@ -443,7 +432,7 @@ describe("ScanReviewPage incremental flow", () => {
     expect(screen.getByRole("button", { name: "Continue" })).toBeDisabled();
   });
 
-  it("renders errorsAndWarning incremental flow from pipeline early_validation", async () => {
+  it("renders combined recovery when errors and warning are both present", async () => {
     vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
       ...needsRescanPipelineResponse,
       scan_pipeline_status: "needs_rescan",
@@ -461,20 +450,21 @@ describe("ScanReviewPage incremental flow", () => {
     renderScanReview();
 
     await waitFor(() => {
-      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+      expect(
+        screen.getByTestId("scan-review-recovery-combined")
+      ).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
-      "data-flow-mode",
-      "errorsAndWarning"
-    );
     expect(
       screen.getByText(/Some pages could not be read/)
     ).toBeInTheDocument();
-    expect(screen.getByRole("combobox")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Re-scan document" })
+    ).toBeInTheDocument();
     expect(
       screen.queryByTestId("scan-review-partial-error")
     ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("scan-review-flow")).not.toBeInTheDocument();
   });
 
   it("navigates to compiling when warningOnly confirm matches scanned max", async () => {
@@ -693,7 +683,7 @@ describe("ScanReviewPage non-pipeline failures", () => {
     { reviewError: "finalize failed" },
     { failedUploadCount: 2 },
     { awaitingRescanSuccess: true },
-  ])("renders total failure for location state %#", async (state) => {
+  ])("renders unknown recovery for location state %#", async (state) => {
     renderScanReview({
       initialEntries: [
         {
@@ -704,7 +694,9 @@ describe("ScanReviewPage non-pipeline failures", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+      expect(
+        screen.getByTestId("scan-review-recovery-unknown")
+      ).toBeInTheDocument();
     });
   });
 });

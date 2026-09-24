@@ -1,4 +1,4 @@
-import { plural } from "@lingui/core/macro";
+import { msg, plural } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { Button } from "@justfixnyc/component-library";
@@ -8,8 +8,11 @@ import type { ScanReviewPartialPageErrorsState } from "./scanReviewScreenState";
 
 import "./ScanReviewScreen.scss";
 
+export type ScanReviewErrorLabelVariant = "page" | "reg_year";
+
 export type ScanReviewErrorScreenProps = {
   screenState: ScanReviewPartialPageErrorsState;
+  labelVariant?: ScanReviewErrorLabelVariant;
   isRescanPending?: boolean;
   rescanError?: string | null;
   onPartialRescan: () => void;
@@ -17,6 +20,7 @@ export type ScanReviewErrorScreenProps = {
 
 export const ScanReviewErrorScreen = ({
   screenState,
+  labelVariant = "page",
   isRescanPending = false,
   rescanError = null,
   onPartialRescan,
@@ -24,6 +28,7 @@ export const ScanReviewErrorScreen = ({
   const { _ } = useLingui();
 
   const pageCount = screenState.labels.length;
+  const isRegYear = labelVariant === "reg_year";
 
   return (
     <div
@@ -39,7 +44,7 @@ export const ScanReviewErrorScreen = ({
         </h2>
         <ScanReviewRescanCallout
           labels={screenState.labels}
-          variant="page_marker"
+          variant={isRegYear ? "year_coverage" : "page_marker"}
         />
         {rescanError ? (
           <p
@@ -53,12 +58,16 @@ export const ScanReviewErrorScreen = ({
         <Button
           className="scan-review-error-screen__cta"
           labelIcon="cameraRegular"
-          labelText={_(
-            plural(pageCount, {
-              one: "Re-scan this page",
-              other: "Re-scan these pages",
-            })
-          )}
+          labelText={
+            isRegYear
+              ? _(msg`Re-scan for these years`)
+              : _(
+                  plural(pageCount, {
+                    one: "Re-scan this page",
+                    other: "Re-scan these pages",
+                  })
+                )
+          }
           onClick={onPartialRescan}
           disabled={isRescanPending}
         />

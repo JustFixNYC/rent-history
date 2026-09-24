@@ -7,6 +7,10 @@ describe("historyResumePath", () => {
     expect(historyResumePath("en", "COMPILING")).toBe("/en/compiling");
   });
 
+  it("maps SCAN_REVIEW to the scan-review route", () => {
+    expect(historyResumePath("en", "SCAN_REVIEW")).toBe("/en/scan-review");
+  });
+
   it("maps REPORT to the report route", () => {
     expect(historyResumePath("en", "REPORT")).toBe("/en/report");
   });

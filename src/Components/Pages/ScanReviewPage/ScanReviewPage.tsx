@@ -15,9 +15,11 @@ import {
 import { useScanReviewBootstrapRestore } from "../../../api/account";
 import { ScanReviewErrorScreen } from "./ScanReviewErrorScreen";
 import { ScanReviewFlow } from "./ScanReviewFlow";
+import { ScanReviewRecoveryScreen } from "./ScanReviewRecoveryScreen";
 import { ScanReviewTotalFailureScreen } from "./ScanReviewTotalFailureScreen";
 import { ScanReviewEntryScreen } from "./scanReviewModes";
 import { resolveScanReviewScreen } from "./scanReviewScreenState";
+import { getDhcrRentHistoryRequestUrl } from "./scanReviewExternalLinks";
 import { navigateToPreScan } from "../Scanner/scannerFlowUtils";
 
 import "./ScanReviewScreen.scss";
@@ -43,8 +45,12 @@ const ScanReviewPage = () => {
     pipelineData?.early_validation ?? locationState?.earlyValidation ?? null;
 
   const screenState = useMemo(
-    () => resolveScanReviewScreen(locationState, earlyValidation),
-    [earlyValidation, locationState]
+    () =>
+      resolveScanReviewScreen(locationState, earlyValidation, {
+        skipLastRegYearStep: pipelineData?.skip_last_reg_year_step ?? false,
+        scanPipelineStatus: pipelineData?.scan_pipeline_status ?? null,
+      }),
+    [earlyValidation, locationState, pipelineData]
   );
 
   const isLoading =
@@ -55,6 +61,18 @@ const ScanReviewPage = () => {
   const handleRescan = useCallback(() => {
     navigateToPreScan(navigate, i18n.locale);
   }, [i18n.locale, navigate]);
+
+  const handleComeBackLater = useCallback(() => {
+    navigate(`/${i18n.locale}/account`);
+  }, [i18n.locale, navigate]);
+
+  const handleRequestRentHistory = useCallback(() => {
+    window.open(
+      getDhcrRentHistoryRequestUrl(i18n.locale),
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }, [i18n.locale]);
 
   const showBootstrapError =
     restoreStatus === "pending" &&
@@ -79,39 +97,72 @@ const ScanReviewPage = () => {
       );
     }
 
-    if (screenState.screen === ScanReviewEntryScreen.totalFailure) {
-      return <ScanReviewTotalFailureScreen onTotalRescan={handleRescan} />;
-    }
+    switch (screenState.screen) {
+      case ScanReviewEntryScreen.unknownError:
+        return (
+          <ScanReviewRecoveryScreen
+            recoveryConfig={screenState.recoveryConfig}
+            onPrimaryAction={handleComeBackLater}
+          />
+        );
 
-    if (screenState.screen === ScanReviewEntryScreen.partialPageErrors) {
-      return (
-        <ScanReviewErrorScreen
-          screenState={screenState}
-          onPartialRescan={handleRescan}
-        />
-      );
-    }
+      case ScanReviewEntryScreen.combinedFullRescan:
+        return (
+          <ScanReviewRecoveryScreen
+            recoveryConfig={screenState.recoveryConfig}
+            onPrimaryAction={handleRescan}
+          />
+        );
 
-    if (screenState.screen === ScanReviewEntryScreen.incrementalFlow) {
-      if (!accessToken || !historyId) {
-        return <ScanReviewTotalFailureScreen onTotalRescan={handleRescan} />;
+      case ScanReviewEntryScreen.allNeedsRescan:
+        return (
+          <ScanReviewRecoveryScreen
+            recoveryConfig={screenState.recoveryConfig}
+            onPrimaryAction={handleRescan}
+            onSecondaryAction={handleRequestRentHistory}
+          />
+        );
+
+      case ScanReviewEntryScreen.partialPageErrors: {
+        const useRegYearLabels =
+          pipelineData?.skip_last_reg_year_step === true &&
+          (pipelineData.rescan_callout_labels?.length ?? 0) > 0;
+
+        return (
+          <ScanReviewErrorScreen
+            screenState={{
+              ...screenState,
+              labels: useRegYearLabels
+                ? pipelineData.rescan_callout_labels!
+                : screenState.labels,
+            }}
+            labelVariant={useRegYearLabels ? "reg_year" : "page"}
+            onPartialRescan={handleRescan}
+          />
+        );
       }
 
-      return (
-        <ScanReviewFlow
-          flowMode={screenState.flowMode}
-          earlyValidation={screenState.earlyValidation}
-          accessToken={accessToken}
-          historyId={historyId}
-          declaredLastRegYear={pipelineData?.declared_last_reg_year ?? null}
-          skipLastRegYearStep={pipelineData?.skip_last_reg_year_step ?? false}
-          initialCalloutLabels={pipelineData?.rescan_callout_labels ?? null}
-          onIncrementalRescan={handleRescan}
-        />
-      );
-    }
+      case ScanReviewEntryScreen.incrementalFlow:
+        if (!accessToken || !historyId) {
+          return <ScanReviewTotalFailureScreen onTotalRescan={handleRescan} />;
+        }
 
-    return <ScanReviewTotalFailureScreen onTotalRescan={handleRescan} />;
+        return (
+          <ScanReviewFlow
+            flowMode={screenState.flowMode}
+            earlyValidation={screenState.earlyValidation}
+            accessToken={accessToken}
+            historyId={historyId}
+            declaredLastRegYear={pipelineData?.declared_last_reg_year ?? null}
+            skipLastRegYearStep={pipelineData?.skip_last_reg_year_step ?? false}
+            initialCalloutLabels={pipelineData?.rescan_callout_labels ?? null}
+            onIncrementalRescan={handleRescan}
+          />
+        );
+
+      case ScanReviewEntryScreen.totalFailure:
+        return <ScanReviewTotalFailureScreen onTotalRescan={handleRescan} />;
+    }
   };
 
   return (
