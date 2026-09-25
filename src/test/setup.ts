@@ -1,4 +1,18 @@
 import "@testing-library/jest-dom/vitest";
+import { beforeEach } from "vitest";
+
+const syncDomEventGlobals = () => {
+  // input-otp dispatches `new Event("input")` from setTimeout callbacks.
+  // Node's Event constructor is incompatible with jsdom's dispatchEvent.
+  globalThis.Event = window.Event;
+  globalThis.CustomEvent = window.CustomEvent;
+};
+
+syncDomEventGlobals();
+
+beforeEach(() => {
+  syncDomEventGlobals();
+});
 
 Object.defineProperty(window, "scrollTo", {
   value: () => {},
