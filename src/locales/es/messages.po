@@ -1459,7 +1459,7 @@ msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:170
 msgid "Report"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:102
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:75
