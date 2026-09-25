@@ -1,6 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { startRhLogin, verifyRhOtp } from "../api";
+import {
+  sendRhMagicLinkSms,
+  startRhLogin,
+  verifyRhMagicLink,
+  verifyRhOtp,
+} from "../api";
 
 export const useStartRhLogin = () =>
   useMutation({
@@ -22,4 +27,22 @@ export const useVerifyRhOtp = () =>
       phoneNumber: string;
       code: string;
     }) => verifyRhOtp(phoneNumber, code),
+  });
+
+export const useSendRhMagicLinkSms = () =>
+  useMutation({
+    mutationFn: ({
+      accessToken,
+      historyId,
+      locale,
+    }: {
+      accessToken: string;
+      historyId: string;
+      locale: string;
+    }) => sendRhMagicLinkSms({ accessToken, historyId, locale }),
+  });
+
+export const useVerifyRhMagicLink = () =>
+  useMutation({
+    mutationFn: ({ token }: { token: string }) => verifyRhMagicLink(token),
   });

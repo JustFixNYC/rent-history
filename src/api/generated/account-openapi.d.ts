@@ -352,6 +352,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/login/send-magic-link-sms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Issue a magic link and send it via SMS
+         * @description Internal issuer for history-scoped resume links: creates a single-use magic link for the given RhHistory and sends it to the profile phone number. Authenticate with OAuth bearer (resource owner) or the static `RH_API_TOKEN` bearer for server-side triggers. No step gate — any owned history qualifies.
+         */
+        post: operations["login_send_magic_link_sms_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/login/start": {
         parameters: {
             query?: never;
@@ -386,6 +406,26 @@ export interface paths {
         get: operations["profile_retrieve"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/verify-magic-link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Exchange a magic link token for OAuth tokens
+         * @description Validates a previously issued magic link token and (if successful) issues an OAuth2 access token and refresh token tied to the provided OAuth Application (`client_id` / `client_secret`). Returns resume metadata (`history_id`, `last_step_reached`) for the linked RhHistory.
+         */
+        post: operations["verify_magic_link_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -442,6 +482,8 @@ export interface components {
          * @description * `otp_expired` - OTP expired
          *     * `otp_invalid` - OTP invalid
          *     * `otp_locked` - OTP locked
+         *     * `magic_link_expired` - Magic link expired
+         *     * `magic_link_invalid` - Magic link invalid
          *     * `profile_not_found` - Profile not found
          *     * `history_not_found` - History not found
          *     * `rh_profile_not_found` - RH profile not found
@@ -468,7 +510,7 @@ export interface components {
          *     * `rh_page_not_found` - RH page not found
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "magic_link_expired" | "magic_link_invalid" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found";
         /**
          * @description * `processing` - Processing
          *     * `complete` - Complete
@@ -791,6 +833,24 @@ export interface components {
             otp: components["schemas"]["RhOtpDelivery"];
             profile: components["schemas"]["RhProfile"];
         };
+        RhMagicLinkVerifyRequestRequest: {
+            client_id: string;
+            client_secret?: string;
+            /** @default password */
+            grant_type: string;
+            token: string;
+        };
+        RhMagicLinkVerifyResponse: {
+            access_token: string;
+            expires_in: number;
+            /** Format: uuid */
+            history_id: string;
+            last_step_reached: components["schemas"]["LastStepReachedEnum"];
+            profile: components["schemas"]["RhProfile"];
+            refresh_token: string;
+            scope: string;
+            token_type: string;
+        };
         RhOtpDelivery: {
             message?: string;
             status: components["schemas"]["RhOtpDeliveryStatusEnum"];
@@ -967,6 +1027,22 @@ export interface components {
          * @enum {string}
          */
         RhScanReviewResponseStatusEnum: "pending" | "ready";
+        RhSendMagicLinkSmsRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+            /** @default en */
+            locale: string;
+            origin?: string;
+        };
+        RhSendMagicLinkSmsResponse: {
+            expires_in: number;
+            /** Format: uuid */
+            history_id: string;
+            last_step_reached: components["schemas"]["LastStepReachedEnum"];
+            sms: components["schemas"]["RhOtpDelivery"];
+            /** Format: uri */
+            url: string;
+        };
         /** @description One element of RhPage.data[]. Declares OpenAPI field types and validates request rows. */
         RhStandardizedTableRow: {
             /** Format: double */
@@ -2007,6 +2083,54 @@ export interface operations {
             };
         };
     };
+    login_send_magic_link_sms_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhSendMagicLinkSmsRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhSendMagicLinkSmsResponse"];
+                };
+            };
+            /** @description Validation error. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
     login_start_create: {
         parameters: {
             query?: never;
@@ -2066,6 +2190,47 @@ export interface operations {
             };
             /** @description No RhProfile for the resource owner. */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    verify_magic_link_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhMagicLinkVerifyRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhMagicLinkVerifyResponse"];
+                };
+            };
+            /** @description Invalid input, expired or invalid magic link, or unauthorized client. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Invalid client credentials. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };

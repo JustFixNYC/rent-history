@@ -53,4 +53,17 @@ describe("post-OTP route protection", () => {
       expect(window.location.pathname).toBe("/en/scanner");
     });
   });
+
+  it("allows /resume without authentication", async () => {
+    window.history.pushState(
+      {},
+      "",
+      "/en/resume?token=test-token&history_id=hist-123"
+    );
+    render(<App />);
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe("/en/resume");
+    });
+  });
 });

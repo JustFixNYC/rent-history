@@ -177,3 +177,17 @@ export const otpVerificationMessage = (
       return error.message;
   }
 };
+
+export const magicLinkVerificationMessage = (
+  error: AccountApiError,
+  _: TranslateFn
+): string => {
+  switch (error.errorCode) {
+    case "magic_link_expired":
+      return _(msg`This link has expired.`);
+    case "magic_link_invalid":
+      return _(msg`This link is invalid or already used.`);
+    default:
+      return error.message;
+  }
+};

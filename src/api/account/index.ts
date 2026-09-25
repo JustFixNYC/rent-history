@@ -11,6 +11,7 @@ export {
   accountReportEmailErrorFromResponse,
   accountApiUnexpectedShapeError,
   isAccountApiError,
+  magicLinkVerificationMessage,
   otpVerificationMessage,
   parseAccountErrorBody,
   parseRhHistoryReportEmailSteps,
@@ -47,7 +48,9 @@ export type {
   RhHistoryReportPdfCreateRequest,
   RhHistoryReportPdfCreateResponse,
   RhLoginStartResponse,
+  RhMagicLinkVerifyResponse,
   RhOtpTokenResponse,
+  RhSendMagicLinkSmsResponse,
   RhPageSummary,
   RhScanReviewResponse,
   RhQueueDelta,
@@ -71,7 +74,12 @@ export {
   type ScanPresignOptions,
 } from "./scanPresign";
 export { accountQueryKeys } from "./queryKeys";
-export { useStartRhLogin, useVerifyRhOtp } from "./hooks/login";
+export {
+  useSendRhMagicLinkSms,
+  useStartRhLogin,
+  useVerifyRhMagicLink,
+  useVerifyRhOtp,
+} from "./hooks/login";
 export { useCreateRhHistory } from "./hooks/history";
 export { useHistoryAnalysisPages } from "./hooks/analysisPages";
 export { useDeleteRhHistory, useRhHistories } from "./hooks/histories";
@@ -98,7 +106,9 @@ export {
   getRhHistoryScanReview,
   postRhHistoryRunAnalysis,
   postRhHistoryScanPresign,
+  sendRhMagicLinkSms,
   startRhLogin,
   validateRhFinding,
+  verifyRhMagicLink,
   verifyRhOtp,
 } from "./api";

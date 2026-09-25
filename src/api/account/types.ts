@@ -14,6 +14,17 @@ export type RhOtpTokenResponse = Omit<
   profile: RhProfile;
 };
 
+/** `POST /rh/verify-magic-link` response (OAuth session + history resume metadata). */
+export type RhMagicLinkVerifyResponse = Omit<
+  Schemas["RhMagicLinkVerifyResponse"],
+  "profile"
+> & {
+  profile: RhProfile;
+};
+
+/** `POST /rh/login/send-magic-link-sms` response. */
+export type RhSendMagicLinkSmsResponse = Schemas["RhSendMagicLinkSmsResponse"];
+
 /** Response body from `POST /rh/history` (create only — `id` only). */
 export type RhHistoryRecord = {
   id: string;
