@@ -10,15 +10,14 @@
   min-height: 648px;
   padding: jfcl.$JF_SPACING_07 jfcl.$JF_SPACING_06;
 
-  &__card {
-    background: jfcl.$WHITE;
-    border: 1px solid jfcl.$GREY_200;
-    border-radius: 4px;
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
     margin-bottom: jfcl.$JF_SPACING_06;
-    padding: jfcl.$JF_SPACING_06;
 
     h2 {
-      @include jfcl.body_large_desktop;
+      @include jfcl.h3_mobile;
       margin: 0;
     }
 
@@ -28,14 +27,60 @@
     }
   }
 
+  &__card {
+    background: jfcl.$WHITE;
+    border: 1px solid jfcl.$GREY_200;
+    border-radius: 4px;
+    margin-bottom: jfcl.$JF_SPACING_06;
+    padding: jfcl.$JF_SPACING_06;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
     gap: jfcl.$JF_SPACING_03;
   }
 
+  &__yes-no {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+    width: 100%;
+  }
+
+  &__yes-no-option {
+    display: flex;
+    margin: 0;
+    width: 100%;
+
+    .jfcl-select-button__label {
+      @include jfcl.body_standard_mobile;
+      border-radius: 6px;
+      box-sizing: border-box;
+      justify-content: center;
+      letter-spacing: 0.03em;
+      min-height: 44px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .jfcl-select-button__input:checked + .jfcl-select-button__label {
+      background: jfcl.$BLUE_100;
+      border: 2px solid jfcl.$OFF_BLACK;
+    }
+
+    .jfcl-select-button__input:not(:checked) + .jfcl-select-button__label {
+      background: jfcl.$OFF_WHITE_100;
+      border: 1px solid jfcl.$OFF_BLACK;
+    }
+  }
+
   &__error {
     color: jfcl.$RED;
-    margin: 0;
+    margin: jfcl.$JF_SPACING_03 0 0;
+
+    &--global {
+      margin-bottom: jfcl.$JF_SPACING_03;
+    }
   }
 }
