@@ -43,13 +43,13 @@ export type RhHistoryConfirmAddressRequest =
 export type RhHistoryConfirmAddressResponse =
   Schemas["RhHistoryConfirmAddressResponse"];
 
-/** `POST /rh/history/current-rent` request (OpenAPI `RhHistorySetCurrentRentRequestRequest`). */
-export type RhHistorySetCurrentRentRequest =
-  Schemas["RhHistorySetCurrentRentRequestRequest"];
+/** `POST /rh/history/apartment-info` request (OpenAPI `RhHistorySetApartmentInfoRequestRequest`). */
+export type RhHistorySetApartmentInfoRequest =
+  Schemas["RhHistorySetApartmentInfoRequestRequest"];
 
-/** `POST /rh/history/current-rent` response. */
-export type RhHistorySetCurrentRentResponse =
-  Schemas["RhHistorySetCurrentRentResponse"];
+/** `POST /rh/history/apartment-info` response. */
+export type RhHistorySetApartmentInfoResponse =
+  Schemas["RhHistorySetApartmentInfoResponse"];
 
 /** `POST /rh/history/delete-all-scanned-pages` success body. */
 export type RhDeleteAllScannedPagesResponse =
