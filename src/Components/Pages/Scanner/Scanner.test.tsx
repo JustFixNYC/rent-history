@@ -284,7 +284,7 @@ const renderScanner = (options?: { strictMode?: boolean }) => {
   const queryClient = createTestQueryClient();
   const tree = (
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/en/scanner"]}>
+      <MemoryRouter initialEntries={["/en/analyze/scanner"]}>
         <I18nProvider i18n={i18n}>
           <Scanner />
         </I18nProvider>
@@ -392,7 +392,7 @@ describe("Scanner Next button", () => {
           end_year: 2021,
         },
       ]);
-      expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/confirm-address");
     });
   });
 
@@ -992,7 +992,7 @@ describe("Scanner phase persistence", () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/confirm-address");
     });
     expect(readScannerStepState()).toEqual({
       historyId,

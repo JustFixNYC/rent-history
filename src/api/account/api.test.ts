@@ -168,7 +168,7 @@ describe("sendRhMagicLinkSms", () => {
           history_id: "hist-1",
           last_step_reached: "ADDRESS_CONFIRMATION",
           expires_in: 86400,
-          url: "https://example.org/en/resume?token=abc",
+          url: "https://example.org/en/analyze/resume?token=abc",
           sms: { status: "sent" },
         },
         { status: 200 }

@@ -1,4 +1,5 @@
 import type { RhHistoryList } from "../api/account";
+import { analyzePath } from "../routes/analyzeRoutes";
 
 type LastStepReached = NonNullable<RhHistoryList["last_step_reached"]>;
 
@@ -30,5 +31,5 @@ export function historyResumePath(
   const subpath =
     (lastStepReached && RESUME_SUBPATH_BY_STEP[lastStepReached]) ??
     DEFAULT_RESUME_SUBPATH;
-  return `/${locale}/${subpath}`;
+  return analyzePath(locale, subpath);
 }

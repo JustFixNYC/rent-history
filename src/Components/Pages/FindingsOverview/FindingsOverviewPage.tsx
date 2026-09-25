@@ -11,6 +11,7 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import "./FindingsOverviewPage.scss";
 
@@ -32,22 +33,22 @@ const FindingsOverviewPage = () => {
 
   useEffect(() => {
     if (findingsNotInitialized) {
-      navigate(`/${i18n.locale}/rent-questions`, { replace: true });
+      navigate(analyzePath(i18n.locale, "rent-questions"), { replace: true });
     }
   }, [findingsNotInitialized, i18n.locale, navigate]);
 
   const hasFindings = (data?.findings_current.length ?? 0) > 0;
 
   const handleBack = () => {
-    navigate(`/${i18n.locale}/rent-questions`);
+    navigate(analyzePath(i18n.locale, "rent-questions"));
   };
 
   const handlePrimary = () => {
     if (hasFindings) {
-      navigate(`/${i18n.locale}/findings-review`);
+      navigate(analyzePath(i18n.locale, "findings-review"));
       return;
     }
-    navigate(`/${i18n.locale}/report`);
+    navigate(analyzePath(i18n.locale, "report"));
   };
 
   if (findingsNotInitialized) {

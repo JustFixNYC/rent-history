@@ -24,6 +24,7 @@ import {
   setRhSessionAnalysisPages,
 } from "../../../session/rhSessionStorage";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
@@ -448,7 +449,7 @@ const Scanner: React.FC = () => {
   };
 
   const handlePreScanBack = () => {
-    navigate(`/${i18n.locale}/account`);
+    navigate(analyzePath(i18n.locale, "account"));
   };
 
   const handleCameraAccessBack = () => {
@@ -574,7 +575,7 @@ const Scanner: React.FC = () => {
         analysisPages
       );
       setRhSessionAnalysisPages(analysisPages);
-      navigate(`/${i18n.locale}/confirm-address`);
+      navigate(analyzePath(i18n.locale, "confirm-address"));
     } catch (error) {
       setFlowError(
         flowErrorFromApi(error, _(msg`Unable to continue. Please try again.`))

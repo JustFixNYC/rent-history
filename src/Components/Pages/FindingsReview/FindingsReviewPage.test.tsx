@@ -114,7 +114,9 @@ const seedFindingsState = (state: FindingsStateResponse) => {
   );
 };
 
-const renderFindingsReviewPage = (initialEntry = "/en/findings-review") => {
+const renderFindingsReviewPage = (
+  initialEntry = "/en/analyze/findings-review"
+) => {
   i18n.load("en", {});
   i18n.activate("en");
   queryClient = createTestQueryClient();
@@ -545,7 +547,7 @@ describe("FindingsReviewPage integration", () => {
     } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
 
     renderFindingsReviewPage(
-      `/en/findings-review?finding_id=${prehstpaFinding.id}`
+      `/en/analyze/findings-review?finding_id=${prehstpaFinding.id}`
     );
 
     await waitForReviewFlow();
@@ -676,7 +678,7 @@ describe("FindingsReviewPage integration", () => {
     clickModalNext("View report");
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/report");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/report");
     });
   });
 });

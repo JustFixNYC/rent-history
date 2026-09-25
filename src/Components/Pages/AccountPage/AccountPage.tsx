@@ -19,6 +19,7 @@ import {
   getRhAuthSession,
   switchRhHistory,
 } from "../../../session/rhSessionStorage";
+import { analyzeLoginPath, analyzePath } from "../../../routes/analyzeRoutes";
 import { historyResumePath } from "../../../utils/historyResumePath";
 import { useIsDesktop } from "../../../utils/useIsDesktop";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
@@ -101,17 +102,17 @@ const AccountPage: React.FC = () => {
 
   const onScanNew = () => {
     if (isDesktop) {
-      navigate(`/${locale}/login`);
+      navigate(analyzeLoginPath(locale));
       return;
     }
     clearRhFlowSession();
-    navigate(`/${locale}/confirm-address`);
+    navigate(analyzePath(locale, "confirm-address"));
   };
 
   const onCardAction = (history: RhHistoryList) => {
     switchRhHistory(history.id);
     if (isCompletedHistory(history)) {
-      navigate(`/${locale}/report`);
+      navigate(analyzePath(locale, "report"));
       return;
     }
     navigate(historyResumePath(locale, history.last_step_reached));
@@ -130,7 +131,7 @@ const AccountPage: React.FC = () => {
   const onConfirmLogout = () => {
     clearRhAuthSession();
     clearRhSessionDocument();
-    navigate(`/${locale}/login`);
+    navigate(analyzeLoginPath(locale));
   };
 
   const onSendMagicLinkTest = (history: RhHistoryList) => {

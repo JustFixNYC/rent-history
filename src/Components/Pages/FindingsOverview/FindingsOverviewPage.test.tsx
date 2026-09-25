@@ -73,7 +73,9 @@ const createTestQueryClient = () =>
 
 let queryClient: QueryClient;
 
-const renderFindingsOverviewPage = (initialEntry = "/en/findings-overview") => {
+const renderFindingsOverviewPage = (
+  initialEntry = "/en/analyze/findings-overview"
+) => {
   i18n.load("en", {});
   i18n.activate("en");
   queryClient = createTestQueryClient();
@@ -131,7 +133,7 @@ describe("FindingsOverviewPage", () => {
     fireEvent.click(screen.getByRole("button", { name: /Start review/i }));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/findings-review");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/findings-review");
     });
   });
 
@@ -165,7 +167,7 @@ describe("FindingsOverviewPage", () => {
     fireEvent.click(screen.getByRole("button", { name: /View report/i }));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/report");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/report");
     });
   });
 
@@ -185,7 +187,7 @@ describe("FindingsOverviewPage", () => {
     fireEvent.click(await screen.findByRole("button", { name: /Back/i }));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/rent-questions");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/rent-questions");
     });
   });
 
@@ -205,7 +207,7 @@ describe("FindingsOverviewPage", () => {
     renderFindingsOverviewPage();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/rent-questions", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/rent-questions", {
         replace: true,
       });
     });
