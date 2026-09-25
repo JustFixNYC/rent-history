@@ -76,7 +76,7 @@ const renderRentQuestions = () => {
   i18n.activate("en");
 
   return render(
-    <MemoryRouter initialEntries={["/en/rent-questions"]}>
+    <MemoryRouter initialEntries={["/en/analyze/rent-questions"]}>
       <I18nProvider i18n={i18n}>
         <RentQuestions />
       </I18nProvider>
@@ -117,7 +117,7 @@ describe("RentQuestions", () => {
           current_rent: 2500,
         }
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/scanner");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner");
     });
   });
 

@@ -126,7 +126,7 @@ const renderConfirmAddress = () => {
   i18n.activate("en");
   return render(
     <QueryClientProvider client={createTestQueryClient()}>
-      <MemoryRouter initialEntries={["/en/confirm-address"]}>
+      <MemoryRouter initialEntries={["/en/analyze/confirm-address"]}>
         <I18nProvider i18n={i18n}>
           <ConfirmAddress />
         </I18nProvider>
@@ -201,7 +201,7 @@ describe("ConfirmAddress", () => {
         })
       );
       expect(getRhHistoryId()).toBe(TEST_HISTORY_ID);
-      expect(navigateMock).toHaveBeenCalledWith("/en/rent-questions");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/rent-questions");
     });
   });
 
@@ -211,7 +211,7 @@ describe("ConfirmAddress", () => {
     fireEvent.click(screen.getByRole("button", { name: /Next/i }));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/rent-questions");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/rent-questions");
     });
 
     navigateMock.mockReset();
@@ -268,7 +268,7 @@ describe("ConfirmAddress", () => {
         })
       );
       expect(getRhHistoryId()).toBe(TEST_HISTORY_ID);
-      expect(navigateMock).toHaveBeenCalledWith("/en/rent-questions");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/rent-questions");
     });
   });
 
@@ -284,7 +284,7 @@ describe("ConfirmAddress", () => {
     fireEvent.click(screen.getByRole("button", { name: /Back/i }));
     fireEvent.click(screen.getByRole("button", { name: /Back/i }));
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/account");
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/account");
     expect(accountApi.createRhHistory).not.toHaveBeenCalled();
     expect(getRhHistoryId()).toBeNull();
   });

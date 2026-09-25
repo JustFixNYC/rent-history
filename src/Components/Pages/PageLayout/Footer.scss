@@ -1,9 +1,15 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "./_layoutVars.scss" as layout;
 
-.preflow-footer {
+.site-footer {
   background: jfcl.$OFF_WHITE_200;
   border-top: 1px solid jfcl.$OFF_BLACK;
   padding: 2rem 1.5rem 1.5rem;
+
+  &__inner {
+    margin: 0 auto;
+    max-width: 100%;
+  }
 
   &__disclaimer {
     h3 {
@@ -58,5 +64,99 @@
   &__title {
     line-height: 1;
     margin-bottom: 1rem;
+  }
+
+  &__language {
+    display: none;
+  }
+
+  &--analyze {
+    .site-footer__links {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 1rem;
+    }
+
+    .site-footer__brand-row {
+      display: block;
+    }
+
+    .site-footer__brand-attribution {
+      margin-top: 1rem;
+    }
+  }
+
+  &--analyze {
+    @include layout.desktop {
+      padding-left: 2rem;
+      padding-right: 2rem;
+
+      .site-footer__inner {
+        max-width: 55.25rem;
+      }
+
+      .site-footer__language {
+        align-items: center;
+        display: flex;
+        font-size: 1.125rem;
+        font-weight: 500;
+        gap: 0.5rem;
+        letter-spacing: 0.03em;
+        line-height: 1.2;
+        margin-bottom: 2rem;
+
+        .language-toggle {
+          @include jfcl.body_standard_desktop;
+          display: inline-flex;
+          gap: 0.25rem;
+
+          a {
+            color: jfcl.$OFF_BLACK;
+            font-weight: 600;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      .site-footer__main-row {
+        align-items: flex-start;
+        display: flex;
+        gap: 4rem;
+        justify-content: space-between;
+      }
+
+      .site-footer__disclaimer {
+        flex: 0 1 28.75rem;
+        max-width: 28.75rem;
+      }
+
+      .site-footer__links {
+        flex: 0 0 auto;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        margin-top: 0;
+      }
+
+      .site-footer__brand {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+      }
+
+      .site-footer__title {
+        margin-bottom: 0;
+      }
+
+      .site-footer__brand-attribution {
+        margin-top: 0;
+        text-align: right;
+      }
+    }
   }
 }

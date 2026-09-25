@@ -64,7 +64,7 @@ const renderLoginPage = () => {
   const queryClient = createTestQueryClient();
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/en/login"]}>
+      <MemoryRouter initialEntries={["/en/analyze/login"]}>
         <I18nProvider i18n={i18n}>
           <LoginPage />
         </I18nProvider>
@@ -453,7 +453,7 @@ describe("LoginPage post-verification navigation", () => {
     await completeMobileLogin();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/confirm-address");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/confirm-address");
     });
   });
 
@@ -469,7 +469,7 @@ describe("LoginPage post-verification navigation", () => {
     await completeMobileLogin();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/account");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/account");
     });
   });
 });

@@ -8,6 +8,7 @@ import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { useNavigate } from "react-router-dom";
 
+import { analyzeLoginPath } from "../../../routes/analyzeRoutes";
 import { StepNumberBadge } from "../../StepNumberBadge/StepNumberBadge";
 import "./Landing.scss";
 
@@ -16,7 +17,7 @@ const Landing: React.FC = () => {
   const navigate = useNavigate();
   const locale = i18n.locale;
 
-  const loginPath = `/${locale}/login`;
+  const loginPath = analyzeLoginPath(locale);
   const aboutPath = `/${locale}/about`;
   const rentHistoryRequestUrl = `https://app.justfix.org/${locale}/rh`;
   const justfixUrl = `https://www.justfix.org/${locale}`;
