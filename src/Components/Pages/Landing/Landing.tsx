@@ -6,27 +6,17 @@ import {
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { useNavigate } from "react-router-dom";
 
-import { analyzeLoginPath } from "../../../routes/analyzeRoutes";
+import { LocaleButtonStyledLink, LocaleLink } from "../../RouterLinks";
 import { StepNumberBadge } from "../../StepNumberBadge/StepNumberBadge";
 import "./Landing.scss";
 
 const Landing: React.FC = () => {
   const { i18n, _ } = useLingui();
-  const navigate = useNavigate();
   const locale = i18n.locale;
 
-  const loginPath = analyzeLoginPath(locale);
-  const aboutPath = `/${locale}/about`;
   const rentHistoryRequestUrl = `https://app.justfix.org/${locale}/rh`;
   const justfixUrl = `https://www.justfix.org/${locale}`;
-
-  const navigateWithin =
-    (path: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
-      event.preventDefault();
-      navigate(path);
-    };
 
   return (
     <div id="landing-page">
@@ -50,10 +40,9 @@ const Landing: React.FC = () => {
             </p>
           </div>
           <div className="landing-hero__ctas">
-            <ButtonStyledLink
+            <LocaleButtonStyledLink
+              to="analyze/login"
               variant="primary"
-              href={loginPath}
-              onClick={navigateWithin(loginPath)}
               labelText={_(msg`Get started`)}
             />
             <ButtonStyledLink
@@ -159,14 +148,13 @@ const Landing: React.FC = () => {
                 kind of analysis attorneys use accessible to anyone, for free.
               </Trans>
             </p>
-            <Link
+            <LocaleLink
+              to="about"
               className="landing-about__link"
               icon="internal"
-              href={aboutPath}
-              onClick={navigateWithin(aboutPath)}
             >
               <Trans>Learn more</Trans>
-            </Link>
+            </LocaleLink>
           </div>
 
           <div className="landing-about__org">
