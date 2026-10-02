@@ -1,3 +1,11 @@
+import type { TimelineTaxExemptionProgram } from "./types";
+
+export function showTaxExemptionProgramCopy(
+  program?: TimelineTaxExemptionProgram | null
+): boolean {
+  return program === "421a" || program === "j51";
+}
+
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",

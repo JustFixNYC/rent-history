@@ -8,6 +8,7 @@ import { useValidateRhFinding } from "../../../api/account/hooks/findingsReview"
 import { accountQueryKeys } from "../../../api/account/queryKeys";
 import type { RhFindingsStateResponse } from "../../../api/account/types";
 
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { FlowNav } from "../../FlowNav";
 import { FindingIntroPanel } from "./FindingIntroPanel";
 import { FindingModuleStack } from "./FindingModuleStack";
@@ -186,7 +187,7 @@ export function FindingReviewFlow({
     setValidatedFinding(null);
 
     if (remainingIds.length === 0) {
-      navigate(`/${i18n.locale}/report`);
+      navigate(analyzePath(i18n.locale, "report"));
       return;
     }
 

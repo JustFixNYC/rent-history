@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { OtpInput } from "./OtpInput";
+import { OtpInput, OTP_LENGTH, sanitizeOtpValue } from "./OtpInput";
 import { useOtpInput } from "./useOtpInput";
 import "./OtpInput.scss";
 
@@ -18,7 +18,6 @@ function OtpInputHarness({ onComplete, initialValue = "" }: HarnessProps) {
       value={otp.value}
       onChange={otp.onChange}
       onKeyDown={otp.onKeyDown}
-      onPaste={otp.onPaste}
       inputRef={otp.inputRef}
       onComplete={onComplete}
       id="verification-code"
@@ -57,21 +56,27 @@ describe("OtpInput", () => {
     expect(onComplete).toHaveBeenCalledWith("123456");
   });
 
-  it("pastes a full code into the single input and calls onComplete", () => {
-    const onComplete = vi.fn();
-    render(<OtpInputHarness onComplete={onComplete} />);
+  it("sanitizes pasted clipboard text", () => {
+    const onChange = vi.fn();
+    render(
+      <OtpInput
+        id="verification-code"
+        name="otp"
+        value=""
+        onChange={onChange}
+        aria-label="Verification code"
+      />
+    );
 
     const input = screen.getByLabelText("Verification code");
 
     fireEvent.paste(input, {
       clipboardData: {
-        getData: () => "123456",
+        getData: () => "12 34-56789",
       },
     });
 
-    expect(input).toHaveValue("123456");
-    expect(onComplete).toHaveBeenCalledTimes(1);
-    expect(onComplete).toHaveBeenCalledWith("123456");
+    expect(onChange).toHaveBeenCalledWith("123456");
   });
 
   it("accepts multi-character autofill via change event", () => {
@@ -101,8 +106,6 @@ describe("OtpInput", () => {
 
     expect(input).toHaveAttribute("autocomplete", "one-time-code");
     expect(input).toHaveAttribute("inputmode", "numeric");
-    expect(input).toHaveAttribute("maxlength", "6");
-    expect(input).toHaveAttribute("pattern", "\\d{6}");
     expect(input).toBeRequired();
     expect(input).toHaveAttribute("name", "otp");
   });
@@ -118,5 +121,33 @@ describe("OtpInput", () => {
     expect(cells[1]).toHaveTextContent("2");
     expect(cells[2]).toHaveTextContent("3");
     expect(cells[3]).toHaveTextContent("");
+  });
+
+  it("shows active cell outline and caret when focused", () => {
+    const { container } = render(
+      <OtpInput
+        id="verification-code"
+        name="otp"
+        value=""
+        onChange={vi.fn()}
+        autoFocus
+        aria-label="Verification code"
+      />
+    );
+
+    expect(container.querySelector(".otp-input__cell--active")).not.toBeNull();
+    expect(container.querySelector(".otp-input__caret")).not.toBeNull();
+  });
+});
+
+describe("sanitizeOtpValue", () => {
+  it("keeps a 6-digit numeric code", () => {
+    expect(OTP_LENGTH).toBe(6);
+    expect(sanitizeOtpValue("123456")).toBe("123456");
+  });
+
+  it("strips non-digits and truncates past 6", () => {
+    expect(sanitizeOtpValue("12 34-56789")).toBe("123456");
+    expect(sanitizeOtpValue("abcdef")).toBe("");
   });
 });

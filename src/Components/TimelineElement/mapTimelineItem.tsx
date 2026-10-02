@@ -10,18 +10,11 @@ export type MappedTimelineElementProps = Omit<
 export function mapTimelineItemToProps(
   item: TimelineItem
 ): MappedTimelineElementProps {
-  if (
-    import.meta.env.DEV &&
-    item.data.current_year != null &&
-    item.data.current_year !== item.year
-  ) {
-    console.warn(
-      `Timeline item type=${item.type}: data.current_year (${item.data.current_year}) does not match year (${item.year})`
-    );
-  }
-
   const composer = timelineComposers[item.type];
-  const content = composer(item.data);
+  const content = composer(item.data, {
+    findingYear: item.year,
+    endYear: item.end_year,
+  });
 
   return {
     variant: item.pills.includes("violation") ? "primary" : "secondary",
@@ -30,6 +23,7 @@ export function mapTimelineItemToProps(
     pills: item.pills,
     title: content.title,
     description: content.description,
+    footnote: content.footnote,
     whatThisMeans: content.whatThisMeans,
   };
 }

@@ -1,4 +1,5 @@
 import type { RhHistoryList } from "../api/account";
+import { analyzePath } from "../routes/analyzeRoutes";
 
 type LastStepReached = NonNullable<RhHistoryList["last_step_reached"]>;
 
@@ -8,7 +9,7 @@ type LastStepReached = NonNullable<RhHistoryList["last_step_reached"]>;
  */
 const RESUME_SUBPATH_BY_STEP: Partial<Record<LastStepReached, string>> = {
   ADDRESS_CONFIRMATION: "confirm-address",
-  APARTMENT_INFO: "scanner",
+  APARTMENT_INFO: "rent-questions",
   DOCUMENT_SCAN: "scanner",
   COMPILING: "compiling",
   SCAN_REVIEW: "scan-review",
@@ -31,5 +32,5 @@ export function historyResumePath(
   const subpath =
     (lastStepReached && RESUME_SUBPATH_BY_STEP[lastStepReached]) ??
     DEFAULT_RESUME_SUBPATH;
-  return `/${locale}/${subpath}`;
+  return analyzePath(locale, subpath);
 }

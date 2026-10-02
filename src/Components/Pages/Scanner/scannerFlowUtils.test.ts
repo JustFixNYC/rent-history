@@ -61,7 +61,9 @@ describe("navigateToPreScan", () => {
     navigateToPreScan(navigate, "en");
 
     expect(readScannerStepState()).toBeNull();
-    expect(navigate).toHaveBeenCalledWith("/en/scanner", { replace: true });
+    expect(navigate).toHaveBeenCalledWith("/en/analyze/scanner", {
+      replace: true,
+    });
   });
 
   it("honors replace=false when provided", () => {
@@ -69,7 +71,9 @@ describe("navigateToPreScan", () => {
 
     navigateToPreScan(navigate, "en", { replace: false });
 
-    expect(navigate).toHaveBeenCalledWith("/en/scanner", { replace: false });
+    expect(navigate).toHaveBeenCalledWith("/en/analyze/scanner", {
+      replace: false,
+    });
   });
 });
 

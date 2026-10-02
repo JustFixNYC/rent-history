@@ -21,6 +21,7 @@ import {
 } from "../../../session/rhSessionStorage";
 import { useSessionStorage } from "../../../hooks/useSessionStorage";
 import { useIsDesktop } from "../../../utils/useIsDesktop";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { formatPhone } from "../shared/flowSession";
 
 export function useRhLoginFlow() {
@@ -117,7 +118,10 @@ export function useRhLoginFlow() {
       setVerifiedProfile(otpSession.profile);
       clearRhHistoryId();
       navigate(
-        `/${i18n.locale}/${hasViewableReport ? "account" : "confirm-address"}`
+        analyzePath(
+          i18n.locale,
+          hasViewableReport ? "account" : "confirm-address"
+        )
       );
     } catch (error) {
       if (isAccountApiError(error)) {

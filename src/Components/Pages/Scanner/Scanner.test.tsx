@@ -244,7 +244,7 @@ const renderScanner = (options?: {
   const tree = (
     <QueryClientProvider client={queryClient}>
       <MemoryRouter
-        initialEntries={options?.initialEntries ?? ["/en/scanner"]}
+        initialEntries={options?.initialEntries ?? ["/en/analyze/scanner"]}
         initialIndex={options?.initialIndex}
       >
         <I18nProvider i18n={i18n}>
@@ -271,7 +271,7 @@ const advanceToScanComplete = async () => {
       "access-token",
       finalizeScanRequest()
     );
-    expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling", {
       replace: true,
     });
   });
@@ -585,7 +585,7 @@ describe("Scanner upload failures", () => {
         "access-token",
         finalizeScanRequest()
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling", {
         replace: true,
       });
     });
@@ -611,7 +611,7 @@ describe("Scanner upload failures", () => {
     await clickStartScanning();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scan-review", {
         replace: true,
         state: expect.objectContaining({
           failedUploadCount: 1,
@@ -646,7 +646,7 @@ describe("Scanner phase persistence", () => {
     renderScanner();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/scan-review");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scan-review");
     });
   });
 
@@ -779,7 +779,7 @@ describe("Scanner unmount cleanup", () => {
 
     const view = renderScanner();
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/scan-review");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scan-review");
     });
     view.unmount();
 
@@ -901,7 +901,7 @@ describe("Scanner tab hide during active scan", () => {
         "access-token",
         finalizeScanRequest()
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling", {
         replace: true,
       });
     });
@@ -1065,7 +1065,7 @@ describe("Scanner postCompileReturn mode", () => {
     renderScanner({
       initialEntries: [
         {
-          pathname: "/en/scanner",
+          pathname: "/en/analyze/scanner",
           state: { postCompileReturn: true },
         },
       ],
@@ -1076,7 +1076,9 @@ describe("Scanner postCompileReturn mode", () => {
     fireEvent.click(screen.getByRole("button", { name: "Skip" }));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/findings-overview");
+      expect(navigateMock).toHaveBeenCalledWith(
+        "/en/analyze/findings-overview"
+      );
     });
   });
 
@@ -1084,7 +1086,7 @@ describe("Scanner postCompileReturn mode", () => {
     renderScanner({
       initialEntries: [
         {
-          pathname: "/en/scanner",
+          pathname: "/en/analyze/scanner",
           state: { postCompileReturn: true },
         },
       ],
@@ -1131,7 +1133,7 @@ describe("Scanner pipeline bootstrap error", () => {
     expect(
       screen.queryByRole("button", { name: "Start scanning" })
     ).not.toBeInTheDocument();
-    expect(navigateMock).not.toHaveBeenCalledWith("/en/scan-review");
+    expect(navigateMock).not.toHaveBeenCalledWith("/en/analyze/scan-review");
   });
 
   it("does not redirect to scan-review when pipeline fails with saved session", async () => {
@@ -1145,7 +1147,7 @@ describe("Scanner pipeline bootstrap error", () => {
     await waitFor(() => {
       expect(screen.getByTestId("scanner-bootstrap-error")).toBeInTheDocument();
     });
-    expect(navigateMock).not.toHaveBeenCalledWith("/en/scan-review");
+    expect(navigateMock).not.toHaveBeenCalledWith("/en/analyze/scan-review");
   });
 
   it("retries pipeline bootstrap and shows pre-scan on success", async () => {

@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import {
   confirmRhHistoryAddress,
   type RhHistoryList,
@@ -161,7 +162,7 @@ export const ConfirmAddress: React.FC = () => {
       persistState(nextState);
       return;
     }
-    navigate(`/${i18n.locale}/account`);
+    navigate(analyzePath(i18n.locale, "account"));
   };
 
   const onContinue = () => {
@@ -205,7 +206,7 @@ export const ConfirmAddress: React.FC = () => {
     const commitKey = addressCommitKey(confirmedAddress);
     const historyId = getRhHistoryId();
     if (historyId && serverConfirmedKey === commitKey) {
-      navigate(`/${i18n.locale}/rent-questions`);
+      navigate(analyzePath(i18n.locale, "rent-questions"));
       return;
     }
 
@@ -236,7 +237,7 @@ export const ConfirmAddress: React.FC = () => {
         serverConfirmedKey: commitKey,
       };
       persistState(nextState);
-      navigate(`/${i18n.locale}/rent-questions`);
+      navigate(analyzePath(i18n.locale, "rent-questions"));
     } catch {
       setAddressError(
         _(msg`Unable to update address right now. Please try again.`)

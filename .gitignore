@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+deadlink-report.json
 *.local
 
 # Editor directories and files
@@ -32,5 +33,7 @@ lambda/*/*.zip
 **/test-textract/
 *.tsbuildinfo
 auth-rh-api-schema.json
+test-results/
 
 .venv*/
+.nvmrc

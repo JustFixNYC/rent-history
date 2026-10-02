@@ -1,13 +1,7 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, NavigationType } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -125,7 +119,7 @@ const createTestQueryClient = () =>
 
 let queryClient: QueryClient;
 
-const renderCompilingWaitingPage = (initialEntry = "/en/compiling") => {
+const renderCompilingWaitingPage = (initialEntry = "/en/analyze/compiling") => {
   i18n.load("en", {});
   i18n.activate("en");
   queryClient = createTestQueryClient();
@@ -200,7 +194,7 @@ describe("CompilingWaitingPage", () => {
       await screen.findByRole("button", { name: "Come back later" })
     );
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/account");
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/account");
   });
 
   it("shows FlowNav when pipeline is complete without auto-navigating", async () => {
@@ -225,7 +219,7 @@ describe("CompilingWaitingPage", () => {
 
     fireEvent.click(await screen.findByRole("button", { name: "Next" }));
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/report");
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/report");
   });
 
   it("navigates to scanner return mode when user taps Restart", async () => {
@@ -237,7 +231,7 @@ describe("CompilingWaitingPage", () => {
 
     fireEvent.click(await screen.findByRole("button", { name: "Restart" }));
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/scanner", {
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
       state: { postCompileReturn: true },
     });
   });

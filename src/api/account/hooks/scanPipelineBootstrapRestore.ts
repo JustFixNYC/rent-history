@@ -12,6 +12,7 @@ import {
 import type { ScannerPhase } from "../../../Components/Pages/Scanner/scannerTypes";
 import { useScanPipelineBootstrap } from "./scanPipelineStatus";
 import { shouldBootstrapCompiling } from "./scanPipelineUtils";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 
 export type UseScanPipelineBootstrapGateParams = {
   accessToken: string | undefined;
@@ -112,14 +113,14 @@ export function useScannerBootstrapRestore({
 
     if (redirectToCompiling) {
       clearScannerStepState();
-      navigate(`/${i18n.locale}/compiling`);
+      navigate(analyzePath(i18n.locale, "compiling"));
       setRestoreStatus("done");
       return;
     }
 
     if (savedScanReview) {
       setRedirectedScanReview(true);
-      navigate(`/${i18n.locale}/scan-review`);
+      navigate(analyzePath(i18n.locale, "scan-review"));
       setRestoreStatus("done");
       return;
     }
@@ -200,7 +201,7 @@ export function useScanReviewBootstrapRestore({
 
     if (redirectToCompiling) {
       clearScannerStepState();
-      navigate(`/${i18n.locale}/compiling`);
+      navigate(analyzePath(i18n.locale, "compiling"));
       setRestoreStatus("done");
       return;
     }
@@ -211,7 +212,7 @@ export function useScanReviewBootstrapRestore({
     }
 
     clearScannerStepState();
-    navigate(`/${i18n.locale}/scanner`);
+    navigate(analyzePath(i18n.locale, "scanner"));
     setRestoreStatus("done");
   }, [
     hasSavedScanReview,

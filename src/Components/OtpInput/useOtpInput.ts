@@ -2,17 +2,11 @@ import {
   useCallback,
   useRef,
   useState,
-  type ChangeEvent,
-  type ClipboardEvent,
   type KeyboardEvent,
   type RefObject,
 } from "react";
 
-const DEFAULT_LENGTH = 6;
-
-function sanitizeOtpValue(raw: string, length: number): string {
-  return raw.replace(/\D/g, "").slice(0, length);
-}
+import { OTP_LENGTH, sanitizeOtpValue } from "./OtpInput";
 
 export type UseOtpInputOptions = {
   length?: number;
@@ -24,14 +18,13 @@ export type UseOtpInputResult = {
   value: string;
   setValue: (next: string) => void;
   inputRef: RefObject<HTMLInputElement>;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-  onPaste: (event: ClipboardEvent<HTMLInputElement>) => void;
   isComplete: boolean;
 };
 
 export function useOtpInput({
-  length = DEFAULT_LENGTH,
+  length = OTP_LENGTH,
   initialValue = "",
   onValueChange,
 }: UseOtpInputOptions = {}): UseOtpInputResult {
@@ -50,16 +43,8 @@ export function useOtpInput({
   );
 
   const onChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value);
-    },
-    [setValue]
-  );
-
-  const onPaste = useCallback(
-    (event: ClipboardEvent<HTMLInputElement>) => {
-      event.preventDefault();
-      setValue(event.clipboardData.getData("text"));
+    (next: string) => {
+      setValue(next);
     },
     [setValue]
   );
@@ -76,7 +61,6 @@ export function useOtpInput({
     inputRef,
     onChange,
     onKeyDown,
-    onPaste,
     isComplete: value.length === length,
   };
 }

@@ -80,7 +80,7 @@ const renderScanReviewFlow = (
 
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/en/scan-review"]}>
+      <MemoryRouter initialEntries={["/en/analyze/scan-review"]}>
         <I18nProvider i18n={i18n}>
           <ScanReviewFlow
             flowMode={ScanReviewMode.warningOnly}
@@ -154,7 +154,7 @@ describe("ScanReviewFlow", () => {
           last_reg_year: 2003,
         }
       );
-      expect(navigateMock).toHaveBeenCalledWith("/en/compiling", {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling", {
         replace: true,
       });
     });

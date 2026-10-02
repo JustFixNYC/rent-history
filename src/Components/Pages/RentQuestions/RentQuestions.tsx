@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { TextInput } from "@justfixnyc/component-library";
 
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import {
   isAccountApiError,
   setRhHistoryCurrentRent,
@@ -81,7 +82,7 @@ export const RentQuestions: React.FC = () => {
         history_id: historyId,
         current_rent: currentRent,
       });
-      navigate(`/${i18n.locale}/scanner`);
+      navigate(analyzePath(i18n.locale, "scanner"));
     } catch (error) {
       if (isAccountApiError(error)) {
         setSubmitError(error.message);
@@ -138,7 +139,7 @@ export const RentQuestions: React.FC = () => {
         </article>
 
         <FlowNav
-          onBack={() => navigate(`/${i18n.locale}/confirm-address`)}
+          onBack={() => navigate(analyzePath(i18n.locale, "confirm-address"))}
           onNext={saveAndContinue}
           isNextLoading={isSavingRent}
           backDisabled={isSavingRent}

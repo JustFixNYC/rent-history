@@ -8,6 +8,7 @@ import { accountQueryKeys } from "../queryKeys";
 import { writeScannerStepState } from "../../../Components/Pages/ScanReviewPage/scanReviewState";
 import type { ScanReviewLocationState } from "../../../Components/Pages/Scanner/scannerLocationState";
 import { TERMINAL_PIPELINE_STATUSES } from "./scanPipelineUtils";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 
 const POLL_INTERVAL_MS = 1500;
 
@@ -75,7 +76,7 @@ export const useScanPipelineStatus = ({
     if (data.scan_pipeline_status === "needs_rescan") {
       hasHandledTerminalRef.current = true;
       writeScannerStepState({ phase: "scan-review" });
-      navigate(`/${i18n.locale}/scan-review`, {
+      navigate(analyzePath(i18n.locale, "scan-review"), {
         replace: true,
         state: {
           earlyValidation: data.early_validation ?? null,

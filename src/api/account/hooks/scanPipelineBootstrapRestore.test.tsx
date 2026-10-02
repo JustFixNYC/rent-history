@@ -158,7 +158,7 @@ describe("useScannerBootstrapRestore", () => {
     );
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/compiling");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling");
       expect(result.current.restoreStatus).toBe("done");
     });
   });
@@ -224,7 +224,7 @@ describe("useScannerBootstrapRestore", () => {
       expect(accountApi.getRhHistoryScanPipelineStatus).toHaveBeenCalled();
     });
 
-    expect(navigateMock).not.toHaveBeenCalledWith("/en/scan-review");
+    expect(navigateMock).not.toHaveBeenCalledWith("/en/analyze/scan-review");
   });
 
   it("opens gate after retry succeeds", async () => {
@@ -249,7 +249,7 @@ describe("useScannerBootstrapRestore", () => {
     result.current.retryPipelineBootstrap();
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/scan-review");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scan-review");
       expect(result.current.restoreStatus).toBe("done");
     });
   });
@@ -278,7 +278,7 @@ describe("useScanReviewBootstrapRestore", () => {
     );
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith("/en/compiling");
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling");
       expect(result.current.restoreStatus).toBe("done");
     });
     expect(accountApi.getRhHistoryScanPipelineStatus).toHaveBeenCalled();

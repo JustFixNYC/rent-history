@@ -84,6 +84,7 @@ describe("TimelineElement", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Evidence body")).toBeVisible();
     expect(screen.getByText("A footnote")).toBeVisible();
+    expect(screen.getByText("Supporting evidence")).toBeVisible();
     expect(screen.getByText("What this means for you")).toBeVisible();
     expect(screen.getByText("Implications copy")).toBeVisible();
     expect(screen.getByTestId("timeline-element").className).toContain(
@@ -104,6 +105,7 @@ describe("TimelineElement", () => {
     fireEvent.click(toggle);
 
     expect(screen.getByText("Secondary evidence")).toBeVisible();
+    expect(screen.queryByText("Supporting evidence")).not.toBeInTheDocument();
     expect(
       screen.queryByText("What this means for you")
     ).not.toBeInTheDocument();

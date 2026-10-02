@@ -1,6 +1,7 @@
 import type { NavigateFunction } from "react-router-dom";
 
 import { isAccountApiError } from "../../../api/account";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { getRhAuthSession } from "../../../session/rhSessionStorage";
 import { clearScannerStepState } from "../ScanReviewPage/scanReviewState";
 
@@ -34,5 +35,5 @@ export const navigateToPreScan = (
   { replace = true }: NavigateToPreScanOptions = {}
 ): void => {
   clearScannerStepState();
-  navigate(`/${locale}/scanner`, { replace });
+  navigate(analyzePath(locale, "scanner"), { replace });
 };

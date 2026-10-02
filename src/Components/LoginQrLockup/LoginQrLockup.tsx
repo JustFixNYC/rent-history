@@ -1,6 +1,7 @@
 import { QRCodeSVG } from "qrcode.react";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
+import { analyzeLoginPath } from "../../routes/analyzeRoutes";
 import "../InlineChip/InlineChip.scss";
 import "./LoginQrLockup.scss";
 
@@ -11,8 +12,9 @@ type LoginQrLockupProps = {
 export const LoginQrLockup = ({ size }: LoginQrLockupProps) => {
   const { i18n } = useLingui();
   // QR deep-links with locale; the visible chip stays short (no protocol, no locale).
-  const qrUrl = `${window.location.origin}/${i18n.locale}/login`;
-  const displayUrl = `${window.location.host}/login`;
+  const loginPath = analyzeLoginPath(i18n.locale);
+  const qrUrl = `${window.location.origin}${loginPath}`;
+  const displayUrl = `${window.location.host}${loginPath}`;
 
   return (
     <div className="login-qr-lockup">

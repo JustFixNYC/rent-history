@@ -3,7 +3,11 @@ import {
   TIMELINE_PILL_TYPES,
 } from "../../TimelineElement/TimelineElement";
 import { mapTimelineItemToProps } from "../../TimelineElement/mapTimelineItem";
-import { mockTimelineElements } from "../../TimelineElement/mockData";
+import {
+  allTimelineFindingTypes,
+  getCatalogMockTimelineItem,
+  mockTimelineElements,
+} from "../../TimelineElement/mockData";
 import "./DevPage.scss";
 
 /**
@@ -35,6 +39,32 @@ const DevPage: React.FC = () => (
             <TimelineElement {...mapTimelineItemToProps(item)} />
           </li>
         ))}
+      </ol>
+    </article>
+
+    <article className="dev-page__section">
+      <h2 className="dev-page__section-title">Timeline elements by type</h2>
+      <nav className="dev-page__type-nav" aria-label="Timeline finding types">
+        <ul>
+          {allTimelineFindingTypes.map((type) => (
+            <li key={type}>
+              <a href={`#${type}`}>{type}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <ol className="timeline dev-page__type-catalog">
+        {allTimelineFindingTypes.map((type) => {
+          const item = getCatalogMockTimelineItem(type);
+          return (
+            <li key={type} id={type} className="dev-page__type-entry">
+              <h3 className="dev-page__type-label">
+                <a href={`#${type}`}>{type}</a>
+              </h3>
+              <TimelineElement {...mapTimelineItemToProps(item)} />
+            </li>
+          );
+        })}
       </ol>
     </article>
   </section>

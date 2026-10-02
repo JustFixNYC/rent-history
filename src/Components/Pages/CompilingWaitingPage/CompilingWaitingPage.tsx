@@ -12,6 +12,7 @@ import {
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
 import { historyResumePath } from "../../../utils/historyResumePath";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { useScanPipelineStatus } from "../../../api/account";
 import { ScanReviewRecoveryScreen } from "../ScanReviewPage/ScanReviewRecoveryScreen";
 import { ScanReviewRecoveryVariant } from "../ScanReviewPage/scanReviewModes";
@@ -90,7 +91,7 @@ const CompilingWaitingPage = () => {
   const showFailedRecovery = status === "failed";
 
   const handleRestart = () => {
-    navigate(`/${i18n.locale}/scanner`, {
+    navigate(analyzePath(i18n.locale, "scanner"), {
       state: { postCompileReturn: true },
     });
   };
@@ -101,7 +102,7 @@ const CompilingWaitingPage = () => {
   };
 
   const handleComeBackLater = () => {
-    navigate(`/${i18n.locale}/account`);
+    navigate(analyzePath(i18n.locale, "account"));
   };
 
   return (

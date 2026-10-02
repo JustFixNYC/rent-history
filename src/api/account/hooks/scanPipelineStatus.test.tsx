@@ -267,7 +267,7 @@ describe("useScanPipelineStatus", () => {
       });
     });
 
-    expect(navigateMock).toHaveBeenCalledWith("/en/scan-review", {
+    expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scan-review", {
       replace: true,
       state: {
         earlyValidation,

@@ -21,6 +21,7 @@ import { ScanReviewEntryScreen } from "./scanReviewModes";
 import { resolveScanReviewScreen } from "./scanReviewScreenState";
 import { getDhcrRentHistoryRequestUrl } from "./scanReviewExternalLinks";
 import { navigateToPreScan } from "../Scanner/scannerFlowUtils";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 
 import "./ScanReviewScreen.scss";
 
@@ -63,7 +64,7 @@ const ScanReviewPage = () => {
   }, [i18n.locale, navigate]);
 
   const handleComeBackLater = useCallback(() => {
-    navigate(`/${i18n.locale}/account`);
+    navigate(analyzePath(i18n.locale, "account"));
   }, [i18n.locale, navigate]);
 
   const handleRequestRentHistory = useCallback(() => {

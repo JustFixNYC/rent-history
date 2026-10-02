@@ -14,6 +14,7 @@ import {
   setRhAuthSession,
   switchRhHistory,
 } from "../../../session/rhSessionStorage";
+import { analyzeLoginPath } from "../../../routes/analyzeRoutes";
 import { historyResumePath } from "../../../utils/historyResumePath";
 import "./ResumePage.scss";
 
@@ -30,7 +31,7 @@ const ResumePage: React.FC = () => {
   const token = searchParams.get("token");
   const historyId = searchParams.get("history_id");
   const locale = i18n.locale;
-  const loginPath = `/${locale}/login`;
+  const loginPath = analyzeLoginPath(locale);
 
   const [pageState, setPageState] = useState<ResumePageState>(() =>
     token && historyId ? "loading" : "error"

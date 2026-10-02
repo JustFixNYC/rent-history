@@ -13,6 +13,7 @@ import {
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { BootstrapPipelineErrorCallout } from "../../scanFlow/BootstrapPipelineErrorCallout";
 import { historyResumePath } from "../../../utils/historyResumePath";
+import { analyzePath } from "../../../routes/analyzeRoutes";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
 import { ScannerInProgressScreen } from "./ScannerInProgressScreen";
@@ -106,7 +107,7 @@ const Scanner: React.FC = () => {
 
   const navigateToScanReview = useCallback(
     (options?: Partial<ScanReviewLocationState>) => {
-      navigate(`/${i18n.locale}/scan-review`, {
+      navigate(analyzePath(i18n.locale, "scan-review"), {
         replace: true,
         state: options,
       });
@@ -129,7 +130,7 @@ const Scanner: React.FC = () => {
       void queryClient.invalidateQueries({
         queryKey: accountQueryKeys.scanPipelineStatus(activeHistoryId),
       });
-      navigate(`/${i18n.locale}/compiling`, { replace: true });
+      navigate(analyzePath(i18n.locale, "compiling"), { replace: true });
       return { ok: true as const };
     } catch (error) {
       const message = flowErrorFromApi(
@@ -296,7 +297,7 @@ const Scanner: React.FC = () => {
   };
 
   const handlePreScanBack = () => {
-    navigate(`/${i18n.locale}/account`);
+    navigate(analyzePath(i18n.locale, "account"));
   };
 
   const handleCameraAccessBack = () => {
