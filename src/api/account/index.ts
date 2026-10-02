@@ -29,9 +29,13 @@ export type {
   RhFindingRow,
   RhFindingStatusEnum,
   RhFindingsStateResponse,
-  RhHistoryCombinePagesResponse,
+  RhFinalizeScanRequest,
+  RhFinalizeScanResponse,
+  RhScanPipelineStatusResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhConfirmLastRegYearRequest,
+  RhConfirmLastRegYearResponse,
   RhHistorySetCurrentRentRequest,
   RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
@@ -52,16 +56,18 @@ export type {
   RhOtpTokenResponse,
   RhSendMagicLinkSmsResponse,
   RhPageSummary,
+  RhPageRescanInfo,
+  RhEarlyValidation,
   RhScanReviewResponse,
   RhQueueDelta,
   RhReviewQueue,
-  RhRunAnalysisRequestRequest,
-  RhRunAnalysisResponse,
   ReportPdfLocale,
   RhProfile,
   RhScanPresignRequest,
   RhScanPresignResponse,
   RhScanPresignUrlEntry,
+  RhScanUploadAckRequest,
+  RhScanUploadAckResponse,
   RhValidateFindingAnswersRequest,
   RhValidateFindingRequestRequest,
   RhValidateFindingResponse,
@@ -84,27 +90,40 @@ export { useCreateRhHistory } from "./hooks/history";
 export { useHistoryAnalysisPages } from "./hooks/analysisPages";
 export { useDeleteRhHistory, useRhHistories } from "./hooks/histories";
 export { useConfirmRhHistoryAddress } from "./hooks/confirmAddress";
+export { useConfirmRhHistoryLastRegYear } from "./hooks/confirmLastRegYear";
 export {
   useRhFindingsState,
-  useRunRhAnalysis,
   useValidateRhFinding,
 } from "./hooks/findingsReview";
 export {
-  combineRhHistoryPages,
+  useScanPipelineBootstrap,
+  useScanPipelineStatus,
+} from "./hooks/scanPipelineStatus";
+export {
+  useScannerBootstrapRestore,
+  useScanReviewBootstrapRestore,
+} from "./hooks/scanPipelineBootstrapRestore";
+export {
+  shouldBootstrapCompiling,
+  type ScanPipelineStatus,
+} from "./hooks/scanPipelineUtils";
+export {
   confirmRhHistoryAddress,
+  confirmRhHistoryLastRegYear,
   setRhHistoryCurrentRent,
+  ackRhHistoryScanUpload,
   createRhHistory,
   createRhHistoryReportPdf,
   deleteRhHistory,
   deleteAllRhScannedPages,
   deleteRhScannedPages,
+  finalizeRhHistoryScan,
   listRhHistories,
   downloadRhHistoryReportPdf,
   emailRhHistoryReportPdf,
   getRhFindingsState,
   getRhHistoryAnalysisPages,
-  getRhHistoryScanReview,
-  postRhHistoryRunAnalysis,
+  getRhHistoryScanPipelineStatus,
   postRhHistoryScanPresign,
   sendRhMagicLinkSms,
   startRhLogin,

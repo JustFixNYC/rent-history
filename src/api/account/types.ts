@@ -30,11 +30,6 @@ export type RhHistoryRecord = {
   id: string;
 };
 
-/** `POST /rh/history/combine-pages` success body. */
-export type RhHistoryCombinePagesResponse = {
-  status: "ok";
-};
-
 /** `POST /rh/history/confirm-address` request (OpenAPI `RhHistoryConfirmAddressRequestRequest`). */
 export type RhHistoryConfirmAddressRequest =
   Schemas["RhHistoryConfirmAddressRequestRequest"];
@@ -42,6 +37,14 @@ export type RhHistoryConfirmAddressRequest =
 /** `POST /rh/history/confirm-address` response. */
 export type RhHistoryConfirmAddressResponse =
   Schemas["RhHistoryConfirmAddressResponse"];
+
+/** `POST /rh/history/confirm-last-reg-year` request. */
+export type RhConfirmLastRegYearRequest =
+  Schemas["RhConfirmLastRegYearRequestRequest"];
+
+/** `POST /rh/history/confirm-last-reg-year` response. */
+export type RhConfirmLastRegYearResponse =
+  Schemas["RhConfirmLastRegYearResponse"];
 
 /** `POST /rh/history/current-rent` request (OpenAPI `RhHistorySetCurrentRentRequestRequest`). */
 export type RhHistorySetCurrentRentRequest =
@@ -59,10 +62,26 @@ export type RhDeleteAllScannedPagesResponse =
 export type RhDeleteScannedPagesResponse =
   Schemas["RhDeleteScannedPagesResponse"];
 
-/** `RhPageSummary` — pages list when scan-review returns 200 `ready`. */
-export type RhPageSummary = Schemas["RhPageSummary"];
+/** Legacy scan-review page summary until Task 5 removes thumbnail UI. */
+export type RhPageSummary = {
+  id: number;
+  extraction_status: string;
+  needs_retake: boolean;
+  quality_issue_reason?: string | null;
+  error?: string | null;
+  s3_key: string;
+  start_year?: number | null;
+  end_year?: number | null;
+  is_coverpage?: boolean | null;
+};
 
-/** `RhAnalysisPage` — pages kept for analysis after combine-pages. */
+/** Rescan target from pipeline-status `early_validation.pages_needing_rescan`. */
+export type RhPageRescanInfo = Schemas["RhPageRescanInfo"];
+
+/** Pipeline early coverage result on `GET /rh/history/scan-pipeline-status`. */
+export type RhEarlyValidation = Schemas["RhEarlyValidation"];
+
+/** `RhAnalysisPage` — pages kept for analysis after scan pipeline combine. */
 export type RhAnalysisPage = Omit<
   Schemas["RhAnalysisPage"],
   "start_year" | "end_year"
@@ -117,7 +136,13 @@ export type RhScanPresignResponse = Schemas["RhScanPresignResponse"];
 
 export type RhScanPresignUrlEntry = Schemas["RhScanPresignUrlEntry"];
 
-/** `GET /rh/history/scan-review` response (discriminated by `status`). */
+/** `POST /rh/history/scan-upload-ack` request body. */
+export type RhScanUploadAckRequest = Schemas["RhScanUploadAckRequestRequest"];
+
+/** `POST /rh/history/scan-upload-ack` success body. */
+export type RhScanUploadAckResponse = Schemas["RhScanUploadAckResponse"];
+
+/** Legacy scan-review poll response until Task 5 removes polling hooks. */
 export type RhScanReviewResponse =
   | {
       status: "ready";
@@ -157,13 +182,6 @@ export type RhReviewQueue = Schemas["RhReviewQueue"];
 /** Queue changes after reconcile / validate-finding. */
 export type RhQueueDelta = Schemas["RhQueueDelta"];
 
-/** `POST /rh/history/run-analysis` request body. */
-export type RhRunAnalysisRequestRequest =
-  Schemas["RhRunAnalysisRequestRequest"];
-
-/** `POST /rh/history/run-analysis` response. */
-export type RhRunAnalysisResponse = Schemas["RhRunAnalysisResponse"];
-
 /** `POST /rh/history/validate-finding` request body. */
 export type RhValidateFindingRequestRequest =
   Schemas["RhValidateFindingRequestRequest"];
@@ -180,6 +198,16 @@ export type RhFindingAnswerRowRequest = Schemas["RhFindingAnswerRowRequest"];
 
 /** `GET /rh/history/findings-state` response. */
 export type RhFindingsStateResponse = Schemas["RhFindingsStateResponse"];
+
+/** `GET /rh/history/scan-pipeline-status` response. */
+export type RhScanPipelineStatusResponse =
+  Schemas["RhScanPipelineStatusResponse"];
+
+/** `POST /rh/history/finalize-scan` request body. */
+export type RhFinalizeScanRequest = Schemas["RhFinalizeScanRequestRequest"];
+
+/** `POST /rh/history/finalize-scan` response. */
+export type RhFinalizeScanResponse = Schemas["RhFinalizeScanResponse"];
 
 /** One item from `GET /rh/histories`. */
 export type RhHistoryList = Schemas["RhHistoryList"];

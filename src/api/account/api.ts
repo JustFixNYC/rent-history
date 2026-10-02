@@ -10,9 +10,13 @@ import {
 import type {
   RhAnalysisPage,
   RhFindingsStateResponse,
-  RhHistoryCombinePagesResponse,
+  RhFinalizeScanRequest,
+  RhFinalizeScanResponse,
+  RhScanPipelineStatusResponse,
   RhHistoryConfirmAddressRequest,
   RhHistoryConfirmAddressResponse,
+  RhConfirmLastRegYearRequest,
+  RhConfirmLastRegYearResponse,
   RhHistorySetCurrentRentRequest,
   RhHistorySetCurrentRentResponse,
   RhHistoryDeleteResponse,
@@ -24,14 +28,14 @@ import type {
   RhHistoryReportEmailResponse,
   RhHistoryReportPdfCreateRequest,
   RhHistoryReportPdfCreateResponse,
-  RhScanReviewResponse,
   RhLoginStartResponse,
   RhMagicLinkVerifyResponse,
   RhOtpTokenResponse,
   RhSendMagicLinkSmsResponse,
-  RhRunAnalysisResponse,
   RhScanPresignRequest,
   RhScanPresignResponse,
+  RhScanUploadAckRequest,
+  RhScanUploadAckResponse,
   RhValidateFindingRequestRequest,
   RhValidateFindingResponse,
 } from "./types";
@@ -181,6 +185,18 @@ export const confirmRhHistoryAddress = (
     })
   );
 
+/** `POST /rh/history/confirm-last-reg-year` — Persist declared last reg year; match advances pipeline. */
+export const confirmRhHistoryLastRegYear = (
+  accessToken: string,
+  body: RhConfirmLastRegYearRequest
+): Promise<RhConfirmLastRegYearResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/confirm-last-reg-year", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
+
 /** `POST /rh/history/current-rent` — Persist monthly rent on an owned RhHistory. */
 export const setRhHistoryCurrentRent = (
   accessToken: string,
@@ -219,46 +235,34 @@ export const deleteRhScannedPages = (
   );
 
 /**
- * `POST /rh/history/combine-pages` — Merge pages into `data_initial` (success returns `{ status: "ok" }` only).
+ * `GET /rh/history/scan-pipeline-status` — OAuth2 bearer.
+ * Returns pipeline phase and last_step_reached for the compiling waiting screen.
  */
-export const combineRhHistoryPages = (
+export const getRhHistoryScanPipelineStatus = (
   accessToken: string,
   historyId: string
-): Promise<RhHistoryCombinePagesResponse> =>
+): Promise<RhScanPipelineStatusResponse> =>
   unwrapAccountResponse(
-    getAccountClient().POST("/rh/history/combine-pages", {
+    getAccountClient().GET("/rh/history/scan-pipeline-status", {
       headers: bearerHeaders(accessToken),
-      body: { history_id: historyId },
+      params: { query: { history_id: historyId } },
     })
-  ) as Promise<RhHistoryCombinePagesResponse>;
-
-export type GetRhHistoryScanReviewOptions = {
-  acceptPartial?: boolean;
-};
+  ) as Promise<RhScanPipelineStatusResponse>;
 
 /**
- * `GET /rh/history/scan-review` — OAuth2 bearer.
- * HTTP 200 with `status`: `ready` | `pending`. Query validation and server
- * errors throw `AccountApiError`.
+ * `POST /rh/history/finalize-scan` — OAuth2 bearer.
+ * Derives expected_page_count from acked uploads, moves last_step_reached to COMPILING, and runs pipeline catch-up.
  */
-export const getRhHistoryScanReview = (
+export const finalizeRhHistoryScan = (
   accessToken: string,
-  historyId: string,
-  expectedPageCount: number,
-  options?: GetRhHistoryScanReviewOptions
-): Promise<RhScanReviewResponse> =>
+  body: RhFinalizeScanRequest
+): Promise<RhFinalizeScanResponse> =>
   unwrapAccountResponse(
-    getAccountClient().GET("/rh/history/scan-review", {
+    getAccountClient().POST("/rh/history/finalize-scan", {
       headers: bearerHeaders(accessToken),
-      params: {
-        query: {
-          history_id: historyId,
-          expected_page_count: expectedPageCount,
-          ...(options?.acceptPartial ? { accept_partial: true } : {}),
-        },
-      },
+      body,
     })
-  ) as Promise<RhScanReviewResponse>;
+  ) as Promise<RhFinalizeScanResponse>;
 
 /**
  * `GET /rh/history/analysis-pages` — OAuth2 bearer.
@@ -284,6 +288,21 @@ export const postRhHistoryScanPresign = (
 ): Promise<RhScanPresignResponse> =>
   unwrapAccountResponse(
     getAccountClient().POST("/rh/history/scan-presign", {
+      headers: bearerHeaders(accessToken),
+      body,
+    })
+  );
+
+/**
+ * `POST /rh/history/scan-upload-ack` — OAuth2 bearer.
+ * Records a successful S3 upload for a presigned scan key; idempotent per key.
+ */
+export const ackRhHistoryScanUpload = (
+  accessToken: string,
+  body: RhScanUploadAckRequest
+): Promise<RhScanUploadAckResponse> =>
+  unwrapAccountResponse(
+    getAccountClient().POST("/rh/history/scan-upload-ack", {
       headers: bearerHeaders(accessToken),
       body,
     })
@@ -355,20 +374,6 @@ export const downloadRhHistoryReportPdf = async (
   void data;
   return response.blob();
 };
-
-/**
- * `POST /rh/history/run-analysis` — OAuth2 bearer; run analysis and return findings + queue.
- */
-export const postRhHistoryRunAnalysis = (
-  accessToken: string,
-  historyId: string
-): Promise<RhRunAnalysisResponse> =>
-  unwrapAccountResponse(
-    getAccountClient().POST("/rh/history/run-analysis", {
-      headers: bearerHeaders(accessToken),
-      body: { history_id: historyId },
-    })
-  );
 
 /**
  * `POST /rh/history/validate-finding` — OAuth2 bearer; validate one finding and return queue delta.

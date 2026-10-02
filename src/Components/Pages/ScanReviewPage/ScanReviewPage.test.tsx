@@ -1,0 +1,788 @@
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
+import { MemoryRouter, type MemoryRouterProps } from "react-router-dom";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+import ScanReviewPage from "./ScanReviewPage";
+import * as accountApi from "../../../api/account/api";
+import {
+  clearRhAuthSession,
+  setRhAuthSession,
+  setRhHistoryId,
+} from "../../../session/rhSessionStorage";
+import { writeScannerStepState } from "./scanReviewState";
+
+const { navigateMock, testHistoryId, defaultPipelineResponse } = vi.hoisted(
+  () => ({
+    navigateMock: vi.fn(),
+    testHistoryId: "22222222-2222-4222-8222-222222222222",
+    defaultPipelineResponse: {
+      declared_last_reg_year: null,
+      last_step_reached: "DOCUMENT_SCAN" as const,
+      scan_pipeline_status: "complete" as const,
+      expected_page_count: 1,
+      pages_landed_count: 1,
+      pages_terminal_count: 1,
+      processing_complete: true,
+      uploads_observed_count: 1,
+      early_validation: null,
+      user_message_key: null,
+    },
+  })
+);
+
+const partialEarlyValidation = {
+  passed: false,
+  missing_page_numbers: [3, 5],
+  pages_needing_rescan: [
+    { id: 7, page_number: 2, label: "Page 2" },
+    { id: null, page_number: 5, label: "Page 5" },
+  ],
+  scanned_max_reg_year: 2020,
+  warnings: [],
+};
+
+const needsRescanPipelineResponse = {
+  declared_last_reg_year: null,
+  last_step_reached: "COMPILING" as const,
+  scan_pipeline_status: "needs_rescan" as const,
+  expected_page_count: 4,
+  pages_landed_count: 4,
+  pages_terminal_count: 4,
+  processing_complete: true,
+  uploads_observed_count: 4,
+  early_validation: partialEarlyValidation,
+  user_message_key: null,
+};
+
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual<typeof import("react-router-dom")>(
+    "react-router-dom"
+  );
+  return {
+    ...actual,
+    useNavigate: () => navigateMock,
+  };
+});
+
+vi.mock("../../../api/account/api", async () => {
+  const actual = await vi.importActual<
+    typeof import("../../../api/account/api")
+  >("../../../api/account/api");
+  return {
+    ...actual,
+    getRhHistoryScanPipelineStatus: vi
+      .fn()
+      .mockResolvedValue(defaultPipelineResponse),
+    confirmRhHistoryLastRegYear: vi.fn(),
+  };
+});
+
+const tokenPayload = {
+  access_token: "access-token",
+  refresh_token: "refresh-token",
+  token_type: "Bearer",
+  expires_in: 300,
+  scope: "read write",
+  profile: {
+    id: 1,
+    phone_number: "15554443333",
+  },
+};
+
+const historyId = testHistoryId;
+
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
+const renderScanReview = (options?: {
+  initialEntries?: MemoryRouterProps["initialEntries"];
+}) => {
+  i18n.load("en", {});
+  i18n.activate("en");
+  const queryClient = createTestQueryClient();
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter
+        initialEntries={options?.initialEntries ?? ["/en/analyze/scan-review"]}
+      >
+        <I18nProvider i18n={i18n}>
+          <ScanReviewPage />
+        </I18nProvider>
+      </MemoryRouter>
+    </QueryClientProvider>
+  );
+};
+
+describe("ScanReviewPage error states", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    writeScannerStepState({ phase: "scan-review" });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
+      needsRescanPipelineResponse
+    );
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("shows partial error with Page N of M labels from pipeline early_validation", async () => {
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-partial-error")
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      screen.getByText("We weren't able to capture all of your rent history.")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Page 2")).toBeInTheDocument();
+    expect(screen.getByText("Page 5")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Re-scan these pages" })
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("analysis-flow-progress")).toHaveAttribute(
+      "data-step-id",
+      "compiling"
+    );
+    expect(screen.queryByTestId("scan-review-flow")).not.toBeInTheDocument();
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
+  });
+
+  it("shows single-page CTA when one page needs rescan", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: 1, label: "Page 1" }],
+        scanned_max_reg_year: 2020,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan this page" })
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("shows total failure when scanned_max_reg_year is null with a warning", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: null,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+    });
+  });
+
+  it("shows Page N labels without of M for N-only pages", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
+        scanned_max_reg_year: 2020,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-partial-error")
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getAllByText("Page 2").length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Page 2 of/)).not.toBeInTheDocument();
+  });
+
+  it("shows unknown recovery for non-pipeline entry paths", async () => {
+    renderScanReview({
+      initialEntries: [
+        {
+          pathname: "/en/analyze/scan-review",
+          state: { showLaunchFailure: true },
+        },
+      ],
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-recovery-unknown")
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Come back later" })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("scan-review-page-error-callout")
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows all-needs-rescan recovery when pages lack readable page_number labels", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: null }],
+        scanned_max_reg_year: null,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-recovery-allNeedsRescan")
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("prefers pipeline early_validation over stale location state for partial rescan", async () => {
+    const staleLocationValidation = {
+      ...partialEarlyValidation,
+      pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
+    };
+    const pipelineEarlyValidation = {
+      ...partialEarlyValidation,
+      pages_needing_rescan: [{ id: 8, page_number: 2, label: "Page 2" }],
+    };
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: pipelineEarlyValidation,
+    });
+
+    renderScanReview({
+      initialEntries: [
+        {
+          pathname: "/en/analyze/scan-review",
+          state: { earlyValidation: staleLocationValidation },
+        },
+      ],
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan this page" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan this page" }));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
+        replace: true,
+      });
+    });
+  });
+});
+
+describe("ScanReviewPage rescan CTAs", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    writeScannerStepState({ phase: "scan-review" });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
+      needsRescanPipelineResponse
+    );
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("navigates to pre-scan without deleting pages on partial rescan", async () => {
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan these pages" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Re-scan these pages" })
+    );
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
+        replace: true,
+      });
+    });
+  });
+
+  it("navigates to pre-scan on combined recovery rescan CTA", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan document" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan document" }));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
+        replace: true,
+      });
+    });
+  });
+
+  it("navigates to pre-scan on total failure rescan CTA", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2020,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-total-error")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Re-scan document" }));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
+        replace: true,
+      });
+    });
+  });
+
+  it("navigates to account on unknown recovery come-back-later CTA", async () => {
+    renderScanReview({
+      initialEntries: [
+        {
+          pathname: "/en/analyze/scan-review",
+          state: { showLaunchFailure: true },
+        },
+      ],
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Come back later" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Come back later" }));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/account");
+    });
+  });
+
+  it("opens DHCR request link on all-needs-rescan secondary CTA", async () => {
+    const openSpy = vi.spyOn(window, "open").mockImplementation(() => null);
+
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: null }],
+        scanned_max_reg_year: null,
+        warnings: [],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Request rent history" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Request rent history" })
+    );
+
+    expect(openSpy).toHaveBeenCalledWith(
+      "https://app.justfix.org/en/rh",
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    openSpy.mockRestore();
+  });
+});
+
+describe("ScanReviewPage incremental flow", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    writeScannerStepState({ phase: "scan-review" });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("renders warningOnly incremental flow from pipeline early_validation", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
+      "data-flow-mode",
+      "warningOnly"
+    );
+    expect(screen.getByRole("button", { name: "Continue" })).toBeDisabled();
+  });
+
+  it("renders combined recovery when errors and warning are both present", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: false,
+        missing_page_numbers: [],
+        pages_needing_rescan: [{ id: 7, page_number: 2, label: "Page 2" }],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-recovery-combined")
+      ).toBeInTheDocument();
+    });
+
+    expect(
+      screen.getByText(/Some pages could not be read/)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Re-scan document" })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("scan-review-partial-error")
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("scan-review-flow")).not.toBeInTheDocument();
+  });
+
+  it("navigates to compiling when warningOnly confirm matches scanned max", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    vi.mocked(accountApi.confirmRhHistoryLastRegYear).mockResolvedValue({
+      matched: true,
+      declared_last_reg_year: 2003,
+      scanned_max_reg_year: 2003,
+      scan_pipeline_status: "complete",
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+    });
+
+    const combobox = screen.getByRole("combobox");
+    fireEvent.mouseDown(combobox);
+    fireEvent.click(screen.getByRole("option", { name: "2003" }));
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(() => {
+      expect(accountApi.confirmRhHistoryLastRegYear).toHaveBeenCalledWith(
+        "access-token",
+        {
+          history_id: historyId,
+          last_reg_year: 2003,
+        }
+      );
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/compiling", {
+        replace: true,
+      });
+    });
+  });
+
+  it("navigates to pre-scan without deleting pages on incremental rescan", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    vi.mocked(accountApi.confirmRhHistoryLastRegYear).mockResolvedValue({
+      matched: false,
+      declared_last_reg_year: 2020,
+      scanned_max_reg_year: 2003,
+      rescan_callout_labels: ["2004-2020"],
+      scan_pipeline_status: "needs_rescan",
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("scan-review-flow")).toBeInTheDocument();
+    });
+
+    const combobox = screen.getByRole("combobox");
+    fireEvent.mouseDown(combobox);
+    fireEvent.click(screen.getByRole("option", { name: "2020" }));
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Re-scan for these years" })
+      ).toBeInTheDocument();
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Re-scan for these years" })
+    );
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/en/analyze/scanner", {
+        replace: true,
+      });
+    });
+  });
+
+  it("skips year dropdown when pipeline has declared_last_reg_year set", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue({
+      ...needsRescanPipelineResponse,
+      declared_last_reg_year: 2020,
+      rescan_callout_labels: ["2004-2020"],
+      skip_last_reg_year_step: true,
+      scan_pipeline_status: "needs_rescan",
+      early_validation: {
+        passed: true,
+        missing_page_numbers: [],
+        pages_needing_rescan: [],
+        scanned_max_reg_year: 2003,
+        warnings: [
+          { code: "possible_missing_last_page", latest_reg_year: 2003 },
+        ],
+      },
+    });
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-reg-year-error-callout")
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getByTestId("scan-review-flow")).toHaveAttribute(
+      "data-flow-mode",
+      "warningYearMismatch"
+    );
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Continue" })
+    ).not.toBeInTheDocument();
+    const callout = screen.getByTestId("scan-review-reg-year-error-callout");
+    expect(callout).toHaveTextContent("2004-2020");
+  });
+});
+
+describe("ScanReviewPage bootstrap error", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    writeScannerStepState({ phase: "scan-review" });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it("shows bootstrap error when pipeline fetch fails", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockRejectedValue(
+      new Error("network error")
+    );
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-bootstrap-error")
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByTestId("scan-review-partial-error")
+    ).not.toBeInTheDocument();
+  });
+
+  it("retries pipeline bootstrap and renders error UI on success", async () => {
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus)
+      .mockRejectedValueOnce(new Error("network error"))
+      .mockResolvedValueOnce(needsRescanPipelineResponse);
+
+    renderScanReview();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-bootstrap-error")
+      ).toBeInTheDocument();
+    });
+
+    screen.getByRole("button", { name: "Try again" }).click();
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-partial-error")
+      ).toBeInTheDocument();
+    });
+  });
+});
+
+describe("ScanReviewPage non-pipeline failures", () => {
+  beforeEach(() => {
+    cleanup();
+    window.sessionStorage.clear();
+    setRhAuthSession(tokenPayload);
+    setRhHistoryId(historyId);
+    writeScannerStepState({ phase: "scan-review" });
+    vi.mocked(accountApi.getRhHistoryScanPipelineStatus).mockResolvedValue(
+      defaultPipelineResponse
+    );
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+    clearRhAuthSession();
+  });
+
+  it.each([
+    { reviewError: "finalize failed" },
+    { failedUploadCount: 2 },
+    { awaitingRescanSuccess: true },
+  ])("renders unknown recovery for location state %#", async (state) => {
+    renderScanReview({
+      initialEntries: [
+        {
+          pathname: "/en/analyze/scan-review",
+          state,
+        },
+      ],
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId("scan-review-recovery-unknown")
+      ).toBeInTheDocument();
+    });
+  });
+});

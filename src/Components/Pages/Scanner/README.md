@@ -1,6 +1,8 @@
 # Scanner
 
-Rent-history document scanning flow at `/:locale/scanner`. Users photograph each page of their rent history with the device camera, review OCR results, then continue to address confirmation.
+Document capture at `/:locale/scanner`. Users photograph each page of their rent history with the device camera; on exit with pages captured, the app finalizes and navigates to the compiling waiting screen.
+
+Scan review and recovery live on the dedicated [`/scan-review` route](../ScanReviewPage/README.md).
 
 **Prerequisites:** OTP login session (`rhSessionStorage`) and a rent-history record (`historyId`, created on mount if missing).
 
@@ -8,33 +10,39 @@ Rent-history document scanning flow at `/:locale/scanner`. Users photograph each
 
 ## Phase flow
 
-`Scanner.tsx` is the orchestrator. It renders one screen per `ScannerPhase`:
+`Scanner.tsx` is the capture orchestrator. It renders one screen per `ScannerPhase`:
 
-| Phase           | Screen                                                               | Persisted?     |
-| --------------- | -------------------------------------------------------------------- | -------------- |
-| `pre-scan`      | `PreScanScreen` — tips + “Start scanning”                            | Yes (default)  |
-| `camera-access` | `CameraAccessScreen` — permission instructions                       | No (transient) |
-| `scanning`      | Dynamsoft UI + `ScannerInProgressScreen` + optional `ScannerOverlay` | No (transient) |
-| `scan-review`   | `ScanReviewScreen` — page cards, retake groups, year-gap callouts    | Yes            |
+| Phase           | Screen                                                                                       | Persisted?     |
+| --------------- | -------------------------------------------------------------------------------------------- | -------------- |
+| `pre-scan`      | `PreScanScreen` — tips + “Start scanning” (or “Skip or Re-scan” in post-compile return mode) | Default only   |
+| `camera-access` | `CameraAccessScreen` — permission instructions                                               | No (transient) |
+| `scanning`      | Dynamsoft UI + `ScannerInProgressScreen` + optional `ScannerOverlay`                         | No (transient) |
 
 ```
-pre-scan ──Start──► scanning ──Done──► scan-review ──Next──► /confirm-address
-    ▲                    │                    │
-    │                    │ denied             ├── Add more ──► scanning
-    └── camera-access ◄──┘                    ├── Re-scan pages ──► scanning
-                                              └── Restart ──► scanning (clears all)
+pre-scan ──Start──► scanning ──Done (count>0)──► finalize-scan ──► /compiling
+    ▲                    │                              │
+    │                    │ denied                     └── poll → findings-overview / report
+    └── camera-access ◄──┘
+
+/scan-review ──captureIntent──► /scanner ──Done──► finalize-scan ──► /compiling
+                    │ failure
+                    └──► /scan-review (launch/upload failure state)
+
+saved scan-review session ──► redirect to /scan-review (no Dynamsoft init)
+
+Compiling POP + Restart ──► pre-scan (postCompileReturn) ──Skip or Re-scan──► SkipOrRescanModal
 ```
 
-On return visits, `useScannerBootstrapRestore` reads persisted step state (scoped to active `historyId`) and/or asks the backend whether in-progress pages exist, then lands on `pre-scan` or `scan-review`.
+On return visits, `useScannerBootstrapRestore` reads persisted step state (scoped to active `historyId`), redirects saved `scan-review` sessions to `/scan-review`, checks scan-pipeline status (redirect to `/compiling` when non-terminal), and restores pre-scan otherwise. If `GET /rh/history/scan-pipeline-status` fails during bootstrap, phase restore is blocked until the user retries successfully — the page shows an error callout with **Try again** instead of falling through to pre-scan or scan-review redirect.
 
 ---
 
-## Scan capture pipeline
+## Capture pipeline
 
-1. **Dynamsoft** — `DocumentScanner` (continuous scanning, auto-crop, frame verification). Configured in `Scanner.tsx` on mount; disposed on unmount.
+1. **Dynamsoft** — `useDocumentScanner` lazy-inits `DocumentScanner` when entering scanning or handling a `ScannerCaptureIntent` auto-launch. Disposed on unmount.
 2. **`onDocumentScanned`** — corrected JPEG blob uploaded via presigned S3 URL (`uploadScan` in `api/account/scanPresign.ts`). Key shape: `{profileId}/{historyId}/{uuid}.jpg`.
-3. **Backend processing** — S3 upload triggers server-side OCR/page assembly. Frontend polls `GET …/scan-review` until status is `ready` or times out with partial results (`useScanReview`).
-4. **Review UI** — presigned download URLs for thumbnails (`useScanReviewPageImages` → `usePresignedPageImageUrls`).
+3. **Finalize** — on Dynamsoft exit with `count > 0`, `POST /rh/history/finalize-scan` then navigate to `/{locale}/compiling` (or back to `/scan-review` on failure per capture intent).
+4. **Capture intent** — location state from `/scan-review` (`rescan`, `addMore`, `restart`) auto-launches Dynamsoft on mount.
 
 Dynamsoft renders inside shadow DOM. `scanner-overlay.ts` walks that tree to probe live-view visibility, patch the “Done (n)” button label for i18n, and detect camera-permission errors.
 
@@ -42,26 +50,24 @@ Dynamsoft renders inside shadow DOM. `scanner-overlay.ts` walks that tree to pro
 
 ## Module contents
 
-| File / folder                         | Role                                                                                |
-| ------------------------------------- | ----------------------------------------------------------------------------------- |
-| `Scanner.tsx`                         | Phase state, Dynamsoft lifecycle, handlers (start, restart, rescan, add more, next) |
-| `PreScanScreen.tsx`                   | Pre-scan copy and tips                                                              |
-| `CameraAccessScreen.tsx`              | Camera permission recovery                                                          |
-| `ScannerInProgressScreen.tsx`         | Loading shell while Dynamsoft is active                                             |
-| `ScanReviewScreen.tsx`                | Review layout; delegates callouts and retake group                                  |
-| `ScanReviewCallouts.tsx`              | Year-gap, processing, upload/launch failure, add-more, and rescan-success callouts  |
-| `ScanReviewRetakeGroup.tsx`           | Pages flagged `needs_retake`                                                        |
-| `ScannerOverlay.tsx`                  | US-letter aspect-ratio guide portal over Dynamsoft live view                        |
-| `scannerState.ts`                     | Session persistence for `scan-review` + `expectedPageCount`, bound to `historyId`   |
-| `scannerTypes.ts`                     | `ScannerPhase` union type                                                           |
-| `scannerFlowUtils.ts`                 | Auth/history guard + API error mapping                                              |
-| `scanner-overlay.ts`                  | Dynamsoft DOM helpers (visibility, labels, camera probe)                            |
-| `scanReviewUtils.ts`                  | `isScanReviewClean` — no missing years and no retakes                               |
-| `hooks/useScannerHistoryCreate.ts`    | Ensures `historyId` exists via `POST` create                                        |
-| `hooks/useScannerBootstrapRestore.ts` | Restore phase on load                                                               |
-| `hooks/useScanReviewPageImages.ts`    | Presigned URLs for review thumbnails                                                |
-| `hooks/useScanReview.ts`              | Poll `scan-review` until ready or partial timeout                                   |
-| `hooks/useScanReviewBootstrap.ts`     | One-shot bootstrap fetch on load (restore scan-review)                              |
+| File / folder                                       | Role                                                                              |
+| --------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `Scanner.tsx`                                       | Phase state, capture lifecycle, finalize-scan, capture-intent auto-launch         |
+| `PreScanScreen.tsx`                                 | Pre-scan copy and tips; `postCompileReturn` variant                               |
+| `SkipOrRescanModal/`                                | Skip vs full re-scan after returning from completed compiling page                |
+| `CameraAccessScreen.tsx`                            | Camera permission recovery                                                        |
+| `ScannerInProgressScreen.tsx`                       | Loading shell while Dynamsoft is active                                           |
+| `ScannerOverlay.tsx`                                | US-letter aspect-ratio guide portal over Dynamsoft live view                      |
+| `scannerLocationState.ts`                           | `ScannerCaptureIntent` and location-state types for scanner ↔ scan-review handoff |
+| `scannerTypes.ts`                                   | `ScannerPhase` union type (`pre-scan`, `camera-access`, `scanning`)               |
+| `scannerFlowUtils.ts`                               | Auth/history guard + API error mapping                                            |
+| `scanner-overlay.ts`                                | Dynamsoft DOM helpers (visibility, labels, camera probe)                          |
+| `hooks/useDocumentScanner.ts`                       | Lazy Dynamsoft init, launch, dispose                                              |
+| `hooks/useScannerHistoryCreate.ts`                  | Ensures `historyId` exists via `POST` create                                      |
+| `api/account/hooks/scanPipelineBootstrapRestore.ts` | Restore phase on load; redirect scan-review session; pipeline→compiling redirect  |
+| `api/account/hooks/scanPipelineStatus.ts`           | One-shot pipeline status for post-compile return mode                             |
+
+Review UI, hooks, and session state live under [`ScanReviewPage/`](../ScanReviewPage/README.md).
 
 Post-combine analysis pages (`useHistoryAnalysisPages`) live in `src/api/account/hooks/analysisPages.ts` and are consumed by `src/hooks/useRentHistoryDocumentPages.ts` (document viewer modal).
 
@@ -69,51 +75,32 @@ Post-combine analysis pages (`useHistoryAnalysisPages`) live in `src/api/account
 
 ## Session persistence
 
-Only **`scan-review`** is written to session storage (`scannerState.ts`, key `"scanner"`):
+Scanner does not persist its own phase. Saved `scan-review` step state (`ScanReviewPage/scanReviewState.ts`, key `"scanner"`) causes a redirect to `/scan-review` on mount — Dynamsoft is not initialized in that case.
 
-```ts
-{ historyId: string, phase: "scan-review", expectedPageCount: number }
-```
-
-`readScannerStepState()` returns `null` when stored `historyId` does not match the active session (e.g. after switching rent histories). `expectedPageCount` tracks how many pages the client uploaded this session; the scan-review query uses it so the backend knows how many S3 objects to wait for.
-
-Transient phases (`scanning`, `camera-access`) are not persisted. On unmount during an active scan, if pages were captured, state is flushed to `scan-review` so a refresh can resume review.
-
-`clearScannerStepState()` runs when restarting, re-scanning selected pages, or bootstrap finds no pages.
-
----
-
-## Scan review behavior
-
-- **`missing_year_ranges`** — gaps detected by OCR; **Next** stays disabled until filled (user adds pages or rescans).
-- **`processing_complete`** — when false, shows a warning callout; does not block **Next**.
-- **Upload / launch failures** — surfaced as info callouts after a scan session; user can re-scan missing pages.
-- **`needs_retake`** — poor-quality pages grouped in `ScanReviewRetakeGroup`; re-scan deletes those page records server-side, then relaunches Dynamsoft.
-- **Restart** — confirms via `ConfirmModal`, deletes all scanned pages, resets count, relaunches scanner.
-- **Next** — `combineRhHistoryPages`, fetches analysis pages into React Query + session, navigates to `confirm-address`.
+Transient phases (`scanning`, `camera-access`) are not persisted. Unmount or tab hide during active scan does not finalize; abandoned sessions may be auto-finalized server-side after an idle threshold.
 
 ---
 
 ## External dependencies
 
-| Dependency                   | Usage                                       |
-| ---------------------------- | ------------------------------------------- |
-| `dynamsoft-document-scanner` | Camera capture UI                           |
-| `@tanstack/react-query`      | Scan-review polling and analysis-page cache |
-| `@lingui/*`                  | Copy and Dynamsoft button labels            |
-| `VITE_DYNAMSOFT_LICENSE_KEY` | Dynamsoft license (env)                     |
+| Dependency                   | Usage                            |
+| ---------------------------- | -------------------------------- |
+| `dynamsoft-document-scanner` | Camera capture UI                |
+| `@tanstack/react-query`      | Pipeline cache                   |
+| `@lingui/*`                  | Copy and Dynamsoft button labels |
+| `VITE_DYNAMSOFT_LICENSE_KEY` | Dynamsoft license (env)          |
 
 ---
 
 ## Tests
 
-| File                                    | Coverage                                    |
-| --------------------------------------- | ------------------------------------------- |
-| `Scanner.test.tsx`                      | Phase rendering, start/restart/rescan flows |
-| `scannerState.test.ts`                  | Session read/write/clear                    |
-| `scannerFlowUtils.test.ts`              | Context guard, error mapping                |
-| `scanner-overlay.test.ts`               | DOM visibility helpers, label patching      |
-| `hooks/useScanReviewBootstrap.test.tsx` | Bootstrap fetch behavior                    |
-| `hooks/useScanReview.test.tsx`          | Poll and accept-partial timeout behavior    |
+| File                                                      | Coverage                                                                                 |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `Scanner.test.tsx`                                        | Capture, finalize, overlay, capture-intent, bootstrap redirect, pipeline bootstrap error |
+| `api/account/hooks/scanPipelineBootstrapRestore.test.tsx` | Pipeline gate, redirect, error blocking, retry, `shouldBootstrapCompiling`               |
+| `PreScanScreen` / `SkipOrRescanModal`                     | Post-compile return mode and modal actions                                               |
+| `scannerFlowUtils.test.ts`                                | Context guard, error mapping                                                             |
+| `scanner-overlay.test.ts`                                 | DOM visibility helpers, label patching                                                   |
+| `../ScanReviewPage/ScanReviewPage.test.tsx`               | Scan-review finalize, callouts, bootstrap restore                                        |
 
 Route registration: `src/App.tsx` (`path="scanner"`). Route protection: `App.route-protection.test.tsx`.

@@ -9,68 +9,68 @@ import {
 
 describe("getProgressValue", () => {
   it("fills the first step portion on entry", () => {
-    expect(getProgressValue({ stepIndex: 0, stepCount: 7 })).toEqual({
-      value: 14,
+    expect(getProgressValue({ stepIndex: 0, stepCount: 8 })).toEqual({
+      value: 13,
       max: 100,
     });
   });
 
   it("uses equal-weight steps with stable max 100", () => {
-    expect(getProgressValue({ stepIndex: 3, stepCount: 7 })).toEqual({
-      value: 57,
+    expect(getProgressValue({ stepIndex: 3, stepCount: 8 })).toEqual({
+      value: 50,
       max: 100,
     });
   });
 
   it("subdivides the current step by substeps", () => {
-    // Step index 5 of 7, first of 4 findings → (5 + 1/4) / 7
+    // Step index 6 of 8, first of 4 findings → (6 + 1/4) / 8
     expect(
       getProgressValue({
-        stepIndex: 5,
-        stepCount: 7,
+        stepIndex: 6,
+        stepCount: 8,
         substepIndex: 0,
         substepCount: 4,
       })
-    ).toEqual({ value: 75, max: 100 });
+    ).toEqual({ value: 78, max: 100 });
 
-    // Second of 4 findings → (5 + 2/4) / 7
+    // Second of 4 findings → (6 + 2/4) / 8
     expect(
       getProgressValue({
-        stepIndex: 5,
-        stepCount: 7,
+        stepIndex: 6,
+        stepCount: 8,
         substepIndex: 1,
         substepCount: 4,
       })
-    ).toEqual({ value: 79, max: 100 });
+    ).toEqual({ value: 81, max: 100 });
   });
 
   it("defaults substepCount to 1", () => {
     expect(
-      getProgressValue({ stepIndex: 2, stepCount: 7, substepIndex: 0 })
-    ).toEqual(getProgressValue({ stepIndex: 2, stepCount: 7 }));
+      getProgressValue({ stepIndex: 2, stepCount: 8, substepIndex: 0 })
+    ).toEqual(getProgressValue({ stepIndex: 2, stepCount: 8 }));
   });
 
   it("clamps out-of-range indexes", () => {
     expect(
       getProgressValue({
         stepIndex: -1,
-        stepCount: 7,
+        stepCount: 8,
         substepIndex: -2,
         substepCount: 3,
       })
-    ).toEqual({ value: 5, max: 100 });
+    ).toEqual({ value: 4, max: 100 });
 
     expect(
       getProgressValue({
         stepIndex: 99,
-        stepCount: 7,
+        stepCount: 8,
         substepIndex: 99,
         substepCount: 2,
       })
     ).toEqual(
       getProgressValue({
-        stepIndex: 6,
-        stepCount: 7,
+        stepIndex: 7,
+        stepCount: 8,
         substepIndex: 1,
         substepCount: 2,
       })
@@ -87,17 +87,21 @@ describe("getAnalysisFlowProgress", () => {
   });
 
   it("maps step ids to indexes for all configured steps", () => {
-    expect(ANALYSIS_FLOW_STEPS).toHaveLength(7);
+    expect(ANALYSIS_FLOW_STEPS).toHaveLength(8);
     expect(getAnalysisFlowProgress("confirm-address")).toEqual({
-      value: 14,
+      value: 13,
       max: 100,
     });
     expect(getAnalysisFlowProgress("scanner")).toEqual({
-      value: 43,
+      value: 38,
+      max: 100,
+    });
+    expect(getAnalysisFlowProgress("compiling")).toEqual({
+      value: 50,
       max: 100,
     });
     expect(getAnalysisFlowProgress("scan-review")).toEqual({
-      value: 57,
+      value: 63,
       max: 100,
     });
   });

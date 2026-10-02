@@ -1,10 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import {
-  getRhFindingsState,
-  postRhHistoryRunAnalysis,
-  validateRhFinding,
-} from "../api";
+import { getRhFindingsState, validateRhFinding } from "../api";
 import { accountQueryKeys } from "../queryKeys";
 import type {
   RhFinding,
@@ -35,7 +31,7 @@ export type UseRhFindingsStateParams = {
  * `GET /rh/history/findings-state` — current findings and review queue.
  *
  * @throws {AccountApiError} `findings_not_initialized` — analysis not run yet.
- * @throws {AccountApiError} `validation_error` — combine-pages not completed or bad query.
+ * @throws {AccountApiError} `validation_error` — scan pipeline not completed or bad query.
  */
 export const useRhFindingsState = ({
   accessToken,
@@ -49,40 +45,11 @@ export const useRhFindingsState = ({
   });
 
 /**
- * `POST /rh/history/run-analysis` — run analysis and seed findings-state cache on success.
- *
- * @throws {AccountApiError} `analysis_already_run` — analysis was already executed (409).
- * @throws {AccountApiError} `validation_error` — combine-pages not completed.
- */
-export const useRunRhAnalysis = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({
-      accessToken,
-      historyId,
-    }: {
-      accessToken: string;
-      historyId: string;
-    }) => postRhHistoryRunAnalysis(accessToken, historyId),
-    onSuccess: (data, { historyId }) => {
-      queryClient.setQueryData<RhFindingsStateResponse>(
-        accountQueryKeys.findingsState(historyId),
-        {
-          findings_current: data.findings_current,
-          review_queue: data.review_queue,
-        }
-      );
-    },
-  });
-};
-
-/**
  * `POST /rh/history/validate-finding` — validate one finding; merge into findings-state cache.
  *
  * @throws {AccountApiError} `finding_not_found` — unknown `finding_id` for this history.
  * @throws {AccountApiError} `findings_not_initialized` — analysis not run yet.
- * @throws {AccountApiError} `validation_error` — invalid answers or combine-pages not completed.
+ * @throws {AccountApiError} `validation_error` — invalid answers or scan pipeline not completed.
  */
 export const useValidateRhFinding = () => {
   const queryClient = useQueryClient();

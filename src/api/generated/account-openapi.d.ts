@@ -64,26 +64,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/combine-pages": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Combine RhPages into RhHistory.data_initial
-         * @description Merges all pages for the given history (deduplicated by start_year/end_year, document-ordered), validates a contiguous reg_year sequence, applies pipeline transforms, sets is_421a_rh / is_j51_rh, and stores the result on data_initial and data_current (deep copy; same row shape). Does not return the merged table.
-         */
-        post: operations["history_combine_pages_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/rh/history/confirm-address": {
         parameters: {
             query?: never;
@@ -104,6 +84,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rh/history/confirm-last-reg-year": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Confirm declared last registration year after stale-page warning
+         * @description Persists the user-declared last registration year for N-only footer scans. When the declared year matches the scanned maximum and coverage passes, re-advances the scan pipeline. Otherwise returns reg_year ranges for scan-review mismatch callouts without advancing the pipeline.
+         */
+        post: operations["history_confirm_last_reg_year_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rh/history/current-rent": {
         parameters: {
             query?: never;
@@ -115,7 +115,7 @@ export interface paths {
         put?: never;
         /**
          * Set current monthly rent on a RhHistory
-         * @description Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to APARTMENT_INFO.
+         * @description Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to DOCUMENT_SCAN.
          */
         post: operations["history_current_rent_create"];
         delete?: never;
@@ -178,6 +178,26 @@ export interface paths {
          * @description Deletes specific RhPage records by id for the given RhHistory belonging to the authenticated user. Also performs best-effort deletion of each page's `s3_key` object in `RH_SCAN_BUCKET`.
          */
         post: operations["history_delete_scanned_pages_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rh/history/finalize-scan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Finalize a scan session
+         * @description Derives expected_page_count from successful upload acks, sets scan_finalized_at, moves last_step_reached to COMPILING, resets prior analysis artifacts on re-finalize, and runs maybe_advance_scan_pipeline catch-up in the same request.
+         */
+        post: operations["history_finalize_scan_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -263,7 +283,7 @@ export interface paths {
         put?: never;
         /**
          * Generate and store a rent history report PDF
-         * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata and `last_step_reached` to REPORT_GENERATION.
+         * @description Renders HTML (and optional CSS) to PDF, uploads to S3 under `{profile_pk}/reports/{history_id}.pdf`, and updates RhHistory report metadata (does not change `last_step_reached`).
          */
         post: operations["history_report_pdf_create"];
         delete?: never;
@@ -272,20 +292,20 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/run-analysis": {
+    "/rh/history/scan-pipeline-status": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
         /**
-         * Run findings analysis on combined history data
-         * @description Runs mock analysis on existing data_current (from combine-pages), populates findings_initial and findings_current, and returns the review queue.
+         * Poll scan pipeline status for a RhHistory
+         * @description Returns pipeline phase, page counts, early validation snapshot, and last_step_reached for the compiling waiting screen.
          */
-        post: operations["history_run_analysis_create"];
+        get: operations["history_scan_pipeline_status_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -312,20 +332,20 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/scan-review": {
+    "/rh/history/scan-upload-ack": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * Scan review poll for a RhHistory
-         * @description DB-only poll comparing RhPage row count to client `expected_page_count`. HTTP 200 `status`: `pending` while fewer pages exist than expected (unless `accept_partial=true`), or `ready` after dedupe and gap detection. HTTP 400 when `accept_partial=true` and no pages exist yet.
-         */
-        get: operations["history_scan_review_retrieve"];
+        get?: never;
         put?: never;
-        post?: never;
+        /**
+         * Acknowledge a successful scan upload
+         * @description Records a successful S3 upload for a presigned scan key and returns the updated uploads_observed_count. Idempotent: duplicate acks for the same key return the current count unchanged.
+         */
+        post: operations["history_scan_upload_ack_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -383,7 +403,7 @@ export interface paths {
         put?: never;
         /**
          * Start RH login (upsert profile and request OTP)
-         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `REPORT_GENERATION`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.
+         * @description Composite login step: upserts the RhProfile for the phone number and issues/sends an OTP via SMS. Returns `profile`, `created`, `otp` delivery status, and `has_viewable_report`. The `source` param (`desktop` or `mobile`, default `mobile`) controls OTP delivery: on `desktop` OTP delivery is skipped (`otp.status` is `skipped`) **only when `has_viewable_report` is false**; when `has_viewable_report` is true (and always on `mobile`) an OTP is issued/sent (`sent` or `pending` with optional `message`). `has_viewable_report` is true when the profile has any RhHistory at or beyond `REPORT`. Phone numbers are normalized to E.164 (US). Optional `otp_domain` (SPA hostname) and the `Origin` header are used to embed a domain-bound OTP in SMS for autofill; both are validated against the CORS allowlist, with `RH_OTP_SMS_DOMAIN` as fallback.
          */
         post: operations["login_start_create"];
         delete?: never;
@@ -479,6 +499,11 @@ export interface components {
             sub_lines?: string[];
         };
         /**
+         * @description * `possible_missing_last_page` - possible_missing_last_page
+         * @enum {string}
+         */
+        CodeEnum: "possible_missing_last_page";
+        /**
          * @description * `otp_expired` - OTP expired
          *     * `otp_invalid` - OTP invalid
          *     * `otp_locked` - OTP locked
@@ -495,8 +520,6 @@ export interface components {
          *     * `unauthorized_client` - Unauthorized OAuth client
          *     * `nycdb_not_configured` - NYCDB not configured
          *     * `nycdb_query_failed` - NYCDB query failed
-         *     * `combine_pages_failed` - Combine pages failed
-         *     * `analysis_already_run` - Analysis already run
          *     * `finding_not_found` - Finding not found
          *     * `findings_not_initialized` - Findings not initialized
          *     * `storage_not_configured` - Storage not configured
@@ -508,9 +531,10 @@ export interface components {
          *     * `email_send_failed` - Email send failed
          *     * `s3_key_access_denied` - S3 key access denied
          *     * `rh_page_not_found` - RH page not found
+         *     * `presign_not_found` - Presign row not found for upload ack
          * @enum {string}
          */
-        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "magic_link_expired" | "magic_link_invalid" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "combine_pages_failed" | "analysis_already_run" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found";
+        ErrorCodeEnum: "otp_expired" | "otp_invalid" | "otp_locked" | "magic_link_expired" | "magic_link_invalid" | "profile_not_found" | "history_not_found" | "rh_profile_not_found" | "rh_history_not_found" | "history_profile_mismatch" | "invalid_phone_number" | "validation_error" | "invalid_client" | "unauthorized_client" | "nycdb_not_configured" | "nycdb_query_failed" | "finding_not_found" | "findings_not_initialized" | "storage_not_configured" | "storage_read_failed" | "storage_write_failed" | "pages_sync_error" | "pdf_generation_failed" | "report_pdf_not_found" | "email_send_failed" | "s3_key_access_denied" | "rh_page_not_found" | "presign_not_found";
         /**
          * @description * `processing` - Processing
          *     * `complete` - Complete
@@ -524,13 +548,14 @@ export interface components {
          * @description * `ADDRESS_CONFIRMATION` - Address Confirmation
          *     * `APARTMENT_INFO` - Apartment Info
          *     * `DOCUMENT_SCAN` - Document Scan
+         *     * `COMPILING` - Compiling
          *     * `SCAN_REVIEW` - Scan Review
          *     * `FINDINGS_OVERVIEW` - Findings Overview
          *     * `FINDINGS_REVIEW` - Findings Review
-         *     * `REPORT_GENERATION` - Report Generation
+         *     * `REPORT` - Report
          * @enum {string}
          */
-        LastStepReachedEnum: "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "DOCUMENT_SCAN" | "SCAN_REVIEW" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT_GENERATION";
+        LastStepReachedEnum: "ADDRESS_CONFIRMATION" | "APARTMENT_INFO" | "DOCUMENT_SCAN" | "COMPILING" | "SCAN_REVIEW" | "FINDINGS_OVERVIEW" | "FINDINGS_REVIEW" | "REPORT";
         /** @enum {unknown} */
         NullEnum: null;
         /**
@@ -570,6 +595,7 @@ export interface components {
             history_id?: string;
             is_coverpage?: boolean | null;
             model_id?: string | null;
+            page_number?: number | null;
             profile_id?: number;
             quality_issue_reason?: string | null;
             s3_key?: string;
@@ -619,6 +645,21 @@ export interface components {
             error: string;
             error_code: components["schemas"]["ErrorCodeEnum"];
         };
+        /** @description POST /rh/history/confirm-last-reg-year body. */
+        RhConfirmLastRegYearRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+            last_reg_year: number;
+        };
+        /** @description OpenAPI union for POST /rh/history/confirm-last-reg-year success payloads. */
+        RhConfirmLastRegYearResponse: {
+            declared_last_reg_year: number;
+            matched: boolean;
+            /** @description Merged display labels for page errors, missing page slots, and trailing reg-year ranges when declared last reg year exceeds scanned max. */
+            rescan_callout_labels?: string[];
+            scan_pipeline_status?: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            scanned_max_reg_year: number | null;
+        };
         RhDeleteAllScannedPagesResponse: {
             deleted_pages: number;
             s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
@@ -634,6 +675,37 @@ export interface components {
             s3_cleanup_status: components["schemas"]["S3CleanupStatusEnum"];
             s3_deleted_keys?: number;
         };
+        RhEarlyValidation: {
+            missing_page_numbers: number[];
+            pages_needing_rescan: components["schemas"]["RhPageRescanInfo"][];
+            passed: boolean;
+            scanned_max_reg_year: number | null;
+            warnings: components["schemas"]["RhEarlyValidationWarning"][];
+        };
+        RhEarlyValidationWarning: {
+            code: components["schemas"]["CodeEnum"];
+            latest_reg_year: number;
+        };
+        RhFinalizeScanRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+            /** @default en */
+            locale: string;
+            origin?: string;
+        };
+        RhFinalizeScanResponse: {
+            expected_page_count: number;
+            pages_landed_count: number;
+            pages_terminal_count: number;
+            scan_pipeline_status: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            status: components["schemas"]["RhFinalizeScanResponseStatusEnum"];
+            uploads_observed_count: number;
+        };
+        /**
+         * @description * `ok` - ok
+         * @enum {string}
+         */
+        RhFinalizeScanResponseStatusEnum: "ok";
         /**
          * @description MVP finding wire object (7 core keys + optional ``result``).
          *
@@ -701,9 +773,6 @@ export interface components {
             findings_current: components["schemas"]["RhFinding"][];
             review_queue: components["schemas"]["RhReviewQueue"];
         };
-        RhHistoryCombinePagesOkResponse: {
-            status: string;
-        };
         RhHistoryConfirmAddressRequestRequest: {
             address?: string | null;
             apartment?: string | null;
@@ -753,10 +822,11 @@ export interface components {
              *     * `ADDRESS_CONFIRMATION` - Address Confirmation
              *     * `APARTMENT_INFO` - Apartment Info
              *     * `DOCUMENT_SCAN` - Document Scan
+             *     * `COMPILING` - Compiling
              *     * `SCAN_REVIEW` - Scan Review
              *     * `FINDINGS_OVERVIEW` - Findings Overview
              *     * `FINDINGS_REVIEW` - Findings Review
-             *     * `REPORT_GENERATION` - Report Generation
+             *     * `REPORT` - Report
              */
             readonly last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
             /** Format: date-time */
@@ -900,7 +970,7 @@ export interface components {
             readonly id: number;
             /** @description Whether the page is the cover page of RH without table data */
             is_coverpage?: boolean | null;
-            /** @description True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until combine-pages runs. */
+            /** @description True when this page is used in analysis; False when excluded as a duplicate for the same year range; null until scan pipeline milestone 2. */
             readonly keep: boolean | null;
             /** @description The ID of the model used for the image extraction pipeline for this page. Used to track usage and billing. */
             model_id?: string | null;
@@ -931,43 +1001,16 @@ export interface components {
             history_id: string;
             is_coverpage?: boolean | null;
             model_id?: string | null;
+            page_number?: number | null;
             profile_id: number;
             quality_issue_reason?: string | null;
             s3_key: string;
             start_year?: number | null;
         };
-        /** @description Subset of RhPage fields returned by scan-review on HTTP 200 ready. */
-        RhPageSummary: {
-            /**
-             * Format: int64
-             * @description The last registration year of the rent history covered by this page.
-             */
-            end_year?: number | null;
-            /** @description Error message from the scan image extraction pipeline for this page. */
-            error?: string | null;
-            /**
-             * @description Scan extraction lifecycle: processing (early stub, still extracting), complete (finished with table data), no_table (finished without a registration table), needs_retake (finished but should be re-scanned), or error (pipeline failed; see error field).
-             *
-             *     * `processing` - Processing
-             *     * `complete` - Complete
-             *     * `no_table` - No table
-             *     * `needs_retake` - Needs retake
-             *     * `error` - Error
-             */
-            extraction_status: components["schemas"]["ExtractionStatusEnum"];
-            readonly id: number;
-            /** @description Whether the page is the cover page of RH without table data */
-            is_coverpage?: boolean | null;
-            readonly needs_retake: boolean;
-            /** @description The reason for the quality issue if the page needs to be retaken.Determined by Gemini during extraction call. */
-            quality_issue_reason?: string | null;
-            /** @description S3 object key: profile_id/history_id/filename.jpg.Note that filename 'pageN' only refers to order the page was scanned and is not used for anything. Unique for lambda create/PATCH lookup by s3_key after the early create write. */
-            s3_key: string;
-            /**
-             * Format: int64
-             * @description The first registration year of the rent history covered by this page.
-             */
-            start_year?: number | null;
+        RhPageRescanInfo: {
+            id: number | null;
+            label?: string | null;
+            page_number: number | null;
         };
         RhProfile: {
             readonly id: number;
@@ -985,19 +1028,21 @@ export interface components {
         RhReviewQueue: {
             ordered_ids: string[];
         };
-        /**
-         * @description POST run-analysis request body.
-         *
-         *     Alias of :class:`rh.serializers.RhHistoryIdRequestSerializer` (``history_id`` only).
-         */
-        RhRunAnalysisRequestRequest: {
-            /** Format: uuid */
-            history_id: string;
-        };
-        /** @description POST run-analysis response. */
-        RhRunAnalysisResponse: {
-            findings_current: components["schemas"]["RhFinding"][];
-            review_queue: components["schemas"]["RhReviewQueue"];
+        RhScanPipelineStatusResponse: {
+            declared_last_reg_year: number | null;
+            early_validation: components["schemas"]["RhEarlyValidation"] | null;
+            expected_page_count: number | null;
+            last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
+            pages_landed_count: number;
+            pages_terminal_count: number;
+            processing_complete: boolean;
+            /** @description Merged display labels for reg-year mismatch callout when declared last reg year exceeds scanned max (page errors, missing slots, trailing years). */
+            rescan_callout_labels?: string[] | null;
+            scan_pipeline_status: (components["schemas"]["ScanPipelineStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            /** @description When true, the last-reg-year dropdown should be skipped and the callout shown immediately (declared year already exceeds scanned max). */
+            skip_last_reg_year_step?: boolean;
+            uploads_observed_count: number;
+            user_message_key: string | null;
         };
         /** @description POST /rh/history/scan-presign body. */
         RhScanPresignRequestRequest: {
@@ -1013,20 +1058,16 @@ export interface components {
             /** Format: uri */
             url: string;
         };
-        RhScanReviewResponse: {
-            db_count: number;
-            expected_page_count: number;
-            missing_year_ranges?: string[];
-            pages?: components["schemas"]["RhPageSummary"][];
-            processing_complete?: boolean;
-            status: components["schemas"]["RhScanReviewResponseStatusEnum"];
+        /** @description POST /rh/history/scan-upload-ack body. */
+        RhScanUploadAckRequestRequest: {
+            /** Format: uuid */
+            history_id: string;
+            s3_key: string;
         };
-        /**
-         * @description * `pending` - pending
-         *     * `ready` - ready
-         * @enum {string}
-         */
-        RhScanReviewResponseStatusEnum: "pending" | "ready";
+        /** @description POST /rh/history/scan-upload-ack success payload. */
+        RhScanUploadAckResponse: {
+            uploads_observed_count: number;
+        };
         RhSendMagicLinkSmsRequestRequest: {
             /** Format: uuid */
             history_id: string;
@@ -1106,6 +1147,17 @@ export interface components {
          * @enum {string}
          */
         S3CleanupStatusEnum: "deleted" | "failed";
+        /**
+         * @description * `awaiting_uploads` - Awaiting uploads
+         *     * `stubs_ready` - Stubs ready
+         *     * `needs_rescan` - Needs rescan
+         *     * `processing_terminal` - Processing terminal
+         *     * `running_analysis` - Running analysis
+         *     * `complete` - Complete
+         *     * `failed` - Failed
+         * @enum {string}
+         */
+        ScanPipelineStatusEnum: "awaiting_uploads" | "stubs_ready" | "needs_rescan" | "processing_terminal" | "running_analysis" | "complete" | "failed";
         /**
          * @description * `desktop` - desktop
          *     * `mobile` - mobile
@@ -1238,55 +1290,6 @@ export interface operations {
             };
         };
     };
-    history_combine_pages_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RhHistoryIdRequestRequest"];
-            };
-        };
-        responses: {
-            /** @description Combine completed and history updated. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhHistoryCombinePagesOkResponse"];
-                };
-            };
-            /** @description Validation failed (e.g. non-contiguous reg_year). */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Missing or invalid access token. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description RhProfile or RhHistory not found. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-        };
-    };
     history_confirm_address_create: {
         parameters: {
             query?: never;
@@ -1333,6 +1336,54 @@ export interface operations {
             };
             /** @description NYCDB is not configured or unavailable. */
             503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
+    history_confirm_last_reg_year_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhConfirmLastRegYearRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhConfirmLastRegYearResponse"];
+                };
+            };
+            /** @description Validation error, including last_reg_year below scanned_max_reg_year. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1526,6 +1577,54 @@ export interface operations {
             };
         };
     };
+    history_finalize_scan_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhFinalizeScanRequestRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhFinalizeScanResponse"];
+                };
+            };
+            /** @description Validation error or no successful uploads yet. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid access token. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RhProfile or RhHistory not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RhApiErrorResponse"];
+                };
+            };
+        };
+    };
     history_findings_state_retrieve: {
         parameters: {
             query: {
@@ -1546,7 +1645,7 @@ export interface operations {
                     "application/json": components["schemas"]["RhFindingsStateResponse"];
                 };
             };
-            /** @description Validation failed, combine-pages not completed, or analysis not run. */
+            /** @description Validation failed, scan pipeline data not ready, or analysis not run. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1860,28 +1959,27 @@ export interface operations {
             };
         };
     };
-    history_run_analysis_create: {
+    history_scan_pipeline_status_retrieve: {
         parameters: {
-            query?: never;
+            query: {
+                /** @description UUID of the RhHistory to poll. */
+                history_id: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RhRunAnalysisRequestRequest"];
-            };
-        };
+        requestBody?: never;
         responses: {
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RhRunAnalysisResponse"];
+                    "application/json": components["schemas"]["RhScanPipelineStatusResponse"];
                 };
             };
-            /** @description Validation failed or combine-pages not completed. */
+            /** @description Missing or invalid history_id. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -1899,15 +1997,6 @@ export interface operations {
             };
             /** @description RhProfile or RhHistory not found. */
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RhApiErrorResponse"];
-                };
-            };
-            /** @description Analysis has already been run for this history. */
-            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1983,32 +2072,28 @@ export interface operations {
             };
         };
     };
-    history_scan_review_retrieve: {
+    history_scan_upload_ack_create: {
         parameters: {
-            query: {
-                /** @description When true, skip the pending gate and return ready with partial data. */
-                accept_partial?: boolean;
-                /** @description Number of pages the client uploaded (minimum 1); may exceed post-dedup survivor count. */
-                expected_page_count: number;
-                /** @description UUID of the RhHistory to check. */
-                history_id: string;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RhScanUploadAckRequestRequest"];
+            };
+        };
         responses: {
-            /** @description Scan review poll succeeded (pending or ready). */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RhScanReviewResponse"];
+                    "application/json": components["schemas"]["RhScanUploadAckResponse"];
                 };
             };
-            /** @description Invalid query params or accept_partial with no processed pages. */
+            /** @description Validation error or presign_not_found when no presign row exists. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -2056,7 +2141,7 @@ export interface operations {
                     "application/json": components["schemas"]["RhValidateFindingResponse"];
                 };
             };
-            /** @description Validation failed, combine-pages not completed, or analysis not run. */
+            /** @description Validation failed, scan pipeline data not ready, or analysis not run. */
             400: {
                 headers: {
                     [name: string]: unknown;

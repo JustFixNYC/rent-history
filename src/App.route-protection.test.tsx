@@ -32,6 +32,8 @@ describe("post-OTP route protection", () => {
   it.each([
     "/en/analyze/account",
     "/en/analyze/scanner",
+    "/en/analyze/scan-review",
+    "/en/analyze/compiling",
     "/en/analyze/confirm-address",
     "/en/analyze/findings-overview",
     "/en/analyze/findings-review",

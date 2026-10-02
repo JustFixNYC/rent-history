@@ -20,6 +20,7 @@ export type { YearFieldProps } from "./YearField";
 export {
   buildRentAnswer,
   buildYearOptions,
+  buildYearRange,
   buildYearRangeOptions,
   createCurrencyStringSchema,
   createRentValueStringSchema,
