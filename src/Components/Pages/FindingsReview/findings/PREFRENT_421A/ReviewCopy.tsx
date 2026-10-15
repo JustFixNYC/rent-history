@@ -3,30 +3,10 @@ import { Trans } from "@lingui/react/macro";
 
 import type { IntroValues } from "./spec";
 
-export const IntroEyebrow = ({
-  findingYear,
-}: Pick<IntroValues, "findingYear">) => (
-  <Trans id="findings.PREFRENT_421A.intro.eyebrow">Year {findingYear}</Trans>
-);
-
 export const IntroTitle = () => (
   <Trans id="findings.PREFRENT_421A.intro.title">
     Preferential rent offered during initial year of this building&apos;s
     participation in 421-a tax program.
-  </Trans>
-);
-
-export const IntroDescription = () => (
-  <Trans id="findings.PREFRENT_421A.intro.description">
-    A preferential rent appears to have been charged during the first year of
-    this building&apos;s participation in 421-a tax program. We&apos;ll check if
-    this can be explained.
-  </Trans>
-);
-
-export const OcrHeading = () => (
-  <Trans id="findings.PREFRENT_421A.ocr.heading">
-    First, let&apos;s make sure we are working with the right values
   </Trans>
 );
 

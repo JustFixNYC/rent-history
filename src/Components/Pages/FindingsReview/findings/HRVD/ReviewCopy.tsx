@@ -1,81 +1,85 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
-import { GlossaryLink } from "../../../../GlossaryLink/GlossaryLink";
+import { DocumentLink } from "../../../../DocumentLink/DocumentLink";
+import { TenantChip } from "../../../../InlineChip/TenantChip";
 
 import type { IntroValues } from "./spec";
 
-export const IntroEyebrow = ({
+export const IntroTitle = ({
   findingYear,
 }: Pick<IntroValues, "findingYear">) => (
-  <Trans id="findings.HRVD.intro.eyebrow">Year {findingYear}</Trans>
-);
-
-export const IntroTitle = () => (
   <Trans id="findings.HRVD.intro.title">
-    Apartment claimed exempt from rent stabilization
+    Apartment destabilized in {findingYear}
   </Trans>
 );
 
-export const IntroDescription = () => {
-  const { _ } = useLingui();
-
-  return (
-    <Trans id="findings.HRVD.intro.description">
-      Before HSTPA, the most common way to destabilize a unit was through{" "}
-      <GlossaryLink
-        term={_(msg`high rent vacancy destabilization.`)}
-        modalTitle={_(msg`High rent vacancy destabilization`)}
-      />{" "}
-      We&apos;ll check whether this exemption from rent stabilization can be
-      explained.
-    </Trans>
-  );
+type TenancyCopyProps = {
+  tenant: string;
 };
 
-export const OcrHeading = () => (
-  <Trans id="findings.HRVD.ocr.heading">
-    First, let&apos;s make sure we are working with the right values
+export const TenancyHeading = () => (
+  <Trans id="findings.HRVD.tenancy.heading">
+    Next, let&apos;s check how long the previous tenant lived there before the
+    vacancy
   </Trans>
+);
+
+export const TenancyHeadingMultiple = () => (
+  <Trans id="findings.HRVD.tenancy.heading_multiple">
+    Next, let&apos;s check how long the previous tenants lived there before the
+    vacancy
+  </Trans>
+);
+
+export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
+  <p className="finding-step-copy">
+    <Trans id="findings.HRVD.tenancy.body">
+      Check <DocumentLink />. What is the earliest year{" "}
+      <TenantChip tenant={tenant} /> is listed as a tenant?
+    </Trans>
+  </p>
+);
+
+export const TenancyBodyMultiple = () => (
+  <p className="finding-step-copy">
+    <Trans id="findings.HRVD.tenancy.body_multiple">
+      Check <DocumentLink />. What is the earliest year one or more of the
+      following names is listed as a tenant?
+    </Trans>
+  </p>
 );
 
 type ResultCopyProps = {
   year: number;
 };
 
-export const ResultPotentialViolationBody = ({ year }: ResultCopyProps) => {
-  const { _ } = useLingui();
+export const ResultPotentialViolationBody = ({ year }: ResultCopyProps) => (
+  <>
+    <p className="finding-step-copy">
+      <Trans id="findings.HRVD.result.potential_violation.body">
+        The apartment was listed as exempt from rent stabilization in {year},
+        which means it was destabilized. This does not appear to be fully
+        explained by what we just reviewed.
+      </Trans>
+    </p>
+    <p className="finding-step-copy">
+      <Trans id="findings.HRVD.result.potential_violation.body_followup">
+        Your report will explain why the destabilization might not have been
+        allowed, and what explanations may be possible.
+      </Trans>
+    </p>
+  </>
+);
 
-  return (
-    <Trans id="findings.HRVD.result.potential_violation.body">
-      The destabilization in {year} does not appear to be explained by high rent
-      vacancy. One of the only ways the apartment could have reached the{" "}
-      <GlossaryLink
-        term={_(msg`high rent vacancy destabilization.`)}
-        modalTitle={_(msg`High rent vacancy destabilization`)}
-      />{" "}
-      threshold is through Individual Apartment Improvements (IAIs). Your report
-      will include this with additional details.
-    </Trans>
-  );
-};
-
-export const ResultNoViolationBody = ({ year }: ResultCopyProps) => {
-  const { _ } = useLingui();
-
-  return (
+export const ResultNoViolationBody = ({ year }: ResultCopyProps) => (
+  <p className="finding-step-copy">
     <Trans id="findings.HRVD.result.no_violation.body">
-      The destabilization in {year} appears to be explained by{" "}
-      <GlossaryLink
-        term={_(msg`high rent vacancy destabilization.`)}
-        modalTitle={_(msg`High rent vacancy destabilization`)}
-      />{" "}
-      The threshold appears to have been reached through the use of allowable
-      bonuses. Your report will include this with additional details.
+      The apartment was listed as exempt from rent stabilization in {year},
+      which means it was destabilized. This appears to be explained by
+      what&apos;s in your rent history. Your report will include more details.
     </Trans>
-  );
-};
+  </p>
+);
 
 export const ResultDismissedBody = () => (
   <Trans id="findings.HRVD.result.dismissed.body">

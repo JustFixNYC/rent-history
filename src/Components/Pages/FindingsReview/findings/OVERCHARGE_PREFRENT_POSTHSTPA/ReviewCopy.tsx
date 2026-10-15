@@ -4,32 +4,9 @@ import { YearChip } from "../../../../InlineChip/YearChip";
 
 import type { IntroValues } from "./spec";
 
-export const IntroEyebrow = ({
-  findingYear,
-}: Pick<IntroValues, "findingYear">) => (
-  <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow">
-    Year {findingYear}
-  </Trans>
-);
-
 export const IntroTitle = () => (
   <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title">
     Large increase in preferential rent
-  </Trans>
-);
-
-export const IntroDescription = ({
-  percentIncrease,
-}: Pick<IntroValues, "percentIncrease">) => (
-  <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.description">
-    The preferential rent jumped {percentIncrease}% in one year. We&apos;ll
-    check whether this increase can be explained by a change in tenancy.
-  </Trans>
-);
-
-export const OcrHeading = () => (
-  <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading">
-    First, let&apos;s make sure we are working with the right values
   </Trans>
 );
 

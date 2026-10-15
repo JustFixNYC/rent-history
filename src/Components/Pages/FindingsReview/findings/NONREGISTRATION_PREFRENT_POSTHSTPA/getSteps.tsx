@@ -1,4 +1,5 @@
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { VacancyStep } from "../../steps/VacancyStep";
 import { buildStandardOcrRows } from "../../steps/buildOcrRows";
@@ -6,12 +7,7 @@ import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { NonregistrationPrefrentPosthstpaFormState } from "./answers";
-import {
-  OcrHeading,
-  VacancyBody,
-  VacancyHeading,
-  VacancyYesNoLegend,
-} from "./ReviewCopy";
+import { VacancyBody, VacancyHeading, VacancyYesNoLegend } from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
 import { ROW_INDEX } from "./spec";
 
@@ -62,7 +58,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          title={<OcrHeading />}
+          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

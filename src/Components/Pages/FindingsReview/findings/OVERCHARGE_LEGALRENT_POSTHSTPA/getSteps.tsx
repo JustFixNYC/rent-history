@@ -5,7 +5,7 @@ import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { LegalrentPosthstpaFormState } from "./answers";
-import { OcrHeading } from "./ReviewCopy";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { ROW_INDEX } from "./spec";
 
 export type LegalrentPosthstpaGetStepsBindings = {
@@ -58,7 +58,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          title={<OcrHeading />}
+          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

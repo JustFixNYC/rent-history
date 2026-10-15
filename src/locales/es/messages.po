@@ -88,6 +88,141 @@ msgstr ""
 #~ msgid "timeline.copy.posthstpa_nonreg_investigate"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:20
+#~ msgid "findings.PREFRENT_421A.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
+#~ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
+#~ msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
+#~ msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
+#~ msgid "findings.HRVD.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:28
+#~ msgid "findings.PREFRENT_421A.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
+#~ msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
+#~ msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
+#~ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31
+#~ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
+#~ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
+#~ msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
+#~ msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
+#~ msgid "findings.HRVD.ocr.heading"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:22
+#~ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:24
+#~ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.description"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:29
+#~ msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
+#~ msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si este aumento puede explicarse mediante bonos permitidos."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:9
+#~ msgid "findings.PREFRENT_421A.intro.eyebrow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
+#~ msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
+#~ msgstr "Año {findingYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
+#~ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:9
+#~ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.eyebrow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
+#~ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:13
+#~ msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:12
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.eyebrow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
+#~ msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
+#~ msgid "findings.HRVD.intro.eyebrow"
+#~ msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -203,23 +338,13 @@ msgid "A nonprofit organization that builds online tools to help New Yorkers ach
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:20
-msgid "findings.PREFRENT_421A.intro.description"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:41
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:21
 msgid "findings.PREFRENT_421A.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:165
 msgid "timeline.copy.preferential_rent_required"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
-msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description"
 msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:352
@@ -307,28 +432,13 @@ msgid "Apartment address"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:16
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:11
 msgid "findings.HRVD.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/titles/titles.tsx:102
 msgid "timeline.title.nonreg_viol_posthstpa_overcharge"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.description"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:22
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.description"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:27
-msgid "findings.NONREGISTRATION_PREHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -347,17 +457,17 @@ msgid "timeline.title.destab_no_viol_prehstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:19
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:11
 msgid "findings.NONREGISTRATION_PREHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:18
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:14
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:6
 msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
 msgstr ""
 
@@ -439,11 +549,6 @@ msgstr ""
 msgid "timeline.copy.still_stabilized_since_last_reg_year"
 msgstr ""
 
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
-msgid "findings.HRVD.intro.description"
-msgstr ""
-
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:79
 msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
 msgstr ""
@@ -476,6 +581,39 @@ msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:65
 msgid "Change <0>Camera</0> to <1>Allow.</1>"
+msgstr ""
+
+#. js-lingui-explicit-id
+#. placeholder {0}: years[0]
+#. placeholder {1}: years[1]
+#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:41
+msgid "findings.ocr_confirm.intro.two_years"
+msgstr ""
+
+#. js-lingui-explicit-id
+#. placeholder {0}: years[0]
+#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:30
+msgid "findings.ocr_confirm.intro.one_year"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:54
+msgid "findings.ocr_confirm.intro.many_years"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:19
+msgid "findings.ocr_confirm.intro.no_years"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:36
+msgid "findings.HRVD.tenancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:45
+msgid "findings.HRVD.tenancy.body_multiple"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:187
@@ -563,7 +701,7 @@ msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:75
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:52
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
@@ -580,27 +718,27 @@ msgstr ""
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:63
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:39
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:121
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:97
 msgid "findings.NONREGISTRATION_PREHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:89
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:65
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:57
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:33
 msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:81
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:85
 msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
@@ -621,7 +759,7 @@ msgstr ""
 #~ msgid "Dynamsoft"
 #~ msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
 msgid "Edit"
 msgstr "Editar"
 
@@ -721,48 +859,8 @@ msgid "Finish scanning"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:28
-msgid "findings.PREFRENT_421A.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
-msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
-msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31
-msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:29
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
-msgid "findings.NONREGISTRATION_PREHSTPA.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:30
-msgid "findings.NONREGISTRATION_POSTHSTPA.ocr.heading"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:38
-msgid "findings.HRVD.ocr.heading"
+#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:6
+msgid "findings.ocr_confirm.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -831,17 +929,11 @@ msgid "high rent vacancy destabilization"
 msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:32
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:29
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:56
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:72
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:113
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:89
 msgid "High rent vacancy destabilization"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:28
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:55
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:71
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:112
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:88
 msgid "high rent vacancy destabilization."
 msgstr ""
 
@@ -989,7 +1081,7 @@ msgid "Language:"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:14
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:6
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
 msgstr ""
 
@@ -999,12 +1091,12 @@ msgid "timeline.title.increase_viol_prehstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:16
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:8
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:21
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:13
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Gran aumento de alquiler"
 
@@ -1026,7 +1118,7 @@ msgid "Legal Regulated Rent"
 msgstr "Alquiler regulado legal"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:42
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:18
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.heading"
 msgstr ""
 
@@ -1081,31 +1173,31 @@ msgid "Log out?"
 msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:21
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:93
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:70
 msgid "longevity bonus"
 msgstr "bono por antigüedad"
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:22
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:94
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:71
 msgid "Longevity bonus"
 msgstr "Bono por antigüedad"
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:84
-msgid "Look at"
-msgstr "Mire"
+#~ msgid "Look at"
+#~ msgstr "Mire"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:63
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:40
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
 msgstr "Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como inquilino(s) en <2/>?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:103
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:80
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
 msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino en su documento de historial de alquiler?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:113
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
 msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes nombres aparece en su documento de historial de alquiler?"
 
@@ -1175,22 +1267,32 @@ msgid "Next"
 msgstr "Siguiente"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:50
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:21
+msgid "findings.HRVD.tenancy.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:28
+msgid "findings.HRVD.tenancy.heading_multiple"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:27
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:67
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:44
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:20
 msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:39
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:16
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.vacancy.heading"
 msgstr ""
 
@@ -1389,12 +1491,12 @@ msgid "timeline.title.pref_421a_viol"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:15
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:7
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:7
 msgid "findings.PREFRENT_421A.intro.title"
 msgstr ""
 
@@ -1626,7 +1728,7 @@ msgid "Select Apt Stat"
 msgstr "Seleccionar estado del apt."
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:36
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:39
 msgid "Select Year"
 msgstr "Seleccionar año"
 
@@ -1647,12 +1749,12 @@ msgid "Signing you in…"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:47
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:23
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:55
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
@@ -1806,7 +1908,7 @@ msgstr ""
 msgid "Temporary exemption"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:53
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:57
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
@@ -1839,6 +1941,16 @@ msgid "timeline.title.missing_reg"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:76
+msgid "findings.HRVD.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:59
+msgid "findings.HRVD.result.potential_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/ExemptStartingYearParagraph.tsx:11
 msgid "timeline.copy.exempt_starting_year"
 msgstr ""
@@ -1859,52 +1971,42 @@ msgid "timeline.title.temp_exemption"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:68
-msgid "findings.HRVD.result.no_violation.body"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:51
-msgid "findings.HRVD.result.potential_violation.body"
-msgstr ""
-
-#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/ExemptionExplainedByHrvdParagraph.tsx:13
 msgid "timeline.copy.exemption_explained_by_hrvd"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:57
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:34
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:70
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:47
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:155
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
 msgid "findings.OVERCHARGE_PREHSTPA.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:42
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:19
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:79
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:56
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:66
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:43
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.no_vacancy.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:53
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:30
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body"
 msgstr ""
 
@@ -1934,11 +2036,6 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:79
 msgid "timeline.copy.rgb_increase"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:22
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1987,11 +2084,6 @@ msgid "timeline.copy.rent_in_year.preferential"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:24
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.description"
-msgstr ""
-
-#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:226
 msgid "timeline.copy.preferential_rent_explained_by_tenancy"
 msgstr ""
@@ -2022,19 +2114,14 @@ msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:142
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:119
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:128
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:105
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
 msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en {year1}, y los bonos permitidos podrían no explicar completamente el salto."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:29
-msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
-msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si este aumento puede explicarse mediante bonos permitidos."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:98
@@ -2052,12 +2139,12 @@ msgid "timeline.implications.improper_overcharge"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:33
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
 msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:36
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:12
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.no_pref_rent_label"
 msgstr ""
 
@@ -2133,13 +2220,22 @@ msgstr ""
 #~ msgid "Tips for getting a high quality scan"
 #~ msgstr ""
 
+#: src/Components/Pages/FindingsReview/shared/TenantNameTipsLink.tsx:19
+msgid "Tips for reviewing tenant names"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/TenantNameTipsLink.tsx:28
+msgid "findings.tenant_name_tips.link"
+msgstr ""
+
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:105
 #~ msgid "to check if there is a way they may or may not be explained."
 #~ msgstr ""
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:85
-msgid "to confirm the information below matches."
-msgstr "para confirmar que la información a continuación coincide."
+#~ msgid "to confirm the information below matches."
+#~ msgstr "para confirmar que la información a continuación coincide."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IaiNeededParagraph.tsx:16
@@ -2263,18 +2359,18 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:11
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:47
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:53
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:23
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:30
 msgid "vacancy bonus"
 msgstr "bono por vacancia"
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:12
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:48
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:54
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:24
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:31
 msgid "Vacancy bonus"
 msgstr "Bono por vacancia"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
 msgid "Values confirmed"
 msgstr "Valores confirmados"
 
@@ -2402,22 +2498,22 @@ msgid "We've found potential violations in your apartment's rent history."
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:59
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:35
 msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:50
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:26
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:69
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:45
 msgid "findings.NONREGISTRATION_PREHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:60
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:36
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
@@ -2456,58 +2552,17 @@ msgstr ""
 msgid "timeline.copy.allowed_raise.increase"
 msgstr ""
 
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:9
-msgid "findings.PREFRENT_421A.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:15
-msgid "findings.OVERCHARGE_PREHSTPA.intro.eyebrow"
-msgstr "Año {findingYear}"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:10
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:9
-msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:8
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:13
-msgid "findings.NONREGISTRATION_PREHSTPA.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:12
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:8
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.eyebrow"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:12
-msgid "findings.HRVD.intro.eyebrow"
-msgstr ""
-
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
 msgid "Yes"
 msgstr "Sí"
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:68
-msgid "Yes, this matches my document"
-msgstr "Sí, coincide con mi documento"
+#~ msgid "Yes, this matches my document"
+#~ msgstr "Sí, coincide con mi documento"
+
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
+msgid "Yes, this matches my rent history"
+msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:84
 msgid "You can add up to 10 additional recipients."
@@ -2532,12 +2587,12 @@ msgid "You must allow access to your device's camera to scan your document"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:57
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:37
 msgid "findings.PREFRENT_421A.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:49
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:29
 msgid "findings.PREFRENT_421A.result.no_violation.body"
 msgstr ""
 
@@ -2559,37 +2614,37 @@ msgid "timeline.title.still_stab"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:48
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:40
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:16
 msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:81
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:57
 msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.yes.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:80
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:56
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:48
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:24
 msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:108
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:84
 msgid "findings.NONREGISTRATION_PREHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:93
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:69
 msgid "findings.NONREGISTRATION_PREHSTPA.result.potential_violation.no.body"
 msgstr ""
 
@@ -2648,6 +2703,11 @@ msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:120
 msgid "Your report was emailed successfully. You can also download it above."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:66
+msgid "findings.HRVD.result.potential_violation.body_followup"
 msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50

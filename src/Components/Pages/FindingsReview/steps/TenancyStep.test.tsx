@@ -60,6 +60,23 @@ describe("TenancyStep", () => {
     expect(screen.getByText("Tenant B")).toBeInTheDocument();
   });
 
+  it("renders afterBody content between body and tenant list", () => {
+    renderWithI18n(
+      <TenancyStep
+        stepNumber={2}
+        title="Tenancy heading"
+        body={<p>Tenancy body</p>}
+        afterBody={<p>Tips link placeholder</p>}
+        tenants={["Tenant A", "Tenant B"]}
+        idPrefix="test"
+        tenancyStart={null}
+        onTenancyStartChange={() => {}}
+      />
+    );
+
+    expect(screen.getByText("Tips link placeholder")).toBeInTheDocument();
+  });
+
   it("uses completed shell variant when isPastStep is true", () => {
     renderWithI18n(
       <TenancyStep

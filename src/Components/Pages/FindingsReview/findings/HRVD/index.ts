@@ -27,10 +27,11 @@ export { isStepComplete } from "./isStepComplete";
 export { renderHrvdResult } from "./ResultPanel";
 
 export {
-  IntroEyebrow,
   IntroTitle,
-  IntroDescription,
-  OcrHeading,
+  TenancyHeading,
+  TenancyHeadingMultiple,
+  TenancyBody,
+  TenancyBodyMultiple,
   ResultPotentialViolationBody,
   ResultNoViolationBody,
   ResultDismissedBody,

@@ -13,7 +13,8 @@ import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { Prefrent421aFormState } from "./answers";
-import { NO_PREF_RENT_LABEL, OcrHeading } from "./ReviewCopy";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
+import { NO_PREF_RENT_LABEL } from "./ReviewCopy";
 import { ROW_INDEX } from "./spec";
 
 export type Prefrent421aGetStepsBindings = {
@@ -127,7 +128,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          title={<OcrHeading />}
+          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

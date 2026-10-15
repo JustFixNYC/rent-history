@@ -3,33 +3,9 @@ import { Trans } from "@lingui/react/macro";
 
 import type { IntroValues } from "./spec";
 
-export const IntroEyebrow = ({
-  findingYear,
-}: Pick<IntroValues, "findingYear">) => (
-  <Trans id="findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.eyebrow">
-    Year {findingYear}
-  </Trans>
-);
-
 export const IntroTitle = () => (
   <Trans id="findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.title">
     Preferential rent not offered
-  </Trans>
-);
-
-export const IntroDescription = ({
-  year0,
-  year1,
-}: Pick<IntroValues, "year0" | "year1">) => (
-  <Trans id="findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description">
-    A preferential rent was offered in year {year0}, but then not offered in
-    year {year1}. We&apos;ll check to see if this is due to a change in tenancy.
-  </Trans>
-);
-
-export const OcrHeading = () => (
-  <Trans id="findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.ocr.heading">
-    First, let&apos;s make sure we are working with the right values
   </Trans>
 );
 

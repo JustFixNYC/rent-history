@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { CurrencyField } from "../fields/CurrencyField";
 import { TenantChip } from "../../../InlineChip/TenantChip";
+import { OcrConfirmHeading, OcrConfirmIntro } from "../shared/stepCopy";
 import { OcrConfirmStep } from "./OcrConfirmStep";
 import "../FindingsReview.scss";
 
@@ -26,7 +27,7 @@ const StubOcrConfirmHarness = () => {
   return (
     <OcrConfirmStep
       stepNumber={1}
-      title="First, let's make sure we are working with the right values"
+      intro={<OcrConfirmIntro years={[1991, 1992]} />}
       rows={[
         {
           regYear: 1991,
@@ -60,8 +61,15 @@ const StubOcrConfirmHarness = () => {
 };
 
 describe("OcrConfirmStep", () => {
-  it("renders initial state with confirm CTA and editable fields", () => {
+  it("renders default heading, intro, confirm CTA, and editable fields", () => {
     renderWithI18n(<StubOcrConfirmHarness />);
+
+    expect(
+      screen.getByText(/confirm we have the correct information/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Does what you see in 1991 and 1992 match/i)
+    ).toBeInTheDocument();
 
     const step = screen.getByTestId("ocr-confirm-step");
     expect(step).toHaveAttribute("data-phase", "initial");
@@ -70,7 +78,7 @@ describe("OcrConfirmStep", () => {
     expect(shell).toHaveAttribute("data-variant", "active");
 
     expect(
-      screen.getByRole("button", { name: "Yes, this matches my document" })
+      screen.getByRole("button", { name: "Yes, this matches my rent history" })
     ).toBeInTheDocument();
 
     const rentInputs = screen.getAllByRole("textbox", {
@@ -85,7 +93,7 @@ describe("OcrConfirmStep", () => {
     renderWithI18n(<StubOcrConfirmHarness />);
 
     fireEvent.click(
-      screen.getByRole("button", { name: "Yes, this matches my document" })
+      screen.getByRole("button", { name: "Yes, this matches my rent history" })
     );
 
     const step = screen.getByTestId("ocr-confirm-step");
@@ -109,7 +117,7 @@ describe("OcrConfirmStep", () => {
     expect(step).toHaveAttribute("data-phase", "initial");
     expect(shell).toHaveAttribute("data-variant", "active");
     expect(
-      screen.getByRole("button", { name: "Yes, this matches my document" })
+      screen.getByRole("button", { name: "Yes, this matches my rent history" })
     ).toBeInTheDocument();
   });
 
@@ -117,7 +125,8 @@ describe("OcrConfirmStep", () => {
     renderWithI18n(
       <OcrConfirmStep
         stepNumber={1}
-        title="Confirm values"
+        title={<OcrConfirmHeading />}
+        intro={<OcrConfirmIntro years={[1991]} />}
         isPastStep
         phase="confirmed"
         rows={[
@@ -152,6 +161,7 @@ describe("OcrConfirmStep", () => {
       <OcrConfirmStep
         stepNumber={1}
         title="Confirm values"
+        intro={<p>Intro copy</p>}
         isPastStep
         phase="confirmed"
         onEdit={onEdit}
@@ -181,6 +191,7 @@ describe("OcrConfirmStep", () => {
         <OcrConfirmStep
           stepNumber={1}
           title="Confirm values"
+          intro={<p>Intro copy</p>}
           isPastStep
           phase="initial"
           onEdit={onEdit}
@@ -208,7 +219,7 @@ describe("OcrConfirmStep", () => {
       "initial"
     );
     expect(
-      screen.getByRole("button", { name: "Yes, this matches my document" })
+      screen.getByRole("button", { name: "Yes, this matches my rent history" })
     ).toBeInTheDocument();
     expect(
       screen.getByRole("textbox", { name: "Legal Regulated Rent" })

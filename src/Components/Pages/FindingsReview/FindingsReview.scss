@@ -18,23 +18,10 @@
   gap: jfcl.$JF_SPACING_03;
   margin-bottom: jfcl.$JF_SPACING_05;
 
-  // Figma 5314:3113 — 14px semibold eyebrow (e.g. "Year 2000")
-  &__eyebrow {
-    @include jfcl.small_text_bold_desktop;
-    color: jfcl.$OFF_BLACK;
-    margin: 0;
-  }
-
   // Figma 5314:3113 — 24px semibold title
   &__title {
     @include jfcl.body_large_mobile;
     font-weight: 600;
-    margin: 0;
-  }
-
-  // Figma 5314:3113 — 18px body copy
-  &__description {
-    @include jfcl.body_standard_mobile;
     margin: 0;
   }
 }

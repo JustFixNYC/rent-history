@@ -20,7 +20,8 @@ import {
 import { VacancyHeading } from "../OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy";
 
 import type { PrefrentremovedPosthstpaFormState } from "./answers";
-import { NO_PREF_RENT_LABEL, OcrHeading } from "./ReviewCopy";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
+import { NO_PREF_RENT_LABEL } from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
 import { ROW_INDEX } from "./spec";
 
@@ -146,7 +147,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          title={<OcrHeading />}
+          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

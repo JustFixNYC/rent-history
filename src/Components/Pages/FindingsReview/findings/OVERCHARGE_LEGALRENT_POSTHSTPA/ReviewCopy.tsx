@@ -2,32 +2,9 @@ import { Trans } from "@lingui/react/macro";
 
 import type { IntroValues } from "./spec";
 
-export const IntroEyebrow = ({
-  findingYear,
-}: Pick<IntroValues, "findingYear">) => (
-  <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.eyebrow">
-    Year {findingYear}
-  </Trans>
-);
-
 export const IntroTitle = () => (
   <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title">
     Large increase in legal regulated rent
-  </Trans>
-);
-
-export const IntroDescription = ({
-  percentIncrease,
-}: Pick<IntroValues, "percentIncrease">) => (
-  <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.description">
-    The legal regulated rent jumped {percentIncrease}% in one year. We&apos;ll
-    check whether this increase can be explained.
-  </Trans>
-);
-
-export const OcrHeading = () => (
-  <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.ocr.heading">
-    First, let&apos;s make sure we are working with the right values
   </Trans>
 );
 

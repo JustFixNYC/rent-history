@@ -1,7 +1,7 @@
 import type { FindingIntroPanelProps } from "../../FindingIntroPanel";
 import type { Finding } from "../../types/finding";
 
-import { IntroDescription, IntroEyebrow, IntroTitle } from "./ReviewCopy";
+import { IntroTitle } from "./ReviewCopy";
 import { ROW_INDEX, type IntroValues } from "./spec";
 
 export function getIntroValues(finding: Finding): IntroValues {
@@ -21,8 +21,6 @@ export function getIntro(finding: Finding): FindingIntroPanelProps {
   const values = getIntroValues(finding);
 
   return {
-    eyebrow: <IntroEyebrow findingYear={values.findingYear} />,
-    title: <IntroTitle />,
-    description: <IntroDescription />,
+    title: <IntroTitle findingYear={values.findingYear} />,
   };
 }

@@ -15,6 +15,8 @@ export type TenancyStepProps = {
   idPrefix: string;
   tenancyStart: number | null;
   onTenancyStartChange: (value: number | null) => void;
+  /** Rendered after body copy and before tenant list / year field. */
+  afterBody?: React.ReactNode;
   /** Set by the module stack when a later step is active. */
   isPastStep?: boolean;
   yearPlaceholder?: string;
@@ -28,6 +30,7 @@ export const TenancyStep = ({
   idPrefix,
   tenancyStart,
   onTenancyStartChange,
+  afterBody,
   isPastStep = false,
   yearPlaceholder,
 }: TenancyStepProps) => {
@@ -47,6 +50,7 @@ export const TenancyStep = ({
           data-tenant-mode={isMulti ? "multiple" : "single"}
         >
           {body}
+          {afterBody}
           {isMulti ? (
             <ul
               className="tenancy-step__tenant-list"

@@ -39,6 +39,12 @@ const secondPrehstpaFinding: Finding = {
     ...prehstpaFinding.key,
     finding_year: 1993,
   },
+  data: {
+    rows: prehstpaFinding.data.rows.map((row, index) => ({
+      ...row,
+      reg_year: index === 0 ? 1992 : 1993,
+    })),
+  },
 };
 
 const { navigateMock } = vi.hoisted(() => ({
@@ -140,7 +146,7 @@ const waitForReviewFlow = async () => {
 
 const confirmOcr = () => {
   fireEvent.click(
-    screen.getByRole("button", { name: "Yes, this matches my document" })
+    screen.getByRole("button", { name: "Yes, this matches my rent history" })
   );
 };
 
@@ -213,7 +219,9 @@ describe("FindingsReviewPage integration", () => {
     await waitForReviewFlow();
 
     expect(screen.getByText("Large rent increase")).toBeInTheDocument();
-    expect(screen.getByText(/Year 1992/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Does what you see in 1991 and 1992 match/i)
+    ).toBeInTheDocument();
 
     const stack = screen.getByTestId("finding-module-stack");
     expect(stack).toHaveAttribute("data-revealed-count", "1");
@@ -530,8 +538,12 @@ describe("FindingsReviewPage integration", () => {
     renderFindingsReviewPage();
 
     await waitForReviewFlow();
-    expect(screen.getByText(/Year 1993/)).toBeInTheDocument();
-    expect(screen.queryByText(/Year 1992/)).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/Does what you see in 1992 and 1993 match/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Does what you see in 1991 and 1992 match/i)
+    ).not.toBeInTheDocument();
   });
 
   it("honors ?finding_id= resume hint when the id exists in findings_current", async () => {
@@ -551,8 +563,12 @@ describe("FindingsReviewPage integration", () => {
     );
 
     await waitForReviewFlow();
-    expect(screen.getByText(/Year 1992/)).toBeInTheDocument();
-    expect(screen.queryByText(/Year 1993/)).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/Does what you see in 1991 and 1992 match/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Does what you see in 1992 and 1993 match/i)
+    ).not.toBeInTheDocument();
   });
 
   it("modal Next advances to the next queued finding when the queue has remaining items", async () => {
@@ -625,7 +641,9 @@ describe("FindingsReviewPage integration", () => {
       ).not.toBeInTheDocument();
     });
 
-    expect(screen.getByText(/Year 1993/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Does what you see in 1992 and 1993 match/i)
+    ).toBeInTheDocument();
     expect(screen.getByTestId("ocr-confirm-step")).toBeInTheDocument();
     const stack = screen.getByTestId("finding-module-stack");
     expect(stack).toHaveAttribute("data-revealed-count", "1");

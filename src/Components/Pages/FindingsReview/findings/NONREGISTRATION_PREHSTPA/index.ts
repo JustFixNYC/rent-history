@@ -27,10 +27,7 @@ export { isStepComplete } from "./isStepComplete";
 export { renderNonregistrationPrehstpaResult } from "./ResultPanel";
 
 export {
-  IntroEyebrow,
   IntroTitle,
-  IntroDescription,
-  OcrHeading,
   VacancyHeading,
   VacancyBody,
   VacancyYesNoLegend,

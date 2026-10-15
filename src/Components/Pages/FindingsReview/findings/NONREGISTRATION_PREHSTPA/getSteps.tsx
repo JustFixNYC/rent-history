@@ -1,5 +1,6 @@
 import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { TenancyStep } from "../../steps/TenancyStep";
 import { VacancyStep } from "../../steps/VacancyStep";
@@ -14,12 +15,7 @@ import {
 } from "../OVERCHARGE_PREHSTPA/ReviewCopy";
 
 import type { NonregistrationPrehstpaFormState } from "./answers";
-import {
-  OcrHeading,
-  VacancyBody,
-  VacancyHeading,
-  VacancyYesNoLegend,
-} from "./ReviewCopy";
+import { VacancyBody, VacancyHeading, VacancyYesNoLegend } from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
 import { getTenancyRowTenants, ROW_INDEX } from "./spec";
 
@@ -70,7 +66,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          title={<OcrHeading />}
+          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

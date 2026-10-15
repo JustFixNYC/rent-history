@@ -1,11 +1,10 @@
 import { Fragment } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { Trans } from "@lingui/react/macro";
 import { Button, LinkStyledButton } from "@justfixnyc/component-library";
 
-import { DocumentLink } from "../../../DocumentLink/DocumentLink";
 import { FindingFormShell } from "../FindingFormShell";
+import { OcrConfirmHeading } from "../shared/stepCopy";
 import { StepNumberBadge } from "../../../StepNumberBadge/StepNumberBadge";
 import type { FindingStepRenderContext } from "../types/step";
 
@@ -26,8 +25,9 @@ export type OcrConfirmRowConfig = {
 
 export type OcrConfirmStepProps = {
   stepNumber: number;
-  title: React.ReactNode;
+  intro: React.ReactNode;
   rows: OcrConfirmRowConfig[];
+  title?: React.ReactNode;
   /** Set by the module stack when a later step is active; does not affect confirm/edit. */
   isPastStep?: boolean;
   /** Controlled phase; when omitted, uses internal `useOcrConfirmState`. */
@@ -41,8 +41,9 @@ export type OcrConfirmStepProps = {
 
 export const OcrConfirmStep = ({
   stepNumber,
-  title,
+  intro,
   rows,
+  title = <OcrConfirmHeading />,
   phase: controlledPhase,
   onConfirm,
   onEdit,
@@ -65,7 +66,7 @@ export const OcrConfirmStep = ({
   const showEditLink = isConfirmed;
 
   const resolvedConfirmLabel =
-    confirmLabel ?? _(msg`Yes, this matches my document`);
+    confirmLabel ?? _(msg`Yes, this matches my rent history`);
   const resolvedConfirmedLabel = confirmedLabel ?? _(msg`Values confirmed`);
   const resolvedEditLabel = editLabel ?? _(msg`Edit`);
 
@@ -80,10 +81,7 @@ export const OcrConfirmStep = ({
           data-testid="ocr-confirm-step"
           data-phase={phase}
         >
-          <p className="ocr-confirm-step__intro">
-            <Trans>Look at</Trans> <DocumentLink />{" "}
-            <Trans>to confirm the information below matches.</Trans>
-          </p>
+          {intro}
           {rows.map((row, index) => (
             <Fragment key={row.regYear}>
               {index > 0 ? (
@@ -139,7 +137,7 @@ export const OcrConfirmStep = ({
 
 export type RenderOcrConfirmStepOptions = Pick<
   OcrConfirmStepProps,
-  "stepNumber" | "title" | "rows"
+  "stepNumber" | "intro" | "rows" | "title"
 >;
 
 /** Factory for FindingModuleStack / type modules (Task 4). */

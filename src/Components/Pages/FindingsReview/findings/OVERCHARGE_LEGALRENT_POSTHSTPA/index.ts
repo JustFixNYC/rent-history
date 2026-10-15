@@ -27,10 +27,7 @@ export { isStepComplete } from "./isStepComplete";
 export { renderLegalrentPosthstpaResult } from "./ResultPanel";
 
 export {
-  IntroEyebrow,
   IntroTitle,
-  IntroDescription,
-  OcrHeading,
   ResultPotentialViolationBody,
   ResultNoViolationBody,
   ResultDismissedBody,

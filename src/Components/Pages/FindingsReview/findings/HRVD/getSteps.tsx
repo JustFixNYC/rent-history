@@ -1,18 +1,19 @@
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
+import { TenantNameTipsLink } from "../../shared/TenantNameTipsLink";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { TenancyStep } from "../../steps/TenancyStep";
 import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
+import type { HrvdFormState } from "./answers";
 import {
   TenancyBody,
   TenancyBodyMultiple,
   TenancyHeading,
-} from "../OVERCHARGE_PREHSTPA/ReviewCopy";
-
-import type { HrvdFormState } from "./answers";
-import { OcrHeading } from "./ReviewCopy";
+  TenancyHeadingMultiple,
+} from "./ReviewCopy";
 import { getTenancyRowTenants, ROW_INDEX } from "./spec";
 
 export type HrvdGetStepsBindings = {
@@ -51,6 +52,7 @@ export function getSteps(bindings: HrvdGetStepsBindings): FindingStep[] {
   });
   const tenants = getTenancyRowTenants(finding);
   const isMultiTenant = tenants.length > 1;
+  const ocrYears = ocrRows.map((row) => row.regYear);
 
   return [
     {
@@ -59,7 +61,7 @@ export function getSteps(bindings: HrvdGetStepsBindings): FindingStep[] {
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          title={<OcrHeading />}
+          intro={<OcrConfirmIntro years={ocrYears} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}
@@ -76,7 +78,9 @@ export function getSteps(bindings: HrvdGetStepsBindings): FindingStep[] {
           stepNumber={2}
           isPastStep={isPastStep}
           idPrefix="hrvd"
-          title={<TenancyHeading />}
+          title={
+            isMultiTenant ? <TenancyHeadingMultiple /> : <TenancyHeading />
+          }
           body={
             isMultiTenant ? (
               <TenancyBodyMultiple />
@@ -84,6 +88,7 @@ export function getSteps(bindings: HrvdGetStepsBindings): FindingStep[] {
               <TenancyBody tenant={tenants[0] ?? ""} />
             )
           }
+          afterBody={<TenantNameTipsLink />}
           tenants={tenants}
           tenancyStart={formState.tenancyStart}
           onTenancyStartChange={(value) =>

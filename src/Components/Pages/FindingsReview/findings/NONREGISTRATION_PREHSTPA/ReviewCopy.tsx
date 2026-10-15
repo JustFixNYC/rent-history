@@ -7,33 +7,9 @@ import { YearChip } from "../../../../InlineChip/YearChip";
 
 import type { IntroValues } from "./spec";
 
-export const IntroEyebrow = ({
-  findingYear,
-}: Pick<IntroValues, "findingYear">) => (
-  <Trans id="findings.NONREGISTRATION_PREHSTPA.intro.eyebrow">
-    Year {findingYear}
-  </Trans>
-);
-
 export const IntroTitle = () => (
   <Trans id="findings.NONREGISTRATION_PREHSTPA.intro.title">
     Apartment missing registration
-  </Trans>
-);
-
-export const IntroDescription = ({
-  missingFromYear,
-}: Pick<IntroValues, "missingFromYear">) => (
-  <Trans id="findings.NONREGISTRATION_PREHSTPA.intro.description">
-    Apartment is missing registration from year {missingFromYear} onward.
-    We&apos;ll check whether this non registration can be explained by
-    destabilization.
-  </Trans>
-);
-
-export const OcrHeading = () => (
-  <Trans id="findings.NONREGISTRATION_PREHSTPA.ocr.heading">
-    First, let&apos;s make sure we are working with the right values
   </Trans>
 );
 

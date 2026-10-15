@@ -27,10 +27,7 @@ export { isStepComplete } from "./isStepComplete";
 export { renderPrefrentremovedPosthstpaResult } from "./ResultPanel";
 
 export {
-  IntroEyebrow,
   IntroTitle,
-  IntroDescription,
-  OcrHeading,
   NO_PREF_RENT_LABEL,
   ResultPotentialViolationBody,
   ResultNoViolationBody,

@@ -120,7 +120,14 @@ describe("HRVD getSteps", () => {
     );
 
     expect(
-      screen.getByText(/earliest year any of the following names appear/i)
+      screen.getByText(
+        /one or more of the following names is listed as a tenant/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Tips for reviewing tenant names",
+      })
     ).toBeInTheDocument();
   });
 });
@@ -188,10 +195,13 @@ describe("renderHrvdResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(/destabilization in 1992 does not appear/i)
+      screen.getByText(/exempt from rent stabilization in 1992/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Individual Apartment Improvements \(IAIs\)/i)
+      screen.getByText(/does not appear to be fully explained/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/destabilization might not have been allowed/i)
     ).toBeInTheDocument();
   });
 
@@ -206,9 +216,11 @@ describe("renderHrvdResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(/destabilization in 1992 appears to be explained/i)
+      screen.getByText(/exempt from rent stabilization in 1992/i)
     ).toBeInTheDocument();
-    expect(screen.getByText(/allowable bonuses/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/explained by what.s in your rent history/i)
+    ).toBeInTheDocument();
   });
 
   it("renders literal dismissed copy", () => {

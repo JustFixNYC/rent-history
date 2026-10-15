@@ -7,9 +7,9 @@ import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
+import { OcrConfirmIntro } from "../../shared/stepCopy";
 import type { PrehstpaFormState } from "./answers";
 import {
-  OcrHeading,
   TenancyBody,
   TenancyBodyMultiple,
   TenancyHeading,
@@ -63,6 +63,7 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
   const { year0, year1 } = getIntroValues(finding);
   const tenants = getTenancyRowTenants(finding);
   const isMultiTenant = tenants.length > 1;
+  const ocrYears = ocrRows.map((row) => row.regYear);
 
   return [
     {
@@ -71,7 +72,7 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          title={<OcrHeading />}
+          intro={<OcrConfirmIntro years={ocrYears} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}
