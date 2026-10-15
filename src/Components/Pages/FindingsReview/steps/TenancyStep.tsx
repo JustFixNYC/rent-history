@@ -1,8 +1,8 @@
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 
-import { TenantChip } from "../../../InlineChip/TenantChip";
 import { StepNumberBadge } from "../../../StepNumberBadge/StepNumberBadge";
+import { FindingTenantName } from "../shared/FindingTenantName";
 import { YearField } from "../fields/YearField";
 import { FindingFormShell } from "../FindingFormShell";
 import type { FindingStepRenderContext } from "../types/step";
@@ -58,7 +58,7 @@ export const TenancyStep = ({
             >
               {tenants.map((tenant) => (
                 <li key={tenant}>
-                  <TenantChip tenant={tenant} />
+                  <FindingTenantName name={tenant} />
                 </li>
               ))}
             </ul>

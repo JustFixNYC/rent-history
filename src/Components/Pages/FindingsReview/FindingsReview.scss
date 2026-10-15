@@ -312,6 +312,11 @@
   padding: 0 jfcl.$JF_SPACING_06;
 }
 
+.finding-tenant-name {
+  @include jfcl.body_standard_mobile;
+  text-transform: uppercase;
+}
+
 .vacancy-step,
 .tenancy-step {
   display: flex;
@@ -320,14 +325,15 @@
   width: 100%;
 }
 
-// Figma 5360:457 — multi-tenant tenancy step stacked chips
-.tenancy-step__tenant-list {
+// Figma 5360:457 — multi-tenant tenancy step stacked names
+.tenancy-step__tenant-list,
+.vacancy-step__tenant-list {
   display: flex;
   flex-direction: column;
   gap: jfcl.$JF_SPACING_03;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 jfcl.$JF_SPACING_06;
 }
 
 .vacancy-step__yes-no-sr-label {

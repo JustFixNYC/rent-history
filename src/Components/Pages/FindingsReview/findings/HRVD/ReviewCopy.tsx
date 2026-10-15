@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro";
 
 import { DocumentLink } from "../../../../DocumentLink/DocumentLink";
-import { TenantChip } from "../../../../InlineChip/TenantChip";
+import { FindingTenantName } from "../../shared/FindingTenantName";
 
 import type { IntroValues } from "./spec";
 
@@ -35,7 +35,7 @@ export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
   <p className="finding-step-copy">
     <Trans id="findings.HRVD.tenancy.body">
       Check <DocumentLink />. What is the earliest year{" "}
-      <TenantChip tenant={tenant} /> is listed as a tenant?
+      <FindingTenantName name={tenant} /> is listed as a tenant?
     </Trans>
   </p>
 );

@@ -13,9 +13,9 @@ export const getIntroValues: (finding: Finding) => IntroValues =
   });
 
 export function getIntro(finding: Finding): FindingIntroPanelProps {
-  getIntroValues(finding);
+  const { year0, year1 } = getIntroValues(finding);
 
   return {
-    title: <IntroTitle />,
+    title: <IntroTitle year0={year0} year1={year1} />,
   };
 }

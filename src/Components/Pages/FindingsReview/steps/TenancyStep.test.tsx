@@ -39,7 +39,7 @@ describe("TenancyStep", () => {
     expect(document.getElementById("test-tenancy-start")).toBeInTheDocument();
   });
 
-  it("renders multi-tenant mode with stacked chips", () => {
+  it("renders multi-tenant mode with stacked tenant names", () => {
     renderWithI18n(
       <TenancyStep
         stepNumber={3}
@@ -55,7 +55,7 @@ describe("TenancyStep", () => {
     const step = screen.getByTestId("test-tenancy-step");
     expect(step).toHaveAttribute("data-tenant-mode", "multiple");
     expect(step.querySelector(".tenancy-step__tenant-list")).not.toBeNull();
-    expect(screen.getAllByTestId("tenant-chip")).toHaveLength(2);
+    expect(screen.getAllByTestId("finding-tenant-name")).toHaveLength(2);
     expect(screen.getByText("Tenant A")).toBeInTheDocument();
     expect(screen.getByText("Tenant B")).toBeInTheDocument();
   });

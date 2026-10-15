@@ -2,6 +2,7 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 
 import { StepNumberBadge } from "../../../StepNumberBadge/StepNumberBadge";
+import { FindingTenantName } from "../shared/FindingTenantName";
 import { YesNoField } from "../fields/YesNoField";
 import { FindingFormShell } from "../FindingFormShell";
 import type { FindingStepRenderContext } from "../types/step";
@@ -21,6 +22,10 @@ export type VacancyStepProps = {
   yesNoLegend?: React.ReactNode;
   /** Optional fields between body copy and yes/no (e.g. nonreg user row). */
   extraFields?: React.ReactNode;
+  /** Rendered after body copy and optional tenant list, before yes/no. */
+  afterBody?: React.ReactNode;
+  /** When length > 1, renders a stacked tenant name list between body and afterBody. */
+  tenants?: string[];
   /** `userRow` — vacancy step also collects sparse row 1 fields (nonreg types). */
   variant?: VacancyStepVariant;
 };
@@ -52,9 +57,12 @@ export const VacancyStep = ({
   isPastStep = false,
   yesNoLegend,
   extraFields,
+  afterBody,
+  tenants = [],
   variant = "default",
 }: VacancyStepProps) => {
   const { _ } = useLingui();
+  const showTenantList = tenants.length > 1;
   const resolvedYesNoLegend =
     yesNoLegend ??
     _(msg`Did tenants in the earlier year appear in the later year?`);
@@ -71,6 +79,19 @@ export const VacancyStep = ({
           data-variant={variant}
         >
           {body}
+          {showTenantList ? (
+            <ul
+              className="vacancy-step__tenant-list"
+              aria-label={_(msg`Tenant names`)}
+            >
+              {tenants.map((tenant) => (
+                <li key={tenant}>
+                  <FindingTenantName name={tenant} />
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {afterBody}
           {extraFields}
           <YesNoField
             id={`${idPrefix}-vacancy`}

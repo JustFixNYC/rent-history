@@ -3,44 +3,55 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
 import { DocumentLink } from "../../../../DocumentLink/DocumentLink";
-import { GlossaryLink } from "../../../../GlossaryLink/GlossaryLink";
-import { TenantChip } from "../../../../InlineChip/TenantChip";
-import { YearChip } from "../../../../InlineChip/YearChip";
+import { FindingTenantName } from "../../shared/FindingTenantName";
 
 import type { IntroValues } from "./spec";
 
-export const IntroTitle = () => (
+type IntroTitleProps = Pick<IntroValues, "year0" | "year1">;
+
+export const IntroTitle = ({ year0, year1 }: IntroTitleProps) => (
   <Trans id="findings.OVERCHARGE_PREHSTPA.intro.title">
-    Large rent increase
+    Large rent increase from {year0} to {year1}
   </Trans>
 );
 
-type VacancyCopyProps = {
+type VacancyHeadingProps = {
+  vacancyYear: number;
+};
+
+export const VacancyHeading = ({ vacancyYear }: VacancyHeadingProps) => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.heading">
+    Next, let&apos;s check if there was a vacancy in {vacancyYear}
+  </Trans>
+);
+
+type VacancyBodyProps = {
   year0: number;
   year1: number;
 };
 
-export const VacancyHeading = () => {
-  const { _ } = useLingui();
-
-  return (
-    <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.heading">
-      Next, let&apos;s check to see if the landlord used something called a{" "}
-      <GlossaryLink
-        term={_(msg`vacancy bonus`)}
-        modalTitle={_(msg`Vacancy bonus`)}
-      />
-      .
-    </Trans>
-  );
+type VacancyBodySingleProps = VacancyBodyProps & {
+  tenant: string;
 };
 
-export const VacancyBody = ({ year0, year1 }: VacancyCopyProps) => (
+export const VacancyBodySingle = ({
+  tenant,
+  year0,
+  year1,
+}: VacancyBodySingleProps) => (
   <p className="finding-step-copy">
-    <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.body">
-      Look at <DocumentLink /> — do any tenant(s) in year{" "}
-      <YearChip year={year0} /> appear to be listed as tenants in year{" "}
-      <YearChip year={year1} />?
+    <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.body_single">
+      Check <DocumentLink />. Is <FindingTenantName name={tenant} /> listed as
+      the tenant in {year0} <em>and</em> {year1}?
+    </Trans>
+  </p>
+);
+
+export const VacancyBodyMultiple = ({ year0, year1 }: VacancyBodyProps) => (
+  <p className="finding-step-copy">
+    <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.body_multiple">
+      Check <DocumentLink />. Is one or more of the following names listed as
+      the tenant in {year0} <em>and</em> {year1}?
     </Trans>
   </p>
 );
@@ -51,7 +62,7 @@ export const VacancyYesNoLegend = () => {
   return _(
     msg({
       id: "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend",
-      message: "Did tenants in the earlier year appear in the later year?",
+      message: "Are the same tenant or tenants listed in both years?",
     })
   );
 };
@@ -60,27 +71,25 @@ type TenancyCopyProps = {
   tenant: string;
 };
 
-export const TenancyHeading = () => {
-  const { _ } = useLingui();
+export const TenancyHeading = () => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.heading">
+    Next, let&apos;s check how long the previous tenant lived there before the
+    vacancy
+  </Trans>
+);
 
-  return (
-    <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.heading">
-      Next, let&apos;s check to see if the landlord used something called a{" "}
-      <GlossaryLink
-        term={_(msg`longevity bonus`)}
-        modalTitle={_(msg`Longevity bonus`)}
-      />
-      .
-    </Trans>
-  );
-};
+export const TenancyHeadingMultiple = () => (
+  <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.heading_multiple">
+    Next, let&apos;s check how long the previous tenants lived there before the
+    vacancy
+  </Trans>
+);
 
 export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
   <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body">
-      Look at <DocumentLink /> — What is the earliest year{" "}
-      <TenantChip tenant={tenant} /> appears as a tenant in your rent history
-      document?
+      Check <DocumentLink />. What is the earliest year{" "}
+      <FindingTenantName name={tenant} /> is listed as a tenant?
     </Trans>
   </p>
 );
@@ -88,8 +97,8 @@ export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
 export const TenancyBodyMultiple = () => (
   <p className="finding-step-copy">
     <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple">
-      Look at <DocumentLink /> — What is the earliest year any of the following
-      names appear in your rent history document?
+      Check <DocumentLink />. What is the earliest year one or more of the
+      following names is listed as a tenant?
     </Trans>
   </p>
 );

@@ -218,7 +218,9 @@ describe("FindingsReviewPage integration", () => {
     renderFindingsReviewPage();
     await waitForReviewFlow();
 
-    expect(screen.getByText("Large rent increase")).toBeInTheDocument();
+    expect(
+      screen.getByText(/Large rent increase from 1991 to 1992/i)
+    ).toBeInTheDocument();
     expect(
       screen.getByText(/Does what you see in 1991 and 1992 match/i)
     ).toBeInTheDocument();

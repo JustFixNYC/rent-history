@@ -141,20 +141,57 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
     expect(visible.map((step) => step.id)).toEqual(["ocr_confirm", "vacancy"]);
   });
 
+  it("renders vacancy step with updated copy and tips link", () => {
+    const steps = getSteps({
+      finding,
+      formState: createInitialFormState(finding),
+      onFormStateChange: noopFormChange,
+    });
+    const vacancyStep = steps.find((step) => step.id === "vacancy");
+
+    if (!vacancyStep) {
+      throw new Error("vacancy step not found");
+    }
+
+    renderWithI18n(
+      vacancyStep.render({
+        isPastStep: false,
+        isActive: true,
+      }) as React.ReactElement
+    );
+
+    expect(
+      screen.getByText(/check if there was a vacancy in 1992/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/listed as the tenant in 1991/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Tips for reviewing tenant names",
+      })
+    ).toBeInTheDocument();
+  });
+
   it("renders single-tenant tenancy step for one tenant", () => {
     renderTenancyStep(finding);
 
     const step = screen.getByTestId("prehstpa-tenancy-step");
     expect(step).toHaveAttribute("data-tenant-mode", "single");
     expect(step.querySelector(".tenancy-step__tenant-list")).toBeNull();
-    expect(screen.getAllByTestId("tenant-chip")).toHaveLength(1);
+    expect(screen.getAllByTestId("finding-tenant-name")).toHaveLength(1);
     expect(screen.getByText("AUDREY JOHNSON")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Tips for reviewing tenant names",
+      })
+    ).toBeInTheDocument();
     expect(
       document.getElementById("prehstpa-tenancy-start")
     ).toBeInTheDocument();
   });
 
-  it("renders multi-tenant tenancy step with stacked chips", () => {
+  it("renders multi-tenant tenancy step with stacked tenant names", () => {
     const multiTenantFinding: Finding = {
       ...finding,
       data: {
@@ -173,7 +210,7 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
     const step = screen.getByTestId("prehstpa-tenancy-step");
     expect(step).toHaveAttribute("data-tenant-mode", "multiple");
     expect(step.querySelector(".tenancy-step__tenant-list")).not.toBeNull();
-    expect(screen.getAllByTestId("tenant-chip")).toHaveLength(2);
+    expect(screen.getAllByTestId("finding-tenant-name")).toHaveLength(2);
     expect(screen.getByText("Tenant A")).toBeInTheDocument();
     expect(screen.getByText("Tenant B")).toBeInTheDocument();
     expect(

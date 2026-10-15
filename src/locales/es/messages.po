@@ -223,6 +223,11 @@ msgstr ""
 #~ msgid "findings.HRVD.intro.eyebrow"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:40
+#~ msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
+#~ msgstr "Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como inquilino(s) en <2/>?"
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -509,6 +514,11 @@ msgstr ""
 #~ msgid "Apt. 1"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:63
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend"
+msgstr ""
+
 #: src/Components/FlowNav/FlowNav.tsx:33
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:136
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
@@ -607,9 +617,29 @@ msgid "findings.ocr_confirm.intro.no_years"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:43
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body_single"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:52
+msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body_multiple"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
+msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino en su documento de historial de alquiler?"
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:36
 msgid "findings.HRVD.tenancy.body"
 msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:99
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
+msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes nombres aparece en su documento de historial de alquiler?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:45
@@ -696,14 +726,9 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:60
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:68
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:52
-msgid "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend"
-msgstr ""
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
@@ -1173,33 +1198,16 @@ msgid "Log out?"
 msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:21
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:70
 msgid "longevity bonus"
 msgstr "bono por antigüedad"
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:22
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:71
 msgid "Longevity bonus"
 msgstr "Bono por antigüedad"
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:84
 #~ msgid "Look at"
 #~ msgstr "Mire"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:40
-msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
-msgstr "Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como inquilino(s) en <2/>?"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:80
-msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
-msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino en su documento de historial de alquiler?"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
-msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
-msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes nombres aparece en su documento de historial de alquiler?"
 
 #: src/Components/Pages/Scanner/ScannerOverlay.tsx:18
 msgid "Looking for your document"
@@ -1267,8 +1275,18 @@ msgid "Next"
 msgstr "Siguiente"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:75
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
+msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:21
 msgid "findings.HRVD.tenancy.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:82
+msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading_multiple"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1277,13 +1295,8 @@ msgid "findings.HRVD.tenancy.heading_multiple"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:27
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:23
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
-msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:67
-msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 
 #. js-lingui-explicit-id
@@ -1909,6 +1922,7 @@ msgid "Temporary exemption"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:57
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:85
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
@@ -1986,7 +2000,7 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:141
 msgid "findings.OVERCHARGE_PREHSTPA.result.dismissed.body"
 msgstr ""
 
@@ -2114,12 +2128,12 @@ msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:119
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:128
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:105
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:114
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
 msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en {year1}, y los bonos permitidos podrían no explicar completamente el salto."
 
@@ -2360,13 +2374,11 @@ msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:11
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:23
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:30
 msgid "vacancy bonus"
 msgstr "bono por vacancia"
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:12
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:24
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:31
 msgid "Vacancy bonus"
 msgstr "Bono por vacancia"
 
