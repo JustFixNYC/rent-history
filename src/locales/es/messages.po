@@ -815,6 +815,11 @@ msgstr ""
 msgid "findings.shared.succession.body"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:39
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.succession.body"
+msgstr ""
+
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
 #~ msgstr ""
@@ -830,6 +835,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:39
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.dismissed.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:108
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1035,6 +1045,11 @@ msgstr ""
 msgid "findings.shared.vacancy.body.self_tenant"
 msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:25
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.body"
+msgstr ""
+
 #: src/Components/TimelineElement/TimelineElement.tsx:106
 msgid "Hide supporting evidence"
 msgstr ""
@@ -1215,6 +1230,11 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Gran aumento de alquiler"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.intro.title"
+msgstr ""
+
 #: src/Components/Pages/Landing/Landing.tsx:156
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
 msgid "Learn more"
@@ -1372,6 +1392,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:26
 msgid "findings.shared.vacancy.heading.tenant_change"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:18
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2203,6 +2228,11 @@ msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:52
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.no_violation.body"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:35
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
@@ -2245,6 +2275,16 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/NoReasonProvidedParagraph.tsx:5
 msgid "timeline.copy.no_reason_provided"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:93
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:70
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2779,6 +2819,12 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:27
 msgid "findings.HRVD.result.potential_violation.body_followup"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:78
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:99
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50

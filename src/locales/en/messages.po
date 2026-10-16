@@ -815,6 +815,11 @@ msgstr "Details"
 msgid "findings.shared.succession.body"
 msgstr "Did you inherit the lease from someone who was on the lease in {year}?"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:39
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.succession.body"
+msgstr "Did you inherit the lease through a process called “Succession” from someone who was on the lease in {year}?"
+
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
 #~ msgstr "Didn't receive a code?"
@@ -831,6 +836,11 @@ msgstr "Didn’t receive a code?"
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:39
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.dismissed.body"
 msgstr "dismissed fidning copy TK"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:108
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.dismissed.body"
+msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:60
@@ -1035,6 +1045,11 @@ msgstr "Go to login"
 msgid "findings.shared.vacancy.body.self_tenant"
 msgstr "Have you been on the lease for this apartment since {leaseSinceYear}?"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:25
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.body"
+msgstr "Have you been on the lease for this apartment since {year0}?"
+
 #: src/Components/TimelineElement/TimelineElement.tsx:106
 msgid "Hide supporting evidence"
 msgstr "Hide supporting evidence"
@@ -1215,6 +1230,11 @@ msgstr "Large increase in preferential rent"
 msgid "findings.OVERCHARGE_PREHSTPA.intro.title"
 msgstr "Large rent increase"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.intro.title"
+msgstr "Large rent increase from {year0} to {year1}"
+
 #: src/Components/Pages/Landing/Landing.tsx:156
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
 msgid "Learn more"
@@ -1373,6 +1393,11 @@ msgstr "Next, let's check how long the previous tenants lived there before the v
 #: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:26
 msgid "findings.shared.vacancy.heading.tenant_change"
 msgstr "Next, let's check if there was a vacancy in {vacancyYear}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:18
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.heading"
+msgstr "Next, let's check if you were the tenant in {lastRegistrationYear}"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:19
@@ -2203,6 +2228,11 @@ msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr "The rent amount you reported for {reportedYear}, appears to be more than what the rent could have reached in {reportedYear}, based on standard RGB increases*."
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:52
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.no_violation.body"
+msgstr "The rent increase from {year0} to {year1} appears to be explained by what's in your rent history. Your report will include more details about the rent increase and missing registration."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:35
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
 msgstr "The increase from ${rent0} in {year0} to ${rent1} in {year1} can be explained by allowable bonuses."
@@ -2246,6 +2276,16 @@ msgstr "There is no reason provided in the rent history document to explain the 
 #: src/Components/TimelineElement/copy/paragraphs/NoReasonProvidedParagraph.tsx:5
 msgid "timeline.copy.no_reason_provided"
 msgstr "There is no reason provided in the rent history document to explain this exemption."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:93
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
+msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:70
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
+msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}. This rent increase does not appear to be fully explained by what we just checked."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:182
@@ -2780,6 +2820,12 @@ msgstr "Your report was emailed successfully. You can also download it above."
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:27
 msgid "findings.HRVD.result.potential_violation.body_followup"
 msgstr "Your report will explain why the destabilization might not have been allowed, and what explanations may be possible."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:78
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:99
+msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
+msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50
 msgid "Your scanned pages"
