@@ -1,7 +1,7 @@
 import type { Finding } from "../../types/finding";
 
 /** Wire finding type constant for registry lookup. */
-export const TYPE = "NONREGISTRATION_PREHSTPA_CURR_TENANT" as const;
+export const TYPE = "NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT" as const;
 
 /** Row index bindings for this type (single source of truth). */
 export const ROW_INDEX = {

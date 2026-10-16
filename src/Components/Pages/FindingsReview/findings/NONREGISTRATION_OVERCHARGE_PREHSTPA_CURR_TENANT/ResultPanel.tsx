@@ -13,7 +13,7 @@ import {
 } from "./ReviewCopy";
 import { ROW_INDEX } from "./spec";
 
-export function renderNonregistrationPrehstpaCurrTenantResult(
+export function renderNonregistrationOverchargePrehstpaCurrTenantResult(
   finding: Finding
 ): FindingResultContent | null {
   const result = finding.result;

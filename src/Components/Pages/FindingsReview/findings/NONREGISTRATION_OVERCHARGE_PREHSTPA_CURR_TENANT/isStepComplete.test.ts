@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import type { NonregistrationPrehstpaCurrTenantFormState } from "./answers";
+import type { NonregistrationOverchargePrehstpaCurrTenantFormState } from "./answers";
 import { isStepComplete } from "./isStepComplete";
 
-const baseFormState: NonregistrationPrehstpaCurrTenantFormState = {
+const baseFormState: NonregistrationOverchargePrehstpaCurrTenantFormState = {
   row0AptStat: "RS",
   row0LegalRent: "1200",
   getsVacancyIncrease: null,
   tookSuccession: null,
 };
 
-describe("NONREGISTRATION_PREHSTPA_CURR_TENANT isStepComplete", () => {
+describe("NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT isStepComplete", () => {
   it("gates ocr_confirm on ocrConfirmed", () => {
     expect(
       isStepComplete("ocr_confirm", baseFormState, { ocrConfirmed: false })

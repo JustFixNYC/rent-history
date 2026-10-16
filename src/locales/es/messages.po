@@ -329,8 +329,8 @@ msgstr ""
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:39
-#~ msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.succession.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:39
+#~ msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.succession.body"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
@@ -339,13 +339,13 @@ msgstr ""
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:25
-#~ msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:25
+#~ msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.vacancy.body"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:18
-#~ msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:18
+#~ msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.vacancy.heading"
 #~ msgstr ""
 
 #. js-lingui-explicit-id
@@ -681,8 +681,8 @@ msgid "timeline.copy.rgb_projection"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:75
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:75
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1260,8 +1260,8 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.intro.title"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.intro.title"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:156
@@ -2257,8 +2257,8 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:19
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:19
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2322,13 +2322,13 @@ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.co
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:60
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:60
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:37
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:37
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2851,9 +2851,9 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.footer
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:45
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:66
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:45
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:66
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr ""
 
 #. js-lingui-explicit-id

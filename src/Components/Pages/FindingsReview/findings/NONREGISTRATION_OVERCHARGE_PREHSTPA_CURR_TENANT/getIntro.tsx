@@ -18,7 +18,7 @@ export function getIntroValues(finding: Finding): IntroValues {
     (typeof reportedRentRaw !== "number" && typeof reportedRentRaw !== "string")
   ) {
     throw new Error(
-      "NONREGISTRATION_PREHSTPA_CURR_TENANT intro requires two rows with reg_year and user legal_rent"
+      "NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT intro requires two rows with reg_year and user legal_rent"
     );
   }
 
@@ -29,7 +29,7 @@ export function getIntroValues(finding: Finding): IntroValues {
 
   if (Number.isNaN(reportedRent)) {
     throw new Error(
-      "NONREGISTRATION_PREHSTPA_CURR_TENANT intro requires numeric legal_rent on user row"
+      "NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT intro requires numeric legal_rent on user row"
     );
   }
 

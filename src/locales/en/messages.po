@@ -329,8 +329,8 @@ msgstr ""
 #~ msgstr "Apartment missing registration"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:39
-#~ msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.succession.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:39
+#~ msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.succession.body"
 #~ msgstr "Did you inherit the lease through a process called “Succession” from someone who was on the lease in {year}?"
 
 #. js-lingui-explicit-id
@@ -339,13 +339,13 @@ msgstr ""
 #~ msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:25
-#~ msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:25
+#~ msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.vacancy.body"
 #~ msgstr "Have you been on the lease for this apartment since {year0}?"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:18
-#~ msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.heading"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:18
+#~ msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.vacancy.heading"
 #~ msgstr "Next, let's check if you were the tenant in {lastRegistrationYear}"
 
 #. js-lingui-explicit-id
@@ -681,8 +681,8 @@ msgid "timeline.copy.rgb_projection"
 msgstr "Based on the <0/>, the rent could have reached {formattedAmount} in year {comparisonYear}."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:75
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:75
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
@@ -1260,8 +1260,8 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title"
 msgstr "Large increase in legal regulated rent"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.intro.title"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.intro.title"
 msgstr "Large rent increase from {year0} to {year1}"
 
 #: src/Components/Pages/Landing/Landing.tsx:156
@@ -2257,8 +2257,8 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body"
 msgstr "The increase in legal regulated rent from ${rent0} in year {year0} to ${rent1} in year {year1} appears to be within the limits of the standard RGB increase."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:19
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:19
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.no_violation.body"
 msgstr "The rent increase from {year0} to {year1} appears to be explained by what's in your rent history. Your report will include more details about the rent increase and missing registration."
 
 #. js-lingui-explicit-id
@@ -2322,13 +2322,13 @@ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.co
 msgstr "There was a large rent increase from {missingFromYear} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}. This rent increase does not appear to be fully explained by what we just reviewed."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:60
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:60
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
 msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:37
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:37
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
 msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}. This rent increase does not appear to be fully explained by what we just checked."
 
 #. js-lingui-explicit-id
@@ -2851,9 +2851,9 @@ msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.footer
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:45
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:66
-msgid "findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:45
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:66
+msgid "findings.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
 #. js-lingui-explicit-id

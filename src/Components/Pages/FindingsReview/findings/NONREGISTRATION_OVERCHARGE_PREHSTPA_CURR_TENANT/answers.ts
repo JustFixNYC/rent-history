@@ -3,7 +3,7 @@ import type { Finding, ValidateFindingAnswers } from "../../types/finding";
 
 import { ROW_INDEX } from "./spec";
 
-export type NonregistrationPrehstpaCurrTenantFormState = {
+export type NonregistrationOverchargePrehstpaCurrTenantFormState = {
   row0AptStat: string;
   row0LegalRent: string;
   getsVacancyIncrease: boolean | null;
@@ -13,7 +13,7 @@ export type NonregistrationPrehstpaCurrTenantFormState = {
 
 export function createInitialFormState(
   finding: Finding
-): NonregistrationPrehstpaCurrTenantFormState {
+): NonregistrationOverchargePrehstpaCurrTenantFormState {
   const row0 = finding.data.rows[ROW_INDEX.context];
   const row1 = finding.data.rows[ROW_INDEX.user];
 
@@ -28,7 +28,7 @@ export function createInitialFormState(
 /** Map collected form state → shape-A `answers.rows` for validate-finding. */
 export function buildAnswers(
   finding: Finding,
-  formState: NonregistrationPrehstpaCurrTenantFormState
+  formState: NonregistrationOverchargePrehstpaCurrTenantFormState
 ): ValidateFindingAnswers {
   const row0 = finding.data.rows[ROW_INDEX.context];
   const row1 = finding.data.rows[ROW_INDEX.user];

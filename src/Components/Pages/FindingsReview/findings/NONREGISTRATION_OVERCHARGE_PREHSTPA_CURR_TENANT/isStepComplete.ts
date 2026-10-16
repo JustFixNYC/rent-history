@@ -1,8 +1,8 @@
-import type { NonregistrationPrehstpaCurrTenantFormState } from "./answers";
+import type { NonregistrationOverchargePrehstpaCurrTenantFormState } from "./answers";
 
 export function isStepComplete(
   stepId: string,
-  formState: NonregistrationPrehstpaCurrTenantFormState,
+  formState: NonregistrationOverchargePrehstpaCurrTenantFormState,
   ctx: { ocrConfirmed: boolean }
 ): boolean {
   switch (stepId) {

@@ -114,14 +114,14 @@
     },
     "validated_at": null
   },
-  "NONREGISTRATION_PREHSTPA_CURR_TENANT": {
+  "NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT": {
     "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "key": {
-      "type": "NONREGISTRATION_PREHSTPA_CURR_TENANT",
+      "type": "NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT",
       "finding_year": 2026,
       "subtype": null
     },
-    "type": "NONREGISTRATION_PREHSTPA_CURR_TENANT",
+    "type": "NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT",
     "finding_year": 2026,
     "status": "pending",
     "data": {

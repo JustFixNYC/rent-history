@@ -11,14 +11,14 @@ import "../../FindingsReview.scss";
 import {
   buildAnswers,
   createInitialFormState,
-  type NonregistrationPrehstpaCurrTenantFormState,
+  type NonregistrationOverchargePrehstpaCurrTenantFormState,
 } from "./answers";
 import { getIntroValues } from "./getIntro";
 import { getSteps } from "./getSteps";
-import { renderNonregistrationPrehstpaCurrTenantResult } from "./ResultPanel";
+import { renderNonregistrationOverchargePrehstpaCurrTenantResult } from "./ResultPanel";
 import { EXCLUDED_ANSWER_KEYS, ROW_INDEX } from "./spec";
 
-const finding = findingExamples.NONREGISTRATION_PREHSTPA_CURR_TENANT as Finding;
+const finding = findingExamples.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT as Finding;
 
 const noopFormChange = () => {};
 
@@ -33,7 +33,7 @@ const renderWithI18n = (ui: React.ReactElement) => {
 };
 
 function stepsForAnswers(answers: ValidateFindingAnswers) {
-  const formState: NonregistrationPrehstpaCurrTenantFormState = {
+  const formState: NonregistrationOverchargePrehstpaCurrTenantFormState = {
     row0AptStat: "RS",
     row0LegalRent: "1200",
     getsVacancyIncrease: answers.rows[1]?.gets_vacancy_increase ?? null,
@@ -50,7 +50,7 @@ function stepsForAnswers(answers: ValidateFindingAnswers) {
   );
 }
 
-describe("NONREGISTRATION_PREHSTPA_CURR_TENANT getSteps", () => {
+describe("NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT getSteps", () => {
   it("returns ocr_confirm, vacancy, and succession step definitions", () => {
     const steps = getSteps({
       finding,
@@ -87,7 +87,7 @@ describe("NONREGISTRATION_PREHSTPA_CURR_TENANT getSteps", () => {
     expect(screen.getAllByRole("combobox")).toHaveLength(1);
     expect(
       document.getElementById(
-        "nonregistration-prehstpa-curr-tenant-ocr-apt-stat-0"
+        "nonregistration-overcharge-prehstpa-curr-tenant-ocr-apt-stat-0"
       )
     ).toBeInTheDocument();
   });
@@ -170,13 +170,13 @@ describe("NONREGISTRATION_PREHSTPA_CURR_TENANT getSteps", () => {
   });
 
   it("clears tookSuccession when vacancy UI changes to Yes", () => {
-    let formState: NonregistrationPrehstpaCurrTenantFormState = {
+    let formState: NonregistrationOverchargePrehstpaCurrTenantFormState = {
       ...createInitialFormState(finding),
       getsVacancyIncrease: true,
       tookSuccession: true,
     };
     const onFormStateChange = (
-      patch: Partial<NonregistrationPrehstpaCurrTenantFormState>
+      patch: Partial<NonregistrationOverchargePrehstpaCurrTenantFormState>
     ) => {
       formState = { ...formState, ...patch };
     };
@@ -220,7 +220,7 @@ describe("getIntroValues", () => {
 
 describe("buildAnswers", () => {
   it("maps form state to shape-A rows without succession or tenancy_start", () => {
-    const formState: NonregistrationPrehstpaCurrTenantFormState = {
+    const formState: NonregistrationOverchargePrehstpaCurrTenantFormState = {
       row0AptStat: "RS",
       row0LegalRent: "1200",
       getsVacancyIncrease: true,
@@ -253,7 +253,7 @@ describe("buildAnswers", () => {
   });
 
   it("maps self-tenant Yes to gets_vacancy_increase false", () => {
-    const formState: NonregistrationPrehstpaCurrTenantFormState = {
+    const formState: NonregistrationOverchargePrehstpaCurrTenantFormState = {
       row0AptStat: "RS",
       row0LegalRent: "1200",
       getsVacancyIncrease: false,
@@ -267,7 +267,7 @@ describe("buildAnswers", () => {
   });
 });
 
-describe("renderNonregistrationPrehstpaCurrTenantResult", () => {
+describe("renderNonregistrationOverchargePrehstpaCurrTenantResult", () => {
   it("uses continuous copy when gets_vacancy_increase is false", () => {
     const findingWithContinuous: Finding = {
       ...finding,
@@ -280,7 +280,7 @@ describe("renderNonregistrationPrehstpaCurrTenantResult", () => {
       },
     };
 
-    const content = renderNonregistrationPrehstpaCurrTenantResult(
+    const content = renderNonregistrationOverchargePrehstpaCurrTenantResult(
       findingWithContinuous
     );
 
@@ -304,7 +304,7 @@ describe("renderNonregistrationPrehstpaCurrTenantResult", () => {
     };
 
     const content =
-      renderNonregistrationPrehstpaCurrTenantResult(findingWithGap);
+      renderNonregistrationOverchargePrehstpaCurrTenantResult(findingWithGap);
 
     renderWithI18n(<>{content?.body}</>);
 
@@ -323,7 +323,7 @@ describe("renderNonregistrationPrehstpaCurrTenantResult", () => {
     };
 
     const content =
-      renderNonregistrationPrehstpaCurrTenantResult(noViolationFinding);
+      renderNonregistrationOverchargePrehstpaCurrTenantResult(noViolationFinding);
 
     renderWithI18n(<>{content?.body}</>);
 

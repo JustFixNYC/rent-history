@@ -1,11 +1,11 @@
 import type { FindingReviewModule } from "../../types/findingModule";
 
 import { buildAnswers, createInitialFormState } from "./answers";
-import type { NonregistrationPrehstpaCurrTenantFormState } from "./answers";
+import type { NonregistrationOverchargePrehstpaCurrTenantFormState } from "./answers";
 import { getIntro } from "./getIntro";
 import { getSteps } from "./getSteps";
 import { isStepComplete } from "./isStepComplete";
-import { renderNonregistrationPrehstpaCurrTenantResult } from "./ResultPanel";
+import { renderNonregistrationOverchargePrehstpaCurrTenantResult } from "./ResultPanel";
 
 export {
   TYPE,
@@ -18,13 +18,13 @@ export type { IntroValues } from "./spec";
 
 export { getIntro, getIntroValues } from "./getIntro";
 export { getSteps } from "./getSteps";
-export type { NonregistrationPrehstpaCurrTenantGetStepsBindings } from "./getSteps";
+export type { NonregistrationOverchargePrehstpaCurrTenantGetStepsBindings } from "./getSteps";
 
 export { buildAnswers, createInitialFormState } from "./answers";
-export type { NonregistrationPrehstpaCurrTenantFormState } from "./answers";
+export type { NonregistrationOverchargePrehstpaCurrTenantFormState } from "./answers";
 
 export { isStepComplete } from "./isStepComplete";
-export { renderNonregistrationPrehstpaCurrTenantResult } from "./ResultPanel";
+export { renderNonregistrationOverchargePrehstpaCurrTenantResult } from "./ResultPanel";
 
 export {
   IntroTitle,
@@ -34,12 +34,12 @@ export {
   ResultDismissedBody,
 } from "./ReviewCopy";
 
-export const findingReviewModule: FindingReviewModule<NonregistrationPrehstpaCurrTenantFormState> =
+export const findingReviewModule: FindingReviewModule<NonregistrationOverchargePrehstpaCurrTenantFormState> =
   {
     createInitialFormState,
     getIntro,
     getSteps,
     buildAnswers,
     isStepComplete,
-    renderResult: renderNonregistrationPrehstpaCurrTenantResult,
+    renderResult: renderNonregistrationOverchargePrehstpaCurrTenantResult,
   };

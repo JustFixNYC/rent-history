@@ -12,15 +12,15 @@ import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
-import type { NonregistrationPrehstpaCurrTenantFormState } from "./answers";
+import type { NonregistrationOverchargePrehstpaCurrTenantFormState } from "./answers";
 import { getIntroValues } from "./getIntro";
 import { ROW_INDEX } from "./spec";
 
-export type NonregistrationPrehstpaCurrTenantGetStepsBindings = {
+export type NonregistrationOverchargePrehstpaCurrTenantGetStepsBindings = {
   finding: Finding;
-  formState: NonregistrationPrehstpaCurrTenantFormState;
+  formState: NonregistrationOverchargePrehstpaCurrTenantFormState;
   onFormStateChange: (
-    patch: Partial<NonregistrationPrehstpaCurrTenantFormState>
+    patch: Partial<NonregistrationOverchargePrehstpaCurrTenantFormState>
   ) => void;
   ocrPhase?: OcrConfirmPhase;
   onOcrConfirm?: () => void;
@@ -37,7 +37,7 @@ const STANDARD_OCR_ROWS = [
 ];
 
 export function getSteps(
-  bindings: NonregistrationPrehstpaCurrTenantGetStepsBindings
+  bindings: NonregistrationOverchargePrehstpaCurrTenantGetStepsBindings
 ): FindingStep[] {
   const {
     finding,
@@ -51,7 +51,7 @@ export function getSteps(
     finding,
     formState,
     onFormStateChange,
-    idPrefix: "nonregistration-prehstpa-curr-tenant",
+    idPrefix: "nonregistration-overcharge-prehstpa-curr-tenant",
     rows: STANDARD_OCR_ROWS,
   });
   const { year0, lastRegistrationYear } = getIntroValues(finding);
@@ -79,7 +79,7 @@ export function getSteps(
         <VacancyStep
           stepNumber={2}
           isPastStep={isPastStep}
-          idPrefix="nonregistration-prehstpa-curr-tenant"
+          idPrefix="nonregistration-overcharge-prehstpa-curr-tenant"
           sharedCopy={buildVacancySelfTenantSharedCopy({
             vacancyYear: lastRegistrationYear,
             leaseSinceYear: year0,
@@ -99,7 +99,7 @@ export function getSteps(
         <SuccessionStep
           stepNumber={3}
           isPastStep={isPastStep}
-          idPrefix="nonregistration-prehstpa-curr-tenant"
+          idPrefix="nonregistration-overcharge-prehstpa-curr-tenant"
           sharedCopy={{ year: year0 }}
           value={formState.tookSuccession}
           onChange={(value) => onFormStateChange({ tookSuccession: value })}
