@@ -8,12 +8,6 @@ import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { HrvdFormState } from "./answers";
-import {
-  TenancyBody,
-  TenancyBodyMultiple,
-  TenancyHeading,
-  TenancyHeadingMultiple,
-} from "./ReviewCopy";
 import { getTenancyRowTenants, ROW_INDEX } from "./spec";
 
 export type HrvdGetStepsBindings = {
@@ -54,6 +48,13 @@ export function getSteps(bindings: HrvdGetStepsBindings): FindingStep[] {
   const isMultiTenant = tenants.length > 1;
   const ocrYears = ocrRows.map((row) => row.regYear);
 
+  const tenancySharedCopy = isMultiTenant
+    ? { variant: "multipleTenants" as const }
+    : {
+        variant: "singleTenant" as const,
+        tenant: tenants[0] ?? "",
+      };
+
   return [
     {
       id: "ocr_confirm",
@@ -78,17 +79,8 @@ export function getSteps(bindings: HrvdGetStepsBindings): FindingStep[] {
           stepNumber={2}
           isPastStep={isPastStep}
           idPrefix="hrvd"
-          title={
-            isMultiTenant ? <TenancyHeadingMultiple /> : <TenancyHeading />
-          }
-          body={
-            isMultiTenant ? (
-              <TenancyBodyMultiple />
-            ) : (
-              <TenancyBody tenant={tenants[0] ?? ""} />
-            )
-          }
-          afterBody={<TenantNameTipsLink />}
+          sharedCopy={tenancySharedCopy}
+          tips={<TenantNameTipsLink />}
           tenants={tenants}
           tenancyStart={formState.tenancyStart}
           onTenancyStartChange={(value) =>

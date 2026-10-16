@@ -120,6 +120,37 @@ describe("NONREGISTRATION_PREHSTPA getSteps", () => {
     expect(visible.map((step) => step.id)).toEqual(["ocr_confirm", "vacancy"]);
   });
 
+  it("renders vacancy step with shared self-tenant copy", () => {
+    const steps = getSteps({
+      finding,
+      formState: createInitialFormState(finding),
+      onFormStateChange: noopFormChange,
+    });
+    const vacancyStep = steps.find((step) => step.id === "vacancy");
+
+    if (!vacancyStep) {
+      throw new Error("vacancy step not found");
+    }
+
+    renderWithI18n(
+      vacancyStep.render({
+        isPastStep: false,
+        isActive: true,
+      }) as React.ReactElement
+    );
+
+    expect(
+      screen.getByText(/check if you were the tenant in 1991/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/on the lease for this apartment since 1991/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("nonregistration-prehstpa-vacancy-step")
+    ).toHaveAttribute("data-variant", "selfTenant");
+    expect(screen.queryByText(/vacancy bonus/i)).not.toBeInTheDocument();
+  });
+
   it("clears tenancyStart when vacancy UI changes to Yes", () => {
     let formState: NonregistrationPrehstpaFormState = {
       ...createInitialFormState(finding),
@@ -206,6 +237,20 @@ describe("buildAnswers", () => {
 
     expect(answers.rows[ROW_INDEX.context].tenancy_start).toBeNull();
     expect(answers.rows[ROW_INDEX.user].gets_vacancy_increase).toBe(false);
+  });
+
+  it("maps self-tenant Yes (on lease since year) to gets_vacancy_increase false", () => {
+    const formState: NonregistrationPrehstpaFormState = {
+      row0AptStat: "RS",
+      row0LegalRent: "850.02",
+      getsVacancyIncrease: false,
+      tenancyStart: null,
+    };
+
+    expect(buildAnswers(finding, formState).rows[ROW_INDEX.user]).toEqual({
+      reg_year: 2026,
+      gets_vacancy_increase: false,
+    });
   });
 
   it("never includes excluded keys (tenants) in answers", () => {

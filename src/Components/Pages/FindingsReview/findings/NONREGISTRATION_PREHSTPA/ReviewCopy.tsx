@@ -3,7 +3,6 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
 import { GlossaryLink } from "../../../../GlossaryLink/GlossaryLink";
-import { YearChip } from "../../../../InlineChip/YearChip";
 
 import type { IntroValues } from "./spec";
 
@@ -12,42 +11,6 @@ export const IntroTitle = () => (
     Apartment missing registration
   </Trans>
 );
-
-export const VacancyHeading = () => {
-  const { _ } = useLingui();
-
-  return (
-    <Trans id="findings.NONREGISTRATION_PREHSTPA.vacancy.heading">
-      Next, let&apos;s check to see if the landlord used something called a{" "}
-      <GlossaryLink
-        term={_(msg`vacancy bonus`)}
-        modalTitle={_(msg`Vacancy bonus`)}
-      />
-      .
-    </Trans>
-  );
-};
-
-type VacancyCopyProps = Pick<IntroValues, "vacancyYear">;
-
-export const VacancyBody = ({ vacancyYear }: VacancyCopyProps) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.NONREGISTRATION_PREHSTPA.vacancy.body">
-      Were you living in this apartment in <YearChip year={vacancyYear} />?
-    </Trans>
-  </p>
-);
-
-export const VacancyYesNoLegend = ({ vacancyYear }: VacancyCopyProps) => {
-  const { _ } = useLingui();
-
-  return _(
-    msg({
-      id: "findings.NONREGISTRATION_PREHSTPA.vacancy.yes_no_legend",
-      message: `Were you living in this apartment in year ${vacancyYear}?`,
-    })
-  );
-};
 
 type ResultCopyProps = Pick<IntroValues, "missingFromYear" | "findingYear">;
 

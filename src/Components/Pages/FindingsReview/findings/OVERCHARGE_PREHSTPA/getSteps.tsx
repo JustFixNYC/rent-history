@@ -10,16 +10,6 @@ import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { PrehstpaFormState } from "./answers";
-import {
-  TenancyBody,
-  TenancyBodyMultiple,
-  TenancyHeading,
-  TenancyHeadingMultiple,
-  VacancyBodyMultiple,
-  VacancyBodySingle,
-  VacancyHeading,
-  VacancyYesNoLegend,
-} from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
 import { getTenancyRowTenants, ROW_INDEX } from "./spec";
 
@@ -68,6 +58,28 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
   const isMultiTenant = tenants.length > 1;
   const ocrYears = ocrRows.map((row) => row.regYear);
 
+  const vacancySharedCopy = isMultiTenant
+    ? {
+        variant: "multipleTenants" as const,
+        vacancyYear: year1,
+        year0,
+        year1,
+      }
+    : {
+        variant: "singleTenant" as const,
+        vacancyYear: year1,
+        tenant: tenants[0] ?? "",
+        year0,
+        year1,
+      };
+
+  const tenancySharedCopy = isMultiTenant
+    ? { variant: "multipleTenants" as const }
+    : {
+        variant: "singleTenant" as const,
+        tenant: tenants[0] ?? "",
+      };
+
   return [
     {
       id: "ocr_confirm",
@@ -92,21 +104,9 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
           stepNumber={2}
           isPastStep={isPastStep}
           idPrefix="prehstpa"
-          title={<VacancyHeading vacancyYear={year1} />}
-          body={
-            isMultiTenant ? (
-              <VacancyBodyMultiple year0={year0} year1={year1} />
-            ) : (
-              <VacancyBodySingle
-                tenant={tenants[0] ?? ""}
-                year0={year0}
-                year1={year1}
-              />
-            )
-          }
+          sharedCopy={vacancySharedCopy}
           tenants={isMultiTenant ? tenants : undefined}
-          afterBody={<TenantNameTipsLink />}
-          yesNoLegend={<VacancyYesNoLegend />}
+          tips={<TenantNameTipsLink />}
           getsVacancyIncrease={formState.getsVacancyIncrease}
           onGetsVacancyIncreaseChange={(value) => {
             if (value === false) {
@@ -130,17 +130,8 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
           stepNumber={3}
           isPastStep={isPastStep}
           idPrefix="prehstpa"
-          title={
-            isMultiTenant ? <TenancyHeadingMultiple /> : <TenancyHeading />
-          }
-          body={
-            isMultiTenant ? (
-              <TenancyBodyMultiple />
-            ) : (
-              <TenancyBody tenant={tenants[0] ?? ""} />
-            )
-          }
-          afterBody={<TenantNameTipsLink />}
+          sharedCopy={tenancySharedCopy}
+          tips={<TenantNameTipsLink />}
           tenants={tenants}
           tenancyStart={formState.tenancyStart}
           onTenancyStartChange={(value) =>

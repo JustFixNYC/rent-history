@@ -171,6 +171,10 @@ describe("OVERCHARGE_PREHSTPA getSteps", () => {
         name: "Tips for reviewing tenant names",
       })
     ).toBeInTheDocument();
+    expect(screen.getByTestId("prehstpa-vacancy-step")).toHaveAttribute(
+      "data-variant",
+      "singleTenant"
+    );
   });
 
   it("renders single-tenant tenancy step for one tenant", () => {

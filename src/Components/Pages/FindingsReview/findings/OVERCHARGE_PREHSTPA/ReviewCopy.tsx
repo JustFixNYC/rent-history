@@ -2,8 +2,7 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 
-import { DocumentLink } from "../../../../DocumentLink/DocumentLink";
-import { FindingTenantName } from "../../shared/FindingTenantName";
+import { VacancyBodyMultipleTenants } from "../../shared/vacancyStepCopy";
 
 import type { IntroValues } from "./spec";
 
@@ -15,47 +14,17 @@ export const IntroTitle = ({ year0, year1 }: IntroTitleProps) => (
   </Trans>
 );
 
-type VacancyHeadingProps = {
-  vacancyYear: number;
-};
-
-export const VacancyHeading = ({ vacancyYear }: VacancyHeadingProps) => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.heading">
-    Next, let&apos;s check if there was a vacancy in {vacancyYear}
-  </Trans>
-);
-
 type VacancyBodyProps = {
   year0: number;
   year1: number;
 };
 
-type VacancyBodySingleProps = VacancyBodyProps & {
-  tenant: string;
-};
-
-export const VacancyBodySingle = ({
-  tenant,
-  year0,
-  year1,
-}: VacancyBodySingleProps) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.body_single">
-      Check <DocumentLink />. Is <FindingTenantName name={tenant} /> listed as
-      the tenant in {year0} <em>and</em> {year1}?
-    </Trans>
-  </p>
+/** @deprecated Task 5 — prefer shared vacancy copy via `VacancyStep` `sharedCopy`. */
+export const VacancyBody = ({ year0, year1 }: VacancyBodyProps) => (
+  <VacancyBodyMultipleTenants year0={year0} year1={year1} />
 );
 
-export const VacancyBodyMultiple = ({ year0, year1 }: VacancyBodyProps) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.OVERCHARGE_PREHSTPA.vacancy.body_multiple">
-      Check <DocumentLink />. Is one or more of the following names listed as
-      the tenant in {year0} <em>and</em> {year1}?
-    </Trans>
-  </p>
-);
-
+/** @deprecated Task 5 — standard variants use body + `aria-labelledby` instead. */
 export const VacancyYesNoLegend = () => {
   const { _ } = useLingui();
 
@@ -66,42 +35,6 @@ export const VacancyYesNoLegend = () => {
     })
   );
 };
-
-type TenancyCopyProps = {
-  tenant: string;
-};
-
-export const TenancyHeading = () => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.heading">
-    Next, let&apos;s check how long the previous tenant lived there before the
-    vacancy
-  </Trans>
-);
-
-export const TenancyHeadingMultiple = () => (
-  <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.heading_multiple">
-    Next, let&apos;s check how long the previous tenants lived there before the
-    vacancy
-  </Trans>
-);
-
-export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body">
-      Check <DocumentLink />. What is the earliest year{" "}
-      <FindingTenantName name={tenant} /> is listed as a tenant?
-    </Trans>
-  </p>
-);
-
-export const TenancyBodyMultiple = () => (
-  <p className="finding-step-copy">
-    <Trans id="findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple">
-      Check <DocumentLink />. What is the earliest year one or more of the
-      following names is listed as a tenant?
-    </Trans>
-  </p>
-);
 
 type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
 

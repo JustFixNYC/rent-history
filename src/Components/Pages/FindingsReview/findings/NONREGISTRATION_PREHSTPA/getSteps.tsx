@@ -8,14 +8,7 @@ import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
-import {
-  TenancyBody,
-  TenancyBodyMultiple,
-  TenancyHeading,
-} from "../OVERCHARGE_PREHSTPA/ReviewCopy";
-
 import type { NonregistrationPrehstpaFormState } from "./answers";
-import { VacancyBody, VacancyHeading, VacancyYesNoLegend } from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
 import { getTenancyRowTenants, ROW_INDEX } from "./spec";
 
@@ -59,6 +52,13 @@ export function getSteps(
   const tenants = getTenancyRowTenants(finding);
   const isMultiTenant = tenants.length > 1;
 
+  const tenancySharedCopy = isMultiTenant
+    ? { variant: "multipleTenants" as const }
+    : {
+        variant: "singleTenant" as const,
+        tenant: tenants[0] ?? "",
+      };
+
   return [
     {
       id: "ocr_confirm",
@@ -83,9 +83,11 @@ export function getSteps(
           stepNumber={2}
           isPastStep={isPastStep}
           idPrefix="nonregistration-prehstpa"
-          title={<VacancyHeading />}
-          body={<VacancyBody vacancyYear={vacancyYear} />}
-          yesNoLegend={<VacancyYesNoLegend vacancyYear={vacancyYear} />}
+          sharedCopy={{
+            variant: "selfTenant",
+            vacancyYear,
+            leaseSinceYear: vacancyYear,
+          }}
           getsVacancyIncrease={formState.getsVacancyIncrease}
           onGetsVacancyIncreaseChange={(value) => {
             if (value === false) {
@@ -109,14 +111,7 @@ export function getSteps(
           stepNumber={3}
           isPastStep={isPastStep}
           idPrefix="nonregistration-prehstpa"
-          title={<TenancyHeading />}
-          body={
-            isMultiTenant ? (
-              <TenancyBodyMultiple />
-            ) : (
-              <TenancyBody tenant={tenants[0] ?? ""} />
-            )
-          }
+          sharedCopy={tenancySharedCopy}
           tenants={tenants}
           tenancyStart={formState.tenancyStart}
           onTenancyStartChange={(value) =>

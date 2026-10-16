@@ -1,8 +1,5 @@
 import { Trans } from "@lingui/react/macro";
 
-import { DocumentLink } from "../../../../DocumentLink/DocumentLink";
-import { FindingTenantName } from "../../shared/FindingTenantName";
-
 import type { IntroValues } from "./spec";
 
 export const IntroTitle = ({
@@ -11,42 +8,6 @@ export const IntroTitle = ({
   <Trans id="findings.HRVD.intro.title">
     Apartment destabilized in {findingYear}
   </Trans>
-);
-
-type TenancyCopyProps = {
-  tenant: string;
-};
-
-export const TenancyHeading = () => (
-  <Trans id="findings.HRVD.tenancy.heading">
-    Next, let&apos;s check how long the previous tenant lived there before the
-    vacancy
-  </Trans>
-);
-
-export const TenancyHeadingMultiple = () => (
-  <Trans id="findings.HRVD.tenancy.heading_multiple">
-    Next, let&apos;s check how long the previous tenants lived there before the
-    vacancy
-  </Trans>
-);
-
-export const TenancyBody = ({ tenant }: TenancyCopyProps) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.HRVD.tenancy.body">
-      Check <DocumentLink />. What is the earliest year{" "}
-      <FindingTenantName name={tenant} /> is listed as a tenant?
-    </Trans>
-  </p>
-);
-
-export const TenancyBodyMultiple = () => (
-  <p className="finding-step-copy">
-    <Trans id="findings.HRVD.tenancy.body_multiple">
-      Check <DocumentLink />. What is the earliest year one or more of the
-      following names is listed as a tenant?
-    </Trans>
-  </p>
 );
 
 type ResultCopyProps = {
