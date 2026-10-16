@@ -28,7 +28,7 @@ export const ANALYSIS_FLOW_STEPS: readonly AnalysisFlowStep[] = [
   },
   {
     stepId: "rent-questions",
-    title: msg`Your rent amount`,
+    title: msg`Your apartment`,
     showStepNumber: true,
   },
   { stepId: "scanner", title: msg`Scan`, showStepNumber: true },
