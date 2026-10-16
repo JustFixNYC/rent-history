@@ -79,7 +79,7 @@ describe("NONREGISTRATION_PREFRENT_POSTHSTPA getSteps", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders preferential rent vacancy heading", () => {
+  it("renders vacancy step with shared self-tenant copy", () => {
     const steps = getSteps({
       finding,
       formState: createInitialFormState(finding),
@@ -99,8 +99,14 @@ describe("NONREGISTRATION_PREFRENT_POSTHSTPA getSteps", () => {
     );
 
     expect(
-      screen.getByText(/tenant receiving preferential rent/i)
+      screen.getByText(/check if you were the tenant in 2019/i)
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(/on the lease for this apartment since 2019/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("nonregistration-prefrent-posthstpa-vacancy-step")
+    ).toHaveAttribute("data-variant", "selfTenant");
   });
 });
 

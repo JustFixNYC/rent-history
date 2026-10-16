@@ -1,8 +1,4 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-
-import { VacancyBodyMultipleTenants } from "../../shared/vacancyStepCopy";
 
 import type { IntroValues } from "./spec";
 
@@ -13,28 +9,6 @@ export const IntroTitle = ({ year0, year1 }: IntroTitleProps) => (
     Large rent increase from {year0} to {year1}
   </Trans>
 );
-
-type VacancyBodyProps = {
-  year0: number;
-  year1: number;
-};
-
-/** @deprecated Task 5 — prefer shared vacancy copy via `VacancyStep` `sharedCopy`. */
-export const VacancyBody = ({ year0, year1 }: VacancyBodyProps) => (
-  <VacancyBodyMultipleTenants year0={year0} year1={year1} />
-);
-
-/** @deprecated Task 5 — standard variants use body + `aria-labelledby` instead. */
-export const VacancyYesNoLegend = () => {
-  const { _ } = useLingui();
-
-  return _(
-    msg({
-      id: "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend",
-      message: "Are the same tenant or tenants listed in both years?",
-    })
-  );
-};
 
 type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
 

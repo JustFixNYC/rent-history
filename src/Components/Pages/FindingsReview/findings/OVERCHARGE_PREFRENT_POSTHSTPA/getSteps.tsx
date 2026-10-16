@@ -1,20 +1,15 @@
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
+import { TenantNameTipsLink } from "../../shared/TenantNameTipsLink";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { VacancyStep } from "../../steps/VacancyStep";
 import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
-import {
-  VacancyBody,
-  VacancyYesNoLegend,
-} from "../OVERCHARGE_PREHSTPA/ReviewCopy";
-
 import type { PrefrentPosthstpaFormState } from "./answers";
-import { OcrConfirmIntro } from "../../shared/stepCopy";
-import { VacancyHeading } from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
-import { ROW_INDEX } from "./spec";
+import { getTenancyRowTenants, ROW_INDEX } from "./spec";
 
 export type PrefrentPosthstpaGetStepsBindings = {
   finding: Finding;
@@ -59,6 +54,24 @@ export function getSteps(
     rows: STANDARD_OCR_ROWS,
   });
   const { year0, year1 } = getIntroValues(finding);
+  const tenants = getTenancyRowTenants(finding);
+  const isMultiTenant = tenants.length > 1;
+  const ocrYears = ocrRows.map((row) => row.regYear);
+
+  const vacancySharedCopy = isMultiTenant
+    ? {
+        variant: "multipleTenants" as const,
+        vacancyYear: year1,
+        year0,
+        year1,
+      }
+    : {
+        variant: "singleTenant" as const,
+        vacancyYear: year1,
+        tenant: tenants[0] ?? "",
+        year0,
+        year1,
+      };
 
   return [
     {
@@ -67,7 +80,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
+          intro={<OcrConfirmIntro years={ocrYears} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}
@@ -84,9 +97,9 @@ export function getSteps(
           stepNumber={2}
           isPastStep={isPastStep}
           idPrefix="prefrent-posthstpa"
-          title={<VacancyHeading year0={year0} year1={year1} />}
-          body={<VacancyBody year0={year0} year1={year1} />}
-          yesNoLegend={<VacancyYesNoLegend />}
+          sharedCopy={vacancySharedCopy}
+          tenants={isMultiTenant ? tenants : undefined}
+          tips={<TenantNameTipsLink />}
           getsVacancyIncrease={formState.getsVacancyIncrease}
           onGetsVacancyIncreaseChange={(value) => {
             onFormStateChange({ getsVacancyIncrease: value });

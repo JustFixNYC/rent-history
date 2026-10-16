@@ -28,9 +28,6 @@ export { renderNonregistrationPrefrentPosthstpaResult } from "./ResultPanel";
 
 export {
   IntroTitle,
-  VacancyHeading,
-  VacancyBody,
-  VacancyYesNoLegend,
   ResultPotentialViolationBody,
   ResultNoViolationBody,
   ResultDismissedBody,

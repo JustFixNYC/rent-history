@@ -44,3 +44,7 @@ export type IntroValues = {
   year0: number;
   year1: number;
 };
+
+export function getTenancyRowTenants(finding: Finding): string[] {
+  return finding.data.rows[ROW_INDEX.row0]?.tenants?.filter(Boolean) ?? [];
+}

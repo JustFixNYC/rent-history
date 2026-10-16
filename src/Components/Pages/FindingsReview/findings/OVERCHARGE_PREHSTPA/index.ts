@@ -28,14 +28,6 @@ export { renderPrehstpaResult } from "./ResultPanel";
 
 export {
   IntroTitle,
-  VacancyHeading,
-  VacancyBodySingle,
-  VacancyBodyMultiple,
-  VacancyYesNoLegend,
-  TenancyHeading,
-  TenancyHeadingMultiple,
-  TenancyBody,
-  TenancyBodyMultiple,
   ResultPotentialViolationBody,
   ResultNoViolationBody,
   ResultDismissedBody,

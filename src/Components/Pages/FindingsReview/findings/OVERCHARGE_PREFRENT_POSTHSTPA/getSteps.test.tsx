@@ -77,6 +77,38 @@ describe("OVERCHARGE_PREFRENT_POSTHSTPA getSteps", () => {
       document.getElementById("prefrent-posthstpa-ocr-pref-rent-1")
     ).toBeInTheDocument();
   });
+
+  it("renders vacancy step with shared tenant-change copy", () => {
+    const steps = getSteps({
+      finding,
+      formState: createInitialFormState(finding),
+      onFormStateChange: noopFormChange,
+    });
+    const vacancyStep = steps.find((step) => step.id === "vacancy");
+
+    if (!vacancyStep) {
+      throw new Error("vacancy step not found");
+    }
+
+    renderWithI18n(
+      vacancyStep.render({
+        isPastStep: false,
+        isActive: true,
+      }) as React.ReactElement
+    );
+
+    expect(
+      screen.getByText(/check if there was a vacancy in 2020/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Tips for reviewing tenant names",
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("prefrent-posthstpa-vacancy-step")
+    ).toHaveAttribute("data-variant", "singleTenant");
+  });
 });
 
 describe("getIntroValues", () => {

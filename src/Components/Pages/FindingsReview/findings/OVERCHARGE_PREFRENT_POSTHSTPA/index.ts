@@ -28,7 +28,6 @@ export { renderPrefrentPosthstpaResult } from "./ResultPanel";
 
 export {
   IntroTitle,
-  VacancyHeading,
   ResultPotentialViolationVacancyBody,
   ResultPotentialViolationNoVacancyBody,
   ResultNoViolationBody,

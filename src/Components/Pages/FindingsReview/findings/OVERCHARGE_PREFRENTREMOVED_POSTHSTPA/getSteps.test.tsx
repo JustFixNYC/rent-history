@@ -90,6 +90,33 @@ describe("OVERCHARGE_PREFRENTREMOVED_POSTHSTPA getSteps", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders vacancy step with shared tenant-change copy", () => {
+    const steps = getSteps({
+      finding,
+      formState: createInitialFormState(finding),
+      onFormStateChange: noopFormChange,
+    });
+    const vacancyStep = steps.find((step) => step.id === "vacancy");
+
+    if (!vacancyStep) {
+      throw new Error("vacancy step not found");
+    }
+
+    renderWithI18n(
+      vacancyStep.render({
+        isPastStep: false,
+        isActive: true,
+      }) as React.ReactElement
+    );
+
+    expect(
+      screen.getByText(/check if there was a vacancy in 2020/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("prefrentremoved-posthstpa-vacancy-step")
+    ).toHaveAttribute("data-variant", "singleTenant");
+  });
+
   it("disables row-1 pref rent input when no-pref-rent checkbox is checked", () => {
     const steps = getSteps({
       finding,

@@ -7,7 +7,6 @@ import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { NonregistrationPrefrentPosthstpaFormState } from "./answers";
-import { VacancyBody, VacancyHeading, VacancyYesNoLegend } from "./ReviewCopy";
 import { getIntroValues } from "./getIntro";
 import { ROW_INDEX } from "./spec";
 
@@ -49,7 +48,8 @@ export function getSteps(
     idPrefix: "nonregistration-prefrent-posthstpa",
     rows: STANDARD_OCR_ROWS,
   });
-  const { year0 } = getIntroValues(finding);
+  const { vacancyYear } = getIntroValues(finding);
+  const ocrYears = ocrRows.map((row) => row.regYear);
 
   return [
     {
@@ -58,7 +58,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
+          intro={<OcrConfirmIntro years={ocrYears} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}
@@ -75,9 +75,11 @@ export function getSteps(
           stepNumber={2}
           isPastStep={isPastStep}
           idPrefix="nonregistration-prefrent-posthstpa"
-          title={<VacancyHeading year0={year0} />}
-          body={<VacancyBody year0={year0} />}
-          yesNoLegend={<VacancyYesNoLegend year0={year0} />}
+          sharedCopy={{
+            variant: "selfTenant",
+            vacancyYear,
+            leaseSinceYear: vacancyYear,
+          }}
           getsVacancyIncrease={formState.getsVacancyIncrease}
           onGetsVacancyIncreaseChange={(value) => {
             onFormStateChange({ getsVacancyIncrease: value });

@@ -1,8 +1,4 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-
-import { YearChip } from "../../../../InlineChip/YearChip";
 
 import type { IntroValues } from "./spec";
 
@@ -11,34 +7,6 @@ export const IntroTitle = () => (
     Apartment missing registration
   </Trans>
 );
-
-type VacancyCopyProps = Pick<IntroValues, "year0">;
-
-export const VacancyHeading = ({ year0 }: VacancyCopyProps) => (
-  <Trans id="findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.heading">
-    Let&apos;s check to see if you were the tenant receiving preferential rent
-    in year {year0}.
-  </Trans>
-);
-
-export const VacancyBody = ({ year0 }: VacancyCopyProps) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.body">
-      Were you living in this apartment in <YearChip year={year0} />?
-    </Trans>
-  </p>
-);
-
-export const VacancyYesNoLegend = ({ year0 }: VacancyCopyProps) => {
-  const { _ } = useLingui();
-
-  return _(
-    msg({
-      id: "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.yes_no_legend",
-      message: `Were you living in this apartment in year ${year0}?`,
-    })
-  );
-};
 
 type ResultCopyProps = Pick<IntroValues, "missingFromYear">;
 

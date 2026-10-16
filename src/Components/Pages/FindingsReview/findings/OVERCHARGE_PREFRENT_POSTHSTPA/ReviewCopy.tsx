@@ -1,21 +1,10 @@
 import { Trans } from "@lingui/react/macro";
 
-import { YearChip } from "../../../../InlineChip/YearChip";
-
 import type { IntroValues } from "./spec";
 
 export const IntroTitle = () => (
   <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title">
     Large increase in preferential rent
-  </Trans>
-);
-
-type VacancyHeadingProps = Pick<IntroValues, "year0" | "year1">;
-
-export const VacancyHeading = ({ year0, year1 }: VacancyHeadingProps) => (
-  <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.vacancy.heading">
-    Next, let&apos;s check to see if there was a change in tenancy from{" "}
-    <YearChip year={year0} /> to <YearChip year={year1} />.
   </Trans>
 );
 
