@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
+import { Trans } from "@lingui/react/macro";
 import { Button, LinkStyledButton } from "@justfixnyc/component-library";
 
 import { FindingFormShell } from "../FindingFormShell";
@@ -67,7 +68,7 @@ export const OcrConfirmStep = ({
 
   const resolvedConfirmLabel =
     confirmLabel ?? _(msg`Yes, this matches my rent history`);
-  const resolvedConfirmedLabel = confirmedLabel ?? _(msg`Values confirmed`);
+  const resolvedConfirmedLabel = confirmedLabel ?? resolvedConfirmLabel;
   const resolvedEditLabel = editLabel ?? _(msg`Edit`);
 
   return (
@@ -89,7 +90,9 @@ export const OcrConfirmStep = ({
               ) : null}
               <div className="ocr-confirm-step__row-block">
                 <h3 className="ocr-confirm-step__year-heading">
-                  {row.regYear}
+                  <Trans id="findings.ocr_confirm.year_heading">
+                    Year: {row.regYear}
+                  </Trans>
                 </h3>
                 <div className="ocr-confirm-step__values-row">
                   <div className="ocr-confirm-step__values-left">

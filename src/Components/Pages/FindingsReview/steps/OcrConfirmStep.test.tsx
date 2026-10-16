@@ -81,6 +81,9 @@ describe("OcrConfirmStep", () => {
       screen.getByRole("button", { name: "Yes, this matches my rent history" })
     ).toBeInTheDocument();
 
+    expect(screen.getByText(/Year:\s*1991/i)).toBeInTheDocument();
+    expect(screen.getByText(/Year:\s*1992/i)).toBeInTheDocument();
+
     const rentInputs = screen.getAllByRole("textbox", {
       name: "Legal Regulated Rent",
     });
@@ -103,8 +106,11 @@ describe("OcrConfirmStep", () => {
     expect(shell).toHaveAttribute("data-variant", "completed");
 
     expect(
-      screen.getByRole("button", { name: "Values confirmed" })
+      screen.getByRole("button", { name: "Yes, this matches my rent history" })
     ).toBeDisabled();
+
+    expect(screen.getByText(/Year:\s*1991/i)).toBeInTheDocument();
+    expect(screen.getByText(/Year:\s*1992/i)).toBeInTheDocument();
 
     screen
       .getAllByRole("textbox", { name: "Legal Regulated Rent" })

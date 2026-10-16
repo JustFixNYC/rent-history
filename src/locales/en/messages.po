@@ -596,25 +596,30 @@ msgstr "Change <0>Camera</0> to <1>Allow.</1>"
 #. js-lingui-explicit-id
 #. placeholder {0}: years[0]
 #. placeholder {1}: years[1]
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:41
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:41
 msgid "findings.ocr_confirm.intro.two_years"
 msgstr "Check <0/>. Does what you see in {0} and {1} match what's below? If not, please update below."
 
 #. js-lingui-explicit-id
 #. placeholder {0}: years[0]
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:30
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:30
 msgid "findings.ocr_confirm.intro.one_year"
 msgstr "Check <0/>. Does what you see in {0} match what's below? If not, please update below."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:54
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:54
 msgid "findings.ocr_confirm.intro.many_years"
 msgstr "Check <0/>. Does what you see in {leadingYears}, and {lastYear} match what's below? If not, please update below."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:19
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:19
 msgid "findings.ocr_confirm.intro.no_years"
 msgstr "Check <0/>. Does what you see match what's below? If not, please update below."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:58
+msgid "findings.shared.vacancy.body.single_tenant"
+msgstr "Check <0/>. Is <1/> listed as the tenant in {year0} <2>and</2> {year1}?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:43
@@ -622,9 +627,19 @@ msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body_single"
 msgstr "Check <0/>. Is <1/> listed as the tenant in {year0} <2>and</2> {year1}?"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:75
+msgid "findings.shared.vacancy.body.multiple_tenants"
+msgstr "Check <0/>. Is one or more of the following names listed as the tenant in {year0} <1>and</1> {year1}?"
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:52
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body_multiple"
 msgstr "Check <0/>. Is one or more of the following names listed as the tenant in {year0} <1>and</1> {year1}?"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:38
+msgid "findings.shared.tenancy.body.single"
+msgstr "Check <0/>. What is the earliest year <1/> is listed as a tenant?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:90
@@ -635,6 +650,11 @@ msgstr "Look at <0/> — What is the earliest year <1/> appears as a tenant in y
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:36
 msgid "findings.HRVD.tenancy.body"
 msgstr "Check <0/>. What is the earliest year <1/> is listed as a tenant?"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:47
+msgid "findings.shared.tenancy.body.multiple"
+msgstr "Check <0/>. What is the earliest year one or more of the following names is listed as a tenant?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:99
@@ -730,6 +750,11 @@ msgstr "Details"
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "Did tenants in the earlier year appear in the later year?"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/successionStepCopy.tsx:15
+msgid "findings.shared.succession.body"
+msgstr "Did you inherit the lease from someone who was on the lease in {year}?"
+
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
 #~ msgstr "Didn't receive a code?"
@@ -784,7 +809,7 @@ msgstr "Download report"
 #~ msgid "Dynamsoft"
 #~ msgstr "Dynamsoft"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:72
 msgid "Edit"
 msgstr "Edit"
 
@@ -884,7 +909,7 @@ msgid "Finish scanning"
 msgstr "Finish scanning"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:6
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:6
 msgid "findings.ocr_confirm.heading"
 msgstr "First, let's confirm we have the correct information"
 
@@ -944,6 +969,11 @@ msgstr "Glossary"
 #: src/Components/Pages/ResumePage/ResumePage.tsx:90
 msgid "Go to login"
 msgstr "Go to login"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:40
+msgid "findings.shared.vacancy.body.self_tenant"
+msgstr "Have you been on the lease for this apartment since {leaseSinceYear}?"
 
 #: src/Components/TimelineElement/TimelineElement.tsx:106
 msgid "Hide supporting evidence"
@@ -1275,6 +1305,11 @@ msgid "Next"
 msgstr "Next"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:23
+msgid "findings.shared.tenancy.heading.single"
+msgstr "Next, let's check how long the previous tenant lived there before the vacancy"
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:75
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "Next, let's check to see if the landlord used something called a <0/>."
@@ -1283,6 +1318,11 @@ msgstr "Next, let's check to see if the landlord used something called a <0/>."
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:21
 msgid "findings.HRVD.tenancy.heading"
 msgstr "Next, let's check how long the previous tenant lived there before the vacancy"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:15
+msgid "findings.shared.tenancy.heading.multiple"
+msgstr "Next, let's check how long the previous tenants lived there before the vacancy"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:82
@@ -1295,9 +1335,19 @@ msgid "findings.HRVD.tenancy.heading_multiple"
 msgstr "Next, let's check how long the previous tenants lived there before the vacancy"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:26
+msgid "findings.shared.vacancy.heading.tenant_change"
+msgstr "Next, let's check if there was a vacancy in {vacancyYear}"
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:23
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
 msgstr "Next, let's check to see if the landlord used something called a <0/>."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:19
+msgid "findings.shared.vacancy.heading.self_tenant"
+msgstr "Next, let's check if you were the tenant in {vacancyYear}"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:20
@@ -1359,6 +1409,11 @@ msgstr "No violation found"
 #: src/Components/Pages/FindingsReview/resultCopy.tsx:23
 msgid "findings.result.dismissed.title"
 msgstr "No violation found"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/successionStepCopy.tsx:4
+msgid "findings.shared.succession.heading"
+msgstr "Now, let's check if you took succession of this apartment"
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:59
@@ -2383,8 +2438,8 @@ msgid "Vacancy bonus"
 msgstr "Vacancy bonus"
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
-msgid "Values confirmed"
-msgstr "Values confirmed"
+#~ msgid "Values confirmed"
+#~ msgstr "Values confirmed"
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:88
 msgid "Verification code"
@@ -2564,6 +2619,12 @@ msgstr "With these increases, the landlord was allowed to raise the rent in year
 msgid "timeline.copy.allowed_raise.increase"
 msgstr "With this increase, the landlord was allowed to raise the rent in year {year} up to {formattedAmount}."
 
+#. js-lingui-explicit-id
+#. placeholder {0}: row.regYear
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:93
+msgid "findings.ocr_confirm.year_heading"
+msgstr "Year: {0}"
+
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
 msgid "Yes"
 msgstr "Yes"
@@ -2572,7 +2633,7 @@ msgstr "Yes"
 #~ msgid "Yes, this matches my document"
 #~ msgstr "Yes, this matches my document"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
 msgid "Yes, this matches my rent history"
 msgstr "Yes, this matches my rent history"
 

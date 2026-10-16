@@ -596,24 +596,29 @@ msgstr ""
 #. js-lingui-explicit-id
 #. placeholder {0}: years[0]
 #. placeholder {1}: years[1]
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:41
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:41
 msgid "findings.ocr_confirm.intro.two_years"
 msgstr ""
 
 #. js-lingui-explicit-id
 #. placeholder {0}: years[0]
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:30
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:30
 msgid "findings.ocr_confirm.intro.one_year"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:54
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:54
 msgid "findings.ocr_confirm.intro.many_years"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:19
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:19
 msgid "findings.ocr_confirm.intro.no_years"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:58
+msgid "findings.shared.vacancy.body.single_tenant"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -622,8 +627,18 @@ msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body_single"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:75
+msgid "findings.shared.vacancy.body.multiple_tenants"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:52
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body_multiple"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:38
+msgid "findings.shared.tenancy.body.single"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -634,6 +649,11 @@ msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:36
 msgid "findings.HRVD.tenancy.body"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:47
+msgid "findings.shared.tenancy.body.multiple"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -730,6 +750,11 @@ msgstr ""
 msgid "Did tenants in the earlier year appear in the later year?"
 msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/successionStepCopy.tsx:15
+msgid "findings.shared.succession.body"
+msgstr ""
+
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
 #~ msgstr ""
@@ -784,7 +809,7 @@ msgstr ""
 #~ msgid "Dynamsoft"
 #~ msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:71
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:72
 msgid "Edit"
 msgstr "Editar"
 
@@ -884,7 +909,7 @@ msgid "Finish scanning"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/shared/stepCopy.tsx:6
+#: src/Components/Pages/FindingsReview/shared/ocrStepCopy.tsx:6
 msgid "findings.ocr_confirm.heading"
 msgstr ""
 
@@ -943,6 +968,11 @@ msgstr "Glosario"
 
 #: src/Components/Pages/ResumePage/ResumePage.tsx:90
 msgid "Go to login"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:40
+msgid "findings.shared.vacancy.body.self_tenant"
 msgstr ""
 
 #: src/Components/TimelineElement/TimelineElement.tsx:106
@@ -1275,6 +1305,11 @@ msgid "Next"
 msgstr "Siguiente"
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:23
+msgid "findings.shared.tenancy.heading.single"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:75
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
@@ -1282,6 +1317,11 @@ msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:21
 msgid "findings.HRVD.tenancy.heading"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/tenancyStepCopy.tsx:15
+msgid "findings.shared.tenancy.heading.multiple"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1295,9 +1335,19 @@ msgid "findings.HRVD.tenancy.heading_multiple"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:26
+msgid "findings.shared.vacancy.heading.tenant_change"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:23
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.heading"
 msgstr "A continuación, veamos si el propietario usó algo llamado <0/>."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/vacancyStepCopy.tsx:19
+msgid "findings.shared.vacancy.heading.self_tenant"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:20
@@ -1358,6 +1408,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/resultCopy.tsx:23
 msgid "findings.result.dismissed.title"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/shared/successionStepCopy.tsx:4
+msgid "findings.shared.succession.heading"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2383,8 +2438,8 @@ msgid "Vacancy bonus"
 msgstr "Bono por vacancia"
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
-msgid "Values confirmed"
-msgstr "Valores confirmados"
+#~ msgid "Values confirmed"
+#~ msgstr "Valores confirmados"
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:88
 msgid "Verification code"
@@ -2564,6 +2619,12 @@ msgstr ""
 msgid "timeline.copy.allowed_raise.increase"
 msgstr ""
 
+#. js-lingui-explicit-id
+#. placeholder {0}: row.regYear
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:93
+msgid "findings.ocr_confirm.year_heading"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
 msgid "Yes"
 msgstr "Sí"
@@ -2572,7 +2633,7 @@ msgstr "Sí"
 #~ msgid "Yes, this matches my document"
 #~ msgstr "Sí, coincide con mi documento"
 
-#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:69
+#: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
 msgid "Yes, this matches my rent history"
 msgstr ""
 
