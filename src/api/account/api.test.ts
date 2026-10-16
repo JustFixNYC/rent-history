@@ -8,7 +8,7 @@ import {
   getRhHistoryAnalysisPages,
   getRhHistoryScanReview,
   confirmRhHistoryAddress,
-  setRhHistoryCurrentRent,
+  setRhHistoryApartmentInfo,
   postRhHistoryRunAnalysis,
   sendRhMagicLinkSms,
   startRhLogin,
@@ -277,44 +277,50 @@ describe("confirmRhHistoryAddress", () => {
   });
 });
 
-describe("setRhHistoryCurrentRent", () => {
+describe("setRhHistoryApartmentInfo", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
   });
 
-  it("posts to rh/history/current-rent with Bearer authorization and JSON body", async () => {
+  it("posts to rh/history/apartment-info with Bearer authorization and JSON body", async () => {
     vi.stubEnv("VITE_AUTH_PROVIDER_BASE_URL", "https://auth.example.org");
 
     const historyId = "22222222-2222-4222-8222-222222222222";
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
       jsonResponse(
         {
+          lives_in_apt: true,
           current_rent: 2500,
+          current_rent_date: "2026-09-23T16:00:00Z",
         },
         { status: 200 }
       )
     );
 
-    const result = await setRhHistoryCurrentRent("access-token", {
+    const result = await setRhHistoryApartmentInfo("access-token", {
       history_id: historyId,
+      lives_in_apt: true,
       current_rent: 2500,
     });
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     const request = getMockedFetchRequest(fetchSpy);
     expect(request.url).toBe(
-      "https://auth.example.org/rh/history/current-rent"
+      "https://auth.example.org/rh/history/apartment-info"
     );
     expect(request.method).toBe("POST");
     expect(request.headers.get("Authorization")).toBe("Bearer access-token");
     expect(request.headers.get("Content-Type")).toBe("application/json");
     expect(JSON.parse(await request.text())).toEqual({
       history_id: historyId,
+      lives_in_apt: true,
       current_rent: 2500,
     });
     expect(result).toEqual({
+      lives_in_apt: true,
       current_rent: 2500,
+      current_rent_date: "2026-09-23T16:00:00Z",
     });
   });
 });

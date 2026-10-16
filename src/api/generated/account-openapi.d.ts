@@ -104,7 +104,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rh/history/current-rent": {
+    "/rh/history/apartment-info": {
         parameters: {
             query?: never;
             header?: never;
@@ -114,10 +114,10 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Set current monthly rent on a RhHistory
-         * @description Persists `current_rent` on an owned RhHistory and sets `last_step_reached` to APARTMENT_INFO.
+         * Set apartment info on a RhHistory
+         * @description Persists `lives_in_apt` and optionally `current_rent` on an owned RhHistory. When `lives_in_apt` is false, clears rent fields and sets `last_step_reached` to DOCUMENT_SCAN. When true with `current_rent`, sets `current_rent_date` and advances to DOCUMENT_SCAN. When true without `current_rent`, advances to APARTMENT_INFO.
          */
-        post: operations["history_current_rent_create"];
+        post: operations["history_apartment_info_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -743,6 +743,11 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
             /**
+             * Format: double
+             * @description User response for the total current monthly rent for the apartment.
+             */
+            readonly current_rent: number | null;
+            /**
              * Format: uuid
              * @description ID for a rent history record.
              */
@@ -759,6 +764,8 @@ export interface components {
              *     * `REPORT_GENERATION` - Report Generation
              */
             readonly last_step_reached: (components["schemas"]["LastStepReachedEnum"] | components["schemas"]["NullEnum"]) | null;
+            /** @description Whether the user currently lives in the apartment on this rent history. */
+            readonly lives_in_apt: boolean | null;
             /** Format: date-time */
             readonly updated_at: string;
         };
@@ -811,15 +818,19 @@ export interface components {
             report_pdf_generated_at: string;
             report_pdf_locale: components["schemas"]["ReportPdfLocaleEnum"];
         };
-        RhHistorySetCurrentRentRequestRequest: {
+        RhHistorySetApartmentInfoRequestRequest: {
             /** Format: double */
-            current_rent: number;
+            current_rent?: number | null;
             /** Format: uuid */
             history_id: string;
+            lives_in_apt: boolean;
         };
-        RhHistorySetCurrentRentResponse: {
+        RhHistorySetApartmentInfoResponse: {
             /** Format: double */
-            current_rent: number;
+            current_rent: number | null;
+            /** Format: date-time */
+            current_rent_date: string | null;
+            lives_in_apt: boolean;
         };
         RhLoginStartRequestRequest: {
             otp_domain?: string;
@@ -1342,7 +1353,7 @@ export interface operations {
             };
         };
     };
-    history_current_rent_create: {
+    history_apartment_info_create: {
         parameters: {
             query?: never;
             header?: never;
@@ -1351,7 +1362,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["RhHistorySetCurrentRentRequestRequest"];
+                "application/json": components["schemas"]["RhHistorySetApartmentInfoRequestRequest"];
             };
         };
         responses: {
@@ -1360,7 +1371,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RhHistorySetCurrentRentResponse"];
+                    "application/json": components["schemas"]["RhHistorySetApartmentInfoResponse"];
                 };
             };
             /** @description Validation error. */
