@@ -1796,7 +1796,7 @@ msgid "Select Apt Stat"
 msgstr "Seleccionar estado del apt."
 
 #: src/Components/Pages/FindingsReview/fields/YearField.tsx:65
-#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:39
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:127
 msgid "Select Year"
 msgstr "Seleccionar año"
 
@@ -1976,7 +1976,7 @@ msgstr ""
 msgid "Temporary exemption"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:57
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:146
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:195
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
