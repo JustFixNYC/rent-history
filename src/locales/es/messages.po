@@ -747,8 +747,8 @@ msgid "Details"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:68
-msgid "Did tenants in the earlier year appear in the later year?"
-msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
+#~ msgid "Did tenants in the earlier year appear in the later year?"
+#~ msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/shared/successionStepCopy.tsx:15
@@ -1375,7 +1375,7 @@ msgstr ""
 msgid "Next, your report will provide more details"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:42
 msgid "No"
 msgstr "No"
 
@@ -1977,7 +1977,7 @@ msgid "Temporary exemption"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:57
-#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:85
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:195
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
@@ -2625,7 +2625,7 @@ msgstr ""
 msgid "findings.ocr_confirm.year_heading"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:41
 msgid "Yes"
 msgstr "Sí"
 

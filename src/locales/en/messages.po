@@ -747,8 +747,8 @@ msgid "Details"
 msgstr "Details"
 
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:68
-msgid "Did tenants in the earlier year appear in the later year?"
-msgstr "Did tenants in the earlier year appear in the later year?"
+#~ msgid "Did tenants in the earlier year appear in the later year?"
+#~ msgstr "Did tenants in the earlier year appear in the later year?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/shared/successionStepCopy.tsx:15
@@ -1375,7 +1375,7 @@ msgstr "Next, you will review your scanned pages and answer a few questions befo
 msgid "Next, your report will provide more details"
 msgstr "Next, your report will provide more details"
 
-#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:42
 msgid "No"
 msgstr "No"
 
@@ -1977,7 +1977,7 @@ msgid "Temporary exemption"
 msgstr "Temporary exemption"
 
 #: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:57
-#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:85
+#: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:195
 msgid "Tenant names"
 msgstr "Tenant names"
 
@@ -2625,7 +2625,7 @@ msgstr "With this increase, the landlord was allowed to raise the rent in year {
 msgid "findings.ocr_confirm.year_heading"
 msgstr "Year: {0}"
 
-#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
+#: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:41
 msgid "Yes"
 msgstr "Yes"
 

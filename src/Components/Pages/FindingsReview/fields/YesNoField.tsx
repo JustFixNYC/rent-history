@@ -14,6 +14,12 @@ export type YesNoFieldProps = {
   invalid?: boolean;
   invalidText?: string;
   disabled?: boolean;
+  /** When true, omit the visible fieldset legend (question lives in step body). */
+  hideLegend?: boolean;
+  /** Required when `hideLegend` — names the radiogroup for assistive tech. */
+  questionAriaLabel?: string;
+  /** Alternative to `questionAriaLabel` — references an element that labels the group. */
+  ariaLabelledBy?: string;
 };
 
 export const YesNoField: React.FC<YesNoFieldProps> = ({
@@ -27,10 +33,54 @@ export const YesNoField: React.FC<YesNoFieldProps> = ({
   invalid,
   invalidText,
   disabled = false,
+  hideLegend = false,
+  questionAriaLabel,
+  ariaLabelledBy,
 }) => {
   const { _ } = useLingui();
   const resolvedYesLabel = yesLabel ?? _(msg`Yes`);
   const resolvedNoLabel = noLabel ?? _(msg`No`);
+
+  const options = (
+    <div
+      className="findings-review-yes-no-field__options"
+      role="radiogroup"
+      aria-label={hideLegend ? questionAriaLabel : undefined}
+      aria-labelledby={hideLegend ? ariaLabelledBy : undefined}
+    >
+      <SelectButton
+        id={`${id}-yes`}
+        name={id}
+        className="findings-review-yes-no-field__option"
+        labelText={resolvedYesLabel}
+        value="true"
+        checked={value === true}
+        disabled={disabled}
+        onChange={() => onChange(true)}
+      />
+      <SelectButton
+        id={`${id}-no`}
+        name={id}
+        className="findings-review-yes-no-field__option"
+        labelText={resolvedNoLabel}
+        value="false"
+        checked={value === false}
+        disabled={disabled}
+        onChange={() => onChange(false)}
+      />
+    </div>
+  );
+
+  if (hideLegend) {
+    return (
+      <div
+        className={classNames("findings-review-yes-no-field", className)}
+        data-hide-legend="true"
+      >
+        {options}
+      </div>
+    );
+  }
 
   return (
     <FormGroup
@@ -39,28 +89,7 @@ export const YesNoField: React.FC<YesNoFieldProps> = ({
       invalid={invalid}
       invalidText={invalidText}
     >
-      <div className="findings-review-yes-no-field__options" role="radiogroup">
-        <SelectButton
-          id={`${id}-yes`}
-          name={id}
-          className="findings-review-yes-no-field__option"
-          labelText={resolvedYesLabel}
-          value="true"
-          checked={value === true}
-          disabled={disabled}
-          onChange={() => onChange(true)}
-        />
-        <SelectButton
-          id={`${id}-no`}
-          name={id}
-          className="findings-review-yes-no-field__option"
-          labelText={resolvedNoLabel}
-          value="false"
-          checked={value === false}
-          disabled={disabled}
-          onChange={() => onChange(false)}
-        />
-      </div>
+      {options}
     </FormGroup>
   );
 };
