@@ -10,6 +10,8 @@ export function isStepComplete(
       return ctx.ocrConfirmed;
     case "vacancy":
       return formState.getsVacancyIncrease !== null;
+    case "succession":
+      return formState.tookSuccession !== null;
     default:
       return false;
   }

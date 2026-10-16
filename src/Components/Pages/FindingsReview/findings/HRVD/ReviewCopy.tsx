@@ -42,8 +42,12 @@ export const ResultNoViolationBody = ({ year }: ResultCopyProps) => (
   </p>
 );
 
-export const ResultDismissedBody = () => (
-  <Trans id="findings.HRVD.result.dismissed.body">
-    dismissed finding result copy TK
-  </Trans>
+export const ResultDismissedBody = ({ year }: ResultCopyProps) => (
+  <p className="finding-step-copy">
+    <Trans id="findings.HRVD.result.dismissed.body">
+      The apartment was listed as exempt from rent stabilization in {year},
+      which means it was destabilized. Based on what we reviewed, this finding
+      does not apply to your situation. Your report will include more details.
+    </Trans>
+  </p>
 );

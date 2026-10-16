@@ -7,7 +7,9 @@ const baseFormState: NonregistrationPrefrentPosthstpaFormState = {
   row0AptStat: "RS",
   row0LegalRent: "850.02",
   row0PrefRent: "684.27",
+  row0NoPrefRent: false,
   getsVacancyIncrease: null,
+  tookSuccession: null,
 };
 
 describe("NONREGISTRATION_PREFRENT_POSTHSTPA isStepComplete", () => {
@@ -37,6 +39,20 @@ describe("NONREGISTRATION_PREFRENT_POSTHSTPA isStepComplete", () => {
       isStepComplete(
         "vacancy",
         { ...baseFormState, getsVacancyIncrease: false },
+        { ocrConfirmed: true }
+      )
+    ).toBe(true);
+  });
+
+  it("requires succession answer to be non-null", () => {
+    expect(
+      isStepComplete("succession", baseFormState, { ocrConfirmed: true })
+    ).toBe(false);
+
+    expect(
+      isStepComplete(
+        "succession",
+        { ...baseFormState, tookSuccession: true },
         { ocrConfirmed: true }
       )
     ).toBe(true);

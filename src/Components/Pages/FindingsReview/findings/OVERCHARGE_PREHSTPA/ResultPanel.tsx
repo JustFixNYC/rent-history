@@ -9,7 +9,7 @@ import {
   ResultNoViolationBody,
   ResultPotentialViolationBody,
 } from "./ReviewCopy";
-import { ROW_INDEX } from "./spec";
+import { getIntroValues } from "./getIntro";
 
 export function renderPrehstpaResult(
   finding: Finding
@@ -19,14 +19,8 @@ export function renderPrehstpaResult(
     return null;
   }
 
-  const row0 = finding.data.rows[ROW_INDEX.tenancy];
-  const row1 = finding.data.rows[ROW_INDEX.vacancy];
-  const copyProps = {
-    rent0: Number(row0?.legal_rent ?? 0),
-    rent1: Number(row1?.legal_rent ?? 0),
-    year0: row0?.reg_year ?? 0,
-    year1: row1?.reg_year ?? 0,
-  };
+  const { rent0, rent1, year0, year1 } = getIntroValues(finding);
+  const copyProps = { rent0, rent1, year0, year1 };
 
   const bodies: Record<FindingResult, ReactNode> = {
     potential_violation: <ResultPotentialViolationBody {...copyProps} />,

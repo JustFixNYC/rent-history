@@ -28,9 +28,6 @@ export { renderNonregistrationPrehstpaCurrTenantResult } from "./ResultPanel";
 
 export {
   IntroTitle,
-  VacancyHeading,
-  VacancyBody,
-  SuccessionBody,
   ResultNoViolationBody,
   ResultPotentialViolationContinuousBody,
   ResultPotentialViolationNotContinuousBody,

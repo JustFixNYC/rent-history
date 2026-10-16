@@ -2,17 +2,17 @@ import type { FindingIntroPanelProps } from "../../FindingIntroPanel";
 import type { Finding } from "../../types/finding";
 
 import { IntroTitle } from "./ReviewCopy";
-import { ROW_INDEX, type IntroValues } from "./spec";
+import { INTRO_VALUE_MAP, type IntroValues } from "./spec";
 
 export function getIntroValues(finding: Finding): IntroValues {
-  const year0 = finding.data.rows[ROW_INDEX.tenancy]?.reg_year;
+  const year0 = INTRO_VALUE_MAP.year0(finding);
 
   if (year0 == null) {
     throw new Error("HRVD intro requires row 0 with reg_year");
   }
 
   return {
-    findingYear: finding.finding_year,
+    findingYear: INTRO_VALUE_MAP.findingYear(finding),
     year0,
   };
 }

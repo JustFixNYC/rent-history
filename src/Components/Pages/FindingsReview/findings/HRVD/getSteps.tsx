@@ -2,7 +2,7 @@ import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { TenantNameTipsLink } from "../../shared/TenantNameTipsLink";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
-import { TenancyStep } from "../../steps/TenancyStep";
+import { TenancyStep, buildTenancySharedCopy } from "../../steps/TenancyStep";
 import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
@@ -45,15 +45,8 @@ export function getSteps(bindings: HrvdGetStepsBindings): FindingStep[] {
     rows: STANDARD_OCR_ROWS,
   });
   const tenants = getTenancyRowTenants(finding);
-  const isMultiTenant = tenants.length > 1;
   const ocrYears = ocrRows.map((row) => row.regYear);
-
-  const tenancySharedCopy = isMultiTenant
-    ? { variant: "multipleTenants" as const }
-    : {
-        variant: "singleTenant" as const,
-        tenant: tenants[0] ?? "",
-      };
+  const tenancySharedCopy = buildTenancySharedCopy(tenants);
 
   return [
     {

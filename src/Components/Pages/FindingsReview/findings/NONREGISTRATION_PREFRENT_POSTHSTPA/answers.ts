@@ -7,7 +7,10 @@ export type NonregistrationPrefrentPosthstpaFormState = {
   row0AptStat: string;
   row0LegalRent: string;
   row0PrefRent: string;
+  row0NoPrefRent: boolean;
   getsVacancyIncrease: boolean | null;
+  /** UI-only until OpenAPI exposes a succession review field. */
+  tookSuccession: boolean | null;
 };
 
 export function createInitialFormState(
@@ -20,7 +23,9 @@ export function createInitialFormState(
     row0AptStat: row0?.apt_stat ?? "",
     row0LegalRent: row0?.legal_rent != null ? String(row0.legal_rent) : "",
     row0PrefRent: row0?.pref_rent != null ? String(row0.pref_rent) : "",
+    row0NoPrefRent: row0?.pref_rent == null,
     getsVacancyIncrease: row1?.gets_vacancy_increase ?? null,
+    tookSuccession: null,
   };
 }
 
@@ -38,7 +43,9 @@ export function buildAnswers(
         reg_year: row0.reg_year,
         apt_stat: formState.row0AptStat,
         legal_rent: buildRentAnswer(formState.row0LegalRent),
-        pref_rent: buildRentAnswer(formState.row0PrefRent),
+        pref_rent: formState.row0NoPrefRent
+          ? null
+          : buildRentAnswer(formState.row0PrefRent),
       },
       {
         reg_year: row1.reg_year,

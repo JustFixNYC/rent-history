@@ -10,39 +10,6 @@ export const IntroTitle = ({ year0, year1 }: IntroTitleProps) => (
   </Trans>
 );
 
-type VacancyCopyProps = Pick<IntroValues, "lastRegistrationYear" | "year0">;
-
-export const VacancyHeading = ({
-  lastRegistrationYear,
-}: Pick<VacancyCopyProps, "lastRegistrationYear">) => (
-  <Trans id="findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.heading">
-    Next, let&apos;s check if you were the tenant in {lastRegistrationYear}
-  </Trans>
-);
-
-export const VacancyBody = ({ year0 }: Pick<VacancyCopyProps, "year0">) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.vacancy.body">
-      Have you been on the lease for this apartment since {year0}?
-    </Trans>
-  </p>
-);
-
-export { SuccessionHeading } from "../../shared/successionStepCopy";
-
-type SuccessionBodyProps = {
-  year: number;
-};
-
-export const SuccessionBody = ({ year }: SuccessionBodyProps) => (
-  <p className="finding-step-copy">
-    <Trans id="findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.succession.body">
-      Did you inherit the lease through a process called
-      &ldquo;Succession&rdquo; from someone who was on the lease in {year}?
-    </Trans>
-  </p>
-);
-
 type ResultYearRangeProps = Pick<IntroValues, "year0" | "year1">;
 
 export const ResultNoViolationBody = ({
@@ -106,6 +73,8 @@ export const ResultPotentialViolationNotContinuousBody = ({
 
 export const ResultDismissedBody = () => (
   <Trans id="findings.NONREGISTRATION_PREHSTPA_CURR_TENANT.result.dismissed.body">
-    dismissed finding result copy TK
+    Based on what we reviewed, this finding does not apply to your situation.
+    Your report will include more details about the rent increase and
+    registration.
   </Trans>
 );

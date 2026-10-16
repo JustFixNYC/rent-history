@@ -234,7 +234,7 @@ describe("renderHrvdResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText("dismissed finding result copy TK")
+      screen.getByText(/does not apply to your situation/i)
     ).toBeInTheDocument();
   });
 });

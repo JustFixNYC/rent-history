@@ -1,10 +1,14 @@
 import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
+import { patchGetsVacancyIncrease } from "../../hooks/vacancyFormState";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import { TenantNameTipsLink } from "../../shared/TenantNameTipsLink";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
-import { TenancyStep } from "../../steps/TenancyStep";
-import { VacancyStep } from "../../steps/VacancyStep";
+import { TenancyStep, buildTenancySharedCopy } from "../../steps/TenancyStep";
+import {
+  VacancyStep,
+  buildVacancyTenantChangeSharedCopy,
+} from "../../steps/VacancyStep";
 import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
@@ -57,28 +61,13 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
   const tenants = getTenancyRowTenants(finding);
   const isMultiTenant = tenants.length > 1;
   const ocrYears = ocrRows.map((row) => row.regYear);
-
-  const vacancySharedCopy = isMultiTenant
-    ? {
-        variant: "multipleTenants" as const,
-        vacancyYear: year1,
-        year0,
-        year1,
-      }
-    : {
-        variant: "singleTenant" as const,
-        vacancyYear: year1,
-        tenant: tenants[0] ?? "",
-        year0,
-        year1,
-      };
-
-  const tenancySharedCopy = isMultiTenant
-    ? { variant: "multipleTenants" as const }
-    : {
-        variant: "singleTenant" as const,
-        tenant: tenants[0] ?? "",
-      };
+  const vacancySharedCopy = buildVacancyTenantChangeSharedCopy({
+    tenants,
+    vacancyYear: year1,
+    year0,
+    year1,
+  });
+  const tenancySharedCopy = buildTenancySharedCopy(tenants);
 
   return [
     {
@@ -108,16 +97,9 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
           tenants={isMultiTenant ? tenants : undefined}
           tips={<TenantNameTipsLink />}
           getsVacancyIncrease={formState.getsVacancyIncrease}
-          onGetsVacancyIncreaseChange={(value) => {
-            if (value === false) {
-              onFormStateChange({
-                getsVacancyIncrease: false,
-                tenancyStart: null,
-              });
-              return;
-            }
-            onFormStateChange({ getsVacancyIncrease: value });
-          }}
+          onGetsVacancyIncreaseChange={(value) =>
+            patchGetsVacancyIncrease(value, onFormStateChange, "tenancyStart")
+          }
         />
       ),
     },

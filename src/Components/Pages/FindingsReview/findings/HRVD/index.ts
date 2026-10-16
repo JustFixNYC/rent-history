@@ -28,10 +28,6 @@ export { renderHrvdResult } from "./ResultPanel";
 
 export {
   IntroTitle,
-  TenancyHeading,
-  TenancyHeadingMultiple,
-  TenancyBody,
-  TenancyBodyMultiple,
   ResultPotentialViolationBody,
   ResultNoViolationBody,
   ResultDismissedBody,

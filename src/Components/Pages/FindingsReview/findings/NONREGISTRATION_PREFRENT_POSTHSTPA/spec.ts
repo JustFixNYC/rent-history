@@ -22,7 +22,11 @@ export const OCR_LEFT_FIELD = "apt_stat" as const;
 export const EXCLUDED_ANSWER_KEYS = ["tenants"] as const;
 
 /** Interactive step ids returned by `getSteps()` (intro is pinned, not listed). */
-export const INTERACTIVE_STEP_IDS = ["ocr_confirm", "vacancy"] as const;
+export const INTERACTIVE_STEP_IDS = [
+  "ocr_confirm",
+  "vacancy",
+  "succession",
+] as const;
 
 /**
  * Intro template placeholders → `finding.data` paths.
@@ -38,6 +42,8 @@ export const INTRO_VALUE_MAP = {
     const year0 = finding.data.rows[ROW_INDEX.context]?.reg_year;
     return typeof year0 === "number" ? year0 + 1 : null;
   },
+  reportedRent: (finding: Finding) =>
+    finding.data.rows[ROW_INDEX.user]?.legal_rent ?? null,
 } as const;
 
 export type IntroValues = {
@@ -46,4 +52,5 @@ export type IntroValues = {
   year1: number;
   vacancyYear: number;
   missingFromYear: number;
+  reportedRent: number;
 };

@@ -1,21 +1,19 @@
 import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
+import { patchGetsVacancyIncrease } from "../../hooks/vacancyFormState";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { SuccessionStep } from "../../steps/SuccessionStep";
-import { VacancyStep } from "../../steps/VacancyStep";
+import {
+  VacancyStep,
+  buildVacancySelfTenantSharedCopy,
+} from "../../steps/VacancyStep";
 import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { NonregistrationPrehstpaCurrTenantFormState } from "./answers";
 import { getIntroValues } from "./getIntro";
-import {
-  SuccessionBody,
-  SuccessionHeading,
-  VacancyBody,
-  VacancyHeading,
-} from "./ReviewCopy";
 import { ROW_INDEX } from "./spec";
 
 export type NonregistrationPrehstpaCurrTenantGetStepsBindings = {
@@ -82,20 +80,14 @@ export function getSteps(
           stepNumber={2}
           isPastStep={isPastStep}
           idPrefix="nonregistration-prehstpa-curr-tenant"
-          variant="selfTenant"
-          title={<VacancyHeading lastRegistrationYear={lastRegistrationYear} />}
-          body={<VacancyBody year0={year0} />}
+          sharedCopy={buildVacancySelfTenantSharedCopy({
+            vacancyYear: lastRegistrationYear,
+            leaseSinceYear: year0,
+          })}
           getsVacancyIncrease={formState.getsVacancyIncrease}
-          onGetsVacancyIncreaseChange={(value) => {
-            if (value === false) {
-              onFormStateChange({
-                getsVacancyIncrease: false,
-                tookSuccession: null,
-              });
-              return;
-            }
-            onFormStateChange({ getsVacancyIncrease: value });
-          }}
+          onGetsVacancyIncreaseChange={(value) =>
+            patchGetsVacancyIncrease(value, onFormStateChange, "tookSuccession")
+          }
         />
       ),
     },
@@ -108,8 +100,7 @@ export function getSteps(
           stepNumber={3}
           isPastStep={isPastStep}
           idPrefix="nonregistration-prehstpa-curr-tenant"
-          title={<SuccessionHeading />}
-          body={<SuccessionBody year={year0} />}
+          sharedCopy={{ year: year0 }}
           value={formState.tookSuccession}
           onChange={(value) => onFormStateChange({ tookSuccession: value })}
         />

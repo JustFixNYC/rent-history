@@ -9,12 +9,14 @@ export function getIntroValues(finding: Finding): IntroValues {
   const year1 = INTRO_VALUE_MAP.year1(finding);
   const vacancyYear = INTRO_VALUE_MAP.vacancyYear(finding);
   const missingFromYear = INTRO_VALUE_MAP.missingFromYear(finding);
+  const reportedRent = INTRO_VALUE_MAP.reportedRent(finding);
 
   if (
     year0 == null ||
     year1 == null ||
     vacancyYear == null ||
-    missingFromYear == null
+    missingFromYear == null ||
+    reportedRent == null
   ) {
     throw new Error(`${TYPE} intro requires two rows with reg_year values`);
   }
@@ -25,13 +27,14 @@ export function getIntroValues(finding: Finding): IntroValues {
     year1,
     vacancyYear,
     missingFromYear,
+    reportedRent,
   };
 }
 
 export function getIntro(finding: Finding): FindingIntroPanelProps {
-  getIntroValues(finding);
+  const { missingFromYear, year1 } = getIntroValues(finding);
 
   return {
-    title: <IntroTitle />,
+    title: <IntroTitle missingFromYear={missingFromYear} year1={year1} />,
   };
 }

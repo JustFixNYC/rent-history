@@ -107,34 +107,8 @@
           "pref_rent": 684.27
         },
         {
-          "reg_year": 2026
-        }
-      ]
-    },
-    "validated_at": null
-  },
-  "NONREGISTRATION_PREHSTPA": {
-    "id": "0945679f-ea95-42e0-bdf9-811390eec02f",
-    "key": {
-      "type": "NONREGISTRATION_PREHSTPA",
-      "finding_year": 2026,
-      "subtype": null
-    },
-    "type": "NONREGISTRATION_PREHSTPA",
-    "finding_year": 2026,
-    "status": "pending",
-    "data": {
-      "rows": [
-        {
-          "reg_year": 1991,
-          "apt_stat": "RS",
-          "legal_rent": 850.02,
-          "tenants": ["AUDREY JOHNSON"],
-          "tenancy_start": null
-        },
-        {
           "reg_year": 2026,
-          "gets_vacancy_increase": null
+          "legal_rent": 999.32
         }
       ]
     },

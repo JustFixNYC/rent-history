@@ -36,6 +36,36 @@ export type VacancySharedCopyParams =
       year1: number;
     };
 
+export function buildVacancySelfTenantSharedCopy(params: {
+  vacancyYear: number;
+  leaseSinceYear: number;
+}): VacancySharedCopyParams {
+  return {
+    variant: "selfTenant",
+    vacancyYear: params.vacancyYear,
+    leaseSinceYear: params.leaseSinceYear,
+  };
+}
+
+export function buildVacancyTenantChangeSharedCopy(params: {
+  tenants: string[];
+  vacancyYear: number;
+  year0: number;
+  year1: number;
+}): VacancySharedCopyParams {
+  const { tenants, vacancyYear, year0, year1 } = params;
+  if (tenants.length > 1) {
+    return { variant: "multipleTenants", vacancyYear, year0, year1 };
+  }
+  return {
+    variant: "singleTenant",
+    vacancyYear,
+    tenant: tenants[0] ?? "",
+    year0,
+    year1,
+  };
+}
+
 /** Shared Figma copy from `vacancyStepCopy.tsx` for use with `VacancyStep`. */
 export function resolveVacancyStepCopy(params: VacancySharedCopyParams): {
   title: React.ReactNode;

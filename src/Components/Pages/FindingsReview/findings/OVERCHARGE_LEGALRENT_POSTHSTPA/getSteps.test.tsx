@@ -14,6 +14,7 @@ import {
 } from "./answers";
 import { getIntroValues } from "./getIntro";
 import { getSteps } from "./getSteps";
+import { renderLegalrentPosthstpaResult } from "./ResultPanel";
 import { EXCLUDED_ANSWER_KEYS, ROW_INDEX } from "./spec";
 
 const finding = findingExamples.OVERCHARGE_LEGALRENT_POSTHSTPA as Finding;
@@ -134,5 +135,42 @@ describe("buildAnswers", () => {
     });
 
     expect(answers.rows[ROW_INDEX.row1].legal_rent).toBe("EXEMPT");
+  });
+});
+
+describe("renderLegalrentPosthstpaResult", () => {
+  it("uses potential violation copy with year range", () => {
+    const findingWithResult: Finding = {
+      ...finding,
+      result: "potential_violation",
+    };
+
+    const content = renderLegalrentPosthstpaResult(findingWithResult);
+
+    renderWithI18n(<>{content?.body}</>);
+
+    expect(
+      screen.getByText(/large rent increase from 2019 to 2020/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/does not appear to be fully explained/i)
+    ).toBeInTheDocument();
+  });
+
+  it("uses no violation copy with year range", () => {
+    const findingWithResult: Finding = {
+      ...finding,
+      result: "no_violation",
+    };
+
+    const content = renderLegalrentPosthstpaResult(findingWithResult);
+
+    renderWithI18n(<>{content?.body}</>);
+
+    expect(
+      screen.getByText(
+        /appears to be explained by what's in your rent history/i
+      )
+    ).toBeInTheDocument();
   });
 });

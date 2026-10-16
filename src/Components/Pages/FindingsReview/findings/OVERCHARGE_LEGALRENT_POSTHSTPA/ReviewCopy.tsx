@@ -2,51 +2,50 @@ import { Trans } from "@lingui/react/macro";
 
 import type { IntroValues } from "./spec";
 
-export const IntroTitle = () => (
+type IntroTitleProps = Pick<IntroValues, "year0" | "year1">;
+
+export const IntroTitle = ({ year0, year1 }: IntroTitleProps) => (
   <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.intro.title">
-    Large increase in legal regulated rent
+    Large rent increase from {year0} to {year1}
   </Trans>
 );
 
-type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
+type ResultYearRangeProps = Pick<IntroValues, "year0" | "year1">;
 
 export const ResultPotentialViolationBody = ({
-  rent0,
-  rent1,
   year0,
   year1,
-}: ResultCopyProps) => (
-  <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.body">
-    The increase in legal regulated rent from ${rent0} in year {year0} to $
-    {rent1} in year {year1} does not appear to be explained by the standard RGB
-    increase alone. One of the only ways the rent could have reached ${rent1} in
-    year {year1} is through Individual Apartment Improvements (IAIs). Your
-    report will include this with additional details.
-  </Trans>
+}: ResultYearRangeProps) => (
+  <>
+    <p className="finding-result-copy">
+      <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.lead">
+        There was a large rent increase from {year0} to {year1}. This rent
+        increase does not appear to be fully explained by what&apos;s in your
+        rent history.
+      </Trans>
+    </p>
+    <p className="finding-result-copy">
+      <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.footer">
+        Your report will explain why the increase does not add up, and what
+        explanations may be possible.
+      </Trans>
+    </p>
+  </>
 );
 
-export const ResultDismissedBody = ({
-  rent0,
-  rent1,
-  year0,
-  year1,
-}: ResultCopyProps) => (
+export const ResultDismissedBody = ({ year0, year1 }: ResultYearRangeProps) => (
   <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.dismissed.body">
-    The increase in legal regulated rent from ${rent0} in year {year0} to $
-    {rent1} in year {year1} appears to be within the limits of the standard RGB
-    increase.
+    The rent increase from {year0} to {year1} appears to be explained by
+    what&apos;s in your rent history.
   </Trans>
 );
 
 export const ResultNoViolationBody = ({
-  rent0,
-  rent1,
   year0,
   year1,
-}: ResultCopyProps) => (
+}: ResultYearRangeProps) => (
   <Trans id="findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.no_violation.body">
-    The increase in legal regulated rent from ${rent0} in year {year0} to $
-    {rent1} in year {year1} appears to be within the limits of the standard RGB
-    increase.
+    The rent increase from {year0} to {year1} appears to be explained by
+    what&apos;s in your rent history.
   </Trans>
 );

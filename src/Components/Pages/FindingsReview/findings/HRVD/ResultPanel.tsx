@@ -23,7 +23,7 @@ export function renderHrvdResult(
   const bodies: Record<FindingResult, ReactNode> = {
     potential_violation: <ResultPotentialViolationBody {...copyProps} />,
     no_violation: <ResultNoViolationBody {...copyProps} />,
-    dismissed: <ResultDismissedBody />,
+    dismissed: <ResultDismissedBody {...copyProps} />,
   };
 
   return buildFindingResultContent(result, bodies);

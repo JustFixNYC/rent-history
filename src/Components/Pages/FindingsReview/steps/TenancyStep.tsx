@@ -33,6 +33,16 @@ export type TenancySharedCopyParams =
       variant: "multipleTenants";
     };
 
+/** Builds `sharedCopy` from tenant list (single vs multiple variant). */
+export function buildTenancySharedCopy(
+  tenants: string[]
+): TenancySharedCopyParams {
+  if (tenants.length > 1) {
+    return { variant: "multipleTenants" };
+  }
+  return { variant: "singleTenant", tenant: tenants[0] ?? "" };
+}
+
 /** Shared Figma copy from `tenancyStepCopy.tsx` for use with `TenancyStep`. */
 export function resolveTenancyStepCopy(params: TenancySharedCopyParams): {
   title: React.ReactNode;
