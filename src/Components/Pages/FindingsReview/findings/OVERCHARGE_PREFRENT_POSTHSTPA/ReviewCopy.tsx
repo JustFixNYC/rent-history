@@ -2,53 +2,48 @@ import { Trans } from "@lingui/react/macro";
 
 import type { IntroValues } from "./spec";
 
-export const IntroTitle = () => (
+type IntroTitleProps = Pick<IntroValues, "year0" | "year1">;
+
+export const IntroTitle = ({ year0, year1 }: IntroTitleProps) => (
   <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title">
-    Large increase in preferential rent
+    Large increase in preferential rent from {year0} to {year1}
   </Trans>
 );
 
-type ResultCopyProps = Pick<IntroValues, "rent0" | "rent1" | "year0" | "year1">;
+type ResultYearRangeProps = Pick<IntroValues, "year0" | "year1">;
 
-export const ResultPotentialViolationVacancyBody = ({
-  rent0,
-  rent1,
+export const ResultPotentialViolationBody = ({
   year0,
   year1,
-}: ResultCopyProps) => (
-  <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body">
-    The increase in preferential rent from ${rent0} in year {year0} to ${rent1}{" "}
-    in year {year1} is more than the allowed increase. Your report will include
-    this with additional details.
-  </Trans>
-);
-
-export const ResultPotentialViolationNoVacancyBody = ({
-  rent0,
-  rent1,
-  year0,
-  year1,
-}: ResultCopyProps) => (
-  <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.no_vacancy.body">
-    The increase in preferential rent from ${rent0} in year {year0} to ${rent1}{" "}
-    in year {year1} does not appear to be explained by a change in tenancy. Your
-    report will include this with additional details.
-  </Trans>
+}: ResultYearRangeProps) => (
+  <>
+    <p className="finding-result-copy">
+      <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.lead">
+        There was a large increase in preferential rent from {year0} to {year1}.
+        This rent increase does not appear to be fully explained by what we just
+        checked.
+      </Trans>
+    </p>
+    <p className="finding-result-copy">
+      <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.footer">
+        Your report will explain why the increase does not add up and if any
+        other explanations may be possible.
+      </Trans>
+    </p>
+  </>
 );
 
 export const ResultNoViolationBody = ({
-  rent0,
-  rent1,
   year0,
   year1,
-}: ResultCopyProps) => (
+}: ResultYearRangeProps) => (
   <Trans id="findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.no_violation.body">
-    The increase in preferential rent from ${rent0} in year {year0} to ${rent1}{" "}
-    in year {year1} appears to be explained by a change in tenancy. Your report
-    will include this with additional details.
+    There was a large increase in preferential rent from {year0} to {year1}.
+    This rent increase appears to be explained by what&apos;s in your rent
+    history. Your report will include more details.
   </Trans>
 );
 
-export const ResultDismissedBody = (props: ResultCopyProps) => (
+export const ResultDismissedBody = (props: ResultYearRangeProps) => (
   <ResultNoViolationBody {...props} />
 );

@@ -304,7 +304,7 @@ describe("checkbox interaction", () => {
 });
 
 describe("renderPrefrentremovedPosthstpaResult", () => {
-  it("uses potential violation copy with year0 and year1", () => {
+  it("uses potential violation copy with year1", () => {
     const findingWithResult: Finding = {
       ...finding,
       result: "potential_violation",
@@ -315,17 +315,17 @@ describe("renderPrefrentremovedPosthstpaResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(/preferential rent was offered in 2019/i)
+      screen.getByText(/preferential rent was removed in 2020/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/no change in tenancy in 2020/i)
+      screen.getByText(/does not appear to be fully explained/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Your report will include this with additional details/i)
+      screen.getByText(/removal of the preferential rent does not add up/i)
     ).toBeInTheDocument();
   });
 
-  it("uses no violation copy with year0 and year1", () => {
+  it("uses no violation copy with year1", () => {
     const findingWithResult: Finding = {
       ...finding,
       result: "no_violation",
@@ -336,14 +336,13 @@ describe("renderPrefrentremovedPosthstpaResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(/change in tenancy from year 2019 to year 2020/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Your report will include this with additional details/i)
+      screen.getByText(
+        /legal removal of the preferential rent in 2020 appears to be explained/i
+      )
     ).toBeInTheDocument();
   });
 
-  it("uses dismissed placeholder copy", () => {
+  it("uses same copy as no_violation for dismissed", () => {
     const dismissedFinding: Finding = {
       ...finding,
       result: "dismissed",
@@ -353,6 +352,10 @@ describe("renderPrefrentremovedPosthstpaResult", () => {
 
     renderWithI18n(<>{content?.body}</>);
 
-    expect(screen.getByText(/dismissed fidning copy TK/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /legal removal of the preferential rent in 2020 appears to be explained/i
+      )
+    ).toBeInTheDocument();
   });
 });

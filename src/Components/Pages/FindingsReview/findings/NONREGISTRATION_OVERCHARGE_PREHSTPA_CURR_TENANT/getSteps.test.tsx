@@ -18,7 +18,8 @@ import { getSteps } from "./getSteps";
 import { renderNonregistrationOverchargePrehstpaCurrTenantResult } from "./ResultPanel";
 import { EXCLUDED_ANSWER_KEYS, ROW_INDEX } from "./spec";
 
-const finding = findingExamples.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT as Finding;
+const finding =
+  findingExamples.NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT as Finding;
 
 const noopFormChange = () => {};
 
@@ -323,7 +324,9 @@ describe("renderNonregistrationOverchargePrehstpaCurrTenantResult", () => {
     };
 
     const content =
-      renderNonregistrationOverchargePrehstpaCurrTenantResult(noViolationFinding);
+      renderNonregistrationOverchargePrehstpaCurrTenantResult(
+        noViolationFinding
+      );
 
     renderWithI18n(<>{content?.body}</>);
 

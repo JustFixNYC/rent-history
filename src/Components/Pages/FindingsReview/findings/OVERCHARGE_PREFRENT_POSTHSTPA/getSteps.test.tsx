@@ -173,46 +173,37 @@ describe("buildAnswers", () => {
 });
 
 describe("renderPrefrentPosthstpaResult", () => {
-  it("uses vacancy copy when gets_vacancy_increase is false", () => {
-    const findingWithVacancy: Finding = {
+  it("renders potential violation copy with year range", () => {
+    const violationFinding: Finding = {
       ...finding,
       result: "potential_violation",
-      data: {
-        rows: [
-          finding.data.rows[0],
-          { ...finding.data.rows[1], gets_vacancy_increase: false },
-        ],
-      },
     };
 
-    const content = renderPrefrentPosthstpaResult(findingWithVacancy);
+    const content = renderPrefrentPosthstpaResult(violationFinding);
 
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(/is more than the allowed increase/i)
+      screen.getByText(/does not appear to be fully explained/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/other explanations may be possible/i)
     ).toBeInTheDocument();
   });
 
-  it("uses no-vacancy copy when gets_vacancy_increase is true", () => {
-    const findingWithoutVacancy: Finding = {
+  it("renders no_violation copy with year range", () => {
+    const noViolationFinding: Finding = {
       ...finding,
-      result: "potential_violation",
-      data: {
-        rows: [
-          finding.data.rows[0],
-          { ...finding.data.rows[1], gets_vacancy_increase: true },
-        ],
-      },
+      result: "no_violation",
     };
 
-    const content = renderPrefrentPosthstpaResult(findingWithoutVacancy);
+    const content = renderPrefrentPosthstpaResult(noViolationFinding);
 
     renderWithI18n(<>{content?.body}</>);
 
     expect(
       screen.getByText(
-        /does not appear to be explained by a change in tenancy/i
+        /appears to be explained by what's in your rent history/i
       )
     ).toBeInTheDocument();
   });

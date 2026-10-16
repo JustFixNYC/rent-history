@@ -20,9 +20,9 @@ export function getIntroValues(finding: Finding): IntroValues {
 }
 
 export function getIntro(finding: Finding): FindingIntroPanelProps {
-  getIntroValues(finding);
+  const { year1 } = getIntroValues(finding);
 
   return {
-    title: <IntroTitle />,
+    title: <IntroTitle year1={year1} />,
   };
 }

@@ -2,6 +2,7 @@ import { findingReviewModule as hrvdModule } from "../findings/HRVD";
 import { findingReviewModule as nonregistrationPosthstpaModule } from "../findings/NONREGISTRATION_POSTHSTPA";
 import { findingReviewModule as nonregistrationPrefrentPosthstpaModule } from "../findings/NONREGISTRATION_PREFRENT_POSTHSTPA";
 import { findingReviewModule as nonregistrationOverchargePrehstpaCurrTenantModule } from "../findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT";
+import { findingReviewModule as oudatedrhOverchargePrehstpaCurrTenantModule } from "../findings/OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT";
 import { findingReviewModule as overchargeLegalrentPosthstpaModule } from "../findings/OVERCHARGE_LEGALRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentPosthstpaModule } from "../findings/OVERCHARGE_PREFRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentremovedPosthstpaModule } from "../findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA";
@@ -26,6 +27,9 @@ export const FINDING_MODULES = {
   ),
   NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT: registerFindingModule(
     nonregistrationOverchargePrehstpaCurrTenantModule
+  ),
+  OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT: registerFindingModule(
+    oudatedrhOverchargePrehstpaCurrTenantModule
   ),
   NONREGISTRATION_POSTHSTPA: registerFindingModule(
     nonregistrationPosthstpaModule
