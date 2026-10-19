@@ -666,6 +666,8 @@ export interface components {
             pref_rent?: (number | string) | null;
             reg_year: number;
             tenancy_start?: number | null;
+            /** @description Succession review answer when vacancy follow-up applies. FE may send before backend enforcement lands. */
+            took_succession?: boolean | null;
         };
         /** @description Finding payload: registration-year rows. */
         RhFindingData: {
@@ -687,6 +689,8 @@ export interface components {
             pref_rent?: (number | string) | null;
             reg_year: number;
             tenancy_start?: number | null;
+            /** @description Succession review answer when vacancy follow-up applies. FE may send before backend enforcement lands. */
+            took_succession?: boolean | null;
             tenants?: string[] | null;
         };
         /**

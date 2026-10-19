@@ -501,6 +501,11 @@
           "tenancy_start": {
             "nullable": true,
             "type": "integer"
+          },
+          "took_succession": {
+            "description": "Succession review answer when vacancy follow-up applies. FE may send before backend enforcement lands.",
+            "nullable": true,
+            "type": "boolean"
           }
         },
         "required": [
@@ -590,6 +595,11 @@
           "tenancy_start": {
             "nullable": true,
             "type": "integer"
+          },
+          "took_succession": {
+            "description": "Succession review answer when vacancy follow-up applies. FE may send before backend enforcement lands.",
+            "nullable": true,
+            "type": "boolean"
           },
           "tenants": {
             "items": {
