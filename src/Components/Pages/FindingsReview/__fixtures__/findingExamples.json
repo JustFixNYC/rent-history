@@ -222,6 +222,86 @@
     },
     "validated_at": null
   },
+  "OUTDATEDRH_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT": {
+    "id": "e5f6a7b8-c9d0-1234-ef01-3456789abcde",
+    "key": {
+      "type": "OUTDATEDRH_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "OUTDATEDRH_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2020,
+          "apt_stat": "RS",
+          "legal_rent": 2000.0,
+          "pref_rent": 1800.0,
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2026,
+          "legal_rent": 2400.0,
+          "gets_vacancy_increase": null
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "OUTDATEDRH_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT": {
+    "id": "f6a7b8c9-d0e1-2345-f012-456789abcdef",
+    "key": {
+      "type": "OUTDATEDRH_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "OUTDATEDRH_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2020,
+          "apt_stat": "RS",
+          "legal_rent": 2000.0,
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2026,
+          "legal_rent": 2400.0
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "OVERCHARGE_POSTHSTPA_CURR_TENANT": {
+    "id": "a7b8c9d0-e1f2-3456-0123-56789abcdef0",
+    "key": {
+      "type": "OVERCHARGE_POSTHSTPA_CURR_TENANT",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "OVERCHARGE_POSTHSTPA_CURR_TENANT",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2026,
+          "apt_stat": "RS",
+          "legal_rent": 3000.0,
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2026,
+          "legal_rent": 3200.0
+        }
+      ]
+    },
+    "validated_at": null
+  },
   "OVERCHARGE_LEGALRENT_POSTHSTPA": {
     "id": "2ca0ee82-256a-43fc-8754-9dc2b5681398",
     "key": {
