@@ -1,14 +1,7 @@
-import { Fragment } from "react";
-import { Checkbox } from "@justfixnyc/component-library";
-import { useLingui } from "@lingui/react";
-
-import {
-  OcrLegalRentField,
-  OcrPrefRentField,
-} from "../../fields/OcrFieldWrappers";
 import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
 import { patchGetsVacancyIncrease } from "../../hooks/vacancyFormState";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
+import { PrefRentOcrFields } from "../../shared/PrefRentOcrFields";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { SuccessionStep } from "../../steps/SuccessionStep";
@@ -38,59 +31,11 @@ export type NonregistrationPrefrentPosthstpaGetStepsBindings = {
 
 const ID_PREFIX = "nonregistration-prefrent-posthstpa";
 
-type OcrRightColumnProps = {
-  finding: Finding;
-  formState: NonregistrationPrefrentPosthstpaFormState;
-  onFormStateChange: (
-    patch: Partial<NonregistrationPrefrentPosthstpaFormState>
-  ) => void;
-  readonly: boolean;
-};
-
-const OcrRightColumn = ({
-  finding,
-  formState,
-  onFormStateChange,
-  readonly,
-}: OcrRightColumnProps) => {
-  const { _ } = useLingui();
-  const wireRow = finding.data.rows[ROW_INDEX.context];
-  const prefRentReadonly = readonly || formState.row0NoPrefRent;
-
-  return (
-    <Fragment>
-      <OcrLegalRentField
-        id={`${ID_PREFIX}-ocr-rent-0`}
-        value={formState.row0LegalRent}
-        onChange={(value) => onFormStateChange({ row0LegalRent: value })}
-        readonly={readonly}
-      />
-      <OcrPrefRentField
-        id={`${ID_PREFIX}-ocr-pref-rent-0`}
-        value={formState.row0PrefRent}
-        onChange={(value) => onFormStateChange({ row0PrefRent: value })}
-        readonly={prefRentReadonly}
-      />
-      <Checkbox
-        id={`${ID_PREFIX}-ocr-no-pref-rent-0`}
-        labelText={_(NO_PREF_RENT_LABEL)}
-        checked={formState.row0NoPrefRent}
-        disabled={readonly}
-        onChange={(event) => {
-          const checked = event.target.checked;
-          onFormStateChange({
-            row0NoPrefRent: checked,
-            row0PrefRent: checked
-              ? ""
-              : wireRow?.pref_rent != null
-              ? String(wireRow.pref_rent)
-              : "",
-          });
-        }}
-      />
-    </Fragment>
-  );
-};
+const PREF_RENT_OCR_FIELD_KEYS = {
+  legalRent: "row0LegalRent",
+  prefRent: "row0PrefRent",
+  noPrefRent: "row0NoPrefRent",
+} as const;
 
 const STANDARD_OCR_ROWS = [
   {
@@ -111,6 +56,7 @@ export function getSteps(
     onOcrConfirm,
     onOcrEdit,
   } = bindings;
+  const wireRow = finding.data.rows[ROW_INDEX.context];
   const [ocrRow] = buildStandardOcrRows({
     finding,
     formState,
@@ -123,11 +69,21 @@ export function getSteps(
     {
       ...ocrRow,
       renderRight: ({ readonly }: { readonly: boolean }) => (
-        <OcrRightColumn
-          finding={finding}
-          formState={formState}
-          onFormStateChange={onFormStateChange}
+        <PrefRentOcrFields
+          idPrefix={ID_PREFIX}
+          formRowIndex={0}
+          wireRow={wireRow}
+          legalRent={formState.row0LegalRent}
+          prefRent={formState.row0PrefRent}
+          noPrefRent={formState.row0NoPrefRent}
           readonly={readonly}
+          noPrefRentLabel={NO_PREF_RENT_LABEL}
+          fieldKeys={PREF_RENT_OCR_FIELD_KEYS}
+          onFormStateChange={(patch) =>
+            onFormStateChange(
+              patch as Partial<NonregistrationPrefrentPosthstpaFormState>
+            )
+          }
         />
       ),
     },
