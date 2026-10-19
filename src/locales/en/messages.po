@@ -1077,7 +1077,7 @@ msgstr "Find out if you’ve been overcharged on rent"
 msgid "Finding result navigation"
 msgstr "Finding result navigation"
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:222
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:252
 msgid "Finding review navigation"
 msgstr "Finding review navigation"
 
@@ -1507,8 +1507,8 @@ msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landl
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:256
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:199
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:204
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:224
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:229
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:97
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:152
 msgid "Next"
@@ -2688,6 +2688,10 @@ msgstr "Unable to send resume link right now."
 #~ msgid "Unable to start analysis. Please try again."
 #~ msgstr "Unable to start analysis. Please try again."
 
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:178
+msgid "Unable to submit your answers. Please try again."
+msgstr "Unable to submit your answers. Please try again."
+
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:201
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:243
 msgid "Unable to update address right now. Please try again."
@@ -2762,7 +2766,7 @@ msgstr "Verify"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:252
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:228
 msgid "View report"
 msgstr "View report"
 
@@ -2958,6 +2962,10 @@ msgstr "You'll take a picture of each individual page of your rent history docum
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:121
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 msgstr "Your answers directly inform our assessment of any potential violations that may appear in our final report."
+
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:165
+msgid "Your answers were validated, but we could not show a result. Please try again."
+msgstr "Your answers were validated, but we could not show a result. Please try again."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/titles/titles.tsx:172

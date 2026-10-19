@@ -76,7 +76,10 @@ const mockAuthSession: rhSessionStorage.RhSessionAuth = {
 const mockValidateMutate = vi.fn(
   (
     _vars: unknown,
-    options?: { onSuccess?: (data: ValidateFindingResponse) => void }
+    options?: {
+      onSuccess?: (data: ValidateFindingResponse) => void;
+      onError?: (error: unknown) => void;
+    }
   ) => {
     options?.onSuccess?.({
       finding: {
@@ -335,6 +338,34 @@ describe("FindingsReviewPage integration", () => {
       screen.queryByRole("button", { name: "Continue" })
     ).not.toBeInTheDocument();
     expect(mockValidateMutate).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows submit error alert and keeps Submit enabled when validate fails", async () => {
+    const { AccountApiError } = await import("../../../api/account/errors");
+
+    mockValidateMutate.mockImplementationOnce((_vars, options) => {
+      options?.onError?.(
+        new AccountApiError(400, {
+          error: "Validation failed for this finding.",
+          error_code: "validation_error",
+        })
+      );
+    });
+
+    renderFindingsReviewPage();
+    await completeFlowThroughVacancyYes();
+    clickSubmit();
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        /Validation failed for this finding/i
+      );
+    });
+
+    expect(
+      screen.queryByTestId("finding-result-modal")
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Submit" })).not.toBeDisabled();
   });
 
   it("closes result modal via Back and does not leave inline result in stack", async () => {

@@ -228,6 +228,12 @@
   width: 100%;
 }
 
+.findings-review-submit-error {
+  @include jfcl.body_standard_mobile;
+  color: jfcl.$RED;
+  margin: jfcl.$JF_SPACING_04 0 0;
+}
+
 // Figma 5314:3584 → 5314:3642 — shared OCR confirm step
 .ocr-confirm-step {
   display: flex;

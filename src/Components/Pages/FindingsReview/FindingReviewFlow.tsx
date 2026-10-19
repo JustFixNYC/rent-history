@@ -4,6 +4,7 @@ import { useLingui } from "@lingui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
+import { isAccountApiError } from "../../../api/account";
 import { useValidateRhFinding } from "../../../api/account/hooks/findingsReview";
 import { accountQueryKeys } from "../../../api/account/queryKeys";
 import type { RhFindingsStateResponse } from "../../../api/account/types";
@@ -48,6 +49,7 @@ export function FindingReviewFlow({
   const [validatedFinding, setValidatedFinding] = useState<Finding | null>(
     null
   );
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const ocrState = useOcrConfirmState();
   const validateMutation = useValidateRhFinding();
@@ -135,10 +137,16 @@ export function FindingReviewFlow({
     });
   }, [revealedCount]);
 
+  useEffect(() => {
+    setSubmitError(null);
+  }, [formState]);
+
   const handleSubmit = () => {
     if (!allStepsComplete || validateMutation.isPending) {
       return;
     }
+
+    setSubmitError(null);
 
     validateMutation.mutate(
       {
@@ -151,7 +159,24 @@ export function FindingReviewFlow({
       },
       {
         onSuccess: (response) => {
+          if (response.finding.result == null) {
+            setSubmitError(
+              _(
+                msg`Your answers were validated, but we could not show a result. Please try again.`
+              )
+            );
+            return;
+          }
           setValidatedFinding(response.finding);
+        },
+        onError: (error) => {
+          if (isAccountApiError(error)) {
+            setSubmitError(error.message);
+            return;
+          }
+          setSubmitError(
+            _(msg`Unable to submit your answers. Please try again.`)
+          );
         },
       }
     );
@@ -213,6 +238,11 @@ export function FindingReviewFlow({
         activeStepIndex={activeStepIndex}
       />
       <div ref={stackEndRef} aria-hidden="true" />
+      {submitError ? (
+        <p className="findings-review-submit-error" role="alert">
+          {submitError}
+        </p>
+      ) : null}
       <FlowNav
         onBack={handleBack}
         onNext={handleSubmit}
