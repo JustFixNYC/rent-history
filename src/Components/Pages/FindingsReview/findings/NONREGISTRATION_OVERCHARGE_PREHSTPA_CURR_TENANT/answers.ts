@@ -1,4 +1,5 @@
 import { buildRentAnswer } from "../../fields/validation";
+import { applyTookSuccessionToAnswerRow } from "../../shared/successionAnswers";
 import type { Finding, ValidateFindingAnswers } from "../../types/finding";
 
 import { ROW_INDEX } from "./spec";
@@ -33,8 +34,6 @@ export function buildAnswers(
   const row0 = finding.data.rows[ROW_INDEX.context];
   const row1 = finding.data.rows[ROW_INDEX.user];
 
-  // TODO: include formState.tookSuccession when auth-provider adds a wire field.
-
   const answersRow0: ValidateFindingAnswers["rows"][number] = {
     reg_year: row0.reg_year,
     apt_stat: formState.row0AptStat,
@@ -45,6 +44,11 @@ export function buildAnswers(
     reg_year: row1.reg_year,
     gets_vacancy_increase: formState.getsVacancyIncrease,
   };
+  applyTookSuccessionToAnswerRow(
+    answersRow1,
+    formState.getsVacancyIncrease,
+    formState.tookSuccession
+  );
 
   return {
     rows: [answersRow0, answersRow1],

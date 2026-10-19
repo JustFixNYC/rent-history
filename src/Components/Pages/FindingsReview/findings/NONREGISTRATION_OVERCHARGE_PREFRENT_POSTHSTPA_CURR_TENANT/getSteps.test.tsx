@@ -185,6 +185,7 @@ describe("buildAnswers", () => {
         {
           reg_year: 2026,
           gets_vacancy_increase: true,
+          took_succession: true,
         },
       ],
     });

@@ -220,7 +220,7 @@ describe("getIntroValues", () => {
 });
 
 describe("buildAnswers", () => {
-  it("maps form state to shape-A rows without succession or tenancy_start", () => {
+  it("maps form state to shape-A rows with succession on row 1 when gated", () => {
     const formState: NonregistrationOverchargePrehstpaCurrTenantFormState = {
       row0AptStat: "RS",
       row0LegalRent: "1200",
@@ -238,6 +238,7 @@ describe("buildAnswers", () => {
         {
           reg_year: 2026,
           gets_vacancy_increase: true,
+          took_succession: true,
         },
       ],
     });

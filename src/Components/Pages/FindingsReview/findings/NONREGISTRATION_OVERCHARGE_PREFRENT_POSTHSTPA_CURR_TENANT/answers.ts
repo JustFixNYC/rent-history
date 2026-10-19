@@ -1,4 +1,5 @@
 import { buildRentAnswer } from "../../fields/validation";
+import { applyTookSuccessionToAnswerRow } from "../../shared/successionAnswers";
 import type { Finding, ValidateFindingAnswers } from "../../types/finding";
 
 import { ROW_INDEX } from "./spec";
@@ -50,6 +51,11 @@ export function buildAnswers(
     reg_year: row1.reg_year,
     gets_vacancy_increase: formState.getsVacancyIncrease,
   };
+  applyTookSuccessionToAnswerRow(
+    answersRow1,
+    formState.getsVacancyIncrease,
+    formState.tookSuccession
+  );
 
   return {
     rows: [answersRow0, answersRow1],
