@@ -19,7 +19,7 @@ import { renderOudatedrhOverchargePrehstpaCurrTenantResult } from "./ResultPanel
 import { EXCLUDED_ANSWER_KEYS, ROW_INDEX } from "./spec";
 
 const finding =
-  findingExamples.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT as Finding;
+  findingExamples.OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT as Finding;
 
 const noopFormChange = () => {};
 
@@ -51,7 +51,7 @@ function stepsForAnswers(answers: ValidateFindingAnswers) {
   );
 }
 
-describe("OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT getSteps", () => {
+describe("OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT getSteps", () => {
   it("returns ocr_confirm, vacancy, and succession step definitions", () => {
     const steps = getSteps({
       finding,
@@ -88,7 +88,7 @@ describe("OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT getSteps", () => {
     expect(screen.getAllByRole("combobox")).toHaveLength(1);
     expect(
       document.getElementById(
-        "oudatedrh-overcharge-prehstpa-curr-tenant-ocr-apt-stat-0"
+        "outdatedrh-overcharge-prehstpa-curr-tenant-ocr-apt-stat-0"
       )
     ).toBeInTheDocument();
   });

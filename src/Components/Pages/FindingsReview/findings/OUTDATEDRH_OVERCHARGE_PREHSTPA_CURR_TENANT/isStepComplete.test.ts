@@ -10,7 +10,7 @@ const baseFormState: OudatedrhOverchargePrehstpaCurrTenantFormState = {
   tookSuccession: null,
 };
 
-describe("OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT isStepComplete", () => {
+describe("OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT isStepComplete", () => {
   it("gates ocr_confirm on ocrConfirmed", () => {
     expect(
       isStepComplete("ocr_confirm", baseFormState, { ocrConfirmed: false })

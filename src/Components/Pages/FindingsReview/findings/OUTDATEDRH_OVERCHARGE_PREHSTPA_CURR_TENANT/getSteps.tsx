@@ -16,7 +16,7 @@ import type { OudatedrhOverchargePrehstpaCurrTenantFormState } from "./answers";
 import { getIntroValues } from "./getIntro";
 import { ROW_INDEX } from "./spec";
 
-const ID_PREFIX = "oudatedrh-overcharge-prehstpa-curr-tenant";
+const ID_PREFIX = "outdatedrh-overcharge-prehstpa-curr-tenant";
 
 export type OudatedrhOverchargePrehstpaCurrTenantGetStepsBindings = {
   finding: Finding;

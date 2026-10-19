@@ -408,6 +408,37 @@ msgstr ""
 #~ msgid "findings.PREFRENT_421A.result.dismissed.body"
 #~ msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:74
+#~ msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.dismissed.body"
+#~ msgstr "Based on what we reviewed, this finding does not apply to your situation. Your report will include more details about the rent increase."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
+#~ msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.intro.title"
+#~ msgstr "Large rent increase from {year0} to {year1}"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:19
+#~ msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.no_violation.body"
+#~ msgstr "The rent increase from {year0} to {year1} appears to be explained by what's in your rent history."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:59
+#~ msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
+#~ msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:36
+#~ msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
+#~ msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}. This rent increase does not appear to be fully explained by what we just checked."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:44
+#: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:65
+#~ msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
+#~ msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr "."
@@ -732,7 +763,7 @@ msgstr "Based on what we reviewed, this finding does not apply to your situation
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:74
-msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.dismissed.body"
+msgid "findings.OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.dismissed.body"
 msgstr "Based on what we reviewed, this finding does not apply to your situation. Your report will include more details about the rent increase."
 
 #. js-lingui-explicit-id
@@ -1311,7 +1342,7 @@ msgstr "Large increase in legal regulated rent"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:8
-msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.intro.title"
+msgid "findings.OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.intro.title"
 msgstr "Large rent increase from {year0} to {year1}"
 
 #. js-lingui-explicit-id
@@ -2338,7 +2369,7 @@ msgstr "The increase in legal regulated rent from ${rent0} in year {year0} to ${
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:19
-msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.no_violation.body"
+msgid "findings.OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.no_violation.body"
 msgstr "The rent increase from {year0} to {year1} appears to be explained by what's in your rent history."
 
 #. js-lingui-explicit-id
@@ -2448,7 +2479,7 @@ msgstr "There was a large rent increase from {missingFromYear} to {year1}, when 
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:59
-msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
+msgid "findings.OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.not_continuous.lead"
 msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}."
 
 #. js-lingui-explicit-id
@@ -2468,7 +2499,7 @@ msgstr "There was a large rent increase from {year0} to {year1}, when you let us
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:36
-msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
+msgid "findings.OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.continuous.lead"
 msgstr "There was a large rent increase from {year0} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}. This rent increase does not appear to be fully explained by what we just checked."
 
 #. js-lingui-explicit-id
@@ -3018,7 +3049,7 @@ msgstr "Your report will explain why the increase does not add up, and what expl
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:44
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:65
-msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
+msgid "findings.OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
 #. js-lingui-explicit-id
