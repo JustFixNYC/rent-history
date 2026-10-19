@@ -1,4 +1,5 @@
 import type { FindingIntroPanelProps } from "../../FindingIntroPanel";
+import { parseNumericRent } from "../../shared/introValues";
 import type { Finding } from "../../types/finding";
 
 import { IntroTitle } from "./ReviewCopy";
@@ -9,27 +10,23 @@ export function getIntroValues(finding: Finding): IntroValues {
   const year1 = INTRO_VALUE_MAP.year1(finding);
   const vacancyYear = INTRO_VALUE_MAP.vacancyYear(finding);
   const missingFromYear = INTRO_VALUE_MAP.missingFromYear(finding);
-  const reportedRentRaw = INTRO_VALUE_MAP.reportedRent(finding);
+
+  const missingDataMessage = `${TYPE} intro requires two rows with reg_year values`;
+  const invalidReportedRentMessage = `${TYPE} intro requires numeric legal_rent on user row`;
 
   if (
     year0 == null ||
     year1 == null ||
     vacancyYear == null ||
-    missingFromYear == null ||
-    reportedRentRaw == null ||
-    (typeof reportedRentRaw !== "number" && typeof reportedRentRaw !== "string")
+    missingFromYear == null
   ) {
-    throw new Error(`${TYPE} intro requires two rows with reg_year values`);
+    throw new Error(missingDataMessage);
   }
 
-  const reportedRent =
-    typeof reportedRentRaw === "number"
-      ? reportedRentRaw
-      : Number.parseFloat(reportedRentRaw);
-
-  if (Number.isNaN(reportedRent)) {
-    throw new Error(`${TYPE} intro requires numeric legal_rent on user row`);
-  }
+  const reportedRent = parseNumericRent(INTRO_VALUE_MAP.reportedRent(finding), {
+    ifMissing: missingDataMessage,
+    ifNotNumeric: invalidReportedRentMessage,
+  });
 
   return {
     findingYear: finding.finding_year,
