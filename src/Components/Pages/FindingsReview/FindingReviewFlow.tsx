@@ -17,11 +17,27 @@ import { FindingResultModal } from "./FindingResultModal";
 import { useFindingSteps } from "./hooks/useFindingSteps";
 import { useOcrConfirmState } from "./hooks/useOcrConfirmState";
 import { useProgressiveReveal } from "./hooks/useProgressiveReveal";
-import type { Finding } from "./types/finding";
+import type { Finding, ValidateFindingResponse } from "./types/finding";
 import type {
   AnyFindingModuleStepBindings,
   AnyFindingReviewModule,
 } from "./types/findingModule";
+
+/** Optional dev-only submit stub (see FindingsReview/dev sandbox). Remove before merge if unused. */
+export type DevValidateMutate = (
+  variables: {
+    accessToken: string;
+    body: {
+      history_id: string;
+      finding_id: string;
+      answers: ReturnType<AnyFindingReviewModule["buildAnswers"]>;
+    };
+  },
+  options?: {
+    onSuccess?: (data: ValidateFindingResponse) => void;
+    onError?: (error: unknown) => void;
+  }
+) => void;
 
 type FindingReviewFlowProps = {
   module: AnyFindingReviewModule;
@@ -29,6 +45,9 @@ type FindingReviewFlowProps = {
   accessToken: string;
   historyId: string;
   onAdvanceToFinding: (findingId: string) => void;
+  /** Dev-only: bypasses `useValidateRhFinding` when set. */
+  devValidateMutate?: DevValidateMutate;
+  devValidateIsPending?: boolean;
 };
 
 export function FindingReviewFlow({
@@ -37,6 +56,8 @@ export function FindingReviewFlow({
   accessToken,
   historyId,
   onAdvanceToFinding,
+  devValidateMutate,
+  devValidateIsPending = false,
 }: FindingReviewFlowProps) {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
@@ -53,6 +74,10 @@ export function FindingReviewFlow({
 
   const ocrState = useOcrConfirmState();
   const validateMutation = useValidateRhFinding();
+  const isValidatePending =
+    devValidateMutate != null
+      ? devValidateIsPending
+      : validateMutation.isPending;
 
   const onFormStateChange = useCallback<
     AnyFindingModuleStepBindings["onFormStateChange"]
@@ -142,48 +167,54 @@ export function FindingReviewFlow({
   }, [formState]);
 
   const handleSubmit = () => {
-    if (!allStepsComplete || validateMutation.isPending) {
+    if (!allStepsComplete || isValidatePending) {
       return;
     }
 
     setSubmitError(null);
 
-    validateMutation.mutate(
-      {
-        accessToken,
-        body: {
-          history_id: historyId,
-          finding_id: finding.id,
-          answers: module.buildAnswers(finding, formState),
-        },
+    const variables = {
+      accessToken,
+      body: {
+        history_id: historyId,
+        finding_id: finding.id,
+        answers: module.buildAnswers(finding, formState),
       },
-      {
-        onSuccess: (response) => {
-          if (response.finding.result == null) {
-            setSubmitError(
-              _(
-                msg`Your answers were validated, but we could not show a result. Please try again.`
-              )
-            );
-            return;
-          }
-          setValidatedFinding(response.finding);
-        },
-        onError: (error) => {
-          if (isAccountApiError(error)) {
-            setSubmitError(error.message);
-            return;
-          }
+    };
+
+    const callbacks = {
+      onSuccess: (response: ValidateFindingResponse) => {
+        if (response.finding.result == null) {
           setSubmitError(
-            _(msg`Unable to submit your answers. Please try again.`)
+            _(
+              msg`Your answers were validated, but we could not show a result. Please try again.`
+            )
           );
-        },
-      }
-    );
+          return;
+        }
+        setValidatedFinding(response.finding);
+      },
+      onError: (error: unknown) => {
+        if (isAccountApiError(error)) {
+          setSubmitError(error.message);
+          return;
+        }
+        setSubmitError(
+          _(msg`Unable to submit your answers. Please try again.`)
+        );
+      },
+    };
+
+    if (devValidateMutate) {
+      devValidateMutate(variables, callbacks);
+      return;
+    }
+
+    validateMutation.mutate(variables, callbacks);
   };
 
   const handleBack = () => {
-    if (validateMutation.isPending) {
+    if (isValidatePending) {
       return;
     }
 
@@ -246,7 +277,7 @@ export function FindingReviewFlow({
       <FlowNav
         onBack={handleBack}
         onNext={handleSubmit}
-        isNextLoading={validateMutation.isPending}
+        isNextLoading={isValidatePending}
         backDisabled={!canGoBack && !showResultModal}
         nextDisabled={!allStepsComplete}
         ariaLabel={_(msg`Finding review navigation`)}

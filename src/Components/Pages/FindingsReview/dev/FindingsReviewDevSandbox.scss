@@ -1,0 +1,31 @@
+.findings-review-dev-sandbox {
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    align-items: flex-end;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--jf-color-gray-200, #e5e5e5);
+    background: var(--jf-color-gray-50, #fafafa);
+  }
+
+  &__notice {
+    flex: 1 1 100%;
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    select {
+      font-weight: 400;
+      min-width: 12rem;
+    }
+  }
+}

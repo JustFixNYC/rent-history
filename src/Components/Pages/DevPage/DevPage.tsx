@@ -1,3 +1,5 @@
+import { Link, useParams } from "react-router-dom";
+
 import {
   TimelineElement,
   TIMELINE_PILL_TYPES,
@@ -14,12 +16,24 @@ import "./DevPage.scss";
  * Temporary unauthenticated page for previewing UI components in development.
  * Not linked from production navigation.
  */
-const DevPage: React.FC = () => (
+const DevPage: React.FC = () => {
+  const { locale } = useParams();
+  const findingsReviewDevPath = locale
+    ? `/${locale}/dev/findings-review`
+    : "/dev/findings-review";
+
+  return (
   <section id="dev-page" className="preflow-section">
     <h1 className="preflow-title">UI preview</h1>
     <p className="dev-page__intro">
       Temporary development page for component previews. Not for production use.
     </p>
+    {import.meta.env.DEV ? (
+      <p className="dev-page__intro">
+        <Link to={findingsReviewDevPath}>Findings review sandbox</Link> (mock
+        validation flows)
+      </p>
+    ) : null}
 
     <article className="dev-page__section">
       <h2 className="dev-page__section-title">TimelineElement pills</h2>
@@ -68,6 +82,7 @@ const DevPage: React.FC = () => (
       </ol>
     </article>
   </section>
-);
+  );
+};
 
 export default DevPage;
