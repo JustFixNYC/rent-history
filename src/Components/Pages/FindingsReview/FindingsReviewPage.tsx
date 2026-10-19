@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Trans } from "@lingui/react/macro";
-import { useSearchParams } from "react-router-dom";
 
 import { useRhFindingsState } from "../../../api/account/hooks/findingsReview";
 import {
@@ -16,9 +15,6 @@ import { FINDING_MODULES } from "./types/registry";
 import "./FindingsReview.scss";
 
 const FindingsReviewPage = () => {
-  const [searchParams] = useSearchParams();
-  const resumeHint = searchParams.get("finding_id");
-
   const session = getRhAuthSession();
   const historyId = getRhHistoryId();
   const { data, isLoading, isError } = useRhFindingsState({
@@ -43,20 +39,11 @@ const FindingsReviewPage = () => {
         }
       }
 
-      const hintedId =
-        resumeHint != null &&
-        data.findings_current.some((finding) => finding.id === resumeHint)
-          ? resumeHint
-          : null;
-
-      return hintedId ?? data.review_queue.ordered_ids[0] ?? null;
+      return data.review_queue.ordered_ids[0] ?? null;
     });
-  }, [data, resumeHint]);
+  }, [data]);
 
-  const currentFinding = getCurrentFindingFromQueue(
-    data,
-    activeFindingId ?? resumeHint
-  );
+  const currentFinding = getCurrentFindingFromQueue(data, activeFindingId);
   const module =
     currentFinding?.type != null
       ? FINDING_MODULES[currentFinding.type as keyof typeof FINDING_MODULES]

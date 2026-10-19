@@ -1392,7 +1392,7 @@ msgstr "Alquiler regulado legal"
 #~ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:65
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:77
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:64
 msgid "Loading findings…"
 msgstr "Cargando hallazgos…"
 
@@ -2633,7 +2633,7 @@ msgstr ""
 msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:82
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:69
 msgid "Unable to load findings state."
 msgstr "No se pudo cargar el estado de los hallazgos."
 
@@ -2708,7 +2708,7 @@ msgid "timeline.implications.rgb_overcharge"
 msgstr ""
 
 #. placeholder {0}: currentFinding.type
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:97
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:84
 msgid "Unsupported finding type: {0}"
 msgstr "Tipo de hallazgo no compatible: {0}"
 

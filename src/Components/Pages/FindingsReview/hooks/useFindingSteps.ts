@@ -8,6 +8,7 @@ export type UseFindingStepsResult<T extends StepWithVisibility> = {
   visibleSteps: T[];
 };
 
+/** See ./README.md — visibility uses buildAnswers output, not raw formState. */
 export function useFindingSteps<T extends StepWithVisibility>(
   steps: T[],
   answers: ValidateFindingAnswers

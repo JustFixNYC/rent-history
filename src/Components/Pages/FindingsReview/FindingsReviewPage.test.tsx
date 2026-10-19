@@ -548,31 +548,6 @@ describe("FindingsReviewPage integration", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("honors ?finding_id= resume hint when the id exists in findings_current", async () => {
-    vi.mocked(findingsReviewHooks.useRhFindingsState).mockReturnValue({
-      data: {
-        findings_current: [prehstpaFinding, secondPrehstpaFinding],
-        review_queue: {
-          ordered_ids: [secondPrehstpaFinding.id, prehstpaFinding.id],
-        },
-      },
-      isLoading: false,
-      isError: false,
-    } as unknown as ReturnType<typeof findingsReviewHooks.useRhFindingsState>);
-
-    renderFindingsReviewPage(
-      `/en/analyze/findings-review?finding_id=${prehstpaFinding.id}`
-    );
-
-    await waitForReviewFlow();
-    expect(
-      screen.getByText(/Does what you see in 1991 and 1992 match/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByText(/Does what you see in 1992 and 1993 match/i)
-    ).not.toBeInTheDocument();
-  });
-
   it("modal Next advances to the next queued finding when the queue has remaining items", async () => {
     vi.mocked(findingsReviewHooks.useRhFindingsState).mockReturnValue({
       data: {

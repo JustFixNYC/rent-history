@@ -1392,7 +1392,7 @@ msgstr "Legal Regulated Rent"
 #~ msgstr "Loading address…"
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:65
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:77
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:64
 msgid "Loading findings…"
 msgstr "Loading findings…"
 
@@ -2633,7 +2633,7 @@ msgstr "Unable to continue. Please try again."
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:82
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:69
 msgid "Unable to load findings state."
 msgstr "Unable to load findings state."
 
@@ -2708,7 +2708,7 @@ msgid "timeline.implications.rgb_overcharge"
 msgstr "You may need to investigate further as to any alleged IAIs your landlord may have performed, because this would have been one of the only ways to have raised the rent beyond the standard RGB increase amount. If your landlord cannot prove how they legally increased your rent, there is a chance your rent may have been unlawfully or improperly raised, which means that you could be entitled to <0/> and your <1/> could be recalculated."
 
 #. placeholder {0}: currentFinding.type
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:97
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:84
 msgid "Unsupported finding type: {0}"
 msgstr "Unsupported finding type: {0}"
 
