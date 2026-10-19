@@ -268,7 +268,19 @@ describe("buildAnswers", () => {
     for (const key of EXCLUDED_ANSWER_KEYS) {
       expect(serialized).not.toContain(`"${key}"`);
     }
-    expect(serialized).not.toContain("tookSuccession");
+  });
+
+  it("includes took_succession on row 1 when vacancy and succession are answered", () => {
+    const answers = buildAnswers(finding, {
+      row0AptStat: "RS",
+      row0LegalRent: "850.02",
+      row0PrefRent: "684.27",
+      row0NoPrefRent: false,
+      getsVacancyIncrease: true,
+      tookSuccession: true,
+    });
+
+    expect(answers.rows[1]?.took_succession).toBe(true);
   });
 
   it("sends null pref_rent when the user clears a rent field", () => {

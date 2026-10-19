@@ -183,6 +183,7 @@ describe("buildAnswers", () => {
         {
           reg_year: 2026,
           gets_vacancy_increase: true,
+          took_succession: true,
         },
       ],
     });
@@ -195,6 +196,20 @@ describe("buildAnswers", () => {
     for (const key of EXCLUDED_ANSWER_KEYS) {
       expect(serialized).not.toContain(`"${key}"`);
     }
+    expect(EXCLUDED_ANSWER_KEYS).not.toContain("took_succession");
+  });
+
+  it("includes took_succession on row 1 when vacancy and succession are answered", () => {
+    const answers = buildAnswers(finding, {
+      row0AptStat: "RS",
+      row0LegalRent: "2000",
+      row0PrefRent: "1800",
+      row0NoPrefRent: false,
+      getsVacancyIncrease: true,
+      tookSuccession: true,
+    });
+
+    expect(answers.rows[1]?.took_succession).toBe(true);
   });
 });
 

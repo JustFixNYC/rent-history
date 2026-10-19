@@ -12,7 +12,7 @@ export const ROW_INDEX = {
 /** Keys the user may patch per row during review (OCR + step fields). */
 export const PATCHABLE_KEYS = {
   row0: ["apt_stat", "legal_rent"] as const,
-  row1: ["gets_vacancy_increase"] as const,
+  row1: ["gets_vacancy_increase", "took_succession"] as const,
 };
 
 /** OCR `renderLeft` — Apt Stat dropdown (`apt_stat` on `finding.data.rows`). */

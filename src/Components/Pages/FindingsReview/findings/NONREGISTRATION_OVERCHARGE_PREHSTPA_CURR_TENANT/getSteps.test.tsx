@@ -251,7 +251,17 @@ describe("buildAnswers", () => {
     for (const key of EXCLUDED_ANSWER_KEYS) {
       expect(serialized).not.toContain(`"${key}"`);
     }
-    expect(serialized).not.toContain("tookSuccession");
+  });
+
+  it("includes took_succession on row 1 when vacancy and succession are answered", () => {
+    const answers = buildAnswers(finding, {
+      row0AptStat: "RS",
+      row0LegalRent: "1200",
+      getsVacancyIncrease: true,
+      tookSuccession: true,
+    });
+
+    expect(answers.rows[1]?.took_succession).toBe(true);
   });
 
   it("maps self-tenant Yes to gets_vacancy_increase false", () => {
