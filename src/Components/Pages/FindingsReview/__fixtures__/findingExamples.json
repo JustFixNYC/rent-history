@@ -195,14 +195,14 @@
     },
     "validated_at": null
   },
-  "OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT": {
+  "OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT": {
     "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
     "key": {
-      "type": "OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT",
+      "type": "OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT",
       "finding_year": 2026,
       "subtype": null
     },
-    "type": "OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT",
+    "type": "OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT",
     "finding_year": 2026,
     "status": "pending",
     "data": {
