@@ -5,7 +5,7 @@ import type { ValidateFindingAnswers } from "../types/finding";
 
 import {
   filterVisibleSteps,
-  isTenancyStartStepVisible,
+  isVacancyGatedFollowUpVisible,
 } from "./stepVisibility";
 import { useFindingSteps } from "./useFindingSteps";
 import { useOcrConfirmState } from "./useOcrConfirmState";
@@ -16,7 +16,7 @@ const prehstpaSteps = [
   { id: "vacancy" },
   {
     id: "tenancy_start",
-    isVisible: isTenancyStartStepVisible,
+    isVisible: isVacancyGatedFollowUpVisible,
   },
 ];
 

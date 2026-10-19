@@ -1,4 +1,4 @@
-import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
+import { isVacancyGatedFollowUpVisible } from "../../hooks/stepVisibility";
 import { patchGetsVacancyIncrease } from "../../hooks/vacancyFormState";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import { TenantNameTipsLink } from "../../shared/TenantNameTipsLink";
@@ -106,7 +106,7 @@ export function getSteps(bindings: PrehstpaGetStepsBindings): FindingStep[] {
     {
       id: "tenancy_start",
       stepNumber: 3,
-      isVisible: isTenancyStartStepVisible,
+      isVisible: isVacancyGatedFollowUpVisible,
       render: ({ isPastStep }) => (
         <TenancyStep
           stepNumber={3}

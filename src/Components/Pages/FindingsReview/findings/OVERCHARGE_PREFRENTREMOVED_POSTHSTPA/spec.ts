@@ -1,3 +1,4 @@
+import { getRowTenants } from "../../shared/rowData";
 import type { Finding } from "../../types/finding";
 
 /** Wire finding type constant for registry lookup. */
@@ -46,5 +47,5 @@ export type IntroValues = {
 };
 
 export function getTenancyRowTenants(finding: Finding): string[] {
-  return finding.data.rows[ROW_INDEX.row0]?.tenants?.filter(Boolean) ?? [];
+  return getRowTenants(finding, ROW_INDEX.row0);
 }

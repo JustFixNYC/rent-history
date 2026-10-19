@@ -1,4 +1,4 @@
-import { isTenancyStartStepVisible } from "../../hooks/stepVisibility";
+import { isVacancyGatedFollowUpVisible } from "../../hooks/stepVisibility";
 import { patchGetsVacancyIncrease } from "../../hooks/vacancyFormState";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
@@ -96,7 +96,7 @@ export function getSteps(
     {
       id: "succession",
       stepNumber: 3,
-      isVisible: isTenancyStartStepVisible,
+      isVisible: isVacancyGatedFollowUpVisible,
       render: ({ isPastStep }) => (
         <SuccessionStep
           stepNumber={3}
