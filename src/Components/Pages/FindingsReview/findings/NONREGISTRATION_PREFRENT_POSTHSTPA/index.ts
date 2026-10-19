@@ -28,8 +28,9 @@ export { renderNonregistrationPrefrentPosthstpaResult } from "./ResultPanel";
 
 export {
   IntroTitle,
-  ResultPotentialViolationBody,
   ResultNoViolationBody,
+  ResultPotentialViolationContinuousBody,
+  ResultPotentialViolationNotContinuousBody,
   ResultDismissedBody,
 } from "./ReviewCopy";
 

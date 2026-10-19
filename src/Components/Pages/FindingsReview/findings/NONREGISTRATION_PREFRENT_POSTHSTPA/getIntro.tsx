@@ -9,16 +9,26 @@ export function getIntroValues(finding: Finding): IntroValues {
   const year1 = INTRO_VALUE_MAP.year1(finding);
   const vacancyYear = INTRO_VALUE_MAP.vacancyYear(finding);
   const missingFromYear = INTRO_VALUE_MAP.missingFromYear(finding);
-  const reportedRent = INTRO_VALUE_MAP.reportedRent(finding);
+  const reportedRentRaw = INTRO_VALUE_MAP.reportedRent(finding);
 
   if (
     year0 == null ||
     year1 == null ||
     vacancyYear == null ||
     missingFromYear == null ||
-    reportedRent == null
+    reportedRentRaw == null ||
+    (typeof reportedRentRaw !== "number" && typeof reportedRentRaw !== "string")
   ) {
     throw new Error(`${TYPE} intro requires two rows with reg_year values`);
+  }
+
+  const reportedRent =
+    typeof reportedRentRaw === "number"
+      ? reportedRentRaw
+      : Number.parseFloat(reportedRentRaw);
+
+  if (Number.isNaN(reportedRent)) {
+    throw new Error(`${TYPE} intro requires numeric legal_rent on user row`);
   }
 
   return {

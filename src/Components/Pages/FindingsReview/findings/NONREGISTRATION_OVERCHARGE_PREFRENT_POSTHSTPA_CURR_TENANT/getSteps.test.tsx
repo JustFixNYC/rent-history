@@ -16,7 +16,7 @@ import {
 import { getIntroValues } from "./getIntro";
 import { getSteps } from "./getSteps";
 import { renderNonregistrationOverchargePrefrentPosthstpaCurrTenantResult } from "./ResultPanel";
-import { EXCLUDED_ANSWER_KEYS, ROW_INDEX } from "./spec";
+import { EXCLUDED_ANSWER_KEYS } from "./spec";
 
 const finding =
   findingExamples.NONREGISTRATION_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT as Finding;
