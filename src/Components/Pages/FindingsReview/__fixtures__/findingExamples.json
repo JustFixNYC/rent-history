@@ -141,6 +141,60 @@
     },
     "validated_at": null
   },
+  "NONREGISTRATION_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT": {
+    "id": "c3d4e5f6-a7b8-9012-cdef-123456789abc",
+    "key": {
+      "type": "NONREGISTRATION_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "NONREGISTRATION_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2015,
+          "apt_stat": "RS",
+          "legal_rent": 1200.0,
+          "pref_rent": 1100.0,
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2026,
+          "legal_rent": 2400.0,
+          "gets_vacancy_increase": null
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT": {
+    "id": "d4e5f6a7-b8c9-0123-def0-23456789abcd",
+    "key": {
+      "type": "NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2020,
+          "apt_stat": "RS",
+          "legal_rent": 2000.0,
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2026,
+          "legal_rent": 2400.0
+        }
+      ]
+    },
+    "validated_at": null
+  },
   "OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT": {
     "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
     "key": {
