@@ -398,6 +398,16 @@ msgstr ""
 #~ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body"
 #~ msgstr "The increase in preferential rent from ${rent0} in year {year0} to ${rent1} in year {year1} is more than the allowed increase. Your report will include this with additional details."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:21
+#~ msgid "findings.PREFRENT_421A.result.potential_violation.body"
+#~ msgstr "A preferential rent appears to have been charged during the first year of this building's participation in the 421a tax program (year {year0}). Your report will include this with additional details."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:37
+#~ msgid "findings.PREFRENT_421A.result.dismissed.body"
+#~ msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr "."
@@ -511,11 +521,6 @@ msgstr "A <0/> was done to the building."
 #: src/Components/Pages/Landing/Landing.tsx:183
 msgid "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
 msgstr "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:21
-msgid "findings.PREFRENT_421A.result.potential_violation.body"
-msgstr "A preferential rent appears to have been charged during the first year of this building's participation in the 421a tax program (year {year0}). Your report will include this with additional details."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:165
@@ -2277,6 +2282,11 @@ msgid "timeline.copy.preferential_tenancy_limit.exceeds"
 msgstr "The preferential rent of {formattedPrefRent} in year {year} is more than the RGB limit ({formattedMaxRent}), and does not appear to be explained by the standard RGB increase alone."
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:23
+msgid "findings.PREFRENT_421A.result.potential_violation.lead"
+msgstr "The preferential rent offered in {year0}, the first year of this building's participation in the 421a tax program, does not appear to be explained by what we just checked."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.lead"
 msgstr "The preferential rent was removed in {year1}. The legal removal of the preferential rent does not appear to be fully explained by what we just checked."
@@ -2902,12 +2912,7 @@ msgid "You must allow access to your device's camera to scan your document"
 msgstr "You must allow access to your device's camera to scan your document"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:37
-msgid "findings.PREFRENT_421A.result.dismissed.body"
-msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:29
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:39
 msgid "findings.PREFRENT_421A.result.no_violation.body"
 msgstr "You reported that a preferential rent was not charged during the first year of this building's participation in the 421a tax program (year {year0})."
 
@@ -3049,6 +3054,11 @@ msgstr "Your report will explain why the increase does not add up, and what expl
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:44
 msgid "findings.NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:30
+msgid "findings.PREFRENT_421A.result.potential_violation.footer"
+msgstr "Your report will explain why the preferential rent might not have been allowed, and if other legal explanations may be possible."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:31

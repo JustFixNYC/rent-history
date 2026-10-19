@@ -398,6 +398,16 @@ msgstr ""
 #~ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:21
+#~ msgid "findings.PREFRENT_421A.result.potential_violation.body"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:37
+#~ msgid "findings.PREFRENT_421A.result.dismissed.body"
+#~ msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -510,11 +520,6 @@ msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:183
 msgid "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:21
-msgid "findings.PREFRENT_421A.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2277,6 +2282,11 @@ msgid "timeline.copy.preferential_tenancy_limit.exceeds"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:23
+msgid "findings.PREFRENT_421A.result.potential_violation.lead"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:24
 msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.lead"
 msgstr ""
@@ -2902,12 +2912,7 @@ msgid "You must allow access to your device's camera to scan your document"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:37
-msgid "findings.PREFRENT_421A.result.dismissed.body"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:29
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:39
 msgid "findings.PREFRENT_421A.result.no_violation.body"
 msgstr ""
 
@@ -3048,6 +3053,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:44
 msgid "findings.NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:30
+msgid "findings.PREFRENT_421A.result.potential_violation.footer"
 msgstr ""
 
 #. js-lingui-explicit-id

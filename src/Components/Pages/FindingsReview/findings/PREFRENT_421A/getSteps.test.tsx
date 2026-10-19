@@ -258,10 +258,12 @@ describe("renderPrefrent421aResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(/421a tax program \(year 1984\)/i)
+      screen.getByText(
+        /does not appear to be explained by what we just checked/i
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Your report will include this with additional details/i)
+      screen.getByText(/might not have been allowed/i)
     ).toBeInTheDocument();
   });
 
@@ -276,13 +278,9 @@ describe("renderPrefrent421aResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(
-        /preferential rent was not charged during the first year/i
-      )
+      screen.getByText(/not charged in year 1984, the first year/i)
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/421a tax program \(year 1984\)/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/421a tax program/i)).toBeInTheDocument();
   });
 
   it("uses dismissed copy matching no violation", () => {
@@ -296,12 +294,8 @@ describe("renderPrefrent421aResult", () => {
     renderWithI18n(<>{content?.body}</>);
 
     expect(
-      screen.getByText(
-        /preferential rent was not charged during the first year/i
-      )
+      screen.getByText(/not charged in year 1984, the first year/i)
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/421-a tax program \(year 1984\)/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/421a tax program/i)).toBeInTheDocument();
   });
 });
