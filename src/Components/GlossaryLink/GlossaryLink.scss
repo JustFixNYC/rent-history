@@ -1,7 +1,10 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
 .glossary-link.jfcl-link-styled-button {
   // text-decoration underlines paint spaces solid in many browsers;
   // border-bottom keeps a continuous dotted line across the whole control.
+  color: jfcl.$GREY_700;
   text-decoration: none;
-  border-bottom: 0.11em dotted #4e4b4b;
+  border-bottom: 0.11em dotted jfcl.$GREY_700;
   padding-bottom: 0.05em;
 }

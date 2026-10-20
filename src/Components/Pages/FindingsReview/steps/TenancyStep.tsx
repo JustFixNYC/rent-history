@@ -149,7 +149,9 @@ export const TenancyStep = ({
           data-tenant-mode={showTenantList ? "multiple" : "single"}
         >
           {body}
-          {tipsSlot}
+          {tipsSlot ? (
+            <div className="tenancy-step__tips">{tipsSlot}</div>
+          ) : null}
           {showTenantList ? (
             <ul
               className="tenancy-step__tenant-list"

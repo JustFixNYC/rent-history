@@ -3,8 +3,6 @@ import classNames from "classnames";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { Icon } from "@justfixnyc/component-library";
-
 import { InfoModal } from "../InfoModal/InfoModal";
 import { RentHistoryPagesModalContent } from "./RentHistoryPagesModalContent";
 
@@ -27,7 +25,6 @@ export const DocumentLink = ({ className }: DocumentLinkProps) => {
         aria-haspopup="dialog"
       >
         <Trans>your rent history</Trans>
-        <Icon icon="memoPad" aria-hidden="true" />
       </button>
       <InfoModal
         isOpen={isOpen}

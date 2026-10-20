@@ -231,7 +231,9 @@ export const VacancyStep = ({
               ))}
             </ul>
           ) : null}
-          {tipsSlot}
+          {tipsSlot ? (
+            <div className="vacancy-step__tips">{tipsSlot}</div>
+          ) : null}
           {extraFields}
           <YesNoField
             id={`${idPrefix}-vacancy`}

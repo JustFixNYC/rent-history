@@ -2,18 +2,10 @@
 
 .document-link {
   @include jfcl.body_standard_link_mobile;
-  align-items: center;
   background: none;
   border: 0;
   color: jfcl.$OFF_BLACK;
   cursor: pointer;
-  display: inline-flex;
-  gap: jfcl.$JF_SPACING_01;
+  display: inline;
   padding: 0;
-
-  svg {
-    flex-shrink: 0;
-    height: 17px;
-    width: 17px;
-  }
 }
