@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import { I18n } from "../../../i18n";
+import { AppScrollProvider, ScrollToTopOnRouteChange } from "../../../scroll";
 import { CollabHeader, Header } from "./Header";
 import { Footer } from "./Footer";
 import { SidebarNav } from "./SidebarNav";
@@ -8,6 +9,7 @@ import "./PageLayout.scss";
 
 export const PageLayout: React.FC = () => {
   const { pathname } = useLocation();
+  const mainRef = useRef<HTMLElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -31,27 +33,28 @@ export const PageLayout: React.FC = () => {
 
   return (
     <I18n>
-      <div id="grid">
-        <SidebarNav
-          isMobileMenuOpen={isMobileMenuOpen}
-          onCloseMobileMenu={() => setIsMobileMenuOpen(false)}
-        />
-        <main id="main">
-          <Header
+      <AppScrollProvider containerRef={mainRef}>
+        <ScrollToTopOnRouteChange />
+        <div id="grid">
+          <SidebarNav
             isMobileMenuOpen={isMobileMenuOpen}
-            onMenuClick={() => setIsMobileMenuOpen((open) => !open)}
+            onCloseMobileMenu={() => setIsMobileMenuOpen(false)}
           />
-          <div id="content">
-            <div id="page">
-              <CollabHeader />
-              <Outlet />
-              <Footer />
+          <main id="main" ref={mainRef}>
+            <Header
+              isMobileMenuOpen={isMobileMenuOpen}
+              onMenuClick={() => setIsMobileMenuOpen((open) => !open)}
+            />
+            <div id="content">
+              <div id="page">
+                <CollabHeader />
+                <Outlet />
+                <Footer />
+              </div>
             </div>
-          </div>
-        </main>
-      </div>
-
-      <ScrollRestoration />
+          </main>
+        </div>
+      </AppScrollProvider>
     </I18n>
   );
 };

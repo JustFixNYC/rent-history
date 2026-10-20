@@ -12,6 +12,7 @@ import { msg } from "@lingui/core/macro";
 import { useNavigate } from "react-router-dom";
 
 import { analyzePath } from "../../routes/analyzeRoutes";
+import { useAppScroll } from "../../scroll";
 import "./EditableTable.scss";
 import {
   Lease,
@@ -169,6 +170,7 @@ const defaultColumn: Partial<ColumnDef<Lease>> = {
 export const EditableTable: React.FC = () => {
   const { i18n, _ } = useLingui();
   const navigate = useNavigate();
+  const { scrollToTop: scrollAppToTop } = useAppScroll();
 
   const columns = React.useMemo<ColumnDef<Lease>[]>(
     () => [
@@ -401,7 +403,7 @@ export const EditableTable: React.FC = () => {
 
   const scrollToTop = () => {
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollAppToTop({ behavior: "auto" });
     }, 0);
   };
 

@@ -265,7 +265,7 @@ msgstr "Additional recipients"
 msgid "Address"
 msgstr "Address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:704
+#: src/Components/Pages/Scanner/Scanner.tsx:707
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr "All scanned pages will be cleared and you'll need to scan all pages again."
 
@@ -281,7 +281,7 @@ msgstr "Analysis complete"
 msgid "Analyze a new rent history"
 msgstr "Analyze a new rent history"
 
-#: src/Components/EditableTable/EditableTable.tsx:497
+#: src/Components/EditableTable/EditableTable.tsx:499
 msgid "Analyze my rent history"
 msgstr "Analyze my rent history"
 
@@ -470,7 +470,7 @@ msgstr "Camera access"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:344
 #: src/Components/Pages/AccountPage/AccountPage.tsx:365
-#: src/Components/Pages/Scanner/Scanner.tsx:716
+#: src/Components/Pages/Scanner/Scanner.tsx:719
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -604,8 +604,8 @@ msgstr "dismissed finding result copy TK"
 msgid "findings.HRVD.result.dismissed.body"
 msgstr "dismissed finding result copy TK"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:179
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:196
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:182
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:199
 msgid "Do you currently live in the apartment associated with this rent history?"
 msgstr "Do you currently live in the apartment associated with this rent history?"
 
@@ -713,7 +713,7 @@ msgstr "Find out if you’ve been overcharged on rent"
 msgid "Finding result navigation"
 msgstr "Finding result navigation"
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:222
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:229
 msgid "Finding review navigation"
 msgstr "Finding review navigation"
 
@@ -721,7 +721,7 @@ msgstr "Finding review navigation"
 #~ msgid "Findings review"
 #~ msgstr "Findings review"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:350
+#: src/Components/Pages/Scanner/Scanner.tsx:353
 msgid "Finish scanning"
 msgstr "Finish scanning"
 
@@ -1040,7 +1040,7 @@ msgstr "Let's check to see if you were the tenant receiving preferential rent in
 #~ msgstr "Loading address…"
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:65
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:77
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:80
 msgid "Loading findings…"
 msgstr "Loading findings…"
 
@@ -1154,7 +1154,7 @@ msgstr "Missing registration"
 msgid "Missing registration years"
 msgstr "Missing registration years"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:254
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:257
 msgid "Monthly rent amount"
 msgstr "Monthly rent amount"
 
@@ -1176,9 +1176,9 @@ msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landl
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:256
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:199
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:204
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:164
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:206
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:211
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:167
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:152
 msgid "Next"
 msgstr "Next"
@@ -1220,7 +1220,7 @@ msgid "Next, your report will provide more details"
 msgstr "Next, your report will provide more details"
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:216
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:219
 msgid "No"
 msgstr "No"
 
@@ -1351,7 +1351,7 @@ msgstr "Please enter a valid email address."
 msgid "Please enter a valid phone number."
 msgstr "Please enter a valid phone number."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:62
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:65
 msgid "Please enter a valid rent amount."
 msgstr "Please enter a valid rent amount."
 
@@ -1359,7 +1359,7 @@ msgstr "Please enter a valid rent amount."
 msgid "Please enter all 6 digits."
 msgstr "Please enter all 6 digits."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:240
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:243
 msgid "Please enter the full monthly rent for the entire apartment. This will help us compare what you pay to what is listed in your rent history."
 msgstr "Please enter the full monthly rent for the entire apartment. This will help us compare what you pay to what is listed in your rent history."
 
@@ -1367,11 +1367,11 @@ msgstr "Please enter the full monthly rent for the entire apartment. This will h
 msgid "Please enter your email address."
 msgstr "Please enter your email address."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:58
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:61
 msgid "Please enter your monthly rent."
 msgstr "Please enter your monthly rent."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:120
 msgid "Please select Yes or No."
 msgstr "Please select Yes or No."
 
@@ -1437,11 +1437,11 @@ msgstr "Privacy policy"
 msgid "Processing your scanned pages…"
 msgstr "Processing your scanned pages…"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:702
+#: src/Components/Pages/Scanner/Scanner.tsx:705
 msgid "Re-scan all pages?"
 msgstr "Re-scan all pages?"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:162
+#: src/Components/Pages/Scanner/Scanner.tsx:165
 msgid "Re-scan page"
 msgstr "Re-scan page"
 
@@ -1504,7 +1504,7 @@ msgstr "Resend"
 msgid "Residential units"
 msgstr "Residential units"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:710
+#: src/Components/Pages/Scanner/Scanner.tsx:713
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:150
 msgid "Restart scan"
 msgstr "Restart scan"
@@ -1551,12 +1551,12 @@ msgstr "Review Scan"
 #~ msgid "Save address"
 #~ msgstr "Save address"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:166
+#: src/Components/Pages/Scanner/Scanner.tsx:169
 msgid "Save page"
 msgstr "Save page"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:255
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:164
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:167
 msgid "Saving…"
 msgstr "Saving…"
 
@@ -1608,7 +1608,7 @@ msgstr "Scan your rent history with your phone"
 #~ msgid "ScanBot Demo"
 #~ msgstr "ScanBot Demo"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:334
+#: src/Components/Pages/Scanner/Scanner.tsx:337
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr "Scanner is still loading. Please wait a moment and try again."
 
@@ -2103,7 +2103,7 @@ msgstr "This building is not in our rent-stabilized map dataset (or has no regis
 msgid "timeline.copy.substantial_rehab_possible"
 msgstr "This exemption could be illegal. One way that this could have happened legally is if the landlord can prove a <0/> was done to the apartment or building."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:185
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:188
 msgid "This helps us determine if you are currently being overcharged."
 msgstr "This helps us determine if you are currently being overcharged."
 
@@ -2177,7 +2177,7 @@ msgstr "To reach the threshold, the landlord would have needed to document <0/>.
 msgid "Too many invalid attempts. Request a new code."
 msgstr "Too many invalid attempts. Request a new code."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:581
+#: src/Components/Pages/Scanner/Scanner.tsx:584
 msgid "Unable to continue. Please try again."
 msgstr "Unable to continue. Please try again."
 
@@ -2185,7 +2185,7 @@ msgstr "Unable to continue. Please try again."
 msgid "Unable to create your rent history record. Please try again."
 msgstr "Unable to create your rent history record. Please try again."
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:82
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:85
 msgid "Unable to load findings state."
 msgstr "Unable to load findings state."
 
@@ -2201,18 +2201,18 @@ msgstr "Unable to load scan previews."
 msgid "Unable to load scan review"
 msgstr "Unable to load scan review"
 
-#: src/Components/Pages/Scanner/Scanner.tsx:223
+#: src/Components/Pages/Scanner/Scanner.tsx:226
 msgid "Unable to load the scanner. Please refresh the page and try again."
 msgstr "Unable to load the scanner. Please refresh the page and try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:415
-#: src/Components/Pages/Scanner/Scanner.tsx:443
-#: src/Components/Pages/Scanner/Scanner.tsx:486
+#: src/Components/Pages/Scanner/Scanner.tsx:418
+#: src/Components/Pages/Scanner/Scanner.tsx:446
+#: src/Components/Pages/Scanner/Scanner.tsx:489
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:41
 msgid "Unable to open the scanner. Please try again."
 msgstr "Unable to open the scanner. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:540
+#: src/Components/Pages/Scanner/Scanner.tsx:543
 msgid "Unable to re-scan pages. Please try again."
 msgstr "Unable to re-scan pages. Please try again."
 
@@ -2220,7 +2220,7 @@ msgstr "Unable to re-scan pages. Please try again."
 msgid "Unable to resend code right now. Please try again."
 msgstr "Unable to resend code right now. Please try again."
 
-#: src/Components/Pages/Scanner/Scanner.tsx:494
+#: src/Components/Pages/Scanner/Scanner.tsx:497
 msgid "Unable to restart scanning. Please try again."
 msgstr "Unable to restart scanning. Please try again."
 
@@ -2228,7 +2228,7 @@ msgstr "Unable to restart scanning. Please try again."
 msgid "Unable to resume"
 msgstr "Unable to resume"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:105
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:108
 msgid "Unable to save your answers. Please try again."
 msgstr "Unable to save your answers. Please try again."
 
@@ -2264,7 +2264,7 @@ msgid "timeline.implications.rgb_overcharge"
 msgstr "You may need to investigate further as to any alleged IAIs your landlord may have performed, because this would have been one of the only ways to have raised the rent beyond the standard RGB increase amount. If your landlord cannot prove how they legally increased your rent, there is a chance your rent may have been unlawfully or improperly raised, which means that you could be entitled to <0/> and your <1/> could be recalculated."
 
 #. placeholder {0}: currentFinding.type
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:97
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:100
 msgid "Unsupported finding type: {0}"
 msgstr "Unsupported finding type: {0}"
 
@@ -2322,7 +2322,7 @@ msgstr "Verify"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:252
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:210
 msgid "View report"
 msgstr "View report"
 
@@ -2451,7 +2451,7 @@ msgstr "Were you living in this apartment in year {year0}?"
 #~ msgid "What is the total monthly rent for your entire apartment?"
 #~ msgstr "What is the total monthly rent for your entire apartment?"
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:237
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:240
 msgid "What is your current monthly rent?"
 msgstr "What is your current monthly rent?"
 
@@ -2532,7 +2532,7 @@ msgid "findings.HRVD.intro.eyebrow"
 msgstr "Year {findingYear}"
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:203
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:206
 msgid "Yes"
 msgstr "Yes"
 
@@ -2705,7 +2705,7 @@ msgstr "Your scanned pages are missing registration years: <0>{rangesLabel}</0>.
 #~ msgid "Your session is missing a rent history record. Go back to login and try again."
 #~ msgstr "Your session is missing a rent history record. Go back to login and try again."
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:87
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:90
 msgid "Your session is missing a rent history record. Please sign in again."
 msgstr "Your session is missing a rent history record. Please sign in again."
 
