@@ -1077,7 +1077,7 @@ msgstr ""
 msgid "Finding result navigation"
 msgstr "Navegación del resultado del hallazgo"
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:252
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:283
 msgid "Finding review navigation"
 msgstr "Navegación de revisión de hallazgos"
 
@@ -1507,8 +1507,8 @@ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:256
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:224
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:229
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:255
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:260
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:97
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:152
 msgid "Next"
@@ -2141,7 +2141,7 @@ msgstr ""
 msgid "Temporary exemption"
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:156
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:158
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:225
 msgid "Tenant names"
 msgstr "Nombres de inquilinos"
@@ -2688,7 +2688,7 @@ msgstr ""
 #~ msgid "Unable to start analysis. Please try again."
 #~ msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:178
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
 msgid "Unable to submit your answers. Please try again."
 msgstr ""
 
@@ -2766,7 +2766,7 @@ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:252
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:228
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:259
 msgid "View report"
 msgstr ""
 
@@ -2963,7 +2963,7 @@ msgstr ""
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:165
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:190
 msgid "Your answers were validated, but we could not show a result. Please try again."
 msgstr ""
 
@@ -3014,11 +3014,11 @@ msgstr ""
 msgid "Your rent amount"
 msgstr ""
 
-#: src/Components/DocumentLink/DocumentLink.tsx:29
+#: src/Components/DocumentLink/DocumentLink.tsx:27
 msgid "your rent history"
 msgstr "su historial de alquiler"
 
-#: src/Components/DocumentLink/DocumentLink.tsx:34
+#: src/Components/DocumentLink/DocumentLink.tsx:31
 msgid "Your rent history"
 msgstr "Su historial de alquiler"
 

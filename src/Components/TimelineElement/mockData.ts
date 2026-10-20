@@ -4,7 +4,7 @@ import type { TimelineFindingType, TimelineItem } from "./types";
 const PRESENT_YEAR = 2026;
 
 /**
- * Static mock timeline findings for `/dev` preview.
+ * Static mock timeline findings for `/dev/timeline` preview.
  * Replace with API response in a follow-up.
  */
 export const mockTimelineElements: TimelineItem[] = [

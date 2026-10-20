@@ -1077,7 +1077,7 @@ msgstr "Find out if you’ve been overcharged on rent"
 msgid "Finding result navigation"
 msgstr "Finding result navigation"
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:252
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:283
 msgid "Finding review navigation"
 msgstr "Finding review navigation"
 
@@ -1507,8 +1507,8 @@ msgstr "New York City has an estimated 800,000 rent-stabilized apartments. Landl
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:256
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:224
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:229
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:255
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:260
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:97
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:152
 msgid "Next"
@@ -2141,7 +2141,7 @@ msgstr "Tax exemption programs"
 msgid "Temporary exemption"
 msgstr "Temporary exemption"
 
-#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:156
+#: src/Components/Pages/FindingsReview/steps/TenancyStep.tsx:158
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:225
 msgid "Tenant names"
 msgstr "Tenant names"
@@ -2688,7 +2688,7 @@ msgstr "Unable to send resume link right now."
 #~ msgid "Unable to start analysis. Please try again."
 #~ msgstr "Unable to start analysis. Please try again."
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:178
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
 msgid "Unable to submit your answers. Please try again."
 msgstr "Unable to submit your answers. Please try again."
 
@@ -2766,7 +2766,7 @@ msgstr "Verify"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:252
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:228
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:259
 msgid "View report"
 msgstr "View report"
 
@@ -2963,7 +2963,7 @@ msgstr "You'll take a picture of each individual page of your rent history docum
 msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 msgstr "Your answers directly inform our assessment of any potential violations that may appear in our final report."
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:165
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:190
 msgid "Your answers were validated, but we could not show a result. Please try again."
 msgstr "Your answers were validated, but we could not show a result. Please try again."
 
@@ -3014,11 +3014,11 @@ msgstr "Your landlord would have needed to get your permission to perform indivi
 msgid "Your rent amount"
 msgstr "Your rent amount"
 
-#: src/Components/DocumentLink/DocumentLink.tsx:29
+#: src/Components/DocumentLink/DocumentLink.tsx:27
 msgid "your rent history"
 msgstr "your rent history"
 
-#: src/Components/DocumentLink/DocumentLink.tsx:34
+#: src/Components/DocumentLink/DocumentLink.tsx:31
 msgid "Your rent history"
 msgstr "Your rent history"
 

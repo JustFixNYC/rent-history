@@ -7,6 +7,61 @@
     color: jfcl.$GREY_600;
   }
 
+  .dev-page__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: jfcl.$JF_SPACING_03 jfcl.$JF_SPACING_05;
+    margin: 0 0 jfcl.$JF_SPACING_06;
+    padding-bottom: jfcl.$JF_SPACING_05;
+    border-bottom: 1px solid jfcl.$GREY_NEW;
+  }
+
+  .dev-page__nav-link {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$GREY_600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &--active {
+      color: jfcl.$OFF_BLACK;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+
+  .dev-page__hub {
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: jfcl.$JF_SPACING_05;
+    }
+
+    a {
+      @include jfcl.body_large_mobile;
+      font-weight: 600;
+    }
+  }
+
+  .dev-page__hub-detail {
+    @include jfcl.body_standard_mobile;
+    display: block;
+    margin-top: jfcl.$JF_SPACING_02;
+    color: jfcl.$GREY_600;
+  }
+
+  &.dev-page--findings-review {
+    .preflow-title,
+    .dev-page__nav {
+      margin-bottom: jfcl.$JF_SPACING_04;
+    }
+  }
+
   .dev-page__section {
     background: jfcl.$WHITE;
     border: 1px solid jfcl.$GREY_NEW;

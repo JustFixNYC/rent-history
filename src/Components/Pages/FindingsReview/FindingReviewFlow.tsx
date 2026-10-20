@@ -23,7 +23,7 @@ import type {
   AnyFindingReviewModule,
 } from "./types/findingModule";
 
-/** Optional dev-only submit stub (see FindingsReview/dev sandbox). Remove before merge if unused. */
+/** Optional dev-only submit stub for `/dev/findings-review` (FindingsReview/dev sandbox). */
 export type DevValidateMutate = (
   variables: {
     accessToken: string;

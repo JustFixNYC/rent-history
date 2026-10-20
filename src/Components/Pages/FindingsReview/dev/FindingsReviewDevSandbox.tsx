@@ -48,9 +48,7 @@ const buildFindingsState = (
       : [activeFinding.id];
 
   const findingsCurrent =
-    queueMode === "one_more"
-      ? [activeFinding, secondFinding]
-      : [activeFinding];
+    queueMode === "one_more" ? [activeFinding, secondFinding] : [activeFinding];
 
   return {
     findings_current: findingsCurrent,
@@ -72,13 +70,12 @@ const FindingsReviewDevSandbox = () => {
 
   const [findingType, setFindingType] =
     useState<FindingModuleType>(initialType);
-  const [activeFindingId, setActiveFindingId] = useState<string>(() =>
-    getFixtureFinding(initialType).id
+  const [activeFindingId, setActiveFindingId] = useState<string>(
+    () => getFixtureFinding(initialType).id
   );
   const [submitScenario, setSubmitScenario] =
     useState<SubmitScenario>("success");
-  const [resultKind, setResultKind] =
-    useState<RhFindingResult>("no_violation");
+  const [resultKind, setResultKind] = useState<RhFindingResult>("no_violation");
   const [queueMode, setQueueMode] = useState<QueueMode>("empty");
 
   const activeFinding = useMemo(() => {
@@ -108,7 +105,11 @@ const FindingsReviewDevSandbox = () => {
 
   useEffect(() => {
     const fromQuery = searchParams.get("type");
-    if (fromQuery && isFindingModuleType(fromQuery) && fromQuery !== findingType) {
+    if (
+      fromQuery &&
+      isFindingModuleType(fromQuery) &&
+      fromQuery !== findingType
+    ) {
       setFindingType(fromQuery);
       setActiveFindingId(getFixtureFinding(fromQuery).id);
     }
@@ -143,8 +144,7 @@ const FindingsReviewDevSandbox = () => {
         ...activeFinding,
         status: "validated",
         validated_at: new Date().toISOString(),
-        result:
-          submitScenario === "null_result" ? null : resultKind,
+        result: submitScenario === "null_result" ? null : resultKind,
       };
 
       const nextQueueIds =
@@ -177,9 +177,7 @@ const FindingsReviewDevSandbox = () => {
   );
 
   if (!module) {
-    return (
-      <p>Unsupported finding type in sandbox: {activeFinding.type}</p>
-    );
+    return <p>Unsupported finding type in sandbox: {activeFinding.type}</p>;
   }
 
   return (
@@ -189,7 +187,7 @@ const FindingsReviewDevSandbox = () => {
         aria-label="Findings review dev controls"
       >
         <p className="findings-review-dev-sandbox__notice">
-          Temporary dev sandbox — remove before merge (see{" "}
+          Development preview — mock data and submit stub (see{" "}
           <code>FindingsReview/dev/README.md</code>).
         </p>
         <label className="findings-review-dev-sandbox__field">
@@ -239,9 +237,7 @@ const FindingsReviewDevSandbox = () => {
           Queue after submit
           <select
             value={queueMode}
-            onChange={(event) =>
-              setQueueMode(event.target.value as QueueMode)
-            }
+            onChange={(event) => setQueueMode(event.target.value as QueueMode)}
           >
             <option value="empty">Empty (View report)</option>
             <option value="one_more">One more ({QUEUE_SECOND_TYPE})</option>

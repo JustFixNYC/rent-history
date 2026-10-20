@@ -7,7 +7,7 @@ import {
   RouterProvider,
   createRoutesFromElements,
 } from "react-router-dom";
-import { lazy, Suspense, useMemo } from "react";
+import { useMemo } from "react";
 
 import { QueryProvider } from "./providers/QueryProvider";
 import { PrivacyPolicy } from "./Components/Pages/Legal/PrivacyPolicy";
@@ -27,23 +27,9 @@ import Report from "./Components/Pages/Report/Report";
 import FindingsReviewPage from "./Components/Pages/FindingsReview/FindingsReviewPage";
 import FindingsOverviewPage from "./Components/Pages/FindingsOverview/FindingsOverviewPage";
 import AboutPage from "./Components/Pages/AboutPage/AboutPage";
-import DevPage from "./Components/Pages/DevPage/DevPage";
 import ResumePage from "./Components/Pages/ResumePage/ResumePage";
 import { analyzeLoginPath } from "./routes/analyzeRoutes";
-
-const FindingsReviewDevSandbox = lazy(() =>
-  import("./Components/Pages/FindingsReview/dev/FindingsReviewDevSandbox")
-);
-
-const DevFindingsReviewRoute = () => (
-  <Suspense fallback={<p>Loading findings review sandbox…</p>}>
-    <FindingsReviewDevSandbox />
-  </Suspense>
-);
-
-const devFindingsReviewRoute = import.meta.env.DEV ? (
-  <Route path="dev/findings-review" element={<DevFindingsReviewRoute />} />
-) : null;
+import { devRoutes } from "./Components/Pages/DevPage/devRoutes";
 
 const RequireOtpToken = () => {
   const location = useLocation();
@@ -81,8 +67,7 @@ const createAppRouter = () =>
         <Route path="/:locale" element={<PageLayout />}>
           <Route index element={<Landing />} />
           <Route path="about" element={<AboutPage />} />
-          <Route path="dev" element={<DevPage />} />
-          {devFindingsReviewRoute}
+          {devRoutes}
           <Route path="analyze">{analyzeRoutes}</Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms-of-use" element={<TermsOfUse />} />
@@ -95,8 +80,7 @@ const createAppRouter = () =>
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Landing />} />
           <Route path="about" element={<AboutPage />} />
-          <Route path="dev" element={<DevPage />} />
-          {devFindingsReviewRoute}
+          {devRoutes}
           <Route path="analyze">{analyzeRoutes}</Route>
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms-of-use" element={<TermsOfUse />} />
