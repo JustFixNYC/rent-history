@@ -1,11 +1,11 @@
 import type { FindingReviewModule } from "../../types/findingModule";
 
 import { buildAnswers, createInitialFormState } from "./answers";
-import type { NonregistrationPosthstpaFormState } from "./answers";
+import type { OverchargeExpiredleasePosthstpaCurrTenantFormState } from "./answers";
 import { getIntro } from "./getIntro";
 import { getSteps } from "./getSteps";
 import { isStepComplete } from "./isStepComplete";
-import { renderNonregistrationPosthstpaResult } from "./ResultPanel";
+import { renderOverchargeExpiredleasePosthstpaCurrTenantResult } from "./ResultPanel";
 
 export {
   TYPE,
@@ -18,27 +18,27 @@ export type { IntroValues } from "./spec";
 
 export { getIntro, getIntroValues } from "./getIntro";
 export { getSteps } from "./getSteps";
-export type { NonregistrationPosthstpaGetStepsBindings } from "./getSteps";
+export type { OverchargeExpiredleasePosthstpaCurrTenantGetStepsBindings } from "./getSteps";
 
 export { buildAnswers, createInitialFormState } from "./answers";
-export type { NonregistrationPosthstpaFormState } from "./answers";
+export type { OverchargeExpiredleasePosthstpaCurrTenantFormState } from "./answers";
 
 export { isStepComplete } from "./isStepComplete";
-export { renderNonregistrationPosthstpaResult } from "./ResultPanel";
+export { renderOverchargeExpiredleasePosthstpaCurrTenantResult } from "./ResultPanel";
 
 export {
   IntroTitle,
-  ResultPotentialViolationBody,
   ResultNoViolationBody,
+  ResultPotentialViolationBody,
   ResultDismissedBody,
 } from "./ReviewCopy";
 
-export const findingReviewModule: FindingReviewModule<NonregistrationPosthstpaFormState> =
+export const findingReviewModule: FindingReviewModule<OverchargeExpiredleasePosthstpaCurrTenantFormState> =
   {
     createInitialFormState,
     getIntro,
     getSteps,
     buildAnswers,
     isStepComplete,
-    renderResult: renderNonregistrationPosthstpaResult,
+    renderResult: renderOverchargeExpiredleasePosthstpaCurrTenantResult,
   };

@@ -62,58 +62,6 @@
     },
     "validated_at": null
   },
-  "NONREGISTRATION_POSTHSTPA": {
-    "id": "428c9831-0d4a-4d7f-983d-99c325aa8f4e",
-    "key": {
-      "type": "NONREGISTRATION_POSTHSTPA",
-      "finding_year": 2026,
-      "subtype": null
-    },
-    "type": "NONREGISTRATION_POSTHSTPA",
-    "finding_year": 2026,
-    "status": "pending",
-    "data": {
-      "rows": [
-        {
-          "reg_year": 2019,
-          "apt_stat": "RS",
-          "legal_rent": 850.02,
-          "tenants": ["AUDREY JOHNSON"]
-        },
-        {
-          "reg_year": 2026
-        }
-      ]
-    },
-    "validated_at": null
-  },
-  "NONREGISTRATION_PREFRENT_POSTHSTPA": {
-    "id": "dde90431-f932-46d1-b775-d24afd4a4f05",
-    "key": {
-      "type": "NONREGISTRATION_PREFRENT_POSTHSTPA",
-      "finding_year": 2026,
-      "subtype": null
-    },
-    "type": "NONREGISTRATION_PREFRENT_POSTHSTPA",
-    "finding_year": 2026,
-    "status": "pending",
-    "data": {
-      "rows": [
-        {
-          "reg_year": 2019,
-          "apt_stat": "RS",
-          "legal_rent": 850.02,
-          "tenants": ["AUDREY JOHNSON"],
-          "pref_rent": 684.27
-        },
-        {
-          "reg_year": 2026,
-          "legal_rent": 999.32
-        }
-      ]
-    },
-    "validated_at": null
-  },
   "NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT": {
     "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "key": {
@@ -284,6 +232,32 @@
       "subtype": null
     },
     "type": "OVERCHARGE_POSTHSTPA_CURR_TENANT",
+    "finding_year": 2026,
+    "status": "pending",
+    "data": {
+      "rows": [
+        {
+          "reg_year": 2026,
+          "apt_stat": "RS",
+          "legal_rent": 3000.0,
+          "tenancy_start": null
+        },
+        {
+          "reg_year": 2026,
+          "legal_rent": 3200.0
+        }
+      ]
+    },
+    "validated_at": null
+  },
+  "OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT": {
+    "id": "b8c9d0e1-f2a3-4567-1234-6789abcdef01",
+    "key": {
+      "type": "OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT",
+      "finding_year": 2026,
+      "subtype": null
+    },
+    "type": "OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT",
     "finding_year": 2026,
     "status": "pending",
     "data": {

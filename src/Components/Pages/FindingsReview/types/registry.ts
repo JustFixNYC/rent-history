@@ -1,12 +1,11 @@
 import { findingReviewModule as hrvdModule } from "../findings/HRVD";
-import { findingReviewModule as nonregistrationPosthstpaModule } from "../findings/NONREGISTRATION_POSTHSTPA";
-import { findingReviewModule as nonregistrationPrefrentPosthstpaModule } from "../findings/NONREGISTRATION_PREFRENT_POSTHSTPA";
 import { findingReviewModule as nonregistrationOverchargeLegalrentPosthstpaCurrTenantModule } from "../findings/NONREGISTRATION_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as nonregistrationOverchargePrefrentPosthstpaCurrTenantModule } from "../findings/NONREGISTRATION_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as nonregistrationOverchargePrehstpaCurrTenantModule } from "../findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT";
 import { findingReviewModule as outdatedrhOverchargeLegalrentPosthstpaCurrTenantModule } from "../findings/OUTDATEDRH_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as outdatedrhOverchargePrefrentPosthstpaCurrTenantModule } from "../findings/OUTDATEDRH_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as outdatedrhOverchargePrehstpaCurrTenantModule } from "../findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT";
+import { findingReviewModule as overchargeExpiredleasePosthstpaCurrTenantModule } from "../findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as overchargePosthstpaCurrTenantModule } from "../findings/OVERCHARGE_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as overchargeLegalrentPosthstpaModule } from "../findings/OVERCHARGE_LEGALRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentPosthstpaModule } from "../findings/OVERCHARGE_PREFRENT_POSTHSTPA";
@@ -53,11 +52,8 @@ export const FINDING_MODULES = {
   OVERCHARGE_POSTHSTPA_CURR_TENANT: registerFindingModule(
     overchargePosthstpaCurrTenantModule
   ),
-  NONREGISTRATION_POSTHSTPA: registerFindingModule(
-    nonregistrationPosthstpaModule
-  ),
-  NONREGISTRATION_PREFRENT_POSTHSTPA: registerFindingModule(
-    nonregistrationPrefrentPosthstpaModule
+  OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT: registerFindingModule(
+    overchargeExpiredleasePosthstpaCurrTenantModule
   ),
   HRVD: registerFindingModule(hrvdModule),
   PREFRENT_421A: registerFindingModule(prefrent421aModule),

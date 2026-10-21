@@ -6,20 +6,13 @@ import { IntroTitle } from "./ReviewCopy";
 import { INTRO_VALUE_MAP, TYPE, type IntroValues } from "./spec";
 
 export function getIntroValues(finding: Finding): IntroValues {
-  const year0 = INTRO_VALUE_MAP.year0(finding);
-  const year1 = INTRO_VALUE_MAP.year1(finding);
-  const vacancyYear = INTRO_VALUE_MAP.vacancyYear(finding);
-  const missingFromYear = INTRO_VALUE_MAP.missingFromYear(finding);
+  const rhYear = INTRO_VALUE_MAP.rhYear(finding);
+  const reportedYear = INTRO_VALUE_MAP.reportedYear(finding);
 
-  const missingDataMessage = `${TYPE} intro requires two rows with reg_year values`;
-  const invalidReportedRentMessage = `${TYPE} intro requires numeric legal_rent on user row`;
+  const missingDataMessage = `${TYPE} intro requires context and user rows with reg_year and user legal_rent`;
+  const invalidReportedRentMessage = `${TYPE} requires numeric legal_rent on user row`;
 
-  if (
-    year0 == null ||
-    year1 == null ||
-    vacancyYear == null ||
-    missingFromYear == null
-  ) {
+  if (rhYear == null || reportedYear == null) {
     throw new Error(missingDataMessage);
   }
 
@@ -30,18 +23,16 @@ export function getIntroValues(finding: Finding): IntroValues {
 
   return {
     findingYear: finding.finding_year,
-    year0,
-    year1,
-    vacancyYear,
-    missingFromYear,
+    rhYear,
+    reportedYear,
     reportedRent,
   };
 }
 
 export function getIntro(finding: Finding): FindingIntroPanelProps {
-  const { missingFromYear, year1 } = getIntroValues(finding);
+  const { rhYear } = getIntroValues(finding);
 
   return {
-    title: <IntroTitle missingFromYear={missingFromYear} year1={year1} />,
+    title: <IntroTitle rhYear={rhYear} />,
   };
 }

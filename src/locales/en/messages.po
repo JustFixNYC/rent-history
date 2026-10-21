@@ -439,6 +439,62 @@ msgstr ""
 #~ msgid "findings.OUDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT.result.potential_violation.footer"
 #~ msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:6
+#~ msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
+#~ msgstr "Apartment missing registration"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:81
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
+#~ msgstr "dismissed finding result copy TK"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:33
+#~ msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
+#~ msgstr "dismissed finding result copy TK"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:9
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
+#~ msgstr "Apartment missing registration"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:25
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
+#~ msgstr "Your apartment is missing registration from year {missingFromYear} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases. Your report will include this finding."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:14
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
+#~ msgstr "There is no preferential rent in this year"
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:65
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.not_continuous.lead"
+#~ msgstr "There was a large rent increase from {missingFromYear} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:42
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.continuous.lead"
+#~ msgstr "There was a large rent increase from {missingFromYear} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}. This rent increase does not appear to be fully explained by what we just reviewed."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:16
+#~ msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
+#~ msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this finding."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:24
+#~ msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
+#~ msgstr "Your apartment is missing registration from year {missingFromYear} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases. Your report will include this finding."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:50
+#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
+#~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.footer"
+#~ msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr "."
@@ -668,11 +724,6 @@ msgid "timeline.title.destab_no_viol_prehstpa"
 msgstr "Apartment listed as exempt from rent stabilization. This appears to be explained by <0/>."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:6
-msgid "findings.NONREGISTRATION_POSTHSTPA.intro.title"
-msgstr "Apartment missing registration"
-
-#. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/titles/titles.tsx:47
 msgid "timeline.title.nonreg_viol_prehstpa_same_tenant"
 msgstr "Apartment missing registration from year {year} onward and your current rent appears to exceed the allowable amount, based on standard RGB increases."
@@ -737,14 +788,14 @@ msgid "timeline.copy.rgb_projection"
 msgstr "Based on the <0/>, the rent could have reached {formattedAmount} in year {comparisonYear}."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:50
+msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.dismissed.body"
 msgstr "Based on what we reviewed, this finding does not apply to your situation."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:81
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.dismissed.body"
-msgstr "dismissed finding result copy TK"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
+msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.dismissed.body"
+msgstr "Based on what we reviewed, this finding does not apply to your situation."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:75
@@ -967,11 +1018,6 @@ msgstr "Didn’t receive a code?"
 #: src/Components/Pages/PageLayout/Footer.tsx:14
 #~ msgid "Disclaimer"
 #~ msgstr "Disclaimer"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:33
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.dismissed.body"
-msgstr "dismissed finding result copy TK"
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:20
@@ -1326,9 +1372,9 @@ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title"
 msgstr "Large increase in preferential rent"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:9
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.intro.title"
-msgstr "Apartment missing registration"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:8
+msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.intro.title"
+msgstr "Large rent increase from {rhYear} to the apartment's current monthly rent"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:8
@@ -2353,9 +2399,9 @@ msgid "timeline.copy.reported_rent_rgb_comparison.exceeds"
 msgstr "The rent amount you reported for {reportedYear}, appears to be more than what the rent could have reached in {reportedYear}, based on standard RGB increases*."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:25
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.no_violation.body"
-msgstr "Your apartment is missing registration from year {missingFromYear} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases. Your report will include this finding."
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
+msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.no_violation.body"
+msgstr "The rent increase from {rhYear} to {reportedYear} appears to be explained by the standard allowable increase between {rhYear} and {reportedYear}."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:37
@@ -2438,11 +2484,6 @@ msgid "findings.OUTDATEDRH_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT.ocr.no_pref
 msgstr "There is no preferential rent in this year"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:14
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
-msgstr "There is no preferential rent in this year"
-
-#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:14
 msgid "findings.NONREGISTRATION_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT.ocr.no_pref_rent_label"
 msgstr "There is no preferential rent in this year"
@@ -2458,6 +2499,11 @@ msgid "timeline.copy.no_reason_provided"
 msgstr "There is no reason provided in the rent history document to explain this exemption."
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:22
+msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_violation.lead"
+msgstr "There was a large increase from {rhYear} to the apartment's current monthly rent of ${reportedRent}. This rent increase does not appear to be fully explained by what's in your rent history."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:40
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.no_violation.body"
 msgstr "The increase in preferential rent from ${rent0} in year {year0} to ${rent1} in year {year1} appears to be explained by a change in tenancy. Your report will include this with additional details."
@@ -2466,16 +2512,6 @@ msgstr "The increase in preferential rent from ${rent0} in year {year0} to ${ren
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:21
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.lead"
 msgstr "There was a large increase in preferential rent from {year0} to {year1}. This rent increase does not appear to be fully explained by what we just checked."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:65
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.not_continuous.lead"
-msgstr "There was a large rent increase from {missingFromYear} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:42
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.continuous.lead"
-msgstr "There was a large rent increase from {missingFromYear} to {year1}, when you let us know that the full monthly rent for the apartment is ${reportedRent}. This rent increase does not appear to be fully explained by what we just reviewed."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT/ReviewCopy.tsx:59
@@ -2972,16 +3008,6 @@ msgstr "Your answers were validated, but we could not show a result. Please try 
 msgid "timeline.title.still_stab"
 msgstr "Your apartment appears to be currently registered as rent stabilized."
 
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:16
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.potential_violation.body"
-msgstr "Your apartment is missing registration from year {missingFromYear} onward, and your current rent appears to exceed the allowable amount, based on standard RGB increases. Your report will include this finding."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_POSTHSTPA/ReviewCopy.tsx:24
-msgid "findings.NONREGISTRATION_POSTHSTPA.result.no_violation.body"
-msgstr "Your apartment is missing registration from year {missingFromYear} onward, but it appears that you are still rent stabilized and your current rent appears to be in line with standard RGB increases. Your report will include this finding."
-
 #: src/api/account/errors.ts:171
 msgid "Your code expired. Request a new code."
 msgstr "Your code expired. Request a new code."
@@ -3050,6 +3076,11 @@ msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up and if any other explanations may be possible."
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
+msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:28
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
@@ -3069,12 +3100,6 @@ msgstr "Your report will explain why the increase does not add up, and what expl
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OUTDATEDRH_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
 msgid "findings.OUTDATEDRH_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
-msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:50
-#: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
 #. js-lingui-explicit-id

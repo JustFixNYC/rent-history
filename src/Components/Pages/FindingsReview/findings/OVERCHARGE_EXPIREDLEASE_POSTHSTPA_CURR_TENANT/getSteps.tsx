@@ -1,18 +1,21 @@
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
+import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
-import type { NonregistrationPosthstpaFormState } from "./answers";
-import { OcrConfirmIntro } from "../../shared/stepCopy";
+import type { OverchargeExpiredleasePosthstpaCurrTenantFormState } from "./answers";
+import { getIntroValues } from "./getIntro";
 import { ROW_INDEX } from "./spec";
 
-export type NonregistrationPosthstpaGetStepsBindings = {
+const ID_PREFIX = "overcharge-expiredlease-posthstpa-curr-tenant";
+
+export type OverchargeExpiredleasePosthstpaCurrTenantGetStepsBindings = {
   finding: Finding;
-  formState: NonregistrationPosthstpaFormState;
+  formState: OverchargeExpiredleasePosthstpaCurrTenantFormState;
   onFormStateChange: (
-    patch: Partial<NonregistrationPosthstpaFormState>
+    patch: Partial<OverchargeExpiredleasePosthstpaCurrTenantFormState>
   ) => void;
   ocrPhase?: OcrConfirmPhase;
   onOcrConfirm?: () => void;
@@ -29,7 +32,7 @@ const STANDARD_OCR_ROWS = [
 ];
 
 export function getSteps(
-  bindings: NonregistrationPosthstpaGetStepsBindings
+  bindings: OverchargeExpiredleasePosthstpaCurrTenantGetStepsBindings
 ): FindingStep[] {
   const {
     finding,
@@ -43,9 +46,10 @@ export function getSteps(
     finding,
     formState,
     onFormStateChange,
-    idPrefix: "nonregistration-posthstpa",
+    idPrefix: ID_PREFIX,
     rows: STANDARD_OCR_ROWS,
   });
+  const { rhYear } = getIntroValues(finding);
 
   return [
     {
@@ -54,7 +58,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
+          intro={<OcrConfirmIntro years={[rhYear]} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}
