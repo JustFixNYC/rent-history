@@ -2,9 +2,12 @@ import { useCallback, useRef } from "react";
 import { useLingui } from "@lingui/react";
 import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { Button, Icon } from "@justfixnyc/component-library";
-import { OtpInput } from "../../OtpInput";
-import { useWebOtp } from "../../OtpInput/useWebOtp";
+import {
+  Button,
+  Icon,
+  OtpInput,
+  useWebOtp,
+} from "@justfixnyc/component-library";
 
 type LoginVerificationStepProps = {
   otpFormRef: React.RefObject<HTMLFormElement>;
@@ -77,7 +80,7 @@ export function LoginVerificationStep({
             name="code"
             value={verificationCode}
             autoFocus
-            inputRef={otpInputRef}
+            ref={otpInputRef}
             onChange={onOtpChange}
             onKeyDown={(event) => {
               if (event.key === "Enter") {

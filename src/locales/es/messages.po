@@ -403,7 +403,7 @@ msgstr ""
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:136
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:125
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:74
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:110
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:113
 msgid "Back"
 msgstr "Volver"
 
@@ -571,7 +571,7 @@ msgstr ""
 #~ msgid "Didn't receive a code?"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:92
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:95
 msgid "Didn’t receive a code?"
 msgstr ""
 
@@ -662,7 +662,7 @@ msgstr ""
 msgid "Enter the address for this<0/>rent history"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:62
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:65
 msgid "Enter verification code"
 msgstr "Ingresa el código de verificación"
 
@@ -1496,7 +1496,7 @@ msgstr ""
 #~ msgid "Request your rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:98
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:101
 msgid "Resend"
 msgstr ""
 
@@ -2304,7 +2304,7 @@ msgstr "Bono por vacancia"
 msgid "Values confirmed"
 msgstr "Valores confirmados"
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:88
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:91
 msgid "Verification code"
 msgstr ""
 
@@ -2312,7 +2312,7 @@ msgstr ""
 #~ msgid "Verification digit {0}"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:113
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:116
 msgid "Verify"
 msgstr ""
 
@@ -2391,11 +2391,11 @@ msgstr ""
 #~ msgid "We sent a code to"
 #~ msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:70
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:73
 msgid "We sent a code to <0>{maskedPhone}</0>"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:66
+#: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:69
 msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr ""
 

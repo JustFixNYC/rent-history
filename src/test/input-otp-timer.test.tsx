@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, it, vi } from "vitest";
-import { OtpInput } from "../Components/OtpInput/OtpInput";
+import { OtpInput } from "@justfixnyc/component-library";
 
 class BrokenEvent {
   type: string;
