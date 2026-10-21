@@ -1030,7 +1030,7 @@ msgstr "Details"
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/shared/successionStepCopy.tsx:15
 msgid "findings.shared.succession.body"
-msgstr "Did you inherit the lease from someone who was on the lease in {year}?"
+msgstr "Did you inherit the lease through a process called “Succession” from someone who was on the lease in {year}?"
 
 #: src/Components/Pages/PreFlow/PreFlow.tsx:344
 #~ msgid "Didn't receive a code?"
@@ -2494,13 +2494,13 @@ msgid "timeline.implications.improper_overcharge"
 msgstr "There is a chance your rent may have been unlawfully or improperly raised, which means that you could be entitled to <0/> and your <1/> could be recalculated."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:6
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
+msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
 msgstr "There is no preferential rent in this year"
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
-msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:6
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
 msgstr "There is no preferential rent in this year"
 
 #. js-lingui-explicit-id

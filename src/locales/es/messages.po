@@ -2494,13 +2494,13 @@ msgid "timeline.implications.improper_overcharge"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:6
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
+#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
+msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
-msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:6
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
 msgstr ""
 
 #. js-lingui-explicit-id
