@@ -22,3 +22,21 @@ export type TenancyStepVariant = "singleTenant" | "multipleTenants";
 
 /** Boolean yes/no step; wire answers map directly (no vacancy inversion). */
 export type SuccessionStepKind = "succession";
+
+/** OCR confirm field layout (types only; wired in getSteps via buildStandardOcrRows / buildPrefRentOcrRows). */
+export type OcrLayoutVariant =
+  | "legalRentOnlySingleRow"
+  | "legalRentOnlyTwoRows"
+  | "prefRentSingleRow"
+  | "prefRentTwoRow"
+  | "prefRentRemovedTwoRow";
+
+/**
+ * OCR layout → FINDING_MODULES registry keys:
+ * - legalRentOnlySingleRow: HRVD; NONREGISTRATION/OUTDATEDRH curr-tenant legal types;
+ *   OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT; OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT
+ * - legalRentOnlyTwoRows: OVERCHARGE_PREHSTPA, OVERCHARGE_LEGALRENT_POSTHSTPA
+ * - prefRentSingleRow: PREFRENT_421A; NONREG/OUTDATEDRH pref curr-tenant types
+ * - prefRentTwoRow: OVERCHARGE_PREFRENT_POSTHSTPA
+ * - prefRentRemovedTwoRow: OVERCHARGE_PREFRENTREMOVED_POSTHSTPA (row0 omits no-pref checkbox)
+ */

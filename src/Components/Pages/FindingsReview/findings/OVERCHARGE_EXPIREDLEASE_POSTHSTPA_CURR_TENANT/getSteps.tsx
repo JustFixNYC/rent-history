@@ -6,7 +6,6 @@ import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { OverchargeExpiredleasePosthstpaCurrTenantFormState } from "./answers";
-import { getIntroValues } from "./getIntro";
 import { ROW_INDEX } from "./spec";
 
 const ID_PREFIX = "overcharge-expiredlease-posthstpa-curr-tenant";
@@ -49,8 +48,6 @@ export function getSteps(
     idPrefix: ID_PREFIX,
     rows: STANDARD_OCR_ROWS,
   });
-  const { rhYear } = getIntroValues(finding);
-
   return [
     {
       id: "ocr_confirm",
@@ -58,7 +55,11 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          intro={<OcrConfirmIntro years={[rhYear]} />}
+          intro={
+            <OcrConfirmIntro
+              years={ocrRows.map((row) => row.regYear)}
+            />
+          }
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

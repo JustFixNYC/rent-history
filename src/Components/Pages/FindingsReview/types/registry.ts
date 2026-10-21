@@ -6,7 +6,7 @@ import { findingReviewModule as outdatedrhOverchargeLegalrentPosthstpaCurrTenant
 import { findingReviewModule as outdatedrhOverchargePrefrentPosthstpaCurrTenantModule } from "../findings/OUTDATEDRH_OVERCHARGE_PREFRENT_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as outdatedrhOverchargePrehstpaCurrTenantModule } from "../findings/OUTDATEDRH_OVERCHARGE_PREHSTPA_CURR_TENANT";
 import { findingReviewModule as overchargeExpiredleasePosthstpaCurrTenantModule } from "../findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT";
-import { findingReviewModule as overchargePosthstpaCurrTenantModule } from "../findings/OVERCHARGE_POSTHSTPA_CURR_TENANT";
+import { findingReviewModule as overchargeCurrRentMismatchPosthstpaCurrTenantModule } from "../findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT";
 import { findingReviewModule as overchargeLegalrentPosthstpaModule } from "../findings/OVERCHARGE_LEGALRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentPosthstpaModule } from "../findings/OVERCHARGE_PREFRENT_POSTHSTPA";
 import { findingReviewModule as overchargePrefrentremovedPosthstpaModule } from "../findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA";
@@ -49,8 +49,8 @@ export const FINDING_MODULES = {
   OUTDATEDRH_OVERCHARGE_LEGALRENT_POSTHSTPA_CURR_TENANT: registerFindingModule(
     outdatedrhOverchargeLegalrentPosthstpaCurrTenantModule
   ),
-  OVERCHARGE_POSTHSTPA_CURR_TENANT: registerFindingModule(
-    overchargePosthstpaCurrTenantModule
+  OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT: registerFindingModule(
+    overchargeCurrRentMismatchPosthstpaCurrTenantModule
   ),
   OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT: registerFindingModule(
     overchargeExpiredleasePosthstpaCurrTenantModule

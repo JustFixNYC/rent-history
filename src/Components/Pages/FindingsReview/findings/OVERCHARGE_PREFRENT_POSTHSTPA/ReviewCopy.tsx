@@ -1,6 +1,12 @@
+import { msg } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 
 import type { IntroValues } from "./spec";
+
+export const NO_PREF_RENT_LABEL = msg({
+  id: "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label",
+  message: "There is no preferential rent in this year",
+});
 
 type IntroTitleProps = Pick<IntroValues, "year0" | "year1">;
 

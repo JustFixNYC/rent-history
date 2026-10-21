@@ -3,14 +3,14 @@ import type { Finding, ValidateFindingAnswers } from "../../types/finding";
 
 import { ROW_INDEX } from "./spec";
 
-export type OverchargePosthstpaCurrTenantFormState = {
+export type OverchargeCurrRentMismatchPosthstpaCurrTenantFormState = {
   row0AptStat: string;
   row0LegalRent: string;
 };
 
 export function createInitialFormState(
   finding: Finding
-): OverchargePosthstpaCurrTenantFormState {
+): OverchargeCurrRentMismatchPosthstpaCurrTenantFormState {
   const row0 = finding.data.rows[ROW_INDEX.context];
 
   return {
@@ -22,7 +22,7 @@ export function createInitialFormState(
 /** Map collected form state → shape-A `answers.rows` for validate-finding. */
 export function buildAnswers(
   finding: Finding,
-  formState: OverchargePosthstpaCurrTenantFormState
+  formState: OverchargeCurrRentMismatchPosthstpaCurrTenantFormState
 ): ValidateFindingAnswers {
   const row0 = finding.data.rows[ROW_INDEX.context];
 

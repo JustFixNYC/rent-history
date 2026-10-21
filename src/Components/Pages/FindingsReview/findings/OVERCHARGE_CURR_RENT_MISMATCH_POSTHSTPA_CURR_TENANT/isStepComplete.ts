@@ -1,8 +1,8 @@
-import type { OverchargePosthstpaCurrTenantFormState } from "./answers";
+import type { OverchargeCurrRentMismatchPosthstpaCurrTenantFormState } from "./answers";
 
 export function isStepComplete(
   stepId: string,
-  _formState: OverchargePosthstpaCurrTenantFormState,
+  _formState: OverchargeCurrRentMismatchPosthstpaCurrTenantFormState,
   ctx: { ocrConfirmed: boolean }
 ): boolean {
   switch (stepId) {

@@ -23,6 +23,10 @@ export type PrefRentOcrFieldsProps = {
   prefRent: string;
   noPrefRent: boolean;
   readonly: boolean;
+  /** When true, legal rent stays read-only even while the step is editable. */
+  legalRentReadonly?: boolean;
+  /** When false, omits the “no preferential rent” checkbox (default true). */
+  showNoPrefRentCheckbox?: boolean;
   noPrefRentLabel: MessageDescriptor;
   fieldKeys: PrefRentOcrFieldKeys;
   onFormStateChange: (patch: Record<string, string | boolean>) => void;
@@ -36,12 +40,15 @@ export function PrefRentOcrFields({
   prefRent,
   noPrefRent,
   readonly,
+  legalRentReadonly = false,
+  showNoPrefRentCheckbox = true,
   noPrefRentLabel,
   fieldKeys,
   onFormStateChange,
 }: PrefRentOcrFieldsProps) {
   const { _ } = useLingui();
   const prefRentReadonly = readonly || noPrefRent;
+  const legalReadonly = readonly || legalRentReadonly;
 
   return (
     <Fragment>
@@ -51,7 +58,7 @@ export function PrefRentOcrFields({
         onChange={(value) =>
           onFormStateChange({ [fieldKeys.legalRent]: value })
         }
-        readonly={readonly}
+        readonly={legalReadonly}
       />
       <OcrPrefRentField
         id={`${idPrefix}-ocr-pref-rent-${formRowIndex}`}
@@ -59,23 +66,25 @@ export function PrefRentOcrFields({
         onChange={(value) => onFormStateChange({ [fieldKeys.prefRent]: value })}
         readonly={prefRentReadonly}
       />
-      <Checkbox
-        id={`${idPrefix}-ocr-no-pref-rent-${formRowIndex}`}
-        labelText={_(noPrefRentLabel)}
-        checked={noPrefRent}
-        disabled={readonly}
-        onChange={(event) => {
-          const checked = event.target.checked;
-          onFormStateChange({
-            [fieldKeys.noPrefRent]: checked,
-            [fieldKeys.prefRent]: checked
-              ? ""
-              : wireRow?.pref_rent != null
-              ? String(wireRow.pref_rent)
-              : "",
-          });
-        }}
-      />
+      {showNoPrefRentCheckbox ? (
+        <Checkbox
+          id={`${idPrefix}-ocr-no-pref-rent-${formRowIndex}`}
+          labelText={_(noPrefRentLabel)}
+          checked={noPrefRent}
+          disabled={readonly}
+          onChange={(event) => {
+            const checked = event.target.checked;
+            onFormStateChange({
+              [fieldKeys.noPrefRent]: checked,
+              [fieldKeys.prefRent]: checked
+                ? ""
+                : wireRow?.pref_rent != null
+                  ? String(wireRow.pref_rent)
+                  : "",
+            });
+          }}
+        />
+      ) : null}
     </Fragment>
   );
 }

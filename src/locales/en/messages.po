@@ -495,6 +495,31 @@ msgstr ""
 #~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.footer"
 #~ msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.dismissed.body"
+#~ msgstr "Based on what we reviewed, this finding does not apply to your situation."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:36
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.no_violation.body"
+#~ msgstr "The rent amount in your rent history appears to match what you reported currently paying."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:20
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.lead"
+#~ msgstr "The rent amount listed in your rent history in {rhYear} is less than what you let us know was the full monthly rent for the apartment in {reportedYear}."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:6
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.intro.title"
+#~ msgstr "The rent amount listed in your rent history is less than what you reported currently paying."
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:27
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
+#~ msgstr "Your report will include more information about this mismatch, and what explanations may be possible."
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr "."
@@ -793,8 +818,8 @@ msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.dismissed.b
 msgstr "Based on what we reviewed, this finding does not apply to your situation."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.dismissed.body"
 msgstr "Based on what we reviewed, this finding does not apply to your situation."
 
 #. js-lingui-explicit-id
@@ -1367,7 +1392,7 @@ msgid "timeline.title.increase_viol_prehstpa"
 msgstr "Large increase in legal regulated rent that does not appear to be explained by allowable bonuses alone."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:8
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:14
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title"
 msgstr "Large increase in preferential rent"
 
@@ -2369,18 +2394,18 @@ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.
 msgstr "The preferential rent was removed in {year1}. The legal removal of the preferential rent does not appear to be fully explained by what we just checked."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:36
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.no_violation.body"
 msgstr "The rent amount in your rent history appears to match what you reported currently paying."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:20
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.lead"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:20
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.potential_violation.lead"
 msgstr "The rent amount listed in your rent history in {rhYear} is less than what you let us know was the full monthly rent for the apartment in {reportedYear}."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:6
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.intro.title"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:6
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.intro.title"
 msgstr "The rent amount listed in your rent history is less than what you reported currently paying."
 
 #. js-lingui-explicit-id
@@ -2469,6 +2494,11 @@ msgid "timeline.implications.improper_overcharge"
 msgstr "There is a chance your rent may have been unlawfully or improperly raised, which means that you could be entitled to <0/> and your <1/> could be recalculated."
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:6
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
+msgstr "There is no preferential rent in this year"
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
 msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
 msgstr "There is no preferential rent in this year"
@@ -2504,12 +2534,12 @@ msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_v
 msgstr "There was a large increase from {rhYear} to the apartment's current monthly rent of ${reportedRent}. This rent increase does not appear to be fully explained by what's in your rent history."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:40
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:46
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.no_violation.body"
 msgstr "The increase in preferential rent from ${rent0} in year {year0} to ${rent1} in year {year1} appears to be explained by a change in tenancy. Your report will include this with additional details."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:21
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:27
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.lead"
 msgstr "There was a large increase in preferential rent from {year0} to {year1}. This rent increase does not appear to be fully explained by what we just checked."
 
@@ -3071,18 +3101,18 @@ msgid "findings.HRVD.result.potential_violation.body_followup"
 msgstr "Your report will explain why the destabilization might not have been allowed, and what explanations may be possible."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:28
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up and if any other explanations may be possible."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:29
-msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:28
+msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:28
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.footer"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr "Your report will explain why the increase does not add up, and what explanations may be possible."
 
 #. js-lingui-explicit-id
@@ -3130,8 +3160,8 @@ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.
 msgstr "Your report will explain why the rent increase associated with the removal of the preferential rent does not add up, and what explanations may be possible."
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:27
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:27
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr "Your report will include more information about this mismatch, and what explanations may be possible."
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50

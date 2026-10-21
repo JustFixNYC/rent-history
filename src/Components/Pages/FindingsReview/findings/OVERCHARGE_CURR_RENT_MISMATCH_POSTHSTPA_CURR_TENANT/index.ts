@@ -1,11 +1,11 @@
 import type { FindingReviewModule } from "../../types/findingModule";
 
 import { buildAnswers, createInitialFormState } from "./answers";
-import type { OverchargePosthstpaCurrTenantFormState } from "./answers";
+import type { OverchargeCurrRentMismatchPosthstpaCurrTenantFormState } from "./answers";
 import { getIntro } from "./getIntro";
 import { getSteps } from "./getSteps";
 import { isStepComplete } from "./isStepComplete";
-import { renderOverchargePosthstpaCurrTenantResult } from "./ResultPanel";
+import { renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult } from "./ResultPanel";
 
 export {
   TYPE,
@@ -18,13 +18,13 @@ export type { IntroValues } from "./spec";
 
 export { getIntro, getIntroValues } from "./getIntro";
 export { getSteps } from "./getSteps";
-export type { OverchargePosthstpaCurrTenantGetStepsBindings } from "./getSteps";
+export type { OverchargeCurrRentMismatchPosthstpaCurrTenantGetStepsBindings } from "./getSteps";
 
 export { buildAnswers, createInitialFormState } from "./answers";
-export type { OverchargePosthstpaCurrTenantFormState } from "./answers";
+export type { OverchargeCurrRentMismatchPosthstpaCurrTenantFormState } from "./answers";
 
 export { isStepComplete } from "./isStepComplete";
-export { renderOverchargePosthstpaCurrTenantResult } from "./ResultPanel";
+export { renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult } from "./ResultPanel";
 
 export {
   IntroTitle,
@@ -33,12 +33,12 @@ export {
   ResultDismissedBody,
 } from "./ReviewCopy";
 
-export const findingReviewModule: FindingReviewModule<OverchargePosthstpaCurrTenantFormState> =
+export const findingReviewModule: FindingReviewModule<OverchargeCurrRentMismatchPosthstpaCurrTenantFormState> =
   {
     createInitialFormState,
     getIntro,
     getSteps,
     buildAnswers,
     isStepComplete,
-    renderResult: renderOverchargePosthstpaCurrTenantResult,
+    renderResult: renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult,
   };

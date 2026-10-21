@@ -1,7 +1,7 @@
 import { isVacancyGatedFollowUpVisible } from "../../hooks/stepVisibility";
 import { patchGetsVacancyIncrease } from "../../hooks/vacancyFormState";
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
-import { PrefRentOcrFields } from "../../shared/PrefRentOcrFields";
+import { buildPrefRentOcrRows } from "../../shared/buildPrefRentOcrRows";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
 import { SuccessionStep } from "../../steps/SuccessionStep";
@@ -9,7 +9,6 @@ import {
   VacancyStep,
   buildVacancySelfTenantSharedCopy,
 } from "../../steps/VacancyStep";
-import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
@@ -19,12 +18,6 @@ import { NO_PREF_RENT_LABEL } from "./ReviewCopy";
 import { ROW_INDEX } from "./spec";
 
 const ID_PREFIX = "nonregistration-overcharge-prefrent-posthstpa-curr-tenant";
-
-const PREF_RENT_OCR_FIELD_KEYS = {
-  legalRent: "row0LegalRent",
-  prefRent: "row0PrefRent",
-  noPrefRent: "row0NoPrefRent",
-} as const;
 
 export type NonregistrationOverchargePrefrentPosthstpaCurrTenantGetStepsBindings =
   {
@@ -38,14 +31,6 @@ export type NonregistrationOverchargePrefrentPosthstpaCurrTenantGetStepsBindings
     onOcrEdit?: () => void;
   };
 
-const STANDARD_OCR_ROWS = [
-  {
-    dataRowIndex: ROW_INDEX.context,
-    formRowIndex: 0,
-    left: "apt_stat" as const,
-  },
-];
-
 export function getSteps(
   bindings: NonregistrationOverchargePrefrentPosthstpaCurrTenantGetStepsBindings
 ): FindingStep[] {
@@ -57,38 +42,25 @@ export function getSteps(
     onOcrConfirm,
     onOcrEdit,
   } = bindings;
-  const wireRow = finding.data.rows[ROW_INDEX.context];
-  const [ocrRow] = buildStandardOcrRows({
+
+  const ocrRows = buildPrefRentOcrRows({
     finding,
     formState,
     onFormStateChange,
     idPrefix: ID_PREFIX,
-    rows: STANDARD_OCR_ROWS,
+    noPrefRentLabel: NO_PREF_RENT_LABEL,
+    rows: [
+      {
+        dataRowIndex: ROW_INDEX.context,
+        formRowIndex: 0,
+        fieldKeys: {
+          legalRent: "row0LegalRent",
+          prefRent: "row0PrefRent",
+          noPrefRent: "row0NoPrefRent",
+        },
+      },
+    ],
   });
-
-  const ocrRows = [
-    {
-      ...ocrRow,
-      renderRight: ({ readonly }: { readonly: boolean }) => (
-        <PrefRentOcrFields
-          idPrefix={ID_PREFIX}
-          formRowIndex={0}
-          wireRow={wireRow}
-          legalRent={formState.row0LegalRent}
-          prefRent={formState.row0PrefRent}
-          noPrefRent={formState.row0NoPrefRent}
-          readonly={readonly}
-          noPrefRentLabel={NO_PREF_RENT_LABEL}
-          fieldKeys={PREF_RENT_OCR_FIELD_KEYS}
-          onFormStateChange={(patch) =>
-            onFormStateChange(
-              patch as Partial<NonregistrationOverchargePrefrentPosthstpaCurrTenantFormState>
-            )
-          }
-        />
-      ),
-    },
-  ];
 
   const { year0, lastRegistrationYear } = getIntroValues(finding);
 
@@ -99,7 +71,7 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          intro={<OcrConfirmIntro years={[year0]} />}
+          intro={<OcrConfirmIntro years={ocrRows.map((row) => row.regYear)} />}
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

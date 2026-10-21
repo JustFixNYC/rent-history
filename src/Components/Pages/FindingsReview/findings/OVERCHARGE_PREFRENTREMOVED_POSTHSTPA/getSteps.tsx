@@ -1,5 +1,5 @@
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
-import { PrefRentOcrFields } from "../../shared/PrefRentOcrFields";
+import { buildPrefRentOcrRows } from "../../shared/buildPrefRentOcrRows";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { TenantNameTipsLink } from "../../shared/TenantNameTipsLink";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
@@ -7,7 +7,6 @@ import {
   VacancyStep,
   buildVacancyTenantChangeSharedCopy,
 } from "../../steps/VacancyStep";
-import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
@@ -29,26 +28,6 @@ export type PrefrentremovedPosthstpaGetStepsBindings = {
 
 const ID_PREFIX = "prefrentremoved-posthstpa";
 
-const PREF_RENT_OCR_FIELD_KEYS_ROW1 = {
-  legalRent: "row1LegalRent",
-  prefRent: "row1PrefRent",
-  noPrefRent: "row1NoPrefRent",
-} as const;
-
-const STANDARD_OCR_ROWS = [
-  {
-    dataRowIndex: ROW_INDEX.row0,
-    formRowIndex: 0,
-    left: "apt_stat" as const,
-    right: ["legal_rent" as const, "pref_rent" as const],
-  },
-  {
-    dataRowIndex: ROW_INDEX.row1,
-    formRowIndex: 1,
-    left: "apt_stat" as const,
-  },
-];
-
 export function getSteps(
   bindings: PrefrentremovedPosthstpaGetStepsBindings
 ): FindingStep[] {
@@ -60,38 +39,36 @@ export function getSteps(
     onOcrConfirm,
     onOcrEdit,
   } = bindings;
-  const wireRow1 = finding.data.rows[ROW_INDEX.row1];
-  const [ocrRow0, ocrRow1Base] = buildStandardOcrRows({
+
+  const ocrRows = buildPrefRentOcrRows({
     finding,
     formState,
     onFormStateChange,
     idPrefix: ID_PREFIX,
-    rows: STANDARD_OCR_ROWS,
+    noPrefRentLabel: NO_PREF_RENT_LABEL,
+    rows: [
+      {
+        dataRowIndex: ROW_INDEX.row0,
+        formRowIndex: 0,
+        fieldKeys: {
+          legalRent: "row0LegalRent",
+          prefRent: "row0PrefRent",
+          noPrefRent: "row0NoPrefRent",
+        },
+        showNoPrefRentCheckbox: false,
+      },
+      {
+        dataRowIndex: ROW_INDEX.row1,
+        formRowIndex: 1,
+        fieldKeys: {
+          legalRent: "row1LegalRent",
+          prefRent: "row1PrefRent",
+          noPrefRent: "row1NoPrefRent",
+        },
+      },
+    ],
   });
-  const ocrRows = [
-    ocrRow0,
-    {
-      ...ocrRow1Base,
-      renderRight: ({ readonly }: { readonly: boolean }) => (
-        <PrefRentOcrFields
-          idPrefix={ID_PREFIX}
-          formRowIndex={1}
-          wireRow={wireRow1}
-          legalRent={formState.row1LegalRent}
-          prefRent={formState.row1PrefRent}
-          noPrefRent={formState.row1NoPrefRent}
-          readonly={readonly}
-          noPrefRentLabel={NO_PREF_RENT_LABEL}
-          fieldKeys={PREF_RENT_OCR_FIELD_KEYS_ROW1}
-          onFormStateChange={(patch) =>
-            onFormStateChange(
-              patch as Partial<PrefrentremovedPosthstpaFormState>
-            )
-          }
-        />
-      ),
-    },
-  ];
+
   const { year0, year1 } = getIntroValues(finding);
   const tenants = getTenancyRowTenants(finding);
   const isMultiTenant = tenants.length > 1;

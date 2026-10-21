@@ -1,3 +1,10 @@
+/**
+ * OCR confirm row builders (Figma: Validation Modules/Confirm Values/Updated-v2, 7198:12327).
+ *
+ * Layout variants (see also `OcrLayoutVariant` in shared/validationSteps.ts):
+ * - LegalRentOnly: `buildStandardOcrRows` — apt_stat + legal_rent (1 or 2 rows).
+ * - PrefRent*: `buildPrefRentOcrRows` — apt_stat + legal/pref/checkbox per row.
+ */
 import { Fragment } from "react";
 
 import {

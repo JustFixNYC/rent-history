@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import type { OverchargePosthstpaCurrTenantFormState } from "./answers";
+import type { OverchargeCurrRentMismatchPosthstpaCurrTenantFormState } from "./answers";
 import { isStepComplete } from "./isStepComplete";
 
-const baseFormState: OverchargePosthstpaCurrTenantFormState = {
+const baseFormState: OverchargeCurrRentMismatchPosthstpaCurrTenantFormState = {
   row0AptStat: "RS",
   row0LegalRent: "3000",
 };
 
-describe("OVERCHARGE_POSTHSTPA_CURR_TENANT isStepComplete", () => {
+describe("OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT isStepComplete", () => {
   it("gates ocr_confirm on ocrConfirmed", () => {
     expect(
       isStepComplete("ocr_confirm", baseFormState, { ocrConfirmed: false })

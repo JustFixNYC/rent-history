@@ -224,14 +224,14 @@
     },
     "validated_at": null
   },
-  "OVERCHARGE_POSTHSTPA_CURR_TENANT": {
+  "OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT": {
     "id": "a7b8c9d0-e1f2-3456-0123-56789abcdef0",
     "key": {
-      "type": "OVERCHARGE_POSTHSTPA_CURR_TENANT",
+      "type": "OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT",
       "finding_year": 2026,
       "subtype": null
     },
-    "type": "OVERCHARGE_POSTHSTPA_CURR_TENANT",
+    "type": "OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT",
     "finding_year": 2026,
     "status": "pending",
     "data": {

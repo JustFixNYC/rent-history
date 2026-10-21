@@ -58,7 +58,11 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          intro={<OcrConfirmIntro years={[year0]} />}
+          intro={
+            <OcrConfirmIntro
+              years={ocrRows.map((row) => row.regYear)}
+            />
+          }
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

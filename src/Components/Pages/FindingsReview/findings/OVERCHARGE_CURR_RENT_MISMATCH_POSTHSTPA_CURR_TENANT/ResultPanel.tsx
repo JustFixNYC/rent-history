@@ -11,7 +11,7 @@ import {
   ResultPotentialViolationBody,
 } from "./ReviewCopy";
 
-export function renderOverchargePosthstpaCurrTenantResult(
+export function renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult(
   finding: Finding
 ): FindingResultContent | null {
   const result = finding.result;

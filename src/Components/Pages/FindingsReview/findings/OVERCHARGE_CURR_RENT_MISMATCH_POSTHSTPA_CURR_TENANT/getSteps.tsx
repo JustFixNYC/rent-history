@@ -5,17 +5,16 @@ import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
-import type { OverchargePosthstpaCurrTenantFormState } from "./answers";
-import { getIntroValues } from "./getIntro";
+import type { OverchargeCurrRentMismatchPosthstpaCurrTenantFormState } from "./answers";
 import { ROW_INDEX } from "./spec";
 
-const ID_PREFIX = "overcharge-posthstpa-curr-tenant";
+const ID_PREFIX = "overcharge-curr-rent-mismatch-posthstpa-curr-tenant";
 
-export type OverchargePosthstpaCurrTenantGetStepsBindings = {
+export type OverchargeCurrRentMismatchPosthstpaCurrTenantGetStepsBindings = {
   finding: Finding;
-  formState: OverchargePosthstpaCurrTenantFormState;
+  formState: OverchargeCurrRentMismatchPosthstpaCurrTenantFormState;
   onFormStateChange: (
-    patch: Partial<OverchargePosthstpaCurrTenantFormState>
+    patch: Partial<OverchargeCurrRentMismatchPosthstpaCurrTenantFormState>
   ) => void;
   ocrPhase?: OcrConfirmPhase;
   onOcrConfirm?: () => void;
@@ -32,7 +31,7 @@ const STANDARD_OCR_ROWS = [
 ];
 
 export function getSteps(
-  bindings: OverchargePosthstpaCurrTenantGetStepsBindings
+  bindings: OverchargeCurrRentMismatchPosthstpaCurrTenantGetStepsBindings
 ): FindingStep[] {
   const {
     finding,
@@ -49,8 +48,6 @@ export function getSteps(
     idPrefix: ID_PREFIX,
     rows: STANDARD_OCR_ROWS,
   });
-  const { rhYear } = getIntroValues(finding);
-
   return [
     {
       id: "ocr_confirm",
@@ -58,7 +55,11 @@ export function getSteps(
       render: ({ isPastStep }) => (
         <OcrConfirmStep
           stepNumber={1}
-          intro={<OcrConfirmIntro years={[rhYear]} />}
+          intro={
+            <OcrConfirmIntro
+              years={ocrRows.map((row) => row.regYear)}
+            />
+          }
           rows={ocrRows}
           isPastStep={isPastStep}
           phase={ocrPhase}

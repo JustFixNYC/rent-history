@@ -495,6 +495,31 @@ msgstr ""
 #~ msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.footer"
 #~ msgstr ""
 
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.dismissed.body"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:36
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.no_violation.body"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:20
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.lead"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:6
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.intro.title"
+#~ msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:27
+#~ msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
+#~ msgstr ""
+
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
 #~ msgid "."
 #~ msgstr ""
@@ -793,8 +818,8 @@ msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.dismissed.b
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.dismissed.body"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:43
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.dismissed.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1367,7 +1392,7 @@ msgid "timeline.title.increase_viol_prehstpa"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:8
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:14
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.intro.title"
 msgstr ""
 
@@ -2369,18 +2394,18 @@ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:36
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.no_violation.body"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:36
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:20
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.lead"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:20
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.potential_violation.lead"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:6
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.intro.title"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:6
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.intro.title"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2469,6 +2494,11 @@ msgid "timeline.implications.improper_overcharge"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:6
+msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.ocr.no_pref_rent_label"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/PREFRENT_421A/ReviewCopy.tsx:13
 msgid "findings.PREFRENT_421A.ocr.no_pref_rent_label"
 msgstr ""
@@ -2504,12 +2534,12 @@ msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_v
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:40
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:46
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.no_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:21
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:27
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.lead"
 msgstr ""
 
@@ -3071,18 +3101,18 @@ msgid "findings.HRVD.result.potential_violation.body_followup"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:28
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:34
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.footer"
-msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:29
-msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:28
 msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.footer"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:29
+msgid "findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -3130,8 +3160,8 @@ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:27
-msgid "findings.OVERCHARGE_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
+#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT/ReviewCopy.tsx:27
+msgid "findings.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT.result.potential_violation.footer"
 msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50

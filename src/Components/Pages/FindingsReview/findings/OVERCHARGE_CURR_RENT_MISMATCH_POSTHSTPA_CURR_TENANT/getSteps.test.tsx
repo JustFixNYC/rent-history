@@ -10,14 +10,15 @@ import "../../FindingsReview.scss";
 import {
   buildAnswers,
   createInitialFormState,
-  type OverchargePosthstpaCurrTenantFormState,
+  type OverchargeCurrRentMismatchPosthstpaCurrTenantFormState,
 } from "./answers";
 import { getIntroValues } from "./getIntro";
 import { getSteps } from "./getSteps";
-import { renderOverchargePosthstpaCurrTenantResult } from "./ResultPanel";
+import { renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult } from "./ResultPanel";
 import { EXCLUDED_ANSWER_KEYS } from "./spec";
 
-const finding = findingExamples.OVERCHARGE_POSTHSTPA_CURR_TENANT as Finding;
+const finding =
+  findingExamples.OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT as Finding;
 
 const noopFormChange = () => {};
 
@@ -31,7 +32,7 @@ const renderWithI18n = (ui: React.ReactElement) => {
   return render(<I18nProvider i18n={i18n}>{ui}</I18nProvider>);
 };
 
-describe("OVERCHARGE_POSTHSTPA_CURR_TENANT getSteps", () => {
+describe("OVERCHARGE_CURR_RENT_MISMATCH_POSTHSTPA_CURR_TENANT getSteps", () => {
   it("returns a single ocr_confirm step definition", () => {
     const steps = getSteps({
       finding,
@@ -63,7 +64,9 @@ describe("OVERCHARGE_POSTHSTPA_CURR_TENANT getSteps", () => {
 
     expect(screen.getAllByRole("combobox")).toHaveLength(1);
     expect(
-      document.getElementById("overcharge-posthstpa-curr-tenant-ocr-apt-stat-0")
+      document.getElementById(
+        "overcharge-curr-rent-mismatch-posthstpa-curr-tenant-ocr-apt-stat-0"
+      )
     ).toBeInTheDocument();
   });
 });
@@ -81,7 +84,7 @@ describe("getIntroValues", () => {
 
 describe("buildAnswers", () => {
   it("maps form state to a single shape-A row", () => {
-    const formState: OverchargePosthstpaCurrTenantFormState = {
+    const formState: OverchargeCurrRentMismatchPosthstpaCurrTenantFormState = {
       row0AptStat: "RS",
       row0LegalRent: "3000",
     };
@@ -107,14 +110,15 @@ describe("buildAnswers", () => {
   });
 });
 
-describe("renderOverchargePosthstpaCurrTenantResult", () => {
+describe("renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult", () => {
   it("renders violation copy with rh and reported years", () => {
     const violationFinding: Finding = {
       ...finding,
       result: "potential_violation",
     };
 
-    const content = renderOverchargePosthstpaCurrTenantResult(violationFinding);
+    const content =
+      renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult(violationFinding);
 
     renderWithI18n(<>{content?.body}</>);
 

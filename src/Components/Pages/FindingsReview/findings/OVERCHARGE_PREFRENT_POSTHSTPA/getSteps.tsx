@@ -1,4 +1,5 @@
 import type { OcrConfirmPhase } from "../../hooks/useOcrConfirmState";
+import { buildPrefRentOcrRows } from "../../shared/buildPrefRentOcrRows";
 import { OcrConfirmIntro } from "../../shared/stepCopy";
 import { TenantNameTipsLink } from "../../shared/TenantNameTipsLink";
 import { OcrConfirmStep } from "../../steps/OcrConfirmStep";
@@ -6,13 +7,15 @@ import {
   VacancyStep,
   buildVacancyTenantChangeSharedCopy,
 } from "../../steps/VacancyStep";
-import { buildStandardOcrRows } from "../../steps/buildOcrRows";
 import type { Finding } from "../../types/finding";
 import type { FindingStep } from "../../types/step";
 
 import type { PrefrentPosthstpaFormState } from "./answers";
 import { getIntroValues } from "./getIntro";
+import { NO_PREF_RENT_LABEL } from "./ReviewCopy";
 import { getTenancyRowTenants, ROW_INDEX } from "./spec";
+
+const ID_PREFIX = "prefrent-posthstpa";
 
 export type PrefrentPosthstpaGetStepsBindings = {
   finding: Finding;
@@ -22,21 +25,6 @@ export type PrefrentPosthstpaGetStepsBindings = {
   onOcrConfirm?: () => void;
   onOcrEdit?: () => void;
 };
-
-const STANDARD_OCR_ROWS = [
-  {
-    dataRowIndex: ROW_INDEX.row0,
-    formRowIndex: 0,
-    left: "apt_stat" as const,
-    right: ["legal_rent" as const, "pref_rent" as const],
-  },
-  {
-    dataRowIndex: ROW_INDEX.row1,
-    formRowIndex: 1,
-    left: "apt_stat" as const,
-    right: ["pref_rent" as const],
-  },
-];
 
 export function getSteps(
   bindings: PrefrentPosthstpaGetStepsBindings
@@ -49,12 +37,33 @@ export function getSteps(
     onOcrConfirm,
     onOcrEdit,
   } = bindings;
-  const ocrRows = buildStandardOcrRows({
+  const ocrRows = buildPrefRentOcrRows({
     finding,
     formState,
     onFormStateChange,
-    idPrefix: "prefrent-posthstpa",
-    rows: STANDARD_OCR_ROWS,
+    idPrefix: ID_PREFIX,
+    noPrefRentLabel: NO_PREF_RENT_LABEL,
+    rows: [
+      {
+        dataRowIndex: ROW_INDEX.row0,
+        formRowIndex: 0,
+        fieldKeys: {
+          legalRent: "row0LegalRent",
+          prefRent: "row0PrefRent",
+          noPrefRent: "row0NoPrefRent",
+        },
+      },
+      {
+        dataRowIndex: ROW_INDEX.row1,
+        formRowIndex: 1,
+        fieldKeys: {
+          legalRent: "row1LegalRent",
+          prefRent: "row1PrefRent",
+          noPrefRent: "row1NoPrefRent",
+        },
+        legalRentReadonly: true,
+      },
+    ],
   });
   const { year0, year1 } = getIntroValues(finding);
   const tenants = getTenancyRowTenants(finding);
@@ -91,7 +100,7 @@ export function getSteps(
         <VacancyStep
           stepNumber={2}
           isPastStep={isPastStep}
-          idPrefix="prefrent-posthstpa"
+          idPrefix={ID_PREFIX}
           sharedCopy={vacancySharedCopy}
           tenants={isMultiTenant ? tenants : undefined}
           tips={<TenantNameTipsLink />}
