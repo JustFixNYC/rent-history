@@ -128,7 +128,14 @@ export function FindingReviewFlow({
     [module, validatedFinding]
   );
 
+  const skipRevealScrollRef = useRef(true);
+
   useEffect(() => {
+    if (skipRevealScrollRef.current) {
+      skipRevealScrollRef.current = false;
+      return;
+    }
+
     stackEndRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",

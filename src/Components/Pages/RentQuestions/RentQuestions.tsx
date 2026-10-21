@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { SelectButton, TextInput } from "@justfixnyc/component-library";
 
 import { analyzePath } from "../../../routes/analyzeRoutes";
+import { useScrollToTopWhen } from "../../../scroll";
 import {
   isAccountApiError,
   setRhHistoryApartmentInfo,
@@ -42,6 +43,8 @@ export const RentQuestions: React.FC = () => {
   const [substep, setSubstep] = useState<0 | 1>(() =>
     getInitialRentQuestionsSubstep(currentState)
   );
+
+  useScrollToTopWhen(substep);
   const [livesInApt, setLivesInApt] = useState<boolean | null>(
     currentState.livesInApt
   );

@@ -10,6 +10,7 @@ import {
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { getFindingsReviewSubsteps } from "../../AnalysisFlowProgress/analysisFlow";
 
+import { useScrollToTopWhen } from "../../../scroll";
 import { FindingReviewFlow } from "./FindingReviewFlow";
 import { getCurrentFindingFromQueue } from "./getCurrentFindingFromQueue";
 import { FINDING_MODULES } from "./types/registry";
@@ -27,6 +28,8 @@ const FindingsReviewPage = () => {
   });
 
   const [activeFindingId, setActiveFindingId] = useState<string | null>(null);
+
+  useScrollToTopWhen(activeFindingId);
 
   useEffect(() => {
     if (!data) {

@@ -4,6 +4,10 @@ import { ErrorBoundary, Provider as RollbarProvider } from "@rollbar/react";
 import App from "./App.tsx";
 import "./index.scss";
 
+if (typeof window !== "undefined" && window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
 const rollbarConfig = {
   accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
   environment: import.meta.env.MODE,

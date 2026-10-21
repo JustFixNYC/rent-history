@@ -25,6 +25,7 @@ import {
 } from "../../../session/rhSessionStorage";
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { analyzePath } from "../../../routes/analyzeRoutes";
+import { useScrollToTopWhen } from "../../../scroll";
 import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
 import { CameraAccessScreen } from "./CameraAccessScreen";
 import { PreScanScreen } from "./PreScanScreen";
@@ -71,6 +72,8 @@ const Scanner: React.FC = () => {
     setExpectedPageCount,
     restoreStatus,
   } = useScannerBootstrapRestore({ accessToken, historyId });
+
+  useScrollToTopWhen(phase);
   const [flowError, setFlowError] = useState<string | null>(null);
   const [isRestartModalOpen, setIsRestartModalOpen] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);

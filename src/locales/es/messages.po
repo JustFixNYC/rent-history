@@ -265,7 +265,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:704
+#: src/Components/Pages/Scanner/Scanner.tsx:707
 msgid "All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr ""
 
@@ -281,7 +281,7 @@ msgstr ""
 msgid "Analyze a new rent history"
 msgstr ""
 
-#: src/Components/EditableTable/EditableTable.tsx:497
+#: src/Components/EditableTable/EditableTable.tsx:499
 msgid "Analyze my rent history"
 msgstr ""
 
@@ -470,7 +470,7 @@ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:344
 #: src/Components/Pages/AccountPage/AccountPage.tsx:365
-#: src/Components/Pages/Scanner/Scanner.tsx:716
+#: src/Components/Pages/Scanner/Scanner.tsx:719
 msgid "Cancel"
 msgstr ""
 
@@ -604,8 +604,8 @@ msgstr ""
 msgid "findings.HRVD.result.dismissed.body"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:179
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:196
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:182
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:199
 msgid "Do you currently live in the apartment associated with this rent history?"
 msgstr ""
 
@@ -713,7 +713,7 @@ msgstr ""
 msgid "Finding result navigation"
 msgstr "Navegación del resultado del hallazgo"
 
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:222
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:229
 msgid "Finding review navigation"
 msgstr "Navegación de revisión de hallazgos"
 
@@ -721,7 +721,7 @@ msgstr "Navegación de revisión de hallazgos"
 #~ msgid "Findings review"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:350
+#: src/Components/Pages/Scanner/Scanner.tsx:353
 msgid "Finish scanning"
 msgstr ""
 
@@ -1040,7 +1040,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:65
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:77
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:80
 msgid "Loading findings…"
 msgstr "Cargando hallazgos…"
 
@@ -1154,7 +1154,7 @@ msgstr ""
 msgid "Missing registration years"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:254
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:257
 msgid "Monthly rent amount"
 msgstr ""
 
@@ -1176,9 +1176,9 @@ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:256
 #: src/Components/Pages/FindingsReview/FindingResultModal.tsx:30
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:199
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:204
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:164
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:206
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:211
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:167
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:152
 msgid "Next"
 msgstr "Siguiente"
@@ -1220,7 +1220,7 @@ msgid "Next, your report will provide more details"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:33
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:216
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:219
 msgid "No"
 msgstr "No"
 
@@ -1351,7 +1351,7 @@ msgstr ""
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:62
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:65
 msgid "Please enter a valid rent amount."
 msgstr ""
 
@@ -1359,7 +1359,7 @@ msgstr ""
 msgid "Please enter all 6 digits."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:240
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:243
 msgid "Please enter the full monthly rent for the entire apartment. This will help us compare what you pay to what is listed in your rent history."
 msgstr ""
 
@@ -1367,11 +1367,11 @@ msgstr ""
 msgid "Please enter your email address."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:58
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:61
 msgid "Please enter your monthly rent."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:120
 msgid "Please select Yes or No."
 msgstr ""
 
@@ -1437,11 +1437,11 @@ msgstr ""
 msgid "Processing your scanned pages…"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:702
+#: src/Components/Pages/Scanner/Scanner.tsx:705
 msgid "Re-scan all pages?"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:162
+#: src/Components/Pages/Scanner/Scanner.tsx:165
 msgid "Re-scan page"
 msgstr ""
 
@@ -1504,7 +1504,7 @@ msgstr ""
 msgid "Residential units"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:710
+#: src/Components/Pages/Scanner/Scanner.tsx:713
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:150
 msgid "Restart scan"
 msgstr ""
@@ -1551,12 +1551,12 @@ msgstr ""
 #~ msgid "Save address"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:166
+#: src/Components/Pages/Scanner/Scanner.tsx:169
 msgid "Save page"
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:255
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:164
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:167
 msgid "Saving…"
 msgstr ""
 
@@ -1608,7 +1608,7 @@ msgstr ""
 #~ msgid "ScanBot Demo"
 #~ msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:334
+#: src/Components/Pages/Scanner/Scanner.tsx:337
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr ""
 
@@ -2103,7 +2103,7 @@ msgstr ""
 msgid "timeline.copy.substantial_rehab_possible"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:185
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:188
 msgid "This helps us determine if you are currently being overcharged."
 msgstr ""
 
@@ -2177,7 +2177,7 @@ msgstr ""
 msgid "Too many invalid attempts. Request a new code."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:581
+#: src/Components/Pages/Scanner/Scanner.tsx:584
 msgid "Unable to continue. Please try again."
 msgstr ""
 
@@ -2185,7 +2185,7 @@ msgstr ""
 msgid "Unable to create your rent history record. Please try again."
 msgstr ""
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:82
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:85
 msgid "Unable to load findings state."
 msgstr "No se pudo cargar el estado de los hallazgos."
 
@@ -2201,18 +2201,18 @@ msgstr ""
 msgid "Unable to load scan review"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:223
+#: src/Components/Pages/Scanner/Scanner.tsx:226
 msgid "Unable to load the scanner. Please refresh the page and try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:415
-#: src/Components/Pages/Scanner/Scanner.tsx:443
-#: src/Components/Pages/Scanner/Scanner.tsx:486
+#: src/Components/Pages/Scanner/Scanner.tsx:418
+#: src/Components/Pages/Scanner/Scanner.tsx:446
+#: src/Components/Pages/Scanner/Scanner.tsx:489
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:41
 msgid "Unable to open the scanner. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:540
+#: src/Components/Pages/Scanner/Scanner.tsx:543
 msgid "Unable to re-scan pages. Please try again."
 msgstr ""
 
@@ -2220,7 +2220,7 @@ msgstr ""
 msgid "Unable to resend code right now. Please try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:494
+#: src/Components/Pages/Scanner/Scanner.tsx:497
 msgid "Unable to restart scanning. Please try again."
 msgstr ""
 
@@ -2228,7 +2228,7 @@ msgstr ""
 msgid "Unable to resume"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:105
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:108
 msgid "Unable to save your answers. Please try again."
 msgstr ""
 
@@ -2264,7 +2264,7 @@ msgid "timeline.implications.rgb_overcharge"
 msgstr ""
 
 #. placeholder {0}: currentFinding.type
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:97
+#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:100
 msgid "Unsupported finding type: {0}"
 msgstr "Tipo de hallazgo no compatible: {0}"
 
@@ -2322,7 +2322,7 @@ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:252
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
-#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
+#: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:210
 msgid "View report"
 msgstr ""
 
@@ -2451,7 +2451,7 @@ msgstr ""
 #~ msgid "What is the total monthly rent for your entire apartment?"
 #~ msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:237
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:240
 msgid "What is your current monthly rent?"
 msgstr ""
 
@@ -2532,7 +2532,7 @@ msgid "findings.HRVD.intro.eyebrow"
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/YesNoField.tsx:32
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:203
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:206
 msgid "Yes"
 msgstr "Sí"
 
@@ -2705,7 +2705,7 @@ msgstr ""
 #~ msgid "Your session is missing a rent history record. Go back to login and try again."
 #~ msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:87
+#: src/Components/Pages/RentQuestions/RentQuestions.tsx:90
 msgid "Your session is missing a rent history record. Please sign in again."
 msgstr ""
 
