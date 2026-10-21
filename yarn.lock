@@ -847,7 +847,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@justfixnyc/component-library@0.64.0":
+"@justfixnyc/component-library@0.64.1":
   version "0.64.1"
   resolved "https://registry.yarnpkg.com/@justfixnyc/component-library/-/component-library-0.64.1.tgz#86625cad69e627ecc00eee5df678a81eb9e2838d"
   integrity sha512-FYiW6qqNROk7LIqV1IZXdR9M056VcXFe8QSVy6s1IH0kyd2TMqQCIPLEUeN0QbGJJ0TV+rMSSUn+gQRzwgW0uw==
