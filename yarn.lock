@@ -847,15 +847,16 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@justfixnyc/component-library@0.62.1":
-  version "0.62.1"
-  resolved "https://registry.yarnpkg.com/@justfixnyc/component-library/-/component-library-0.62.1.tgz#a65c7cd7fb14c92139d559f5531614ab60e75cd6"
-  integrity sha512-1lCuayj2//eiRFjbehf+/+8mlRIe5JxjS47e8j7dhpc3EmJmlg4fYcRFhQSOC3Dx2bRKznYFqGzWw2b0P/NHtA==
+"@justfixnyc/component-library@0.64.1":
+  version "0.64.1"
+  resolved "https://registry.yarnpkg.com/@justfixnyc/component-library/-/component-library-0.64.1.tgz#86625cad69e627ecc00eee5df678a81eb9e2838d"
+  integrity sha512-FYiW6qqNROk7LIqV1IZXdR9M056VcXFe8QSVy6s1IH0kyd2TMqQCIPLEUeN0QbGJJ0TV+rMSSUn+gQRzwgW0uw==
   dependencies:
     "@awesome.me/kit-6863e5a21e" "^1.0.4"
     "@babel/runtime" "^7.12.5"
     "@fortawesome/fontawesome-svg-core" "^7.1.0"
     "@fortawesome/react-fontawesome" "^3.1.0"
+    input-otp "^1.5.0"
     react-select "^5.7.2"
 
 "@lingui/babel-plugin-extract-messages@5.4.1":
