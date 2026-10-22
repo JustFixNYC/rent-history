@@ -1,3 +1,4 @@
+import { Link } from "@justfixnyc/component-library";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
@@ -5,8 +6,15 @@ import { Trans } from "@lingui/react/macro";
 import type { RightsSectionConfig } from "../shared";
 import {
   KyrAccordionContentStub,
+  RsLeaseRenewalContent,
   RsRentIncreaseLimitsContent,
+  RsResourcesContent,
+  RsStabilizedLeaseContent,
+  RsSuccessionContent,
 } from "./content";
+
+const EXAMPLE_LEASE_RIDER_URL =
+  "https://hcr.ny.gov/system/files/documents/2026/06/ra-lr1-06-2026-fillable.pdf";
 
 export type KnowYourRightsPageConfig = {
   sections: RightsSectionConfig[];
@@ -20,13 +28,31 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
       sectionId: "kyr-rent-stabilized",
       title: <Trans>Protections for rent stabilized tenants</Trans>,
       intro: (
-        <p>
-          <Trans>
-            If you live in a rent stabilized apartment, you have protections
-            that limit how much your rent can increase and how your landlord can
-            treat your tenancy.
-          </Trans>
-        </p>
+        <>
+          <p>
+            <Trans>
+              If you live in a rent-stabilized apartment, or think your
+              apartment should be rent stabilized, you may have additional
+              protections around your rent and ability to remain in your home.
+            </Trans>
+          </p>
+          <p>
+            <Trans>
+              If your lease looks{" "}
+              <Link
+                className="know-your-rights__intro-example-link"
+                href={EXAMPLE_LEASE_RIDER_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                something like this
+              </Link>
+              , then your apartment is very likely rent stabilized. But even if
+              your lease does not look like that, you may still be rent
+              stabilized.
+            </Trans>
+          </p>
+        </>
       ),
       accordions: [
         {
@@ -40,38 +66,37 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
         {
           id: "rs-lease-renewal",
           title: <Trans>Your right to a lease renewal</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <RsLeaseRenewalContent />,
           figmaNodeId: "6854-59897",
         },
         {
           id: "rs-stabilized-lease",
           title: <Trans>Your right to a rent stabilized lease</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <RsStabilizedLeaseContent />,
           figmaNodeId: "6854-59898",
         },
         {
           id: "rs-succession",
           title: <Trans>Your right to succession</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <RsSuccessionContent />,
           figmaNodeId: "6859-64661",
         },
         {
           id: "rs-resources",
           title: <Trans>Additional resources</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <RsResourcesContent />,
           figmaNodeId: "6854-59899",
         },
       ],
       ctas: [
         {
           variant: "analyze",
-          title: <Trans>Suspect an overcharge?</Trans>,
+          title: <Trans>Not sure if your apartment is rent stabilized?</Trans>,
           body: (
             <p>
               <Trans>
-                Analyzing your rent history can help you understand how your
-                rent has changed over time and identify things that may need a
-                closer look.
+                Analyzing your rent history can help you understand if your
+                apartment is rent stabilized or should be.
               </Trans>
             </p>
           ),

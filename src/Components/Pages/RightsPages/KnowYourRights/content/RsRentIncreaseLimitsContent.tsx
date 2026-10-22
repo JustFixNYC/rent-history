@@ -3,7 +3,6 @@ import { Trans } from "@lingui/react/macro";
 
 import { LocaleLink } from "../../../../RouterLinks";
 
-/** Smoke accordion for deep-link QA (#rs-rent-increase-limits). Full copy in task 7. */
 export const RsRentIncreaseLimitsContent: React.FC = () => (
   <>
     <div className="rights-accordion-content__info-panel">
@@ -60,7 +59,7 @@ export const RsRentIncreaseLimitsContent: React.FC = () => (
         improvements:
       </Trans>
     </p>
-    <ul>
+    <ul className="rights-accordion-content__list-with-followups">
       <li>
         <Trans>
           <strong>Individual Apartment Improvements (IAIs):</strong> A landlord
@@ -70,19 +69,17 @@ export const RsRentIncreaseLimitsContent: React.FC = () => (
           other factors. Current law places limits on the amount and frequency
           of IAI increases.
         </Trans>
+        <p className="rights-accordion-content__list-followup-link">
+          <Link
+            icon="external"
+            href="https://hcr.ny.gov/individual-apartment-improvement-iai-fact-sheet"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Trans>Learn more about IAIs</Trans>
+          </Link>
+        </p>
       </li>
-    </ul>
-    <p>
-      <Link
-        icon="external"
-        href="https://hcr.ny.gov/individual-apartment-improvement-iai-fact-sheet"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Trans>Learn more about IAIs</Trans>
-      </Link>
-    </p>
-    <ul>
       <li>
         <Trans>
           <strong>Major Capital Improvements (MCIs):</strong> A landlord may be
@@ -90,18 +87,18 @@ export const RsRentIncreaseLimitsContent: React.FC = () => (
           building. MCI increases are subject to specific requirements and must
           be approved by the Division of Housing and Community Renewal (DHCR).
         </Trans>
+        <p className="rights-accordion-content__list-followup-link">
+          <Link
+            icon="external"
+            href="https://hcr.ny.gov/major-capital-improvement-mci-fact-sheet"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Trans>Learn more about MCIs</Trans>
+          </Link>
+        </p>
       </li>
     </ul>
-    <p>
-      <Link
-        icon="external"
-        href="https://hcr.ny.gov/major-capital-improvement-mci-fact-sheet"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <Trans>Learn more about MCIs</Trans>
-      </Link>
-    </p>
 
     <h4 className="rights-accordion-content__subhead">
       <Trans>Previous exceptions that used to exist</Trans>

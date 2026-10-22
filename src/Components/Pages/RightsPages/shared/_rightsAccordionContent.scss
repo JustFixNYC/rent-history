@@ -42,6 +42,15 @@
     margin: 0;
   }
 
+  &__list-with-followups {
+    gap: 1rem;
+  }
+
+  &__list-followup-link {
+    margin: 0.5rem 0 0;
+    padding-left: 1.75rem;
+  }
+
   a.jfcl-link {
     @include jfcl.body_large_mobile;
     text-decoration: underline;

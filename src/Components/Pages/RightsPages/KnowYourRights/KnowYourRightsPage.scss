@@ -1,6 +1,12 @@
 @use "@justfixnyc/component-library/jfcl" as jfcl;
 @use "../../PageLayout/layoutVars" as layout;
 
+.know-your-rights__intro-example-link {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 0.2em;
+}
+
 .know-your-rights__section-ctas {
   display: flex;
   flex-direction: column;
