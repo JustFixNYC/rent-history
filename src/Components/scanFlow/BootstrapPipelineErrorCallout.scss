@@ -1,0 +1,13 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.bootstrap-pipeline-error {
+  margin: 0 auto;
+  max-width: 327px;
+  padding: 2rem 1.5rem;
+}
+
+.bootstrap-pipeline-error__callout.jfcl-callout-box {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_04;
+}

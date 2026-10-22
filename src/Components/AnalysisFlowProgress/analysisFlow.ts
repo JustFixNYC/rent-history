@@ -5,6 +5,7 @@ export const ANALYSIS_FLOW_STEP_IDS = [
   "confirm-address",
   "rent-questions",
   "scanner",
+  "compiling",
   "scan-review",
   "findings-overview",
   "findings-review",
@@ -31,6 +32,11 @@ export const ANALYSIS_FLOW_STEPS: readonly AnalysisFlowStep[] = [
     showStepNumber: true,
   },
   { stepId: "scanner", title: msg`Scan`, showStepNumber: true },
+  {
+    stepId: "compiling",
+    title: msg`Compiling your rent history`,
+    showStepNumber: true,
+  },
   { stepId: "scan-review", title: msg`Review Scan`, showStepNumber: true },
   {
     stepId: "findings-overview",

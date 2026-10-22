@@ -1,8 +1,4 @@
-export type ScannerPhase =
-  | "pre-scan"
-  | "scanning"
-  | "camera-access"
-  | "scan-review";
+export type ScannerPhase = "pre-scan" | "scanning" | "camera-access";
 
 export type LaunchFailureReason =
   | "not_ready"

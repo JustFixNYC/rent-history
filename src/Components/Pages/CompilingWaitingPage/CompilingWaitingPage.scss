@@ -1,0 +1,144 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+#compiling-waiting-page {
+  background: jfcl.$OFF_WHITE_100;
+  color: jfcl.$OFF_BLACK;
+  min-height: 100vh;
+}
+
+.compiling-waiting-page__body {
+  margin: 0 auto;
+  max-width: 327px;
+  min-height: 648px;
+  padding: 2rem 1.5rem;
+}
+
+.compiling-waiting-page__error-callout.jfcl-callout-box {
+  margin-bottom: 1.5rem;
+}
+
+.compiling-waiting-page__card {
+  background: jfcl.$OFF_WHITE_100;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+}
+
+.compiling-waiting-page__card-header {
+  margin-bottom: 1.5rem;
+
+  h2 {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+  }
+
+  p {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$GREY_600;
+    margin: 0;
+  }
+}
+
+.compiling-waiting-page__milestones {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.compiling-waiting-page__milestone {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.compiling-waiting-page__milestone-icon {
+  align-items: center;
+  border: 1px solid jfcl.$GREY_400;
+  border-radius: 50%;
+  display: inline-flex;
+  flex-shrink: 0;
+  height: 1.5rem;
+  justify-content: center;
+  width: 1.5rem;
+
+  .jfcl-icon {
+    font-size: 0.75rem;
+  }
+}
+
+.compiling-waiting-page__milestone--in_progress {
+  .compiling-waiting-page__milestone-icon {
+    border-color: jfcl.$OFF_BLACK;
+  }
+
+  .compiling-waiting-page__milestone-label {
+    color: jfcl.$OFF_BLACK;
+  }
+}
+
+.compiling-waiting-page__milestone--complete {
+  .compiling-waiting-page__milestone-icon {
+    background: jfcl.$OFF_BLACK;
+    border-color: jfcl.$OFF_BLACK;
+    color: jfcl.$OFF_WHITE_100;
+  }
+
+  .compiling-waiting-page__milestone-label {
+    color: jfcl.$OFF_BLACK;
+  }
+}
+
+.compiling-waiting-page__milestone--pending {
+  .compiling-waiting-page__milestone-label {
+    color: jfcl.$GREY_600;
+  }
+}
+
+.compiling-waiting-page__milestone-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.compiling-waiting-page__milestone-label {
+  @include jfcl.body_standard_mobile;
+  font-weight: 600;
+  margin: 0;
+}
+
+.compiling-waiting-page__milestone-helper {
+  @include jfcl.small_text_mobile;
+  color: jfcl.$GREY_600;
+  margin: 0;
+}
+
+.compiling-waiting-page__sms-callout {
+  align-items: flex-start;
+  background: jfcl.$OFF_WHITE_200;
+  border: 1px solid jfcl.$GREY_200;
+  border-radius: 4px;
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+}
+
+.compiling-waiting-page__sms-icon {
+  flex-shrink: 0;
+  font-size: 1.125rem;
+}
+
+.compiling-waiting-page__sms-callout p {
+  @include jfcl.body_standard_mobile;
+  margin: 0;
+}
+
+.compiling-waiting-page__flow-nav {
+  margin-top: 1rem;
+}

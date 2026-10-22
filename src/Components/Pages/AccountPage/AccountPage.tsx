@@ -26,7 +26,7 @@ import { ConfirmModal } from "../../ConfirmModal/ConfirmModal";
 import "./AccountPage.scss";
 
 const isCompletedHistory = (history: RhHistoryList): boolean =>
-  history.last_step_reached === "REPORT_GENERATION";
+  history.last_step_reached === "REPORT";
 
 type MagicLinkSmsUiState =
   | { kind: "idle" }

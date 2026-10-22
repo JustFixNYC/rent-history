@@ -1,0 +1,45 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
+.rent-history-example-modal {
+  display: flex;
+  flex-direction: column;
+  gap: jfcl.$JF_SPACING_05;
+
+  &__intro {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  &__page-list {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_04;
+    margin: 0;
+    max-height: min(60vh, 28rem);
+    overflow-y: auto;
+    padding: 0;
+  }
+
+  &__page-placeholder {
+    background: jfcl.$OFF_WHITE_200;
+    border: 1px dashed #c4bdb0;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_03;
+    min-height: 8rem;
+    padding: jfcl.$JF_SPACING_04;
+  }
+
+  &__page-label {
+    @include jfcl.body_standard_mobile;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__page-placeholder-text {
+    @include jfcl.body_standard_mobile;
+    color: jfcl.$GREY_700;
+    margin: 0;
+  }
+}

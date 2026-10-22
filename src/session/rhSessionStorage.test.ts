@@ -145,8 +145,8 @@ describe("rhSessionStorage", () => {
 
   it("removeRhSessionStepState deletes a step entry", () => {
     setRhSessionStepState("scanner", {
+      historyId: "hist-1",
       phase: "scan-review",
-      expectedPageCount: 2,
     });
     setRhSessionStepState("postScan", { completed: true });
     removeRhSessionStepState("scanner");
@@ -194,8 +194,8 @@ describe("rhSessionStorage", () => {
     setRhSessionFormDraft({ rows: [1] });
     setRhSessionExtension("featureA", { nested: { x: 1 } });
     setRhSessionStepState("scanner", {
+      historyId: "hist-a",
       phase: "scan-review",
-      expectedPageCount: 2,
     });
 
     switchRhHistory("hist-b");

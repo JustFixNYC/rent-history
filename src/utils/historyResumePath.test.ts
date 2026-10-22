@@ -9,10 +9,18 @@ describe("historyResumePath", () => {
     );
   });
 
-  it("maps REPORT_GENERATION to the report route", () => {
-    expect(historyResumePath("en", "REPORT_GENERATION")).toBe(
-      "/en/analyze/report"
+  it("maps COMPILING to the compiling route", () => {
+    expect(historyResumePath("en", "COMPILING")).toBe("/en/analyze/compiling");
+  });
+
+  it("maps SCAN_REVIEW to the scan-review route", () => {
+    expect(historyResumePath("en", "SCAN_REVIEW")).toBe(
+      "/en/analyze/scan-review"
     );
+  });
+
+  it("maps REPORT to the report route", () => {
+    expect(historyResumePath("en", "REPORT")).toBe("/en/analyze/report");
   });
 
   it("falls back to confirm-address for null or unknown steps", () => {
