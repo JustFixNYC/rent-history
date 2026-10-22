@@ -13,9 +13,9 @@ export const NycEvictionProtectionsContent: React.FC = () => (
       <Trans>
         The only way your landlord can legally evict you is through an eviction
         lawsuit in housing court. Lockouts (also known as unlawful evictions or
-        self-help evictions) are illegal. All tenants, including those in private
-        residential programs, have the right to stay in their home unless they
-        choose to leave or are evicted through a court process.
+        self-help evictions) are illegal. All tenants, including those in
+        private residential programs, have the right to stay in their home
+        unless they choose to leave or are evicted through a court process.
       </Trans>
     </p>
 
@@ -60,7 +60,9 @@ export const NycEvictionProtectionsContent: React.FC = () => (
     </p>
 
     <h4 className="rights-accordion-content__subhead">
-      <Trans>See if you are eligible for a free attorney in housing court</Trans>
+      <Trans>
+        See if you are eligible for a free attorney in housing court
+      </Trans>
     </h4>
     <p>
       <Link

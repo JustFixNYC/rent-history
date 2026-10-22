@@ -8,8 +8,8 @@ export const NycOrganizeContent: React.FC = () => (
   <>
     <p>
       <Trans>
-        Has your landlord raised your rent? Is your landlord refusing to do basic
-        repairs? Are you worried about getting evicted or non-renewed?
+        Has your landlord raised your rent? Is your landlord refusing to do
+        basic repairs? Are you worried about getting evicted or non-renewed?
       </Trans>
     </p>
     <p>
@@ -21,9 +21,9 @@ export const NycOrganizeContent: React.FC = () => (
     <p>
       <Trans>
         When tenants come together, we have power. Tenants across our state are
-        forming tenant unions to fight back. If you're interested in
-        organizing a tenant union with your neighbors, fill out this form to get
-        support from a tenant group near you.
+        forming tenant unions to fight back. If you're interested in organizing
+        a tenant union with your neighbors, fill out this form to get support
+        from a tenant group near you.
       </Trans>
     </p>
 

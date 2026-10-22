@@ -8,8 +8,12 @@ import {
   GceLearnMoreContent,
   GceRentIncreaseLimitsContent,
   GceStayInHomeContent,
-  KyrAccordionContentStub,
   NycDiscriminationContent,
+  NychaGrieveContent,
+  NychaIncomeBasedRentContent,
+  NychaLearnMoreContent,
+  NychaRepairsContent,
+  NychaRightToCounselContent,
   NycEvictionProtectionsContent,
   NycLivableHomeContent,
   NycOrganizeContent,
@@ -214,12 +218,12 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
     },
     {
       sectionId: "kyr-nycha",
-      title: <Trans>NYCHA</Trans>,
+      title: <Trans>Protections you have if you live in NYCHA housing</Trans>,
       intro: (
         <p>
+          {/* TODO: Figma section intro still placeholder ("desc.") — confirm with design/legal */}
           <Trans>
-            If you live in public housing managed by NYCHA, you have specific
-            rights related to repairs, rent, and grievance procedures.
+            TODO: NYCHA section intro copy pending design/legal review.
           </Trans>
         </p>
       ),
@@ -227,19 +231,19 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
         {
           id: "nycha-repairs",
           title: <Trans>Your right to repairs</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <NychaRepairsContent />,
           figmaNodeId: "6854-59943",
         },
         {
           id: "nycha-income-based-rent",
           title: <Trans>Your right to income-based rent</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <NychaIncomeBasedRentContent />,
           figmaNodeId: "6854-59944",
         },
         {
           id: "nycha-grieve",
           title: <Trans>Your right to grieve management decisions</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <NychaGrieveContent />,
           figmaNodeId: "6854-59945",
         },
         {
@@ -247,13 +251,13 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           title: (
             <Trans>Your right to legal representation if facing eviction</Trans>
           ),
-          content: <KyrAccordionContentStub />,
+          content: <NychaRightToCounselContent />,
           figmaNodeId: "6854-59946",
         },
         {
           id: "nycha-learn-more",
           title: <Trans>Learn more about NYCHA’s tenant protections</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <NychaLearnMoreContent />,
           figmaNodeId: "6854-59947",
         },
       ],

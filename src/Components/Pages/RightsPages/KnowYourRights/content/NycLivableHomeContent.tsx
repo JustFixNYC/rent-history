@@ -20,11 +20,11 @@ export const NycLivableHomeContent: React.FC = () => {
       <p>
         <Trans>
           Tenants have the right to live in a safe, sanitary, and
-          well-maintained apartment, including public areas of the building. This
-          right is implied in every residential lease, and any lease provision
-          that waives it is void. If your landlord is not providing these
-          conditions in your apartment or building, there are actions you can
-          take to exercise your rights.
+          well-maintained apartment, including public areas of the building.
+          This right is implied in every residential lease, and any lease
+          provision that waives it is void. If your landlord is not providing
+          these conditions in your apartment or building, there are actions you
+          can take to exercise your rights.
         </Trans>
       </p>
 
