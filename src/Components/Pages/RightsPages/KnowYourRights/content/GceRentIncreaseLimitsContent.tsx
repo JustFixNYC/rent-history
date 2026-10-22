@@ -3,6 +3,10 @@ import { Trans } from "@lingui/react/macro";
 import { useLingui } from "@lingui/react";
 
 import {
+  CPI_EFFECTIVE_DATE,
+  INCREASE_PCT_STR,
+} from "../../shared/gceRentIncreaseValues";
+import {
   goodCauseLetterSenderUrl,
   goodCauseRentCalculatorUrl,
 } from "../../shared/rightsUrls";
@@ -11,7 +15,7 @@ const REASONABLE_RENT_INCREASE_URL =
   "https://legalaidnyc.org/get-help/housing-problems/what-you-need-to-know-about-new-yorks-good-cause-eviction-law/#rent-increases";
 
 export const GceRentIncreaseLimitsContent: React.FC = () => {
-  const { i18n } = useLingui();
+  const { _, i18n } = useLingui();
   const locale = i18n.locale;
 
   return (
@@ -20,19 +24,19 @@ export const GceRentIncreaseLimitsContent: React.FC = () => {
         <Trans>
           The state housing agency must publish each year’s “Reasonable Rent
           Increases” by August. The current maximum that your landlord can
-          increase your rent by is 8.38%.
+          increase your rent by is {INCREASE_PCT_STR}%.
         </Trans>
       </p>
 
       <div className="rights-accordion-content__gce-callout">
         <p>
           <Trans>
-            If you are offered a new lease after April 20th, 2024, then your
-            landlord can’t raise your apartment’s monthly rent higher than:
+            If you are offered a new lease after {_(CPI_EFFECTIVE_DATE)}, then
+            your landlord can’t raise your apartment’s monthly rent higher than:
           </Trans>
         </p>
         <p className="rights-accordion-content__gce-callout-formula">
-          <Trans>Your current monthly rent + 8.82%</Trans>
+          <Trans>Your current monthly rent + {INCREASE_PCT_STR}%</Trans>
         </p>
         <p>
           <Link

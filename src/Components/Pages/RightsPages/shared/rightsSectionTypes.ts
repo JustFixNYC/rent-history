@@ -8,8 +8,6 @@ export type RightsAccordionConfig = {
   stepBadge?: number | string;
   triggerClassName?: string;
   contentClassName?: string;
-  /** Optional traceability for PR / Figma audits (not rendered). */
-  figmaNodeId?: string;
 };
 
 export type RightsCtaCardVariant =

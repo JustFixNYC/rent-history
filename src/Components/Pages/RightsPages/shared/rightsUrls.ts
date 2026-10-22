@@ -20,3 +20,13 @@ export function goodCauseLetterSenderUrl(locale: string): string {
 export function letterOfComplaintUrl(locale: string): string {
   return `https://app.justfix.org/${locale}/loc`;
 }
+
+/** Who Owns What home (locale matches rent-history). */
+export function whoOwnsWhatHomeUrl(locale: string): string {
+  return `https://whoownswhat.justfix.org/${locale}/`;
+}
+
+/** Who Owns What building alerts signup (locale matches rent-history). */
+export function whoOwnsWhatBuildingAlertsUrl(locale: string): string {
+  return `https://whoownswhat.justfix.org/${locale}/building-alerts`;
+}

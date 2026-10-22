@@ -1,105 +1,23 @@
+#
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2025-12-09 13:10-0500\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: es\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-09 13:10-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:157
-#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:126
-#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:132
-#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
-#~ msgstr "No se encontró ninguna infracción"
-
-#. js-lingui-explicit-id
-#: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:112
-#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
-#~ msgstr "Posible infracción encontrada"
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:13
-#~ msgid "timeline.title.no_violation_destabilization_prehstpa"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:6
-#~ msgid "timeline.title.violation_destab_prehstpa"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:20
-#~ msgid "timeline.title.violation_destab_posthstpa"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:13
-#~ msgid "timeline.title.no_violation_destab_prehstpa"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:33
-#~ msgid "timeline.title.nonregistration_posthstpa_new_tenant"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:149
-#~ msgid "timeline.title.a421_pref_viol"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:43
-#~ msgid "timeline.copy.missing_reg_destab_list.bonuses"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:114
-#~ msgid "timeline.title.nonreg_viol_posthstpa_same_tenant"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/titles/titles.tsx:47
-#~ msgid "timeline.title.nonreg_destab_prehstpa"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/implications/implications.tsx:35
-#~ msgid "timeline.implications.posthstpa_missing_registration"
-#~ msgstr ""
-
-#. js-lingui-explicit-id
-#: src/Components/TimelineElement/copy/paragraphs/PosthstpaNonregInvestigateParagraph.tsx:5
-#~ msgid "timeline.copy.posthstpa_nonreg_investigate"
-#~ msgstr ""
-
-#: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:112
-#~ msgid "."
-#~ msgstr ""
+"X-Generator: @lingui/cli\n"
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:84
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:60
 msgid "(123) 456-7890"
 msgstr ""
-
-#: src/Components/Pages/PreFlow/PreFlow.tsx:318
-#~ msgid "(610) 316-6349"
-#~ msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:201
 msgid "(optional)"
@@ -120,38 +38,20 @@ msgstr ""
 msgid "{address}, Apt {0}"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:372
-#~ msgid "{end}"
-#~ msgstr ""
-
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:56
-msgid "{failedUploadCount, plural, one {# page was not properly captured.} other {# pages were not properly captured.}}"
+msgid ""
+"{failedUploadCount, plural, one {# page was not properly captured.} other {#"
+" pages were not properly captured.}}"
 msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:79
 msgid "{failedUploadCount, plural, one {page} other {pages}}"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:369
-#~ msgid "{start}"
-#~ msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:366
-#~ msgid "{start}–{end}"
-#~ msgstr ""
-
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:47
 msgid "timeline.copy.rgb_increase_footnote"
 msgstr ""
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:205
-#~ msgid "+ Scan a new rent history"
-#~ msgstr ""
-
-#: src/Components/Pages/AccountPage/AccountPage.tsx:71
-#~ msgid "+ Start a new analysis"
-#~ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:71
@@ -159,16 +59,35 @@ msgid "timeline.copy.missing_reg_destab_list.hrvd"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsStabilizedLeaseContent.tsx:61
-msgid "<0>A copy of your signed lease:</0> Your landlord must provide you with a fully executed copy of your lease within 30 days of signing."
+msgid ""
+"<0>A copy of your signed lease:</0> Your landlord must provide you with a "
+"fully executed copy of your lease within 30 days of signing."
 msgstr ""
+"<0>Una copia de su contrato de arrendamiento firmado:</0> Su arrendador debe"
+" proporcionarle una copia totalmente firmada de su contrato de arrendamiento"
+" dentro de los 30 días posteriores a la firma."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsStabilizedLeaseContent.tsx:45
-msgid "<0>A Rent Stabilization lease rider:</0> The rider explains your rights and responsibilities as a rent-stabilized tenant and provides information about your rent, including the previous rent and reasons for increases. <1>link</1>"
+msgid ""
+"<0>A Rent Stabilization lease rider:</0> The rider explains your rights and "
+"responsibilities as a rent-stabilized tenant and provides information about "
+"your rent, including the previous rent and reasons for increases. "
+"<1>link</1>"
 msgstr ""
+"<0>Un usuario del contrato de arrendamiento de estabilización de "
+"alquileres:</0> El usuario explica sus derechos y responsabilidades como "
+"inquilino de alquiler estabilizado y proporciona información sobre su "
+"alquiler, incluido el alquiler anterior y los motivos de los aumentos. "
+"<1>enlace</1>"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsStabilizedLeaseContent.tsx:31
-msgid "<0>A rent-stabilized lease:</0> You should receive a written lease that reflects your apartment’s rent-stabilized status. <1>View example lease</1>"
+msgid ""
+"<0>A rent-stabilized lease:</0> You should receive a written lease that "
+"reflects your apartment’s rent-stabilized status. <1>View example lease</1>"
 msgstr ""
+"<0>Un contrato de alquiler estabilizado:</0> debe recibir un contrato de "
+"alquiler por escrito que refleje el estado de alquiler estabilizado de su "
+"apartamento. <1>Ver ejemplo de contrato de alquiler</1>"
 
 #: src/Components/Pages/PageLayout/Header.tsx:72
 msgid "<0>By</0> <1>JustFix</1>"
@@ -176,64 +95,111 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:56
 msgid "<0>Demolition</0>"
-msgstr ""
+msgstr "<0>Demolición</0>"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:61
 msgid "<0>Failure to sign lease renewal or provide access to apartment</0>"
 msgstr ""
+"<0>No firmar la renovación del contrato de arrendamiento ni proporcionar "
+"acceso al apartamento</0>"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:51
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:87
-msgid "<0>If you’re covered by Good Cause</0> and your landlord is planning to raise your rent beyond this amount, you can send a legally-vetted letter to your landlord to ask for a lower rent increase."
+msgid ""
+"<0>If you’re covered by Good Cause</0> and your landlord is planning to "
+"raise your rent beyond this amount, you can send a legally-vetted letter to "
+"your landlord to ask for a lower rent increase."
 msgstr ""
+"<0>Si está cubierto por Buena Causa</0> y su arrendador planea aumentar su "
+"alquiler más allá de esta cantidad, puede enviar una carta legalmente "
+"examinada a su arrendador para solicitar un aumento de alquiler más bajo."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:46
 msgid "<0>Illegal Activity</0>"
-msgstr ""
+msgstr "Actividad ilegal"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:64
-msgid "<0>Individual Apartment Improvements (IAIs):</0> A landlord may be able to increase the legal rent when they make certain improvements or install new equipment in an apartment. The amount and requirements for an IAI depend on when the increase took effect and other factors. Current law places limits on the amount and frequency of IAI increases."
+msgid ""
+"<0>Individual Apartment Improvements (IAIs):</0> A landlord may be able to "
+"increase the legal rent when they make certain improvements or install new "
+"equipment in an apartment. The amount and requirements for an IAI depend on "
+"when the increase took effect and other factors. Current law places limits "
+"on the amount and frequency of IAI increases."
 msgstr ""
+"<0> Mejoras individuales de apartamentos (IAI):</0> Un propietario puede "
+"aumentar el alquiler legal cuando realiza ciertas mejoras o instala nuevos "
+"equipos en un apartamento. La cantidad y los requisitos para un IAI dependen"
+" de cuándo entró en vigor el aumento y de otros factores. La ley actual "
+"impone límites a la cantidad y frecuencia de los aumentos de IAI."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:51
 msgid "<0>Landlord personal use/removal from market</0>"
-msgstr ""
+msgstr "<0> Uso personal del arrendador/retirada del mercado</0>"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:36
 msgid "<0>Lease violations</0>"
-msgstr ""
+msgstr "<0> Infracciones de arrendamiento </0>"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:84
-msgid "<0>Major Capital Improvements (MCIs):</0> A landlord may be able to increase the rent after making certain improvements to the building. MCI increases are subject to specific requirements and must be approved by the Division of Housing and Community Renewal (DHCR)."
+msgid ""
+"<0>Major Capital Improvements (MCIs):</0> A landlord may be able to increase"
+" the rent after making certain improvements to the building. MCI increases "
+"are subject to specific requirements and must be approved by the Division of"
+" Housing and Community Renewal (DHCR)."
 msgstr ""
+"<0>Mejoras de capital importantes (MCI):</0> Un propietario puede aumentar "
+"el alquiler después de realizar ciertas mejoras en el edificio. Los aumentos"
+" de MCI están sujetos a requisitos específicos y deben ser aprobados por la "
+"División de Vivienda y Renovación de la Comunidad (D?)."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:31
 msgid "<0>Non payment of rent</0>"
-msgstr ""
+msgstr "Falta de Pago del Alquiler"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:41
 msgid "<0>Nuisance activity</0>"
-msgstr ""
+msgstr "<0> Actividad molesta </0>"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:7
-msgid "<0>SCRIE</0> and <1>DRIE</1> are NYC Rent Freeze programs that can protect eligible tenants from future rent increases."
+msgid ""
+"<0>SCRIE</0> and <1>DRIE</1> are NYC Rent Freeze programs that can protect "
+"eligible tenants from future rent increases."
 msgstr ""
+"<0>SCRIE</0> y <1>DRIE</1> son programas NYC Rent Freeze que pueden proteger"
+" a los inquilinos elegibles de futuros aumentos de alquiler."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:13
-msgid "<0>SCRIE</0> is for eligible older adults, while <1>DRIE</1> is for eligible people with disabilities. If you qualify, the program can freeze your rent and protect you from future increases."
+msgid ""
+"<0>SCRIE</0> is for eligible older adults, while <1>DRIE</1> is for eligible"
+" people with disabilities. If you qualify, the program can freeze your rent "
+"and protect you from future increases."
 msgstr ""
+"<0>SCRIE</0> es para adultos mayores elegibles, mientras que <1>DRIE</1> es "
+"para personas elegibles con discapacidades. Si calificas, el programa puede "
+"congelar tu alquiler y protegerte de futuros aumentos."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:41
-msgid "<0>You don’t have to agree to a proposal on the spot.</0> If your landlord offers to resolve the issue, take time to understand what you’re agreeing to and consider getting advice before signing anything or giving up a claim."
+msgid ""
+"<0>You don’t have to agree to a proposal on the spot.</0> If your landlord "
+"offers to resolve the issue, take time to understand what you’re agreeing to"
+" and consider getting advice before signing anything or giving up a claim."
 msgstr ""
+"<0>No tienes que aceptar una propuesta en el acto.</0> Si el propietario se "
+"ofrece a resolver el problema, tómate un tiempo para entender lo que estás "
+"aceptando y considera obtener asesoramiento antes de firmar cualquier cosa o"
+" renunciar a un reclamo."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:49
-msgid "<0>You don’t necessarily have to prove everything yourself.</0> Depending on the issue, the landlord may be required to provide records or explain how a rent was calculated. Don’t assume that the absence of records you personally have means there is no way to challenge the rent."
+msgid ""
+"<0>You don’t necessarily have to prove everything yourself.</0> Depending on"
+" the issue, the landlord may be required to provide records or explain how a"
+" rent was calculated. Don’t assume that the absence of records you "
+"personally have means there is no way to challenge the rent."
 msgstr ""
-
-#: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:100
-#~ msgid "228 Atlantic Avenue"
-#~ msgstr ""
+"<0>No necesariamente tiene que probar todo usted mismo.</0> Dependiendo del "
+"problema, es posible que el propietario deba proporcionar registros o "
+"explicar cómo se calculó el alquiler. No asuma que la ausencia de registros "
+"que tiene personalmente significa que no hay forma de impugnar el alquiler."
 
 #: src/Components/TimelineElement/TimelineElement.tsx:97
 msgid "421-a expiration"
@@ -260,27 +226,40 @@ msgid "timeline.copy.missing_reg_destab_list.rehab"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:63
-msgid "A change in ownership doesn’t necessarily erase problems that occurred before the current owner took over. In many circumstances, a current owner can be responsible for rent-related obligations and overcharges associated with a previous owner. Current owners are generally expected to have done their due diligence when purchasing a property."
+msgid ""
+"A change in ownership doesn’t necessarily erase problems that occurred "
+"before the current owner took over. In many circumstances, a current owner "
+"can be responsible for rent-related obligations and overcharges associated "
+"with a previous owner. Current owners are generally expected to have done "
+"their due diligence when purchasing a property."
 msgstr ""
+"Un cambio en la propiedad no necesariamente borra los problemas que "
+"ocurrieron antes de que el propietario actual asumiera el control. En muchas"
+" circunstancias, un propietario actual puede ser responsable de las "
+"obligaciones relacionadas con el alquiler y los sobrecargos asociados con un"
+" propietario anterior. Por lo general, se espera que los propietarios "
+"actuales hayan hecho su debida diligencia al comprar una propiedad."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:42
-msgid "A DHCR complaint is not anonymous. DHCR serves the complaint on the owner and gives the owner an opportunity to respond."
+msgid ""
+"A DHCR complaint is not anonymous. DHCR serves the complaint on the owner "
+"and gives the owner an opportunity to respond."
 msgstr ""
+"Una queja de queja no es anónima. El Departamento de Bienestar entrega la "
+"queja al propietario y le da la oportunidad de responder."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:115
-msgid "A high current rent may be the result of increases that happened many years ago."
+msgid ""
+"A high current rent may be the result of increases that happened many years "
+"ago."
 msgstr ""
-
-#: src/Components/Pages/LoginPage/LoginPage.tsx:146
-#~ msgid "A new code has been sent."
-#~ msgstr ""
-
-#: src/Components/Pages/Landing/Landing.tsx:53
-#~ msgid "A non-profit that builds free tools for tenants to exercise their rights to a livable home."
-#~ msgstr ""
+"Una renta actual alta puede ser el resultado de aumentos que ocurrieron hace"
+" muchos años."
 
 #: src/Components/Pages/Landing/Landing.tsx:184
-msgid "A nonprofit organization that builds online tools to help New Yorkers achieve affordable, healthy, eviction-free housing."
+msgid ""
+"A nonprofit organization that builds online tools to help New Yorkers "
+"achieve affordable, healthy, eviction-free housing."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -304,16 +283,31 @@ msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.intro.description"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrRentReductionCheckContent.tsx:7
-msgid "A previous tenant may have gotten their rent reduced because [plain language for “reduced services”]. That rent reduction may still be active, and if that’s true..."
+msgid ""
+"A previous tenant may have gotten their rent reduced because [plain language"
+" for “reduced services”]. That rent reduction may still be active, and if "
+"that’s true..."
 msgstr ""
+"Es posible que a un inquilino anterior se le haya reducido el alquiler "
+"porque [lenguaje sencillo para \"servicios reducidos\"]. Esa reducción de "
+"alquiler aún puede estar activa, y si eso es cierto..."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrRentReductionCheckContent.tsx:25
-msgid "A rent reduction order is issued by the Division of Housing and Community Renewal (DHCR) when an owner has failed to provide required or essential services. A rent reduction order can require the landlord to reduce the legal rent because required services were not being provided. A rent reduction order remains in effect until DHCR issues an order restoring the rent."
+msgid ""
+"A rent reduction order is issued by the Division of Housing and Community "
+"Renewal (DHCR) when an owner has failed to provide required or essential "
+"services. A rent reduction order can require the landlord to reduce the "
+"legal rent because required services were not being provided. A rent "
+"reduction order remains in effect until DHCR issues an order restoring the "
+"rent."
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:352
-#~ msgid "A scan image failed to download. Use Restart scanning to try again."
-#~ msgstr ""
+"La División de Vivienda y Renovación Comunitaria emite una orden de "
+"reducción de alquiler cuando un propietario no ha proporcionado los "
+"servicios requeridos o esenciales. Una orden de reducción de alquiler puede "
+"requerir que el propietario reduzca el alquiler legal porque no se "
+"proporcionaron los servicios requeridos. Una orden de reducción de alquiler "
+"permanece en vigor hasta que el Departamento emita una orden que restablezca"
+" el alquiler."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/SubstantialRehabExplainedParagraph.tsx:5
@@ -351,7 +345,7 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:98
 msgid "Additional resources"
-msgstr ""
+msgstr "Recursos adicionales"
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:394
 msgid "Address"
@@ -359,19 +353,16 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:172
 msgid "All NYC tenants"
-msgstr ""
+msgstr "Todos los inquilinos de Nueva York"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:704
-msgid "All scanned pages will be cleared and you'll need to scan all pages again."
+msgid ""
+"All scanned pages will be cleared and you'll need to scan all pages again."
 msgstr ""
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:43
 msgid "Analysis complete"
 msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:96
-#~ msgid "Analysis has already been run for this rent history."
-#~ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:52
 msgid "Analyze a new rent history"
@@ -386,23 +377,24 @@ msgstr ""
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:126
 #: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:47
 msgid "Analyze your rent history"
-msgstr ""
-
-#: src/Components/Pages/Landing/Landing.tsx:19
-#~ msgid "Analyze your rent history to identify potential violations and overcharges."
-#~ msgstr ""
+msgstr "Analiza tu historial de alquileres"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:135
-msgid "Analyzing your rent history can help you understand how your rent has changed over time and identify things that may need a closer look."
+msgid ""
+"Analyzing your rent history can help you understand how your rent has "
+"changed over time and identify things that may need a closer look."
 msgstr ""
+"Analizar tu historial de alquileres puede ayudarte a comprender cómo ha "
+"cambiado tu alquiler con el tiempo e identificar las cosas que pueden "
+"necesitar una mirada más cercana."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:109
-msgid "Analyzing your rent history can help you understand if your apartment is rent stabilized or should be."
+msgid ""
+"Analyzing your rent history can help you understand if your apartment is "
+"rent stabilized or should be."
 msgstr ""
-
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
-#~ msgid "and ask you to confirm a few things,"
-#~ msgstr ""
+"Analizar tu historial de alquileres puede ayudarte a entender si tu "
+"apartamento está estabilizado o debería estarlo."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/TaxExemptionProgramsParagraph.tsx:7
@@ -499,7 +491,7 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:58
 msgid "Apply for SCRIE or DRIE"
-msgstr ""
+msgstr "Solicitar SCRIE o DRIE"
 
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
 msgid "Apt Stat"
@@ -510,14 +502,10 @@ msgstr "Estado del apt."
 msgid "Apt. {0}"
 msgstr ""
 
-#: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:98
-#~ msgid "Apt. 1"
-#~ msgstr ""
-
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:44
 #: src/Components/Pages/RightsPages/AssertYourRights/AssertYourRightsPage.tsx:17
 msgid "Assert your rights"
-msgstr ""
+msgstr "Haz valer tus derechos"
 
 #: src/Components/FlowNav/FlowNav.tsx:33
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:136
@@ -560,12 +548,32 @@ msgid "timeline.copy.still_stabilized_since_last_reg_year"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:55
-msgid "Because your landlord will know that you filed a complaint, filing can expose you to the possibility of landlord retaliation. New York law provides protections against certain forms of retaliation, but the possibility of retaliation is something you may want to consider before filing. If you’re concerned about retaliation, consider talking with a tenant organization or lawyer first."
+msgid ""
+"Because your landlord will know that you filed a complaint, filing can "
+"expose you to the possibility of landlord retaliation. New York law provides"
+" protections against certain forms of retaliation, but the possibility of "
+"retaliation is something you may want to consider before filing. If you’re "
+"concerned about retaliation, consider talking with a tenant organization or "
+"lawyer first."
 msgstr ""
+"Debido a que su arrendador sabrá que usted presentó una queja, la "
+"presentación puede exponerlo a la posibilidad de represalias por parte del "
+"arrendador. La ley de Nueva York proporciona protección contra ciertas "
+"formas de represalias, pero la posibilidad de represalias es algo que quizás"
+" quieras considerar antes de presentar la solicitud. Si te preocupan las "
+"represalias, considera hablar primero con una organización de inquilinos o "
+"con un abogado."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:107
-msgid "Before 2019, there were many more ways that landlords could legally raise the rent more than the limit set by the Rent Guidelines Board. In 2019, a law was passed, called HSTPA, that made these types of increases illegal."
+msgid ""
+"Before 2019, there were many more ways that landlords could legally raise "
+"the rent more than the limit set by the Rent Guidelines Board. In 2019, a "
+"law was passed, called HSTPA, that made these types of increases illegal."
 msgstr ""
+"Antes de 2019, había muchas más formas en que los propietarios podían "
+"aumentar legalmente el alquiler más allá del límite establecido por la Junta"
+" de Pautas de Alquileres. En 2019, se aprobó una ley, llamada HSTPA, que "
+"hizo que este tipo de aumentos fueran ilegales."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/HRVD/ReviewCopy.tsx:25
@@ -573,20 +581,18 @@ msgid "findings.HRVD.intro.description"
 msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:79
-msgid "Before we analyze your rent history, let's make sure we have all pages of your rent history."
+msgid ""
+"Before we analyze your rent history, let's make sure we have all pages of "
+"your rent history."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:25
 msgid "Before you file"
-msgstr ""
+msgstr "Antes de presentar:"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:22
 msgid "Before you reach out"
-msgstr ""
-
-#: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:102
-#~ msgid "Brooklyn, New York 11201"
-#~ msgstr ""
+msgstr "Antes de ponerte en contacto con nosotros"
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:383
 msgid "Building details"
@@ -602,19 +608,19 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:44
 msgid "Calculate your maximum rent increase"
-msgstr ""
+msgstr "Calcule su aumento máximo de alquiler"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:70
 msgid "Call Met Council on Housing Hotline"
-msgstr ""
+msgstr "Llame a la Línea Directa del Consejo Met sobre Vivienda"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:80
 msgid "Call the 311 Tenant Helpline"
-msgstr ""
+msgstr "Llame a la línea de ayuda 311 para inquilinos"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:60
 msgid "Call the Housing Court Answers hotline"
-msgstr ""
+msgstr "Llame a la línea directa de respuestas de la Corte de Vivienda"
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:31
 msgid "Camera access"
@@ -633,12 +639,12 @@ msgstr ""
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:65
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:101
 msgid "Check out the Letter Sender"
-msgstr ""
+msgstr "Echa un vistazo al remitente de la carta"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:48
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:166
 msgid "Check your eligibility"
-msgstr ""
+msgstr "Consulta si cumples con los requisitos"
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:187
 msgid "Check your phone for a resume link."
@@ -654,14 +660,6 @@ msgstr ""
 #: src/Components/Pages/PageLayout/Header.tsx:48
 msgid "Close menu"
 msgstr ""
-
-#: src/Components/Pages/LoginPage/LoginPage.tsx:145
-#~ msgid "Code request received. Delivery may take a moment."
-#~ msgstr ""
-
-#: src/Components/Pages/LoginPage/LoginPage.tsx:99
-#~ msgid "Code sent. Enter it below to continue."
-#~ msgstr ""
 
 #: src/Components/InfoModal/InfoModal.tsx:56
 msgid "Coming soon"
@@ -679,41 +677,54 @@ msgstr ""
 msgid "Completed {completedOn}"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:24
-#~ msgid "Completed Feb 1, 2026"
-#~ msgstr ""
-
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:25
 msgid "Confirm address"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:46
 msgid "Connecting you with legal assistance or other resources"
-msgstr ""
+msgstr "Ponerlo en contacto con asistencia legal u otros recursos"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:83
-msgid "Consider communicating in writing and keeping copies of letters, emails, messages, leases, notices, and other documents. If you speak with your landlord by phone or in person, consider following up in writing with a summary of what was discussed."
+msgid ""
+"Consider communicating in writing and keeping copies of letters, emails, "
+"messages, leases, notices, and other documents. If you speak with your "
+"landlord by phone or in person, consider following up in writing with a "
+"summary of what was discussed."
 msgstr ""
+"Considere comunicarse por escrito y conservar copias de cartas, correos "
+"electrónicos, mensajes, contratos de arrendamiento, avisos y otros "
+"documentos. Si habla con su arrendador por teléfono o en persona, considere "
+"hacer un seguimiento por escrito con un resumen de lo que se discutió."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/AssertPhase2InfoCallout.tsx:9
-msgid "Consider getting advice from an attorney or tenant organization to understand the potential risks before taking formal action."
+msgid ""
+"Consider getting advice from an attorney or tenant organization to "
+"understand the potential risks before taking formal action."
 msgstr ""
+"Considere obtener asesoramiento de un abogado u organización de inquilinos "
+"para comprender los riesgos potenciales antes de tomar medidas formales."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:9
-msgid "Consider speaking with a lawyer or tenant organization about your specific situation. Make sure you understand the potential risks and consequences."
+msgid ""
+"Consider speaking with a lawyer or tenant organization about your specific "
+"situation. Make sure you understand the potential risks and consequences."
 msgstr ""
+"Considere hablar con un abogado u organización de inquilinos sobre su "
+"situación específica. Asegúrate de comprender los posibles riesgos y "
+"consecuencias."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:53
 msgid "Consult a tenant organization"
-msgstr ""
+msgstr "Consulte a una organización de inquilinos"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:60
 msgid "Contact to your landlord"
-msgstr ""
+msgstr "Contacte a su arrendador. "
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/RightsAccordionContentStub.tsx:6
 msgid "Content TBD"
-msgstr ""
+msgstr "Contenido por determinar"
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:253
 msgid "Continue"
@@ -721,27 +732,22 @@ msgstr "Continuar"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:82
 msgid "Correspondence with your landlord"
-msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:335
-#~ msgid "Could not load scan images from storage."
-#~ msgstr ""
+msgstr "Correspondencia con su arrendador"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:26
-msgid "Court cases can be complex and can involve legal deadlines, filing requirements, evidence, and other risks. Consider talking with a lawyer or tenant organization before deciding whether to bring a case."
+msgid ""
+"Court cases can be complex and can involve legal deadlines, filing "
+"requirements, evidence, and other risks. Consider talking with a lawyer or "
+"tenant organization before deciding whether to bring a case."
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:362
-#~ msgid "Cover page"
-#~ msgstr ""
+"Los casos judiciales pueden ser complejos y pueden implicar plazos legales, "
+"requisitos de presentación, pruebas y otros riesgos. Considere hablar con un"
+" abogado o una organización de inquilinos antes de decidir si presentar un "
+"caso."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:73
 msgid "Current and previous leases"
-msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:259
-#~ msgid "Current monthly rent"
-#~ msgstr ""
+msgstr "Arrendamientos actuales y anteriores"
 
 #: src/Components/TimelineElement/TimelineElement.tsx:89
 msgid "Currently Rent Stabilized"
@@ -761,16 +767,26 @@ msgid "Details"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:48
-msgid "DHCR may ask the landlord to provide information and records related to your rent. You may also be asked to provide additional information or respond to the landlord’s submission."
+msgid ""
+"DHCR may ask the landlord to provide information and records related to your"
+" rent. You may also be asked to provide additional information or respond to"
+" the landlord’s submission."
 msgstr ""
+"Puede pedirle al propietario que proporcione información y registros "
+"relacionados con su alquiler. También se le puede pedir que proporcione "
+"información adicional o que responda a la presentación del propietario."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:85
 msgid "DHCR orders or other documents related to your apartment"
-msgstr ""
+msgstr "Pedidos u otros documentos relacionados con tu apartamento"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:35
-msgid "DHCR recommends, but does not require, that tenants first inform the owner in writing when services aren’t being maintained."
+msgid ""
+"DHCR recommends, but does not require, that tenants first inform the owner "
+"in writing when services aren’t being maintained."
 msgstr ""
+"El Departamento recomienda, pero no requiere, que los inquilinos informen "
+"primero al propietario por escrito cuando no se mantengan los servicios."
 
 #: src/Components/Pages/FindingsReview/steps/VacancyStep.tsx:60
 msgid "Did tenants in the earlier year appear in the later year?"
@@ -781,17 +797,9 @@ msgstr "¿Los inquilinos del año anterior aparecen en el año posterior?"
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.yes_no_legend"
 msgstr ""
 
-#: src/Components/Pages/PreFlow/PreFlow.tsx:344
-#~ msgid "Didn't receive a code?"
-#~ msgstr ""
-
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:95
 msgid "Didn’t receive a code?"
 msgstr ""
-
-#: src/Components/Pages/PageLayout/Footer.tsx:14
-#~ msgid "Disclaimer"
-#~ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:63
@@ -820,12 +828,18 @@ msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:179
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:196
-msgid "Do you currently live in the apartment associated with this rent history?"
+msgid ""
+"Do you currently live in the apartment associated with this rent history?"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:28
-msgid "Document the problem and any attempts you’ve made to get your landlord to correct it. Photos, messages, letters, and other records may be useful."
+msgid ""
+"Document the problem and any attempts you’ve made to get your landlord to "
+"correct it. Photos, messages, letters, and other records may be useful."
 msgstr ""
+"Documenta el problema y cualquier intento que hayas hecho para que el "
+"propietario lo corrija. Las fotos, los mensajes, las cartas y otros "
+"registros pueden ser útiles."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:20
@@ -835,35 +849,26 @@ msgstr ""
 #: src/Components/Pages/Landing/Landing.tsx:113
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:145
 msgid "Don’t have your rent history?"
-msgstr ""
+msgstr "¿No tienes tu historial de alquileres?"
 
 #: src/Components/Pages/Report/Report.tsx:187
 msgid "Download report"
 msgstr ""
 
-#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:13
-#~ msgid "Dynamsoft"
-#~ msgstr ""
-
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:30
-msgid "Each year, the NYC Rent Guidelines Board (RGB) sets the maximum rent increase percentage for rent stabilized apartments. The amount depends on whether your lease is for one year or two years."
+msgid ""
+"Each year, the NYC Rent Guidelines Board (RGB) sets the maximum rent "
+"increase percentage for rent stabilized apartments. The amount depends on "
+"whether your lease is for one year or two years."
 msgstr ""
+"Cada año, la Junta de Pautas de Alquiler de la Ciudad de Nueva York (RGB, "
+"por sus siglas en inglés) establece el porcentaje máximo de aumento de "
+"alquiler para los apartamentos de alquiler estabilizado. La cantidad depende"
+" de si su contrato de arrendamiento es por uno o dos años."
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:70
 msgid "Edit"
 msgstr "Editar"
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:264
-#~ msgid "Edit address"
-#~ msgstr ""
-
-#: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:110
-#~ msgid "edit the address"
-#~ msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:384
-#~ msgid "Edit the address for this<0/>rent history"
-#~ msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:242
 msgid "Email report"
@@ -902,16 +907,27 @@ msgid "Enter your phone number below to log in."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaRepairsContent.tsx:5
-msgid "Everyone has the right to live in a safe and habitable environment. This includes timely repairs to your apartment. NYCHA Residents have the right to request repairs and expect prompt action from management. If NYCHA is not responding to ticket requests, residents can file housing court cases (HP actions) seeking a judicial order requiring NYCHA to make repairs."
+msgid ""
+"Everyone has the right to live in a safe and habitable environment. This "
+"includes timely repairs to your apartment. NYCHA Residents have the right to"
+" request repairs and expect prompt action from management. If NYCHA is not "
+"responding to ticket requests, residents can file housing court cases (HP "
+"actions) seeking a judicial order requiring NYCHA to make repairs."
 msgstr ""
+"Toda persona tiene derecho a vivir en un entorno seguro y habitable. Esto "
+"incluye las reparaciones oportunas de tu apartamento. Los residentes de "
+"NYCHA tienen derecho a solicitar reparaciones y esperar una acción rápida de"
+" la administración. Si la NYCHA no responde a las solicitudes de multas, los"
+" residentes pueden presentar casos judiciales de vivienda (acciones de HP) "
+"en busca de una orden judicial que requiera que la NYCHA haga reparaciones."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycEvictionProtectionsContent.tsx:74
 msgid "Eviction Free NYC"
-msgstr ""
+msgstr "Nueva York sin desalojos"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:54
 msgid "Exceptions to the yearly rent increase limits"
-msgstr ""
+msgstr "Excepciones a los límites de aumento anual del alquiler"
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/MissingRegDestabilizationList.tsx:78
@@ -930,7 +946,7 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycDiscriminationContent.tsx:38
 msgid "Fair Housing NYC"
-msgstr ""
+msgstr "Equidad de Vivienda"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:66
 msgid "Feedback form"
@@ -938,43 +954,44 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:63
 msgid "File a decreased services complaint"
-msgstr ""
+msgstr "Presentar una queja por disminución de servicios"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:83
 msgid "File a DHCR overcharge complaint"
-msgstr ""
+msgstr "Presentar una queja de sobrecoste de D?"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:93
 msgid "File an overcharge complaint with DHCR"
-msgstr ""
+msgstr "Presentar una queja de sobrecargo ante el Departamento de"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:102
 msgid "File online with NYS Rent Connect"
-msgstr ""
+msgstr "Presenta tu solicitud en línea con NYS Rent Connect"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:11
-msgid "Filing a complaint is a formal step. It may take more than a year to hear back, and DHCR may request additional information or documentation. Consider getting advice from a tenant organization or lawyer if you’re unsure whether filing is right for you."
+msgid ""
+"Filing a complaint is a formal step. It may take more than a year to hear "
+"back, and DHCR may request additional information or documentation. Consider"
+" getting advice from a tenant organization or lawyer if you’re unsure "
+"whether filing is right for you."
 msgstr ""
+"Presentar una queja es un paso formal. Es posible que tarde más de un año en"
+" recibir una respuesta, y el Departamento de Transporte puede solicitar "
+"información o documentación adicional. Considere la posibilidad de obtener "
+"asesoramiento de una organización de inquilinos o de un abogado si no está "
+"seguro de si la presentación es adecuada para usted."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:78
 msgid "Find free and low-cost legal help in New York"
-msgstr ""
+msgstr "Encuentra ayuda legal gratuita y económica en Nueva York"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:69
 msgid "Find legal help"
-msgstr ""
+msgstr "Encuentra ayuda legal"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:156
 msgid "Find out if you’re covered by Good Cause"
-msgstr ""
-
-#: src/Components/Pages/PageLayout/AppNavItems.tsx:41
-#~ msgid "Find out if you've been overcharged"
-#~ msgstr ""
-
-#: src/Components/Pages/Landing/Landing.tsx:31
-#~ msgid "Find out if you've been overcharged on rent"
-#~ msgstr "Averigua si te han cobrado de más en el alquiler"
+msgstr "Descubre si estás cubierto por Good Cause"
 
 #: src/Components/Pages/Landing/Landing.tsx:27
 msgid "Find out if you’ve been overcharged on rent"
@@ -988,10 +1005,6 @@ msgstr "Navegación del resultado del hallazgo"
 msgid "Finding review navigation"
 msgstr "Navegación de revisión de hallazgos"
 
-#: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:23
-#~ msgid "Findings review"
-#~ msgstr ""
-
 #: src/Components/Pages/Scanner/Scanner.tsx:350
 msgid "Finish scanning"
 msgstr ""
@@ -1004,7 +1017,8 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:36
 msgid "findings.OVERCHARGE_PREHSTPA.ocr.heading"
-msgstr "Primero, asegurémonos de que estamos trabajando con los valores correctos"
+msgstr ""
+"Primero, asegurémonos de que estamos trabajando con los valores correctos"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:31
@@ -1046,13 +1060,16 @@ msgstr ""
 msgid "timeline.copy.hrvd_check_heading"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:597
-#~ msgid "Flatten any folds in the pages and lay them on a flat surface"
-#~ msgstr ""
-
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:25
-msgid "For SCRIE, NYC currently lists requirements including being at least 62, having combined household income of $50,000 or less, spending more than one-third of household income on rent, and living in an eligible apartment."
+msgid ""
+"For SCRIE, NYC currently lists requirements including being at least 62, "
+"having combined household income of $50,000 or less, spending more than one-"
+"third of household income on rent, and living in an eligible apartment."
 msgstr ""
+"Para SCRIE, la ciudad de Nueva York actualmente enumera requisitos que "
+"incluyen tener al menos 62 años, tener ingresos familiares combinados de $ "
+"50,000 o menos, gastar más de un tercio de los ingresos del hogar en "
+"alquiler y vivir en un apartamento elegible."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/IncreasePreferentialParagraphs.tsx:247
@@ -1066,10 +1083,12 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:58
 msgid "Gather your records"
-msgstr ""
+msgstr "REÚNA SUS REGISTROS"
 
 #: src/Components/Pages/Report/Report.tsx:173
-msgid "Generate a PDF copy of your rent history report. Generating again replaces any report saved earlier in this session."
+msgid ""
+"Generate a PDF copy of your rent history report. Generating again replaces "
+"any report saved earlier in this session."
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:180
@@ -1085,10 +1104,6 @@ msgstr ""
 msgid "Get ready to scan your rent history"
 msgstr ""
 
-#: src/Components/Pages/Scanner/PreScanScreen.tsx:41
-#~ msgid "Get ready to scan your<0/>rent history"
-#~ msgstr ""
-
 #: src/Components/Pages/Landing/Landing.tsx:47
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:43
 msgid "Get started"
@@ -1096,11 +1111,11 @@ msgstr "Comenzar"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:108
 msgid "Get updates about problems in your building"
-msgstr ""
+msgstr "Recibe información actualizada sobre los problemas en tu edificio"
 
 #: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:56
 msgid "Get your rent history"
-msgstr ""
+msgstr "Obtén tu historial de alquileres"
 
 #: src/Components/Pages/Landing/Landing.tsx:100
 msgid "Get your report"
@@ -1115,8 +1130,12 @@ msgid "Go to login"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycOrganizeContent.tsx:10
-msgid "Has your landlord raised your rent? Is your landlord refusing to do basic repairs? Are you worried about getting evicted or non-renewed?"
+msgid ""
+"Has your landlord raised your rent? Is your landlord refusing to do basic "
+"repairs? Are you worried about getting evicted or non-renewed?"
 msgstr ""
+"¿El propietario ha aumentado el alquiler? ¿El propietario se niega a hacer "
+"reparaciones básicas? ¿Le preocupa ser desalojado o no renovado?"
 
 #: src/Components/TimelineElement/TimelineElement.tsx:106
 msgid "Hide supporting evidence"
@@ -1141,30 +1160,24 @@ msgstr ""
 msgid "high rent vacancy destabilization."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:610
-#~ msgid "Hold your phone level with the pages and make sure the entire page is within frame"
-#~ msgstr ""
-
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycEvictionProtectionsContent.tsx:58
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycResourcesContent.tsx:39
 msgid "Housing Court Answers"
-msgstr ""
+msgstr "Respuestas del Tribunal de Vivienda"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:65
 msgid "Housing Court Answers repairs resources"
-msgstr ""
-
-#: src/Components/Pages/Landing/Landing.tsx:121
-#~ msgid "Housing Justice for All"
-#~ msgstr ""
+msgstr "El Tribunal de Vivienda responde a los recursos de reparación"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceLearnMoreContent.tsx:20
 msgid "Housing Justice for All Good Cause Eviction fact sheet"
-msgstr ""
+msgstr "Housing Justice for All Good Cause Hoja informativa sobre el desalojo"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceLearnMoreContent.tsx:40
 msgid "Housing Preservation and Development Good Cause Eviction overview"
 msgstr ""
+"Descripción general del desalojo por buena causa para preservar y "
+"desarrollar la vivienda"
 
 #: src/Components/Pages/Landing/Landing.tsx:63
 msgid "How it works"
@@ -1174,58 +1187,66 @@ msgstr ""
 msgid "How to allow access:"
 msgstr ""
 
-#: src/Components/Pages/HistoryPage/HistoryPage.tsx:76
-#~ msgid "How would you like to provide your rent history information?"
-#~ msgstr ""
-
 #: src/Components/Pages/Landing/Landing.tsx:54
 msgid "I don’t have my rent history"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:37
 msgid "Identifying possible rent violations"
-msgstr ""
+msgstr "Identificar posibles infracciones del alquiler"
 
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:85
 msgid "If any pages are missing, you can <0>add a page</0>."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:45
-msgid "If DHCR determines that required services have not been maintained, it may issue an order reducing the rent and directing the owner to restore the services. For rent-stabilized apartments, the reduction generally remains in effect until DHCR issues a rent restoration order."
+msgid ""
+"If DHCR determines that required services have not been maintained, it may "
+"issue an order reducing the rent and directing the owner to restore the "
+"services. For rent-stabilized apartments, the reduction generally remains in"
+" effect until DHCR issues a rent restoration order."
 msgstr ""
+"Si determina que los servicios requeridos no se han mantenido, puede emitir "
+"una orden para reducir el alquiler y ordenar al propietario que restablezca "
+"los servicios. Para los apartamentos con alquiler estabilizado, la reducción"
+" generalmente permanece vigente hasta que el Departamento emita una orden de"
+" restauración de alquiler."
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:176
-msgid "If it seems like any pages are missing, you can add them now by scanning."
+msgid ""
+"If it seems like any pages are missing, you can add them now by scanning."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:29
 msgid "If the conversation becomes a negotiation"
-msgstr ""
+msgstr "Si la conversación se convierte en una negociación"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:60
 msgid "If the problem happened before your landlord took ownership"
 msgstr ""
+"Si el problema ocurrió antes de que el propietario asumiera la propiedad"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrRentReductionCheckContent.tsx:36
 msgid "If there is an active rent reduction order"
-msgstr ""
+msgstr "Si hay una orden de reducción de alquiler activa"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrRentReductionCheckContent.tsx:39
-msgid "If there is an active rent reduction order for your apartment and your landlord is charging you more than the reduced rent, that can be evidence of an overcharge. A rent reduction order can also tell you what problem led to the rent reduction and when the reduced rent took effect."
+msgid ""
+"If there is an active rent reduction order for your apartment and your "
+"landlord is charging you more than the reduced rent, that can be evidence of"
+" an overcharge. A rent reduction order can also tell you what problem led to"
+" the rent reduction and when the reduced rent took effect."
 msgstr ""
+"Si hay una orden activa de reducción de alquiler para su apartamento y su "
+"arrendador le está cobrando más que el alquiler reducido, eso puede ser "
+"evidencia de un sobrecargo. Una orden de reducción de alquiler también puede"
+" indicarle qué problema llevó a la reducción del alquiler y cuándo entró en "
+"vigencia la reducción del alquiler."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/implications/implications.tsx:18
 msgid "timeline.implications.posthstpa_destab"
 msgstr ""
-
-#: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:105
-#~ msgid "If this address does not match the address on the rent history document,"
-#~ msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:222
-#~ msgid "If this address does not match the address on your rent history, please edit the address."
-#~ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/implications/implications.tsx:9
@@ -1233,80 +1254,187 @@ msgid "timeline.implications.improper_destabilization"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:29
-msgid "If you are offered a new lease after April 20th, 2024, then your landlord can’t raise your apartment’s monthly rent higher than:"
+msgid ""
+"If you are offered a new lease after April 20th, 2024, then your landlord "
+"can’t raise your apartment’s monthly rent higher than:"
 msgstr ""
+"Si se le ofrece un nuevo contrato de arrendamiento después del 20 de abril "
+"de 2024, entonces el propietario no puede aumentar el alquiler mensual de su"
+" apartamento por encima de:"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsLeaseRenewalContent.tsx:10
-msgid "If you are rent-stabilized your landlord cannot simply decide they don’t want you as a tenant anymore, they are limited to certain reasons for evicting you."
+msgid ""
+"If you are rent-stabilized your landlord cannot simply decide they don’t "
+"want you as a tenant anymore, they are limited to certain reasons for "
+"evicting you."
 msgstr ""
+"Si tiene el alquiler estabilizado, su propietario no puede simplemente "
+"decidir que ya no lo quiere como inquilino, sino que se limita a ciertas "
+"razones para desalojarlo."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsSuccessionContent.tsx:10
-msgid "If you are the immediate family member of a rent-stabilized tenant and have been living with them immediately prior to their moving or passing away, you might be entitled to take over the lease."
+msgid ""
+"If you are the immediate family member of a rent-stabilized tenant and have "
+"been living with them immediately prior to their moving or passing away, you"
+" might be entitled to take over the lease."
 msgstr ""
+"Si usted es el familiar inmediato de un inquilino con alquiler estabilizado "
+"y ha estado viviendo con ellos inmediatamente antes de su mudanza o "
+"fallecimiento, es posible que tenga derecho a hacerse cargo del contrato de "
+"arrendamiento."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:21
-msgid "If you believe you’ve been charged more than the legal rent for your apartment, you may be able to file an overcharge complaint with DHCR. DHCR can review the evidence, determine whether an overcharge occurred, and order an appropriate remedy when it finds a violation."
+msgid ""
+"If you believe you’ve been charged more than the legal rent for your "
+"apartment, you may be able to file an overcharge complaint with DHCR. DHCR "
+"can review the evidence, determine whether an overcharge occurred, and order"
+" an appropriate remedy when it finds a violation."
 msgstr ""
+"Si crees que te han cobrado más que el alquiler legal de tu apartamento, es "
+"posible que puedas presentar una queja por sobrecargo ante el Departamento. "
+"Puede revisar las pruebas, determinar si se ha producido un sobrecargo y "
+"ordenar un recurso apropiado cuando encuentre una infracción."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:73
-msgid "If you believe your landlord has violated your rights, you may be able to take formal action."
+msgid ""
+"If you believe your landlord has violated your rights, you may be able to "
+"take formal action."
 msgstr ""
+"Si cree que su propietario ha violado sus derechos, es posible que pueda "
+"tomar medidas formales."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrWithholdRentContent.tsx:29
-msgid "If you choose to withhold rent, consider setting your monthly rent money aside while you withhold. If a court later determines that you owe some or all of the withheld rent, having the money available can be important."
+msgid ""
+"If you choose to withhold rent, consider setting your monthly rent money "
+"aside while you withhold. If a court later determines that you owe some or "
+"all of the withheld rent, having the money available can be important."
 msgstr ""
+"Si decides retener el alquiler, considera reservar el dinero de tu alquiler "
+"mensual mientras lo haces. Si un tribunal determina más tarde que usted debe"
+" parte o la totalidad del alquiler retenido, puede ser importante tener el "
+"dinero disponible."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrWithholdRentContent.tsx:26
 msgid "If you decide to withhold rent"
-msgstr ""
+msgstr "Si decides retener el alquiler"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsStabilizedLeaseContent.tsx:73
-msgid "If you don’t have a lease, or your lease doesn’t say that your apartment is rent stabilized, you may still have the rights and protections that come with rent stabilization."
+msgid ""
+"If you don’t have a lease, or your lease doesn’t say that your apartment is "
+"rent stabilized, you may still have the rights and protections that come "
+"with rent stabilization."
 msgstr ""
+"Si no tiene un contrato de arrendamiento, o su contrato de arrendamiento no "
+"dice que su apartamento está estabilizado, es posible que aún tenga los "
+"derechos y protecciones que vienen con la estabilización de alquileres."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:106
-msgid "If you live in a rent stabilized apartment, there are additional programs you can use to try to reduce or limit your rent."
+msgid ""
+"If you live in a rent stabilized apartment, there are additional programs "
+"you can use to try to reduce or limit your rent."
 msgstr ""
+"Si vives en un apartamento de alquiler estabilizado, hay programas "
+"adicionales que puedes usar para tratar de reducir o limitar tu alquiler."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:45
-msgid "If you live in a rent-stabilized apartment, or think your apartment should be rent stabilized, you may have additional protections around your rent and ability to remain in your home."
+msgid ""
+"If you live in a rent-stabilized apartment, or think your apartment should "
+"be rent stabilized, you may have additional protections around your rent and"
+" ability to remain in your home."
 msgstr ""
+"Si vives en un apartamento con alquiler estabilizado o crees que tu "
+"apartamento debería tener un alquiler estabilizado, es posible que tengas "
+"protecciones adicionales en torno a tu alquiler y la capacidad de permanecer"
+" en tu hogar."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrRentReductionCheckContent.tsx:14
-msgid "If you’re concerned about your rent, finding out whether there is an existing order can give you important context before you decide what to do."
+msgid ""
+"If you’re concerned about your rent, finding out whether there is an "
+"existing order can give you important context before you decide what to do."
 msgstr ""
+"Si te preocupa tu alquiler, averiguar si hay un pedido existente puede darte"
+" un contexto importante antes de decidir qué hacer."
 
 #: src/Components/Pages/Landing/Landing.tsx:31
-msgid "If your apartment is rent stabilized, or has ever been rent stabilized, you should have a rent history document."
+msgid ""
+"If your apartment is rent stabilized, or has ever been rent stabilized, you "
+"should have a rent history document."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsStabilizedLeaseContent.tsx:18
-msgid "If your apartment is rent stabilized, your landlord must give you a rent-stabilized lease. Your lease should tell you that your apartment is rent stabilized and provide information about your rent and the terms of your tenancy."
+msgid ""
+"If your apartment is rent stabilized, your landlord must give you a rent-"
+"stabilized lease. Your lease should tell you that your apartment is rent "
+"stabilized and provide information about your rent and the terms of your "
+"tenancy."
 msgstr ""
+"Si su apartamento está estabilizado en cuanto al alquiler, el propietario "
+"debe otorgarle un contrato de arrendamiento estabilizado en cuanto al "
+"alquiler. Su contrato de arrendamiento debe indicarle que su apartamento "
+"está estabilizado y proporcionar información sobre su alquiler y los "
+"términos de su arrendamiento."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:72
-msgid "If your concern involves something that happened before your landlord became the owner, don’t assume that you have no recourse simply because the current owner wasn’t involved at the time."
+msgid ""
+"If your concern involves something that happened before your landlord became"
+" the owner, don’t assume that you have no recourse simply because the "
+"current owner wasn’t involved at the time."
 msgstr ""
+"Si su preocupación involucra algo que sucedió antes de que su propietario se"
+" convirtiera en el propietario, no asuma que no tiene ningún recurso "
+"simplemente porque el propietario actual no estaba involucrado en ese "
+"momento."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:52
-msgid "If your lease looks <0>something like this</0>, then your apartment is very likely rent stabilized. But even if your lease does not look like that, you may still be rent stabilized."
+msgid ""
+"If your lease looks <0>something like this</0>, then your apartment is very "
+"likely rent stabilized. But even if your lease does not look like that, you "
+"may still be rent stabilized."
 msgstr ""
+"Si su contrato de arrendamiento se ve <0>algo como esto</0>, entonces es muy"
+" probable que su apartamento esté estabilizado. Pero incluso si su contrato "
+"de arrendamiento no se ve así, es posible que aún esté estabilizado."
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:30
-msgid "If your neighbors are facing similar problems, you can work together to document what is happening, raise concerns with your landlord, contact government agencies, or take action as a group. When tenants come together, you have power."
+msgid ""
+"If your neighbors are facing similar problems, you can work together to "
+"document what is happening, raise concerns with your landlord, contact "
+"government agencies, or take action as a group. When tenants come together, "
+"you have power."
 msgstr ""
+"Si sus vecinos se enfrentan a problemas similares, pueden trabajar juntos "
+"para documentar lo que está sucediendo, plantear inquietudes al propietario,"
+" ponerse en contacto con las agencias gubernamentales o tomar medidas como "
+"grupo. Cuando los inquilinos se unen, tienes poder."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaGrieveContent.tsx:10
-msgid "In instances where residents disagree with management decisions or believe their rights have been violated, they have the right to grieve these issues through a formal process. Residents can file grievances online through the resident portal or on paper by visiting the management office."
+msgid ""
+"In instances where residents disagree with management decisions or believe "
+"their rights have been violated, they have the right to grieve these issues "
+"through a formal process. Residents can file grievances online through the "
+"resident portal or on paper by visiting the management office."
 msgstr ""
+"En los casos en que los residentes no estén de acuerdo con las decisiones de"
+" la administración o crean que se han violado sus derechos, tienen derecho a"
+" lamentar estos problemas a través de un proceso formal. Los residentes "
+"pueden presentar quejas en línea a través del portal para residentes o en "
+"papel visitando la oficina de administración."
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:268
 msgid "In progress"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:18
-msgid "In some circumstances, a tenant may be able to bring a case in Supreme Court to enforce their rights or seek money they believe they are owed. Whether this is an appropriate option depends on the specific facts of your situation."
+msgid ""
+"In some circumstances, a tenant may be able to bring a case in Supreme Court"
+" to enforce their rights or seek money they believe they are owed. Whether "
+"this is an appropriate option depends on the specific facts of your "
+"situation."
 msgstr ""
+"En algunas circunstancias, un inquilino puede presentar un caso ante la "
+"Corte Suprema para hacer valer sus derechos o buscar el dinero que cree que "
+"se le debe. Si esta es una opción apropiada depende de los hechos "
+"específicos de su situación."
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/NonregEvidenceIntroParagraph.tsx:14
@@ -1369,8 +1497,14 @@ msgid "timeline.copy.landlord_stopped_registering"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:25
-msgid "It may help to have your lease, rent history, payment records, and any other notices or messages from your landlord available. You don’t need to have everything figured out before you ask for help."
+msgid ""
+"It may help to have your lease, rent history, payment records, and any other"
+" notices or messages from your landlord available. You don’t need to have "
+"everything figured out before you ask for help."
 msgstr ""
+"Puede ser útil tener disponibles su contrato de arrendamiento, historial de "
+"alquileres, registros de pagos y cualquier otro aviso o mensaje de su "
+"arrendador. No es necesario que tengas todo resuelto antes de pedir ayuda."
 
 #: src/Components/TimelineElement/TimelineElement.tsx:95
 msgid "J51 expiration"
@@ -1380,40 +1514,47 @@ msgstr ""
 #: src/Components/Pages/PageLayout/Footer.tsx:101
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycResourcesContent.tsx:44
 msgid "JustFix"
-msgstr ""
+msgstr "JustFix"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:82
 msgid "JustFix’s Letter of Complaint"
-msgstr ""
+msgstr "Carta de queja de JustFix"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:80
 msgid "Keep in mind"
-msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:616
-#~ msgid "Keep your phone steady in position and wait for the scanner to automatically take the photo"
-#~ msgstr ""
+msgstr "Recuerda"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:61
-msgid "Keep your rent history, leases, rent notices, payment records, communications with your landlord, and any DHCR orders or other documents related to your apartment."
+msgid ""
+"Keep your rent history, leases, rent notices, payment records, "
+"communications with your landlord, and any DHCR orders or other documents "
+"related to your apartment."
 msgstr ""
+"Guarde su historial de alquileres, arrendamientos, avisos de alquiler, "
+"registros de pagos, comunicaciones con su arrendador y cualquier pedido u "
+"otros documentos relacionados con su apartamento."
 
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:39
 #: src/Components/Pages/RightsPages/KnowYourRights/KnowYourRightsPage.tsx:17
 msgid "Know your rights"
-msgstr ""
+msgstr "Conozca sus derechos"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:77
-msgid "Landlords can increase the rent more than the reasonable rent increase but they must explain why and must point to increases in their costs or substantial repairs they did to the apartment or building."
+msgid ""
+"Landlords can increase the rent more than the reasonable rent increase but "
+"they must explain why and must point to increases in their costs or "
+"substantial repairs they did to the apartment or building."
 msgstr ""
-
-#: src/Components/Pages/Landing/Landing.tsx:41
-#~ msgid "Landlords in NYC are required to follow strict rules about rent increases. This free tool analyzes your rent history to spot potential violations. Free to use, no password required, and your information stays private."
-#~ msgstr ""
+"Los propietarios pueden aumentar el alquiler más que el aumento razonable "
+"del alquiler, pero deben explicar por qué y deben señalar los aumentos en "
+"sus costos o las reparaciones sustanciales que hicieron al apartamento o "
+"edificio."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:57
-msgid "Landlords may also be able to increase the rent for certain improvements:"
+msgid ""
+"Landlords may also be able to increase the rent for certain improvements:"
 msgstr ""
+"Los propietarios también pueden aumentar el alquiler para ciertas mejoras:"
 
 #: src/Components/Pages/PageLayout/SidebarNav.tsx:52
 msgid "Language"
@@ -1445,106 +1586,115 @@ msgstr "Gran aumento de alquiler"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycDiscriminationContent.tsx:52
 msgid "Lawful source of income"
-msgstr ""
+msgstr "Empleo lícito o fuente de ingresos"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:65
 msgid "Learn about how to form a tenants’ association"
-msgstr ""
+msgstr "Más información sobre cómo formar una asociación de inquilinos"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:32
 msgid "Learn about the Warranty of Habitability"
-msgstr ""
+msgstr "Más información sobre la garantía de habitabilidad"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:55
 msgid "Learn about your right to organize"
-msgstr ""
+msgstr "Conoce tu derecho a organizarte"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycOrganizeContent.tsx:31
 msgid "Learn how tenant associations can help"
-msgstr ""
+msgstr "Descubre cómo pueden ayudarte las asociaciones de inquilinos"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:46
 msgid "Learn if there is an existing rent reduction"
-msgstr ""
+msgstr "Averigüe si hay una reducción de alquiler existente"
 
 #: src/Components/Pages/Landing/Landing.tsx:157
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:39
 #: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:65
 msgid "Learn more"
-msgstr ""
+msgstr "Saber más"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycDiscriminationContent.tsx:29
 msgid "Learn more about fair housing"
-msgstr ""
+msgstr "Más información sobre la vivienda justa"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:147
 msgid "Learn more about Good Cause Eviction Law protections"
 msgstr ""
+"Obtenga más información sobre las protecciones de la Ley de Desalojo por "
+"Buena Causa"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:70
 msgid "Learn more about Good Cause reasons for eviction"
-msgstr ""
+msgstr "Más información sobre los motivos justificados de desalojo"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycEvictionProtectionsContent.tsx:49
 msgid "Learn more about housing court"
-msgstr ""
+msgstr "Más información sobre el tribunal de vivienda"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:79
 msgid "Learn more about IAIs"
-msgstr ""
+msgstr "Aprende más acerca de"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaIncomeBasedRentContent.tsx:19
 msgid "Learn more about income-based rent and recertification"
 msgstr ""
+"Más información sobre el alquiler basado en los ingresos y la "
+"recertificación"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycDiscriminationContent.tsx:43
 msgid "Learn more about lawful source of income discrimination"
 msgstr ""
+"Obtenga más información sobre la discriminación por fuente legal de ingresos"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsLeaseRenewalContent.tsx:25
 msgid "Learn more about lease renewal rights"
-msgstr ""
+msgstr "Más información sobre los derechos de renovación de arrendamiento"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:97
 msgid "Learn more about MCIs"
-msgstr ""
+msgstr "Aprende más acerca de"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrWithholdRentContent.tsx:38
 msgid "Learn more about Nonpayment cases in NYC Housing Court"
 msgstr ""
+"Obtenga más información sobre los casos de impago en el Tribunal de Vivienda"
+" de la Ciudad de Nueva York"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaRightToCounselContent.tsx:20
 msgid "Learn more about NYCHA lease terminations"
 msgstr ""
+"Más información sobre las rescisiones de contratos de arrendamiento de la "
+"NYCHA"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:259
 msgid "Learn more about NYCHA’s tenant protections"
-msgstr ""
+msgstr "Más información sobre las protecciones para inquilinos de NYCHA"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:87
 msgid "Learn more about Reasonable Rent Increase"
-msgstr ""
+msgstr "Más información sobre el aumento razonable del alquiler"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:68
 msgid "Learn more about rent reductions"
-msgstr ""
+msgstr "Más información sobre las reducciones de alquiler"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:46
 msgid "Learn more about requesting repairs"
-msgstr ""
+msgstr "Más información sobre cómo solicitar reparaciones"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsSuccessionContent.tsx:18
 msgid "Learn more about succession rights"
-msgstr ""
+msgstr "Más información sobre los derechos de sucesión"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycEvictionProtectionsContent.tsx:23
 msgid "Learn more about the eviction process"
-msgstr ""
+msgstr "Más información sobre el proceso de desalojo"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaGrieveContent.tsx:20
 msgid "Learn more about the grievance procedures"
-msgstr ""
+msgstr "Aprenda más sobre los procedimientos"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:53
 msgid "Legal and feedback"
@@ -1559,8 +1709,19 @@ msgid "Legal Regulated Rent"
 msgstr "Alquiler regulado legal"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaRightToCounselContent.tsx:9
-msgid "Legal representation can make a significant difference in ensuring a fair and just resolution to housing disputes, protecting residents from wrongful eviction or other adverse outcomes. If you do not have a lawyer and are facing a termination of tenancy at the Office of Impartial Hearings, you can ask for your case to be adjourned in order for you to seek counsel."
+msgid ""
+"Legal representation can make a significant difference in ensuring a fair "
+"and just resolution to housing disputes, protecting residents from wrongful "
+"eviction or other adverse outcomes. If you do not have a lawyer and are "
+"facing a termination of tenancy at the Office of Impartial Hearings, you can"
+" ask for your case to be adjourned in order for you to seek counsel."
 msgstr ""
+"La representación legal puede marcar una diferencia significativa para "
+"garantizar una resolución justa y equitativa de las disputas de vivienda, "
+"proteger a los residentes de desalojos ilícitos u otros resultados adversos."
+" Si no tiene un abogado y se enfrenta a la terminación del contrato de "
+"arrendamiento en la Oficina de Audiencias Imparciales, puede solicitar que "
+"se aplace su caso para que pueda buscar un abogado."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:42
@@ -1575,11 +1736,7 @@ msgstr ""
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsLeaseRenewalContent.tsx:34
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsSuccessionContent.tsx:27
 msgid "Link title"
-msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:191
-#~ msgid "Loading address…"
-#~ msgstr ""
+msgstr "Título de enlace"
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:65
 #: src/Components/Pages/FindingsReview/FindingsReviewPage.tsx:77
@@ -1644,17 +1801,23 @@ msgstr "Mire"
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:63
 msgid "findings.OVERCHARGE_PREHSTPA.vacancy.body"
-msgstr "Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como inquilino(s) en <2/>?"
+msgstr ""
+"Mire <0/> — ¿algún inquilino(s) en <1/> parece(n) estar listado(s) como "
+"inquilino(s) en <2/>?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:103
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body"
-msgstr "Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino en su documento de historial de alquiler?"
+msgstr ""
+"Mire <0/> — ¿Cuál es el año más temprano en que <1/> aparece como inquilino "
+"en su documento de historial de alquiler?"
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:113
 msgid "findings.OVERCHARGE_PREHSTPA.tenancy.body_multiple"
-msgstr "Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes nombres aparece en su documento de historial de alquiler?"
+msgstr ""
+"Mire <0/> — ¿Cuál es el año más temprano en que cualquiera de los siguientes"
+" nombres aparece en su documento de historial de alquiler?"
 
 #: src/Components/Pages/Scanner/ScannerOverlay.tsx:18
 msgid "Looking for your document"
@@ -1665,12 +1828,9 @@ msgid "Major Capital Improvement"
 msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:12
-msgid "Make sure the room is well-lit and that the document is fully in frame."
+msgid ""
+"Make sure the room is well-lit and that the document is fully in frame."
 msgstr ""
-
-#: src/Components/Pages/HistoryPage/HistoryPage.tsx:101
-#~ msgid "Manually enter your rent history"
-#~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:285
 msgid "Map image"
@@ -1690,23 +1850,28 @@ msgstr "Menú"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycResourcesContent.tsx:29
 msgid "Met Council on Housing"
-msgstr ""
+msgstr "Met Council on Housing"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceLearnMoreContent.tsx:30
 msgid "Met Council on Housing Good Cause Eviction fact sheet"
 msgstr ""
+"Hoja informativa sobre el desalojo por buena causa del Met Council on "
+"Housing"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:55
 msgid "Met Council on Housing guide to getting repairs"
-msgstr ""
+msgstr "Guía del Met Council on Housing para obtener reparaciones"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycEvictionProtectionsContent.tsx:42
 msgid "Met Council on Housing Nonpayment of Rent Eviction information"
 msgstr ""
+"Información sobre el desalojo de la falta de pago del alquiler del Met "
+"Council on Housing"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycOrganizeContent.tsx:40
 msgid "Met Council on Housing’s Guide to forming a tenant association"
 msgstr ""
+"Guía del Met Council on Housing para formar una asociación de inquilinos"
 
 #: src/Components/TimelineElement/TimelineElement.tsx:91
 msgid "Missing registration"
@@ -1723,14 +1888,11 @@ msgstr ""
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:212
 msgid "More resources about your rights as an NYC tenant"
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:257
-#~ msgid "More scan files or records were found than expected. Use Restart scanning to clear this history and scan again."
-#~ msgstr ""
+"Más recursos sobre sus derechos como inquilino de la ciudad de Nueva York"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:70
 msgid "More ways to learn about your building"
-msgstr ""
+msgstr "Más formas de conocer tu edificio"
 
 #: src/Components/FlowNav/FlowNav.tsx:35
 msgid "Navigation"
@@ -1741,7 +1903,11 @@ msgid "Needs re-scan"
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:144
-msgid "New York City has an estimated 800,000 rent-stabilized apartments. Landlords are required to self-report the rent amount of these apartments each year. Because of this, violations often go undetected. We built this tool to make the kind of analysis attorneys use accessible to anyone, for free."
+msgid ""
+"New York City has an estimated 800,000 rent-stabilized apartments. Landlords"
+" are required to self-report the rent amount of these apartments each year. "
+"Because of this, violations often go undetected. We built this tool to make "
+"the kind of analysis attorneys use accessible to anyone, for free."
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:256
@@ -1773,16 +1939,16 @@ msgstr ""
 msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.vacancy.heading"
 msgstr ""
 
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:99
-#~ msgid "Next, we will walk through each potential violation"
-#~ msgstr ""
-
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:94
-msgid "Next, we will walk through each potential violation to check if there is a way they may or may not be explained."
+msgid ""
+"Next, we will walk through each potential violation to check if there is a "
+"way they may or may not be explained."
 msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:57
-msgid "Next, you will review your scanned pages and answer a few questions before we start your analysis."
+msgid ""
+"Next, you will review your scanned pages and answer a few questions before "
+"we start your analysis."
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:109
@@ -1799,20 +1965,14 @@ msgstr "No"
 msgid "timeline.title.no_finding"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:246
-#~ msgid "No pages were saved from the scanner. Use Restart scanning to try again."
-#~ msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:312
-#~ msgid "No processed pages were returned. Use Restart scanning to try again."
-#~ msgstr ""
-
 #: src/Components/DocumentLink/RentHistoryPagesModalContent.tsx:58
 msgid "No rent history pages are available yet."
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:156
-msgid "No rent history session was found. Complete the upload flow first, then return to this page."
+msgid ""
+"No rent history session was found. Complete the upload flow first, then "
+"return to this page."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -1827,44 +1987,49 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrWithholdRentContent.tsx:47
 msgid "Nonpayment cases in NYC Housing Court"
-msgstr ""
+msgstr "Casos de impago en el Tribunal de Vivienda de Nueva York"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:121
 msgid "Not rent stabilized? You might be covered by Good Cause"
 msgstr ""
+"¿No tienes el alquiler estabilizado? Es posible que estés cubierto por Good "
+"Cause"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:122
 msgid "Not sure how your rent got to its current amount?"
-msgstr ""
+msgstr "¿No estás seguro de cómo llegó tu alquiler a su importe actual?"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:107
 msgid "Not sure if you’ve been overcharged?"
-msgstr ""
+msgstr "¿No estás seguro de si te han cobrado de más?"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsStabilizedLeaseContent.tsx:81
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:106
 msgid "Not sure if your apartment is rent stabilized?"
 msgstr ""
+"¿No estás seguro de si el alquiler de tu apartamento está estabilizado?"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:74
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:41
 msgid "NY Courts Warranty of Habitability fact sheet"
 msgstr ""
+"Hoja informativa sobre la garantía de habitabilidad de los tribunales de "
+"Nueva York"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycEvictionProtectionsContent.tsx:32
 msgid "NY Homes and Community Renewal eviction information"
-msgstr ""
+msgstr "Información de desalojo de NY Homes and Community Renewal"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaLearnMoreContent.tsx:22
 msgid "NYCHA policies"
-msgstr ""
+msgstr "Políticas NYCHA"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaLearnMoreContent.tsx:32
 msgid "NYLAG’s Public Housing Justice Project"
-msgstr ""
+msgstr "Proyecto de justicia de vivienda pública de NYLAG"
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/NonregSameTenantOverchargeSteps.tsx:59
@@ -1885,15 +2050,11 @@ msgstr ""
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsResourcesContent.tsx:40
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsResourcesContent.tsx:50
 msgid "Optional link"
-msgstr ""
+msgstr "Enlace opcional"
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:63
 msgid "Or"
 msgstr ""
-
-#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:23
-#~ msgid "Or, if you are already on a mobile device with a camera, <0>launch scanner</0>"
-#~ msgstr ""
 
 #: src/Components/LoginQrLockup/LoginQrLockup.tsx:26
 msgid "Or, type this URL into your phone's browser:"
@@ -1901,7 +2062,7 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:103
 msgid "Other ways to reduce your rent"
-msgstr ""
+msgstr "Otras formas de reducir el alquiler"
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:71
 msgid "overcharge damages"
@@ -1913,15 +2074,11 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaLearnMoreContent.tsx:42
 msgid "PACT Fact Sheet"
-msgstr ""
+msgstr "Hoja informativa"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaLearnMoreContent.tsx:52
 msgid "PACT Rights and Responsibilities Fact Sheet"
-msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:374
-#~ msgid "Page"
-#~ msgstr ""
+msgstr "Hoja informativa sobre los derechos y responsabilidades de PACT"
 
 #. placeholder {0}: index + 1
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:43
@@ -1942,11 +2099,11 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:26
 msgid "Phase 1: Gather information"
-msgstr ""
+msgstr "Fase 1: Recopilar información"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:70
 msgid "Phase 2: Take formal action"
-msgstr ""
+msgstr "Fase 2: Tomar medidas formales"
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:79
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:55
@@ -1954,21 +2111,16 @@ msgid "Phone number (required)"
 msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:11
-msgid "Place each page on a flat surface and flatten any folds or curls as much as possible."
+msgid ""
+"Place each page on a flat surface and flatten any folds or curls as much as "
+"possible."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:607
-#~ msgid "Place the pages against a dark background"
-#~ msgstr ""
-
-#. placeholder {0}: _( plural(failedUploadCount, { one: "page", other: "pages", }) )
+#. placeholder {0}: _( plural(failedUploadCount, { one: "page", other:
+#. "pages", }) )
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:71
 msgid "Please <0>re-scan the missing {0}</0>."
 msgstr ""
-
-#: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:71
-#~ msgid "Please <0>re-scan the missing pages</0>."
-#~ msgstr ""
 
 #: src/api/account/errors.ts:158
 msgid "Please confirm your phone number and try again."
@@ -1998,7 +2150,9 @@ msgid "Please enter all 6 digits."
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:240
-msgid "Please enter the full monthly rent for the entire apartment. This will help us compare what you pay to what is listed in your rent history."
+msgid ""
+"Please enter the full monthly rent for the entire apartment. This will help "
+"us compare what you pay to what is listed in your rent history."
 msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:68
@@ -2018,7 +2172,10 @@ msgid "Please sign in to generate your report."
 msgstr ""
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:300
-msgid "Points show residential buildings with at least one rent-stabilized unit according to DHCR registration data (latest available year). This map is for reference only and does not determine your legal rent status."
+msgid ""
+"Points show residential buildings with at least one rent-stabilized unit "
+"according to DHCR registration data (latest available year). This map is for"
+" reference only and does not determine your legal rent status."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2065,15 +2222,11 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:104
 msgid "Previous exceptions that used to exist"
-msgstr ""
+msgstr "Excepciones anteriores que solían existir"
 
 #: src/Components/Pages/PageLayout/Footer.tsx:56
 msgid "Privacy policy"
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:546
-#~ msgid "Processing document scan…"
-#~ msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:116
 msgid "Processing your scanned pages…"
@@ -2081,7 +2234,7 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:41
 msgid "Protections for rent stabilized tenants"
-msgstr ""
+msgstr "Protecciones para inquilinos con alquiler estabilizado"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:221
 msgid "Protections you have if you live in NYCHA housing"
@@ -2095,18 +2248,12 @@ msgstr ""
 msgid "Re-scan page"
 msgstr ""
 
-#: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:50
-#~ msgid "Re-scan these pages"
-#~ msgstr ""
-
 #: src/Components/Pages/Landing/Landing.tsx:127
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:148
-msgid "Receive your rent history by mail. Take the first step to learning about your stabilized status and whether you’re paying too much rent."
+msgid ""
+"Receive your rent history by mail. Take the first step to learning about "
+"your stabilized status and whether you’re paying too much rent."
 msgstr ""
-
-#: src/Components/Pages/HistoryPage/HistoryPage.tsx:89
-#~ msgid "Recommended"
-#~ msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:218
 msgid "Remove"
@@ -2126,10 +2273,6 @@ msgstr "Historial de Alquiler NYC"
 msgid "Rent history report"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:376
-#~ msgid "Rent history scan: {caption}"
-#~ msgstr ""
-
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:76
 msgid "Rent increase notices"
 msgstr ""
@@ -2143,7 +2286,11 @@ msgid "Rent reduction for decreased services"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:9
-msgid "Rent-regulated tenants may be able to ask DHCR to reduce their rent when their landlord fails to provide required or essential services. This can include problems with an individual apartment or building-wide services, such as heat, hot water, elevators, or common areas."
+msgid ""
+"Rent-regulated tenants may be able to ask DHCR to reduce their rent when "
+"their landlord fails to provide required or essential services. This can "
+"include problems with an individual apartment or building-wide services, "
+"such as heat, hot water, elevators, or common areas."
 msgstr ""
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:297
@@ -2192,13 +2339,10 @@ msgstr ""
 msgid "Restart scan"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:554
-#: src/Components/Pages/Scanner/Scanner.tsx:574
-#~ msgid "Restart scanning"
-#~ msgstr ""
-
 #: src/Components/Pages/PageLayout/Footer.tsx:42
-msgid "Results are based on information found in your rent history and the answers you provide."
+msgid ""
+"Results are based on information found in your rent history and the answers "
+"you provide."
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:253
@@ -2226,14 +2370,6 @@ msgstr ""
 msgid "Review Scan"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:337
-#~ msgid "Review your scanned pages before continuing. Full scan review UI will appear here."
-#~ msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:447
-#~ msgid "Save address"
-#~ msgstr ""
-
 #: src/Components/Pages/Scanner/Scanner.tsx:166
 msgid "Save page"
 msgstr ""
@@ -2251,14 +2387,6 @@ msgstr ""
 msgid "Scan a new rent history"
 msgstr ""
 
-#: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:16
-#~ msgid "Scan QR code with your smartphone to use your camera to scan your rent history"
-#~ msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:334
-#~ msgid "Scan review"
-#~ msgstr ""
-
 #: src/Components/Pages/Scanner/ScanReviewScreen.tsx:153
 msgid "Scan review navigation"
 msgstr ""
@@ -2267,45 +2395,17 @@ msgstr ""
 msgid "Scan the QR code below to get started."
 msgstr ""
 
-#: src/Components/Pages/Home/Home.tsx:23
-#~ msgid "Scan your rent history"
-#~ msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:499
-#~ msgid "Scan your rent history document"
-#~ msgstr ""
-
-#: src/Components/Pages/HistoryPage/HistoryPage.tsx:86
-#~ msgid "Scan your rent history documents"
-#~ msgstr ""
-
 #: src/Components/Pages/Landing/Landing.tsx:70
 msgid "Scan your rent history with your phone"
 msgstr ""
-
-#: src/Components/ScanBotDemo/ScanBotDemo.tsx:13
-#~ msgid "ScanBot"
-#~ msgstr ""
-
-#: src/Components/Pages/Home/Home.tsx:10
-#~ msgid "ScanBot Demo"
-#~ msgstr ""
 
 #: src/Components/Pages/Scanner/Scanner.tsx:334
 msgid "Scanner is still loading. Please wait a moment and try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:564
-#~ msgid "Scanning complete"
-#~ msgstr ""
-
 #: src/Components/Pages/Scanner/ScannerInProgressScreen.tsx:13
 msgid "Scanning in process"
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:539
-#~ msgid "Scanning in progress..."
-#~ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:121
 msgid "SCRIE and DRIE"
@@ -2344,7 +2444,8 @@ msgid "Select Year"
 msgstr "Seleccionar año"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:70
-msgid "Send a free, legally vetted letter to notify your landlord of repair issues"
+msgid ""
+"Send a free, legally vetted letter to notify your landlord of repair issues"
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:299
@@ -2365,7 +2466,8 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENTREMOVED_POSTHSTPA/ReviewCopy.tsx:47
-msgid "findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
+msgid ""
+"findings.OVERCHARGE_PREFRENTREMOVED_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2403,7 +2505,11 @@ msgid "Something went wrong. Please try again."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycDiscriminationContent.tsx:20
-msgid "Source of income discrimination is the illegal practice by landlords, owners, and real estate brokers of refusing to rent to current or prospective tenants seeking to pay for housing with housing assistance vouchers, subsidies, or other forms of public assistance."
+msgid ""
+"Source of income discrimination is the illegal practice by landlords, "
+"owners, and real estate brokers of refusing to rent to current or "
+"prospective tenants seeking to pay for housing with housing assistance "
+"vouchers, subsidies, or other forms of public assistance."
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:75
@@ -2418,10 +2524,6 @@ msgstr ""
 msgid "Standard RGB increases"
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:113
-#~ msgid "Start analysis"
-#~ msgstr ""
-
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
 msgid "Start review"
 msgstr ""
@@ -2435,49 +2537,9 @@ msgstr ""
 msgid "Started {startedOn}"
 msgstr ""
 
-#: src/Components/Pages/AccountPage/AccountPage.tsx:17
-#~ msgid "Started Feb 3, 2026"
-#~ msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:112
-#~ msgid "Starting analysis…"
-#~ msgstr ""
-
 #: src/Components/AnalysisFlowProgress/AnalysisFlowProgress.tsx:42
 msgid "Step {stepNumber}: {titleText}"
 msgstr ""
-
-#: src/Components/Pages/HistoryPage/HistoryPage.tsx:68
-#~ msgid "Step 1: Upload"
-#~ msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:301
-#~ msgid "Step 3: Confirm address"
-#~ msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:299
-#~ msgid "Step 3: Enter address"
-#~ msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:301
-#~ msgid "Step 4: Confirm address"
-#~ msgstr ""
-
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:299
-#~ msgid "Step 4: Enter address"
-#~ msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:119
-#~ msgid "Step 4: Provide your rent"
-#~ msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:56
-#~ msgid "Step 5: Provide your rent"
-#~ msgstr ""
-
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:61
-#~ msgid "Step 5: What we found"
-#~ msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:148
 msgid "Still processing pages"
@@ -2507,10 +2569,6 @@ msgstr ""
 msgid "Suspect an overcharge?"
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:602
-#~ msgid "Take photos in a well lit location and enable your camera flash"
-#~ msgstr ""
-
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:95
 msgid "Take your case to Supreme Court"
 msgstr ""
@@ -2520,7 +2578,9 @@ msgid "Talk to your neighbors"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrWithholdRentContent.tsx:19
-msgid "Talk with a lawyer or tenant organization first so you understand the risks and whether there are other options for your situation."
+msgid ""
+"Talk with a lawyer or tenant organization first so you understand the risks "
+"and whether there are other options for your situation."
 msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:56
@@ -2528,7 +2588,8 @@ msgid "Tap <0>Permissions</0> or <1>Site settings.</1>"
 msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:47
-msgid "Tap the <0>lock icon</0> next to the website address in your web browser."
+msgid ""
+"Tap the <0>lock icon</0> next to the website address in your web browser."
 msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:61
@@ -2548,11 +2609,20 @@ msgid "Tenant names"
 msgstr "Nombres de inquilinos"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:7
-msgid "Tenant organizations can help you understand your situation, learn about your rights, and decide what options may be available to you. Some organizations provide individual advice, while others help tenants organize around issues affecting their building or neighborhood."
+msgid ""
+"Tenant organizations can help you understand your situation, learn about "
+"your rights, and decide what options may be available to you. Some "
+"organizations provide individual advice, while others help tenants organize "
+"around issues affecting their building or neighborhood."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycLivableHomeContent.tsx:21
-msgid "Tenants have the right to live in a safe, sanitary, and well-maintained apartment, including public areas of the building. This right is implied in every residential lease, and any lease provision that waives it is void. If your landlord is not providing these conditions in your apartment or building, there are actions you can take to exercise your rights."
+msgid ""
+"Tenants have the right to live in a safe, sanitary, and well-maintained "
+"apartment, including public areas of the building. This right is implied in "
+"every residential lease, and any lease provision that waives it is void. If "
+"your landlord is not providing these conditions in your apartment or "
+"building, there are actions you can take to exercise your rights."
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:59
@@ -2635,7 +2705,8 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_LEGALRENT_POSTHSTPA/ReviewCopy.tsx:42
-msgid "findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.body"
+msgid ""
+"findings.OVERCHARGE_LEGALRENT_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2645,21 +2716,21 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:66
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.no_vacancy.body"
+msgid ""
+"findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.no_vacancy.body"
 msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREFRENT_POSTHSTPA/ReviewCopy.tsx:53
-msgid "findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body"
+msgid ""
+"findings.OVERCHARGE_PREFRENT_POSTHSTPA.result.potential_violation.vacancy.body"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:35
-msgid "The information on this page is not legal advice and is not a substitute for advice from a lawyer."
+msgid ""
+"The information on this page is not legal advice and is not a substitute for"
+" advice from a lawyer."
 msgstr ""
-
-#: src/Components/Pages/PageLayout/Footer.tsx:17
-#~ msgid "The information on this website does not constitute legal advice and must not be used as a substitute for the advice of a lawyer qualified to give advice on legal issues pertaining to housing."
-#~ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/VacancyLongevityBonusParagraph.tsx:26
@@ -2712,7 +2783,10 @@ msgid "timeline.copy.legal_rent_last_reg_year"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:11
-msgid "The maximum rent increase percentage for rent stabilized leases starting after October 1, 2026 is 0% due to the current rent freeze. <0>Learn more about the current rent freeze</0>."
+msgid ""
+"The maximum rent increase percentage for rent stabilized leases starting "
+"after October 1, 2026 is 0% due to the current rent freeze. <0>Learn more "
+"about the current rent freeze</0>."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2731,7 +2805,12 @@ msgid "timeline.copy.missing_reg_could_indicate_destab"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycEvictionProtectionsContent.tsx:13
-msgid "The only way your landlord can legally evict you is through an eviction lawsuit in housing court. Lockouts (also known as unlawful evictions or self-help evictions) are illegal. All tenants, including those in private residential programs, have the right to stay in their home unless they choose to leave or are evicted through a court process."
+msgid ""
+"The only way your landlord can legally evict you is through an eviction "
+"lawsuit in housing court. Lockouts (also known as unlawful evictions or "
+"self-help evictions) are illegal. All tenants, including those in private "
+"residential programs, have the right to stay in their home unless they "
+"choose to leave or are evicted through a court process."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2777,20 +2856,29 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:142
 msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.body"
-msgstr "El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse mediante bonos permitidos."
+msgstr ""
+"El aumento de ${rent0} en {year0} a ${rent1} en {year1} puede explicarse "
+"mediante bonos permitidos."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:128
 msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.body"
-msgstr "El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en {year1}, y los bonos permitidos podrían no explicar completamente el salto."
+msgstr ""
+"El alquiler regulado legal aumentó de ${rent0} en {year0} a ${rent1} en "
+"{year1}, y los bonos permitidos podrían no explicar completamente el salto."
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/OVERCHARGE_PREHSTPA/ReviewCopy.tsx:29
 msgid "findings.OVERCHARGE_PREHSTPA.intro.description"
-msgstr "El alquiler subió un {percentIncrease}% en un año. Verificaremos si este aumento puede explicarse mediante bonos permitidos."
+msgstr ""
+"El alquiler subió un {percentIncrease}% en un año. Verificaremos si este "
+"aumento puede explicarse mediante bonos permitidos."
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:20
-msgid "The state housing agency must publish each year’s “Reasonable Rent Increases” by August. The current maximum that your landlord can increase your rent by is 8.38%."
+msgid ""
+"The state housing agency must publish each year’s “Reasonable Rent "
+"Increases” by August. The current maximum that your landlord can increase "
+"your rent by is 8.38%."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2834,11 +2922,17 @@ msgid "timeline.copy.program_421a_participation"
 msgstr ""
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:271
-msgid "This building is not in our rent-stabilized map dataset (or has no registered RS units in the latest DHCR data)."
+msgid ""
+"This building is not in our rent-stabilized map dataset (or has no "
+"registered RS units in the latest DHCR data)."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaIncomeBasedRentContent.tsx:10
-msgid "This ensures that housing remains affordable and equitable for all residents, regardless of financial circumstances. Residents who have recently experienced a change in income can request an interim recertification to ensure that their apartment remains affordable."
+msgid ""
+"This ensures that housing remains affordable and equitable for all "
+"residents, regardless of financial circumstances. Residents who have "
+"recently experienced a change in income can request an interim "
+"recertification to ensure that their apartment remains affordable."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -2851,7 +2945,9 @@ msgid "This helps us determine if you are currently being overcharged."
 msgstr ""
 
 #: src/Components/Pages/Report/ReportPDF.tsx:18
-msgid "This is a placeholder report. A full report with your rent history findings will appear here in a future release."
+msgid ""
+"This is a placeholder report. A full report with your rent history findings "
+"will appear here in a future release."
 msgstr ""
 
 #: src/api/account/errors.ts:187
@@ -2862,16 +2958,16 @@ msgstr ""
 msgid "This link is invalid or already used."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:389
-#~ msgid "This page could not be processed correctly. Use Restart scanning to capture a clearer image of every page."
-#~ msgstr ""
-
 #: src/Components/Pages/AccountPage/AccountPage.tsx:326
-msgid "This rent history, completed on {deleteDate}, will be permanently deleted. This can't be undone."
+msgid ""
+"This rent history, completed on {deleteDate}, will be permanently deleted. "
+"This can't be undone."
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:331
-msgid "This rent history, started on {deleteDate}, will be permanently deleted. This can't be undone."
+msgid ""
+"This rent history, started on {deleteDate}, will be permanently deleted. "
+"This can't be undone."
 msgstr ""
 
 #: src/Components/Pages/ResumePage/ResumePage.tsx:42
@@ -2879,28 +2975,14 @@ msgid "This resume link is missing required information."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:163
-msgid "This tool was created by JustFix, in collaboration with leading rent history experts."
+msgid ""
+"This tool was created by JustFix, in collaboration with leading rent history"
+" experts."
 msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:242
-#~ msgid "This will help in our analysis of your rent history TK"
-#~ msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:288
-#~ msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
-#~ msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:70
 msgid "Tips for a successful scan"
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:593
-#~ msgid "Tips for getting a high quality scan"
-#~ msgstr ""
-
-#: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:105
-#~ msgid "to check if there is a way they may or may not be explained."
-#~ msgstr ""
 
 #: src/Components/Pages/FindingsReview/steps/OcrConfirmStep.tsx:85
 msgid "to confirm the information below matches."
@@ -2987,17 +3069,9 @@ msgstr ""
 msgid "Unable to save your answers. Please try again."
 msgstr ""
 
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:105
-#~ msgid "Unable to save your rent. Please try again."
-#~ msgstr ""
-
 #: src/Components/Pages/AccountPage/AccountPage.tsx:171
 msgid "Unable to send resume link right now."
 msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:104
-#~ msgid "Unable to start analysis. Please try again."
-#~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:201
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:243
@@ -3005,7 +3079,9 @@ msgid "Unable to update address right now. Please try again."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:24
-msgid "Under the Good Cause Eviction law, landlords are allowed to evict tenants for the following “good cause” reasons:"
+msgid ""
+"Under the Good Cause Eviction law, landlords are allowed to evict tenants "
+"for the following “good cause” reasons:"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:40
@@ -3043,25 +3119,16 @@ msgstr "Tipo de hallazgo no compatible: {0}"
 msgid "Untitled rent history"
 msgstr ""
 
-#: src/Components/Pages/Home/Home.tsx:12
-#~ msgid "Upload your rent history"
-#~ msgstr ""
-
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:159
-msgid "Use JustFix’s eligibility screener and rent calculator to see if you have a legal right to renew your lease and to limited rent increases."
+msgid ""
+"Use JustFix’s eligibility screener and rent calculator to see if you have a "
+"legal right to renew your lease and to limited rent increases."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:73
-msgid "Use our built-in scanner to photograph each page. No app download needed."
+msgid ""
+"Use our built-in scanner to photograph each page. No app download needed."
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:502
-#~ msgid "Use you mobile phone's camera to scan each page of your rent history document. We will digitize the information for you to review before we analyze the contents to identify suspicious rent increases."
-#~ msgstr ""
-
-#: src/Components/Pages/Home/Home.tsx:14
-#~ msgid "Use your mobile phone's camera to scan your rent history document and analyze the contents to identify suspicious rent increases that may indicate illegal overcharges."
-#~ msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:11
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREHSTPA/ReviewCopy.tsx:47
@@ -3083,17 +3150,9 @@ msgstr "Valores confirmados"
 msgid "Verification code"
 msgstr ""
 
-#: src/Components/Pages/LoginPage/LoginPage.tsx:302
-#~ msgid "Verification digit {0}"
-#~ msgstr ""
-
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:116
 msgid "Verify"
 msgstr ""
-
-#: src/Components/Pages/Landing/Landing.tsx:31
-#~ msgid "View map of rent-stabilized buildings"
-#~ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:252
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
@@ -3101,21 +3160,15 @@ msgstr ""
 msgid "View report"
 msgstr ""
 
-#: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:203
-#~ msgid "View scanned document"
-#~ msgstr ""
-
 #: src/Components/Pages/Landing/Landing.tsx:179
 msgid "Visit JustFix"
 msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:152
-msgid "We are still processing some of your scanned pages. You can continue with the pages we have so far, or wait for processing to finish."
+msgid ""
+"We are still processing some of your scanned pages. You can continue with "
+"the pages we have so far, or wait for processing to finish."
 msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:117
-#~ msgid "We ask for your monthly rent so that we can calculate if you are currently being overcharged."
-#~ msgstr ""
 
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:261
 msgid "We could not find a building ID for that address. Try another search."
@@ -3125,29 +3178,24 @@ msgstr ""
 msgid "We could not find an account for this phone number."
 msgstr ""
 
-#: src/Components/Pages/PreFlow/PreFlow.tsx:91
-#: src/Components/Pages/PreFlow/PreFlow.tsx:159
-#~ msgid "We could not find an existing report for this number."
-#~ msgstr ""
-
 #: src/Components/Pages/Report/ReportEmailForm.tsx:149
 msgid "We could not generate your report PDF. Please try again."
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:489
-#~ msgid "We couldn't combine your pages. Please try again."
-#~ msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:239
 msgid "We couldn't load your rent histories. Please try again later."
 msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginDesktopView.tsx:112
-msgid "We don't have any reports associated with this number. To get started, scan the QR code below with your phone."
+msgid ""
+"We don't have any reports associated with this number. To get started, scan "
+"the QR code below with your phone."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:103
-msgid "We generate a detailed report that explains what we found and what it could mean, including what you can do next."
+msgid ""
+"We generate a detailed report that explains what we found and what it could "
+"mean, including what you can do next."
 msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewRetakeGroup.tsx:39
@@ -3155,16 +3203,9 @@ msgid "We had some trouble reading the scan of the following pages:"
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:103
-msgid "We have not found any potential violations in your apartment's rent history."
+msgid ""
+"We have not found any potential violations in your apartment's rent history."
 msgstr ""
-
-#: src/Components/Pages/LoginPage/LoginPage.tsx:98
-#~ msgid "We requested your code. Delivery may take a moment."
-#~ msgstr ""
-
-#: src/Components/Pages/LoginPage/LoginPage.tsx:281
-#~ msgid "We sent a code to"
-#~ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:73
 msgid "We sent a code to <0>{maskedPhone}</0>"
@@ -3175,27 +3216,32 @@ msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:178
-msgid "We will generate your report PDF and email it to you. You can optionally send copies to other people you trust."
+msgid ""
+"We will generate your report PDF and email it to you. You can optionally "
+"send copies to other people you trust."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:37
-msgid "We’ll analyze it for signs of overcharges and illegal deregulations and tell you what it could mean for you."
+msgid ""
+"We’ll analyze it for signs of overcharges and illegal deregulations and tell"
+" you what it could mean for you."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:87
-msgid "We’ll ask you a few questions and run an analysis of your rent history. If anything looks suspicious, we’ll ask some simple follow-up questions to help understand if there are any overcharges or violations."
+msgid ""
+"We’ll ask you a few questions and run an analysis of your rent history. If "
+"anything looks suspicious, we’ll ask some simple follow-up questions to help"
+" understand if there are any overcharges or violations."
 msgstr ""
-
-#: src/Components/Pages/PreFlow/PreFlow.tsx:266
-#~ msgid "We'll text you a code to verify and save your progress."
-#~ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:41
 msgid "We’ll text you a code to verify and save your progress."
 msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:322
-msgid "We'll use publicly available information about the building and apartment to support your rent history analysis."
+msgid ""
+"We'll use publicly available information about the building and apartment to"
+" support your rent history analysis."
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:88
@@ -3243,10 +3289,6 @@ msgid "What is a rent reduction order?"
 msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:237
-#~ msgid "What is the total monthly rent for your entire apartment?"
-#~ msgstr ""
-
-#: src/Components/Pages/RentQuestions/RentQuestions.tsx:237
 msgid "What is your current monthly rent?"
 msgstr ""
 
@@ -3280,11 +3322,16 @@ msgid "What you might learn"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycOrganizeContent.tsx:22
-msgid "When tenants come together, we have power. Tenants across our state are forming tenant unions to fight back. If you're interested in organizing a tenant union with your neighbors, fill out this form to get support from a tenant group near you."
+msgid ""
+"When tenants come together, we have power. Tenants across our state are "
+"forming tenant unions to fight back. If you're interested in organizing a "
+"tenant union with your neighbors, fill out this form to get support from a "
+"tenant group near you."
 msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:13
-msgid "When your camera recognizes the page, it will take a photo automatically."
+msgid ""
+"When your camera recognizes the page, it will take a photo automatically."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:51
@@ -3304,11 +3351,17 @@ msgid "Whether you have a claim"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/KnowYourRightsPage.tsx:20
-msgid "Whether you live in a rent stabilized apartment, have Good Cause protections, or rent anywhere in NYC, you have rights that protect you from unfair rent increases, unsafe conditions, and retaliation."
+msgid ""
+"Whether you live in a rent stabilized apartment, have Good Cause "
+"protections, or rent anywhere in NYC, you have rights that protect you from "
+"unfair rent increases, unsafe conditions, and retaliation."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/AssertYourRightsPage.tsx:20
-msgid "Whether you’ve analyzed your rent history or simply have questions about what you’re being charged, there are steps you can take to learn more and decide what to do next."
+msgid ""
+"Whether you’ve analyzed your rent history or simply have questions about "
+"what you’re being charged, there are steps you can take to learn more and "
+"decide what to do next."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrSupremeCourtContent.tsx:41
@@ -3339,7 +3392,11 @@ msgid "Withhold rent"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrWithholdRentContent.tsx:9
-msgid "Withholding rent is a high-risk step. If you stop paying rent, your landlord may bring a nonpayment case against you in Housing Court. A court case can put your tenancy at risk and may require you to defend yourself against an eviction proceeding."
+msgid ""
+"Withholding rent is a high-risk step. If you stop paying rent, your landlord"
+" may bring a nonpayment case against you in Housing Court. A court case can "
+"put your tenancy at risk and may require you to defend yourself against an "
+"eviction proceeding."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -3409,27 +3466,43 @@ msgid "You can add up to 10 additional recipients."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:73
-msgid "You can also look up your building’s history to see past violations, eviction cases, landlord information, and changes in the number of rent-stabilized apartments."
+msgid ""
+"You can also look up your building’s history to see past violations, "
+"eviction cases, landlord information, and changes in the number of rent-"
+"stabilized apartments."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:80
-msgid "You can also sign up for updates about new issues in your building. <0>Get building alerts</0>"
+msgid ""
+"You can also sign up for updates about new issues in your building. <0>Get "
+"building alerts</0>"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:17
-msgid "You can file a complaint about conditions in your own apartment. If a problem affects the entire building, tenants may also be able to file together as part of a building-wide service complaint."
+msgid ""
+"You can file a complaint about conditions in your own apartment. If a "
+"problem affects the entire building, tenants may also be able to file "
+"together as part of a building-wide service complaint."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:29
-msgid "You can file on your own or, in some circumstances, together with other tenants who believe they have experienced similar overcharges. If several tenants in your building are seeing the same pattern, you may want to consult a tenant organization about whether a group complaint or other collective action makes sense."
+msgid ""
+"You can file on your own or, in some circumstances, together with other "
+"tenants who believe they have experienced similar overcharges. If several "
+"tenants in your building are seeing the same pattern, you may want to "
+"consult a tenant organization about whether a group complaint or other "
+"collective action makes sense."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrTenantOrgContent.tsx:15
-msgid "You can reach out even if you’re not sure whether your landlord has done anything wrong."
+msgid ""
+"You can reach out even if you’re not sure whether your landlord has done "
+"anything wrong."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:33
-msgid "You can use NYC’s eligibility tool to find out whether you may qualify."
+msgid ""
+"You can use NYC’s eligibility tool to find out whether you may qualify."
 msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:245
@@ -3437,15 +3510,25 @@ msgid "You don't have any rent histories yet."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:9
-msgid "You don’t have to contact your landlord directly if you don’t feel comfortable doing so. If you’re concerned about retaliation, harassment, or another potential risk, consider talking with a tenant organization or lawyer first."
+msgid ""
+"You don’t have to contact your landlord directly if you don’t feel "
+"comfortable doing so. If you’re concerned about retaliation, harassment, or "
+"another potential risk, consider talking with a tenant organization or "
+"lawyer first."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:29
-msgid "You don’t have to take formal action right away. Gathering more information can help you understand your apartment and building history, and decide what, if anything, you want to do next."
+msgid ""
+"You don’t have to take formal action right away. Gathering more information "
+"can help you understand your apartment and building history, and decide "
+"what, if anything, you want to do next."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:42
-msgid "You have a legal right to talk with your neighbors and organize with other tenants. It is illegal for your landlord to interfere with tenant organizing or retaliate against you for taking part."
+msgid ""
+"You have a legal right to talk with your neighbors and organize with other "
+"tenants. It is illegal for your landlord to interfere with tenant organizing"
+" or retaliate against you for taking part."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -3459,7 +3542,10 @@ msgid "timeline.copy.investigate_rehab"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:7
-msgid "You may not be the only person in your building dealing with the same problems. Talking with your neighbors can help you find out if similar things are happening to them too."
+msgid ""
+"You may not be the only person in your building dealing with the same "
+"problems. Talking with your neighbors can help you find out if similar "
+"things are happening to them too."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:22
@@ -3471,7 +3557,11 @@ msgid "You may want legal advice about"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:18
-msgid "You might learn that your neighbors also received large rent increases around the same time, had their rent stabilized status changed, are living with the same unsafe conditions, or are also being ignored or harassed by your landlord."
+msgid ""
+"You might learn that your neighbors also received large rent increases "
+"around the same time, had their rent stabilized status changed, are living "
+"with the same unsafe conditions, or are also being ignored or harassed by "
+"your landlord."
 msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:34
@@ -3493,11 +3583,14 @@ msgid "You'll need to enter your phone number to access your reports again."
 msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:51
-msgid "You'll take a picture of each individual page of your rent history document."
+msgid ""
+"You'll take a picture of each individual page of your rent history document."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycOrganizeContent.tsx:16
-msgid "You’re not alone. Too many landlords care more about getting rich off our rent money than providing us with decent homes."
+msgid ""
+"You’re not alone. Too many landlords care more about getting rich off our "
+"rent money than providing us with decent homes."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:88
@@ -3505,7 +3598,9 @@ msgid "Your Analyzer report, if you’ve used it"
 msgstr ""
 
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:121
-msgid "Your answers directly inform our assessment of any potential violations that may appear in our final report."
+msgid ""
+"Your answers directly inform our assessment of any potential violations that"
+" may appear in our final report."
 msgstr ""
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:30
@@ -3519,7 +3614,8 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/Components/Pages/FindingsReview/findings/NONREGISTRATION_PREFRENT_POSTHSTPA/ReviewCopy.tsx:72
-msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
+msgid ""
+"findings.NONREGISTRATION_PREFRENT_POSTHSTPA.result.potential_violation.body"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -3557,7 +3653,12 @@ msgid "Your code expired. Request a new code."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:32
-msgid "Your conversation may turn into a negotiation if you and your landlord disagree about what should happen next. For example, you might ask the landlord to correct your rent, refund money you believe you were overcharged, or provide documentation supporting the amount you’re being charged."
+msgid ""
+"Your conversation may turn into a negotiation if you and your landlord "
+"disagree about what should happen next. For example, you might ask the "
+"landlord to correct your rent, refund money you believe you were "
+"overcharged, or provide documentation supporting the amount you’re being "
+"charged."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:35
@@ -3592,19 +3693,32 @@ msgid "Your eviction protections"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NycDiscriminationContent.tsx:12
-msgid "Your landlord can’t evict you based on your race, religion, gender, national origin, familial status, or disability. New York State law promises protection from discrimination, banning bias based on age, sexual orientation, and military status."
+msgid ""
+"Your landlord can’t evict you based on your race, religion, gender, national"
+" origin, familial status, or disability. New York State law promises "
+"protection from discrimination, banning bias based on age, sexual "
+"orientation, and military status."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsRentIncreaseLimitsContent.tsx:37
-msgid "Your landlord generally cannot raise your rent by more than the amount allowed by the RGB when you renew your lease."
+msgid ""
+"Your landlord generally cannot raise your rent by more than the amount "
+"allowed by the RGB when you renew your lease."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsLeaseRenewalContent.tsx:17
-msgid "Your landlord is required to provide a lease upon renewal. However, if they don’t, you are allowed to remain in your apartment and continue your tenancy under the terms of the most recently signed lease."
+msgid ""
+"Your landlord is required to provide a lease upon renewal. However, if they "
+"don’t, you are allowed to remain in your apartment and continue your tenancy"
+" under the terms of the most recently signed lease."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrAskLandlordContent.tsx:19
-msgid "Your landlord may be able to explain how your rent was calculated, why it changed, or provide documents related to your apartment. Asking questions can sometimes resolve a misunderstanding or help you understand what happened before you decide whether to take further action."
+msgid ""
+"Your landlord may be able to explain how your rent was calculated, why it "
+"changed, or provide documents related to your apartment. Asking questions "
+"can sometimes resolve a misunderstanding or help you understand what "
+"happened before you decide whether to take further action."
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/RsStabilizedLeaseContent.tsx:27
@@ -3612,7 +3726,10 @@ msgid "Your landlord should provide you with"
 msgstr ""
 
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:17
-msgid "Your landlord will need to provide a good cause reason for ending a tenancy. Even if your lease expires, your landlord cannot evict you, as long as you abide by the terms of your expired lease."
+msgid ""
+"Your landlord will need to provide a good cause reason for ending a tenancy."
+" Even if your lease expires, your landlord cannot evict you, as long as you "
+"abide by the terms of your expired lease."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -3623,10 +3740,6 @@ msgstr ""
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrNeighborsContent.tsx:39
 msgid "Your legal right"
 msgstr ""
-
-#: src/Components/AnalysisFlowProgress/analysisFlow.ts:30
-#~ msgid "Your rent amount"
-#~ msgstr ""
 
 #: src/Components/DocumentLink/DocumentLink.tsx:29
 msgid "your rent history"
@@ -3646,7 +3759,9 @@ msgid "timeline.copy.still_stab"
 msgstr ""
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:139
-msgid "Your report PDF was generated, but we could not send the email. You can download it below or try again."
+msgid ""
+"Your report PDF was generated, but we could not send the email. You can "
+"download it below or try again."
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:120
@@ -3707,20 +3822,10 @@ msgid "Your scanned pages"
 msgstr ""
 
 #: src/Components/Pages/Scanner/ScanReviewCallouts.tsx:135
-msgid "Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add or re-scan pages to fill the gaps before continuing."
+msgid ""
+"Your scanned pages are missing registration years: <0>{rangesLabel}</0>. Add"
+" or re-scan pages to fill the gaps before continuing."
 msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:472
-#~ msgid "Your session is missing a rent history record."
-#~ msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:450
-#~ msgid "Your session is missing a rent history record. Go back and continue from the rent history step before scanning."
-#~ msgstr ""
-
-#: src/Components/Pages/Scanner/Scanner.tsx:521
-#~ msgid "Your session is missing a rent history record. Go back to login and try again."
-#~ msgstr ""
 
 #: src/Components/Pages/RentQuestions/RentQuestions.tsx:87
 msgid "Your session is missing a rent history record. Please sign in again."
@@ -3730,6 +3835,401 @@ msgstr ""
 msgid "Your session is missing login data. Go back to login and try again."
 msgstr ""
 
-#: src/Components/Pages/Scanner/Scanner.tsx:236
-#~ msgid "Your session is missing login or rent history data. Go back and try again."
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away"
+#~ msgstr ""
+
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed"
+#~ msgstr ""
+
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.explained_away.title"
+#~ msgstr "No se encontró ninguna infracción"
+
+#~ msgid "findings.OVERCHARGE_PREHSTPA.result.confirmed.title"
+#~ msgstr "Posible infracción encontrada"
+
+#~ msgid "timeline.title.no_violation_destabilization_prehstpa"
+#~ msgstr ""
+
+#~ msgid "timeline.title.violation_destab_prehstpa"
+#~ msgstr ""
+
+#~ msgid "timeline.title.violation_destab_posthstpa"
+#~ msgstr ""
+
+#~ msgid "timeline.title.no_violation_destab_prehstpa"
+#~ msgstr ""
+
+#~ msgid "timeline.title.nonregistration_posthstpa_new_tenant"
+#~ msgstr ""
+
+#~ msgid "timeline.title.a421_pref_viol"
+#~ msgstr ""
+
+#~ msgid "timeline.copy.missing_reg_destab_list.bonuses"
+#~ msgstr ""
+
+#~ msgid "timeline.title.nonreg_viol_posthstpa_same_tenant"
+#~ msgstr ""
+
+#~ msgid "timeline.title.nonreg_destab_prehstpa"
+#~ msgstr ""
+
+#~ msgid "timeline.implications.posthstpa_missing_registration"
+#~ msgstr ""
+
+#~ msgid "timeline.copy.posthstpa_nonreg_investigate"
+#~ msgstr ""
+
+#~ msgid "."
+#~ msgstr ""
+
+#~ msgid "(610) 316-6349"
+#~ msgstr ""
+
+#~ msgid "{end}"
+#~ msgstr ""
+
+#~ msgid "{start}"
+#~ msgstr ""
+
+#~ msgid "{start}–{end}"
+#~ msgstr ""
+
+#~ msgid "+ Scan a new rent history"
+#~ msgstr ""
+
+#~ msgid "+ Start a new analysis"
+#~ msgstr ""
+
+#~ msgid "228 Atlantic Avenue"
+#~ msgstr ""
+
+#~ msgid "A new code has been sent."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "A non-profit that builds free tools for tenants to exercise their rights to "
+#~ "a livable home."
+#~ msgstr ""
+
+#~ msgid "A scan image failed to download. Use Restart scanning to try again."
+#~ msgstr ""
+
+#~ msgid "Analysis has already been run for this rent history."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Analyze your rent history to identify potential violations and overcharges."
+#~ msgstr ""
+
+#~ msgid "and ask you to confirm a few things,"
+#~ msgstr ""
+
+#~ msgid "Apt. 1"
+#~ msgstr ""
+
+#~ msgid "Brooklyn, New York 11201"
+#~ msgstr ""
+
+#~ msgid "Code request received. Delivery may take a moment."
+#~ msgstr ""
+
+#~ msgid "Code sent. Enter it below to continue."
+#~ msgstr ""
+
+#~ msgid "Completed Feb 1, 2026"
+#~ msgstr ""
+
+#~ msgid "Could not load scan images from storage."
+#~ msgstr ""
+
+#~ msgid "Cover page"
+#~ msgstr ""
+
+#~ msgid "Current monthly rent"
+#~ msgstr ""
+
+#~ msgid "Didn't receive a code?"
+#~ msgstr ""
+
+#~ msgid "Disclaimer"
+#~ msgstr ""
+
+#~ msgid "Dynamsoft"
+#~ msgstr ""
+
+#~ msgid "Edit address"
+#~ msgstr ""
+
+#~ msgid "edit the address"
+#~ msgstr ""
+
+#~ msgid "Edit the address for this<0/>rent history"
+#~ msgstr ""
+
+#~ msgid "Find out if you've been overcharged"
+#~ msgstr "Averigua si te han cobrado de más"
+
+#~ msgid "Find out if you've been overcharged on rent"
+#~ msgstr "Averigua si te han cobrado de más en el alquiler"
+
+#~ msgid "Findings review"
+#~ msgstr ""
+
+#~ msgid "Flatten any folds in the pages and lay them on a flat surface"
+#~ msgstr ""
+
+#~ msgid "Get ready to scan your<0/>rent history"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Hold your phone level with the pages and make sure the entire page is within"
+#~ " frame"
+#~ msgstr ""
+
+#~ msgid "Housing Justice for All"
+#~ msgstr ""
+
+#~ msgid "How would you like to provide your rent history information?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If this address does not match the address on the rent history document,"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If this address does not match the address on your rent history, please edit"
+#~ " the address."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Keep your phone steady in position and wait for the scanner to automatically"
+#~ " take the photo"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Landlords in NYC are required to follow strict rules about rent increases. "
+#~ "This free tool analyzes your rent history to spot potential violations. Free"
+#~ " to use, no password required, and your information stays private."
+#~ msgstr ""
+
+#~ msgid "Loading address…"
+#~ msgstr ""
+
+#~ msgid "Manually enter your rent history"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "More scan files or records were found than expected. Use Restart scanning to"
+#~ " clear this history and scan again."
+#~ msgstr ""
+
+#~ msgid "Next, we will walk through each potential violation"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "No pages were saved from the scanner. Use Restart scanning to try again."
+#~ msgstr ""
+
+#~ msgid "No processed pages were returned. Use Restart scanning to try again."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Or, if you are already on a mobile device with a camera, <0>launch "
+#~ "scanner</0>"
+#~ msgstr ""
+
+#~ msgid "Page"
+#~ msgstr ""
+
+#~ msgid "Place the pages against a dark background"
+#~ msgstr ""
+
+#~ msgid "Please <0>re-scan the missing pages</0>."
+#~ msgstr ""
+
+#~ msgid "Processing document scan…"
+#~ msgstr ""
+
+#~ msgid "Re-scan these pages"
+#~ msgstr ""
+
+#~ msgid "Recommended"
+#~ msgstr ""
+
+#~ msgid "Rent history scan: {caption}"
+#~ msgstr ""
+
+#~ msgid "Restart scanning"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Review your scanned pages before continuing. Full scan review UI will appear"
+#~ " here."
+#~ msgstr ""
+
+#~ msgid "Save address"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Scan QR code with your smartphone to use your camera to scan your rent "
+#~ "history"
+#~ msgstr ""
+
+#~ msgid "Scan review"
+#~ msgstr ""
+
+#~ msgid "Scan your rent history"
+#~ msgstr ""
+
+#~ msgid "Scan your rent history document"
+#~ msgstr ""
+
+#~ msgid "Scan your rent history documents"
+#~ msgstr ""
+
+#~ msgid "ScanBot"
+#~ msgstr ""
+
+#~ msgid "ScanBot Demo"
+#~ msgstr ""
+
+#~ msgid "Scanning complete"
+#~ msgstr ""
+
+#~ msgid "Scanning in progress..."
+#~ msgstr ""
+
+#~ msgid "Start analysis"
+#~ msgstr ""
+
+#~ msgid "Started Feb 3, 2026"
+#~ msgstr ""
+
+#~ msgid "Starting analysis…"
+#~ msgstr ""
+
+#~ msgid "Step 1: Upload"
+#~ msgstr ""
+
+#~ msgid "Step 3: Confirm address"
+#~ msgstr ""
+
+#~ msgid "Step 3: Enter address"
+#~ msgstr ""
+
+#~ msgid "Step 4: Confirm address"
+#~ msgstr ""
+
+#~ msgid "Step 4: Enter address"
+#~ msgstr ""
+
+#~ msgid "Step 4: Provide your rent"
+#~ msgstr ""
+
+#~ msgid "Step 5: Provide your rent"
+#~ msgstr ""
+
+#~ msgid "Step 5: What we found"
+#~ msgstr ""
+
+#~ msgid "Take photos in a well lit location and enable your camera flash"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The information on this website does not constitute legal advice and must "
+#~ "not be used as a substitute for the advice of a lawyer qualified to give "
+#~ "advice on legal issues pertaining to housing."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This page could not be processed correctly. Use Restart scanning to capture "
+#~ "a clearer image of every page."
+#~ msgstr ""
+
+#~ msgid "This will help in our analysis of your rent history TK"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Timed out waiting for scans to finish processing. Use Restart scanning or "
+#~ "try again later."
+#~ msgstr ""
+
+#~ msgid "Tips for getting a high quality scan"
+#~ msgstr ""
+
+#~ msgid "to check if there is a way they may or may not be explained."
+#~ msgstr ""
+
+#~ msgid "Unable to save your rent. Please try again."
+#~ msgstr ""
+
+#~ msgid "Unable to start analysis. Please try again."
+#~ msgstr ""
+
+#~ msgid "Upload your rent history"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Use you mobile phone's camera to scan each page of your rent history "
+#~ "document. We will digitize the information for you to review before we "
+#~ "analyze the contents to identify suspicious rent increases."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Use your mobile phone's camera to scan your rent history document and "
+#~ "analyze the contents to identify suspicious rent increases that may indicate"
+#~ " illegal overcharges."
+#~ msgstr ""
+
+#~ msgid "Verification digit {0}"
+#~ msgstr ""
+
+#~ msgid "View map of rent-stabilized buildings"
+#~ msgstr ""
+
+#~ msgid "View scanned document"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We ask for your monthly rent so that we can calculate if you are currently "
+#~ "being overcharged."
+#~ msgstr ""
+
+#~ msgid "We could not find an existing report for this number."
+#~ msgstr ""
+
+#~ msgid "We couldn't combine your pages. Please try again."
+#~ msgstr ""
+
+#~ msgid "We requested your code. Delivery may take a moment."
+#~ msgstr ""
+
+#~ msgid "We sent a code to"
+#~ msgstr ""
+
+#~ msgid "We'll text you a code to verify and save your progress."
+#~ msgstr ""
+
+#~ msgid "What is the total monthly rent for your entire apartment?"
+#~ msgstr ""
+
+#~ msgid "Your rent amount"
+#~ msgstr ""
+
+#~ msgid "Your session is missing a rent history record."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your session is missing a rent history record. Go back and continue from the"
+#~ " rent history step before scanning."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your session is missing a rent history record. Go back to login and try "
+#~ "again."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your session is missing login or rent history data. Go back and try again."
 #~ msgstr ""

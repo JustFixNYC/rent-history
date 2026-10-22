@@ -73,31 +73,26 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           content: <RsRentIncreaseLimitsContent />,
           triggerClassName: "know-your-rights__rs-rent-increase-trigger",
           contentClassName: "know-your-rights__rs-rent-increase-content",
-          figmaNodeId: "6859-60257",
         },
         {
           id: "rs-lease-renewal",
           title: <Trans>Your right to a lease renewal</Trans>,
           content: <RsLeaseRenewalContent />,
-          figmaNodeId: "6854-59897",
         },
         {
           id: "rs-stabilized-lease",
           title: <Trans>Your right to a rent stabilized lease</Trans>,
           content: <RsStabilizedLeaseContent />,
-          figmaNodeId: "6854-59898",
         },
         {
           id: "rs-succession",
           title: <Trans>Your right to succession</Trans>,
           content: <RsSuccessionContent />,
-          figmaNodeId: "6859-64661",
         },
         {
           id: "rs-resources",
           title: <Trans>Additional resources</Trans>,
           content: <RsResourcesContent />,
-          figmaNodeId: "6854-59899",
         },
       ],
       ctas: [
@@ -133,13 +128,11 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           id: "gce-rent-increase-limits",
           title: <Trans>Your right to limited rent increases</Trans>,
           content: <GceRentIncreaseLimitsContent />,
-          figmaNodeId: "6859-65347",
         },
         {
           id: "gce-stay-in-home",
           title: <Trans>Your right to stay in your home</Trans>,
           content: <GceStayInHomeContent />,
-          figmaNodeId: "6859-65696",
         },
         {
           id: "gce-learn-more",
@@ -147,7 +140,6 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
             <Trans>Learn more about Good Cause Eviction Law protections</Trans>
           ),
           content: <GceLearnMoreContent />,
-          figmaNodeId: "6854-59913",
         },
       ],
       ctas: [
@@ -184,13 +176,11 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           id: "nyc-eviction-protections",
           title: <Trans>Your eviction protections</Trans>,
           content: <NycEvictionProtectionsContent />,
-          figmaNodeId: "6854-59933",
         },
         {
           id: "nyc-livable-home",
           title: <Trans>Your right to a liveable home</Trans>,
           content: <NycLivableHomeContent />,
-          figmaNodeId: "6854-59934",
         },
         {
           id: "nyc-discrimination",
@@ -198,13 +188,11 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
             <Trans>Your rights if you’re being discriminated against</Trans>
           ),
           content: <NycDiscriminationContent />,
-          figmaNodeId: "6854-59935",
         },
         {
           id: "nyc-organize",
           title: <Trans>Your right to organize</Trans>,
           content: <NycOrganizeContent />,
-          figmaNodeId: "6854-59936",
         },
         {
           id: "nyc-resources",
@@ -212,7 +200,6 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
             <Trans>More resources about your rights as an NYC tenant</Trans>
           ),
           content: <NycResourcesContent />,
-          figmaNodeId: "6854-59937",
         },
       ],
     },
@@ -232,19 +219,16 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           id: "nycha-repairs",
           title: <Trans>Your right to repairs</Trans>,
           content: <NychaRepairsContent />,
-          figmaNodeId: "6854-59943",
         },
         {
           id: "nycha-income-based-rent",
           title: <Trans>Your right to income-based rent</Trans>,
           content: <NychaIncomeBasedRentContent />,
-          figmaNodeId: "6854-59944",
         },
         {
           id: "nycha-grieve",
           title: <Trans>Your right to grieve management decisions</Trans>,
           content: <NychaGrieveContent />,
-          figmaNodeId: "6854-59945",
         },
         {
           id: "nycha-right-to-counsel",
@@ -252,13 +236,11 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
             <Trans>Your right to legal representation if facing eviction</Trans>
           ),
           content: <NychaRightToCounselContent />,
-          figmaNodeId: "6854-59946",
         },
         {
           id: "nycha-learn-more",
           title: <Trans>Learn more about NYCHA’s tenant protections</Trans>,
           content: <NychaLearnMoreContent />,
-          figmaNodeId: "6854-59947",
         },
       ],
     },
