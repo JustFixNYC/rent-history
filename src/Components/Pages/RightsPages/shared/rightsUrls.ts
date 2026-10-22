@@ -2,3 +2,6 @@
 export function rentHistoryRequestUrl(locale: string): string {
   return `https://app.justfix.org/${locale}/rh`;
 }
+
+/** Good Cause NYC coalition site (Know page mid-page CTA). */
+export const goodCauseNycUrl = "https://goodcausenyc.org/";

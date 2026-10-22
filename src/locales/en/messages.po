@@ -285,6 +285,7 @@ msgid "Analyze my rent history"
 msgstr "Analyze my rent history"
 
 #: src/Components/Pages/PageLayout/AppNavItems.tsx:34
+#: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:47
 msgid "Analyze your rent history"
 msgstr "Analyze your rent history"
 
@@ -823,6 +824,10 @@ msgstr "Get ready to scan your rent history"
 msgid "Get started"
 msgstr "Get started"
 
+#: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:56
+msgid "Get your rent history"
+msgstr "Get your rent history"
+
 #: src/Components/Pages/Landing/Landing.tsx:100
 msgid "Get your report"
 msgstr "Get your report"
@@ -1028,6 +1033,7 @@ msgstr "Large rent increase"
 
 #: src/Components/Pages/Landing/Landing.tsx:157
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
+#: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:65
 msgid "Learn more"
 msgstr "Learn more"
 
