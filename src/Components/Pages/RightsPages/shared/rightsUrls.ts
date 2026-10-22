@@ -5,3 +5,13 @@ export function rentHistoryRequestUrl(locale: string): string {
 
 /** Good Cause NYC coalition site (Know page mid-page CTA). */
 export const goodCauseNycUrl = "https://goodcausenyc.org/";
+
+/** Good Cause NYC rent calculator (locale matches rent-history). */
+export function goodCauseRentCalculatorUrl(locale: string): string {
+  return `https://goodcausenyc.org/${locale}/rent_calculator`;
+}
+
+/** Good Cause NYC letter sender (locale matches rent-history). */
+export function goodCauseLetterSenderUrl(locale: string): string {
+  return `https://goodcausenyc.org/${locale}/letter`;
+}

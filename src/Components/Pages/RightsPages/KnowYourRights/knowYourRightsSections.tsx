@@ -5,6 +5,9 @@ import { Trans } from "@lingui/react/macro";
 
 import type { RightsSectionConfig } from "../shared";
 import {
+  GceLearnMoreContent,
+  GceRentIncreaseLimitsContent,
+  GceStayInHomeContent,
   KyrAccordionContentStub,
   RsLeaseRenewalContent,
   RsRentIncreaseLimitsContent,
@@ -105,12 +108,14 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
     },
     {
       sectionId: "kyr-good-cause",
-      title: <Trans>Good Cause</Trans>,
+      title: (
+        <Trans>Not rent stabilized? You might be covered by Good Cause</Trans>
+      ),
       intro: (
         <p>
+          {/* TODO: Figma section intro still placeholder ("desc.") — confirm with design/legal */}
           <Trans>
-            Good Cause Eviction protections may apply to your home depending on
-            your building and tenancy.
+            TODO: Good Cause section intro copy pending design/legal review.
           </Trans>
         </p>
       ),
@@ -118,13 +123,13 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
         {
           id: "gce-rent-increase-limits",
           title: <Trans>Your right to limited rent increases</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <GceRentIncreaseLimitsContent />,
           figmaNodeId: "6859-65347",
         },
         {
           id: "gce-stay-in-home",
           title: <Trans>Your right to stay in your home</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <GceStayInHomeContent />,
           figmaNodeId: "6859-65696",
         },
         {
@@ -132,20 +137,20 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           title: (
             <Trans>Learn more about Good Cause Eviction Law protections</Trans>
           ),
-          content: <KyrAccordionContentStub />,
+          content: <GceLearnMoreContent />,
           figmaNodeId: "6854-59913",
         },
       ],
       ctas: [
         {
           variant: "goodCause",
-          title: <Trans>Check if Good Cause applies to you</Trans>,
+          title: <Trans>Find out if you’re covered by Good Cause</Trans>,
           body: (
             <p>
               <Trans>
-                Good Cause Eviction Law may protect you from large rent
-                increases and certain evictions. Learn more about eligibility
-                and your rights.
+                Use JustFix’s eligibility screener and rent calculator to see if
+                you have a legal right to renew your lease and to limited rent
+                increases.
               </Trans>
             </p>
           ),
