@@ -4,10 +4,14 @@ import type { RightsCtaCardConfig, RightsSectionConfig } from "../shared";
 import { AssertPhase2InfoCallout } from "./AssertPhase2InfoCallout";
 import {
   AyrAskLandlordContent,
+  AyrDecreasedServicesContent,
+  AyrDhcrComplaintContent,
   AyrNeighborsContent,
   AyrRentReductionCheckContent,
+  AyrScrieDrieContent,
+  AyrSupremeCourtContent,
   AyrTenantOrgContent,
-  RightsAccordionContentStub,
+  AyrWithholdRentContent,
 } from "./content";
 
 export type AssertYourRightsPageConfig = {
@@ -77,19 +81,19 @@ export function useAssertYourRightsSections(): AssertYourRightsPageConfig {
         {
           id: "ayr-dhcr-complaint",
           title: <Trans>File a DHCR overcharge complaint</Trans>,
-          content: <RightsAccordionContentStub />,
+          content: <AyrDhcrComplaintContent />,
           figmaNodeId: "6785-17351",
         },
         {
           id: "ayr-withhold-rent",
           title: <Trans>Withhold rent</Trans>,
-          content: <RightsAccordionContentStub />,
+          content: <AyrWithholdRentContent />,
           figmaNodeId: "6785-17352",
         },
         {
           id: "ayr-supreme-court",
           title: <Trans>Take your case to Supreme Court</Trans>,
-          content: <RightsAccordionContentStub />,
+          content: <AyrSupremeCourtContent />,
           figmaNodeId: "6785-17353",
         },
       ],
@@ -109,13 +113,13 @@ export function useAssertYourRightsSections(): AssertYourRightsPageConfig {
         {
           id: "ayr-decreased-services",
           title: <Trans>Rent reduction for decreased services</Trans>,
-          content: <RightsAccordionContentStub />,
+          content: <AyrDecreasedServicesContent />,
           figmaNodeId: "6785-17359",
         },
         {
           id: "ayr-scrie-drie",
           title: <Trans>SCRIE and DRIE</Trans>,
-          content: <RightsAccordionContentStub />,
+          content: <AyrScrieDrieContent />,
           figmaNodeId: "6785-17360",
         },
       ],

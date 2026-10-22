@@ -1,7 +1,7 @@
 import { Icon } from "@justfixnyc/component-library";
 import { Trans } from "@lingui/react/macro";
 
-/** Phase 2 section info box shell (6785-17349). Copy finalized in task 6. */
+/** Phase 2 section info box (6785-17349). */
 export const AssertPhase2InfoCallout: React.FC = () => (
   <>
     <Icon icon="circleInfo" aria-hidden="true" />
