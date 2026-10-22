@@ -2238,7 +2238,7 @@ msgstr "Protecciones para inquilinos con alquiler estabilizado"
 
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:221
 msgid "Protections you have if you live in NYCHA housing"
-msgstr ""
+msgstr "Protecciones que tiene si vive en una vivienda de NYCHA"
 
 #: src/Components/Pages/Scanner/Scanner.tsx:702
 msgid "Re-scan all pages?"
@@ -2254,6 +2254,8 @@ msgid ""
 "Receive your rent history by mail. Take the first step to learning about "
 "your stabilized status and whether you’re paying too much rent."
 msgstr ""
+"Recibe tu historial de alquileres por correo. Da el primer paso para conocer"
+" tu estado estabilizado y si estás pagando demasiado el alquiler."
 
 #: src/Components/Pages/Report/ReportEmailForm.tsx:218
 msgid "Remove"
@@ -2275,15 +2277,15 @@ msgstr ""
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:76
 msgid "Rent increase notices"
-msgstr ""
+msgstr "Avisos de aumento de alquiler"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDhcrComplaintContent.tsx:79
 msgid "Rent payment records"
-msgstr ""
+msgstr "Comprobantes pago"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/assertYourRightsSections.tsx:115
 msgid "Rent reduction for decreased services"
-msgstr ""
+msgstr "Reducción de alquiler por servicios disminuidos"
 
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrDecreasedServicesContent.tsx:9
 msgid ""
@@ -2998,14 +3000,17 @@ msgstr ""
 msgid "timeline.copy.iai_needed.default"
 msgstr ""
 
+#. EN-only: Figma placeholder intro — confirm with design/legal before ES.
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:176
 msgid "TODO: All NYC tenants section intro copy pending design/legal review."
 msgstr ""
 
+#. EN-only: Figma placeholder intro — confirm with design/legal before ES.
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:126
 msgid "TODO: Good Cause section intro copy pending design/legal review."
 msgstr ""
 
+#. EN-only: Figma placeholder intro — confirm with design/legal before ES.
 #: src/Components/Pages/RightsPages/KnowYourRights/knowYourRightsSections.tsx:225
 msgid "TODO: NYCHA section intro copy pending design/legal review."
 msgstr ""
