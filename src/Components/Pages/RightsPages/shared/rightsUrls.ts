@@ -15,3 +15,8 @@ export function goodCauseRentCalculatorUrl(locale: string): string {
 export function goodCauseLetterSenderUrl(locale: string): string {
   return `https://goodcausenyc.org/${locale}/letter`;
 }
+
+/** JustFix Letter of Complaint (tenants2 / app.justfix.org). */
+export function letterOfComplaintUrl(locale: string): string {
+  return `https://app.justfix.org/${locale}/loc`;
+}

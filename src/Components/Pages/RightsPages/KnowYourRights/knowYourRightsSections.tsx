@@ -9,6 +9,11 @@ import {
   GceRentIncreaseLimitsContent,
   GceStayInHomeContent,
   KyrAccordionContentStub,
+  NycDiscriminationContent,
+  NycEvictionProtectionsContent,
+  NycLivableHomeContent,
+  NycOrganizeContent,
+  NycResourcesContent,
   RsLeaseRenewalContent,
   RsRentIncreaseLimitsContent,
   RsResourcesContent,
@@ -163,10 +168,10 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
       title: <Trans>All NYC tenants</Trans>,
       intro: (
         <p>
+          {/* TODO: Figma section intro still placeholder ("desc.") — confirm with design/legal */}
           <Trans>
-            No matter what type of housing you live in, all NYC tenants have
-            basic rights related to habitability, discrimination, and
-            organizing.
+            TODO: All NYC tenants section intro copy pending design/legal
+            review.
           </Trans>
         </p>
       ),
@@ -174,13 +179,13 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
         {
           id: "nyc-eviction-protections",
           title: <Trans>Your eviction protections</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <NycEvictionProtectionsContent />,
           figmaNodeId: "6854-59933",
         },
         {
           id: "nyc-livable-home",
           title: <Trans>Your right to a liveable home</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <NycLivableHomeContent />,
           figmaNodeId: "6854-59934",
         },
         {
@@ -188,13 +193,13 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           title: (
             <Trans>Your rights if you’re being discriminated against</Trans>
           ),
-          content: <KyrAccordionContentStub />,
+          content: <NycDiscriminationContent />,
           figmaNodeId: "6854-59935",
         },
         {
           id: "nyc-organize",
           title: <Trans>Your right to organize</Trans>,
-          content: <KyrAccordionContentStub />,
+          content: <NycOrganizeContent />,
           figmaNodeId: "6854-59936",
         },
         {
@@ -202,7 +207,7 @@ export function useKnowYourRightsSections(): KnowYourRightsPageConfig {
           title: (
             <Trans>More resources about your rights as an NYC tenant</Trans>
           ),
-          content: <KyrAccordionContentStub />,
+          content: <NycResourcesContent />,
           figmaNodeId: "6854-59937",
         },
       ],
