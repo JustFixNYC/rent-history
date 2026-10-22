@@ -2,7 +2,13 @@ import { Trans } from "@lingui/react/macro";
 
 import type { RightsCtaCardConfig, RightsSectionConfig } from "../shared";
 import { AssertPhase2InfoCallout } from "./AssertPhase2InfoCallout";
-import { AyrNeighborsContent, RightsAccordionContentStub } from "./content";
+import {
+  AyrAskLandlordContent,
+  AyrNeighborsContent,
+  AyrRentReductionCheckContent,
+  AyrTenantOrgContent,
+  RightsAccordionContentStub,
+} from "./content";
 
 export type AssertYourRightsPageConfig = {
   sections: RightsSectionConfig[];
@@ -33,23 +39,24 @@ export function useAssertYourRightsSections(): AssertYourRightsPageConfig {
         },
         {
           id: "ayr-rent-reduction-check",
-          title: <Trans>Check for an existing rent reduction</Trans>,
+          title: <Trans>Learn if there is an existing rent reduction</Trans>,
           stepBadge: 2,
-          content: <RightsAccordionContentStub />,
+          content: <AyrRentReductionCheckContent />,
           figmaNodeId: "6785-17342",
         },
         {
           id: "ayr-tenant-org",
-          title: <Trans>Connect with a tenant organization</Trans>,
+          title: <Trans>Consult a tenant organization</Trans>,
           stepBadge: 3,
-          content: <RightsAccordionContentStub />,
+          content: <AyrTenantOrgContent />,
           figmaNodeId: "6785-17343",
         },
         {
           id: "ayr-ask-landlord",
-          title: <Trans>Ask your landlord</Trans>,
+          title: <Trans>Contact to your landlord</Trans>,
           stepBadge: 4,
-          content: <RightsAccordionContentStub />,
+          content: <AyrAskLandlordContent />,
+          contentClassName: "assert-your-rights__ask-landlord-content",
           figmaNodeId: "6785-17344",
         },
       ],

@@ -18,3 +18,29 @@ $rights-content-max: 46.125rem;
     padding: 3rem 14.375rem;
   }
 }
+
+.assert-your-rights__ask-landlord-content {
+  .rights-accordion-content__info-panel {
+    align-items: flex-start;
+    background: jfcl.$PURPLE_100;
+    border: 1px solid jfcl.$PURPLE_200;
+    border-radius: 4px;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem;
+
+    .jfcl-icon {
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+    }
+
+    p {
+      @include jfcl.body_standard_mobile;
+      margin: 0;
+
+      @include layout.desktop {
+        @include jfcl.body_standard_desktop;
+      }
+    }
+  }
+}

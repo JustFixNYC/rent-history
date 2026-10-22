@@ -1,7 +1,6 @@
 import { Link } from "@justfixnyc/component-library";
 import { Trans } from "@lingui/react/macro";
 
-/** Smoke accordion for deep-link QA (#ayr-neighbors). Full copy in task 5. */
 export const AyrNeighborsContent: React.FC = () => (
   <>
     <p>
@@ -79,7 +78,14 @@ export const AyrNeighborsContent: React.FC = () => (
     </p>
     <p>
       <Trans>
-        You can also sign up for updates about new issues in your building.
+        You can also sign up for updates about new issues in your building.{" "}
+        <Link
+          href="https://whoownswhat.justfix.org/en/building-alerts"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Get building alerts
+        </Link>
       </Trans>
     </p>
     <p>
