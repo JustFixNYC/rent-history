@@ -9,13 +9,14 @@ import { Trans } from "@lingui/react/macro";
 
 import { LocaleButtonStyledLink, LocaleLink } from "../../RouterLinks";
 import { StepNumberBadge } from "../../StepNumberBadge/StepNumberBadge";
+import { rentHistoryRequestUrl } from "../RightsPages/shared/rightsUrls";
 import "./Landing.scss";
 
 const Landing: React.FC = () => {
   const { i18n, _ } = useLingui();
   const locale = i18n.locale;
 
-  const rentHistoryRequestUrl = `https://app.justfix.org/${locale}/rh`;
+  const requestUrl = rentHistoryRequestUrl(locale);
   const justfixUrl = `https://www.justfix.org/${locale}`;
 
   return (
@@ -47,7 +48,7 @@ const Landing: React.FC = () => {
             />
             <ButtonStyledLink
               variant="secondary"
-              href={rentHistoryRequestUrl}
+              href={requestUrl}
               target="_blank"
               rel="noreferrer"
               labelText={_(msg`I don’t have my rent history`)}
@@ -115,7 +116,7 @@ const Landing: React.FC = () => {
               <ButtonStyledLink
                 variant="primary"
                 size="small"
-                href={rentHistoryRequestUrl}
+                href={requestUrl}
                 target="_blank"
                 rel="noreferrer"
                 labelText={_(msg`Submit request`)}
