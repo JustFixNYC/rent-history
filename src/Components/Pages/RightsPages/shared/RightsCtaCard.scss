@@ -23,13 +23,9 @@
   }
 
   &__title {
-    @include jfcl.h3_mobile;
+    @include jfcl.body_large_desktop;
+    font-weight: 600;
     margin: 0;
-
-    @include layout.desktop {
-      @include jfcl.body_large_desktop;
-      font-weight: 600;
-    }
   }
 
   &__body {
@@ -53,7 +49,7 @@
       width: 100%;
 
       @include layout.desktop {
-        width: auto;
+        width: fit-content;
       }
     }
   }

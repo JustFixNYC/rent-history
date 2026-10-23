@@ -45,6 +45,8 @@ export const RightsCtaCard = ({
             to="analyze/login"
             variant="primary"
             labelText={buttonLabel ?? _(msg`Analyze your rent history`)}
+            labelIcon="arrowRight"
+            iconOnRight
           />
         ) : null}
         {variant === "rentHistoryRequest" ? (
@@ -54,6 +56,8 @@ export const RightsCtaCard = ({
             target="_blank"
             rel="noreferrer"
             labelText={buttonLabel ?? _(msg`Get your rent history`)}
+            labelIcon="arrowRight"
+            iconOnRight
           />
         ) : null}
         {variant === "goodCause" ? (
@@ -63,6 +67,8 @@ export const RightsCtaCard = ({
             target="_blank"
             rel="noreferrer"
             labelText={buttonLabel ?? _(msg`Learn more`)}
+            labelIcon="arrowRight"
+            iconOnRight
           />
         ) : null}
       </div>

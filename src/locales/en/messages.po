@@ -891,7 +891,7 @@ msgstr "Get started"
 msgid "Get updates about problems in your building"
 msgstr "Get updates about problems in your building"
 
-#: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:56
+#: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:58
 msgid "Get your rent history"
 msgstr "Get your rent history"
 
@@ -1173,7 +1173,7 @@ msgstr "Keep your rent history, leases, rent notices, payment records, communica
 msgid "Know your rights"
 msgstr "Know your rights"
 
-#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:81
+#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:80
 msgid "Landlords can increase the rent more than the reasonable rent increase but they must explain why and must point to increases in their costs or substantial repairs they did to the apartment or building."
 msgstr "Landlords can increase the rent more than the reasonable rent increase but they must explain why and must point to increases in their costs or substantial repairs they did to the apartment or building."
 
@@ -1236,7 +1236,7 @@ msgstr "Learn if there is an existing rent reduction"
 #: src/Components/Pages/Landing/Landing.tsx:157
 #: src/Components/Pages/LoginPage/LoginPhoneStep.tsx:49
 #: src/Components/Pages/RightsPages/AssertYourRights/content/AyrScrieDrieContent.tsx:39
-#: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:65
+#: src/Components/Pages/RightsPages/shared/RightsCtaCard.tsx:69
 msgid "Learn more"
 msgstr "Learn more"
 
@@ -1288,7 +1288,7 @@ msgstr "Learn more about NYCHA lease terminations"
 msgid "Learn more about NYCHA’s tenant protections"
 msgstr "Learn more about NYCHA’s tenant protections"
 
-#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:91
+#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:88
 msgid "Learn more about Reasonable Rent Increase"
 msgstr "Learn more about Reasonable Rent Increase"
 
@@ -1333,7 +1333,7 @@ msgstr "Legal representation can make a significant difference in ensuring a fai
 msgid "findings.NONREGISTRATION_PREFRENT_POSTHSTPA.vacancy.heading"
 msgstr "Let's check to see if you were the tenant receiving preferential rent in year {year0}."
 
-#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:100
+#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:97
 #: src/Components/Pages/RightsPages/KnowYourRights/content/GceStayInHomeContent.tsx:79
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaGrieveContent.tsx:29
 #: src/Components/Pages/RightsPages/KnowYourRights/content/NychaIncomeBasedRentContent.tsx:28
@@ -1592,7 +1592,7 @@ msgstr "Not sure if you’ve been overcharged?"
 msgid "Not sure if your apartment is rent stabilized?"
 msgstr "Not sure if your apartment is rent stabilized?"
 
-#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:78
+#: src/Components/Pages/RightsPages/KnowYourRights/content/GceRentIncreaseLimitsContent.tsx:77
 msgid "Note"
 msgstr "Note"
 

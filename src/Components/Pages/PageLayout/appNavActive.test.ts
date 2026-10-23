@@ -4,12 +4,12 @@ import { getAppNavActiveStates } from "./appNavActive";
 
 describe("getAppNavActiveStates", () => {
   it("marks know-your-rights active on en and es paths", () => {
-    expect(getAppNavActiveStates("/en/know-your-rights").isKnowYourRightsActive).toBe(
-      true
-    );
-    expect(getAppNavActiveStates("/es/know-your-rights").isKnowYourRightsActive).toBe(
-      true
-    );
+    expect(
+      getAppNavActiveStates("/en/know-your-rights").isKnowYourRightsActive
+    ).toBe(true);
+    expect(
+      getAppNavActiveStates("/es/know-your-rights").isKnowYourRightsActive
+    ).toBe(true);
     expect(getAppNavActiveStates("/en/know-your-rights").isAnalyzeActive).toBe(
       false
     );
@@ -19,9 +19,9 @@ describe("getAppNavActiveStates", () => {
     expect(
       getAppNavActiveStates("/en/assert-your-rights").isAssertYourRightsActive
     ).toBe(true);
-    expect(getAppNavActiveStates("/en/assert-your-rights").isAnalyzeActive).toBe(
-      false
-    );
+    expect(
+      getAppNavActiveStates("/en/assert-your-rights").isAnalyzeActive
+    ).toBe(false);
   });
 
   it("marks analyze active on landing and analyze routes", () => {

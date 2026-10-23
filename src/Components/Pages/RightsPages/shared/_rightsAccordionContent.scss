@@ -3,14 +3,14 @@
 
 // Rich text inside accordion panels (lists, subheads, note panels).
 .rights-accordion-content {
-  @include jfcl.body_large_mobile;
+  @include jfcl.body_standard_mobile;
   color: jfcl.$OFF_BLACK;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
   @include layout.desktop {
-    @include jfcl.body_large_desktop;
+    @include jfcl.body_standard_desktop;
   }
 
   p {
@@ -19,14 +19,9 @@
 
   h4,
   &__subhead {
-    @include jfcl.body_large_mobile;
     font-weight: 600;
     margin: 0;
-
-    @include layout.desktop {
-      @include jfcl.body_large_desktop;
-      font-weight: 600;
-    }
+    margin-top: 0.5rem;
   }
 
   ul,
@@ -40,23 +35,18 @@
 
   li {
     margin: 0;
+    list-style-type: square;
   }
 
   &__list-with-followups {
     gap: 1rem;
-  }
-
-  &__list-followup-link {
-    margin: 0.5rem 0 0;
-    padding-left: 1.75rem;
-  }
-
-  a.jfcl-link {
-    @include jfcl.body_large_mobile;
-    text-decoration: underline;
-
-    @include layout.desktop {
-      @include jfcl.body_large_desktop;
+    li {
+      &:not(:first-of-type) {
+        margin-top: 1rem;
+      }
+      p {
+        margin-top: 0.5rem;
+      }
     }
   }
 
@@ -128,7 +118,7 @@
   &__gce-nested-info {
     align-items: flex-start;
     background: jfcl.$OFF_WHITE_100;
-    border: 1px solid jfcl.$PURPLE_200;
+    border: 1px solid jfcl.$GREY_200;
     border-radius: 4px;
     display: flex;
     gap: 0.5rem;
@@ -148,6 +138,6 @@
 
   &__info-panel--bordered {
     background: jfcl.$OFF_WHITE_100;
-    border-color: jfcl.$PURPLE_200;
+    border-color: jfcl.$GREY_200;
   }
 }

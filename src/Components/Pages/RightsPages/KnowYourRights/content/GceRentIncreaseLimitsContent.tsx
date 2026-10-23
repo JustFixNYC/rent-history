@@ -73,19 +73,16 @@ export const GceRentIncreaseLimitsContent: React.FC = () => {
         </div>
       </div>
 
-      <div className="rights-accordion-content__note">
-        <p className="rights-accordion-content__note-label">
-          <Trans>Note</Trans>
-        </p>
-        <p>
-          <Trans>
-            Landlords can increase the rent more than the reasonable rent
-            increase but they must explain why and must point to increases in
-            their costs or substantial repairs they did to the apartment or
-            building.
-          </Trans>
-        </p>
-      </div>
+      <h4 className="rights-accordion-content__subhead">
+        <Trans>Note</Trans>
+      </h4>
+      <p>
+        <Trans>
+          Landlords can increase the rent more than the reasonable rent increase
+          but they must explain why and must point to increases in their costs
+          or substantial repairs they did to the apartment or building.
+        </Trans>
+      </p>
 
       <h4 className="rights-accordion-content__subhead">
         <Trans>Learn more about Reasonable Rent Increase</Trans>

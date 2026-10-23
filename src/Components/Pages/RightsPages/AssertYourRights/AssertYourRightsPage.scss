@@ -3,18 +3,23 @@
 
 $rights-content-max: 46.125rem;
 
+.rights-section:last-of-type {
+  @include layout.mobile {
+    border-bottom: none;
+  }
+}
+
 .assert-your-rights__bottom-ctas {
-  border-bottom: 1px solid jfcl.$OFF_BLACK;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 2rem;
   margin: 0 auto;
   max-width: $rights-content-max;
-  padding: 2rem 1.5rem;
+  padding: 0 1.5rem 2rem;
   width: 100%;
 
   @include layout.desktop {
-    padding: 3rem 14.375rem;
+    padding: 3rem 0;
   }
 }
