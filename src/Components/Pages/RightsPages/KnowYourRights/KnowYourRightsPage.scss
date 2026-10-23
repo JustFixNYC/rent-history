@@ -1,0 +1,42 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+@use "../../PageLayout/layoutVars" as layout;
+
+.know-your-rights__intro-example-link {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.know-your-rights__section-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.know-your-rights__rs-rent-increase-content {
+  gap: 1.5rem;
+
+  .rights-accordion-content__info-panel {
+    align-items: flex-start;
+    background: jfcl.$PURPLE_100;
+    border: 1px solid jfcl.$PURPLE_200;
+    border-radius: 4px;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem;
+
+    .jfcl-icon {
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+    }
+
+    p {
+      @include jfcl.body_standard_mobile;
+      margin: 0;
+
+      @include layout.desktop {
+        @include jfcl.body_standard_desktop;
+      }
+    }
+  }
+}

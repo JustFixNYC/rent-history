@@ -1,15 +1,25 @@
 import { removeLocalePrefix } from "../../../i18n";
 
 export function getAppNavActiveStates(pathname: string): {
-  isHomeActive: boolean;
-  isAboutActive: boolean;
+  isAnalyzeActive: boolean;
+  isKnowYourRightsActive: boolean;
+  isAssertYourRightsActive: boolean;
 } {
   const pathWithoutLocale = removeLocalePrefix(pathname).toLowerCase();
 
-  const isAboutActive = pathWithoutLocale.startsWith("/about");
-  const isHomeActive =
-    !isAboutActive &&
+  const isKnowYourRightsActive =
+    pathWithoutLocale.startsWith("/know-your-rights");
+  const isAssertYourRightsActive = pathWithoutLocale.startsWith(
+    "/assert-your-rights"
+  );
+  const isAnalyzeActive =
+    !isKnowYourRightsActive &&
+    !isAssertYourRightsActive &&
     (pathWithoutLocale === "/" || pathWithoutLocale.startsWith("/analyze"));
 
-  return { isHomeActive, isAboutActive };
+  return {
+    isAnalyzeActive,
+    isKnowYourRightsActive,
+    isAssertYourRightsActive,
+  };
 }

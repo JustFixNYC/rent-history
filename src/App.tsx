@@ -27,6 +27,8 @@ import Report from "./Components/Pages/Report/Report";
 import FindingsReviewPage from "./Components/Pages/FindingsReview/FindingsReviewPage";
 import FindingsOverviewPage from "./Components/Pages/FindingsOverview/FindingsOverviewPage";
 import AboutPage from "./Components/Pages/AboutPage/AboutPage";
+import AssertYourRightsPage from "./Components/Pages/RightsPages/AssertYourRights/AssertYourRightsPage";
+import KnowYourRightsPage from "./Components/Pages/RightsPages/KnowYourRights/KnowYourRightsPage";
 import DevPage from "./Components/Pages/DevPage/DevPage";
 import ResumePage from "./Components/Pages/ResumePage/ResumePage";
 import { analyzeLoginPath } from "./routes/analyzeRoutes";
@@ -69,6 +71,8 @@ const createAppRouter = () =>
           <Route path="about" element={<AboutPage />} />
           <Route path="dev" element={<DevPage />} />
           <Route path="analyze">{analyzeRoutes}</Route>
+          <Route path="know-your-rights" element={<KnowYourRightsPage />} />
+          <Route path="assert-your-rights" element={<AssertYourRightsPage />} />
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms-of-use" element={<TermsOfUse />} />
           <Route
@@ -82,6 +86,8 @@ const createAppRouter = () =>
           <Route path="about" element={<AboutPage />} />
           <Route path="dev" element={<DevPage />} />
           <Route path="analyze">{analyzeRoutes}</Route>
+          <Route path="know-your-rights" element={<KnowYourRightsPage />} />
+          <Route path="assert-your-rights" element={<AssertYourRightsPage />} />
           <Route path="privacy_policy" element={<PrivacyPolicy />} />
           <Route path="terms-of-use" element={<TermsOfUse />} />
           <Route
