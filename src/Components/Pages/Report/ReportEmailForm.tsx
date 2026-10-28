@@ -41,6 +41,7 @@ type ReportEmailFormProps = {
   accessToken: string;
   historyId: string;
   locale: ReportPdfLocale;
+  embeddedInModal?: boolean;
   onOutcome: (outcome: ReportEmailFormOutcome) => void;
   onSubmitStart?: () => void;
 };
@@ -52,6 +53,7 @@ export const ReportEmailForm: React.FC<ReportEmailFormProps> = ({
   accessToken,
   historyId,
   locale,
+  embeddedInModal = false,
   onOutcome,
   onSubmitStart,
 }) => {
@@ -136,7 +138,7 @@ export const ReportEmailForm: React.FC<ReportEmailFormProps> = ({
           onOutcome({
             type: "email_failed",
             message: _(
-              msg`Your report PDF was generated, but we could not send the email. You can download it below or try again.`
+              msg`Your report PDF was generated, but we could not send the email. Please try again or contact support if the problem continues.`
             ),
           });
           return;
@@ -169,9 +171,11 @@ export const ReportEmailForm: React.FC<ReportEmailFormProps> = ({
     <form className="report-email-form" onSubmit={onSubmit} noValidate>
       <FormGroup
         legendText={
-          <h2 className="report-email-form__heading">
-            <Trans>Email your report to yourself</Trans>
-          </h2>
+          embeddedInModal ? null : (
+            <h2 className="report-email-form__heading">
+              <Trans>Email your report to yourself</Trans>
+            </h2>
+          )
         }
         helperElement={
           <p className="report-email-form__helper">

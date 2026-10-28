@@ -97,40 +97,6 @@
     min-height: 0;
   }
 
-  .report-page__legacy-tools {
-    background: jfcl.$OFF_WHITE_100;
-    border-top: 1px solid jfcl.$GREY_200;
-    padding: jfcl.$JF_SPACING_06 1.5rem;
-  }
-
-  .report-page__legacy-card {
-    display: flex;
-    flex-direction: column;
-    gap: jfcl.$JF_SPACING_05;
-    margin-bottom: jfcl.$JF_SPACING_06;
-
-    h3 {
-      @include jfcl.body_standard_mobile;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    p {
-      @include jfcl.body_standard_mobile;
-      margin: 0;
-    }
-  }
-
-  .report-page__legacy-actions {
-    display: flex;
-    flex-direction: column;
-    gap: jfcl.$JF_SPACING_05;
-  }
-
-  .report-page__email-card {
-    margin-top: 0;
-  }
-
   .report-page__error {
     color: #922b21;
     margin-top: jfcl.$JF_SPACING_04;

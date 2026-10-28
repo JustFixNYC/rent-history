@@ -1,15 +1,15 @@
-import { msg } from "@lingui/core/macro";
-import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { Button } from "@justfixnyc/component-library";
 
 import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 
+import { ReportEmailPdfButton } from "./ReportEmailPdfButton";
 import { useReportAddressLines } from "./useReportAddressLines";
 
 export type ReportHeroSectionProps = {
   onEmailClick?: () => void;
   emailDisabled?: boolean;
+  emailStatusMessage?: string | null;
+  emailStatusTone?: "success" | "error";
 };
 
 const ReportAddressPlaceholder = () => (
@@ -35,8 +35,9 @@ const ReportAddressPlaceholder = () => (
 export const ReportHeroSection = ({
   onEmailClick,
   emailDisabled = false,
+  emailStatusMessage = null,
+  emailStatusTone = "success",
 }: ReportHeroSectionProps) => {
-  const { _ } = useLingui();
   const address = useReportAddressLines();
 
   return (
@@ -65,13 +66,22 @@ export const ReportHeroSection = ({
       ) : (
         <ReportAddressPlaceholder />
       )}
-      <Button
-        className="report-page__email-cta"
-        variant="secondary"
-        labelText={_(msg`Email PDF report`)}
+      <ReportEmailPdfButton
         onClick={onEmailClick ?? (() => undefined)}
         disabled={emailDisabled}
       />
+      {emailStatusMessage ? (
+        <p
+          className={
+            emailStatusTone === "success"
+              ? "report-page__success"
+              : "report-page__error"
+          }
+          role="status"
+        >
+          {emailStatusMessage}
+        </p>
+      ) : null}
     </section>
   );
 };
