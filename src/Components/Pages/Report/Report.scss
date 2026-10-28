@@ -1,22 +1,136 @@
+@use "@justfixnyc/component-library/jfcl" as jfcl;
+
 #report-page {
-  .buttons-container {
+  color: jfcl.$OFF_BLACK;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .report-page__band {
+    border-bottom: 1px solid jfcl.$GREY_200;
+    padding: jfcl.$JF_SPACING_06 1.5rem;
+  }
+
+  .report-page__band--hero {
+    background: jfcl.$OFF_WHITE_100;
+  }
+
+  .report-page__band--takeaways {
+    background: jfcl.$PURPLE_100;
+  }
+
+  .report-page__band--disclaimer,
+  .report-page__band--timeline {
+    background: jfcl.$OFF_WHITE_100;
+  }
+
+  .report-page__band--next-steps {
+    background: jfcl.$OFF_WHITE_200;
+    border-bottom: 0;
+  }
+
+  .report-page__title {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    margin: jfcl.$JF_SPACING_06 0 jfcl.$JF_SPACING_05;
+  }
+
+  .report-page__section-heading {
+    @include jfcl.body_large_mobile;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    margin: 0 0 jfcl.$JF_SPACING_05;
+  }
+
+  .report-page__address {
+    margin-bottom: jfcl.$JF_SPACING_06;
+
+    &-line {
+      @include jfcl.body_standard_mobile;
+      margin: 0;
+    }
+  }
+
+  // Task 2: real address lines replace --placeholder styling.
+  .report-page__address--placeholder {
+    color: jfcl.$GREY_600;
+  }
+
+  // Task 3: wire hero CTA to ReportEmailModal; full-width secondary pill.
+  .report-page__email-cta {
+    width: 100%;
+  }
+
+  // Task 4: .report-page__takeaways-list — 12px circular bullets (not ordered list).
+  .report-page__takeaways-body {
+    min-height: 0;
+  }
+
+  .report-page__inline-disclaimer {
+    @include jfcl.body_standard_mobile;
+    margin: 0;
+  }
+
+  // Task 4: reuse .timeline / .timeline-element inside .report-page__timeline-body.
+  .report-page__timeline-body {
+    min-height: 0;
+  }
+
+  // Task 4: numbered steps + .report-page__assert-rights-btn primary pill.
+  .report-page__next-steps-body {
+    min-height: 0;
+  }
+
+  .report-page__legacy-tools {
+    background: jfcl.$OFF_WHITE_100;
+    border-top: 1px solid jfcl.$GREY_200;
+    padding: jfcl.$JF_SPACING_06 1.5rem;
+  }
+
+  .report-page__legacy-card {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: jfcl.$JF_SPACING_05;
+    margin-bottom: jfcl.$JF_SPACING_06;
+
+    h3 {
+      @include jfcl.body_standard_mobile;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    p {
+      @include jfcl.body_standard_mobile;
+      margin: 0;
+    }
+  }
+
+  .report-page__legacy-actions {
+    display: flex;
+    flex-direction: column;
+    gap: jfcl.$JF_SPACING_05;
   }
 
   .report-page__email-card {
-    margin-top: 1.5rem;
+    margin-top: 0;
   }
 
   .report-page__error {
-    margin-top: 0.5rem;
     color: #922b21;
+    margin-top: jfcl.$JF_SPACING_04;
   }
 
   .report-page__success {
-    margin-top: 0.75rem;
     color: #1e6f3d;
+    margin-top: jfcl.$JF_SPACING_04;
+  }
+
+  .report-page__gate-error {
+    margin: 0;
+    padding: 0 jfcl.$JF_SPACING_06 1.5rem;
   }
 
   .report-email-form {
@@ -25,8 +139,8 @@
     gap: 1rem;
 
     &__heading {
-      margin: 0;
       font-size: 1.125rem;
+      margin: 0;
     }
 
     &__helper {
@@ -42,8 +156,8 @@
     }
 
     &__cc-row {
-      display: flex;
       align-items: flex-start;
+      display: flex;
       gap: 0.5rem;
       margin-bottom: 0.5rem;
 
@@ -53,21 +167,21 @@
       }
 
       .jfcl-button {
-        flex-shrink: 0;
         align-self: flex-end;
+        flex-shrink: 0;
       }
     }
 
     &__add-recipient {
-      display: inline-flex;
       align-items: center;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      display: inline-flex;
+      font: inherit;
       gap: 0.25rem;
       margin-top: 0.5rem;
       padding: 0;
-      border: 0;
-      background: none;
-      cursor: pointer;
-      font: inherit;
       text-decoration: underline;
     }
   }

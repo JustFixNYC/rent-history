@@ -15,12 +15,16 @@ import {
   getRhAuthSession,
   getRhHistoryId,
 } from "../../../session/rhSessionStorage";
-import { AnalysisFlowProgress } from "../../AnalysisFlowProgress/AnalysisFlowProgress";
 import { buildReportPdfRequest } from "./ReportPDF";
 import {
   ReportEmailForm,
   type ReportEmailFormOutcome,
 } from "./ReportEmailForm";
+import { ReportHeroSection } from "./ReportHeroSection";
+import { ReportInlineDisclaimer } from "./ReportInlineDisclaimer";
+import { ReportNextStepsSection } from "./ReportNextStepsSection";
+import { ReportTakeawaysSection } from "./ReportTakeawaysSection";
+import { ReportTimelineSection } from "./ReportTimelineSection";
 import "./Report.scss";
 
 const REPORT_PDF_FILENAME = "rent-history-report.pdf";
@@ -139,84 +143,94 @@ const Report: React.FC = () => {
 
   if (!accessToken) {
     return (
-      <section id="report-page" className="preflow-section">
-        <AnalysisFlowProgress stepId="report" />
-        <p className="report-page__error">
+      <div id="report-page">
+        <ReportHeroSection emailDisabled />
+        <p className="report-page__error report-page__gate-error">
           <Trans>Please sign in to generate your report.</Trans>
         </p>
-      </section>
+      </div>
     );
   }
 
   if (!historyId) {
     return (
-      <section id="report-page" className="preflow-section">
-        <AnalysisFlowProgress stepId="report" />
-        <p className="report-page__error">
+      <div id="report-page">
+        <ReportHeroSection emailDisabled />
+        <p className="report-page__error report-page__gate-error">
           <Trans>
             No rent history session was found. Complete the upload flow first,
             then return to this page.
           </Trans>
         </p>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section id="report-page" className="preflow-section">
-      <AnalysisFlowProgress stepId="report" />
-      <article className="preflow-card">
-        <h2>
-          <Trans>Report</Trans>
-        </h2>
-        <p>
-          <Trans>
-            Generate a PDF copy of your rent history report. Generating again
-            replaces any report saved earlier in this session.
-          </Trans>
-        </p>
-        <div className="buttons-container">
-          <Button
-            labelText={_(msg`Generate report`)}
-            onClick={onGenerate}
-            loading={isGenerating}
-            disabled={isGenerating}
-          />
-          {canDownload ? (
-            <Button
-              labelText={_(msg`Download report`)}
-              onClick={onDownload}
-              loading={isDownloading}
-              disabled={isDownloading}
-              variant="secondary"
-            />
-          ) : null}
-        </div>
-        {pageError ? <p className="report-page__error">{pageError}</p> : null}
-      </article>
+    <div id="report-page">
+      <ReportHeroSection emailDisabled />
+      <ReportTakeawaysSection />
+      <ReportInlineDisclaimer />
+      <ReportTimelineSection />
+      <ReportNextStepsSection />
 
-      <article className="preflow-card report-page__email-card">
-        <ReportEmailForm
-          accessToken={accessToken}
-          historyId={historyId}
-          locale={toReportPdfLocale(i18n.locale)}
-          onOutcome={onEmailOutcome}
-          onSubmitStart={() => setEmailStatusMessage(null)}
-        />
-        {emailStatusMessage ? (
-          <p
-            className={
-              emailStatusTone === "success"
-                ? "report-page__success"
-                : "report-page__error"
-            }
-            role="status"
-          >
-            {emailStatusMessage}
+      <section
+        className="report-page__legacy-tools"
+        aria-label={_(msg`Report PDF tools`)}
+      >
+        <article className="report-page__legacy-card">
+          <h3>
+            <Trans>Report</Trans>
+          </h3>
+          <p>
+            <Trans>
+              Generate a PDF copy of your rent history report. Generating again
+              replaces any report saved earlier in this session.
+            </Trans>
           </p>
-        ) : null}
-      </article>
-    </section>
+          <div className="report-page__legacy-actions">
+            <Button
+              labelText={_(msg`Generate report`)}
+              onClick={onGenerate}
+              loading={isGenerating}
+              disabled={isGenerating}
+            />
+            {canDownload ? (
+              <Button
+                labelText={_(msg`Download report`)}
+                onClick={onDownload}
+                loading={isDownloading}
+                disabled={isDownloading}
+                variant="secondary"
+              />
+            ) : null}
+          </div>
+          {pageError ? <p className="report-page__error">{pageError}</p> : null}
+        </article>
+
+        <article className="report-page__legacy-card report-page__email-card">
+          <ReportEmailForm
+            accessToken={accessToken}
+            historyId={historyId}
+            locale={toReportPdfLocale(i18n.locale)}
+            onOutcome={onEmailOutcome}
+            onSubmitStart={() => setEmailStatusMessage(null)}
+          />
+          {emailStatusMessage ? (
+            <p
+              className={
+                emailStatusTone === "success"
+                  ? "report-page__success"
+                  : "report-page__error"
+              }
+              role="status"
+            >
+              {emailStatusMessage}
+            </p>
+          ) : null}
+        </article>
+      </section>
+    </div>
   );
 };
 
