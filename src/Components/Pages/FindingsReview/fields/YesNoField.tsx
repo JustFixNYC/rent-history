@@ -42,33 +42,38 @@ export const YesNoField: React.FC<YesNoFieldProps> = ({
   const resolvedNoLabel = noLabel ?? _(msg`No`);
 
   const options = (
-    <div
-      className="findings-review-yes-no-field__options"
-      role="radiogroup"
-      aria-label={hideLegend ? questionAriaLabel : undefined}
-      aria-labelledby={hideLegend ? ariaLabelledBy : undefined}
+    <fieldset
+      disabled={disabled}
+      className="findings-review-yes-no-field__options-fieldset"
     >
-      <SelectButton
-        id={`${id}-yes`}
-        name={id}
-        className="findings-review-yes-no-field__option"
-        labelText={resolvedYesLabel}
-        value="true"
-        checked={value === true}
-        disabled={disabled}
-        onChange={() => onChange(true)}
-      />
-      <SelectButton
-        id={`${id}-no`}
-        name={id}
-        className="findings-review-yes-no-field__option"
-        labelText={resolvedNoLabel}
-        value="false"
-        checked={value === false}
-        disabled={disabled}
-        onChange={() => onChange(false)}
-      />
-    </div>
+      <div
+        className="findings-review-yes-no-field__options"
+        role="radiogroup"
+        aria-label={hideLegend ? questionAriaLabel : undefined}
+        aria-labelledby={hideLegend ? ariaLabelledBy : undefined}
+      >
+        <SelectButton
+          id={`${id}-yes`}
+          name={id}
+          className="findings-review-yes-no-field__option"
+          labelText={resolvedYesLabel}
+          value="true"
+          checked={value === true}
+          disabled={disabled}
+          onChange={() => onChange(true)}
+        />
+        <SelectButton
+          id={`${id}-no`}
+          name={id}
+          className="findings-review-yes-no-field__option"
+          labelText={resolvedNoLabel}
+          value="false"
+          checked={value === false}
+          disabled={disabled}
+          onChange={() => onChange(false)}
+        />
+      </div>
+    </fieldset>
   );
 
   if (hideLegend) {

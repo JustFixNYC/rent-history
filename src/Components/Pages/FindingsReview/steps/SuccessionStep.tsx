@@ -11,6 +11,7 @@ import {
 } from "../shared/successionStepCopy";
 import { YesNoField } from "../fields/YesNoField";
 import { FindingFormShell } from "../FindingFormShell";
+import { useFindingReviewInteractionLock } from "../hooks/useFindingReviewInteractionLock";
 import type { FindingStepRenderContext } from "../types/step";
 
 export type SuccessionSharedCopyParams = {
@@ -53,6 +54,7 @@ export const SuccessionStep = ({
   onChange,
   isPastStep = false,
 }: SuccessionStepProps) => {
+  const { locked: interactionLocked } = useFindingReviewInteractionLock();
   const shared = sharedCopy ? resolveSuccessionStepCopy(sharedCopy) : null;
   const title = titleProp ?? shared?.title;
   const body = bodyProp ?? shared?.body;
@@ -85,6 +87,7 @@ export const SuccessionStep = ({
             labelText=""
             value={value}
             onChange={onChange}
+            disabled={interactionLocked}
           />
         </div>
       }

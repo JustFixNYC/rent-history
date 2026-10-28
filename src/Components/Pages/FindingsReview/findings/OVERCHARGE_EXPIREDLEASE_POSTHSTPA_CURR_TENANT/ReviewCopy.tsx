@@ -20,9 +20,9 @@ export const ResultPotentialViolationBody = ({
   <>
     <p className="finding-result-copy">
       <Trans id="findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.potential_violation.lead">
-        There was a large increase from {rhYear} to the apartment&apos;s
-        current monthly rent of ${reportedRent}. This rent increase does not
-        appear to be fully explained by what&apos;s in your rent history.
+        There was a large increase from {rhYear} to the apartment&apos;s current
+        monthly rent of ${reportedRent}. This rent increase does not appear to
+        be fully explained by what&apos;s in your rent history.
       </Trans>
     </p>
     <p className="finding-result-copy">
@@ -41,8 +41,8 @@ export const ResultNoViolationBody = ({
   reportedYear,
 }: ResultNoViolationProps) => (
   <Trans id="findings.OVERCHARGE_EXPIREDLEASE_POSTHSTPA_CURR_TENANT.result.no_violation.body">
-    The rent increase from {rhYear} to {reportedYear} appears to be explained
-    by the standard allowable increase between {rhYear} and {reportedYear}.
+    The rent increase from {rhYear} to {reportedYear} appears to be explained by
+    the standard allowable increase between {rhYear} and {reportedYear}.
   </Trans>
 );
 

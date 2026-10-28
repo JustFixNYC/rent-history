@@ -544,16 +544,34 @@ describe("FindingsReviewPage integration", () => {
   );
 
   it("disables Back and shows spinner on Submit while validating", async () => {
+    const view = renderFindingsReviewPage();
+    await completeFlowThroughVacancyYes();
+
     vi.mocked(findingsReviewHooks.useValidateRhFinding).mockReturnValue({
       mutate: mockValidateMutate,
       isPending: true,
     } as unknown as ReturnType<typeof findingsReviewHooks.useValidateRhFinding>);
 
-    renderFindingsReviewPage();
-    await completeFlowThroughVacancyYes();
+    view.rerender(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/en/analyze/findings-review"]}>
+          <I18nProvider i18n={i18n}>
+            <FindingsReviewPage />
+          </I18nProvider>
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
 
     expect(screen.getByRole("button", { name: "Back" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Submit" })).toBeDisabled();
+
+    expect(screen.getByRole("radio", { name: "Yes" })).toBeDisabled();
+    expect(screen.getByRole("radio", { name: "No" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Edit" })).toBeDisabled();
+    expect(screen.getByTestId("ocr-confirm-step")).toHaveAttribute(
+      "data-interaction-locked",
+      "true"
+    );
   });
 
   it("resolves the current finding from review_queue head, not findings_current order", async () => {

@@ -3,6 +3,7 @@ import { I18nProvider } from "@lingui/react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { FindingReviewInteractionLockProvider } from "../hooks/useFindingReviewInteractionLock";
 import { VacancyStep, resolveVacancyStepCopy } from "./VacancyStep";
 import "../FindingsReview.scss";
 
@@ -69,6 +70,24 @@ describe("VacancyStep", () => {
 
     fireEvent.click(screen.getByRole("radio", { name: "Yes" }));
     expect(onChange).toHaveBeenCalledWith(false);
+  });
+
+  it("disables yes/no when interaction lock is active", () => {
+    renderWithI18n(
+      <FindingReviewInteractionLockProvider locked>
+        <VacancyStep
+          stepNumber={2}
+          title="Vacancy heading"
+          body={<p>Vacancy body copy</p>}
+          idPrefix="test"
+          getsVacancyIncrease={null}
+          onGetsVacancyIncreaseChange={() => {}}
+        />
+      </FindingReviewInteractionLockProvider>
+    );
+
+    expect(screen.getByRole("radio", { name: "Yes" })).toBeDisabled();
+    expect(screen.getByRole("radio", { name: "No" })).toBeDisabled();
   });
 
   it("maps No selection to gets_vacancy_increase true", () => {

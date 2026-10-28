@@ -13,6 +13,7 @@ import {
   useOcrConfirmState,
   type OcrConfirmPhase,
 } from "../hooks/useOcrConfirmState";
+import { useFindingReviewInteractionLock } from "../hooks/useFindingReviewInteractionLock";
 
 export type OcrConfirmRowFieldContext = {
   readonly: boolean;
@@ -53,17 +54,28 @@ export const OcrConfirmStep = ({
   editLabel,
 }: OcrConfirmStepProps) => {
   const { _ } = useLingui();
+  const { locked: interactionLocked } = useFindingReviewInteractionLock();
   const internalOcr = useOcrConfirmState();
   const phase = controlledPhase ?? internalOcr.phase;
   const confirm = onConfirm ?? internalOcr.confirm;
   const edit = onEdit ?? internalOcr.edit;
 
   const handleConfirm = () => {
+    if (interactionLocked) {
+      return;
+    }
     confirm();
   };
 
+  const handleEdit = () => {
+    if (interactionLocked) {
+      return;
+    }
+    edit();
+  };
+
   const isConfirmed = phase === "confirmed";
-  const readonly = isConfirmed;
+  const readonly = isConfirmed || interactionLocked;
   const showEditLink = isConfirmed;
 
   const resolvedConfirmLabel =
@@ -81,6 +93,7 @@ export const OcrConfirmStep = ({
           className="ocr-confirm-step"
           data-testid="ocr-confirm-step"
           data-phase={phase}
+          data-interaction-locked={interactionLocked ? "true" : "false"}
         >
           {intro}
           {rows.map((row, index) => (
@@ -119,7 +132,8 @@ export const OcrConfirmStep = ({
             {showEditLink ? (
               <LinkStyledButton
                 className="ocr-confirm-step__edit-link"
-                onClick={edit}
+                onClick={handleEdit}
+                disabled={interactionLocked}
               >
                 {resolvedEditLabel}
               </LinkStyledButton>
@@ -131,6 +145,7 @@ export const OcrConfirmStep = ({
             labelText={resolvedConfirmLabel}
             variant="secondary"
             onClick={handleConfirm}
+            disabled={interactionLocked}
           />
         )
       }

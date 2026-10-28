@@ -118,7 +118,9 @@ describe("renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult", () => {
     };
 
     const content =
-      renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult(violationFinding);
+      renderOverchargeCurrRentMismatchPosthstpaCurrTenantResult(
+        violationFinding
+      );
 
     renderWithI18n(<>{content?.body}</>);
 

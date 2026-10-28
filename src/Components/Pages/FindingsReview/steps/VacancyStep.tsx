@@ -12,6 +12,7 @@ import {
 import type { VacancyStepVariant } from "../shared/validationSteps";
 import { YesNoField } from "../fields/YesNoField";
 import { FindingFormShell } from "../FindingFormShell";
+import { useFindingReviewInteractionLock } from "../hooks/useFindingReviewInteractionLock";
 import type { FindingStepRenderContext } from "../types/step";
 
 export type { VacancyStepVariant };
@@ -187,6 +188,7 @@ export const VacancyStep = ({
   tenants = [],
 }: VacancyStepProps) => {
   const { _ } = useLingui();
+  const { locked: interactionLocked } = useFindingReviewInteractionLock();
   const resolvedVariant = resolveVariant(variant, tenants, sharedCopy);
   const shared = sharedCopy ? resolveVacancyStepCopy(sharedCopy) : null;
   const title = titleProp ?? shared?.title;
@@ -259,6 +261,7 @@ export const VacancyStep = ({
             onChange={(uiAnswer) =>
               onGetsVacancyIncreaseChange(uiToWireValue(uiAnswer))
             }
+            disabled={interactionLocked}
           />
         </div>
       }

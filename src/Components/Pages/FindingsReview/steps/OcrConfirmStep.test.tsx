@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { CurrencyField } from "../fields/CurrencyField";
 import { TenantChip } from "../../../InlineChip/TenantChip";
+import { FindingReviewInteractionLockProvider } from "../hooks/useFindingReviewInteractionLock";
 import { OcrConfirmHeading, OcrConfirmIntro } from "../shared/stepCopy";
 import { OcrConfirmStep } from "./OcrConfirmStep";
 import "../FindingsReview.scss";
@@ -90,6 +91,58 @@ describe("OcrConfirmStep", () => {
     expect(rentInputs).toHaveLength(2);
     expect(rentInputs[0]).not.toBeDisabled();
     expect(rentInputs[1]).not.toBeDisabled();
+  });
+
+  it("locks fields and CTAs when interaction lock is active", () => {
+    renderWithI18n(
+      <FindingReviewInteractionLockProvider locked>
+        <StubOcrConfirmHarness />
+      </FindingReviewInteractionLockProvider>
+    );
+
+    expect(screen.getByTestId("ocr-confirm-step")).toHaveAttribute(
+      "data-interaction-locked",
+      "true"
+    );
+
+    screen
+      .getAllByRole("textbox", { name: "Legal Regulated Rent" })
+      .forEach((input) => {
+        expect(input).toBeDisabled();
+      });
+
+    expect(
+      screen.getByRole("button", { name: "Yes, this matches my rent history" })
+    ).toBeDisabled();
+  });
+
+  it("disables Edit when confirmed and interaction lock is active", () => {
+    renderWithI18n(
+      <FindingReviewInteractionLockProvider locked>
+        <OcrConfirmStep
+          stepNumber={1}
+          intro={<OcrConfirmIntro years={[1991]} />}
+          phase="confirmed"
+          rows={[
+            {
+              regYear: 1991,
+              renderLeft: () => <TenantChip tenant="KEITH ANTOINE" />,
+              renderRight: ({ readonly }) => (
+                <CurrencyField
+                  id="ocr-rent-0"
+                  labelText="Legal Regulated Rent"
+                  value="2283.1"
+                  onChange={() => {}}
+                  readonly={readonly}
+                />
+              ),
+            },
+          ]}
+        />
+      </FindingReviewInteractionLockProvider>
+    );
+
+    expect(screen.getByRole("button", { name: "Edit" })).toBeDisabled();
   });
 
   it("transitions to confirmed readonly state and back via Edit", () => {

@@ -15,6 +15,7 @@ import { FindingIntroPanel } from "./FindingIntroPanel";
 import { FindingModuleStack } from "./FindingModuleStack";
 import { FindingResultModal } from "./FindingResultModal";
 import { useFindingSteps } from "./hooks/useFindingSteps";
+import { FindingReviewInteractionLockProvider } from "./hooks/useFindingReviewInteractionLock";
 import { useOcrConfirmState } from "./hooks/useOcrConfirmState";
 import { useProgressiveReveal } from "./hooks/useProgressiveReveal";
 import type { Finding, ValidateFindingResponse } from "./types/finding";
@@ -263,11 +264,13 @@ export function FindingReviewFlow({
   return (
     <>
       <FindingIntroPanel {...module.getIntro(finding)} />
-      <FindingModuleStack
-        steps={visibleSteps}
-        revealedCount={revealedCount}
-        activeStepIndex={activeStepIndex}
-      />
+      <FindingReviewInteractionLockProvider locked={isValidatePending}>
+        <FindingModuleStack
+          steps={visibleSteps}
+          revealedCount={revealedCount}
+          activeStepIndex={activeStepIndex}
+        />
+      </FindingReviewInteractionLockProvider>
       <div ref={stackEndRef} aria-hidden="true" />
       {submitError ? (
         <p className="findings-review-submit-error" role="alert">

@@ -20,6 +20,7 @@ import {
 import type { TenancyStepVariant } from "../shared/validationSteps";
 import { YearField } from "../fields/YearField";
 import { FindingFormShell } from "../FindingFormShell";
+import { useFindingReviewInteractionLock } from "../hooks/useFindingReviewInteractionLock";
 import type { FindingStepRenderContext } from "../types/step";
 
 export type { TenancyStepVariant };
@@ -120,6 +121,7 @@ export const TenancyStep = ({
   yearPlaceholder,
 }: TenancyStepProps) => {
   const { _ } = useLingui();
+  const { locked: interactionLocked } = useFindingReviewInteractionLock();
   const resolvedVariant = resolveVariant(variant, tenants, sharedCopy);
   const shared = sharedCopy ? resolveTenancyStepCopy(sharedCopy) : null;
   const title = titleProp ?? shared?.title;
@@ -169,6 +171,7 @@ export const TenancyStep = ({
             value={tenancyStart}
             onChange={onTenancyStartChange}
             placeholder={resolvedYearPlaceholder}
+            disabled={interactionLocked}
           />
         </div>
       }

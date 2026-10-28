@@ -79,8 +79,8 @@ export function PrefRentOcrFields({
               [fieldKeys.prefRent]: checked
                 ? ""
                 : wireRow?.pref_rent != null
-                  ? String(wireRow.pref_rent)
-                  : "",
+                ? String(wireRow.pref_rent)
+                : "",
             });
           }}
         />

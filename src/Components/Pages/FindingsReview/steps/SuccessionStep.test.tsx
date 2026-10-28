@@ -3,6 +3,7 @@ import { I18nProvider } from "@lingui/react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { FindingReviewInteractionLockProvider } from "../hooks/useFindingReviewInteractionLock";
 import { SuccessionStep, resolveSuccessionStepCopy } from "./SuccessionStep";
 import "../FindingsReview.scss";
 
@@ -58,6 +59,24 @@ describe("SuccessionStep", () => {
       "aria-labelledby",
       "test-succession-question"
     );
+  });
+
+  it("disables yes/no when interaction lock is active", () => {
+    renderWithI18n(
+      <FindingReviewInteractionLockProvider locked>
+        <SuccessionStep
+          stepNumber={4}
+          title="Succession heading"
+          body={<p>Succession body copy</p>}
+          idPrefix="test"
+          value={null}
+          onChange={() => {}}
+        />
+      </FindingReviewInteractionLockProvider>
+    );
+
+    expect(screen.getByRole("radio", { name: "Yes" })).toBeDisabled();
+    expect(screen.getByRole("radio", { name: "No" })).toBeDisabled();
   });
 
   it("maps Yes selection directly to true", () => {
