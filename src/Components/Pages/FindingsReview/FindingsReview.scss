@@ -419,7 +419,6 @@
 
   &__info-box.jfcl-info-box {
     align-items: flex-start;
-    width: 100%;
   }
 
   &__title,
@@ -457,13 +456,23 @@
   margin: auto;
   max-width: 28rem;
   padding: jfcl.$JF_SPACING_06;
-  width: calc(100% - 2rem);
 
   &::backdrop {
     background: rgba(36, 35, 35, 0.45);
   }
 
+  // Figma 8648:8122 — stacked nav (Back above full-width Next)
   .flow-nav {
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: flex-start;
     margin-top: jfcl.$JF_SPACING_05;
+    width: 100%;
+
+    .flow-nav__next {
+      min-width: 0;
+      width: 100%;
+    }
   }
 }
