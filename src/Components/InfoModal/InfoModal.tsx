@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
@@ -37,7 +38,7 @@ export const InfoModal = ({
     }
   }, [isOpen]);
 
-  return (
+  return createPortal(
     <dialog
       ref={dialogRef}
       className="info-modal"
@@ -51,14 +52,13 @@ export const InfoModal = ({
       <h2 id={titleId} className="info-modal__title">
         {title}
       </h2>
-      {children ?? (
-        <p className="info-modal__body">
-          <Trans>Coming soon</Trans>
-        </p>
-      )}
+      <div className="info-modal__body">
+        {children ?? <Trans>Coming soon</Trans>}
+      </div>
       <div className="info-modal__actions">
         <Button labelText={_(msg`Close`)} onClick={onClose} />
       </div>
-    </dialog>
+    </dialog>,
+    document.body
   );
 };

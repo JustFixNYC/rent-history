@@ -50,4 +50,35 @@ describe("InfoModal", () => {
     fireEvent.click(screen.getByRole("button", { name: /close/i }));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it("portals the dialog to document.body when rendered inside a paragraph", () => {
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+
+    const { container } = render(
+      <I18nProvider i18n={i18n}>
+        <p data-testid="inline-copy">
+          Inline copy{" "}
+          <InfoModal isOpen title="Nested modal" onClose={() => undefined} />
+        </p>
+      </I18nProvider>
+    );
+
+    const dialog = screen.getByRole("dialog", { hidden: true });
+    expect(document.body).toContainElement(dialog);
+    expect(container.querySelector("p")).not.toContainElement(dialog);
+
+    const nestingWarnings = consoleError.mock.calls
+      .map((args) => args.join(" "))
+      .filter(
+        (message) =>
+          message.includes("validateDOMNesting") &&
+          message.includes("dialog") &&
+          message.includes("p")
+      );
+    expect(nestingWarnings).toHaveLength(0);
+
+    consoleError.mockRestore();
+  });
 });
