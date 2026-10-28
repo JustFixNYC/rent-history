@@ -10,9 +10,19 @@ export const ReportTakeawaysSection = () => {
         id="report-takeaways-heading"
         className="report-page__section-heading"
       >
-        <Trans>Key takeaways</Trans>
+        <Trans>Takeaways</Trans>
       </h2>
-      <div className="report-page__takeaways-body" />
+      <ul className="report-page__takeaways-list">
+        <li>
+          <Trans>[current stabilization status]</Trans>
+        </li>
+        <li>
+          <Trans>[were violations found]</Trans>
+        </li>
+        <li>
+          <Trans>[Implications]</Trans>
+        </li>
+      </ul>
     </section>
   );
 };

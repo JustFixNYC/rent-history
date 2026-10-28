@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import classNames from "classnames";
 import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
@@ -12,11 +12,13 @@ import "./DocumentLink.scss";
 
 type DocumentLinkProps = {
   className?: string;
+  label?: ReactNode;
 };
 
-export const DocumentLink = ({ className }: DocumentLinkProps) => {
+export const DocumentLink = ({ className, label }: DocumentLinkProps) => {
   const { _ } = useLingui();
   const [isOpen, setIsOpen] = useState(false);
+  const linkLabel = label ?? <Trans>your rent history</Trans>;
 
   return (
     <>
@@ -26,7 +28,7 @@ export const DocumentLink = ({ className }: DocumentLinkProps) => {
         onClick={() => setIsOpen(true)}
         aria-haspopup="dialog"
       >
-        <Trans>your rent history</Trans>
+        {linkLabel}
         <Icon icon="memoPad" aria-hidden="true" />
       </button>
       <InfoModal
