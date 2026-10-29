@@ -101,8 +101,20 @@ msgstr ""
 #~ msgid "(610) 316-6349"
 #~ msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:201
+#: src/Components/Pages/Report/ReportEmailForm.tsx:205
 msgid "(optional)"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportTakeawaysSection.tsx:17
+msgid "[current stabilization status]"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportTakeawaysSection.tsx:23
+msgid "[Implications]"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportTakeawaysSection.tsx:20
+msgid "[were violations found]"
 msgstr ""
 
 #. placeholder {0}: pages.length
@@ -248,16 +260,16 @@ msgstr ""
 msgid "Add missing pages"
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:236
+#: src/Components/Pages/Report/ReportEmailForm.tsx:240
 msgid "Add recipients"
 msgstr ""
 
 #. placeholder {0}: index + 1
-#: src/Components/Pages/Report/ReportEmailForm.tsx:211
+#: src/Components/Pages/Report/ReportEmailForm.tsx:215
 msgid "Additional email {0}"
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:201
+#: src/Components/Pages/Report/ReportEmailForm.tsx:205
 msgid "Additional recipients"
 msgstr ""
 
@@ -386,6 +398,11 @@ msgstr ""
 msgid "timeline.title.nonreg_no_viol_posthstpa"
 msgstr ""
 
+#. placeholder {0}: address.unit
+#: src/Components/Pages/Report/ReportHeroSection.tsx:59
+msgid "Apt {0}"
+msgstr ""
+
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:25
 msgid "Apt Stat"
 msgstr "Estado del apt."
@@ -398,6 +415,10 @@ msgstr ""
 #: src/Components/Pages/PostScanFlow/PostScanFlow.tsx:98
 #~ msgid "Apt. 1"
 #~ msgstr ""
+
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:112
+msgid "Assert your rights"
+msgstr ""
 
 #: src/Components/FlowNav/FlowNav.tsx:33
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:136
@@ -619,8 +640,8 @@ msgid "Don’t have your rent history?"
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:187
-msgid "Download report"
-msgstr ""
+#~ msgid "Download report"
+#~ msgstr ""
 
 #: src/Components/DynamsoftDemo/DynamsoftDemo.tsx:13
 #~ msgid "Dynamsoft"
@@ -642,11 +663,16 @@ msgstr "Editar"
 #~ msgid "Edit the address for this<0/>rent history"
 #~ msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:242
+#: src/Components/Pages/Report/ReportEmailModal.tsx:36
+#: src/Components/Pages/Report/ReportEmailPdfButton.tsx:20
+msgid "Email PDF report"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportEmailForm.tsx:246
 msgid "Email report"
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:173
+#: src/Components/Pages/Report/ReportEmailForm.tsx:176
 msgid "Email your report to yourself"
 msgstr ""
 
@@ -691,6 +717,10 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/PosthstpaChargeJustificationList.tsx:27
 msgid "timeline.copy.posthstpa_charge_justification.tax"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:99
+msgid "Explore all your options"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:66
@@ -789,13 +819,17 @@ msgstr ""
 msgid "timeline.copy.iai_permission_same_tenant"
 msgstr ""
 
-#: src/Components/Pages/Report/Report.tsx:173
-msgid "Generate a PDF copy of your rent history report. Generating again replaces any report saved earlier in this session."
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:51
+msgid "Gather information"
 msgstr ""
 
+#: src/Components/Pages/Report/Report.tsx:173
+#~ msgid "Generate a PDF copy of your rent history report. Generating again replaces any report saved earlier in this session."
+#~ msgstr ""
+
 #: src/Components/Pages/Report/Report.tsx:180
-msgid "Generate report"
-msgstr ""
+#~ msgid "Generate report"
+#~ msgstr ""
 
 #: src/Components/Pages/ConfirmAddress/ConfirmAddress.tsx:339
 #: src/Components/Pages/RentStabilizedMap/RentStabilizedMapPage.tsx:314
@@ -898,6 +932,10 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/implications/implications.tsx:9
 msgid "timeline.implications.improper_destabilization"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:79
+msgid "If you believe your rights have been violated, you may be able to file a DHCR complaint, withhold rent, or pursue a case in court. These options can have significant consequences, so consider getting advice before taking action."
 msgstr ""
 
 #: src/Components/Pages/Landing/Landing.tsx:30
@@ -1018,12 +1056,28 @@ msgstr "Gran aumento de alquiler"
 msgid "Learn more"
 msgstr ""
 
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:63
+msgid "Learn more about gathering information"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:55
+msgid "Learn more about your apartment and your rent before deciding what to do. You can talk with your neighbors, check for rent reductions not listed in your rent history, Connect with a tenant organization, or negotiate with your landlord."
+msgstr ""
+
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:87
+msgid "Learn more about your options"
+msgstr ""
+
 #: src/Components/Pages/PageLayout/Footer.tsx:53
 msgid "Legal and feedback"
 msgstr ""
 
 #: src/Components/Pages/PageLayout/Footer.tsx:32
 msgid "Legal Disclaimer"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportInlineDisclaimer.tsx:7
+msgid "Legal Disclaimer: The information on this page is not legal advice and is not a substitute for advice from a lawyer."
 msgstr ""
 
 #: src/Components/Pages/FindingsReview/fields/OcrFieldWrappers.tsx:44
@@ -1241,7 +1295,7 @@ msgstr ""
 msgid "No rent history pages are available yet."
 msgstr ""
 
-#: src/Components/Pages/Report/Report.tsx:156
+#: src/Components/Pages/Report/Report.tsx:80
 msgid "No rent history session was found. Complete the upload flow first, then return to this page."
 msgstr ""
 
@@ -1279,6 +1333,10 @@ msgstr ""
 
 #: src/Components/LoginQrLockup/LoginQrLockup.tsx:26
 msgid "Or, type this URL into your phone's browser:"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:103
+msgid "Our guide explains what you can do, what each option involves, and what to consider before taking action."
 msgstr ""
 
 #: src/Components/GlossaryLink/glossaryTerms.tsx:71
@@ -1341,8 +1399,8 @@ msgstr ""
 msgid "Please enter a valid 10-digit phone number."
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:69
-#: src/Components/Pages/Report/ReportEmailForm.tsx:78
+#: src/Components/Pages/Report/ReportEmailForm.tsx:71
+#: src/Components/Pages/Report/ReportEmailForm.tsx:80
 msgid "Please enter a valid email address."
 msgstr ""
 
@@ -1363,7 +1421,7 @@ msgstr ""
 msgid "Please enter the full monthly rent for the entire apartment. This will help us compare what you pay to what is listed in your rent history."
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:68
+#: src/Components/Pages/Report/ReportEmailForm.tsx:70
 msgid "Please enter your email address."
 msgstr ""
 
@@ -1375,7 +1433,7 @@ msgstr ""
 msgid "Please select Yes or No."
 msgstr ""
 
-#: src/Components/Pages/Report/Report.tsx:145
+#: src/Components/Pages/Report/Report.tsx:69
 msgid "Please sign in to generate your report."
 msgstr ""
 
@@ -1457,7 +1515,7 @@ msgstr ""
 #~ msgid "Recommended"
 #~ msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:218
+#: src/Components/Pages/Report/ReportEmailForm.tsx:222
 msgid "Remove"
 msgstr ""
 
@@ -1488,8 +1546,8 @@ msgid "Rent-stabilized units"
 msgstr ""
 
 #: src/Components/Pages/Report/Report.tsx:170
-msgid "Report"
-msgstr ""
+#~ msgid "Report"
+#~ msgstr ""
 
 #: src/Components/Pages/LoginPage/LoginVerificationStep.tsx:102
 #: src/Components/Pages/ScanReviewPage/ScanReviewTotalFailureScreen.tsx:75
@@ -1698,8 +1756,7 @@ msgstr ""
 msgid "Something went wrong while verifying your code."
 msgstr ""
 
-#: src/Components/Pages/Report/Report.tsx:85
-#: src/Components/Pages/Report/ReportEmailForm.tsx:160
+#: src/Components/Pages/Report/ReportEmailForm.tsx:162
 msgid "Something went wrong. Please try again."
 msgstr ""
 
@@ -1800,9 +1857,17 @@ msgstr ""
 msgid "Supporting evidence"
 msgstr ""
 
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:75
+msgid "Take formal action"
+msgstr ""
+
 #: src/Components/Pages/Scanner/Scanner.tsx:602
 #~ msgid "Take photos in a well lit location and enable your camera flash"
 #~ msgstr ""
+
+#: src/Components/Pages/Report/ReportTakeawaysSection.tsx:13
+msgid "Takeaways"
+msgstr ""
 
 #: src/Components/Pages/Scanner/CameraAccessScreen.tsx:56
 msgid "Tap <0>Permissions</0> or <1>Site settings.</1>"
@@ -2147,6 +2212,10 @@ msgstr ""
 #~ msgid "Timed out waiting for scans to finish processing. Use Restart scanning or try again later."
 #~ msgstr ""
 
+#: src/Components/Pages/Report/ReportTimelineSection.tsx:26
+msgid "Timeline of events"
+msgstr ""
+
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:70
 msgid "Tips for a successful scan"
 msgstr ""
@@ -2320,6 +2389,10 @@ msgstr ""
 #~ msgid "View map of rent-stabilized buildings"
 #~ msgstr ""
 
+#: src/Components/Pages/Report/ReportTimelineSection.tsx:30
+msgid "View rent history"
+msgstr ""
+
 #: src/Components/Pages/AccountPage/AccountPage.tsx:252
 #: src/Components/Pages/FindingsOverview/FindingsOverviewPage.tsx:141
 #: src/Components/Pages/FindingsReview/FindingReviewFlow.tsx:203
@@ -2355,7 +2428,7 @@ msgstr ""
 #~ msgid "We could not find an existing report for this number."
 #~ msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:149
+#: src/Components/Pages/Report/ReportEmailForm.tsx:151
 msgid "We could not generate your report PDF. Please try again."
 msgstr ""
 
@@ -2399,7 +2472,7 @@ msgstr ""
 msgid "We sent a new code to <0>{maskedPhone}</0>"
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:178
+#: src/Components/Pages/Report/ReportEmailForm.tsx:182
 msgid "We will generate your report PDF and email it to you. You can optionally send copies to other people you trust."
 msgstr ""
 
@@ -2461,6 +2534,10 @@ msgstr ""
 
 #: src/Components/AnalysisFlowProgress/analysisFlow.ts:37
 msgid "What we found"
+msgstr ""
+
+#: src/Components/Pages/Report/ReportNextStepsSection.tsx:38
+msgid "What you can do next"
 msgstr ""
 
 #: src/Components/Pages/Scanner/PreScanScreen.tsx:13
@@ -2540,7 +2617,7 @@ msgstr "Sí"
 msgid "Yes, this matches my document"
 msgstr "Sí, coincide con mi documento"
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:84
+#: src/Components/Pages/Report/ReportEmailForm.tsx:86
 msgid "You can add up to 10 additional recipients."
 msgstr ""
 
@@ -2632,6 +2709,10 @@ msgstr ""
 msgid "Your code expired. Request a new code."
 msgstr ""
 
+#: src/Components/Pages/Report/ReportHeroSection.tsx:21
+msgid "Your confirmed address will appear here."
+msgstr ""
+
 #. js-lingui-explicit-id
 #: src/Components/TimelineElement/copy/paragraphs/CurrentRentRgbComparisonParagraph.tsx:25
 msgid "timeline.copy.current_rent_rgb_comparison.within"
@@ -2647,7 +2728,7 @@ msgstr ""
 msgid "timeline.copy.nonreg_no_viol_same_tenant_stabilized"
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:190
+#: src/Components/Pages/Report/ReportEmailForm.tsx:194
 msgid "Your email (required)"
 msgstr ""
 
@@ -2660,13 +2741,17 @@ msgstr ""
 #~ msgid "Your rent amount"
 #~ msgstr ""
 
-#: src/Components/DocumentLink/DocumentLink.tsx:29
+#: src/Components/DocumentLink/DocumentLink.tsx:21
 msgid "your rent history"
 msgstr "su historial de alquiler"
 
-#: src/Components/DocumentLink/DocumentLink.tsx:34
+#: src/Components/DocumentLink/DocumentLink.tsx:36
 msgid "Your rent history"
 msgstr "Su historial de alquiler"
+
+#: src/Components/Pages/Report/ReportHeroSection.tsx:50
+msgid "Your Rent History Report"
+msgstr ""
 
 #: src/Components/Pages/AccountPage/AccountPage.tsx:222
 msgid "Your rent history report(s)"
@@ -2677,12 +2762,20 @@ msgstr ""
 msgid "timeline.copy.still_stab"
 msgstr ""
 
-#: src/Components/Pages/Report/ReportEmailForm.tsx:139
-msgid "Your report PDF was generated, but we could not send the email. You can download it below or try again."
+#: src/Components/Pages/Report/ReportEmailForm.tsx:141
+msgid "Your report PDF was generated, but we could not send the email. Please try again or contact support if the problem continues."
 msgstr ""
 
+#: src/Components/Pages/Report/ReportEmailForm.tsx:139
+#~ msgid "Your report PDF was generated, but we could not send the email. You can download it below or try again."
+#~ msgstr ""
+
 #: src/Components/Pages/Report/Report.tsx:120
-msgid "Your report was emailed successfully. You can also download it above."
+#~ msgid "Your report was emailed successfully. You can also download it above."
+#~ msgstr ""
+
+#: src/Components/Pages/Report/Report.tsx:44
+msgid "Your report was emailed successfully. You can email it again from this page if needed."
 msgstr ""
 
 #: src/Components/Pages/ReviewEditData/ReviewEditData.tsx:50
